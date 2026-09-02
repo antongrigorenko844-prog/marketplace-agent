@@ -131,9 +131,32 @@ def create_cards(subject_id: int, cards: List[dict]) -> dict:
 
 
 def update_cards(cards: List[dict]) -> dict:
-    """Редактирование существующих карточек. До 3000 позиций (nmID) за запрос."""
+    """
+    Редактирование существующих карточек. До 3000 позиций (nmID) за запрос.
+
+    ВАЖНО (проверено в живой документации dev.wildberries.ru): карточка
+    перезаписывается целиком — присылайте и то, что не меняете (nmID,
+    vendorCode, brand, dimensions, characteristics, sizes), иначе рискуете
+    затереть. Этот метод НЕ умеет менять фото/видео/теги и цены — для этого
+    отдельные методы (update_media, update_prices).
+    """
     # ENDPOINT: POST /content/v2/cards/update
     return _request("POST", config.wb_content_base, "/content/v2/cards/update", cards)
+
+
+def update_media(nm_id: int, urls: List[str]) -> dict:
+    """
+    Полная замена фото/видео карточки по ссылкам. Проверено в живой
+    документации dev.wildberries.ru 02.09.2026: ссылки должны вести напрямую
+    на файл (не на превью/логин), без авторизации; до 30 фото + 1 видео на
+    карточку. Это ПОЛНАЯ замена: новые ссылки заменяют старые целиком —
+    если хотите сохранить старые фото и добавить новые, включите старые
+    ссылки в этот же список.
+    """
+    # ENDPOINT: POST /content/v3/media/save
+    return _request(
+        "POST", config.wb_content_base, "/content/v3/media/save", {"nmId": nm_id, "data": urls}
+    )
 
 
 # ---------- Цены ----------

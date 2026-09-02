@@ -2,7 +2,7 @@
 Точка входа. На этом первом этапе агент умеет:
   --test-ozon        проверить, что ключ Ozon работает
   --test-wb          проверить, что токен WB работает
-  --fetch-ozon        выгрузить список товаров Ozon в data/ozon_products.json
+  --fetch-ozon        выгрusить список товаров Ozon в data/ozon_products.json
   --fetch-wb          выгрузить список карточек WB в data/wb_cards.json
 
 Это самый первый шаг — посмотреть на реальные данные из ваших кабинетов,
@@ -14,6 +14,7 @@ import json
 import logging
 import os
 import sys
+import time
 
 from config import config
 
@@ -83,6 +84,273 @@ def cmd_fetch_wb() -> int:
     return 0
 
 
+def cmd_build_ozon_catalog() -> int:
+    import catalog_editor
+
+    src_path = _data_path("ozon_products.json")
+    if not os.path.exists(src_path):
+        print(f"Нет файла {src_path} — сначала выполните команду fetch-ozon.")
+        return 1
+    with open(src_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    xlsx_path = _data_path("ozon_catalog.xlsx")
+    count = catalog_editor.build_ozon_catalog(data, xlsx_path)
+    print(f"Готово: {count} товаров -> {xlsx_path}. Скачайте файл из репозитория, отредактируйте и загрузите обратно (заменив старый) перед push-ozon-cards.")
+    return 0
+
+
+def cmd_attach_ozon_photos() -> int:
+    import catalog_editor
+
+    xlsx_path = _data_path("ozon_catalog.xlsx")
+    photos_dir = os.path.join(os.path.dirname(__file__), "photos")
+    if not os.path.exists(xlsx_path):
+        print(f"Нет файла {xlsx_path} — сначала выполните build-ozon-catalog.")
+        return 1
+    if not os.path.isdir(photos_dir):
+        print(f"Нет папки {photos_dir} — создайте в репозитории папку photos, загрузите туда фото (см. README) и запустите снова.")
+        return 1
+
+    repo = os.environ.get("GITHUB_REPOSITORY", "")
+    branch = os.environ.get("GITHUB_REF_NAME", "main")
+    if not repo:
+        print("Не удалось определить репозиторий (GITHUB_REPOSITORY пуст) — эту команду нужно запускать через GitHub Actions.")
+        return 1
+    raw_base_url = f"https://raw.githubusercontent.com/{repo}/{branch}/photos"
+
+    matched = catalog_editor.attach_local_photos(xlsx_path, photos_dir, raw_base_url)
+    if not matched:
+        print("Не нашлось ни одного файла в photos/, чьё имя совпадает с артикулом (offer_id) из таблицы.")
+        print("Имя файла должно начинаться с артикула, например: 143210608_1.jpg, 143210608_2.jpg")
+        return 1
+    print(f"Ссылки на фото подставлены в {xlsx_path} для {len(matched)} товаров:")
+    for offer_id, urls in matched.items():
+        print(f"  {offer_id}: {len(urls)} фото")
+    print("\nСкачайте ozon_catalog.xlsx из data/, проверьте и переходите к push-ozon-cards-dryrun.")
+    return 0
+
+
+def _load_ozon_push_inputs():
+    import catalog_editor
+
+    src_path = _data_path("ozon_products.json")
+    xlsx_path = _data_path("ozon_catalog.xlsx")
+    if not os.path.exists(src_path):
+        print(f"Нет файла {src_path} — сначала выполните команду fetch-ozon.")
+        return None, None
+    if not os.path.exists(xlsx_path):
+        print(f"Нет файла {xlsx_path} — сначала выполните build-ozon-catalog и заполните его.")
+        return None, None
+    with open(src_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    edits = catalog_editor.load_catalog_edits(xlsx_path)
+    return data, edits
+
+
+def cmd_push_ozon_cards_dryrun() -> int:
+    import catalog_editor
+
+    data, edits = _load_ozon_push_inputs()
+    if data is None:
+        return 1
+    items = catalog_editor.build_import_items(data, edits)
+    print(f"ПРОБНЫЙ ПРОГОН — в Ozon ничего не отправляется. Товаров к обновлению: {len(items)}\n")
+    print(json.dumps({"items": items}, ensure_ascii=False, indent=2))
+    return 0
+
+
+def cmd_push_ozon_cards() -> int:
+    import ozon_client
+    import catalog_editor
+
+    data, edits = _load_ozon_push_inputs()
+    if data is None:
+        return 1
+    items = catalog_editor.build_import_items(data, edits)
+    if not items:
+        print("Нечего отправлять: ни одна строка xlsx не совпала с offer_id из ozon_products.json.")
+        return 1
+
+    total_ok = 0
+    total_err = 0
+    chunk = 100
+    for i in range(0, len(items), chunk):
+        batch = items[i : i + chunk]
+        batch_num = i // chunk + 1
+        result = ozon_client.import_products(batch)
+        task_id = result.get("result", {}).get("task_id")
+        if not task_id:
+            print(f"Партия {batch_num}: Ozon не вернул task_id, ответ: {result}")
+            total_err += len(batch)
+            continue
+        print(f"Партия {batch_num}: task_id={task_id}, жду обработку...")
+        status = {}
+        for _ in range(30):
+            time.sleep(2)
+            status = ozon_client.get_import_status(task_id)
+            if status.get("result", {}).get("items"):
+                break
+        for it in status.get("result", {}).get("items", []):
+            errors = it.get("errors") or []
+            if errors:
+                total_err += 1
+                print(f"  ОШИБКА {it.get('offer_id')}: {errors}")
+            else:
+                total_ok += 1
+                print(f"  ОК {it.get('offer_id')}: статус {it.get('status')}")
+    print(f"\nИтого: успешно {total_ok}, с ошибками {total_err}")
+    return 0 if total_err == 0 else 1
+
+
+def cmd_build_wb_catalog() -> int:
+    import wb_catalog_editor
+
+    src_path = _data_path("wb_cards.json")
+    if not os.path.exists(src_path):
+        print(f"Нет файла {src_path} — сначала выполните команду fetch-wb.")
+        return 1
+    with open(src_path, "r", encoding="utf-8") as f:
+        wb_data = json.load(f)
+    xlsx_path = _data_path("wb_catalog.xlsx")
+    count = wb_catalog_editor.build_wb_catalog(wb_data, xlsx_path)
+    print(f"Готово: {count} товаров -> {xlsx_path}")
+    return 0
+
+
+def cmd_attach_wb_photos() -> int:
+    import wb_catalog_editor
+
+    xlsx_path = _data_path("wb_catalog.xlsx")
+    photos_dir = os.path.join(os.path.dirname(__file__), "photos")
+    if not os.path.exists(xlsx_path):
+        print(f"Нет файла {xlsx_path} — сначала выполните build-wb-catalog.")
+        return 1
+    if not os.path.isdir(photos_dir):
+        print(f"Нет папки {photos_dir} — см. README, раздел про фото.")
+        return 1
+
+    repo = os.environ.get("GITHUB_REPOSITORY", "")
+    branch = os.environ.get("GITHUB_REF_NAME", "main")
+    if not repo:
+        print("Не удалось определить репозиторий (GITHUB_REPOSITORY пуст) — запускайте через GitHub Actions.")
+        return 1
+    raw_base_url = f"https://raw.githubusercontent.com/{repo}/{branch}/photos"
+
+    matched = wb_catalog_editor.attach_wb_photos(xlsx_path, photos_dir, raw_base_url)
+    if not matched:
+        print("Не нашлось файлов в photos/, чьё имя совпадает с артикулом WB (vendorCode) из таблицы.")
+        return 1
+    print(f"Ссылки на фото подставлены в {xlsx_path} для {len(matched)} товаров:")
+    for vendor_code, urls in matched.items():
+        print(f"  {vendor_code}: {len(urls)} фото")
+    return 0
+
+
+def _load_wb_push_inputs():
+    import wb_catalog_editor
+
+    src_path = _data_path("wb_cards.json")
+    xlsx_path = _data_path("wb_catalog.xlsx")
+    if not os.path.exists(src_path):
+        print(f"Нет файла {src_path} — сначала выполните fetch-wb.")
+        return None, None
+    if not os.path.exists(xlsx_path):
+        print(f"Нет файла {xlsx_path} — сначала выполните build-wb-catalog.")
+        return None, None
+    with open(src_path, "r", encoding="utf-8") as f:
+        wb_data = json.load(f)
+    edits = wb_catalog_editor.load_wb_catalog_edits(xlsx_path)
+    return wb_data, edits
+
+
+def cmd_push_wb_cards_dryrun() -> int:
+    import wb_catalog_editor
+
+    wb_data, edits = _load_wb_push_inputs()
+    if wb_data is None:
+        return 1
+    text_items = wb_catalog_editor.build_wb_update_items(wb_data, edits)
+    media_items = wb_catalog_editor.build_wb_media_updates(wb_data, edits)
+
+    print(f"ПРОБНЫЙ ПРОГОН — в WB ничего не отправляется.")
+    print(f"Правки названия/описания: {len(text_items)} товаров")
+    for item in text_items:
+        if len(item["title"]) >= wb_catalog_editor.TITLE_MAX_LEN:
+            print(f"  ВНИМАНИЕ: {item['vendorCode']} — название обрежется до {wb_catalog_editor.TITLE_MAX_LEN} символов")
+    print(json.dumps(text_items, ensure_ascii=False, indent=2))
+    print(f"\nПравки фото: {len(media_items)} товаров")
+    print(json.dumps(media_items, ensure_ascii=False, indent=2))
+    return 0
+
+
+def cmd_push_wb_cards() -> int:
+    import wb_client
+    import wb_catalog_editor
+
+    wb_data, edits = _load_wb_push_inputs()
+    if wb_data is None:
+        return 1
+    text_items = wb_catalog_editor.build_wb_update_items(wb_data, edits)
+    media_items = wb_catalog_editor.build_wb_media_updates(wb_data, edits)
+
+    if not text_items and not media_items:
+        print("Нечего отправлять — ни одна строка xlsx не совпала с vendorCode из wb_cards.json.")
+        return 1
+
+    total_ok = 0
+    total_err = 0
+
+    if text_items:
+        chunk = 100
+        for i in range(0, len(text_items), chunk):
+            batch = text_items[i : i + chunk]
+            try:
+                wb_client.update_cards(batch)
+                print(f"Название/описание: партия {i // chunk + 1} ({len(batch)} шт.) отправлена.")
+                total_ok += len(batch)
+            except wb_client.WbApiError as exc:
+                print(f"ОШИБКА при отправке названия/описания (партия {i // chunk + 1}): {exc}")
+                total_err += len(batch)
+
+    for media in media_items:
+        try:
+            wb_client.update_media(media["nm_id"], media["urls"])
+            print(f"Фото: {media['vendor_code']} — {len(media['urls'])} фото отправлено.")
+            total_ok += 1
+        except wb_client.WbApiError as exc:
+            print(f"ОШИБКА при отправке фото {media['vendor_code']}: {exc}")
+            total_err += 1
+
+    print(f"\nИтого успешных операций: {total_ok}, с ошибками: {total_err}")
+    return 0 if total_err == 0 else 1
+
+
+def cmd_compare_ozon_wb() -> int:
+    import catalog_compare
+
+    ozon_path = _data_path("ozon_products.json")
+    wb_path = _data_path("wb_cards.json")
+    if not os.path.exists(ozon_path):
+        print(f"Нет файла {ozon_path} — сначала выполните fetch-ozon.")
+        return 1
+    if not os.path.exists(wb_path):
+        print(f"Нет файла {wb_path} — сначала выполните fetch-wb.")
+        return 1
+    with open(ozon_path, "r", encoding="utf-8") as f:
+        ozon_data = json.load(f)
+    with open(wb_path, "r", encoding="utf-8") as f:
+        wb_data = json.load(f)
+
+    xlsx_path = _data_path("ozon_wb_compare.xlsx")
+    counts = catalog_compare.build_report(ozon_data, wb_data, xlsx_path)
+    print(f"Сравнение готово -> {xlsx_path}")
+    print(f"  Совпадает точно: {counts['exact_matches']}")
+    print(f"  Похоже, но не точно (проверить вручную): {counts['candidates']}")
+    print(f"  Только на Ozon (нет на WB): {counts['ozon_only']}")
+    print(f"  Только на WB (нет на Ozon): {counts['wb_only']}")
+    return 0
+
+
 def cmd_wb_warehouses() -> int:
     import wb_client
 
@@ -99,6 +367,15 @@ def main() -> int:
     parser.add_argument("--fetch-ozon", action="store_true")
     parser.add_argument("--fetch-wb", action="store_true")
     parser.add_argument("--wb-warehouses", action="store_true", help="Показать склады продавца на WB (для WB_WAREHOUSE_ID)")
+    parser.add_argument("--build-ozon-catalog", action="store_true", help="Собрать data/ozon_catalog.xlsx для редактирования карточек (название, описание, цена, фото)")
+    parser.add_argument("--attach-ozon-photos", action="store_true", help="Подставить в xlsx ссылки на фото из папки photos/ по имени файла (offer_id_1.jpg и т.п.)")
+    parser.add_argument("--push-ozon-cards-dryrun", action="store_true", help="Показать, что будет отправлено в Ozon, БЕЗ реальной отправки")
+    parser.add_argument("--push-ozon-cards", action="store_true", help="Реально отправить правки карточек в Ozon (сначала всегда делайте dryrun!)")
+    parser.add_argument("--compare-ozon-wb", action="store_true", help="Сравнить каталоги Ozon и WB по артикулу продавца, без объединения")
+    parser.add_argument("--build-wb-catalog", action="store_true", help="Собрать data/wb_catalog.xlsx для редактирования карточек WB (название, описание, фото)")
+    parser.add_argument("--attach-wb-photos", action="store_true", help="Подставить в wb_catalog.xlsx ссылки на фото из папки photos/ по имени файла")
+    parser.add_argument("--push-wb-cards-dryrun", action="store_true", help="Показать, что будет отправлено в WB, БЕЗ реальной отправки")
+    parser.add_argument("--push-wb-cards", action="store_true", help="Реально отправить правки карточек WB (сначала всегда делайте dryrun!)")
     args = parser.parse_args()
 
     if args.test_ozon:
@@ -111,6 +388,24 @@ def main() -> int:
         return cmd_fetch_wb()
     if args.wb_warehouses:
         return cmd_wb_warehouses()
+    if args.build_ozon_catalog:
+        return cmd_build_ozon_catalog()
+    if args.attach_ozon_photos:
+        return cmd_attach_ozon_photos()
+    if args.push_ozon_cards_dryrun:
+        return cmd_push_ozon_cards_dryrun()
+    if args.push_ozon_cards:
+        return cmd_push_ozon_cards()
+    if args.compare_ozon_wb:
+        return cmd_compare_ozon_wb()
+    if args.build_wb_catalog:
+        return cmd_build_wb_catalog()
+    if args.attach_wb_photos:
+        return cmd_attach_wb_photos()
+    if args.push_wb_cards_dryrun:
+        return cmd_push_wb_cards_dryrun()
+    if args.push_wb_cards:
+        return cmd_push_wb_cards()
 
     parser.print_help()
     return 0
