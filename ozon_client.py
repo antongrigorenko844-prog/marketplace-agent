@@ -6,10 +6,10 @@
 (создаются в кабинете: Настройки -> API-ключи, тип "Для личного использования",
 роль "Администратор").
 
-ВАЖНО: пути эндпоинтов у Ozon версионируются (v1/v2/v3/v4) и иногда переезжают
-на новую версию. Ниже расставлены комментарии "# ENDPOINT" у каждого адреса —
-если Ozon вернёт 404/NOT_FOUND, в первую очередь проверяйте актуальный путь
-именно в этом месте на docs.ozon.ru/api/seller, а не что-то другое.
+ВАЖНО: пути эндпоинтов у Ozon версионируются (v1/v2/v3/v4/v5) и иногда
+переезжают на новую версию. Ниже расставлены комментарии "# ENDPOINT" у
+каждого адреса — если Ozon вернёт 404/NOT_FOUND, в первую очередь проверяйте
+актуальный путь именно в этом месте на docs.ozon.ru/api/seller.
 """
 import logging
 import time
@@ -92,42 +92,30 @@ def list_products(limit: int = 100) -> List[dict]:
     return products
 
 
-def get_prices_and_stocks(offer_ids: Optional[List[str]] = None) -> List[dict]:
+def get_prices_and_stocks(offer_ids: List[str]) -> List[dict]:
     """
-    Подробная информация по товарам (включая цену) — метод отдаёт СРАЗУ ВСЕ
-    товары продавца постранично (page/page_size), без фильтра по offer_id.
-    Параметр offer_ids, если передан, используется только чтобы отфильтровать
-    результат уже на нашей стороне (сам Ozon фильтр по offer_id тут не поддерживает).
+    Подробная информация по ценам товаров, пачками по 1000 offer_id.
+    Проверено напрямую в живой документации docs.ozon.ru 02.09.2026 —
+    актуальная версия метода v5 (v1/v4 отключены, поэтому раньше был 404).
     """
     out: List[dict] = []
-    page = 1
-    page_size = 1000
-    while True:
-        # ENDPOINT: POST /v1/product/info/prices
-        data = _post("/v1/product/info/prices", {"page": page, "page_size": page_size})
-        result = data.get("result", {})
-        items = result.get("items", [])
-        out.extend(items)
-        total = result.get("total", 0)
-        if not items or len(out) >= total:
-            break
-        page += 1
-
-    if offer_ids:
-        wanted = set(offer_ids)
-        out = [item for item in out if item.get("offer_id") in wanted]
+    chunk = 1000
+    for i in range(0, len(offer_ids), chunk):
+        batch = offer_ids[i : i + chunk]
+        # ENDPOINT: POST /v5/product/info/prices
+        data = _post("/v5/product/info/prices", {"filter": {"offer_id": batch}, "limit": len(batch)})
+        out.extend(data.get("result", {}).get("items", data.get("items", [])))
     return out
 
 
 def update_stocks(items: List[dict]) -> dict:
     """
-    items: [{"offer_id": "...", "product_id": 123, "stock": 5}, ...]
-    Обновление остатков — быстрый метод, отдельный от редактирования карточки.
-    Максимум 100 товаров за один запрос — при необходимости бить на пачки
-    вызывающим кодом.
+    items: [{"offer_id": "...", "stock": 5}, ...] (product_id тоже подходит
+    вместо offer_id). Обновление остатков — быстрый метод, отдельный от
+    редактирования карточки. Максимум 100 товаров за один запрос.
     """
-    # ENDPOINT: POST /v1/product/import/stocks
-    return _post("/v1/product/import/stocks", {"stocks": items})
+    # ENDPOINT: POST /v2/products/stocks — подтверждено в живой документации 02.09.2026
+    return _post("/v2/products/stocks", {"stocks": items})
 
 
 def update_prices(items: List[dict]) -> dict:
