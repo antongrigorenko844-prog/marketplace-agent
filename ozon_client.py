@@ -6,10 +6,10 @@
 (создаются в кабинете: Настройки -> API-ключи, тип "Для личного использования",
 роль "Администратор").
 
-ВАЖНО: пути эндпоинтов у Ozon версионируются (v1/v2/v3/v4/v5) и иногда
-переезжают на новую версию. Ниже расставлены комментарии "# ENDPOINT" у
-каждого адреса — если Ozon вернёт 404/NOT_FOUND, в первую очередь проверяйте
-актуальный путь именно в этом месте на docs.ozon.ru/api/seller.
+ВАЖНО: пути эндпоинтов у Ozon версионируются (v1/v2/v3/v4) и иногда переезжают
+на новую версию. Ниже расставлены комментарии "# ENDPOINT" у каждого адреса —
+если Ozon вернёт 404/NOT_FOUND, в первую очередь проверяйте актуальный путь
+именно в этом месте на docs.ozon.ru/api/seller, а не что-то другое.
 """
 import logging
 import time
@@ -105,6 +105,39 @@ def get_prices_and_stocks(offer_ids: List[str]) -> List[dict]:
         # ENDPOINT: POST /v5/product/info/prices
         data = _post("/v5/product/info/prices", {"filter": {"offer_id": batch}, "limit": len(batch)})
         out.extend(data.get("result", {}).get("items", data.get("items", [])))
+    return out
+
+
+def get_product_names(offer_ids: Optional[List[str]] = None, limit: int = 1000) -> List[dict]:
+    """
+    Название товара, штрихкод, изображения и характеристики — постранично,
+    через курсор last_id (как list_products).
+
+    Проверено напрямую в живой документации docs.ozon.ru 02.09.2026:
+    /v3/product/info/list НЕ содержит названия (только штрихкод, цену,
+    категорию, комиссию, ошибки модерации). Название отдаёт либо
+    /v1/product/info/description (по одному товару за раз — offer_id или
+    product_id, без пакетной выборки), либо /v4/product/info/attributes
+    (пакетно, с пагинацией last_id) — используем второй, он эффективнее
+    для десятков/сотен товаров разом.
+    """
+    out: List[dict] = []
+    last_id = ""
+    filter_body: Dict[str, object] = {"visibility": "ALL"}
+    if offer_ids:
+        filter_body["offer_id"] = offer_ids
+    while True:
+        # ENDPOINT: POST /v4/product/info/attributes — подтверждено в живой документации 02.09.2026
+        data = _post(
+            "/v4/product/info/attributes",
+            {"filter": filter_body, "last_id": last_id, "limit": limit, "sort_dir": "ASC"},
+        )
+        items = data.get("result", [])
+        out.extend(items)
+        last_id = data.get("last_id", "")
+        if not items or not last_id:
+            break
+    logger.info("Ozon: получено названий товаров через product/info/attributes: %d", len(out))
     return out
 
 
