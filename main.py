@@ -2,7 +2,7 @@
 Точка входа. На этом первом этапе агент умеет:
   --test-ozon        проверить, что ключ Ozon работает
   --test-wb          проверить, что токен WB работает
-  --fetch-ozon        выгрusить список товаров Ozon в data/ozon_products.json
+  --fetch-ozon        выгрузить список товаров Ozon в data/ozon_products.json
   --fetch-wb          выгрузить список карточек WB в data/wb_cards.json
 
 Это самый первый шаг — посмотреть на реальные данные из ваших кабинетов,
@@ -55,10 +55,16 @@ def cmd_fetch_ozon() -> int:
         return 1
     offer_ids = [p["offer_id"] for p in products if p.get("offer_id")]
     details = ozon_client.get_prices_and_stocks(offer_ids)
+    names = ozon_client.get_product_names(offer_ids)
     path = _data_path("ozon_products.json")
     with open(path, "w", encoding="utf-8") as f:
-        json.dump({"list": products, "details": details}, f, ensure_ascii=False, indent=2)
-    print(f"Сохранено {len(products)} товаров Ozon в {path}")
+        json.dump(
+            {"list": products, "details": details, "names": names},
+            f,
+            ensure_ascii=False,
+            indent=2,
+        )
+    print(f"Сохранено {len(products)} товаров Ozon (с названиями) в {path}")
     return 0
 
 
