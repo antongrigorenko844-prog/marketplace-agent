@@ -92,27 +92,42 @@ def list_products(limit: int = 100) -> List[dict]:
     return products
 
 
-def get_prices_and_stocks(offer_ids: List[str]) -> List[dict]:
+def get_prices_and_stocks(offer_ids: Optional[List[str]] = None) -> List[dict]:
     """
-    Подробная информация по товарам (включая цену и остатки) пачками по 1000 offer_id.
+    Подробная информация по товарам (включая цену) — метод отдаёт СРАЗУ ВСЕ
+    товары продавца постранично (page/page_size), без фильтра по offer_id.
+    Параметр offer_ids, если передан, используется только чтобы отфильтровать
+    результат уже на нашей стороне (сам Ozon фильтр по offer_id тут не поддерживает).
     """
     out: List[dict] = []
-    chunk = 1000
-    for i in range(0, len(offer_ids), chunk):
-        batch = offer_ids[i : i + chunk]
-        # ENDPOINT: POST /v4/product/info/prices
-        data = _post("/v4/product/info/prices", {"filter": {"offer_id": batch}, "limit": chunk})
-        out.extend(data.get("result", {}).get("items", []))
+    page = 1
+    page_size = 1000
+    while True:
+        # ENDPOINT: POST /v1/product/info/prices
+        data = _post("/v1/product/info/prices", {"page": page, "page_size": page_size})
+        result = data.get("result", {})
+        items = result.get("items", [])
+        out.extend(items)
+        total = result.get("total", 0)
+        if not items or len(out) >= total:
+            break
+        page += 1
+
+    if offer_ids:
+        wanted = set(offer_ids)
+        out = [item for item in out if item.get("offer_id") in wanted]
     return out
 
 
 def update_stocks(items: List[dict]) -> dict:
     """
-    items: [{"offer_id": "...", "stock": 5, "warehouse_id": 123}, ...]
+    items: [{"offer_id": "...", "product_id": 123, "stock": 5}, ...]
     Обновление остатков — быстрый метод, отдельный от редактирования карточки.
+    Максимум 100 товаров за один запрос — при необходимости бить на пачки
+    вызывающим кодом.
     """
-    # ENDPOINT: POST /v2/products/stocks
-    return _post("/v2/products/stocks", {"stocks": items})
+    # ENDPOINT: POST /v1/product/import/stocks
+    return _post("/v1/product/import/stocks", {"stocks": items})
 
 
 def update_prices(items: List[dict]) -> dict:
