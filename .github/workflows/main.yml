@@ -10,7 +10,9 @@
 #    OZON_CLIENT_ID, OZON_API_KEY, WB_API_TOKEN, WB_WAREHOUSE_ID (позже)
 # 2. Settings -> Actions -> General -> Workflow permissions ->
 #    "Read and write permissions" (чтобы сохранять data/ обратно в репозиторий).
+
 name: marketplace-agent
+
 on:
   workflow_dispatch:
     inputs:
@@ -62,6 +64,7 @@ jobs:
           OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
           WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
           WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python main.py --${{ github.event.inputs.command }}
 
