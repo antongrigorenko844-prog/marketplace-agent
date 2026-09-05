@@ -10,9 +10,7 @@
 #    OZON_CLIENT_ID, OZON_API_KEY, WB_API_TOKEN, WB_WAREHOUSE_ID (позже)
 # 2. Settings -> Actions -> General -> Workflow permissions ->
 #    "Read and write permissions" (чтобы сохранять data/ обратно в репозиторий).
-
 name: marketplace-agent
-
 on:
   workflow_dispatch:
     inputs:
@@ -36,7 +34,7 @@ on:
           - attach-wb-photos
           - push-wb-cards-dryrun
           - push-wb-cards
-                    - build-ozon-new-template
+          - build-ozon-new-template
           - attach-ozon-new-photos
           - push-ozon-new-cards-dryrun
           - push-ozon-new-cards
