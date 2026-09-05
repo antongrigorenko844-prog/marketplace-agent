@@ -27,6 +27,15 @@ on:
           - fetch-ozon
           - fetch-wb
           - wb-warehouses
+          - build-ozon-catalog
+          - attach-ozon-photos
+          - push-ozon-cards-dryrun
+          - push-ozon-cards
+          - compare-ozon-wb
+          - build-wb-catalog
+          - attach-wb-photos
+          - push-wb-cards-dryrun
+          - push-wb-cards
 
 jobs:
   run:
