@@ -299,7 +299,7 @@ def load_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
 _category_attr_cache: Dict[tuple, List[dict]] = {}
 
 
-def _get_video_attr_id(description_category_id: int, type_id: int) -> Optional[int]:
+def _category_attrs(description_category_id: int, type_id: int) -> List[dict]:
     import ozon_client
 
     key = (description_category_id, type_id)
@@ -308,17 +308,31 @@ def _get_video_attr_id(description_category_id: int, type_id: int) -> Optional[i
             _category_attr_cache[key] = ozon_client.get_category_attributes(description_category_id, type_id)
         except Exception as exc:  # noqa: BLE001 — не хотим ронять весь push из-за одного запроса
             logger.warning(
-                "Не удалось получить характеристики категории %s/%s для поиска атрибута видео: %s",
+                "Не удалось получить характеристики категории %s/%s: %s",
                 description_category_id,
                 type_id,
                 exc,
             )
             _category_attr_cache[key] = []
-    for attr in _category_attr_cache[key]:
+    return _category_attr_cache[key]
+
+
+def _find_category_attr_id(description_category_id: int, type_id: int, *keywords: str) -> Optional[int]:
+    """Ищет id характеристики категории по вхождению одного из keywords в название (без учёта регистра)."""
+    keywords_lower = [k.lower() for k in keywords]
+    for attr in _category_attrs(description_category_id, type_id):
         name = (attr.get("name") or "").lower()
-        if "видео" in name or "video" in name:
+        if any(k in name for k in keywords_lower):
             return attr.get("id")
     return None
+
+
+def _get_video_attr_id(description_category_id: int, type_id: int) -> Optional[int]:
+    return _find_category_attr_id(description_category_id, type_id, "видео", "video")
+
+
+def _get_tnved_attr_id(description_category_id: int, type_id: int) -> Optional[int]:
+    return _find_category_attr_id(description_category_id, type_id, "тн вэд", "tn ved", "тнвэд")
 
 
 def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:

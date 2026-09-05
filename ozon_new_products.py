@@ -56,6 +56,7 @@ COLUMNS = [
     ("price", "Цена, ₽"),
     ("old_price", "Цена до скидки, ₽ (необязательно)"),
     ("barcode", "Штрихкод (необязательно — можно оставить пустым)"),
+    ("tnved", "Код ТН ВЭД — ОБЯЗАТЕЛЬНО для реальной продажи (посмотрите такой же код у образца в кабинете Ozon)"),
     ("weight_g", "Вес, г (пусто = как у образца)"),
     ("length_mm", "Длина, мм (пусто = как у образца)"),
     ("width_mm", "Ширина, мм (пусто = как у образца)"),
@@ -65,7 +66,7 @@ COLUMNS = [
     ("notes", "Заметки"),
 ]
 
-WIDTHS = [20, 30, 45, 45, 12, 18, 20, 14, 14, 14, 14, 55, 45, 25]
+WIDTHS = [20, 30, 45, 45, 12, 18, 20, 20, 14, 14, 14, 14, 55, 45, 25]
 
 
 def build_new_template(xlsx_path: str) -> None:
@@ -104,6 +105,7 @@ def load_new_edits(xlsx_path: str) -> Dict[str, dict]:
             "price": raw.get("price"),
             "old_price": raw.get("old_price"),
             "barcode": str(raw.get("barcode") or "").strip(),
+            "tnved": str(raw.get("tnved") or "").strip(),
             "weight_g": raw.get("weight_g"),
             "length_mm": raw.get("length_mm"),
             "width_mm": raw.get("width_mm"),
@@ -165,15 +167,23 @@ def build_new_import_items(existing_data: dict, edits: Dict[str, dict]) -> List[
     товара из data/ozon_products.json).
     """
     names_by_offer = {n.get("offer_id"): n for n in existing_data.get("names", []) if n.get("offer_id")}
+    # Запасной вариант поиска — без учёта регистра и лишних пробелов, на
+    # случай если артикул образца напечатали вручную не один в один.
+    names_by_offer_norm = {
+        str(k).strip().casefold(): v for k, v in names_by_offer.items()
+    }
 
     items: List[dict] = []
     for new_offer_id, edit in edits.items():
         sample_id = edit.get("sample_offer_id")
-        sample = names_by_offer.get(sample_id)
+        sample = names_by_offer.get(sample_id) or names_by_offer_norm.get(
+            str(sample_id or "").strip().casefold()
+        )
         if not sample:
             logger.warning(
                 "%s: образец '%s' не найден в data/ozon_products.json (сначала fetch-ozon, "
-                "и проверьте, что артикул образца указан без опечаток) — товар пропущен.",
+                "и проверьте, что артикул образца указан без опечаток — лучше скопировать "
+                "его прямо из ozon_catalog.xlsx, а не печатать заново) — товар пропущен.",
                 new_offer_id,
                 sample_id,
             )
@@ -199,6 +209,27 @@ def build_new_import_items(existing_data: dict, edits: Dict[str, dict]) -> List[
                     "видео НЕ добавлено, остальное создастся как обычно.",
                     new_offer_id,
                 )
+
+        tnved = (edit.get("tnved") or "").strip()
+        if tnved:
+            tnved_attr_id = catalog_editor._get_tnved_attr_id(
+                sample.get("description_category_id", 0), sample.get("type_id", 0)
+            )
+            if tnved_attr_id:
+                attributes = catalog_editor._with_overridden_attr(attributes, tnved_attr_id, tnved)
+            else:
+                logger.warning(
+                    "%s: не нашёлся атрибут 'ТН ВЭД' в характеристиках этой категории — "
+                    "код не добавлен, впишите его вручную в личном кабинете Ozon после создания.",
+                    new_offer_id,
+                )
+        else:
+            logger.warning(
+                "%s: колонка 'ТН ВЭД' пустая — Ozon, скорее всего, создаст товар как ЧЕРНОВИК "
+                "('не создан'/'не продаётся'), пока код не будет заполнен (в этой таблице или "
+                "прямо в личном кабинете Ozon).",
+                new_offer_id,
+            )
 
         images = edit.get("images") or []
         primary_image = images[0] if images else ""
