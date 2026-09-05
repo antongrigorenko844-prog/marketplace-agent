@@ -167,18 +167,62 @@ def get_category_tree(language: str = "RU") -> List[dict]:
     return data.get("result", [])
 
 
+_category_attribute_working_path: Optional[str] = None
+
+# У Ozon этот метод несколько раз переезжал вместе с переходом на
+# description_category_id (старый /v2/category/attribute у части кабинетов
+# уже отдаёт 404). Пробуем по очереди — какой сработает, тот и запоминаем
+# на остаток запуска, чтобы не дёргать зря остальные при каждом вызове.
+_CATEGORY_ATTRIBUTE_CANDIDATES = [
+    "/v1/description-category/attribute",
+    "/v4/category/attribute",
+    "/v3/category/attribute",
+    "/v2/category/attribute",
+]
+
+
 def get_category_attributes(description_category_id: int, type_id: int, language: str = "RU") -> List[dict]:
-    """Обязательные и необязательные характеристики для конкретной категории/типа товара."""
-    # ENDPOINT: POST /v2/category/attribute
-    data = _post(
-        "/v2/category/attribute",
-        {
-            "description_category_id": description_category_id,
-            "type_id": type_id,
-            "language": language,
-        },
+    """
+    Обязательные и необязательные характеристики для конкретной категории/типа
+    товара. НЕ ДО КОНЦА ПРОВЕРЕНО в живой документации (в отличие от
+    остальных методов этого файла) — пути ниже перебираются по очереди,
+    первый успешный запоминается. Если ни один не сработал — возвращает
+    пустой список (используется только для поиска доп. атрибутов вроде
+    видео/ТН ВЭД, отсутствие которых не мешает создать сам товар).
+    """
+    global _category_attribute_working_path
+
+    payload = {
+        "description_category_id": description_category_id,
+        "type_id": type_id,
+        "language": language,
+    }
+
+    candidates = (
+        [_category_attribute_working_path] + _CATEGORY_ATTRIBUTE_CANDIDATES
+        if _category_attribute_working_path
+        else _CATEGORY_ATTRIBUTE_CANDIDATES
     )
-    return data.get("result", [])
+
+    last_error: Optional[Exception] = None
+    for path in candidates:
+        try:
+            data = _post(path, payload)
+            _category_attribute_working_path = path
+            return data.get("result", [])
+        except OzonApiError as exc:
+            last_error = exc
+            continue
+
+    logger.warning(
+        "Не удалось получить характеристики категории %s/%s ни по одному из известных "
+        "путей (%s): %s",
+        description_category_id,
+        type_id,
+        ", ".join(_CATEGORY_ATTRIBUTE_CANDIDATES),
+        last_error,
+    )
+    return []
 
 
 def import_products(items: List[dict]) -> dict:
@@ -192,8 +236,9 @@ def import_products(items: List[dict]) -> dict:
 
 
 def get_import_status(task_id: int) -> dict:
-    # ENDPOINT: POST /v3/product/import/info
-    return _post("/v3/product/import/info", {"task_id": task_id})
+    # ENDPOINT: POST /v1/product/import/info — исправлено 02.09.2026:
+    # живая документация docs.ozon.ru показывает v1, а не v3 (была ошибка).
+    return _post("/v1/product/import/info", {"task_id": task_id})
 
 
 def get_fbs_orders_since(since_iso: str, to_iso: str) -> List[dict]:
