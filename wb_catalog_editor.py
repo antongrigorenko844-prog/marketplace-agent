@@ -39,6 +39,7 @@ COLUMNS = [
     ("title", "Название (до 60 символов — ограничение WB!)"),
     ("description", "Описание"),
     ("images", "Фото: ссылки через | , первая = главная (пусто = не менять)"),
+    ("video_url", "Видео: ссылка на .mp4/.mov, до 50 МБ, максимум 1 (пусто = не менять)"),
     ("notes", "Заметки"),
 ]
 
@@ -73,6 +74,26 @@ def _extract_photo_urls(card: dict) -> List[str]:
     return urls
 
 
+def _extract_video_url(card: dict) -> str:
+    """
+    Пытается найти ссылку на уже загруженное видео карточки — НЕ ПРОВЕРЕНО
+    на реальных данных (в живой документации WB не было явного примера, как
+    видео выглядит в ответе /content/v2/get/cards/list; сюда собраны самые
+    вероятные варианты названия поля). Если после fetch-wb колонка "Видео"
+    у товаров с видео остаётся пустой — напишите мне, поправим по реальному
+    JSON. ВАЖНО: пока это не проверено, если меняете фото у товара, у
+    которого уже есть видео на WB, проверьте после push, что видео не
+    пропало, и при необходимости впишите ссылку на него в колонку "Видео"
+    вручную перед повторным push-wb-cards.
+    """
+    video = card.get("video") or card.get("videoUrl") or card.get("video_url")
+    if isinstance(video, dict):
+        return video.get("url") or video.get("link") or ""
+    if isinstance(video, str):
+        return video
+    return ""
+
+
 def build_wb_catalog(wb_data: dict, xlsx_path: str) -> int:
     """Строит редактируемый xlsx из уже загруженного data/wb_cards.json."""
     cards = _cards_by_vendor(wb_data)
@@ -92,8 +113,9 @@ def build_wb_catalog(wb_data: dict, xlsx_path: str) -> int:
         title = _card_title(card)
         description = _card_description(card)
         images_str = "|".join(_extract_photo_urls(card))
+        video_str = _extract_video_url(card)
 
-        row_values = [vendor_code, title, description, images_str, ""]
+        row_values = [vendor_code, title, description, images_str, video_str, ""]
         for col_idx, value in enumerate(row_values, start=1):
             cell = ws.cell(row=row_idx, column=col_idx, value=value)
             cell.font = NORMAL_FONT
@@ -101,7 +123,7 @@ def build_wb_catalog(wb_data: dict, xlsx_path: str) -> int:
                 cell.fill = WARN_FILL
         row_idx += 1
 
-    widths = [18, 45, 45, 55, 25]
+    widths = [18, 45, 45, 55, 45, 25]
     for col_idx, width in enumerate(widths, start=1):
         ws.column_dimensions[get_column_letter(col_idx)].width = width
 
@@ -124,10 +146,12 @@ def load_wb_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
         images_raw = raw.get("images") or ""
         images = [u.strip() for u in str(images_raw).split("|") if u.strip()]
         title_val = raw.get("title")
+        video_val = raw.get("video_url")
         edits[vendor_code] = {
             "title": title_val.strip() if isinstance(title_val, str) else title_val,
             "description": raw.get("description") or "",
             "images": images,
+            "video_url": video_val.strip() if isinstance(video_val, str) else (video_val or ""),
             "notes": raw.get("notes"),
         }
     return edits
@@ -215,17 +239,24 @@ def build_wb_update_items(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
 def build_wb_media_updates(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
     """
     Собирает список {"nm_id":..., "vendor_code":..., "urls": [...]} для
-    вызова wb_client.update_media — только для строк, где реально указаны
-    фото в xlsx (пустая колонка "Фото" = не трогаем фото этого товара).
+    вызова wb_client.update_media — для строк, где указаны фото И/ИЛИ видео
+    в xlsx (обе колонки пустые = не трогаем медиа этого товара вообще).
+
+    ВАЖНО: WB заменяет фото+видео целиком одним списком — если товар уже
+    отправлялся с видео, а сейчас меняете только фото, видео нужно оставить
+    в колонке "Видео" (не стирать), иначе оно пропадёт при этом запросе.
+    Видео, если указано, всегда добавляется В КОНЕЦ списка (после фото).
     """
     cards = _cards_by_vendor(wb_data)
     out: List[dict] = []
     for vendor_code, edit in edits.items():
-        images = edit.get("images") or []
-        if not images:
+        images = list(edit.get("images") or [])
+        video_url = (edit.get("video_url") or "").strip()
+        if not images and not video_url:
             continue
         card = cards.get(vendor_code)
         if not card or not card.get("nmID"):
             continue
-        out.append({"nm_id": card["nmID"], "vendor_code": vendor_code, "urls": images})
+        urls = images + ([video_url] if video_url else [])
+        out.append({"nm_id": card["nmID"], "vendor_code": vendor_code, "urls": urls})
     return out

@@ -144,6 +144,17 @@ def update_cards(cards: List[dict]) -> dict:
     return _request("POST", config.wb_content_base, "/content/v2/cards/update", cards)
 
 
+def generate_barcodes(count: int) -> List[str]:
+    """
+    Генерирует уникальные штрихкоды для новых размеров/товаров — нужны при
+    СОЗДАНИИ новой карточки (у существующих товаров штрихкод уже есть).
+    Проверено в живой документации dev.wildberries.ru: максимум 5000 за раз.
+    """
+    # ENDPOINT: POST /content/v2/barcodes
+    data = _request("POST", config.wb_content_base, "/content/v2/barcodes", {"count": count})
+    return data.get("data", [])
+
+
 def update_media(nm_id: int, urls: List[str]) -> dict:
     """
     Полная замена фото/видео карточки по ссылкам. Проверено в живой
