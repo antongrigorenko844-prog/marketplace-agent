@@ -89,7 +89,7 @@ def _photo_index(fname: str, offer_id: str) -> int:
     return 0
 
 
-def attach_local_photos(xlsx_path: str, photos_dir: str, raw_base_url: str) -> Dict[str, List[str]]:
+def attach_local_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") -> Dict[str, List[str]]:
     """
     Подставляет в колонку "Фото" уже собранного xlsx ссылки на файлы из
     папки photos_dir — без ручного копирования ссылок по одной.
@@ -109,11 +109,16 @@ def attach_local_photos(xlsx_path: str, photos_dir: str, raw_base_url: str) -> D
     Строки, для которых в photos_dir не нашлось ни одного подходящего файла,
     НЕ ТРОГАЮТСЯ — их текущее содержимое колонки "Фото" остаётся как было.
 
-    raw_base_url — базовый адрес папки photos в репозитории на GitHub, вида
-    "https://raw.githubusercontent.com/<owner>/<repo>/<branch>/photos".
+    Каждый найденный файл загружается как ассет GitHub Release (photo_host.py)
+    и подставляется уже готовая ссылка на скачивание — раньше здесь строилась
+    ссылка на raw_base_url (raw.githubusercontent.com), но эта раздача файлов
+    оказалась ненадёжной на практике (см. photo_host.py); параметр оставлен
+    только для обратной совместимости вызова и не используется.
 
     Возвращает offer_id -> список подставленных ссылок (для вывода в лог).
     """
+    import photo_host
+
     wb = load_workbook(xlsx_path)
     ws = wb.active
 
@@ -138,9 +143,16 @@ def attach_local_photos(xlsx_path: str, photos_dir: str, raw_base_url: str) -> D
             continue
         own_files.sort(key=lambda f: _photo_index(f, offer_id))
 
-        # quote() кодирует кириллицу/пробелы в имени файла (%D0%.../%20) —
-        # иначе ссылка не откроется как обычный HTTP-адрес для загрузки Ozon'ом.
-        urls = [f"{raw_base_url.rstrip('/')}/{quote(f)}" for f in own_files]
+        urls = []
+        for f in own_files:
+            try:
+                url = photo_host.upload_file(os.path.join(photos_dir, f))
+            except Exception as exc:
+                logger.warning("%s: не удалось загрузить фото %s: %s", offer_id, f, exc)
+                continue
+            urls.append(url)
+        if not urls:
+            continue
         row[images_col_idx - 1].value = "|".join(urls)
         matched[offer_id] = urls
 

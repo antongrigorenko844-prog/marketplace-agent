@@ -117,8 +117,15 @@ def load_new_edits(xlsx_path: str) -> Dict[str, dict]:
     return edits
 
 
-def attach_new_photos(xlsx_path: str, photos_dir: str, raw_base_url: str) -> Dict[str, List[str]]:
-    """То же самое, что catalog_editor.attach_local_photos, но по колонке offer_id этого шаблона."""
+def attach_new_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") -> Dict[str, List[str]]:
+    """
+    То же самое, что catalog_editor.attach_local_photos, но по колонке
+    offer_id этого шаблона. Как и там, каждый файл загружается как ассет
+    GitHub Release (photo_host.py) — raw_base_url больше не используется,
+    оставлен только для обратной совместимости вызова.
+    """
+    import photo_host
+
     wb = load_workbook(xlsx_path)
     ws = wb.active
 
@@ -143,7 +150,16 @@ def attach_new_photos(xlsx_path: str, photos_dir: str, raw_base_url: str) -> Dic
             continue
         own_files.sort(key=lambda f: catalog_editor._photo_index(f, offer_id))
 
-        urls = [f"{raw_base_url.rstrip('/')}/{quote(f)}" for f in own_files]
+        urls = []
+        for f in own_files:
+            try:
+                url = photo_host.upload_file(os.path.join(photos_dir, f))
+            except Exception as exc:
+                logger.warning("%s: не удалось загрузить фото %s: %s", offer_id, f, exc)
+                continue
+            urls.append(url)
+        if not urls:
+            continue
         row[images_col_idx - 1].value = "|".join(urls)
         matched[offer_id] = urls
 

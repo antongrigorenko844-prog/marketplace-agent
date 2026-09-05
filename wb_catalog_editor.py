@@ -16,6 +16,7 @@
 Ozon — соответственно, ниже две отдельные функции сборки: build_wb_update_items
 (текст) и build_wb_media_updates (фото), их можно отправлять по отдельности.
 """
+import logging
 import os
 import re
 from typing import Dict, List, Optional
@@ -24,6 +25,8 @@ from urllib.parse import quote
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill
 from openpyxl.utils import get_column_letter
+
+logger = logging.getLogger("marketplace-agent.wb_catalog_editor")
 
 FONT_NAME = "Arial"
 HEADER_FILL = PatternFill(start_color="305496", end_color="305496", fill_type="solid")
@@ -166,13 +169,20 @@ def _photo_index(fname: str, vendor_code: str) -> int:
     return 0
 
 
-def attach_wb_photos(xlsx_path: str, photos_dir: str, raw_base_url: str) -> Dict[str, List[str]]:
+def attach_wb_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") -> Dict[str, List[str]]:
     """
     То же самое, что attach_local_photos в catalog_editor.py (Ozon), но
     ключ — vendorCode. Если артикулы у вас общие для Ozon и WB (как и
     задумано), фото из той же папки photos/ подойдут сразу для обеих
     площадок — переименовывать/дублировать файлы не нужно.
+
+    Каждый файл загружается как ассет GitHub Release (photo_host.py) —
+    raw_base_url (raw.githubusercontent.com) больше не используется, он
+    оказался ненадёжным на практике; параметр оставлен только для
+    обратной совместимости вызова.
     """
+    import photo_host
+
     workbook = load_workbook(xlsx_path)
     ws = workbook.active
 
@@ -197,7 +207,16 @@ def attach_wb_photos(xlsx_path: str, photos_dir: str, raw_base_url: str) -> Dict
             continue
         own_files.sort(key=lambda f: _photo_index(f, vendor_code))
 
-        urls = [f"{raw_base_url.rstrip('/')}/{quote(f)}" for f in own_files]
+        urls = []
+        for f in own_files:
+            try:
+                url = photo_host.upload_file(os.path.join(photos_dir, f))
+            except Exception as exc:
+                logger.warning("%s: не удалось загрузить фото %s: %s", vendor_code, f, exc)
+                continue
+            urls.append(url)
+        if not urls:
+            continue
         row[images_col_idx - 1].value = "|".join(urls)
         matched[vendor_code] = urls
 
