@@ -31,6 +31,17 @@ def _data_path(filename: str) -> str:
     return os.path.join(data_dir, filename)
 
 
+def _split_errors_by_level(errors):
+    """
+    Ozon кладёт в 'errors' не только настоящие ошибки, но и информационные
+    предупреждения (level='warning', например "заменили значение на
+    похожее из справочника") — их не нужно считать провалом.
+    """
+    blocking = [e for e in errors if str(e.get("level", "error")).lower() == "error"]
+    warnings = [e for e in errors if str(e.get("level", "error")).lower() != "error"]
+    return blocking, warnings
+
+
 def cmd_test_ozon() -> int:
     import ozon_client
 
@@ -191,13 +202,14 @@ def cmd_push_ozon_cards() -> int:
             if status.get("result", {}).get("items"):
                 break
         for it in status.get("result", {}).get("items", []):
-            errors = it.get("errors") or []
-            if errors:
+            blocking, warnings = _split_errors_by_level(it.get("errors") or [])
+            if blocking:
                 total_err += 1
-                print(f"  ОШИБКА {it.get('offer_id')}: {errors}")
+                print(f"  ОШИБКА {it.get('offer_id')}: {blocking}")
             else:
                 total_ok += 1
-                print(f"  ОК {it.get('offer_id')}: статус {it.get('status')}")
+                note = f" (предупреждение: {warnings})" if warnings else ""
+                print(f"  ОК {it.get('offer_id')}: статус {it.get('status')}{note}")
     print(f"\nИтого: успешно {total_ok}, с ошибками {total_err}")
     return 0 if total_err == 0 else 1
 
@@ -418,13 +430,14 @@ def cmd_push_ozon_new_cards() -> int:
         if status.get("result", {}).get("items"):
             break
     for it in status.get("result", {}).get("items", []):
-        errors = it.get("errors") or []
-        if errors:
+        blocking, warnings = _split_errors_by_level(it.get("errors") or [])
+        if blocking:
             total_err += 1
-            print(f"  ОШИБКА {it.get('offer_id')}: {errors}")
+            print(f"  ОШИБКА {it.get('offer_id')}: {blocking}")
         else:
             total_ok += 1
-            print(f"  ОК {it.get('offer_id')}: статус {it.get('status')}")
+            note = f" (предупреждение: {warnings})" if warnings else ""
+            print(f"  ОК {it.get('offer_id')}: статус {it.get('status')}{note}")
     print(f"\nИтого: успешно {total_ok}, с ошибками {total_err}")
     if total_ok:
         print("Не забудьте выполнить fetch-ozon ещё раз, чтобы новые товары попали в общий каталог.")
