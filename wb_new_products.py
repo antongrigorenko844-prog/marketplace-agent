@@ -191,11 +191,24 @@ def build_new_card_groups(wb_data: dict, edits: Dict[str, dict], barcodes: List[
         sample_size = sample_sizes[0] if sample_sizes else {}
         price = edit.get("price")
         price = price if price not in (None, "") else sample_size.get("price", 0)
-        new_size = dict(sample_size)
-        new_size["price"] = price
-        new_size["skus"] = [barcode]
+        # Берём у образца только техразмер (для настоящих деталей обычно
+        # заглушка "0"/пусто) — служебные поля вроде chrtID (внутренний ID
+        # WB для УЖЕ СУЩЕСТВУЮЩЕГО размера образца) переиспользовать нельзя,
+        # для нового товара их не отправляем вообще.
+        new_size = {
+            "techSize": sample_size.get("techSize", "0"),
+            "wbSize": sample_size.get("wbSize", ""),
+            "price": price,
+            "skus": [barcode],
+        }
 
-        dimensions = dict(sample.get("dimensions") or {})
+        dimensions_raw = dict(sample.get("dimensions") or {})
+        dimensions = {
+            "length": dimensions_raw.get("length", 0),
+            "width": dimensions_raw.get("width", 0),
+            "height": dimensions_raw.get("height", 0),
+            "weightBrutto": dimensions_raw.get("weightBrutto", 0),
+        }
         if edit.get("length_cm") not in (None, ""):
             dimensions["length"] = edit.get("length_cm")
         if edit.get("width_cm") not in (None, ""):
