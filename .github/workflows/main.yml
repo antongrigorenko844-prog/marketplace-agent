@@ -36,6 +36,13 @@ on:
           - attach-wb-photos
           - push-wb-cards-dryrun
           - push-wb-cards
+                    - build-ozon-new-template
+          - attach-ozon-new-photos
+          - push-ozon-new-cards-dryrun
+          - push-ozon-new-cards
+          - build-wb-new-template
+          - push-wb-new-cards-dryrun
+          - push-wb-new-cards
 
 jobs:
   run:
