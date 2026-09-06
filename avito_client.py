@@ -156,7 +156,7 @@ def get_orders(
 
     statuses — например ["ready_to_ship", "in_transit", "delivered", "closed"].
     """
-    PATH = "/order-management/2/orders"  # ENDPOINT: уточнить в кабинете, см. предупреждение выше
+    PATH = "/order-management/1/orders"  # ENDPOINT: подтверждено (GET /order-management/1/orders)
     params: Dict[str, object] = {"page": page, "limit": limit}
     if date_from:
         params["dateFrom"] = date_from
