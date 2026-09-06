@@ -582,7 +582,8 @@ def cmd_fetch_avito_orders() -> int:
     import datetime
     import avito_client
 
-    date_from = (datetime.date.today() - datetime.timedelta(days=30)).isoformat()
+    since = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=30)
+    date_from = int(since.timestamp())
     try:
         orders = avito_client.get_orders(date_from=date_from)
     except avito_client.AvitoApiError as exc:
