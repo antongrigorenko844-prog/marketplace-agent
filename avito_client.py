@@ -140,31 +140,45 @@ def _request(method: str, path: str, retries: int = 3, **kwargs) -> dict:
 
 
 def get_orders(
-    date_from: Optional[str] = None,
+    date_from: Optional[int] = None,
     statuses: Optional[List[str]] = None,
-    page: int = 1,
-    limit: int = 100,
+    max_pages: int = 50,
 ) -> List[dict]:
     """
-    Список заказов Авито Доставки. Требует тариф "Бизнес" на стороне Авито —
-    если его нет, ожидаемо вернёт ошибку доступа (AvitoApiError), это не баг.
+    Список заказов Авито Доставки, ВСЕ страницы сразу (перебирает их сама).
+    Путь подтверждён (GET /order-management/1/orders отвечает 200/400, а не
+    403/404 — значит доступ к этому разделу API есть).
 
-    ВНИМАНИЕ: точный путь эндпоинта НЕ подтверждён официальной документацией
-    из песочницы (см. предупреждение в начале файла) — если получите 404,
-    посмотрите актуальный путь в личном кабинете (Настройки -> Avito API ->
-    документация, раздел "Заказы"/"Авито Доставка") и поправьте PATH ниже.
+    date_from — unix-время в СЕКУНДАХ (целое число), НЕ строка с датой:
+    Avito вернёт 400 "Invalid Integer Value" на строку вида "2026-08-07".
+    Используйте int(datetime.timestamp()), см. вызов в main.py.
 
     statuses — например ["ready_to_ship", "in_transit", "delivered", "closed"].
+
+    ВАЖНО: у Avito максимум 20 заказов на странице (limit > 20 -> 400 "greater
+    than max = 20") — поэтому здесь фиксированный limit=20 и цикл по page,
+    пока страница не вернёт меньше 20 штук (или до max_pages, на всякий
+    случай, чтобы не уйти в бесконечный цикл при неожиданном ответе).
     """
     PATH = "/order-management/1/orders"  # ENDPOINT: подтверждено (GET /order-management/1/orders)
-    params: Dict[str, object] = {"page": page, "limit": limit}
-    if date_from:
-        params["dateFrom"] = date_from
-    if statuses:
-        params["statuses"] = ",".join(statuses)
+    PAGE_SIZE = 20  # ENDPOINT: подтверждено (limit > 20 -> 400 "greater than max = 20")
 
-    data = _request("GET", PATH, params=params)
-    return data.get("orders") or data.get("result") or []
+    all_orders: List[dict] = []
+    for page in range(1, max_pages + 1):
+        params: Dict[str, object] = {"page": page, "limit": PAGE_SIZE}
+        if date_from is not None:
+            params["dateFrom"] = int(date_from)
+        if statuses:
+            params["statuses"] = ",".join(statuses)
+
+        data = _request("GET", PATH, params=params)
+        batch = data.get("orders") or data.get("result") or []
+        if not batch:
+            break
+        all_orders.extend(batch)
+        if len(batch) < PAGE_SIZE:
+            break
+    return all_orders
 
 
 def get_stock_info(item_ids: List[int]) -> List[dict]:
