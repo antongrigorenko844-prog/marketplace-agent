@@ -1,0 +1,85 @@
+# Ручной запуск через GitHub Actions — так же, как в проекте realty-agent,
+# потому что напрямую с вашего компьютера до API Ozon/WB/Avito достучаться
+# нельзя, а у GitHub Actions есть полный доступ в интернет.
+#
+# Как запустить: вкладка Actions -> marketplace-agent -> Run workflow ->
+# выбрать команду из списка -> Run workflow.
+#
+# Перед использованием (см. README):
+# 1. Settings -> Secrets and variables -> Actions -> добавить секреты:
+#    OZON_CLIENT_ID, OZON_API_KEY, WB_API_TOKEN, WB_WAREHOUSE_ID (позже)
+# 2. Settings -> Actions -> General -> Workflow permissions ->
+#    "Read and write permissions" (чтобы сохранять data/ обратно в репозиторий).
+
+name: marketplace-agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: "Что запустить"
+        required: true
+        default: "test-ozon"
+        type: choice
+        options:
+          - test-ozon
+          - test-wb
+          - fetch-ozon
+          - fetch-wb
+          - wb-warehouses
+          - build-ozon-catalog
+          - attach-ozon-photos
+          - push-ozon-cards-dryrun
+          - push-ozon-cards
+          - compare-ozon-wb
+          - build-wb-catalog
+          - attach-wb-photos
+          - push-wb-cards-dryrun
+          - push-wb-cards
+          - build-ozon-new-template
+          - attach-ozon-new-photos
+          - push-ozon-new-cards-dryrun
+          - push-ozon-new-cards
+          - build-wb-new-template
+          - push-wb-new-cards-dryrun
+          - push-wb-new-cards
+          - test-avito
+          - fetch-avito-orders
+          - list-avito-items
+          - build-avito-item-map
+          - save-avito-item-map
+          - sync-orders
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run command
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python main.py --${{ github.event.inputs.command }}
+
+      - name: Save data/ back to repo
+        run: |
+          git config user.name "marketplace-agent-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/ || true
+          git diff --cached --quiet || git commit -m "chore: update data [skip ci]"
+          git push || true

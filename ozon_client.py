@@ -243,10 +243,13 @@ def get_import_status(task_id: int) -> dict:
 
 def get_fbs_orders_since(since_iso: str, to_iso: str) -> List[dict]:
     """
-    Новые заказы FBS за период — используется для автоматического списания
-    остатков при продаже (см. sync_orders.py).
+    Заказы FBS (продавец сам хранит и отгружает товар) за период —
+    используется для автоматического списания остатков при продаже (см.
+    stock_sync.py). Каждый posting содержит "products": [{"offer_id",
+    "sku", "quantity", "name", "price"}, ...] — offer_id совпадает с
+    артикулом в вашем каталоге, сопоставление автоматическое.
     """
-    # ENDPOINT: POST /v3/posting/fbs/list
+    # ENDPOINT: POST /v3/posting/fbs/list — result.postings (подтверждено)
     data = _post(
         "/v3/posting/fbs/list",
         {
@@ -258,6 +261,39 @@ def get_fbs_orders_since(since_iso: str, to_iso: str) -> List[dict]:
         },
     )
     return data.get("result", {}).get("postings", [])
+
+
+def get_fbo_orders_since(since_iso: str, to_iso: str) -> List[dict]:
+    """
+    Заказы FBO (товар хранится на складе Ozon) за период — тот же смысл,
+    что get_fbs_orders_since, но другой склад/схема доставки, поэтому у
+    Ozon это отдельный метод с отдельным путём. Формат posting/products —
+    такой же (products[].offer_id/quantity).
+
+    ВАЖНО: путь версионируется отдельно от FBS (v2, не v3), и, по имеющимся
+    данным, ответ отдаёт список сразу в "result" (без вложенного
+    "postings", в отличие от FBS) — если Ozon вернёт пустой список там, где
+    заказы точно есть, в первую очередь проверьте здесь форму ответа
+    (напечатайте сырой data через test-ozon-fbo или добавьте отладочный
+    print) — это НЕ проверено напрямую в живой документации, в отличие от
+    get_fbs_orders_since.
+    """
+    # ENDPOINT: POST /v2/posting/fbo/list
+    data = _post(
+        "/v2/posting/fbo/list",
+        {
+            "dir": "ASC",
+            "filter": {"since": since_iso, "to": to_iso},
+            "limit": 1000,
+            "offset": 0,
+            "translit": False,
+            "with": {"analytics_data": False, "financial_data": False},
+        },
+    )
+    result = data.get("result", [])
+    if isinstance(result, dict):
+        result = result.get("postings", [])
+    return result
 
 
 def test_connection() -> bool:

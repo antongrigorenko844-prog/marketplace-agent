@@ -41,6 +41,10 @@ class Config:
     wb_content_base: str = os.getenv("WB_CONTENT_BASE", "https://content-api.wildberries.ru")
     wb_prices_base: str = os.getenv("WB_PRICES_BASE", "https://discounts-prices-api.wildberries.ru")
     wb_marketplace_base: str = os.getenv("WB_MARKETPLACE_BASE", "https://marketplace-api.wildberries.ru")
+    # Statistics API — отдельный хост, полная история заказов/продаж (в
+    # отличие от marketplace_api, который отдаёт только НЕподтверждённые
+    # новые сборочные задания). Нужен для общего учёта остатков.
+    wb_statistics_base: str = os.getenv("WB_STATISTICS_BASE", "https://statistics-api.wildberries.ru")
     # ID склада продавца для остатков по схеме FBS — узнаётся через API складов,
     # заполняется после первого запуска (см. README, раздел про WB).
     wb_warehouse_id: str = os.getenv("WB_WAREHOUSE_ID", "")

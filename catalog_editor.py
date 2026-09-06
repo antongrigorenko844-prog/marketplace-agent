@@ -69,6 +69,7 @@ ATTR_ID_NAME_MIRROR = 4180
 ATTR_ID_DESCRIPTION = 4191
 
 IMAGE_EXTS = {".jpg", ".jpeg", ".png"}
+VIDEO_EXTS = {".mp4", ".mov"}
 
 
 def _photo_index(fname: str, offer_id: str) -> int:
@@ -115,7 +116,14 @@ def attach_local_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "")
     оказалась ненадёжной на практике (см. photo_host.py); параметр оставлен
     только для обратной совместимости вызова и не используется.
 
-    Возвращает offer_id -> список подставленных ссылок (для вывода в лог).
+    ВИДЕО — по тому же принципу: если в photos_dir лежит файл с тем же
+    артикулом и расширением .mp4/.mov (например "143210608_video.mp4" или
+    просто "143210608.mp4"), он тоже загружается и подставляется в колонку
+    "Видео" автоматически, отдельно заливать ссылку не нужно. Если видео-
+    файлов для одного артикула нашлось несколько — используется первый по
+    алфавиту, в лог выводится предупреждение.
+
+    Возвращает offer_id -> список подставленных ссылок на фото (для вывода в лог).
     """
     import photo_host
 
@@ -124,8 +132,10 @@ def attach_local_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "")
 
     offer_id_col_idx = 1
     images_col_idx = next(i for i, (key, _) in enumerate(COLUMNS, start=1) if key == "images")
+    video_col_idx = next((i for i, (key, _) in enumerate(COLUMNS, start=1) if key == "video_url"), None)
 
     files = [f for f in os.listdir(photos_dir) if os.path.splitext(f)[1].lower() in IMAGE_EXTS]
+    video_files = [f for f in os.listdir(photos_dir) if os.path.splitext(f)[1].lower() in VIDEO_EXTS]
 
     matched: Dict[str, List[str]] = {}
     for row in ws.iter_rows(min_row=2):
@@ -139,22 +149,50 @@ def attach_local_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "")
             for f in files
             if f.startswith(offer_id + "_") or f == offer_id + os.path.splitext(f)[1]
         ]
-        if not own_files:
-            continue
-        own_files.sort(key=lambda f: _photo_index(f, offer_id))
+        if own_files:
+            own_files.sort(key=lambda f: _photo_index(f, offer_id))
 
-        urls = []
-        for f in own_files:
-            try:
-                url = photo_host.upload_file(os.path.join(photos_dir, f))
-            except Exception as exc:
-                logger.warning("%s: не удалось загрузить фото %s: %s", offer_id, f, exc)
-                continue
-            urls.append(url)
-        if not urls:
-            continue
-        row[images_col_idx - 1].value = "|".join(urls)
-        matched[offer_id] = urls
+            urls = []
+            for f in own_files:
+                try:
+                    url = photo_host.upload_file(os.path.join(photos_dir, f))
+                except Exception as exc:
+                    logger.warning("%s: не удалось загрузить фото %s: %s", offer_id, f, exc)
+                    continue
+                urls.append(url)
+            if urls:
+                # ЗАМЕНЯЕМ содержимое колонки "Фото" целиком новым набором —
+                # старые (уже висящие на маркетплейсе) фото этого товара не
+                # нужны и должны уйти, если для него нашёлся новый комплект.
+                #
+                # Чтобы вместо замены ДОБАВИТЬ фото к уже висящим на
+                # маркетплейсе, ничего не убирая (например одно сравнительное
+                # фото к готовой карточке) — включите в сам локальный набор
+                # own_files также копии текущих файлов этого товара (тогда
+                # они просто окажутся частью нового набора и не потеряются).
+                row[images_col_idx - 1].value = "|".join(urls)
+                matched[offer_id] = urls
+
+        if video_col_idx:
+            own_videos = [
+                f
+                for f in video_files
+                if f.startswith(offer_id + "_") or f == offer_id + os.path.splitext(f)[1]
+            ]
+            if own_videos:
+                own_videos.sort()
+                if len(own_videos) > 1:
+                    logger.warning(
+                        "%s: нашлось несколько видеофайлов (%s) — использован первый: %s",
+                        offer_id,
+                        ", ".join(own_videos),
+                        own_videos[0],
+                    )
+                try:
+                    video_url = photo_host.upload_file(os.path.join(photos_dir, own_videos[0]))
+                    row[video_col_idx - 1].value = video_url
+                except Exception as exc:
+                    logger.warning("%s: не удалось загрузить видео %s: %s", offer_id, own_videos[0], exc)
 
     wb.save(xlsx_path)
     return matched
@@ -217,9 +255,27 @@ def build_ozon_catalog(data: dict, xlsx_path: str) -> int:
     Строит редактируемый xlsx из уже загруженного data/ozon_products.json
     (словарь с ключами 'list', 'details', 'names'). Возвращает количество
     товаров, записанных в файл.
+
+    ВАЖНО (добавлено вместе с общим учётом остатков, см. stock_sync.py):
+    колонки "Кол-во к продаже" и "Заметки" — это ЕДИНЫЙ источник истины по
+    остатку, который заполняете вы и/или автоматически уменьшает
+    stock_sync.py при новых заказах. Если xlsx_path уже существует, эти две
+    колонки СОХРАНЯЮТСЯ по offer_id при пересборке (а не затираются пустотой)
+    — иначе каждый build-ozon-catalog (обновление названий/цен/фото) обнулял
+    бы весь накопленный остаток и историю решений по нему.
     """
     names_by_offer = {n.get("offer_id"): n for n in data.get("names", []) if n.get("offer_id")}
     details_by_offer = {d.get("offer_id"): d for d in data.get("details", []) if d.get("offer_id")}
+
+    existing_by_offer: Dict[str, dict] = {}
+    if os.path.exists(xlsx_path):
+        try:
+            existing_by_offer = load_catalog_edits(xlsx_path)
+        except Exception as exc:
+            logger.warning(
+                "Не удалось прочитать существующий %s, чтобы сохранить остатки/заметки "
+                "при пересборке — они будут пустыми: %s", xlsx_path, exc,
+            )
 
     wb = Workbook()
     ws = wb.active
@@ -242,7 +298,15 @@ def build_ozon_catalog(data: dict, xlsx_path: str) -> int:
         old_price = price_block.get("old_price", "")
         images_str = "|".join(_extract_images(n))
 
-        row_values = [offer_id, name, description, price, old_price, images_str, "", "", ""]
+        prev = existing_by_offer.get(offer_id, {})
+        prev_qty = prev.get("quantity_to_sell")
+        prev_notes = prev.get("notes")
+
+        row_values = [
+            offer_id, name, description, price, old_price, images_str, "",
+            prev_qty if prev_qty not in (None, "") else "",
+            prev_notes if prev_notes not in (None, "") else "",
+        ]
         for col_idx, value in enumerate(row_values, start=1):
             cell = ws.cell(row=row_idx, column=col_idx, value=value)
             cell.font = NORMAL_FONT
@@ -293,6 +357,72 @@ def load_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
             "notes": raw.get("notes"),
         }
     return edits
+
+
+def get_stock_levels(xlsx_path: str) -> Dict[str, int]:
+    """
+    offer_id -> текущее "Кол-во к продаже" (0, если пусто/не число) — общий
+    остаток для stock_sync.py. Единственный источник истины по остатку.
+    """
+    edits = load_catalog_edits(xlsx_path)
+    out: Dict[str, int] = {}
+    for offer_id, e in edits.items():
+        raw = e.get("quantity_to_sell")
+        try:
+            out[offer_id] = int(raw) if raw not in (None, "") else 0
+        except (TypeError, ValueError):
+            out[offer_id] = 0
+    return out
+
+
+def apply_stock_deltas(xlsx_path: str, deltas: Dict[str, int]) -> Dict[str, int]:
+    """
+    Прибавляет (или отнимает — отрицательное значение) целые числа из
+    deltas к колонке "Кол-во к продаже" по offer_id, прямо в файле на
+    диске (не пересоздавая остальные колонки/форматирование). Остаток не
+    уходит ниже 0. Offer_id, которых нет в файле, пропускаются с
+    предупреждением в логе (typично — заказ по артикулу, которого ещё нет
+    в каталоге, требует ручной проверки).
+    Возвращает (offer_id -> новое значение остатка [только для изменённых
+    строк], список offer_id из deltas, которых не нашлось в файле).
+    """
+    if not deltas:
+        return {}, []
+
+    quantity_col_idx = next(i for i, (key, _) in enumerate(COLUMNS, start=1) if key == "quantity_to_sell")
+
+    wb = load_workbook(xlsx_path)
+    ws = wb.active
+
+    remaining = dict(deltas)
+    new_values: Dict[str, int] = {}
+    for row in ws.iter_rows(min_row=2):
+        offer_id_cell = row[0]
+        if not offer_id_cell.value:
+            continue
+        offer_id = str(offer_id_cell.value).strip()
+        if offer_id not in remaining:
+            continue
+        delta = remaining.pop(offer_id)
+        qty_cell = row[quantity_col_idx - 1]
+        try:
+            current = int(qty_cell.value) if qty_cell.value not in (None, "") else 0
+        except (TypeError, ValueError):
+            current = 0
+        new_qty = max(0, current + delta)
+        qty_cell.value = new_qty
+        qty_cell.fill = EDIT_FILL
+        new_values[offer_id] = new_qty
+
+    if remaining:
+        logger.warning(
+            "stock_sync: %d артикул(ов) из заказов не найдены в %s (нет такой строки) — "
+            "остаток не изменён, нужна ручная проверка: %s",
+            len(remaining), xlsx_path, ", ".join(sorted(remaining)),
+        )
+
+    wb.save(xlsx_path)
+    return new_values, sorted(remaining)
 
 
 # --- Видео (ЭКСПЕРИМЕНТАЛЬНО, см. README) ---------------------------------

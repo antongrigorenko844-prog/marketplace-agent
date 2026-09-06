@@ -619,6 +619,117 @@ def cmd_list_avito_items() -> int:
     return 0
 
 
+def cmd_build_avito_item_map() -> int:
+    """
+    Собрать data/avito_item_map.xlsx: все объявления Avito + подсказка по
+    совпадению с вашим каталогом (data/ozon_catalog.xlsx). Ничего не
+    подтверждает само — только предлагает, колонку "ПОДТВЕРЖДЁННЫЙ АРТИКУЛ"
+    заполняете/проверяете вы сами.
+    """
+    import avito_client
+    import avito_item_map
+
+    catalog_path = _data_path("ozon_catalog.xlsx")
+    if not os.path.exists(catalog_path):
+        print(f"Нет файла {catalog_path} — сначала выполните fetch-ozon и build-ozon-catalog.")
+        return 1
+    catalog = avito_item_map.load_catalog(catalog_path)
+
+    try:
+        items = avito_client.list_all_items()
+    except avito_client.AvitoApiError as exc:
+        print(f"ОШИБКА при получении списка объявлений Avito: {exc}")
+        return 1
+    if not items:
+        print("Avito вернул пустой список объявлений.")
+        return 1
+
+    xlsx_path = _data_path("avito_item_map.xlsx")
+    count = avito_item_map.build_item_map_template(items, catalog, xlsx_path)
+    print(f"Готово: {count} объявлений Avito -> {xlsx_path}.")
+    print("Откройте файл, проверьте/заполните колонку 'ПОДТВЕРЖДЁННЫЙ АРТИКУЛ' и сохраните обратно, "
+          "потом выполните save-avito-item-map.")
+    return 0
+
+
+def cmd_save_avito_item_map() -> int:
+    """
+    Прочитать заполненный data/avito_item_map.xlsx и сохранить подтверждённое
+    сопоставление avitoId -> offer_id в data/avito_item_map.json.
+    """
+    import avito_item_map
+
+    xlsx_path = _data_path("avito_item_map.xlsx")
+    if not os.path.exists(xlsx_path):
+        print(f"Нет файла {xlsx_path} — сначала выполните build-avito-item-map и заполните его.")
+        return 1
+    mapping = avito_item_map.load_confirmed_map(xlsx_path)
+    if not mapping:
+        print("Колонка 'ПОДТВЕРЖДЁННЫЙ АРТИКУЛ' пуста везде — нечего сохранять.")
+        return 1
+    path = _data_path("avito_item_map.json")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(mapping, f, ensure_ascii=False, indent=2)
+    print(f"Сохранено {len(mapping)} подтверждённых соответствий avitoId -> артикул в {path}")
+    return 0
+
+
+def cmd_sync_orders() -> int:
+    """
+    Общий учёт остатков: забрать заказы за последние 30 дней с Ozon (FBS+FBO)
+    и WB (полная история через Statistics API — не только новые), списать
+    проданное с "Кол-во к продаже" в data/ozon_catalog.xlsx (с учётом
+    отмен — если заказ отменили, остаток вернётся обратно), и НЕ задвоить
+    списание при повторном запуске (data/orders_seen.db).
+
+    Avito сюда пока не входит — там сопоставление объявление->артикул
+    требует подтверждения человеком (см. build-avito-item-map), а для новых
+    объявлений такая карта ещё не собрана.
+
+    Это только СЧИТАЕТ и правит локальный xlsx. Рассылка обновлённого
+    остатка обратно в Ozon/WB — отдельный следующий шаг.
+    """
+    import stock_sync
+
+    xlsx_path = _data_path("ozon_catalog.xlsx")
+    try:
+        summary = stock_sync.sync_all_orders(days_back=30, catalog_path=xlsx_path)
+    except FileNotFoundError as exc:
+        print(str(exc))
+        return 1
+
+    print("Заказов разобрано:")
+    print(f"  Ozon FBS: {summary.get('ozon_fbs', 'ошибка — см. ниже')}")
+    if "ozon_fbs_error" in summary:
+        print(f"    ОШИБКА Ozon FBS: {summary['ozon_fbs_error']}")
+    print(f"  Ozon FBO: {summary.get('ozon_fbo', 'ошибка — см. ниже')}")
+    if "ozon_fbo_error" in summary:
+        print(f"    ОШИБКА Ozon FBO: {summary['ozon_fbo_error']}")
+    print(f"  WB: {summary.get('wb', 'ошибка — см. ниже')}")
+    if "wb_error" in summary:
+        print(f"    ОШИБКА WB: {summary['wb_error']}")
+
+    deltas = summary.get("deltas") or {}
+    if not deltas:
+        print("\nНовых изменений остатка нет (нечего списывать/возвращать за этот период).")
+        return 0
+
+    print(f"\nИзменения остатка ({len(deltas)} артикул(ов)):")
+    applied = summary.get("applied") or {}
+    for offer_id, delta in sorted(deltas.items()):
+        new_qty = applied.get(offer_id, "?")
+        sign = "+" if delta > 0 else ""
+        print(f"  {offer_id}: {sign}{delta}  -> новый остаток: {new_qty}")
+
+    unmatched = summary.get("unmatched") or []
+    if unmatched:
+        print(f"\nВНИМАНИЕ: {len(unmatched)} артикул(ов) из заказов НЕ найдены в каталоге "
+              f"(остаток не изменён, проверьте вручную): {', '.join(unmatched)}")
+
+    print(f"\nОбновлено: {xlsx_path}")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Синхронизация карточек Ozon/WB/Avito/Яндекс")
     parser.add_argument("--test-ozon", action="store_true")
@@ -629,6 +740,8 @@ def main() -> int:
     parser.add_argument("--test-avito", action="store_true", help="Проверить доступ к Avito API (AVITO_CLIENT_ID/AVITO_CLIENT_SECRET)")
     parser.add_argument("--fetch-avito-orders", action="store_true", help="Получить заказы Авито Доставки за 30 дней в data/avito_orders.json")
     parser.add_argument("--list-avito-items", action="store_true", help="Показать сырой список объявлений Avito (диагностика сопоставления с артикулом)")
+    parser.add_argument("--build-avito-item-map", action="store_true", help="Собрать data/avito_item_map.xlsx: объявления Avito + подсказка по совпадению с каталогом")
+    parser.add_argument("--save-avito-item-map", action="store_true", help="Сохранить подтверждённое сопоставление avitoId->артикул в data/avito_item_map.json")
     parser.add_argument("--build-ozon-catalog", action="store_true", help="Собрать data/ozon_catalog.xlsx для редактирования карточек (название, описание, цена, фото)")
     parser.add_argument("--attach-ozon-photos", action="store_true", help="Подставить в xlsx ссылки на фото из папки photos/ по имени файла (offer_id_1.jpg и т.п.)")
     parser.add_argument("--push-ozon-cards-dryrun", action="store_true", help="Показать, что будет отправлено в Ozon, БЕЗ реальной отправки")
@@ -645,6 +758,7 @@ def main() -> int:
     parser.add_argument("--attach-wb-photos", action="store_true", help="Подставить в wb_catalog.xlsx ссылки на фото из папки photos/ по имени файла")
     parser.add_argument("--push-wb-cards-dryrun", action="store_true", help="Показать, что будет отправлено в WB, БЕЗ реальной отправки")
     parser.add_argument("--push-wb-cards", action="store_true", help="Реально отправить правки карточек WB (сначала всегда делайте dryrun!)")
+    parser.add_argument("--sync-orders", action="store_true", help="Общий учёт остатков: списать заказы Ozon+WB за 30 дней из 'Кол-во к продаже' в data/ozon_catalog.xlsx")
     args = parser.parse_args()
 
     if args.test_ozon:
@@ -663,6 +777,10 @@ def main() -> int:
         return cmd_fetch_avito_orders()
     if args.list_avito_items:
         return cmd_list_avito_items()
+    if args.build_avito_item_map:
+        return cmd_build_avito_item_map()
+    if args.save_avito_item_map:
+        return cmd_save_avito_item_map()
     if args.build_ozon_catalog:
         return cmd_build_ozon_catalog()
     if args.attach_ozon_photos:
@@ -695,6 +813,8 @@ def main() -> int:
         return cmd_push_wb_cards_dryrun()
     if args.push_wb_cards:
         return cmd_push_wb_cards()
+    if args.sync_orders:
+        return cmd_sync_orders()
 
     parser.print_help()
     return 0

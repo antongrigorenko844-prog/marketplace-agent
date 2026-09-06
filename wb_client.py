@@ -193,17 +193,76 @@ def get_warehouses() -> List[dict]:
 
 
 def update_stocks(warehouse_id: str, items: List[dict]) -> dict:
-    """items: [{"sku": "артикул-продавца", "amount": 5}, ...]"""
+    """
+    items: [{"sku": "<ШТРИХКОД>", "amount": 5}, ...]
+
+    ВАЖНО (исправлено при добавлении общего учёта остатков, см.
+    stock_sync.py): несмотря на название поля "sku", WB ждёт здесь
+    ШТРИХКОД товара (то, что в карточке хранится в sizes[].skus), а НЕ
+    артикул продавца (vendorCode/offer_id) — подтверждено официальным
+    описанием метода ("Массив баркодов товаров и их остатков"). Чтобы
+    обновить остаток по своему артикулу, сначала переведите его в штрихкод
+    через get_offer_barcode_map().
+    """
     # ENDPOINT: PUT /api/v3/stocks/{warehouseId}
     return _request(
         "PUT", config.wb_marketplace_base, f"/api/v3/stocks/{warehouse_id}", {"stocks": items}
     )
 
 
+def get_offer_barcode_map() -> Dict[str, str]:
+    """
+    Артикул продавца (vendorCode = offer_id из вашего каталога) -> штрихкод
+    первого размера/варианта его карточки WB. Нужно только для
+    update_stocks() (см. комментарий там). Берёт первую попавшуюся
+    карточку/размер/штрихкод — для товаров без размерной сетки (наш
+    случай: запчасти) там ровно один вариант и один штрихкод.
+    """
+    out: Dict[str, str] = {}
+    for card in list_cards():
+        vendor_code = card.get("vendorCode")
+        if not vendor_code:
+            continue
+        for size in card.get("sizes") or []:
+            skus = size.get("skus") or []
+            if skus:
+                out[str(vendor_code).strip()] = str(skus[0]).strip()
+                break
+    return out
+
+
 def get_new_orders() -> List[dict]:
     """Новые заказы FBS, ещё не подтверждённые — для автоматического списания остатков."""
     # ENDPOINT: GET /api/v3/orders/new
     return _request("GET", config.wb_marketplace_base, "/api/v3/orders/new").get("orders", [])
+
+
+def get_orders_since(date_from_iso: str) -> List[dict]:
+    """
+    ПОЛНАЯ история заказов (Statistics API, отдельный хост) — в отличие от
+    get_new_orders() отдаёт ВСЕ заказы за период, включая уже обработанные
+    и отменённые, а не только текущие неподтверждённые. Именно этот метод
+    нужен для учёта продаж/списания остатков (см. stock_sync.py).
+
+    date_from_iso — RFC3339, например "2026-08-01" или
+    "2026-08-01T00:00:00" (часовой пояс — московский). Возвращает список
+    строк заказов; ключевые поля (подтверждено официальным описанием
+    метода): supplierArticle (= ваш offer_id, сопоставление автоматическое,
+    без ручного подтверждения), nmId, isCancel, date, srid (уникальный ID
+    заказа — используйте его для дедупликации).
+
+    ВАЖНО: метод отдаёт ОДНУ СТРОКУ НА КАЖДУЮ ЕДИНИЦУ ТОВАРА (не
+    агрегирует по количеству) — поэтому здесь количество не читается из
+    отдельного поля "quantity" (в этом методе такого поля обычно нет),
+    просто одна строка = 1 штука; stock_sync.py считает строки.
+    """
+    # ENDPOINT: GET /api/v1/supplier/orders — подтверждено официальным описанием
+    data = _request(
+        "GET", config.wb_statistics_base, f"/api/v1/supplier/orders?dateFrom={date_from_iso}"
+    )
+    if isinstance(data, list):
+        return data
+    return data.get("data", data.get("orders", []))
 
 
 def test_connection() -> bool:
