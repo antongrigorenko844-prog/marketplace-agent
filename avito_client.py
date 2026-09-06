@@ -181,6 +181,21 @@ def get_orders(
     return all_orders
 
 
+def list_items(page: int = 1, per_page: int = 25, statuses: Optional[List[str]] = None) -> dict:
+    """
+    Список объявлений продавца — нужен, чтобы понять, как сопоставить
+    avitoId из заказа (см. get_orders) с нашим собственным артикулом
+    (offer_id). Возвращает СЫРОЙ ответ API целиком (не только список), пока
+    мы не знаем точных полей — main.py --list-avito-items печатает его как
+    есть, чтобы можно было увидеть реальную структуру.
+    """
+    PATH = "/core/v1/items"  # ENDPOINT: см. предупреждение в начале файла
+    params: Dict[str, object] = {"page": page, "per_page": per_page}
+    if statuses:
+        params["status"] = ",".join(statuses)
+    return _request("GET", PATH, params=params)
+
+
 def get_stock_info(item_ids: List[int]) -> List[dict]:
     """
     Текущие остатки по списку ID объявлений Avito.

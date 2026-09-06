@@ -602,6 +602,23 @@ def cmd_fetch_avito_orders() -> int:
     return 0
 
 
+def cmd_list_avito_items() -> int:
+    """
+    Показать сырой ответ Avito по объявлениям продавца — чтобы увидеть,
+    есть ли там наш собственный артикул (или только avitoId и заголовок,
+    как в заказах) и как их сопоставлять.
+    """
+    import avito_client
+
+    try:
+        data = avito_client.list_items(per_page=25)
+    except avito_client.AvitoApiError as exc:
+        print(f"ОШИБКА при получении списка объявлений Avito: {exc}")
+        return 1
+    print(json.dumps(data, ensure_ascii=False, indent=2))
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Синхронизация карточек Ozon/WB/Avito/Яндекс")
     parser.add_argument("--test-ozon", action="store_true")
@@ -611,6 +628,7 @@ def main() -> int:
     parser.add_argument("--wb-warehouses", action="store_true", help="Показать склады продавца на WB (для WB_WAREHOUSE_ID)")
     parser.add_argument("--test-avito", action="store_true", help="Проверить доступ к Avito API (AVITO_CLIENT_ID/AVITO_CLIENT_SECRET)")
     parser.add_argument("--fetch-avito-orders", action="store_true", help="Получить заказы Авито Доставки за 30 дней в data/avito_orders.json")
+    parser.add_argument("--list-avito-items", action="store_true", help="Показать сырой список объявлений Avito (диагностика сопоставления с артикулом)")
     parser.add_argument("--build-ozon-catalog", action="store_true", help="Собрать data/ozon_catalog.xlsx для редактирования карточек (название, описание, цена, фото)")
     parser.add_argument("--attach-ozon-photos", action="store_true", help="Подставить в xlsx ссылки на фото из папки photos/ по имени файла (offer_id_1.jpg и т.п.)")
     parser.add_argument("--push-ozon-cards-dryrun", action="store_true", help="Показать, что будет отправлено в Ozon, БЕЗ реальной отправки")
@@ -643,6 +661,8 @@ def main() -> int:
         return cmd_test_avito()
     if args.fetch_avito_orders:
         return cmd_fetch_avito_orders()
+    if args.list_avito_items:
+        return cmd_list_avito_items()
     if args.build_ozon_catalog:
         return cmd_build_ozon_catalog()
     if args.attach_ozon_photos:
