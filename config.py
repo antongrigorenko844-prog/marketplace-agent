@@ -63,12 +63,18 @@ class Config:
         "DB_PATH", os.path.join(os.path.dirname(__file__), "data", "orders_seen.db")
     )
 
-    # --- Avito (автозагрузка через фид, без API-ключа) ---
+    # --- Avito: простая автозагрузка через XML-фид (без ключей) ---
     avito_feed_path: str = os.getenv(
         "AVITO_FEED_PATH", os.path.join(os.path.dirname(__file__), "data", "avito_feed.xml")
     )
     # Название компании/профиля продавца — должно совпадать с тем, что в кабинете Avito.
     avito_seller_name: str = os.getenv("AVITO_SELLER_NAME", "")
+
+    # --- Avito API (OAuth client_credentials) — заказы Авито Доставки + остатки ---
+    # Получаются в личном кабинете: Настройки -> Avito API -> Регистрация приложения.
+    avito_client_id: str = os.getenv("AVITO_CLIENT_ID", "")
+    avito_client_secret: str = os.getenv("AVITO_CLIENT_SECRET", "")
+    avito_api_base: str = os.getenv("AVITO_API_BASE", "https://api.avito.ru")
 
     # --- Прочее ---
     request_timeout_seconds: int = _get_int("REQUEST_TIMEOUT_SECONDS", 30)
