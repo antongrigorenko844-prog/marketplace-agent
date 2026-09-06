@@ -43,6 +43,8 @@ on:
           - build-wb-new-template
           - push-wb-new-cards-dryrun
           - push-wb-new-cards
+          - test-avito
+          - fetch-avito-orders
 
 jobs:
   run:
@@ -64,6 +66,8 @@ jobs:
           OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
           WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
           WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python main.py --${{ github.event.inputs.command }}
