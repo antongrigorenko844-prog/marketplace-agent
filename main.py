@@ -556,6 +556,51 @@ def cmd_wb_warehouses() -> int:
     return 0
 
 
+def cmd_test_avito() -> int:
+    """
+    Проверка доступа к Avito API: только получение токена (без реальных
+    запросов заказов/остатков) — чтобы убедиться, что AVITO_CLIENT_ID /
+    AVITO_CLIENT_SECRET внесены верно, ДО того как пробовать что-то ещё.
+    """
+    import avito_client
+
+    try:
+        avito_client._get_token()
+    except avito_client.AvitoApiError as exc:
+        print(f"ОШИБКА доступа к Avito API: {exc}")
+        return 1
+    print("OK: токен Avito API получен успешно — AVITO_CLIENT_ID/AVITO_CLIENT_SECRET верны.")
+    return 0
+
+
+def cmd_fetch_avito_orders() -> int:
+    """
+    Получить заказы Авито Доставки за последние 30 дней и сохранить в
+    data/avito_orders.json — просто посмотреть, что видно, без каких-либо
+    изменений остатков.
+    """
+    import datetime
+    import avito_client
+
+    date_from = (datetime.date.today() - datetime.timedelta(days=30)).isoformat()
+    try:
+        orders = avito_client.get_orders(date_from=date_from)
+    except avito_client.AvitoApiError as exc:
+        print(f"ОШИБКА при получении заказов Avito: {exc}")
+        print(
+            "Если ошибка похожа на 'нет доступа'/403 — скорее всего, для заказов Авито "
+            "Доставки нужен тариф 'Бизнес' на Авито, которого сейчас нет. Если 404 — "
+            "путь эндпоинта в avito_client.py устарел, см. комментарий '# ENDPOINT' там."
+        )
+        return 1
+
+    path = _data_path("avito_orders.json")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(orders, f, ensure_ascii=False, indent=2)
+    print(f"Сохранено {len(orders)} заказов Avito (за 30 дней) в {path}")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Синхронизация карточек Ozon/WB/Avito/Яндекс")
     parser.add_argument("--test-ozon", action="store_true")
@@ -563,6 +608,8 @@ def main() -> int:
     parser.add_argument("--fetch-ozon", action="store_true")
     parser.add_argument("--fetch-wb", action="store_true")
     parser.add_argument("--wb-warehouses", action="store_true", help="Показать склады продавца на WB (для WB_WAREHOUSE_ID)")
+    parser.add_argument("--test-avito", action="store_true", help="Проверить доступ к Avito API (AVITO_CLIENT_ID/AVITO_CLIENT_SECRET)")
+    parser.add_argument("--fetch-avito-orders", action="store_true", help="Получить заказы Авито Доставки за 30 дней в data/avito_orders.json")
     parser.add_argument("--build-ozon-catalog", action="store_true", help="Собрать data/ozon_catalog.xlsx для редактирования карточек (название, описание, цена, фото)")
     parser.add_argument("--attach-ozon-photos", action="store_true", help="Подставить в xlsx ссылки на фото из папки photos/ по имени файла (offer_id_1.jpg и т.п.)")
     parser.add_argument("--push-ozon-cards-dryrun", action="store_true", help="Показать, что будет отправлено в Ozon, БЕЗ реальной отправки")
@@ -591,6 +638,10 @@ def main() -> int:
         return cmd_fetch_wb()
     if args.wb_warehouses:
         return cmd_wb_warehouses()
+    if args.test_avito:
+        return cmd_test_avito()
+    if args.fetch_avito_orders:
+        return cmd_fetch_avito_orders()
     if args.build_ozon_catalog:
         return cmd_build_ozon_catalog()
     if args.attach_ozon_photos:
