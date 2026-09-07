@@ -13,6 +13,7 @@ import argparse
 import json
 import logging
 import os
+import subprocess
 import sys
 import time
 
@@ -774,6 +775,57 @@ def cmd_wordstat_collect(article: str, seed_phrase: str) -> int:
     return 0
 
 
+def _git_checkpoint(reason: str) -> None:
+    """
+    Коммитит и пушит data/seo_keywords.xlsx ПРЯМО СЕЙЧАС, а не в самом конце
+    прогона. Без этого весь прогресс batch-сбора живёт только на временном
+    сервере GitHub Actions и теряется целиком, если job отменят или он
+    оборвётся — так уже случилось: два прогона с реальными данными (сотни
+    собранных фраз) пропали, потому что шаг "Save data/ back to repo" в
+    самом конце workflow не успел выполниться при отмене (даже с
+    if: always() — при отмене всего job этот шаг тоже помечается
+    отменённым, 0 секунд, ничего не сохраняет).
+
+    Полностью безопасно вызывать часто: если сохранять нечего — просто
+    ничего не делает. Любая ошибка git (например, если запущено не в
+    git-репозитории — как при локальном тестировании) молча игнорируется,
+    сам сбор при этом не прерывается.
+    """
+    try:
+        if subprocess.run(
+            ["git", "rev-parse", "--is-inside-work-tree"],
+            capture_output=True, text=True,
+        ).returncode != 0:
+            return  # не git-репозиторий (например, локальный тест) — пропускаем
+
+        subprocess.run(["git", "config", "user.name", "marketplace-agent-bot"], capture_output=True)
+        subprocess.run(
+            ["git", "config", "user.email", "actions@users.noreply.github.com"],
+            capture_output=True,
+        )
+        subprocess.run(["git", "add", "data/seo_keywords.xlsx"], capture_output=True)
+
+        diff = subprocess.run(["git", "diff", "--cached", "--quiet"], capture_output=True)
+        if diff.returncode == 0:
+            return  # нечего коммитить
+
+        commit = subprocess.run(
+            ["git", "commit", "-m", f"chore: wordstat progress ({reason}) [skip ci]"],
+            capture_output=True, text=True,
+        )
+        if commit.returncode != 0:
+            print(f"  (git commit не удался: {commit.stderr.strip()[:200]})")
+            return
+
+        push = subprocess.run(["git", "push"], capture_output=True, text=True)
+        if push.returncode != 0:
+            print(f"  (git push не удался: {push.stderr.strip()[:200]})")
+        else:
+            print(f"  (сохранено в репозиторий: {reason})")
+    except Exception as exc:  # сбой сохранения не должен ронять сам сбор
+        print(f"  (не удалось сохранить прогресс в git: {exc})")
+
+
 def cmd_wordstat_collect_batch() -> int:
     """
     Пакетный сбор: вместо одного артикула за запуск — берёт СПИСОК артикулов
@@ -814,6 +866,7 @@ def cmd_wordstat_collect_batch() -> int:
     # берём уже полученный результат. Экономит запросы и держит нас дальше
     # от часового лимита 100 запросов/час.
     seed_cache: dict = {}
+    since_checkpoint = 0
     for i, (article, seed) in enumerate(rows, start=1):
         # Если по этому артикулу уже есть собранные фразы (с прошлого
         # запуска) — не тратим на него запрос повторно. Это позволяет
@@ -835,6 +888,31 @@ def cmd_wordstat_collect_batch() -> int:
         else:
             try:
                 phrases = wordstat_client.collect_semantics(seeds, expand_associations=True)
+            except wordstat_client.WordstatRateLimitedError:
+                # Лимит запросов ещё не восстановился (например, этот
+                # прогон стартовал в том же "часе", что и предыдущий,
+                # который уже выбрал лимит) — дальше перебирать оставшиеся
+                # позиции бессмысленно, все запросы будут падать так же.
+                # Останавливаемся сразу вместо того, чтобы тратить ещё
+                # много минут на заведомо обречённые попытки.
+                print(
+                    f"  {article}: Wordstat всё ещё отвечает 'превышен лимит запросов' "
+                    "даже после повторных попыток."
+                )
+                print(
+                    "\nОстанавливаюсь пораньше — похоже, часовой лимит запросов Wordstat "
+                    "ещё не восстановился с прошлого запуска. Обычно он сбрасывается на "
+                    "границе часа — попробуйте запустить wordstat-collect-batch снова "
+                    "примерно через 30-60 минут (или после начала следующего часа). "
+                    "Уже собранные позиции при повторном запуске не тронутся — batch "
+                    "пропускает то, что уже есть."
+                )
+                _git_checkpoint(f"прервано по лимиту на {i}/{len(rows)}")
+                print(
+                    f"\nГотово (прервано по лимиту). Всего новых строк добавлено: {total_added} "
+                    f"(пропущено уже собранных: {total_skipped}, переиспользовано: {total_reused})"
+                )
+                return 1
             except Exception as exc:  # не прерывать всю очередь из-за одного артикула
                 print(f"  ОШИБКА по {article}: {exc}")
                 continue
@@ -846,6 +924,17 @@ def cmd_wordstat_collect_batch() -> int:
         total_added += added
         print(f"  {article}: собрано {len(phrases)} фраз, новых добавлено {added}")
 
+        if added > 0:
+            since_checkpoint += 1
+            # Сохраняем прогресс в репозиторий не после КАЖДОЙ позиции (это
+            # было бы слишком много лишних коммитов), а каждые несколько —
+            # так почти весь прогресс переживёт отмену/обрыв прогона, а не
+            # только то, что было в самом конце.
+            if since_checkpoint >= 3:
+                _git_checkpoint(f"после {i}/{len(rows)}")
+                since_checkpoint = 0
+
+    _git_checkpoint("финал прогона")
     print(
         f"\nГотово. Всего новых строк добавлено в data/seo_keywords.xlsx: {total_added} "
         f"(пропущено уже собранных артикулов: {total_skipped}, "
