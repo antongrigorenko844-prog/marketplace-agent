@@ -807,6 +807,13 @@ def cmd_wordstat_collect_batch() -> int:
     print(f"В очереди {len(rows)} артикул(ов). Собираю семантику по каждому...\n")
     total_added = 0
     total_skipped = 0
+    total_reused = 0
+    # Кэш на время ОДНОГО запуска: если одинаковая стартовая фраза встречается
+    # у нескольких артикулов (частый случай — например "мехатроник dq200"
+    # повторяется у десятков разных позиций), не бьём Wordstat повторно —
+    # берём уже полученный результат. Экономит запросы и держит нас дальше
+    # от часового лимита 100 запросов/час.
+    seed_cache: dict = {}
     for i, (article, seed) in enumerate(rows, start=1):
         # Если по этому артикулу уже есть собранные фразы (с прошлого
         # запуска) — не тратим на него запрос повторно. Это позволяет
@@ -819,12 +826,19 @@ def cmd_wordstat_collect_batch() -> int:
             print(f"[{i}/{len(rows)}] {article}: уже есть собранные фразы, пропускаю")
             continue
         seeds = [s.strip() for s in seed.split(";") if s.strip()]
+        cache_key = tuple(s.casefold() for s in seeds)
         print(f"[{i}/{len(rows)}] {article}: {seeds}")
-        try:
-            phrases = wordstat_client.collect_semantics(seeds, expand_associations=True)
-        except Exception as exc:  # не прерывать всю очередь из-за одного артикула
-            print(f"  ОШИБКА по {article}: {exc}")
-            continue
+        if cache_key in seed_cache:
+            phrases = seed_cache[cache_key]
+            total_reused += 1
+            print("  (те же фразы уже запрашивались в этом запуске — беру готовый результат)")
+        else:
+            try:
+                phrases = wordstat_client.collect_semantics(seeds, expand_associations=True)
+            except Exception as exc:  # не прерывать всю очередь из-за одного артикула
+                print(f"  ОШИБКА по {article}: {exc}")
+                continue
+            seed_cache[cache_key] = phrases
         if not phrases:
             print(f"  {article}: Wordstat не вернул ни одной фразы, пропущено")
             continue
@@ -834,7 +848,8 @@ def cmd_wordstat_collect_batch() -> int:
 
     print(
         f"\nГотово. Всего новых строк добавлено в data/seo_keywords.xlsx: {total_added} "
-        f"(пропущено уже собранных артикулов: {total_skipped})"
+        f"(пропущено уже собранных артикулов: {total_skipped}, "
+        f"переиспользовано без повторного запроса: {total_reused})"
     )
     return 0
 
