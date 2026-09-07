@@ -239,6 +239,24 @@ def _is_off_topic(low: str) -> bool:
     return bool(_OFF_TOPIC_RE.search(low))
 
 
+def _is_bare_weak_word(low: str) -> bool:
+    """
+    True, если вся фраза — это ОДНО голое многозначное слово (например
+    просто "мехатроника" или просто "фильтр"), без вообще ничего рядом.
+
+    Даже отсеяв конкретные "не туда" фразы через _is_off_topic, у самого
+    голого слова частотность в Wordstat всё равно — это сумма ВСЕХ его
+    значений сразу (см. чат: "мехатроника" — 70225 — это не про вашу
+    деталь конкретно, а про слово "мехатроника" вообще, включая учебную
+    специальность). Такое число нельзя использовать как частотность
+    именно детали, поэтому голое слово просто не оставляем в файле — а
+    вот "плата мехатроника"/"dq200 мехатроник"/"мехатроника это" и т.п.
+    (слово + ещё хоть что-то) оставляем как раньше.
+    """
+    words = re.findall(r"[a-zа-яё0-9]+", low)
+    return len(words) == 1 and _is_weak_word(words[0])
+
+
 def _is_relevant(phrase: str, seed_words: List[str], allowed_brands: Optional[set]) -> bool:
     """
     True, если фраза похожа на что-то из мира авто-запчастей/трансмиссий
@@ -259,7 +277,7 @@ def _is_relevant(phrase: str, seed_words: List[str], allowed_brands: Optional[se
     без всякого расширения вглубь).
     """
     low = phrase.lower()
-    if _is_off_topic(low):
+    if _is_off_topic(low) or _is_bare_weak_word(low):
         return False
     if allowed_brands is not None:
         for token, pattern in _BRAND_TOKEN_PATTERNS:
@@ -291,7 +309,7 @@ def _is_strong_relevant(
     которая всплывает, только если запросить голое общее слово ОТДЕЛЬНО.
     """
     low = phrase.lower()
-    if _is_off_topic(low):
+    if _is_off_topic(low) or _is_bare_weak_word(low):
         return False
     if allowed_brands is not None:
         for token, pattern in _BRAND_TOKEN_PATTERNS:
