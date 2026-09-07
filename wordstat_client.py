@@ -18,6 +18,7 @@ wordstat.yandex.ru — это было бы против правил площа
 отмечает, что проверять первым при ошибке 404.
 """
 import logging
+import re
 import time
 from typing import Dict, List, Optional
 
@@ -27,9 +28,36 @@ from config import config
 
 logger = logging.getLogger("marketplace-agent.wordstat")
 
+# Пауза между КАЖДЫМ запросом (успешным или нет) — держит нас заведомо ниже
+# лимита API (~10 запросов/сек) и на практике почти полностью убирает
+# капли 429 "превышен лимит запросов" (были замечены при пакетном сборе
+# по 100+ фразам подряд без пауз — см. README/чат).
+_MIN_INTERVAL_SECONDS = 0.25
+
+# "225" — код региона "Россия" целиком в справочнике регионов Яндекса.
+# Официальная документация помечает "regions" как ОБЯЗАТЕЛЬНЫЙ параметр —
+# раньше он не отправлялся при отсутствии явного значения, из-за чего
+# часть запросов, вероятно, возвращала пустой результат вместо реальных
+# данных по всей России.
+_DEFAULT_REGION_IDS = ["225"]
+
 
 class WordstatApiError(RuntimeError):
     pass
+
+
+def _sanitize_phrase(phrase: str) -> str:
+    """
+    Wordstat API возвращает 400 "Invalid query" на фразы со спецсимволами
+    вроде + ! ( ) , " — обнаружено на практике при пакетном сборе (см. лог
+    в чате: все фразы с "+"/"!"/скобками падали с этой ошибкой, фразы без
+    них — нет). Убираем такие символы перед отправкой, оставляя только
+    буквы/цифры/пробелы/дефис — сам текст в data/seo_keywords.xlsx при этом
+    не трогаем, чистим только то, что реально уходит в API.
+    """
+    cleaned = re.sub(r'[+!()"\'«»,;:]+', " ", phrase)
+    cleaned = re.sub(r"\s+", " ", cleaned).strip()
+    return cleaned
 
 
 def _headers() -> Dict[str, str]:
@@ -55,6 +83,9 @@ def _post(path: str, payload: dict, retries: int = 3) -> dict:
     body = {"folderId": config.wordstat_folder_id, **payload}
     last_error: Optional[Exception] = None
     for attempt in range(1, retries + 1):
+        # Пауза ПЕРЕД каждой попыткой (включая первую) — держит нас ниже
+        # лимита API и не даёт повторам после 429 снова упереться в лимит.
+        time.sleep(_MIN_INTERVAL_SECONDS)
         try:
             resp = requests.post(
                 url, json=body, headers=_headers(), timeout=config.request_timeout_seconds
@@ -101,13 +132,16 @@ def get_top_requests(
      "associations": [{"phrase": "...", "count": "..."}]}
     """
     # ENDPOINT: POST /v2/wordstat/topRequests
+    clean_phrase = _sanitize_phrase(phrase)
+    if not clean_phrase:
+        # После чистки спецсимволов ничего не осталось — отправлять нечего.
+        return {}
     payload = {
-        "phrase": phrase,
+        "phrase": clean_phrase,
         "numPhrases": num_phrases,
         "devices": device,
+        "regions": region_ids or _DEFAULT_REGION_IDS,
     }
-    if region_ids:
-        payload["regions"] = region_ids
     return _post("/v2/wordstat/topRequests", payload)
 
 

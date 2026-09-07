@@ -806,7 +806,18 @@ def cmd_wordstat_collect_batch() -> int:
 
     print(f"В очереди {len(rows)} артикул(ов). Собираю семантику по каждому...\n")
     total_added = 0
+    total_skipped = 0
     for i, (article, seed) in enumerate(rows, start=1):
+        # Если по этому артикулу уже есть собранные фразы (с прошлого
+        # запуска) — не тратим на него запрос повторно. Это позволяет
+        # безопасно перезапускать batch несколько раз (например, после
+        # упора в часовой лимit Wordstat 100 запросов/час) — уже готовые
+        # артикулы просто пропускаются, тратим запросы только на новые/ещё
+        # пустые.
+        if seo_store.get_semantics_for_article(article):
+            total_skipped += 1
+            print(f"[{i}/{len(rows)}] {article}: уже есть собранные фразы, пропускаю")
+            continue
         seeds = [s.strip() for s in seed.split(";") if s.strip()]
         print(f"[{i}/{len(rows)}] {article}: {seeds}")
         try:
@@ -821,7 +832,10 @@ def cmd_wordstat_collect_batch() -> int:
         total_added += added
         print(f"  {article}: собрано {len(phrases)} фраз, новых добавлено {added}")
 
-    print(f"\nГотово. Всего новых строк добавлено в data/seo_keywords.xlsx: {total_added}")
+    print(
+        f"\nГотово. Всего новых строк добавлено в data/seo_keywords.xlsx: {total_added} "
+        f"(пропущено уже собранных артикулов: {total_skipped})"
+    )
     return 0
 
     print(f"\nОбновлено: {xlsx_path}")
