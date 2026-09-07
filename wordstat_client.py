@@ -315,6 +315,7 @@ def collect_semantics(
     expand_associations: bool = True,
     num_phrases: int = 50,
     max_associations_per_seed: int = 5,
+    applicability: Optional[List[str]] = None,
 ) -> Dict[str, int]:
     """
     Берёт список стартовых фраз (например разные формулировки для одного
@@ -323,14 +324,34 @@ def collect_semantics(
     найденным associations (похожим фразам), чтобы расширить семантику
     автоматически, а не только теми фразами, что вы сами придумали.
 
+    applicability — необязательный список марок/моделей ("Audi A6",
+    "Volkswagen Passat B6", ...) для деталей с широкой применимостью на
+    разные машины (не привязанных к одному коду коробки/платформы, как,
+    например, штоки DQ200, а стоящих на десятках моделей — как корпус
+    масляного фильтра 02E305045). В отличие от expand_associations (который
+    сам блуждает по похожим фразам и может "уехать" не в ту тему), здесь
+    марки/модели заданы ЯВНО пользователем — для каждой из них и для каждой
+    уникальной марки отдельно отправляется прямой запрос "<стартовая фраза>
+    <марка/модель>", а не угадывается. Заданные марки/модели также
+    ГАРАНТИРОВАННО считаются "своими" для брендового фильтра релевантности
+    (_is_relevant), даже если платформу не удалось определить по коду в
+    стартовой фразе — так фильтр не отсеет собственные же марки бизнеса.
+
     Возвращает {фраза: частотность} — если фраза встретилась несколько раз
     (как результат и как ассоциация), берётся максимальное значение.
     """
     collected: Dict[str, int] = {}
     seen = set()
-    seed_text = " ".join(seed_phrases)
+    base_seeds = [p.strip() for p in seed_phrases if p and p.strip()]
+    applicability = [a.strip() for a in (applicability or []) if a and a.strip()]
+    seed_text = " ".join(base_seeds + applicability)
     seed_words = _seed_keywords(seed_text)
     allowed_brands = _allowed_brands_for_seed(seed_text)
+    if applicability:
+        extra_allowed = {
+            w for entry in applicability for w in re.findall(r"[a-zа-яё0-9]+", entry.lower())
+        }
+        allowed_brands = (allowed_brands or set()) | extra_allowed
 
     def _absorb(data: dict) -> None:
         for bucket in ("results", "associations"):
@@ -347,7 +368,26 @@ def collect_semantics(
                 if phrase not in collected or count > collected[phrase]:
                     collected[phrase] = count
 
-    seeds = [p.strip() for p in seed_phrases if p and p.strip()]
+    seeds = list(base_seeds)
+    if applicability:
+        # Уникальные "марки" — первое слово каждой записи применимости
+        # (например из "Audi A6" и "Audi A4" получаем одну марку "Audi") —
+        # чтобы отдельно спросить и общий по-марочный запрос ("<фраза>
+        # audi"), а не только по каждой конкретной модели.
+        brands: List[str] = []
+        seen_brand = set()
+        for entry in applicability:
+            first = entry.split()[0] if entry.split() else ""
+            key = first.casefold()
+            if first and key not in seen_brand:
+                seen_brand.add(key)
+                brands.append(first)
+        for base in base_seeds:
+            for entry in applicability:
+                seeds.append(f"{base} {entry}")
+            for brand in brands:
+                seeds.append(f"{base} {brand}")
+
     for phrase in seeds:
         key = phrase.casefold()
         if key in seen:
