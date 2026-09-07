@@ -726,6 +726,53 @@ def cmd_sync_orders() -> int:
         print(f"\nВНИМАНИЕ: {len(unmatched)} артикул(ов) из заказов НЕ найдены в каталоге "
               f"(остаток не изменён, проверьте вручную): {', '.join(unmatched)}")
 
+
+def cmd_test_wordstat() -> int:
+    import wordstat_client
+
+    ok = wordstat_client.test_connection()
+    print("Wordstat: соединение работает" if ok else "Wordstat: ОШИБКА, см. лог выше")
+    return 0 if ok else 1
+
+
+def cmd_wordstat_collect(article: str, seed_phrase: str) -> int:
+    """
+    Собирает SEO-семантику для одного артикула через Wordstat API: по
+    стартовой фразе (можно несколько через ';') берёт частотность и
+    автоматически расширяет список похожими фразами (associations), которые
+    реально ищут вместе с ней — без ручного придумывания вариантов.
+    Результат копится в data/seo_keywords.xlsx (лист "Семантика"), не
+    дублируя уже собранное по этому артикулу.
+    """
+    import seo_store
+    import wordstat_client
+
+    article = (article or "").strip()
+    seed_phrase = (seed_phrase or "").strip()
+    if not article or not seed_phrase:
+        print(
+            "Нужно указать артикул и стартовую фразу (поля 'article' и 'seed_phrase' "
+            "при запуске в Actions, или --article/--seed-phrase в командной строке)."
+        )
+        return 1
+
+    seeds = [s.strip() for s in seed_phrase.split(";") if s.strip()]
+    print(f"Wordstat: собираю семантику для {article} по фразам: {seeds}")
+    phrases = wordstat_client.collect_semantics(seeds, expand_associations=True)
+    if not phrases:
+        print(
+            "Wordstat не вернул ни одной фразы — проверьте WORDSTAT_API_KEY/"
+            "WORDSTAT_FOLDER_ID в секретах и саму фразу."
+        )
+        return 1
+
+    added = seo_store.add_semantics(article, phrases)
+    print(f"Собрано фраз всего: {len(phrases)}, новых добавлено в data/seo_keywords.xlsx: {added}")
+    print("\nТоп по частотности:")
+    for phrase, count in sorted(phrases.items(), key=lambda kv: -kv[1])[:25]:
+        print(f"  {count:>7}  {phrase}")
+    return 0
+
     print(f"\nОбновлено: {xlsx_path}")
     return 0
 
@@ -759,12 +806,20 @@ def main() -> int:
     parser.add_argument("--push-wb-cards-dryrun", action="store_true", help="Показать, что будет отправлено в WB, БЕЗ реальной отправки")
     parser.add_argument("--push-wb-cards", action="store_true", help="Реально отправить правки карточек WB (сначала всегда делайте dryrun!)")
     parser.add_argument("--sync-orders", action="store_true", help="Общий учёт остатков: списать заказы Ozon+WB за 30 дней из 'Кол-во к продаже' в data/ozon_catalog.xlsx")
+    parser.add_argument("--test-wordstat", action="store_true", help="Проверить, что ключ Wordstat API работает")
+    parser.add_argument("--wordstat-collect", action="store_true", help="Собрать SEO-семантику по артикулу через Wordstat API (см. --article/--seed-phrase)")
+    parser.add_argument("--article", type=str, default="", help="Артикул товара — для --wordstat-collect")
+    parser.add_argument("--seed-phrase", type=str, default="", help="Стартовая фраза(ы) для --wordstat-collect, через ';' если несколько")
     args = parser.parse_args()
 
     if args.test_ozon:
         return cmd_test_ozon()
     if args.test_wb:
         return cmd_test_wb()
+    if args.test_wordstat:
+        return cmd_test_wordstat()
+    if args.wordstat_collect:
+        return cmd_wordstat_collect(args.article, args.seed_phrase)
     if args.fetch_ozon:
         return cmd_fetch_ozon()
     if args.fetch_wb:

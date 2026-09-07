@@ -49,6 +49,13 @@ class Config:
     # заполняется после первого запуска (см. README, раздел про WB).
     wb_warehouse_id: str = os.getenv("WB_WAREHOUSE_ID", "")
 
+    # --- Wordstat API (Yandex Cloud AI Studio Search API) — сбор SEO-семантики ---
+    # Официальный бесплатный API, аккаунт в Яндекс Директ с расходами НЕ нужен.
+    # См. README, раздел 'Wordstat', как получить ключ и folderId.
+    wordstat_api_key: str = os.getenv("WORDSTAT_API_KEY", "")
+    wordstat_folder_id: str = os.getenv("WORDSTAT_FOLDER_ID", "")
+    wordstat_api_base: str = os.getenv("WORDSTAT_API_BASE", "https://searchapi.api.cloud.yandex.net")
+
     # --- Яндекс Маркет (подключим отдельным шагом) ---
     yandex_api_token: str = os.getenv("YANDEX_API_TOKEN", "")
     yandex_business_id: str = os.getenv("YANDEX_BUSINESS_ID", "")
