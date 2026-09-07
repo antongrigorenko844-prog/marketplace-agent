@@ -7,7 +7,8 @@
 #
 # Перед использованием (см. README):
 # 1. Settings -> Secrets and variables -> Actions -> добавить секреты:
-#    OZON_CLIENT_ID, OZON_API_KEY, WB_API_TOKEN, WB_WAREHOUSE_ID (позже)
+#    OZON_CLIENT_ID, OZON_API_KEY, WB_API_TOKEN, WB_WAREHOUSE_ID (позже),
+#    WORDSTAT_API_KEY, WORDSTAT_FOLDER_ID (для сбора SEO-семантики, см. README)
 # 2. Settings -> Actions -> General -> Workflow permissions ->
 #    "Read and write permissions" (чтобы сохранять data/ обратно в репозиторий).
 
@@ -46,6 +47,21 @@ on:
           - test-avito
           - fetch-avito-orders
           - list-avito-items
+          - build-avito-item-map
+          - save-avito-item-map
+          - sync-orders
+          - test-wordstat
+          - wordstat-collect
+      article:
+        description: "Артикул товара (только для wordstat-collect)"
+        required: false
+        default: ""
+        type: string
+      seed_phrase:
+        description: "Стартовая фраза(ы) для Wordstat, через ';' если несколько (только для wordstat-collect)"
+        required: false
+        default: ""
+        type: string
 
 jobs:
   run:
@@ -69,9 +85,13 @@ jobs:
           WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
           AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
           AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
+          WORDSTAT_FOLDER_ID: ${{ secrets.WORDSTAT_FOLDER_ID }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python main.py --${{ github.event.inputs.command }}
+          python main.py --${{ github.event.inputs.command }} \
+            --article "${{ github.event.inputs.article }}" \
+            --seed-phrase "${{ github.event.inputs.seed_phrase }}"
 
       - name: Save data/ back to repo
         run: |
