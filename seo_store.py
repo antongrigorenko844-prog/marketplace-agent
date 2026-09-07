@@ -16,11 +16,13 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
 DEFAULT_PATH = os.path.join(os.path.dirname(__file__), "data", "seo_keywords.xlsx")
+QUEUE_PATH = os.path.join(os.path.dirname(__file__), "data", "wordstat_queue.xlsx")
 
 SEM_SHEET = "Семантика"
 TEXT_SHEET = "Тексты Ozon-WB"
 SEM_HEADERS = ["Артикул", "Ключевое слово", "Частотность", "Источник", "Дата добавления"]
 TEXT_HEADERS = ["Артикул", "Название (WB, до 60 симв.)", "Название (Ozon)", "Описание", "Дата"]
+QUEUE_HEADERS = ["Артикул", "Стартовая фраза (необязательно; через ';' если несколько)"]
 
 _HEADER_FONT = Font(name="Arial", size=10, bold=True, color="FFFFFF")
 _HEADER_FILL = PatternFill("solid", fgColor="404040")
@@ -91,6 +93,49 @@ def add_semantics(
     os.makedirs(os.path.dirname(path), exist_ok=True)
     wb.save(path)
     return added
+
+
+def ensure_queue_template(path: str = QUEUE_PATH) -> str:
+    """
+    Создаёт (если ещё нет) data/wordstat_queue.xlsx — простой список: колонка
+    "Артикул" (по одному в строке, просто вставьте столбец из вашей таблицы)
+    и необязательная колонка "Стартовая фраза" (если оставить пустой —
+    в качестве стартовой фразы для Wordstat используется сам артикул).
+    Возвращает путь к файлу.
+    """
+    if os.path.exists(path):
+        return path
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Очередь"
+    _write_header(ws, QUEUE_HEADERS)
+    ws.column_dimensions["A"].width = 20
+    ws.column_dimensions["B"].width = 60
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    wb.save(path)
+    return path
+
+
+def read_queue(path: str = QUEUE_PATH) -> list:
+    """
+    Читает data/wordstat_queue.xlsx и возвращает список (артикул, стартовая_фраза)
+    — если стартовая фраза не задана, вместо неё используется сам артикул.
+    Строки с пустым артикулом пропускаются.
+    """
+    if not os.path.exists(path):
+        return []
+    wb = openpyxl.load_workbook(path, data_only=True)
+    ws = wb.active
+    out = []
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        if not row or not row[0]:
+            continue
+        article = str(row[0]).strip()
+        if not article:
+            continue
+        seed = str(row[1]).strip() if len(row) > 1 and row[1] else article
+        out.append((article, seed))
+    return out
 
 
 def get_semantics_for_article(article: str, path: str = DEFAULT_PATH) -> Dict[str, int]:

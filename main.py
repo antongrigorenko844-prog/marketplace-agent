@@ -773,6 +773,57 @@ def cmd_wordstat_collect(article: str, seed_phrase: str) -> int:
         print(f"  {count:>7}  {phrase}")
     return 0
 
+
+def cmd_wordstat_collect_batch() -> int:
+    """
+    Пакетный сбор: вместо одного артикула за запуск — берёт СПИСОК артикулов
+    из data/wordstat_queue.xlsx (колонка "Артикул", можно просто вставить
+    столбец из вашей таблицы) и по очереди собирает семантику по каждому
+    через Wordstat API. Стартовой фразой для Wordstat по умолчанию служит
+    сам артикул — если для какой-то строки нужна другая формулировка,
+    впишите её во вторую колонку файла-очереди.
+
+    Если файла ещё нет — создаёт пустой шаблон и просит вас заполнить и
+    прислать/закоммитить обратно.
+    """
+    import seo_store
+    import wordstat_client
+
+    queue_path = seo_store.QUEUE_PATH
+    if not os.path.exists(queue_path):
+        seo_store.ensure_queue_template(queue_path)
+        print(
+            f"Файла {queue_path} ещё не было — создал пустой шаблон (колонка 'Артикул' "
+            "+ необязательная 'Стартовая фраза'). Заполните столбец артикулов, "
+            "закоммитьте файл в data/ и запустите wordstat-collect-batch ещё раз."
+        )
+        return 0
+
+    rows = seo_store.read_queue(queue_path)
+    if not rows:
+        print(f"{queue_path} есть, но пуст (нет ни одного артикула в колонке 'Артикул').")
+        return 1
+
+    print(f"В очереди {len(rows)} артикул(ов). Собираю семантику по каждому...\n")
+    total_added = 0
+    for i, (article, seed) in enumerate(rows, start=1):
+        seeds = [s.strip() for s in seed.split(";") if s.strip()]
+        print(f"[{i}/{len(rows)}] {article}: {seeds}")
+        try:
+            phrases = wordstat_client.collect_semantics(seeds, expand_associations=True)
+        except Exception as exc:  # не прерывать всю очередь из-за одного артикула
+            print(f"  ОШИБКА по {article}: {exc}")
+            continue
+        if not phrases:
+            print(f"  {article}: Wordstat не вернул ни одной фразы, пропущено")
+            continue
+        added = seo_store.add_semantics(article, phrases)
+        total_added += added
+        print(f"  {article}: собрано {len(phrases)} фраз, новых добавлено {added}")
+
+    print(f"\nГотово. Всего новых строк добавлено в data/seo_keywords.xlsx: {total_added}")
+    return 0
+
     print(f"\nОбновлено: {xlsx_path}")
     return 0
 
@@ -808,6 +859,7 @@ def main() -> int:
     parser.add_argument("--sync-orders", action="store_true", help="Общий учёт остатков: списать заказы Ozon+WB за 30 дней из 'Кол-во к продаже' в data/ozon_catalog.xlsx")
     parser.add_argument("--test-wordstat", action="store_true", help="Проверить, что ключ Wordstat API работает")
     parser.add_argument("--wordstat-collect", action="store_true", help="Собрать SEO-семантику по артикулу через Wordstat API (см. --article/--seed-phrase)")
+    parser.add_argument("--wordstat-collect-batch", action="store_true", help="Собрать SEO-семантику сразу по списку артикулов из data/wordstat_queue.xlsx")
     parser.add_argument("--article", type=str, default="", help="Артикул товара — для --wordstat-collect")
     parser.add_argument("--seed-phrase", type=str, default="", help="Стартовая фраза(ы) для --wordstat-collect, через ';' если несколько")
     args = parser.parse_args()
@@ -820,6 +872,8 @@ def main() -> int:
         return cmd_test_wordstat()
     if args.wordstat_collect:
         return cmd_wordstat_collect(args.article, args.seed_phrase)
+    if args.wordstat_collect_batch:
+        return cmd_wordstat_collect_batch()
     if args.fetch_ozon:
         return cmd_fetch_ozon()
     if args.fetch_wb:
