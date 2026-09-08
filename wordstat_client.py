@@ -648,6 +648,35 @@ def collect_semantics(
                 if phrase not in collected or count > collected[phrase]:
                     collected[phrase] = count
 
+    def _absorb_total(sent_phrase: str, data: dict) -> None:
+        """
+        ВАЖНО: отдельно от _absorb() — захватывает totalCount, суммарную
+        частотность именно ТОЙ фразы, которую мы реально отправили в
+        Wordstat (а не "похожих"/"results"/"associations" фраз). Раньше
+        это поле нигде не читалось — из-за этого частотность самого кода
+        детали (например точный номер "0BH325159") никогда не попадала в
+        итоговый файл как отдельная строка, даже когда у него реально есть
+        поисковый объём — Wordstat присылает его именно в totalCount, а не
+        обязательно повторяет как отдельный элемент внутри "results" (тот
+        список — это ПОХОЖИЕ/более широкие фразы, не гарантированное эхо
+        исходного запроса). Проверено на реальном примере из README:
+        "0BH325159" сам по себе даёт 193 реальных поиска — этот текст
+        отсюда и появился, но раньше это число никуда не сохранялось.
+        """
+        sent_phrase = sent_phrase.strip()
+        if not sent_phrase:
+            return
+        try:
+            total = int(data.get("totalCount") or 0)
+        except (TypeError, ValueError):
+            total = 0
+        if total <= 0:
+            return
+        if not _is_relevant(sent_phrase, seed_words, allowed_brands):
+            return
+        if sent_phrase not in collected or total > collected[sent_phrase]:
+            collected[sent_phrase] = total
+
     seeds = list(base_seeds)
     if applicability:
         # Уникальные "марки" — первое слово каждой записи применимости
@@ -686,6 +715,7 @@ def collect_semantics(
             logger.error("Wordstat: ошибка по фразе '%s': %s", phrase, exc)
             continue
         _absorb(data)
+        _absorb_total(phrase, data)
 
         if expand_associations:
             for assoc in (data.get("associations") or [])[:max_associations_per_seed]:
@@ -708,6 +738,7 @@ def collect_semantics(
                 try:
                     data2 = get_top_requests(assoc_phrase, num_phrases=num_phrases)
                     _absorb(data2)
+                    _absorb_total(assoc_phrase, data2)
                 except WordstatRateLimitedError:
                     raise
                 except WordstatApiError as exc:
