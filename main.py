@@ -758,6 +758,13 @@ def cmd_wordstat_collect(article: str, seed_phrase: str) -> int:
         return 1
 
     seeds = [s.strip() for s in seed_phrase.split(";") if s.strip()]
+    # Каталожные номера прямо из названия артикула — отдельным запросом
+    # (проверено: по точному номеру детали тоже реально ищут, см. чат —
+    # "0BH325159" сам по себе дал 193 реальных поиска, а этого номера не
+    # было ни в одной обычной разговорной фразе).
+    for pn in wordstat_client.extract_part_numbers(article):
+        if pn.casefold() not in (s.casefold() for s in seeds):
+            seeds.append(pn)
     print(f"Wordstat: собираю семантику для {article} по фразам: {seeds}")
     phrases = wordstat_client.collect_semantics(seeds, expand_associations=True)
     if not phrases:
@@ -777,14 +784,19 @@ def cmd_wordstat_collect(article: str, seed_phrase: str) -> int:
 
 def _git_checkpoint(reason: str) -> None:
     """
-    Коммитит и пушит data/seo_keywords.xlsx ПРЯМО СЕЙЧАС, а не в самом конце
-    прогона. Без этого весь прогресс batch-сбора живёт только на временном
-    сервере GitHub Actions и теряется целиком, если job отменят или он
-    оборвётся — так уже случилось: два прогона с реальными данными (сотни
-    собранных фраз) пропали, потому что шаг "Save data/ back to repo" в
-    самом конце workflow не успел выполниться при отмене (даже с
+    Коммитит и пушит data/seo_keywords.xlsx и data/wordstat_cache.json ПРЯМО
+    СЕЙЧАС, а не в самом конце прогона. Без этого весь прогресс batch-сбора
+    живёт только на временном сервере GitHub Actions и теряется целиком, если
+    job отменят или он оборвётся — так уже случилось: два прогона с реальными
+    данными (сотни собранных фраз) пропали, потому что шаг "Save data/ back
+    to repo" в самом конце workflow не успел выполниться при отмене (даже с
     if: always() — при отмене всего job этот шаг тоже помечается
     отменённым, 0 секунд, ничего не сохраняет).
+
+    data/wordstat_cache.json — постоянный кэш ответов Wordstat по каждой
+    отдельной фразе (не только по артикулу): если сохранить только его в
+    коммит забудут, то каждый следующий запуск снова будет реально
+    запрашивать API по уже когда-то собранным фразам, а не брать их из кэша.
 
     Полностью безопасно вызывать часто: если сохранять нечего — просто
     ничего не делает. Любая ошибка git (например, если запущено не в
@@ -803,7 +815,17 @@ def _git_checkpoint(reason: str) -> None:
             ["git", "config", "user.email", "actions@users.noreply.github.com"],
             capture_output=True,
         )
-        subprocess.run(["git", "add", "data/seo_keywords.xlsx"], capture_output=True)
+        # ВАЖНО: "git add" с несуществующим путём (например data/wordstat_cache.json
+        # до самого первого запроса к Wordstat в этом прогоне) падает целиком с
+        # "fatal: pathspec ... did not match any files" и НЕ добавляет вообще
+        # ничего — даже те пути в той же команде, что реально существуют. Поэтому
+        # добавляем в индекс только те из отслеживаемых файлов, что уже есть на диске.
+        track_paths = [
+            p for p in ("data/seo_keywords.xlsx", "data/wordstat_cache.json")
+            if os.path.exists(p)
+        ]
+        if track_paths:
+            subprocess.run(["git", "add", *track_paths], capture_output=True)
 
         diff = subprocess.run(["git", "diff", "--cached", "--quiet"], capture_output=True)
         if diff.returncode == 0:
@@ -858,70 +880,73 @@ def cmd_wordstat_collect_batch() -> int:
 
     print(f"В очереди {len(rows)} артикул(ов). Собираю семантику по каждому...\n")
     total_added = 0
-    total_skipped = 0
-    total_reused = 0
-    # Кэш на время ОДНОГО запуска: если одинаковая стартовая фраза встречается
-    # у нескольких артикулов (частый случай — например "мехатроник dq200"
-    # повторяется у десятков разных позиций), не бьём Wordstat повторно —
-    # берём уже полученный результат. Экономит запросы и держит нас дальше
-    # от часового лимита 100 запросов/час.
-    seed_cache: dict = {}
+    total_articles_no_new = 0
+    # ВАЖНО: раньше здесь был отдельный "пропустить артикул целиком, если по
+    # нему уже что-то собрано в прошлый раз" — но это означало, что НОВЫЕ
+    # стартовые фразы, добавленные позже в очередь для уже обработанного
+    # артикула (например при расширении семантики), никогда бы не
+    # запрашивались. Теперь вместо этого используется постоянный (между
+    # запусками) кэш САМИХ ФРАЗ в wordstat_client (data/wordstat_cache.json):
+    # каждый артикул обрабатывается заново при каждом прогоне, но любая уже
+    # когда-либо запрошенная фраза (для ЭТОГО или любого ДРУГОГО артикула —
+    # кэш общий, не по артикулам) берётся из кэша мгновенно, без обращения к
+    # Wordstat. Реальные запросы к API уходят только по фразам, которых в
+    # кэше ещё никогда не было. add_semantics() при этом сам не дублирует
+    # уже имеющиеся пары (артикул, фраза), так что повторная обработка
+    # готовых артикулов безопасна и просто ничего не добавляет.
+    wordstat_client.reset_cache_stats()
     since_checkpoint = 0
     for i, (article, seed) in enumerate(rows, start=1):
-        # Если по этому артикулу уже есть собранные фразы (с прошлого
-        # запуска) — не тратим на него запрос повторно. Это позволяет
-        # безопасно перезапускать batch несколько раз (например, после
-        # упора в часовой лимit Wordstat 100 запросов/час) — уже готовые
-        # артикулы просто пропускаются, тратим запросы только на новые/ещё
-        # пустые.
-        if seo_store.get_semantics_for_article(article):
-            total_skipped += 1
-            print(f"[{i}/{len(rows)}] {article}: уже есть собранные фразы, пропускаю")
-            continue
         seeds = [s.strip() for s in seed.split(";") if s.strip()]
-        cache_key = tuple(s.casefold() for s in seeds)
+        # Каталожные номера прямо из названия артикула — отдельным
+        # запросом, автоматически, без ручного заполнения (проверено:
+        # "0BH325159" сам по себе дал 193 реальных поиска в Wordstat,
+        # которых не было ни в одной обычной разговорной фразе — см. чат).
+        for pn in wordstat_client.extract_part_numbers(article):
+            if pn.casefold() not in (s.casefold() for s in seeds):
+                seeds.append(pn)
         print(f"[{i}/{len(rows)}] {article}: {seeds}")
-        if cache_key in seed_cache:
-            phrases = seed_cache[cache_key]
-            total_reused += 1
-            print("  (те же фразы уже запрашивались в этом запуске — беру готовый результат)")
-        else:
-            try:
-                phrases = wordstat_client.collect_semantics(seeds, expand_associations=True)
-            except wordstat_client.WordstatRateLimitedError:
-                # Лимит запросов ещё не восстановился (например, этот
-                # прогон стартовал в том же "часе", что и предыдущий,
-                # который уже выбрал лимит) — дальше перебирать оставшиеся
-                # позиции бессмысленно, все запросы будут падать так же.
-                # Останавливаемся сразу вместо того, чтобы тратить ещё
-                # много минут на заведомо обречённые попытки.
-                print(
-                    f"  {article}: Wordstat всё ещё отвечает 'превышен лимит запросов' "
-                    "даже после повторных попыток."
-                )
-                print(
-                    "\nОстанавливаюсь пораньше — похоже, часовой лимит запросов Wordstat "
-                    "ещё не восстановился с прошлого запуска. Обычно он сбрасывается на "
-                    "границе часа — попробуйте запустить wordstat-collect-batch снова "
-                    "примерно через 30-60 минут (или после начала следующего часа). "
-                    "Уже собранные позиции при повторном запуске не тронутся — batch "
-                    "пропускает то, что уже есть."
-                )
-                _git_checkpoint(f"прервано по лимиту на {i}/{len(rows)}")
-                print(
-                    f"\nГотово (прервано по лимиту). Всего новых строк добавлено: {total_added} "
-                    f"(пропущено уже собранных: {total_skipped}, переиспользовано: {total_reused})"
-                )
-                return 1
-            except Exception as exc:  # не прерывать всю очередь из-за одного артикула
-                print(f"  ОШИБКА по {article}: {exc}")
-                continue
-            seed_cache[cache_key] = phrases
+        try:
+            phrases = wordstat_client.collect_semantics(seeds, expand_associations=True)
+        except wordstat_client.WordstatRateLimitedError:
+            # Лимит запросов ещё не восстановился (например, этот
+            # прогон стартовал в том же "часе", что и предыдущий,
+            # который уже выбрал лимит) — дальше перебирать оставшиеся
+            # позиции бессмысленно, все запросы будут падать так же.
+            # Останавливаемся сразу вместо того, чтобы тратить ещё
+            # много минут на заведомо обречённые попытки.
+            print(
+                f"  {article}: Wordstat всё ещё отвечает 'превышен лимит запросов' "
+                "даже после повторных попыток."
+            )
+            print(
+                "\nОстанавливаюсь пораньше — похоже, часовой лимит запросов Wordstat "
+                "ещё не восстановился с прошлого запуска. Обычно он сбрасывается на "
+                "границе часа — попробуйте запустить wordstat-collect-batch снова "
+                "примерно через 30-60 минут (или после начала следующего часа). "
+                "Уже запрошенные фразы сохранены в постоянном кэше "
+                "(data/wordstat_cache.json) и при повторном запуске НЕ потребуют "
+                "новых обращений к Wordstat — реальные запросы уйдут только по "
+                "действительно новым фразам."
+            )
+            _git_checkpoint(f"прервано по лимиту на {i}/{len(rows)}")
+            stats = wordstat_client.cache_stats()
+            print(
+                f"\nГотово (прервано по лимиту). Всего новых строк добавлено: {total_added} "
+                f"(из кэша: {stats['hits']}, реально запрошено у Wordstat: {stats['misses']})"
+            )
+            return 1
+        except Exception as exc:  # не прерывать всю очередь из-за одного артикула
+            print(f"  ОШИБКА по {article}: {exc}")
+            continue
         if not phrases:
             print(f"  {article}: Wordstat не вернул ни одной фразы, пропущено")
+            total_articles_no_new += 1
             continue
         added = seo_store.add_semantics(article, phrases)
         total_added += added
+        if added == 0:
+            total_articles_no_new += 1
         print(f"  {article}: собрано {len(phrases)} фраз, новых добавлено {added}")
 
         if added > 0:
@@ -935,14 +960,13 @@ def cmd_wordstat_collect_batch() -> int:
                 since_checkpoint = 0
 
     _git_checkpoint("финал прогона")
+    stats = wordstat_client.cache_stats()
     print(
         f"\nГотово. Всего новых строк добавлено в data/seo_keywords.xlsx: {total_added} "
-        f"(пропущено уже собранных артикулов: {total_skipped}, "
-        f"переиспользовано без повторного запроса: {total_reused})"
+        f"(артикулов без новых строк: {total_articles_no_new})\n"
+        f"Постоянный кэш фраз (data/wordstat_cache.json): взято из кэша {stats['hits']}, "
+        f"реально запрошено у Wordstat {stats['misses']}"
     )
-    return 0
-
-    print(f"\nОбновлено: {xlsx_path}")
     return 0
 
 

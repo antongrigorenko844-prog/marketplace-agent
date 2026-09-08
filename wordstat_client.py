@@ -17,7 +17,9 @@ wordstat.yandex.ru — это было бы против правил площа
 ВАЖНО: путь метода версионируется (сейчас /v2/...) — комментарий "# ENDPOINT"
 отмечает, что проверять первым при ошибке 404.
 """
+import json
 import logging
+import os
 import re
 import time
 from typing import Dict, List, Optional
@@ -27,6 +29,66 @@ import requests
 from config import config
 
 logger = logging.getLogger("marketplace-agent.wordstat")
+
+# ПОСТОЯННЫЙ (между запусками) кэш ответов Wordstat по фразе — ключ:
+# "фраза|регионы|устройства". Если фраза уже когда-либо запрашивалась (в
+# ЛЮБОМ прошлом запуске, для ЛЮБОГО артикула — не только в текущем прогоне),
+# результат берётся отсюда без обращения к API. Это то, о чём просил
+# пользователь: если семантика под "dsg7 dq200" уже собрана один раз, она
+# переиспользуется везде, где эта же фраза встречается снова, а не
+# запрашивается заново на каждый прогон.
+#
+# ВАЖНО: кэшируется СЫРОЙ ответ API (results+associations), а НЕ уже
+# отфильтрованные "релевантные" фразы. Это специально — фильтр релевантности
+# (_is_relevant/_STRONG_TOKENS и т.п.) в этом проекте регулярно дорабатывается
+# по мере находок на реальных данных; если бы кэшировался готовый
+# отфильтрованный результат, старые записи "заморозили" бы решения СТАРОГО
+# фильтра навсегда. А так при каждом сборе (даже из кэша) фильтрация
+# применяется заново, актуальной версией _is_relevant.
+_CACHE_PATH = os.path.join(os.path.dirname(__file__), "data", "wordstat_cache.json")
+_phrase_cache: Optional[Dict[str, dict]] = None
+_cache_hits = 0
+_cache_misses = 0
+
+
+def _load_cache() -> Dict[str, dict]:
+    global _phrase_cache
+    if _phrase_cache is None:
+        if os.path.exists(_CACHE_PATH):
+            try:
+                with open(_CACHE_PATH, "r", encoding="utf-8") as f:
+                    _phrase_cache = json.load(f)
+            except (json.JSONDecodeError, OSError) as exc:
+                logger.warning("Wordstat: не удалось прочитать кэш %s: %s — начинаю с пустого", _CACHE_PATH, exc)
+                _phrase_cache = {}
+        else:
+            _phrase_cache = {}
+    return _phrase_cache
+
+
+def _save_cache() -> None:
+    if _phrase_cache is None:
+        return
+    try:
+        os.makedirs(os.path.dirname(_CACHE_PATH), exist_ok=True)
+        tmp_path = _CACHE_PATH + ".tmp"
+        with open(tmp_path, "w", encoding="utf-8") as f:
+            json.dump(_phrase_cache, f, ensure_ascii=False, indent=1, sort_keys=True)
+        os.replace(tmp_path, _CACHE_PATH)
+    except OSError as exc:
+        logger.warning("Wordstat: не удалось сохранить кэш %s: %s", _CACHE_PATH, exc)
+
+
+def cache_stats() -> Dict[str, int]:
+    """Сколько фраз в текущем прогоне взято из постоянного кэша без обращения
+    к Wordstat, а сколько реально запрошено у API — для итогового отчёта."""
+    return {"hits": _cache_hits, "misses": _cache_misses}
+
+
+def reset_cache_stats() -> None:
+    global _cache_hits, _cache_misses
+    _cache_hits = 0
+    _cache_misses = 0
 
 # Пауза между КАЖДЫМ запросом (успешным или нет) — держит нас заведомо ниже
 # лимита API (~10 запросов/сек) и на практике почти полностью убирает
@@ -84,9 +146,20 @@ _DEFAULT_REGION_IDS = ["225"]
 #     оправдать ещё один отдельный запрос именно по этому голому слову.
 _STRONG_TOKENS = [
     # коды коробок/платформ — однозначны
-    "dq200", "dq500", "dq250", "dq381", "0am", "0cw", "0bh", "0bt", "0b5",
+    "dq200", "dq500", "dq250", "dq381", "0cw", "0bh", "0bt", "0b5",
     "02e", "0d9", "0aw", "dsg", "ea888", "jf015e", "jf011e", "6t30", "6t40",
     "6t45", "6t50",
+    # кириллический вариант DSG — реальные пользователи часто набирают его
+    # фонетической транслитерацией "ДСГ" — без этого такие фразы не
+    # распознавались бы фильтром как релевантные
+    "дсг",
+    # ВАЖНО: "0am"/"0ам" сюда НЕ добавляем, хотя это тоже код платформы —
+    # без границы слова (а в этом списке её нет, см. _STRONG_RE) "0am"
+    # ловит подстрокой время суток "10am"/"20am" и т.п. Вместо этого они
+    # обрабатываются отдельно ниже (_SHORT_CODE_WORDS) — засчитываются
+    # только когда реально являются словом СИДА (т.е. только для статей,
+    # где "0am"/"0ам" явно стоит рядом с целевым словом типа "мехатроник
+    # 0am"), и с обязательной границей слова через _word_present.
     # конкретные узлы/детали DSG/CVT-трансмиссии и сцепления — низкий риск омонимии
     # ВАЖНО: сюда нельзя добавлять узлы, которые существуют в ЛЮБОМ автомобиле/
     # механизме независимо от коробки (коленвал, распредвал, редуктор, шкив,
@@ -96,7 +169,14 @@ _STRONG_TOKENS = [
     # редукторы мотоблоков, стартеры триммеров и т.д.) — проверено на реальных
     # данных: только "коленвал"/"распредвал"/"редуктор"/"шкив"/"шестерн"/
     # "стартер" дали 349 мусорных строк из 2529 в одном тестовом сборе.
-    "шток", "втулк", "клипс", "пыльник", "поршен", "гидроблок",
+    # "гидроблок" и "втулк" сюда же по той же причине: "гидроблок" — родовой
+    # термин для гидроблока ЛЮБОЙ коробки (нашли "гидроблока кпп zf 4wg 210" —
+    # тракторный/спецтехники ZF, не DSG), "втулк" — родовое машиностроительное
+    # слово ("втулка скольжения с фланцем", "втулку распредвала на мтз 82" —
+    # трактор Беларус). Оставлены только там, где реально нет альтернативы
+    # (JF015E/DQ200-специфичные результаты по-прежнему проходят через
+    # собственные слова сида этих статей, не через этот список).
+    "шток", "клипс", "пыльник", "поршен",
     "гидроаккумулятор", "соленоид", "толкател", "полумуфт", "диск сцеплени",
 ]
 _WEAK_TOKENS = [
@@ -167,9 +247,16 @@ _BRAND_TOKEN_PATTERNS = [
 ]
 
 
+_SHORT_CODE_WORDS = {"0am", "0ам"}  # короткие (<4 симв.), но однозначные коды —
+# см. _word_present ниже: "0am"/"0ам" учитываются ТОЛЬКО когда реально стоят
+# в стартовой фразе статьи (например "мехатроник 0am"), и только по границе
+# слова — иначе "0am" без границы ловит время суток "10am"/"20am" и т.п.
+
+
 def _seed_keywords(seed: str) -> List[str]:
-    """Значимые слова (4+ букв) из стартовой фразы — доп. сигнал релевантности."""
-    return [w for w in re.findall(r"[a-zа-яё0-9]+", seed.lower()) if len(w) >= 4]
+    """Значимые слова (4+ букв, либо известные короткие коды) из стартовой фразы."""
+    words = re.findall(r"[a-zа-яё0-9]+", seed.lower())
+    return [w for w in words if len(w) >= 4 or w in _SHORT_CODE_WORDS]
 
 
 def _word_present(word: str, low: str) -> bool:
@@ -478,13 +565,24 @@ def get_top_requests(
     if not clean_phrase:
         # После чистки спецсимволов ничего не осталось — отправлять нечего.
         return {}
+    regions = region_ids or _DEFAULT_REGION_IDS
+    cache_key = f"{clean_phrase.casefold()}|{','.join(regions)}|{device}"
+    cache = _load_cache()
+    global _cache_hits, _cache_misses
+    if cache_key in cache:
+        _cache_hits += 1
+        return cache[cache_key]
     payload = {
         "phrase": clean_phrase,
         "numPhrases": num_phrases,
         "devices": device,
-        "regions": region_ids or _DEFAULT_REGION_IDS,
+        "regions": regions,
     }
-    return _post("/v2/wordstat/topRequests", payload)
+    data = _post("/v2/wordstat/topRequests", payload)
+    _cache_misses += 1
+    cache[cache_key] = data
+    _save_cache()
+    return data
 
 
 def collect_semantics(
