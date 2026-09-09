@@ -25,6 +25,7 @@ raw.githubusercontent.com.
 """
 import logging
 import os
+import re
 import time
 from typing import Optional
 
@@ -43,6 +44,22 @@ _CONTENT_TYPES = {
     ".mp4": "video/mp4",
     ".mov": "video/quicktime",
 }
+
+# GitHub сам "очищает" имена ассетов релиза при загрузке — например, пробелы
+# (и вообще любые символы вне безопасного набора, включая кириллицу) он
+# превращает в точки. То есть загруженный файл "02E 305 045_1.png" реально
+# сохраняется на GitHub как "02E.305.045_1.png". Если сравнивать имена
+# буквально, наша проверка "такой файл уже есть — удалить перед перезаливкой"
+# не находит совпадение (мы ищем "02E 305 045_1.png", а там лежит
+# "02E.305.045_1.png") — и тогда повторная загрузка падает с ошибкой
+# "already_exists", хотя по сути мы просто пытаемся перезалить тот же файл.
+# Чтобы найти и удалить старую версию в любом случае, сравниваем имена после
+# такой же нормализации с обеих сторон.
+_UNSAFE_NAME_CHARS = re.compile(r"[^A-Za-z0-9._-]")
+
+
+def _normalize_asset_name(name: str) -> str:
+    return _UNSAFE_NAME_CHARS.sub(".", name)
 
 
 class PhotoHostError(RuntimeError):
@@ -111,10 +128,18 @@ def _get_or_create_release(token: str, repo: str) -> dict:
     return resp.json()
 
 
-def _delete_asset_if_exists(token: str, repo: str, release: dict, filename: str) -> None:
+def _delete_asset_if_exists(token: str, repo: str, release: dict, filename: str) -> bool:
+    """Удаляет старую версию ассета с таким именем, если она есть.
+
+    Сравнение идёт по нормализованному имени (см. _normalize_asset_name),
+    чтобы находить старую версию, даже если GitHub при первой загрузке
+    заменил в её имени пробелы/кириллицу/т.п. на точки. Возвращает True,
+    если что-то реально удалили.
+    """
     headers = _headers(token)
+    target = _normalize_asset_name(filename)
     for asset in release.get("assets", []):
-        if asset.get("name") == filename:
+        if _normalize_asset_name(asset.get("name", "")) == target:
             del_resp = requests.delete(
                 f"{API_BASE}/repos/{repo}/releases/assets/{asset['id']}",
                 headers=headers,
@@ -126,7 +151,9 @@ def _delete_asset_if_exists(token: str, repo: str, release: dict, filename: str)
                     filename,
                     del_resp.text[:200],
                 )
-            return
+                return False
+            return True
+    return False
 
 
 def upload_file(local_path: str, filename: Optional[str] = None, retries: int = 3) -> str:
@@ -160,6 +187,13 @@ def upload_file(local_path: str, filename: Optional[str] = None, retries: int = 
         if resp.ok:
             return resp.json()["browser_download_url"]
         last_error = f"{resp.status_code}: {resp.text[:300]}"
+        # Если GitHub всё равно ответил "такое имя уже есть" (например, наша
+        # нормализация не поймала какой-то редкий символ) — сразу же ещё раз
+        # ищем и удаляем конфликтующий ассет посвежее (release мог поменяться
+        # между попытками) и пробуем снова, не тратя все retries впустую.
+        if resp.status_code == 422 and "already_exists" in resp.text:
+            fresh_release = _get_or_create_release(token, repo)
+            _delete_asset_if_exists(token, repo, fresh_release, filename)
         logger.warning(
             "Загрузка %s как ассета релиза не удалась (попытка %d/%d): %s",
             filename,
