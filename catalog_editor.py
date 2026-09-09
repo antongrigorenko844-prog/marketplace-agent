@@ -60,6 +60,7 @@ COLUMNS = [
     ("video_url", "Видео: ссылка на .mp4/.mov, до 50 МБ (пусто = не менять, ЭКСПЕРИМЕНТАЛЬНО см. README)"),
     ("quantity_to_sell", "Кол-во к продаже (пока не используется push-ozon-cards)"),
     ("notes", "Заметки"),
+    ("tnved", "Код ТН ВЭД (пусто = не менять; заполните, если Ozon пишет 'не заполнен обязательный атрибут ТН ВЭД')"),
 ]
 
 # id атрибута внутри блока attributes, который зеркалит название товара —
@@ -301,11 +302,23 @@ def build_ozon_catalog(data: dict, xlsx_path: str) -> int:
         prev = existing_by_offer.get(offer_id, {})
         prev_qty = prev.get("quantity_to_sell")
         prev_notes = prev.get("notes")
+        prev_tnved = prev.get("tnved")
+
+        tnved_attr_id = _get_tnved_attr_id(
+            n.get("description_category_id", 0), n.get("type_id", 0)
+        )
+        tnved = _find_attr_value(n.get("attributes"), tnved_attr_id) if tnved_attr_id else ""
+        if not tnved:
+            # Ozon пока не знает код (или мы уже вписывали его руками в прошлый
+            # раз, но push ещё не отправляли) — сохраняем то, что было введено
+            # раньше в этой же таблице, вместо того чтобы затирать пустотой.
+            tnved = prev_tnved if prev_tnved not in (None, "") else ""
 
         row_values = [
             offer_id, name, description, price, old_price, images_str, "",
             prev_qty if prev_qty not in (None, "") else "",
             prev_notes if prev_notes not in (None, "") else "",
+            tnved,
         ]
         for col_idx, value in enumerate(row_values, start=1):
             cell = ws.cell(row=row_idx, column=col_idx, value=value)
@@ -314,7 +327,7 @@ def build_ozon_catalog(data: dict, xlsx_path: str) -> int:
                 cell.fill = EDIT_FILL
         row_idx += 1
 
-    widths = [18, 45, 45, 12, 18, 55, 45, 20, 25]
+    widths = [18, 45, 45, 12, 18, 55, 45, 20, 25, 18]
     for col_idx, width in enumerate(widths, start=1):
         ws.column_dimensions[get_column_letter(col_idx)].width = width
 
@@ -500,6 +513,20 @@ def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:
             logger.warning(
                 "%s: в характеристиках его категории не нашлось атрибута 'видео' — видео "
                 "НЕ добавлено, остальное обновится как обычно.",
+                name_entry.get("offer_id"),
+            )
+
+    tnved = (edit.get("tnved") or "").strip()
+    if tnved:
+        tnved_attr_id = _get_tnved_attr_id(
+            name_entry.get("description_category_id", 0), name_entry.get("type_id", 0)
+        )
+        if tnved_attr_id:
+            attributes = _with_overridden_attr(attributes, tnved_attr_id, tnved)
+        else:
+            logger.warning(
+                "%s: в характеристиках его категории не нашлось атрибута 'ТН ВЭД' — код "
+                "НЕ добавлен, остальное обновится как обычно.",
                 name_entry.get("offer_id"),
             )
 
