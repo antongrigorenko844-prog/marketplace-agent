@@ -76,6 +76,14 @@ def add_semantics(
         key = (article.strip().casefold(), phrase.strip().casefold())
         if key in existing:
             continue
+        # ВАЖНО: помечаем ключ добавленным СРАЗУ, а не только сверяемся с тем,
+        # что было в файле ДО этого вызова. Без этого две разные по написанию
+        # фразы с одинаковым casefold (например "0am325091E" из totalCount и
+        # "0am325091e" из results/associations — см. чат) обе проходили бы
+        # проверку "key in existing" как "новые" и обе записывались бы в
+        # одном и том же вызове — реальный источник дублей, найденный на
+        # живых данных.
+        existing.add(key)
         ws.cell(row=r, column=1, value=article).font = _BODY_FONT
         ws.cell(row=r, column=2, value=phrase).font = _BODY_FONT
         ws.cell(row=r, column=3, value=count).font = _BODY_FONT
