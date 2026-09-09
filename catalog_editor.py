@@ -359,6 +359,7 @@ def load_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
         images = [u.strip() for u in str(images_raw).split("|") if u.strip()]
         name_val = raw.get("name")
         video_val = raw.get("video_url")
+        tnved_val = raw.get("tnved")
         edits[offer_id] = {
             "name": name_val.strip() if isinstance(name_val, str) else name_val,
             "description": raw.get("description") or "",
@@ -368,6 +369,14 @@ def load_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
             "video_url": video_val.strip() if isinstance(video_val, str) else (video_val or ""),
             "quantity_to_sell": raw.get("quantity_to_sell"),
             "notes": raw.get("notes"),
+            # БАГ (найден 2026-09-09): колонку "Код ТН ВЭД" добавили в COLUMNS
+            # и в построение payload (_build_one_item), но забыли прокинуть
+            # сюда — из-за этого push-ozon-cards-dryrun/push-ozon-cards
+            # молча игнорировали ВСЕ вписанные коды (edit.get("tnved") всегда
+            # был None). Видно было только по дампу dry-run payload — там
+            # атрибут 22232 отсутствовал у товаров, для которых код точно
+            # вписывали.
+            "tnved": tnved_val.strip() if isinstance(tnved_val, str) else (tnved_val or ""),
         }
     return edits
 
