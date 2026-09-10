@@ -151,6 +151,49 @@ def update_stocks(items: List[dict]) -> dict:
     return _post("/v2/products/stocks", {"stocks": items})
 
 
+def get_stocks(offer_ids: List[str]) -> List[dict]:
+    """
+    Текущий остаток по товарам (сколько реально доступно к продаже на
+    складах Ozon — FBO+FBS) по offer_id. Используется ОДИН РАЗ (см. main.py
+    --pull-ozon-stock), чтобы подтянуть стартовый остаток для товаров, у
+    которых в "Кол-во к продаже" ещё пусто (обычный сценарий — товар давно
+    продаётся, но остаток никогда не заводили в этой таблице). Дальше
+    источником истины по остатку снова становится только сам xlsx +
+    sync-orders/push-stock — этот метод не вызывается автоматически.
+
+    ENDPOINT: POST /v2/product/info/stocks — путь подтверждён в живой
+    документации docs.ozon.ru 10.09.2026 (методы v1/v2, возвращают "сколько
+    единиц доступно, сколько ожидается в поставке и сколько зарезервировано
+    покупателями"). ТОЧНАЯ форма ответа (имена полей present/reserved
+    внутри массива "stocks") на реальных данных НЕ проверена — при первом
+    запуске pull-ozon-stock в логе печатается сырой ответ по первым товарам,
+    сверьте его с тем, что реально приходит, и поправьте разбор в
+    catalog_editor.stock_from_ozon_item, если имена полей не совпали.
+    """
+    out: List[dict] = []
+    chunk = 1000
+    for i in range(0, len(offer_ids), chunk):
+        batch = offer_ids[i : i + chunk]
+        cursor = ""
+        while True:
+            data = _post(
+                "/v2/product/info/stocks",
+                {
+                    "filter": {"offer_id": batch, "visibility": "ALL"},
+                    "limit": min(len(batch), 1000),
+                    "cursor": cursor,
+                },
+            )
+            items = data.get("items")
+            if items is None:
+                items = data.get("result", {}).get("items", [])
+            out.extend(items)
+            cursor = data.get("cursor") or ""
+            if not cursor or not items:
+                break
+    return out
+
+
 def update_prices(items: List[dict]) -> dict:
     """
     items: [{"offer_id": "...", "price": "1500", "old_price": "0",

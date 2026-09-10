@@ -534,6 +534,68 @@ def apply_stock_deltas(xlsx_path: str, deltas: Dict[str, int]) -> Dict[str, int]
     return new_values, sorted(remaining)
 
 
+def stock_from_ozon_item(item: dict) -> int:
+    """
+    Суммирует "present" (реально доступно к продаже прямо сейчас) по всем
+    складам (FBO+FBS) из одного элемента ответа ozon_client.get_stocks() —
+    это и есть единый остаток, который дальше живёт в колонке "Кол-во к
+    продаже" (общий пул для Ozon и WB, см. stock_sync.py). ЭКСПЕРИМЕНТАЛЬНО:
+    имя поля "present" не проверено на реальных данных (см. комментарий в
+    ozon_client.get_stocks) — если после pull-ozon-stock остаток выглядит
+    неверным (например, всегда 0), посмотрите сырой ответ в логе команды и
+    поправьте это место.
+    """
+    total = 0
+    for s in item.get("stocks") or []:
+        val = s.get("present")
+        if val is None:
+            val = s.get("value")
+        try:
+            total += int(val or 0)
+        except (TypeError, ValueError):
+            continue
+    return total
+
+
+def fill_empty_stock(xlsx_path: str, stocks: Dict[str, int]) -> "tuple[Dict[str, int], List[str]]":
+    """
+    Проставляет остаток из stocks (offer_id -> число) в колонку "Кол-во к
+    продаже" ТОЛЬКО для строк, где она СЕЙЧАС ПУСТАЯ — уже заполненные
+    (вручную или через sync-orders/push-stock) НЕ трогает, чтобы разовое
+    подтягивание с Ozon не затёрло накопленную здесь историю остатка.
+    Возвращает (offer_id -> новое значение [только реально заполненные
+    строки], список offer_id из stocks, которых не нашлось в файле).
+    """
+    if not stocks:
+        return {}, []
+
+    quantity_col_idx = next(i for i, (key, _) in enumerate(COLUMNS, start=1) if key == "quantity_to_sell")
+
+    wb = load_workbook(xlsx_path)
+    ws = wb.active
+
+    remaining = dict(stocks)
+    filled: Dict[str, int] = {}
+    for row in ws.iter_rows(min_row=2):
+        offer_id_cell = row[0]
+        if not offer_id_cell.value:
+            continue
+        offer_id = str(offer_id_cell.value).strip()
+        if offer_id not in remaining:
+            continue
+        value = remaining.pop(offer_id)
+        qty_cell = row[quantity_col_idx - 1]
+        if qty_cell.value not in (None, ""):
+            continue  # уже заполнено — разовое подтягивание его не перезаписывает
+        qty_cell.value = value
+        qty_cell.fill = EDIT_FILL
+        filled[offer_id] = value
+
+    if filled:
+        wb.save(xlsx_path)
+    return filled, sorted(remaining)
+
+
 # --- Видео (ЭКСПЕРИМЕНТАЛЬНО, см. README) ---------------------------------
 #
 # У Ozon нет отдельного метода для видео, как у WB (/content/v3/media/save).

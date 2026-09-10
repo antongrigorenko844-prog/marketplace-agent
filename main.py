@@ -923,6 +923,61 @@ def cmd_push_stock() -> int:
     return 0 if total_err == 0 else 1
 
 
+def cmd_pull_ozon_stock() -> int:
+    """
+    Разовое действие: подтягивает ТЕКУЩИЙ остаток напрямую из Ozon (сумма
+    "доступно к продаже" по FBO+FBS) и проставляет его в "Кол-во к продаже"
+    ozon_catalog.xlsx — но ТОЛЬКО для товаров, у которых эта ячейка сейчас
+    пустая (обычный случай для товаров, давно продающихся на Ozon, но ещё
+    ни разу не заведённых в эту таблицу). Уже заполненные ячейки (вручную
+    или через sync-orders/push-stock) не трогает. После этого разового
+    заполнения источником истины по остатку снова становится только этот
+    xlsx (см. --sync-orders / --push-stock).
+    """
+    import ozon_client
+    import catalog_editor
+
+    xlsx_path = _data_path("ozon_catalog.xlsx")
+    if not os.path.exists(xlsx_path):
+        print(f"Нет файла {xlsx_path} — сначала выполните build-ozon-catalog.")
+        return 1
+
+    edits = catalog_editor.load_catalog_edits(xlsx_path)
+    empty_ids = [oid for oid, e in edits.items() if e.get("quantity_to_sell") in (None, "")]
+    if not empty_ids:
+        print("У всех товаров в ozon_catalog.xlsx уже проставлен остаток в 'Кол-во к продаже' — подтягивать нечего.")
+        return 0
+
+    print(f"Товаров с пустым остатком: {len(empty_ids)} — запрашиваю текущий остаток у Ozon...")
+    items = ozon_client.get_stocks(empty_ids)
+    print(f"Ozon вернул данные по {len(items)} товарам.")
+    if items:
+        print("Пример сырого ответа (для проверки полей present/reserved — см. комментарий в ozon_client.get_stocks):")
+        print(json.dumps(items[:2], ensure_ascii=False, indent=2))
+
+    stocks = {}
+    for it in items:
+        oid = it.get("offer_id")
+        if not oid:
+            continue
+        stocks[oid] = catalog_editor.stock_from_ozon_item(it)
+
+    filled, unmatched_in_file = catalog_editor.fill_empty_stock(xlsx_path, stocks)
+    print(f"\nЗаполнено остатков в {xlsx_path}: {len(filled)}")
+    for oid, qty in sorted(filled.items()):
+        print(f"  {oid}: {qty}")
+
+    still_empty = sorted(set(empty_ids) - set(filled))
+    if still_empty:
+        print(
+            f"\nOzon не вернул остаток (или он не распознался) для {len(still_empty)} товаров — "
+            f"проверьте вручную: {', '.join(still_empty)}"
+        )
+
+    print("\nДальше: build-master-control, чтобы увидеть заполненные остатки в master_control.xlsx.")
+    return 0
+
+
 def cmd_test_wordstat() -> int:
     import wordstat_client
 
@@ -1200,6 +1255,7 @@ def main() -> int:
     parser.add_argument("--sync-orders", action="store_true", help="Общий учёт остатков: списать заказы Ozon+WB за 30 дней из 'Кол-во к продаже' в data/ozon_catalog.xlsx")
     parser.add_argument("--push-stock-dryrun", action="store_true", help="Показать остатки ('Кол-во к продаже'/'Остаток, шт.'), которые будут отправлены в Ozon, БЕЗ реальной отправки")
     parser.add_argument("--push-stock", action="store_true", help="Реально отправить остатки в Ozon (сначала всегда делайте dryrun!)")
+    parser.add_argument("--pull-ozon-stock", action="store_true", help="Разово подтянуть текущий остаток из Ozon в 'Кол-во к продаже' для товаров, где эта ячейка ещё пустая")
     parser.add_argument("--test-wordstat", action="store_true", help="Проверить, что ключ Wordstat API работает")
     parser.add_argument("--wordstat-collect", action="store_true", help="Собрать SEO-семантику по артикулу через Wordstat API (см. --article/--seed-phrase)")
     parser.add_argument("--wordstat-collect-batch", action="store_true", help="Собрать SEO-семантику сразу по списку артикулов из data/wordstat_queue.xlsx")
@@ -1279,6 +1335,8 @@ def main() -> int:
         return cmd_push_stock_dryrun()
     if args.push_stock:
         return cmd_push_stock()
+    if args.pull_ozon_stock:
+        return cmd_pull_ozon_stock()
 
     parser.print_help()
     return 0
