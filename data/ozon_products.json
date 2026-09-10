@@ -729,7 +729,7 @@
       "product_id": 6280673901,
       "offer_id": "nakladki-pedali",
       "has_fbo_stocks": false,
-      "has_fbs_stocks": false,
+      "has_fbs_stocks": true,
       "archived": false,
       "is_discounted": false,
       "quants": [],
@@ -939,11 +939,11 @@
       "product_id": 6287286144,
       "offer_id": "klipsy-shtokov-2sht",
       "has_fbo_stocks": false,
-      "has_fbs_stocks": false,
+      "has_fbs_stocks": true,
       "archived": false,
       "is_discounted": false,
       "quants": [],
-      "sku": 0
+      "sku": 5756308746
     },
     {
       "product_id": 6287286167,
@@ -1058,6 +1058,66 @@
     {
       "product_id": 6290562676,
       "offer_id": "plita-pylniki-salniki-orig",
+      "has_fbo_stocks": false,
+      "has_fbs_stocks": false,
+      "archived": false,
+      "is_discounted": false,
+      "quants": [],
+      "sku": 0
+    },
+    {
+      "product_id": 6291485580,
+      "offer_id": "porshni-usil-pylniki-kryshki-v2",
+      "has_fbo_stocks": false,
+      "has_fbs_stocks": false,
+      "archived": false,
+      "is_discounted": false,
+      "quants": [],
+      "sku": 0
+    },
+    {
+      "product_id": 6291485626,
+      "offer_id": "remkomplekt-shtokov-orig-v2",
+      "has_fbo_stocks": false,
+      "has_fbs_stocks": false,
+      "archived": false,
+      "is_discounted": false,
+      "quants": [],
+      "sku": 0
+    },
+    {
+      "product_id": 6291485636,
+      "offer_id": "salnik-shtoka-orig-v2",
+      "has_fbo_stocks": false,
+      "has_fbs_stocks": false,
+      "archived": false,
+      "is_discounted": false,
+      "quants": [],
+      "sku": 0
+    },
+    {
+      "product_id": 6291485641,
+      "offer_id": "pylniki-shtokov-orig-v2",
+      "has_fbo_stocks": false,
+      "has_fbs_stocks": false,
+      "archived": false,
+      "is_discounted": false,
+      "quants": [],
+      "sku": 0
+    },
+    {
+      "product_id": 6291485646,
+      "offer_id": "plita-filtr-v2",
+      "has_fbo_stocks": false,
+      "has_fbs_stocks": false,
+      "archived": false,
+      "is_discounted": false,
+      "quants": [],
+      "sku": 0
+    },
+    {
+      "product_id": 6291485654,
+      "offer_id": "plita-pylniki-salniki-orig-v2",
       "has_fbo_stocks": false,
       "has_fbs_stocks": false,
       "archived": false,
@@ -7292,7 +7352,7 @@
       }
     },
     {
-      "acquiring": 9.5,
+      "acquiring": 12.4,
       "offer_id": "podshipnik-vilki-6",
       "product_id": 6287286078,
       "volume_weight": 1,
@@ -7321,10 +7381,10 @@
       "price": {
         "auto_action_enabled": false,
         "currency_code": "RUB",
-        "marketing_seller_price": 950,
+        "marketing_seller_price": 1240,
         "min_price": 0,
         "old_price": 1500,
-        "price": 950,
+        "price": 1240,
         "retail_price": 0,
         "vat": 0,
         "auto_add_to_ozon_actions_list_enabled": true,
@@ -7558,25 +7618,25 @@
       }
     },
     {
-      "acquiring": 0,
+      "acquiring": 9.5,
       "offer_id": "klipsy-shtokov-2sht",
       "product_id": 6287286144,
       "volume_weight": 0.1,
       "commissions": {
-        "fbo_deliv_to_customer_amount": 0,
-        "fbo_direct_flow_trans_max_amount": 0,
-        "fbo_direct_flow_trans_min_amount": 0,
-        "fbo_return_flow_amount": 0,
-        "fbs_deliv_to_customer_amount": 0,
-        "fbs_direct_flow_trans_min_amount": 0,
-        "fbs_direct_flow_trans_max_amount": 0,
-        "fbs_first_mile_max_amount": 0,
+        "fbo_deliv_to_customer_amount": 25,
+        "fbo_direct_flow_trans_max_amount": 144,
+        "fbo_direct_flow_trans_min_amount": 56,
+        "fbo_return_flow_amount": 107,
+        "fbs_deliv_to_customer_amount": 25,
+        "fbs_direct_flow_trans_min_amount": 56,
+        "fbs_direct_flow_trans_max_amount": 144,
+        "fbs_first_mile_max_amount": 10,
         "fbs_first_mile_min_amount": 0,
-        "fbs_return_flow_amount": 0,
-        "sales_percent_fbo": 0,
-        "sales_percent_fbs": 0,
-        "sales_percent_rfbs": 0,
-        "sales_percent_fbp": 0
+        "fbs_return_flow_amount": 144,
+        "sales_percent_fbo": 47,
+        "sales_percent_fbs": 47,
+        "sales_percent_rfbs": 47,
+        "sales_percent_fbp": 47
       },
       "marketing_actions": {
         "current_period_from": null,
@@ -7587,7 +7647,7 @@
       "price": {
         "auto_action_enabled": false,
         "currency_code": "RUB",
-        "marketing_seller_price": 0,
+        "marketing_seller_price": 950,
         "min_price": 0,
         "old_price": 1500,
         "price": 950,
@@ -7597,10 +7657,22 @@
         "net_price": 0
       },
       "price_indexes": {
-        "external_index_data": null,
-        "ozon_index_data": null,
+        "external_index_data": {
+          "min_price": 0,
+          "min_price_currency": "",
+          "price_index_value": 0
+        },
+        "ozon_index_data": {
+          "min_price": 0,
+          "min_price_currency": "",
+          "price_index_value": 0
+        },
         "color_index": "WITHOUT_INDEX",
-        "self_marketplaces_index_data": null
+        "self_marketplaces_index_data": {
+          "min_price": 0,
+          "min_price_currency": "",
+          "price_index_value": 0
+        }
       }
     },
     {
@@ -8209,6 +8281,282 @@
       "acquiring": 0,
       "offer_id": "plita-pylniki-salniki-orig",
       "product_id": 6290562676,
+      "volume_weight": 1,
+      "commissions": {
+        "fbo_deliv_to_customer_amount": 0,
+        "fbo_direct_flow_trans_max_amount": 0,
+        "fbo_direct_flow_trans_min_amount": 0,
+        "fbo_return_flow_amount": 0,
+        "fbs_deliv_to_customer_amount": 0,
+        "fbs_direct_flow_trans_min_amount": 0,
+        "fbs_direct_flow_trans_max_amount": 0,
+        "fbs_first_mile_max_amount": 0,
+        "fbs_first_mile_min_amount": 0,
+        "fbs_return_flow_amount": 0,
+        "sales_percent_fbo": 0,
+        "sales_percent_fbs": 0,
+        "sales_percent_rfbs": 0,
+        "sales_percent_fbp": 0
+      },
+      "marketing_actions": {
+        "current_period_from": null,
+        "current_period_to": null,
+        "actions": [],
+        "ozon_actions_exist": false
+      },
+      "price": {
+        "auto_action_enabled": false,
+        "currency_code": "RUB",
+        "marketing_seller_price": 0,
+        "min_price": 0,
+        "old_price": 13500,
+        "price": 9500,
+        "retail_price": 0,
+        "vat": 0,
+        "auto_add_to_ozon_actions_list_enabled": true,
+        "net_price": 0
+      },
+      "price_indexes": {
+        "external_index_data": null,
+        "ozon_index_data": null,
+        "color_index": "WITHOUT_INDEX",
+        "self_marketplaces_index_data": null
+      }
+    },
+    {
+      "acquiring": 0,
+      "offer_id": "porshni-usil-pylniki-kryshki-v2",
+      "product_id": 6291485580,
+      "volume_weight": 0.5,
+      "commissions": {
+        "fbo_deliv_to_customer_amount": 0,
+        "fbo_direct_flow_trans_max_amount": 0,
+        "fbo_direct_flow_trans_min_amount": 0,
+        "fbo_return_flow_amount": 0,
+        "fbs_deliv_to_customer_amount": 0,
+        "fbs_direct_flow_trans_min_amount": 0,
+        "fbs_direct_flow_trans_max_amount": 0,
+        "fbs_first_mile_max_amount": 0,
+        "fbs_first_mile_min_amount": 0,
+        "fbs_return_flow_amount": 0,
+        "sales_percent_fbo": 0,
+        "sales_percent_fbs": 0,
+        "sales_percent_rfbs": 0,
+        "sales_percent_fbp": 0
+      },
+      "marketing_actions": {
+        "current_period_from": null,
+        "current_period_to": null,
+        "actions": [],
+        "ozon_actions_exist": false
+      },
+      "price": {
+        "auto_action_enabled": false,
+        "currency_code": "RUB",
+        "marketing_seller_price": 0,
+        "min_price": 0,
+        "old_price": 6500,
+        "price": 3990,
+        "retail_price": 0,
+        "vat": 0,
+        "auto_add_to_ozon_actions_list_enabled": true,
+        "net_price": 0
+      },
+      "price_indexes": {
+        "external_index_data": null,
+        "ozon_index_data": null,
+        "color_index": "WITHOUT_INDEX",
+        "self_marketplaces_index_data": null
+      }
+    },
+    {
+      "acquiring": 0,
+      "offer_id": "remkomplekt-shtokov-orig-v2",
+      "product_id": 6291485626,
+      "volume_weight": 0.5,
+      "commissions": {
+        "fbo_deliv_to_customer_amount": 0,
+        "fbo_direct_flow_trans_max_amount": 0,
+        "fbo_direct_flow_trans_min_amount": 0,
+        "fbo_return_flow_amount": 0,
+        "fbs_deliv_to_customer_amount": 0,
+        "fbs_direct_flow_trans_min_amount": 0,
+        "fbs_direct_flow_trans_max_amount": 0,
+        "fbs_first_mile_max_amount": 0,
+        "fbs_first_mile_min_amount": 0,
+        "fbs_return_flow_amount": 0,
+        "sales_percent_fbo": 0,
+        "sales_percent_fbs": 0,
+        "sales_percent_rfbs": 0,
+        "sales_percent_fbp": 0
+      },
+      "marketing_actions": {
+        "current_period_from": null,
+        "current_period_to": null,
+        "actions": [],
+        "ozon_actions_exist": false
+      },
+      "price": {
+        "auto_action_enabled": false,
+        "currency_code": "RUB",
+        "marketing_seller_price": 0,
+        "min_price": 0,
+        "old_price": 4000,
+        "price": 2850,
+        "retail_price": 0,
+        "vat": 0,
+        "auto_add_to_ozon_actions_list_enabled": true,
+        "net_price": 0
+      },
+      "price_indexes": {
+        "external_index_data": null,
+        "ozon_index_data": null,
+        "color_index": "WITHOUT_INDEX",
+        "self_marketplaces_index_data": null
+      }
+    },
+    {
+      "acquiring": 0,
+      "offer_id": "salnik-shtoka-orig-v2",
+      "product_id": 6291485636,
+      "volume_weight": 0.1,
+      "commissions": {
+        "fbo_deliv_to_customer_amount": 0,
+        "fbo_direct_flow_trans_max_amount": 0,
+        "fbo_direct_flow_trans_min_amount": 0,
+        "fbo_return_flow_amount": 0,
+        "fbs_deliv_to_customer_amount": 0,
+        "fbs_direct_flow_trans_min_amount": 0,
+        "fbs_direct_flow_trans_max_amount": 0,
+        "fbs_first_mile_max_amount": 0,
+        "fbs_first_mile_min_amount": 0,
+        "fbs_return_flow_amount": 0,
+        "sales_percent_fbo": 0,
+        "sales_percent_fbs": 0,
+        "sales_percent_rfbs": 0,
+        "sales_percent_fbp": 0
+      },
+      "marketing_actions": {
+        "current_period_from": null,
+        "current_period_to": null,
+        "actions": [],
+        "ozon_actions_exist": false
+      },
+      "price": {
+        "auto_action_enabled": false,
+        "currency_code": "RUB",
+        "marketing_seller_price": 0,
+        "min_price": 0,
+        "old_price": 2500,
+        "price": 1490,
+        "retail_price": 0,
+        "vat": 0,
+        "auto_add_to_ozon_actions_list_enabled": true,
+        "net_price": 0
+      },
+      "price_indexes": {
+        "external_index_data": null,
+        "ozon_index_data": null,
+        "color_index": "WITHOUT_INDEX",
+        "self_marketplaces_index_data": null
+      }
+    },
+    {
+      "acquiring": 0,
+      "offer_id": "pylniki-shtokov-orig-v2",
+      "product_id": 6291485641,
+      "volume_weight": 0.5,
+      "commissions": {
+        "fbo_deliv_to_customer_amount": 0,
+        "fbo_direct_flow_trans_max_amount": 0,
+        "fbo_direct_flow_trans_min_amount": 0,
+        "fbo_return_flow_amount": 0,
+        "fbs_deliv_to_customer_amount": 0,
+        "fbs_direct_flow_trans_min_amount": 0,
+        "fbs_direct_flow_trans_max_amount": 0,
+        "fbs_first_mile_max_amount": 0,
+        "fbs_first_mile_min_amount": 0,
+        "fbs_return_flow_amount": 0,
+        "sales_percent_fbo": 0,
+        "sales_percent_fbs": 0,
+        "sales_percent_rfbs": 0,
+        "sales_percent_fbp": 0
+      },
+      "marketing_actions": {
+        "current_period_from": null,
+        "current_period_to": null,
+        "actions": [],
+        "ozon_actions_exist": false
+      },
+      "price": {
+        "auto_action_enabled": false,
+        "currency_code": "RUB",
+        "marketing_seller_price": 0,
+        "min_price": 0,
+        "old_price": 3000,
+        "price": 1850,
+        "retail_price": 0,
+        "vat": 0,
+        "auto_add_to_ozon_actions_list_enabled": true,
+        "net_price": 0
+      },
+      "price_indexes": {
+        "external_index_data": null,
+        "ozon_index_data": null,
+        "color_index": "WITHOUT_INDEX",
+        "self_marketplaces_index_data": null
+      }
+    },
+    {
+      "acquiring": 0,
+      "offer_id": "plita-filtr-v2",
+      "product_id": 6291485646,
+      "volume_weight": 1,
+      "commissions": {
+        "fbo_deliv_to_customer_amount": 0,
+        "fbo_direct_flow_trans_max_amount": 0,
+        "fbo_direct_flow_trans_min_amount": 0,
+        "fbo_return_flow_amount": 0,
+        "fbs_deliv_to_customer_amount": 0,
+        "fbs_direct_flow_trans_min_amount": 0,
+        "fbs_direct_flow_trans_max_amount": 0,
+        "fbs_first_mile_max_amount": 0,
+        "fbs_first_mile_min_amount": 0,
+        "fbs_return_flow_amount": 0,
+        "sales_percent_fbo": 0,
+        "sales_percent_fbs": 0,
+        "sales_percent_rfbs": 0,
+        "sales_percent_fbp": 0
+      },
+      "marketing_actions": {
+        "current_period_from": null,
+        "current_period_to": null,
+        "actions": [],
+        "ozon_actions_exist": false
+      },
+      "price": {
+        "auto_action_enabled": false,
+        "currency_code": "RUB",
+        "marketing_seller_price": 0,
+        "min_price": 0,
+        "old_price": 12000,
+        "price": 7500,
+        "retail_price": 0,
+        "vat": 0,
+        "auto_add_to_ozon_actions_list_enabled": true,
+        "net_price": 0
+      },
+      "price_indexes": {
+        "external_index_data": null,
+        "ozon_index_data": null,
+        "color_index": "WITHOUT_INDEX",
+        "self_marketplaces_index_data": null
+      }
+    },
+    {
+      "acquiring": 0,
+      "offer_id": "plita-pylniki-salniki-orig-v2",
+      "product_id": 6291485654,
       "volume_weight": 1,
       "commissions": {
         "fbo_deliv_to_customer_amount": 0,
@@ -9671,7 +10019,7 @@
     {
       "id": 1508677255,
       "barcode": "",
-      "name": "Шток мехатроника DSG7 DQ200 99мм короткий 0AM325091F",
+      "name": "Усиленный шток мехатроника DSG7 DQ200 99мм короткий 0AM325091F",
       "offer_id": "0am325091f",
       "height": 50,
       "depth": 100,
@@ -9697,17 +10045,7 @@
           "values": [
             {
               "dictionary_value_id": 126745801,
-              "value": "Нет бренда"
-            }
-          ]
-        },
-        {
-          "id": 4180,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "Шток мехатроника DSG7 DQ200 99мм короткий 0AM325091F"
+              "value": ""
             }
           ]
         },
@@ -9717,17 +10055,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "🔩 Шток мехатроника DSG7 DQ200 — 0AM325091F (99 мм)<br/><br/>Оригинальный шток (clutch pusher rod) длиной 99 мм — для мехатроника коробки передач DSG7 DQ200 с сухим сцеплением. Отвечает за точную передачу усилия к вилке сцепления, входит в состав гидроблока.<br/><br/>✅ Совместимость: • DSG7 DQ200 (7-ступ., сухое сцепление) • Мехатроник 0AM / 0CW • Авто VAG-группы: VW, Audi, Skoda, Seat (после 2012 года выпуска) • Артикул: 0AM325091F (шток нового образца, 99 мм)<br/><br/>📌 Когда ставить: <br/><br/>• При замене вилки сцепления <br/><br/>• При ремонте гидроблока или штока <br/><br/>• Восстановление точности включения сцепления<br/><br/>Точная длина 99 мм (до 2012 г.)<br/><br/>📦 Очень быстрая отправка <br/><br/>👉 Деталь для тех, кто ремонтирует точно и надолго — оформите заказ без переплат<br/><br/>Шток мехатроника DSG7, длиной 99 мм, используется в роботизированных коробках передач DQ200 (0AM / 0CW) для корректной работы мехатроника. Артикул 0AM325091f. Подходит для автомобилей Volkswagen, Skoda и Audi с коробкой DSG7. Применяется при ремонте мехатроника dq200 dsg7, устраняет проблемы в том числе с включением передач.<br/><br/>💡В наличии оригинальные штоки DSG7 DQ200 0AM 0CW<br/><br/>•Идеальное состояние - каждый шток дсг 7 dq200 проверяется<br/><br/>•Штоки dq200 всегда в наличии<br/><br/>•Короткие 0am325091f<br/><br/>📌Шток dsg 7 с уже установленными новыми запчастями:<br/><br/>• пыльник штока dq200<br/><br/>• сальник штока dq200<br/><br/>• крышка штока dsg 7<br/><br/>Где используется? Шток дсг 7 используется при ремонте запчасти Мехатроник dsg 7 dq200 0am 0cw<br/><br/>У машин группы VAG все чаще встречаются проблемы со штоками мехатроника по причине больших пробегов автомобилей<br/><br/>В идеальном состоянии и всегда в наличии штоки мехатроника DQ200 DSG 7 0am 0cw (штоки дсг 7)<br/><br/>Есть как длинные 0am325091e, так и короткие 0am325091f<br/><br/>Оригинал VAG штоков dq200 проходит контроль качества<br/><br/>В штоках мехатроника дсг 7 абсолютно новые пыльник сальник и крышка штока dq200<br/><br/>Цена указана за 1 шток dsg7<br/><br/>👉Оформите заказ - отправим в лучшем виде!<br/><br/>🔎 Также ищут: шток dq200, штоки dq200, штоки мехатроника dq200."
-            }
-          ]
-        },
-        {
-          "id": 4497,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "200"
+              "value": "🔩 Усиленный шток мехатроника DSG7 DQ200 0AM325091F (99 мм)<br/><br/>Оригинальный шток (clutch pusher rod) длиной 99 мм — для мехатроника коробки передач DSG7 DQ200 с сухим сцеплением. Отвечает за точную передачу усилия к вилке сцепления, входит в состав гидроблока.<br/><br/>✅ Совместимость: • DSG7 DQ200 (7-ступ., сухое сцепление) • Мехатроник 0AM / 0CW • Авто VAG-группы: VW, Audi, Skoda, Seat (после 2012 года выпуска) • Артикул: 0AM325091F (шток нового образца, 99 мм)<br/><br/>📌 Когда ставить: <br/><br/>• При замене вилки сцепления <br/><br/>• При ремонте гидроблока или штока <br/><br/>• Восстановление точности включения сцепления<br/><br/>Точная длина 99 мм<br/><br/>📦 Очень быстрая отправка <br/><br/>👉 Деталь для тех, кто ремонтирует точно и надолго — оформите заказ без переплат<br/><br/>Шток мехатроника DSG7, длиной 99 мм, используется в роботизированных коробках передач DQ200 (0AM / 0CW) для корректной работы мехатроника. Артикул 0AM325091f. Подходит для автомобилей Volkswagen, Skoda и Audi с коробкой DSG7. Применяется при ремонте мехатроника dq200 dsg7, устраняет проблемы в том числе с включением передач.<br/><br/>💡В наличии оригинальные штоки DSG7 DQ200 0AM 0CW<br/><br/>•Идеальное состояние - каждый шток дсг 7 dq200 проверяется<br/><br/>•Штоки dq200 всегда в наличии<br/><br/>•Короткие 0am325091f<br/><br/>📌Шток dsg 7 с уже установленными новыми запчастями:<br/><br/>• пыльник штока dq200<br/><br/>• сальник штока dq200<br/><br/>• крышка штока dsg 7<br/><br/>Где используется? Шток дсг 7 используется при ремонте запчасти Мехатроник dsg 7 dq200 0am 0cw<br/><br/>У машин группы VAG все чаще встречаются проблемы со штоками мехатроника по причине больших пробегов автомобилей<br/><br/>В идеальном состоянии и всегда в наличии штоки мехатроника DQ200 DSG 7 0am 0cw (штоки дсг 7)<br/><br/>Есть как длинные 0am325091e, так и короткие 0am325091f<br/><br/>Оригинал VAG штоков dq200 проходит контроль качества<br/><br/>В штоках мехатроника дсг 7 абсолютно новые пыльник сальник и крышка штока dq200<br/><br/>Цена указана за 1 шток dsg7<br/><br/>👉Оформите заказ - отправим в лучшем виде!<br/><br/>🔎 Также ищут: шток dq200, штоки dq200, штоки мехатроника dq200."
             }
           ]
         },
@@ -9747,22 +10075,12 @@
           "values": [
             {
               "dictionary_value_id": 45536,
-              "value": "1"
+              "value": ""
             }
           ]
         },
         {
           "id": 7236,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "0am325091f"
-            }
-          ]
-        },
-        {
-          "id": 9024,
           "complex_id": 0,
           "values": [
             {
@@ -9807,7 +10125,7 @@
           "values": [
             {
               "dictionary_value_id": 971400283,
-              "value": "8708409909 - Части коробок передач, прочие: прочие"
+              "value": ""
             }
           ]
         },
@@ -9820,9 +10138,145 @@
               "value": "false"
             }
           ]
+        },
+        {
+          "id": 10096,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 10400,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 11031,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 7368,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 7324,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 4384,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 9782,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 20189,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 23249,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 11650,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 8513,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 21497,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 7206,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 22073,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 22390,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 4383,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 7199,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 23518,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 4389,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 4180,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "Усиленный шток мехатроника DSG7 DQ200 99мм короткий 0AM325091F"
+            }
+          ]
+        },
+        {
+          "id": 4497,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 9024,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325091f"
+            }
+          ]
         }
       ],
-      "complex_attributes": [],
+      "complex_attributes": [
+        {
+          "id": 22916,
+          "complex_id": 100003,
+          "values": []
+        },
+        {
+          "id": 22917,
+          "complex_id": 100003,
+          "values": []
+        },
+        {
+          "id": 22918,
+          "complex_id": 100003,
+          "values": []
+        }
+      ],
       "color_image": "",
       "sku": 1950704555,
       "barcodes": [],
@@ -11866,7 +12320,7 @@
     {
       "id": 1571501650,
       "barcode": "",
-      "name": "Шток мехатроника DSG7 DQ200 101мм 0AM325091E",
+      "name": "Усиленный шток мехатроника DSG7 DQ200 101мм 0AM325091E",
       "offer_id": "0am325091e",
       "height": 30,
       "depth": 150,
@@ -11892,17 +12346,7 @@
           "values": [
             {
               "dictionary_value_id": 115840909,
-              "value": "VAG (VW/Audi/Skoda/Seat)"
-            }
-          ]
-        },
-        {
-          "id": 4180,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "Шток мехатроника DSG7 DQ200 101мм 0AM325091E"
+              "value": ""
             }
           ]
         },
@@ -11912,7 +12356,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "🔩 Шток мехатроника DSG7 DQ200 — 0AM325091E (101 мм)<br/><br/>Длинный шток 101 мм для DSG7 DQ200 (0AM/0CW), нового образца — после 2012 года. Обеспечивает точную и стабильную работу сцепления и коробки передач в целом<br/><br/>✅ Совместимость:<br/><br/>• DSG7 DQ200 (7‑ступ., сухое сцепление)<br/><br/>• VW, Audi, Skoda, Seat (2012–2025)<br/><br/>• Артикул: 0AM325091E (длинный шток, новый тип)<br/><br/>📌 Заменять, если:<br/><br/>• Появился люфт, коррозия или выработка<br/><br/>• Проблемы при включении передач<br/><br/>• Планируется плановый ремонт мехатроника <br/><br/>💡 Особенности:<br/><br/>• Длина — 101 мм (новый тип)<br/><br/>📦 Очень быстрая отправка<br/><br/>👉 Избавьтесь от ошибок включения передач или течи в штоках— обновите шток и увеличите ресурс мехатроника <br/><br/>Шток мехатроника DSG7, длиной 101 мм, используется в роботизированных коробках передач DQ200 (0AM / 0CW) для корректной работы мехатроника. Артикул 0AM325091E. Подходит для автомобилей Volkswagen, Skoda и Audi с коробкой DSG7. Применяется при ремонте мехатроника dq200 dsg7, устраняет проблемы в том числе с включением передач.<br/><br/>В наличии оригинальные штоки DSG7 DQ200 0AM 0CW<br/><br/>Идеальное состояние - каждый шток дсг 7 dq200 проверяется<br/><br/>Штоки dq200 всегда в наличии<br/><br/>Длинные 0am325091e<br/><br/>📌Шток dsg 7 с уже установленными новыми запчастями:<br/><br/>•пыльник штока dq200<br/><br/>•сальник штока dq200<br/><br/>•крышка штока dsg 7<br/><br/>📦 Делайте заказ - отправим моментально!<br/><br/>🔎 Также ищут: шток dq200, штоки dq200, штоки мехатроника dq200."
+              "value": "🔩 Усиленный (с доп. Резинкой) Шток мехатроника DSG7 DQ200 0AM325091E (101 мм)<br/><br/>Длинный шток 101 мм для DSG7 DQ200 (0AM/0CW), нового образца — после 2012 года. Обеспечивает точную и стабильную работу сцепления и коробки передач в целом<br/><br/>✅ Совместимость:<br/><br/>• DSG7 DQ200 (7‑ступ., сухое сцепление)<br/><br/>• VW, Audi, Skoda, Seat (2012–2025)<br/><br/>• Артикул: 0AM325091E (длинный шток, новый тип)<br/><br/>📌 Заменять, если:<br/><br/>• Появился люфт, коррозия или выработка<br/><br/>• Проблемы при включении передач<br/><br/>• Планируется плановый ремонт мехатроника <br/><br/>💡 Особенности:<br/><br/>• Длина — 101 мм<br/><br/>📦 Очень быстрая отправка<br/><br/>👉 Избавьтесь от ошибок включения передач или течи в штоках— обновите шток и увеличите ресурс мехатроника <br/><br/>Шток мехатроника DSG7, длиной 101 мм, используется в роботизированных коробках передач DQ200 (0AM / 0CW) для корректной работы мехатроника. Артикул 0AM325091E. Подходит для автомобилей Volkswagen, Skoda и Audi с коробкой DSG7. Применяется при ремонте мехатроника dq200 dsg7, устраняет проблемы в том числе с включением передач.<br/><br/>В наличии оригинальные штоки DSG7 DQ200 0AM 0CW<br/><br/>Идеальное состояние - каждый шток дсг 7 dq200 проверяется<br/><br/>Штоки dq200 всегда в наличии<br/><br/>Длинные 0am325091e<br/><br/>📌Шток dsg 7 с уже установленными новыми запчастями:<br/><br/>•пыльник штока dq200<br/><br/>•сальник штока dq200<br/><br/>•крышка штока dsg 7<br/><br/>📦 Делайте заказ - отправим моментально!<br/><br/>🔎 Также ищут: шток dq200, штоки dq200, штоки мехатроника dq200."
             }
           ]
         },
@@ -11923,16 +12367,6 @@
             {
               "dictionary_value_id": 0,
               "value": "Шток мехатроника DSG7 DQ200 0AM 0CW Сальник штока пыльник штока крышка штока клипса штока "
-            }
-          ]
-        },
-        {
-          "id": 4497,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "100"
             }
           ]
         },
@@ -11952,11 +12386,11 @@
           "values": [
             {
               "dictionary_value_id": 62099,
-              "value": "Сталь"
+              "value": ""
             },
             {
               "dictionary_value_id": 61939,
-              "value": "Металлический сплав"
+              "value": ""
             }
           ]
         },
@@ -11966,22 +12400,12 @@
           "values": [
             {
               "dictionary_value_id": 45536,
-              "value": "1"
+              "value": ""
             }
           ]
         },
         {
           "id": 7236,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "0am325091e"
-            }
-          ]
-        },
-        {
-          "id": 9024,
           "complex_id": 0,
           "values": [
             {
@@ -12026,7 +12450,7 @@
           "values": [
             {
               "dictionary_value_id": 61610,
-              "value": "серебристый"
+              "value": ""
             }
           ]
         },
@@ -12036,7 +12460,7 @@
           "values": [
             {
               "dictionary_value_id": 971400283,
-              "value": "8708409909 - Части коробок передач, прочие: прочие"
+              "value": ""
             }
           ]
         },
@@ -12059,9 +12483,130 @@
               "value": "false"
             }
           ]
+        },
+        {
+          "id": 7368,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 11031,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 22390,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 8513,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 11650,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 22073,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 21497,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 10400,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 7324,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 4383,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 20189,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 7206,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 23249,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 23518,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 9782,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 4389,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 4180,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "Усиленный шток мехатроника DSG7 DQ200 101мм 0AM325091E"
+            }
+          ]
+        },
+        {
+          "id": 4497,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 9024,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325091e"
+            }
+          ]
         }
       ],
-      "complex_attributes": [],
+      "complex_attributes": [
+        {
+          "id": 22916,
+          "complex_id": 100003,
+          "values": []
+        },
+        {
+          "id": 22918,
+          "complex_id": 100003,
+          "values": []
+        },
+        {
+          "id": 22917,
+          "complex_id": 100003,
+          "values": []
+        }
+      ],
       "color_image": "",
       "sku": 1997389863,
       "barcodes": [],
@@ -13908,7 +14453,7 @@
       "primary_image": "https://ir.ozone.ru/s3/multimedia-1-q/7563834782.jpg",
       "model_info": {
         "model_id": 3651869562,
-        "count": 3
+        "count": 4
       },
       "images": [],
       "pdf_list": [],
@@ -14728,7 +15273,7 @@
     {
       "id": 2075148750,
       "barcode": "",
-      "name": "Ремкомплект: короткий шток 99мм 0AM325091F + втулка мехатроника DSG7 DQ200",
+      "name": "Ремкомплект: Усиленный короткий шток 0AM325091F 99мм + втулка мехатроника DSG7 DQ200",
       "offer_id": "0am325025z",
       "height": 30,
       "depth": 100,
@@ -14752,17 +15297,7 @@
           "values": [
             {
               "dictionary_value_id": 126745801,
-              "value": "Нет бренда"
-            }
-          ]
-        },
-        {
-          "id": 4180,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "Ремкомплект: короткий шток 99мм 0AM325091F + втулка мехатроника DSG7 DQ200"
+              "value": ""
             }
           ]
         },
@@ -14772,17 +15307,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "🔩 Ремкомплект штока DSG7 DQ200 — 0AM325091F + втулка<br/><br/>Комплект: короткий шток сцепления 0AM325091F (99 мм) + гильза мехатроника dsg7 dq200. Устранит люфт, обеспечит точность и надёжность сцепления.<br/><br/>✅ Совместимость:<br/><br/>• DSG7 DQ200 (7 ступ., сухое сцепление)<br/><br/>• VW/Audi/Skoda/Seat (до 2012 г)<br/><br/>• Артикул штока: 0AM325091F<br/><br/>📌 Когда нужен:<br/><br/>• Люфт или износ штока или втулки (гильзы)<br/><br/>• Ошибки сцепления / гидроблока<br/><br/>• Профилактика или ремонт мехатроника<br/><br/>💡 Особенности:<br/><br/>• Шток 99 мм — точный, заводской размер<br/><br/>• Новая втулка — без царапин и задиров<br/><br/>• Отличное качество материалов<br/><br/>📦 Очень быстрая отправка<br/><br/>👉 Восстановите мехатроник сразу с ремкомплектом и без лишних затрат<br/><br/>🔩 Артикул: 0am325025z.<br/>🔎 Также ищут: ремкомплект dq200, ремкомплект мехатроника dq200, шток dq200."
-            }
-          ]
-        },
-        {
-          "id": 4497,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "450"
+              "value": "🔩 Ремкомплект: Усиленный (с доп. Резинкой) шток DSG7 DQ200 — 0AM325091F 99мм + втулка без задиров и царапин!<br/><br/>Комплект: короткий шток сцепления 0AM325091F (99 мм) + гильза мехатроника dsg7 dq200. Устранит люфт, обеспечит точность и надёжность сцепления.<br/><br/>✅ Совместимость:<br/><br/>• DSG7 DQ200 (7 ступ., сухое сцепление)<br/><br/>• VW/Audi/Skoda/Seat (до 2012 г)<br/><br/>• Артикул штока: 0AM325091F<br/><br/>📌 Когда нужен:<br/><br/>• Люфт или износ штока или втулки (гильзы)<br/><br/>• Ошибки сцепления / гидроблока<br/><br/>• Профилактика или ремонт мехатроника<br/><br/>💡 Особенности:<br/><br/>• Шток 99 мм — точный, заводской размер<br/><br/>• Новая втулка — без царапин и задиров<br/><br/>• Отличное качество материалов<br/><br/>📦 Очень быстрая отправка<br/><br/>👉 Восстановите мехатроник сразу с ремкомплектом и без лишних затрат<br/><br/>🔩 Отличное качество запчастей и долговечность - усиленный шток ходит намного дольше обычного! <br/><br/>🔎 Также ищут: ремкомплект dq200, ремкомплект мехатроника dq200, шток dq200."
             }
           ]
         },
@@ -14792,22 +15317,12 @@
           "values": [
             {
               "dictionary_value_id": 45536,
-              "value": "1"
+              "value": ""
             }
           ]
         },
         {
           "id": 7236,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "0am325025z"
-            }
-          ]
-        },
-        {
-          "id": 9024,
           "complex_id": 0,
           "values": [
             {
@@ -14832,7 +15347,7 @@
           "values": [
             {
               "dictionary_value_id": 971400283,
-              "value": "8708409909 - Части коробок передач, прочие: прочие"
+              "value": ""
             }
           ]
         },
@@ -14845,9 +15360,160 @@
               "value": "false"
             }
           ]
+        },
+        {
+          "id": 23518,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 7368,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 6606,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 10400,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 9799,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 4384,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 9782,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 4383,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 11650,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 8513,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 7199,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 23249,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 7206,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 20189,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 22390,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 10096,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 22073,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 7324,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 11031,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 9802,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 4389,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 21497,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 4180,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "Ремкомплект: Усиленный короткий шток 0AM325091F 99мм + втулка мехатроника DSG7 DQ200"
+            }
+          ]
+        },
+        {
+          "id": 4497,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 9024,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325025z"
+            }
+          ]
         }
       ],
-      "complex_attributes": [],
+      "complex_attributes": [
+        {
+          "id": 22916,
+          "complex_id": 100003,
+          "values": []
+        },
+        {
+          "id": 22917,
+          "complex_id": 100003,
+          "values": []
+        },
+        {
+          "id": 22918,
+          "complex_id": 100003,
+          "values": []
+        }
+      ],
       "color_image": "",
       "sku": 2367419515,
       "barcodes": [],
@@ -14877,7 +15543,7 @@
     {
       "id": 2099149069,
       "barcode": "",
-      "name": "Ремкомплект: длинный шток 101мм 0AM325091E + втулка мехатроника DSG7 DQ200",
+      "name": "Ремкомплект: Усиленный длинный шток 0AM325091E 101мм + втулка мехатроника DSG7 DQ200",
       "offer_id": "0am325025u",
       "height": 30,
       "depth": 100,
@@ -14901,17 +15567,7 @@
           "values": [
             {
               "dictionary_value_id": 126745801,
-              "value": "Нет бренда"
-            }
-          ]
-        },
-        {
-          "id": 4180,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "Ремкомплект: длинный шток 101мм 0AM325091E + втулка мехатроника DSG7 DQ200"
+              "value": ""
             }
           ]
         },
@@ -14921,17 +15577,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "Ремкомплект короткий шток 0AM325091E 101 мм + втулка (гильза) мехатроника DSG 7 DQ200 0AM 0CW<br/><br/>🔩 Артикул: 0am325025u.<br/>🔎 Также ищут: ремкомплект dq200, ремкомплект мехатроника dq200, шток dq200."
-            }
-          ]
-        },
-        {
-          "id": 4497,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "450"
+              "value": "Ремкомплект Усиленный (с доп. Резинкой) Длинный шток 0AM325091E 101 мм + втулка (гильза) мехатроника DSG 7 DQ200 0AM 0CW<br/><br/>🔩 Отличное качество, усиленнве штоки ходят намного дольше обычных!<br/><br/>🔎 Также ищут: ремкомплект dq200, ремкомплект мехатроника dq200, шток dq200."
             }
           ]
         },
@@ -14941,22 +15587,12 @@
           "values": [
             {
               "dictionary_value_id": 45536,
-              "value": "1"
+              "value": ""
             }
           ]
         },
         {
           "id": 7236,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "0am325025u"
-            }
-          ]
-        },
-        {
-          "id": 9024,
           "complex_id": 0,
           "values": [
             {
@@ -14981,7 +15617,7 @@
           "values": [
             {
               "dictionary_value_id": 971400283,
-              "value": "8708409909 - Части коробок передач, прочие: прочие"
+              "value": ""
             }
           ]
         },
@@ -14994,9 +15630,160 @@
               "value": "false"
             }
           ]
+        },
+        {
+          "id": 9802,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 11031,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 8513,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 10096,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 20189,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 9799,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 7199,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 10400,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 7206,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 23518,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 4383,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 7368,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 22390,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 4384,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 6606,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 7324,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 22073,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 11650,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 21497,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 9782,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 4389,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 23249,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 4180,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "Ремкомплект: Усиленный длинный шток 0AM325091E 101мм + втулка мехатроника DSG7 DQ200"
+            }
+          ]
+        },
+        {
+          "id": 4497,
+          "complex_id": 0,
+          "values": []
+        },
+        {
+          "id": 9024,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325025u"
+            }
+          ]
         }
       ],
-      "complex_attributes": [],
+      "complex_attributes": [
+        {
+          "id": 22918,
+          "complex_id": 100003,
+          "values": []
+        },
+        {
+          "id": 22917,
+          "complex_id": 100003,
+          "values": []
+        },
+        {
+          "id": 22916,
+          "complex_id": 100003,
+          "values": []
+        }
+      ],
       "color_image": "",
       "sku": 2384682253,
       "barcodes": [],
@@ -15190,7 +15977,7 @@
       "primary_image": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0AM325473_1.jpg",
       "model_info": {
         "model_id": 3651869562,
-        "count": 3
+        "count": 4
       },
       "images": [
         "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0AM325473_1.png"
@@ -15835,7 +16622,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "мехатроникdq200_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H"
+              "value": "мехатроникdq200_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H"
             }
           ]
         },
@@ -18660,7 +19447,7 @@
       "type_id": 971071830,
       "primary_image": "https://ir.ozone.ru/s3/multimedia-1-p/14845895953.jpg",
       "model_info": {
-        "model_id": 6335293041,
+        "model_id": 6337817879,
         "count": 1
       },
       "images": [],
@@ -18682,7 +19469,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "корпус фильтра1_TEST001_TEST001"
+              "value": "корпус фильтра1_TEST001_TEST001_TEST001"
             }
           ]
         },
@@ -18981,7 +19768,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "Улучшенный отвод тепла<br/><br/>Уменьшает температуру масла КПП<br/><br/>Резиновое кольцо в комплекте<br/><br/>🔩 Алюминиевый корпус фильтра DSG7 DQ500 (0BH325183B)<br/><br/>Усиленный корпус для надёжной замены пластика. Алюминий снижает риски трещин, улучшает теплоотвод, увеличивает ресурс фильтра и сцепления.<br/><br/>✅ Подходит для:<br/><br/>• DSG7 (DQ500), 7-ступенчатая коробка с мокрым сцеплением<br/><br/>• Авто VAG-группы: VW, Audi, Skoda, Seat (2009–2023)<br/><br/>• Артикулы: 0BH325183B, 0BH325159<br/><br/>💡 Почему стоит взять:<br/><br/>• Устойчив к перегреву и механическим нагрузкам<br/><br/>• В комплекте уплотнительное кольцо<br/><br/>• Простая установка без доработки<br/><br/>📦 Очень быстрая отправка<br/><br/>📍 Отличный выбор для тех, кто не хочет рисковать на трассе и в городе<br/><br/>🔎 Также ищут: фильтр dq500, корпус фильтра dq500, масляный фильтр dq500."
+              "value": "Улучшенный отвод тепла<br/><br/>Уменьшает температуру масла КПП<br/><br/>Резиновое кольцо в комплекте<br/><br/>🔩 Алюминиевый корпус фильтра DSG7 DQ500 (0BH325183B)<br/><br/>Усиленный корпус для надёжной замены пластика. Алюминий снижает риски трещин, улучшает теплоотвод, увеличивает ресурс фильтра и сцепления.<br/><br/>✅ Подходит для:<br/><br/>• DSG7 (DQ500), 7-ступенчатая коробка с мокрым сцеплением<br/><br/>• Авто VAG-группы: VW, Audi, Skoda, Seat (2009–2023)<br/><br/>• Артикулы: 0BH325183B, 0BH325159<br/><br/>💡 Почему стоит взять:<br/><br/>• Устойчив к перегреву и механическим нагрузкам<br/><br/>• В комплекте уплотнительное кольцо<br/><br/>• Простая установка без доработки<br/><br/>📦 Очень быстрая отправка<br/><br/>📍 Отличный выбор для тех, кто не хочет рисковать на трассе и в городе"
             }
           ]
         },
@@ -19049,6 +19836,16 @@
           "id": 22390,
           "complex_id": 0,
           "values": []
+        },
+        {
+          "id": 23171,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "#фильтр_dq500 #корпус_фильтра_dq500 #масляный_фильтр_dq500"
+            }
+          ]
         },
         {
           "id": 23536,
@@ -20784,7 +21581,7 @@
       "primary_image": "https://ir.ozone.ru/s3/multimedia-1-k/14879274896.jpg",
       "model_info": {
         "model_id": 3651869562,
-        "count": 3
+        "count": 4
       },
       "images": [],
       "pdf_list": [],
@@ -22866,17 +23663,17 @@
       "name": "Клипсы штоков мехатроника DSG7 DQ200, комплект 2 шт",
       "offer_id": "klipsy-shtokov-2sht",
       "height": 10,
-      "depth": 40,
+      "depth": 80,
       "width": 40,
       "dimension_unit": "mm",
-      "weight": 40,
+      "weight": 80,
       "weight_unit": "g",
       "description_category_id": 17028756,
       "type_id": 971100605,
-      "primary_image": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/klipsy-shtokov-2sht_1.png",
+      "primary_image": "https://ir.ozone.ru/s3/multimedia-1-b/14848109795.jpg",
       "model_info": {
-        "model_id": 0,
-        "count": 0
+        "model_id": 3651869562,
+        "count": 4
       },
       "images": [],
       "pdf_list": [],
@@ -22892,12 +23689,12 @@
           ]
         },
         {
-          "id": 4180,
+          "id": 9048,
           "complex_id": 0,
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "Клипсы штоков мехатроника DSG7 DQ200, комплект 2 шт"
+              "value": "клипсаштока_klipsy-shtokov-2sht"
             }
           ]
         },
@@ -22912,12 +23709,42 @@
           ]
         },
         {
-          "id": 4497,
+          "id": 7236,
           "complex_id": 0,
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "40"
+              "value": "0am325025P"
+            }
+          ]
+        },
+        {
+          "id": 7202,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 45536,
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "id": 9802,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "30"
+            }
+          ]
+        },
+        {
+          "id": 9799,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "30"
             }
           ]
         },
@@ -22938,66 +23765,6 @@
             {
               "dictionary_value_id": 62015,
               "value": "Пластик"
-            }
-          ]
-        },
-        {
-          "id": 7202,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 45536,
-              "value": "1"
-            }
-          ]
-        },
-        {
-          "id": 7236,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "0am325025P"
-            }
-          ]
-        },
-        {
-          "id": 9024,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "klipsy-shtokov-2sht"
-            }
-          ]
-        },
-        {
-          "id": 9048,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "клипсаштока"
-            }
-          ]
-        },
-        {
-          "id": 9799,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "30"
-            }
-          ]
-        },
-        {
-          "id": 9802,
-          "complex_id": 0,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "30"
             }
           ]
         },
@@ -23030,24 +23797,58 @@
               "value": "false"
             }
           ]
+        },
+        {
+          "id": 4180,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "Клипсы штоков мехатроника DSG7 DQ200, комплект 2 шт"
+            }
+          ]
+        },
+        {
+          "id": 4497,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "40"
+            }
+          ]
+        },
+        {
+          "id": 9024,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "klipsy-shtokov-2sht"
+            }
+          ]
         }
       ],
       "complex_attributes": [],
       "color_image": "",
-      "sku": 0,
+      "sku": 5756308746,
       "barcodes": [],
       "attributes_with_defaults": [
+        23152,
         9905,
         10100,
         11794,
+        12006,
         22074,
+        22366,
+        22806,
         23120,
         23121,
         23133,
         23134,
         23137,
         23138,
-        23152,
+        23173,
         23183,
         23184,
         23185,
@@ -24984,6 +25785,1028 @@
         10100,
         11794,
         22074,
+        23120,
+        23121,
+        23133,
+        23134,
+        23137,
+        23138,
+        23152,
+        23183,
+        23184,
+        23185,
+        23186,
+        23187,
+        23188,
+        23379,
+        23380,
+        23524
+      ]
+    },
+    {
+      "id": 6291485580,
+      "barcode": "",
+      "name": "Ремкомплект штоков DQ200 DSG7: 2 усиленных поршня + 2 пыльника + 2 крышки",
+      "offer_id": "porshni-usil-pylniki-kryshki-v2",
+      "height": 40,
+      "depth": 50,
+      "width": 50,
+      "dimension_unit": "mm",
+      "weight": 500,
+      "weight_unit": "g",
+      "description_category_id": 17028756,
+      "type_id": 971100605,
+      "primary_image": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/porshni-usil-pylniki-kryshki_1.png",
+      "model_info": {
+        "model_id": 0,
+        "count": 0
+      },
+      "images": [],
+      "pdf_list": [],
+      "attributes": [
+        {
+          "id": 85,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 126745801,
+              "value": "Нет бренда"
+            }
+          ]
+        },
+        {
+          "id": 4180,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "Ремкомплект штоков DQ200 DSG7: 2 усиленных поршня + 2 пыльника + 2 крышки"
+            }
+          ]
+        },
+        {
+          "id": 4191,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "🔧 Ремкомплект обоих штоков мехатроника DSG7 DQ200: 2 УСИЛЕННЫХ поршня + 2 пыльника + 2 крышки. ✅ Подходит для мехатроников 0AM/0CW, Volkswagen/Škoda/Audi/Seat. 📦 В комплекте: 2 усиленных поршня толкателя, 2 пыльника, 2 крышки — меняете прямо на своих штоках, без разборки штока целиком. ⭐ Усиленный поршень — больше ресурс, чем у штатного."
+            }
+          ]
+        },
+        {
+          "id": 4497,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "500"
+            }
+          ]
+        },
+        {
+          "id": 7202,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 45536,
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "id": 7236,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325025G"
+            }
+          ]
+        },
+        {
+          "id": 9024,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "porshni-usil-pylniki-kryshki-v2"
+            }
+          ]
+        },
+        {
+          "id": 9048,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "ремкомлект штока"
+            }
+          ]
+        },
+        {
+          "id": 22232,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 971400283,
+              "value": "8708409909 - Части коробок передач, прочие: прочие"
+            }
+          ]
+        },
+        {
+          "id": 23536,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "false"
+            }
+          ]
+        }
+      ],
+      "complex_attributes": [],
+      "color_image": "",
+      "sku": 0,
+      "barcodes": [],
+      "attributes_with_defaults": [
+        9905,
+        10100,
+        11794,
+        22074,
+        22806,
+        23120,
+        23121,
+        23133,
+        23134,
+        23137,
+        23138,
+        23152,
+        23183,
+        23184,
+        23185,
+        23186,
+        23187,
+        23188,
+        23379,
+        23380,
+        23524
+      ]
+    },
+    {
+      "id": 6291485626,
+      "barcode": "",
+      "name": "Оригинальный ремкомплект 2 штоков VAG: пыльники, сальники, крышки DQ200 DSG7",
+      "offer_id": "remkomplekt-shtokov-orig-v2",
+      "height": 40,
+      "depth": 50,
+      "width": 50,
+      "dimension_unit": "mm",
+      "weight": 500,
+      "weight_unit": "g",
+      "description_category_id": 17028756,
+      "type_id": 971100605,
+      "primary_image": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/remkomplekt-shtokov-orig_1.png",
+      "model_info": {
+        "model_id": 0,
+        "count": 0
+      },
+      "images": [],
+      "pdf_list": [],
+      "attributes": [
+        {
+          "id": 85,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 126745801,
+              "value": "Нет бренда"
+            }
+          ]
+        },
+        {
+          "id": 4180,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "Оригинальный ремкомплект 2 штоков VAG: пыльники, сальники, крышки DQ200 DSG7"
+            }
+          ]
+        },
+        {
+          "id": 4191,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "🔧 Оригинальный (VAG) ремкомплект на оба штока мехатроника DSG7 DQ200: 2 пыльника + 2 сальника + 2 крышки. ✅ 0AM/0CW, Volkswagen/Škoda/Audi/Seat. 📦 Комплект на 2 штока полностью, оригинал. ⭐ Оригинал VAG вместо аналога — для тех, кто хочет исключить повторный ремонт."
+            }
+          ]
+        },
+        {
+          "id": 4497,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "500"
+            }
+          ]
+        },
+        {
+          "id": 7202,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 45536,
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "id": 7236,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325025G"
+            }
+          ]
+        },
+        {
+          "id": 9024,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "remkomplekt-shtokov-orig-v2"
+            }
+          ]
+        },
+        {
+          "id": 9048,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "ремкомлект штока"
+            }
+          ]
+        },
+        {
+          "id": 22232,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 971400283,
+              "value": "8708409909 - Части коробок передач, прочие: прочие"
+            }
+          ]
+        },
+        {
+          "id": 23536,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "false"
+            }
+          ]
+        }
+      ],
+      "complex_attributes": [],
+      "color_image": "",
+      "sku": 0,
+      "barcodes": [],
+      "attributes_with_defaults": [
+        9905,
+        10100,
+        11794,
+        22074,
+        22806,
+        23120,
+        23121,
+        23133,
+        23134,
+        23137,
+        23138,
+        23152,
+        23183,
+        23184,
+        23185,
+        23186,
+        23187,
+        23188,
+        23379,
+        23380,
+        23524
+      ]
+    },
+    {
+      "id": 6291485636,
+      "barcode": "",
+      "name": "Оригинальный сальник штока VAG, 1 шт, DQ200 DSG7",
+      "offer_id": "salnik-shtoka-orig-v2",
+      "height": 40,
+      "depth": 30,
+      "width": 40,
+      "dimension_unit": "mm",
+      "weight": 80,
+      "weight_unit": "g",
+      "description_category_id": 17028756,
+      "type_id": 98930,
+      "primary_image": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/salnik-shtoka-orig_1.png",
+      "model_info": {
+        "model_id": 0,
+        "count": 0
+      },
+      "images": [
+        "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/salnik-shtoka-orig_2.png"
+      ],
+      "pdf_list": [],
+      "attributes": [
+        {
+          "id": 85,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 126745801,
+              "value": "Нет бренда"
+            }
+          ]
+        },
+        {
+          "id": 4180,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "Оригинальный сальник штока VAG, 1 шт, DQ200 DSG7"
+            }
+          ]
+        },
+        {
+          "id": 4191,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "🔧 Оригинальный (VAG) сальник одного штока мехатроника DSG7 DQ200. ✅ 0AM/0CW, Volkswagen/Škoda/Audi/Seat. ⭐ Продаётся поштучно — для комплекта на 2 штока см. salniki-shtokov-orig."
+            }
+          ]
+        },
+        {
+          "id": 4497,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "80"
+            }
+          ]
+        },
+        {
+          "id": 7202,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 45536,
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "id": 7236,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0AM325413A"
+            }
+          ]
+        },
+        {
+          "id": 9024,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "salnik-shtoka-orig-v2"
+            }
+          ]
+        },
+        {
+          "id": 9048,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "сальник толкателя"
+            }
+          ]
+        },
+        {
+          "id": 22232,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 971400283,
+              "value": "8708409909 - Части коробок передач, прочие: прочие"
+            }
+          ]
+        },
+        {
+          "id": 23536,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "false"
+            }
+          ]
+        }
+      ],
+      "complex_attributes": [],
+      "color_image": "",
+      "sku": 0,
+      "barcodes": [],
+      "attributes_with_defaults": [
+        9905,
+        10100,
+        11794,
+        22074,
+        22806,
+        23120,
+        23121,
+        23133,
+        23134,
+        23137,
+        23138,
+        23152,
+        23183,
+        23184,
+        23185,
+        23186,
+        23187,
+        23188,
+        23379,
+        23380,
+        23524
+      ]
+    },
+    {
+      "id": 6291485641,
+      "barcode": "",
+      "name": "Оригинальные пыльники штоков VAG, 2 шт, DQ200 DSG7",
+      "offer_id": "pylniki-shtokov-orig-v2",
+      "height": 40,
+      "depth": 50,
+      "width": 50,
+      "dimension_unit": "mm",
+      "weight": 500,
+      "weight_unit": "g",
+      "description_category_id": 17028756,
+      "type_id": 971100605,
+      "primary_image": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/pylniki-shtokov-orig_1.png",
+      "model_info": {
+        "model_id": 0,
+        "count": 0
+      },
+      "images": [],
+      "pdf_list": [],
+      "attributes": [
+        {
+          "id": 85,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 126745801,
+              "value": "Нет бренда"
+            }
+          ]
+        },
+        {
+          "id": 4180,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "Оригинальные пыльники штоков VAG, 2 шт, DQ200 DSG7"
+            }
+          ]
+        },
+        {
+          "id": 4191,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "🔧 Оригинальные (VAG) пыльники обоих штоков мехатроника DSG7 DQ200 — 2 шт. ✅ 0AM/0CW, Volkswagen/Škoda/Audi/Seat. 📦 Комплект на 2 штока. ⭐ Оригинал — плотнее прилегает и дольше служит, чем аналоги."
+            }
+          ]
+        },
+        {
+          "id": 4497,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "500"
+            }
+          ]
+        },
+        {
+          "id": 7202,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 45536,
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "id": 7236,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325025G"
+            }
+          ]
+        },
+        {
+          "id": 9024,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "pylniki-shtokov-orig-v2"
+            }
+          ]
+        },
+        {
+          "id": 9048,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "ремкомлект штока"
+            }
+          ]
+        },
+        {
+          "id": 22232,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 971400283,
+              "value": "8708409909 - Части коробок передач, прочие: прочие"
+            }
+          ]
+        },
+        {
+          "id": 23536,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "false"
+            }
+          ]
+        }
+      ],
+      "complex_attributes": [],
+      "color_image": "",
+      "sku": 0,
+      "barcodes": [],
+      "attributes_with_defaults": [
+        9905,
+        10100,
+        11794,
+        22074,
+        22806,
+        23120,
+        23121,
+        23133,
+        23134,
+        23137,
+        23138,
+        23152,
+        23183,
+        23184,
+        23185,
+        23186,
+        23187,
+        23188,
+        23379,
+        23380,
+        23524
+      ]
+    },
+    {
+      "id": 6291485646,
+      "barcode": "",
+      "name": "Усиленная гидроплита + фильтр мехатроника DQ200 DSG7, комплект",
+      "offer_id": "plita-filtr-v2",
+      "height": 100,
+      "depth": 200,
+      "width": 150,
+      "dimension_unit": "mm",
+      "weight": 1000,
+      "weight_unit": "g",
+      "description_category_id": 17028756,
+      "type_id": 971100605,
+      "primary_image": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/plita-filtr_1.png",
+      "model_info": {
+        "model_id": 0,
+        "count": 0
+      },
+      "images": [],
+      "pdf_list": [],
+      "attributes": [
+        {
+          "id": 85,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 126745801,
+              "value": "Нет бренда"
+            }
+          ]
+        },
+        {
+          "id": 4180,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "Усиленная гидроплита + фильтр мехатроника DQ200 DSG7, комплект"
+            }
+          ]
+        },
+        {
+          "id": 4191,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "🔧 Усиленная гидроплита мехатроника DSG7 DQ200 + масляный фильтр — базовый комплект для ремонта гидравлической части. ✅ 0AM/0CW, Volkswagen/Škoda/Audi/Seat. 📦 Плита + фильтр за один заказ. 🔩 Артикул плиты 0AM325066AE. ⭐ Усиленная плита прочнее штатной — для вариантов с пыльниками/сальниками см. другие комплекты этой линейки."
+            }
+          ]
+        },
+        {
+          "id": 4383,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "900"
+            }
+          ]
+        },
+        {
+          "id": 4497,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "1000"
+            }
+          ]
+        },
+        {
+          "id": 6606,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "20"
+            }
+          ]
+        },
+        {
+          "id": 7202,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 45536,
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "id": 7236,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325066ae"
+            }
+          ]
+        },
+        {
+          "id": 9024,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "plita-filtr-v2"
+            }
+          ]
+        },
+        {
+          "id": 9048,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "плита"
+            }
+          ]
+        },
+        {
+          "id": 9799,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "80"
+            }
+          ]
+        },
+        {
+          "id": 9802,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "240"
+            }
+          ]
+        },
+        {
+          "id": 10096,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 61610,
+              "value": "серебристый"
+            }
+          ]
+        },
+        {
+          "id": 11031,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0AM 325‑066 AE, 0AM 325‑066 AC, 0AM 325‑066 C, 0AM 325‑066 AA, 0AM 325‑066 R\n0AM 325 025 D\n\n0AM 325 025 H\n\n0AM 325 025 P\n\n0AM 325 025 M\n\n0AM 325 025 L\n\n0AM 325 025 J\n\n0AM 325 065 N, L, S\n\n0AM325066AE"
+            }
+          ]
+        },
+        {
+          "id": 22232,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 971400283,
+              "value": "8708409909 - Части коробок передач, прочие: прочие"
+            }
+          ]
+        },
+        {
+          "id": 23536,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "false"
+            }
+          ]
+        }
+      ],
+      "complex_attributes": [],
+      "color_image": "",
+      "sku": 0,
+      "barcodes": [],
+      "attributes_with_defaults": [
+        9905,
+        10100,
+        11794,
+        22074,
+        22806,
+        23120,
+        23121,
+        23133,
+        23134,
+        23137,
+        23138,
+        23152,
+        23183,
+        23184,
+        23185,
+        23186,
+        23187,
+        23188,
+        23379,
+        23380,
+        23524
+      ]
+    },
+    {
+      "id": 6291485654,
+      "barcode": "",
+      "name": "Усиленная гидроплита + 2 оригинальных пыльника + 2 оригинальных сальника DQ200 DSG7",
+      "offer_id": "plita-pylniki-salniki-orig-v2",
+      "height": 100,
+      "depth": 200,
+      "width": 150,
+      "dimension_unit": "mm",
+      "weight": 1000,
+      "weight_unit": "g",
+      "description_category_id": 17028756,
+      "type_id": 971100605,
+      "primary_image": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/plita-pylniki-salniki-orig_1.png",
+      "model_info": {
+        "model_id": 0,
+        "count": 0
+      },
+      "images": [],
+      "pdf_list": [],
+      "attributes": [
+        {
+          "id": 85,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 126745801,
+              "value": "Нет бренда"
+            }
+          ]
+        },
+        {
+          "id": 4180,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "Усиленная гидроплита + 2 оригинальных пыльника + 2 оригинальных сальника DQ200 DSG7"
+            }
+          ]
+        },
+        {
+          "id": 4191,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "🔧 Усиленная гидроплита мехатроника DSG7 DQ200 + 2 ОРИГИНАЛЬНЫХ (VAG) пыльника + 2 ОРИГИНАЛЬНЫХ (VAG) сальника штоков — комплект для ремонта гидравлической части без масляного фильтра. ✅ Подходит для мехатроников 0AM/0CW, Volkswagen/Škoda/Audi/Seat. 📦 В комплекте: усиленная гидроплита, 2 пыльника и 2 сальника — оригинальные VAG. ⭐ Оригинальные расходники герметичнее и служат дольше аналогов; комплектом дешевле, чем по отдельности."
+            }
+          ]
+        },
+        {
+          "id": 4383,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "900"
+            }
+          ]
+        },
+        {
+          "id": 4497,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "1000"
+            }
+          ]
+        },
+        {
+          "id": 6606,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "20"
+            }
+          ]
+        },
+        {
+          "id": 7202,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 45536,
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "id": 7236,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325066ae"
+            }
+          ]
+        },
+        {
+          "id": 9024,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "plita-pylniki-salniki-orig-v2"
+            }
+          ]
+        },
+        {
+          "id": 9048,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "плита"
+            }
+          ]
+        },
+        {
+          "id": 9799,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "80"
+            }
+          ]
+        },
+        {
+          "id": 9802,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "240"
+            }
+          ]
+        },
+        {
+          "id": 10096,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 61610,
+              "value": "серебристый"
+            }
+          ]
+        },
+        {
+          "id": 11031,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0AM 325‑066 AE, 0AM 325‑066 AC, 0AM 325‑066 C, 0AM 325‑066 AA, 0AM 325‑066 R\n0AM 325 025 D\n\n0AM 325 025 H\n\n0AM 325 025 P\n\n0AM 325 025 M\n\n0AM 325 025 L\n\n0AM 325 025 J\n\n0AM 325 065 N, L, S\n\n0AM325066AE"
+            }
+          ]
+        },
+        {
+          "id": 22232,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 971400283,
+              "value": "8708409909 - Части коробок передач, прочие: прочие"
+            }
+          ]
+        },
+        {
+          "id": 23536,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "false"
+            }
+          ]
+        }
+      ],
+      "complex_attributes": [],
+      "color_image": "",
+      "sku": 0,
+      "barcodes": [],
+      "attributes_with_defaults": [
+        9905,
+        10100,
+        11794,
+        22074,
+        22806,
         23120,
         23121,
         23133,
