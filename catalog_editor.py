@@ -90,6 +90,33 @@ def _photo_index(fname: str, offer_id: str) -> int:
     return 0
 
 
+# Локальные псевдонимы папок на диске для артикулов, чья папка
+# photos_dir/<offer_id>/ физически совпадает с папкой ДРУГОГО артикула
+# из-за регистронезависимости файловой системы Mac (APFS) — см. подробное
+# объяснение в own_media_files ниже. Для второго артикула из такой пары
+# папка на диске переименована во что-то, отличающееся не только
+# регистром, чтобы Finder показывал их как две РАЗНЫЕ, физически отдельные
+# папки — иначе фото обоих товаров лежат вперемешку в одной видимой папке
+# и их легко случайно перепутать при ручном удалении/переименовании.
+#
+# offer_id, под которым товар известен Ozon/WB, и имена файлов ВНУТРИ
+# папки — НЕ меняются, меняется только то, в какой папке на диске эти
+# файлы искать. Уже выданные ссылки на GitHub Release не затрагиваются
+# (asset_filename_for строит имя ассета из offer_id и имени файла, а не
+# из имени папки).
+FOLDER_ALIASES: Dict[str, str] = {
+    # "0am325025h" переименован в реальный артикул "0am325025hfe" на Ozon
+    # (2026-09-11) — больше не совпадает по регистру с "0am325025H", алиас
+    # не нужен, папка на диске переименована в photos/0am325025hfe/.
+    "Dq500": "Dq500-sep",
+    "Ea888gen3": "Ea888gen3-sep",
+}
+
+
+def _own_dir(photos_dir: str, offer_id: str) -> str:
+    return os.path.join(photos_dir, FOLDER_ALIASES.get(offer_id, offer_id))
+
+
 def _owns(fname: str, offer_id: str) -> bool:
     """
     Верно, если файл fname по имени принадлежит offer_id: начинается с
@@ -128,7 +155,7 @@ def own_media_files(photos_dir: str, offer_id: str, exts) -> List[str]:
     вздутому счётчику "Медиафайлов" при пересборке master_control.xlsx
     (209/207 вместо верных 192/190).
     """
-    for base in (os.path.join(photos_dir, offer_id), photos_dir):
+    for base in (_own_dir(photos_dir, offer_id), photos_dir):
         if not os.path.isdir(base):
             continue
         files = [
@@ -150,7 +177,7 @@ def media_path(photos_dir: str, offer_id: str, fname: str) -> str:
     разбирается, лежит ли он в своей папке (новый способ) или плоско в
     photos_dir (старый, ещё не перенесённый файл).
     """
-    candidate = os.path.join(photos_dir, offer_id, fname)
+    candidate = os.path.join(_own_dir(photos_dir, offer_id), fname)
     if os.path.isfile(candidate):
         return candidate
     return os.path.join(photos_dir, fname)
@@ -227,7 +254,7 @@ def download_missing_photos(xlsx_path: str, photos_dir: str) -> Dict[str, str]:
         if ext not in IMAGE_EXTS:
             ext = ".jpg"
         target_name = f"{offer_id}_1{ext}"
-        own_dir = os.path.join(photos_dir, offer_id)
+        own_dir = _own_dir(photos_dir, offer_id)
         os.makedirs(own_dir, exist_ok=True)
         target_path = os.path.join(own_dir, target_name)
         try:
