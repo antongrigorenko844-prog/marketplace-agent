@@ -651,6 +651,15 @@ def cmd_wb_warehouses() -> int:
     return 0
 
 
+def cmd_ozon_warehouses() -> int:
+    import ozon_client
+
+    warehouses = ozon_client.get_warehouses()
+    print(json.dumps(warehouses, ensure_ascii=False, indent=2))
+    print("\nСкопируйте нужный warehouse_id (склад FBS) в OZON_WAREHOUSE_ID в .env / GitHub Secrets — без него push-stock не работает.")
+    return 0
+
+
 def cmd_test_avito() -> int:
     """
     Проверка доступа к Avito API: только получение токена (без реальных
@@ -822,7 +831,7 @@ def cmd_sync_orders() -> int:
               f"(остаток не изменён, проверьте вручную): {', '.join(unmatched)}")
 
 
-def _load_stock_items():
+def _load_stock_items(warehouse_id=None):
     """
     Собирает offer_id -> остаток из ЕДИНОГО столбца "Кол-во к продаже" —
     для уже существующих товаров из data/ozon_catalog.xlsx, для черновиков
@@ -835,6 +844,11 @@ def _load_stock_items():
     попадает (ничего не отправляется в Ozon), чтобы случайно не обнулить
     остаток нетронутого товара. Нечисловое значение — пропускается с
     предупреждением в лог.
+
+    warehouse_id (если передан) кладётся в каждый элемент — Ozon требует
+    его в /v2/products/stocks (см. ozon_client.update_stocks), без него
+    отвечает 400. Для dry-run можно не передавать — просто не попадёт в
+    вывод.
     """
     import catalog_editor
     import ozon_new_products
@@ -853,7 +867,10 @@ def _load_stock_items():
             except (TypeError, ValueError):
                 print(f"ВНИМАНИЕ: {offer_id} — 'Кол-во к продаже' не число ({raw!r}), пропущен.")
                 continue
-            items.append({"offer_id": offer_id, "stock": max(0, stock)})
+            item = {"offer_id": offer_id, "stock": max(0, stock)}
+            if warehouse_id:
+                item["warehouse_id"] = warehouse_id
+            items.append(item)
 
     new_path = _data_path("ozon_new_products.xlsx")
     if os.path.exists(new_path):
@@ -867,13 +884,31 @@ def _load_stock_items():
             except (TypeError, ValueError):
                 print(f"ВНИМАНИЕ: {offer_id} — 'Кол-во к продаже' не число ({raw!r}), пропущен.")
                 continue
-            items.append({"offer_id": offer_id, "stock": max(0, stock)})
+            item = {"offer_id": offer_id, "stock": max(0, stock)}
+            if warehouse_id:
+                item["warehouse_id"] = warehouse_id
+            items.append(item)
 
     return items
 
 
+def _ozon_warehouse_id_int():
+    from config import config
+
+    raw = (config.ozon_warehouse_id or "").strip()
+    if not raw:
+        return None
+    try:
+        return int(raw)
+    except ValueError:
+        print(f"ВНИМАНИЕ: OZON_WAREHOUSE_ID={raw!r} — не похоже на число, игнорирую.")
+        return None
+
+
 def cmd_push_stock_dryrun() -> int:
-    items = _load_stock_items()
+    from config import config
+
+    items = _load_stock_items(warehouse_id=_ozon_warehouse_id_int())
     print(f"ПРОБНЫЙ ПРОГОН — в Ozon ничего не отправляется. Остатков к обновлению: {len(items)}\n")
     print(json.dumps(items, ensure_ascii=False, indent=2))
     if not items:
@@ -881,6 +916,12 @@ def cmd_push_stock_dryrun() -> int:
             "\n(Пусто — заполните столбец 'Остаток, шт.' в master_control.xlsx и запустите "
             "sync-master-control, либо впишите число прямо в 'Кол-во к продаже' в "
             "ozon_catalog.xlsx/ozon_new_products.xlsx.)"
+        )
+    if items and not config.ozon_warehouse_id:
+        print(
+            "\nВНИМАНИЕ: OZON_WAREHOUSE_ID не задан — реальный push-stock завершится ошибкой "
+            "(Ozon требует warehouse_id в каждой строке). Запустите --ozon-warehouses и впишите "
+            "id нужного склада в секрет OZON_WAREHOUSE_ID."
         )
     return 0
 
@@ -894,7 +935,16 @@ def cmd_push_stock() -> int:
     """
     import ozon_client
 
-    items = _load_stock_items()
+    warehouse_id = _ozon_warehouse_id_int()
+    if not warehouse_id:
+        print(
+            "OZON_WAREHOUSE_ID не задан (или не число) — Ozon требует warehouse_id в каждой строке "
+            "/v2/products/stocks, без него 400. Запустите --ozon-warehouses, чтобы увидеть список "
+            "складов, и впишите нужный id в секрет OZON_WAREHOUSE_ID."
+        )
+        return 1
+
+    items = _load_stock_items(warehouse_id=warehouse_id)
     if not items:
         print("Нечего отправлять — ни у одного товара не заполнен остаток ('Кол-во к продаже' / 'Остаток, шт.').")
         return 1
@@ -1227,6 +1277,7 @@ def main() -> int:
     parser.add_argument("--fetch-ozon", action="store_true")
     parser.add_argument("--fetch-wb", action="store_true")
     parser.add_argument("--wb-warehouses", action="store_true", help="Показать склады продавца на WB (для WB_WAREHOUSE_ID)")
+    parser.add_argument("--ozon-warehouses", action="store_true", help="Показать склады продавца на Ozon (для OZON_WAREHOUSE_ID, нужен push-stock)")
     parser.add_argument("--test-avito", action="store_true", help="Проверить доступ к Avito API (AVITO_CLIENT_ID/AVITO_CLIENT_SECRET)")
     parser.add_argument("--fetch-avito-orders", action="store_true", help="Получить заказы Авито Доставки за 30 дней в data/avito_orders.json")
     parser.add_argument("--list-avito-items", action="store_true", help="Показать сырой список объявлений Avito (диагностика сопоставления с артикулом)")
@@ -1279,6 +1330,8 @@ def main() -> int:
         return cmd_fetch_wb()
     if args.wb_warehouses:
         return cmd_wb_warehouses()
+    if args.ozon_warehouses:
+        return cmd_ozon_warehouses()
     if args.test_avito:
         return cmd_test_avito()
     if args.fetch_avito_orders:

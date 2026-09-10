@@ -141,11 +141,32 @@ def get_product_names(offer_ids: Optional[List[str]] = None, limit: int = 1000) 
     return out
 
 
+def get_warehouses() -> List[dict]:
+    """
+    Список складов продавца (для FBS/rFBS) — оттуда берётся warehouse_id,
+    без которого update_stocks не работает (см. его докстринг). Полей
+    несколько, важные: "warehouse_id", "name", "is_rfbs".
+
+    ENDPOINT: POST /v1/warehouse/list — подтверждено в живой документации
+    docs.ozon.ru 10.09.2026, без параметров (кабинет определяется по
+    Client-Id).
+    """
+    data = _post("/v1/warehouse/list", {})
+    return data.get("result", data.get("items", []))
+
+
 def update_stocks(items: List[dict]) -> dict:
     """
-    items: [{"offer_id": "...", "stock": 5}, ...] (product_id тоже подходит
-    вместо offer_id). Обновление остатков — быстрый метод, отдельный от
-    редактирования карточки. Максимум 100 товаров за один запрос.
+    items: [{"offer_id": "...", "stock": 5, "warehouse_id": 123}, ...]
+    (product_id тоже подходит вместо offer_id). Обновление остатков —
+    быстрый метод, отдельный от редактирования карточки. Максимум 100
+    товаров за один запрос.
+
+    ВАЖНО: warehouse_id ОБЯЗАТЕЛЕН в каждом элементе — без него Ozon
+    отвечает 400 "WarehouseId: value must be greater than 0" (проверено на
+    живом запуске push-stock 10.09.2026, изначально это поле не
+    передавалось). Список складов — см. get_warehouses() / main.py
+    --ozon-warehouses, нужный id кладётся в OZON_WAREHOUSE_ID.
     """
     # ENDPOINT: POST /v2/products/stocks — подтверждено в живой документации 02.09.2026
     return _post("/v2/products/stocks", {"stocks": items})

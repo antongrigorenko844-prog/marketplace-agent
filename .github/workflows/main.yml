@@ -28,6 +28,7 @@ on:
           - fetch-ozon
           - fetch-wb
           - wb-warehouses
+          - ozon-warehouses
           - build-ozon-catalog
           - attach-ozon-photos
           - download-ozon-photos
@@ -107,6 +108,7 @@ jobs:
           OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
           WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
           WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+          OZON_WAREHOUSE_ID: ${{ secrets.OZON_WAREHOUSE_ID }}
           AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
           AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
