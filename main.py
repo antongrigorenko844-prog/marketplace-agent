@@ -142,12 +142,32 @@ def cmd_attach_ozon_photos() -> int:
     return 0
 
 
+def cmd_download_ozon_photos() -> int:
+    import catalog_editor
+
+    xlsx_path = _data_path("ozon_catalog.xlsx")
+    photos_dir = os.path.join(os.path.dirname(__file__), "photos")
+    if not os.path.exists(xlsx_path):
+        print(f"Нет файла {xlsx_path} — сначала выполните build-ozon-catalog.")
+        return 1
+    downloaded = catalog_editor.download_missing_photos(xlsx_path, photos_dir)
+    if downloaded:
+        print(f"Скачано {len(downloaded)} фото (были только на карточке Ozon, локального файла не было):")
+        for offer_id, fname in downloaded.items():
+            print(f"  {offer_id}: {fname}")
+    else:
+        print("Нечего скачивать: либо у всех товаров уже есть локальный файл, либо ссылок в колонке 'Фото' нет.")
+    return 0
+
+
 def cmd_full_sync_ozon() -> int:
     """
     Составной шаг "всё сразу" для обычных (уже существующих) товаров Ozon:
-    fetch-ozon -> build-ozon-catalog -> attach-ozon-photos одной командой,
-    вместо трёх отдельных запусков workflow. Останавливается на первой же
-    неудачной части (чтобы не тратить время на следующие шаги вслепую).
+    fetch-ozon -> build-ozon-catalog -> download-ozon-photos -> attach-ozon-photos
+    одной командой, вместо четырёх отдельных запусков workflow. Останавливается
+    на первой же неудачной части, КРОМЕ download-ozon-photos — это подстраховка
+    (докачивает то, чего нет локально), а не обязательный шаг, поэтому её сбой
+    не прерывает всё остальное.
     После этого шага остаётся скачать/проверить data/ozon_catalog.xlsx и
     сделать push-ozon-cards-dryrun как обычно.
     """
@@ -157,13 +177,18 @@ def cmd_full_sync_ozon() -> int:
         print("full-sync-ozon остановлен: fetch-ozon завершился с ошибкой.")
         return rc
 
-    print("\n=== Шаг 2/3: build-ozon-catalog ===")
+    print("\n=== Шаг 2/4: build-ozon-catalog ===")
     rc = cmd_build_ozon_catalog()
     if rc != 0:
         print("full-sync-ozon остановлен: build-ozon-catalog завершился с ошибкой.")
         return rc
 
-    print("\n=== Шаг 3/3: attach-ozon-photos ===")
+    print("\n=== Шаг 3/4: download-ozon-photos (подтягиваем то, что есть только на карточке Ozon) ===")
+    rc = cmd_download_ozon_photos()
+    if rc != 0:
+        print("download-ozon-photos завершился с ошибкой — продолжаем без остановки (это не критично, просто часть фото останется без локального файла).")
+
+    print("\n=== Шаг 4/4: attach-ozon-photos ===")
     rc = cmd_attach_ozon_photos()
     if rc != 0:
         print("full-sync-ozon остановлен: attach-ozon-photos завершился с ошибкой.")
@@ -1048,7 +1073,8 @@ def main() -> int:
     parser.add_argument("--attach-ozon-photos", action="store_true", help="Подставить в xlsx ссылки на фото из папки photos/ по имени файла (offer_id_1.jpg и т.п.)")
     parser.add_argument("--push-ozon-cards-dryrun", action="store_true", help="Показать, что будет отправлено в Ozon, БЕЗ реальной отправки")
     parser.add_argument("--push-ozon-cards", action="store_true", help="Реально отправить правки карточек в Ozon (сначала всегда делайте dryrun!)")
-    parser.add_argument("--full-sync-ozon", action="store_true", help="Composite: fetch-ozon + build-ozon-catalog + attach-ozon-photos одной командой")
+    parser.add_argument("--download-ozon-photos", action="store_true", help="Скачать в photos/ фото товаров, у которых нет локального файла, но есть ссылка (уже висит на карточке Ozon) — работает только там, где есть доступ к CDN Ozon, практически только в GitHub Actions")
+    parser.add_argument("--full-sync-ozon", action="store_true", help="Composite: fetch-ozon + build-ozon-catalog + download-ozon-photos + attach-ozon-photos одной командой")
     parser.add_argument("--build-master-control", action="store_true", help="Собрать/обновить единый файл-пульт data/master_control.xlsx (фото+название+описание+хэштеги+заметки для всех товаров)")
     parser.add_argument("--sync-master-control", action="store_true", help="Перенести правки из data/master_control.xlsx обратно в ozon_catalog.xlsx/ozon_new_products.xlsx/photos/")
     parser.add_argument("--build-ozon-new-template", action="store_true", help="Создать пустую таблицу для СОВСЕМ НОВЫХ товаров Ozon (по образцу существующего)")
@@ -1105,6 +1131,8 @@ def main() -> int:
         return cmd_push_ozon_cards_dryrun()
     if args.push_ozon_cards:
         return cmd_push_ozon_cards()
+    if args.download_ozon_photos:
+        return cmd_download_ozon_photos()
     if args.full_sync_ozon:
         return cmd_full_sync_ozon()
     if args.build_master_control:

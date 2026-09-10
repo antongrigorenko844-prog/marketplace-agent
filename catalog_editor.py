@@ -92,6 +92,81 @@ def _photo_index(fname: str, offer_id: str) -> int:
     return 0
 
 
+def download_missing_photos(xlsx_path: str, photos_dir: str) -> Dict[str, str]:
+    """
+    Для товаров, у которых в photos_dir НЕТ ни одного локального файла, но в
+    колонке "Фото" уже есть ссылка (её подставляет build_ozon_catalog из
+    данных самого Ozon при первом fetch/build, ещё до заливки своих фото) —
+    скачивает ПЕРВУЮ из этих ссылок и сохраняет как <offer_id>_1.<расширение>
+    в photos_dir.
+
+    Нужно, чтобы у товара появился СВОЙ локальный файл — тогда он попадёт в
+    master_control.xlsx (эскиз в столбце "Фото"), станет доступен для замены
+    оттуда, и в следующий attach-ozon-photos перезальётся уже через
+    photo_host.py вместо ссылки на CDN Ozon (та бывает нестабильна — см.
+    photo_host.py) или вообще недоступна для скачивания извне (частый
+    случай — карточка держится только на фото, которое когда-то залил сам
+    Ozon по своей ссылке, а у вас его исходника нигде нет).
+
+    Работает только там, где есть доступ к ir.ozone.ru и подобным доменам —
+    то есть практически ТОЛЬКО в GitHub Actions; из песочницы Claude и с
+    обычного рабочего компьютера эти домены обычно блокирует прокси/файрвол
+    (доступ к самому API Ozon это не задействует и никак не ограничивает).
+    Одна неудачная загрузка (сеть, 404 и т.п.) не прерывает остальные —
+    выводится предупреждение в лог, и обработка продолжается.
+
+    Возвращает offer_id -> имя сохранённого файла (только для реально
+    скачанных — уже покрытые локальным файлом и товары без ссылки в списке
+    не участвуют).
+    """
+    import requests
+
+    wb = load_workbook(xlsx_path)
+    ws = wb.active
+
+    images_col_idx = next(i for i, (key, _) in enumerate(COLUMNS, start=1) if key == "images")
+
+    os.makedirs(photos_dir, exist_ok=True)
+    existing_files = os.listdir(photos_dir)
+
+    def has_local(offer_id: str) -> bool:
+        return any(
+            (f.startswith(offer_id + "_") or f == offer_id + os.path.splitext(f)[1])
+            and os.path.splitext(f)[1].lower() in IMAGE_EXTS
+            for f in existing_files
+        )
+
+    downloaded: Dict[str, str] = {}
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        if not row or not row[0]:
+            continue
+        offer_id = str(row[0]).strip()
+        if has_local(offer_id):
+            continue
+        images_raw = row[images_col_idx - 1] or ""
+        urls = [u.strip() for u in str(images_raw).split("|") if u.strip()]
+        if not urls:
+            continue
+        url = urls[0]
+        ext = os.path.splitext(url.split("?")[0])[1].lower()
+        if ext not in IMAGE_EXTS:
+            ext = ".jpg"
+        target_name = f"{offer_id}_1{ext}"
+        target_path = os.path.join(photos_dir, target_name)
+        try:
+            resp = requests.get(url, timeout=30)
+            resp.raise_for_status()
+            with open(target_path, "wb") as fh:
+                fh.write(resp.content)
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("%s: не удалось скачать уже имеющееся фото %s: %s", offer_id, url, exc)
+            continue
+        downloaded[offer_id] = target_name
+        existing_files.append(target_name)
+
+    return downloaded
+
+
 def attach_local_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") -> Dict[str, List[str]]:
     """
     Подставляет в колонку "Фото" уже собранного xlsx ссылки на файлы из
