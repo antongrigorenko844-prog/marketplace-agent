@@ -161,35 +161,37 @@ def get_stocks(offer_ids: List[str]) -> List[dict]:
     источником истины по остатку снова становится только сам xlsx +
     sync-orders/push-stock — этот метод не вызывается автоматически.
 
-    ENDPOINT: POST /v2/product/info/stocks — путь подтверждён в живой
-    документации docs.ozon.ru 10.09.2026 (методы v1/v2, возвращают "сколько
-    единиц доступно, сколько ожидается в поставке и сколько зарезервировано
-    покупателями"). ТОЧНАЯ форма ответа (имена полей present/reserved
-    внутри массива "stocks") на реальных данных НЕ проверена — при первом
-    запуске pull-ozon-stock в логе печатается сырой ответ по первым товарам,
-    сверьте его с тем, что реально приходит, и поправьте разбор в
-    catalog_editor.stock_from_ozon_item, если имена полей не совпали.
+    ENDPOINT: POST /v4/product/info/stocks (НЕ v2 — v2/product/info/stocks
+    реально отдаёт 404 в этом кабинете, проверено на живом запуске
+    pull-ozon-stock 10.09.2026; v4 подтверждён по списку методов пакета
+    ozon-api-client на PyPI, но полная форма запроса/ответа там не
+    приведена — по аналогии с уже проверенным /v4/product/info/attributes
+    в этом файле (см. get_product_names) предполагается тот же паттерн
+    "filter + last_id + limit" с пагинацией по last_id). ТОЧНАЯ форма
+    ответа (как называется поле с количеством внутри "stocks" — present,
+    reserved, type и т.п.) на реальных данных НЕ проверена — при первом
+    успешном запуске pull-ozon-stock в логе печатается сырой ответ по
+    первым товарам, сверьте его с тем, что реально пришло, и поправьте
+    разбор в catalog_editor.stock_from_ozon_item, если имена полей не
+    совпали.
     """
     out: List[dict] = []
     chunk = 1000
     for i in range(0, len(offer_ids), chunk):
         batch = offer_ids[i : i + chunk]
-        cursor = ""
+        last_id = ""
+        filter_body: Dict[str, object] = {"offer_id": batch, "visibility": "ALL"}
         while True:
             data = _post(
-                "/v2/product/info/stocks",
-                {
-                    "filter": {"offer_id": batch, "visibility": "ALL"},
-                    "limit": min(len(batch), 1000),
-                    "cursor": cursor,
-                },
+                "/v4/product/info/stocks",
+                {"filter": filter_body, "last_id": last_id, "limit": min(len(batch), 1000)},
             )
             items = data.get("items")
             if items is None:
                 items = data.get("result", {}).get("items", [])
             out.extend(items)
-            cursor = data.get("cursor") or ""
-            if not cursor or not items:
+            last_id = data.get("last_id") or data.get("cursor") or ""
+            if not last_id or not items:
                 break
     return out
 
