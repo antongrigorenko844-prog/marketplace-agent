@@ -166,8 +166,11 @@ def get_stocks(offer_ids: List[str]) -> List[dict]:
     pull-ozon-stock 10.09.2026; v4 подтверждён по списку методов пакета
     ozon-api-client на PyPI, но полная форма запроса/ответа там не
     приведена — по аналогии с уже проверенным /v4/product/info/attributes
-    в этом файле (см. get_product_names) предполагается тот же паттерн
-    "filter + last_id + limit" с пагинацией по last_id). ТОЧНАЯ форма
+    в этом файле (см. get_product_names) используется тот же формат тела
+    запроса "filter + last_id + limit", НО БЕЗ пагинации по last_id — при
+    явном фильтре по offer_id (<=1000 за раз) все результаты приходят в
+    одном ответе; пагинация здесь однажды привела к зависанию (Ozon не
+    обнулял last_id), поэтому убрана. ТОЧНАЯ форма
     ответа (как называется поле с количеством внутри "stocks" — present,
     reserved, type и т.п.) на реальных данных НЕ проверена — при первом
     успешном запуске pull-ozon-stock в логе печатается сырой ответ по
@@ -179,20 +182,21 @@ def get_stocks(offer_ids: List[str]) -> List[dict]:
     chunk = 1000
     for i in range(0, len(offer_ids), chunk):
         batch = offer_ids[i : i + chunk]
-        last_id = ""
-        filter_body: Dict[str, object] = {"offer_id": batch, "visibility": "ALL"}
-        while True:
-            data = _post(
-                "/v4/product/info/stocks",
-                {"filter": filter_body, "last_id": last_id, "limit": min(len(batch), 1000)},
-            )
-            items = data.get("items")
-            if items is None:
-                items = data.get("result", {}).get("items", [])
-            out.extend(items)
-            last_id = data.get("last_id") or data.get("cursor") or ""
-            if not last_id or not items:
-                break
+        # ОДИН запрос на пачку (не пагинируем через last_id): batch уже
+        # ограничен явным списком offer_id (<=1000), так что все совпадения
+        # приходят в первом же ответе. ВАЖНО: pull-ozon-stock однажды ушёл
+        # в бесконечный цикл здесь — Ozon, похоже, при фильтре по явному
+        # списку offer_id не обнуляет last_id, когда результатов больше нет,
+        # так что "while not last_id" никогда не завершался. Один запрос на
+        # пачку убирает этот риск полностью.
+        data = _post(
+            "/v4/product/info/stocks",
+            {"filter": {"offer_id": batch, "visibility": "ALL"}, "last_id": "", "limit": min(len(batch), 1000)},
+        )
+        items = data.get("items")
+        if items is None:
+            items = data.get("result", {}).get("items", [])
+        out.extend(items)
     return out
 
 
