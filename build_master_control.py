@@ -1,14 +1,15 @@
 """
 build_master_control.py — собирает data/master_control.xlsx: единый файл-пульт,
 где по каждому артикулу (и уже существующему на Ozon, и новому черновику) в
-одной строке видно фото, название, описание, хэштеги и заметки. Это ЕДИНСТВЕННЫЙ
-файл, из которого вы редактируете эти поля — после правок запустите
-sync-master-control, чтобы перенести их обратно в data/ozon_catalog.xlsx /
-data/ozon_new_products.xlsx (и, если заменили картинку в столбце "Фото", в
-новый файл-обложку в photos/), см. sync_master_control.py.
+одной строке видно фото, название, цену, описание, хэштеги и заметки. Это
+ЕДИНСТВЕННЫЙ файл, из которого вы редактируете эти поля — после правок
+запустите sync-master-control, чтобы перенести их обратно в
+data/ozon_catalog.xlsx / data/ozon_new_products.xlsx (и, если заменили
+картинку в столбце "Фото", в новый файл-обложку в photos/), см.
+sync_master_control.py.
 
 master_control.xlsx можно пересобирать сколько угодно раз (build-master-control)
-— название/описание/хэштеги/заметки при этом БЕРУТСЯ из ozon_catalog.xlsx /
+— название/цена/описание/хэштеги/заметки при этом БЕРУТСЯ из ozon_catalog.xlsx /
 ozon_new_products.xlsx (то есть уже сделанные там правки не потеряются), а
 столбец "Фото" каждый раз строится заново из текущего содержимого photos/.
 """
@@ -40,16 +41,30 @@ HEADERS = [
     "Фото",
     "Кол-во файлов фото/видео",
     "Название товара",
+    "Цена, ₽",
+    "Цена до скидки, ₽",
     "Описание",
     "Хэштеги / Теги",
     "Заметки",
     "Файлы (папка photos/)",
 ]
-COL_WIDTHS = [22, 16, 20, 10, 34, 50, 30, 34, 40]
+COL_WIDTHS = [22, 16, 20, 10, 34, 12, 14, 50, 30, 34, 40]
+
+
+def _find_header(headers, *, must_contain, must_not_contain=()):
+    for i, x in enumerate(headers):
+        if not x:
+            continue
+        if must_contain not in x:
+            continue
+        if any(bad in x for bad in must_not_contain):
+            continue
+        return i
+    return None
 
 
 def _read_existing():
-    """offer_id -> {name, description, notes, tnved, hashtags, photo_url}."""
+    """offer_id -> {name, price, old_price, description, notes, tnved, hashtags, photo_url}."""
     if not os.path.exists(CATALOG_PATH):
         return {}
     wb = openpyxl.load_workbook(CATALOG_PATH)
@@ -61,6 +76,8 @@ def _read_existing():
     idx_tnved = [i for i, x in enumerate(h) if x and "ТН ВЭД" in x][0]
     idx_photo = [i for i, x in enumerate(h) if x and x.startswith("Фото")][0]
     idx_hashtags = next((i for i, x in enumerate(h) if x and "Хэштег" in x), None)
+    idx_price = _find_header(h, must_contain="Цена", must_not_contain=("до скидки",))
+    idx_old_price = _find_header(h, must_contain="до скидки")
 
     out = {}
     for row in ws.iter_rows(min_row=2, values_only=True):
@@ -71,6 +88,8 @@ def _read_existing():
         first_url = photo_cell.split("|")[0].strip() if photo_cell else ""
         out[oid] = {
             "name": row[idx_name] or "",
+            "price": row[idx_price] if idx_price is not None else None,
+            "old_price": row[idx_old_price] if idx_old_price is not None else None,
             "description": row[idx_desc] or "",
             "notes": row[idx_notes] or "",
             "tnved": row[idx_tnved] or "",
@@ -81,7 +100,7 @@ def _read_existing():
 
 
 def _read_draft():
-    """offer_id -> {name, description, notes, sample, hashtags}."""
+    """offer_id -> {name, price, old_price, description, notes, sample, hashtags}."""
     if not os.path.exists(NEW_PATH):
         return {}
     wb = openpyxl.load_workbook(NEW_PATH)
@@ -92,6 +111,8 @@ def _read_draft():
     idx_notes = next(i for i, x in enumerate(h) if x and "Заметки" in x)
     idx_sample = next(i for i, x in enumerate(h) if x and "Образец" in x)
     idx_hashtags = next((i for i, x in enumerate(h) if x and "Хэштег" in x), None)
+    idx_price = _find_header(h, must_contain="Цена", must_not_contain=("до скидки",))
+    idx_old_price = _find_header(h, must_contain="до скидки")
 
     out = {}
     for row in ws.iter_rows(min_row=2, values_only=True):
@@ -100,6 +121,8 @@ def _read_draft():
         oid = str(row[0]).strip()
         out[oid] = {
             "name": row[idx_name] or "",
+            "price": row[idx_price] if idx_price is not None else None,
+            "old_price": row[idx_old_price] if idx_old_price is not None else None,
             "description": row[idx_desc] or "",
             "notes": row[idx_notes] or "",
             "sample": row[idx_sample] or "",
@@ -189,6 +212,8 @@ def run() -> int:
         status = "Действующий" if is_existing else "Новый (черновик)"
         src = existing.get(oid) or draft.get(oid) or {}
         name = src.get("name", "")
+        price = src.get("price")
+        old_price = src.get("old_price")
         desc = src.get("description", "")
         notes = src.get("notes", "")
         hashtags = src.get("hashtags", "")
@@ -209,10 +234,12 @@ def run() -> int:
         ws.cell(row=row_i, column=2, value=status)
         ws.cell(row=row_i, column=4, value=file_count)
         ws.cell(row=row_i, column=5, value=name)
-        ws.cell(row=row_i, column=6, value=desc)
-        ws.cell(row=row_i, column=7, value=hashtags)
-        ws.cell(row=row_i, column=8, value=notes)
-        ws.cell(row=row_i, column=9, value=files_str)
+        ws.cell(row=row_i, column=6, value=price)
+        ws.cell(row=row_i, column=7, value=old_price)
+        ws.cell(row=row_i, column=8, value=desc)
+        ws.cell(row=row_i, column=9, value=hashtags)
+        ws.cell(row=row_i, column=10, value=notes)
+        ws.cell(row=row_i, column=11, value=files_str)
 
         for c in range(1, len(HEADERS) + 1):
             ws.cell(row=row_i, column=c).alignment = Alignment(vertical="top", wrap_text=True)

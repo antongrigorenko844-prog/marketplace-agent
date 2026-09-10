@@ -16,19 +16,23 @@ master_control.xlsx сам НЕ используется ни одним дру�
 для черновиков).
 
 Столбцы master_control.xlsx (см. build_master_control.py), по позиции:
-  1 Артикул (offer_id)
-  2 Статус ("Действующий" / "Новый (черновик)")
-  3 Фото (картинка, вставленная в ячейку)
-  4 Кол-во файлов фото/видео (справочно, не читается обратно)
-  5 Название товара
-  6 Описание
-  7 Хэштеги / Теги
-  8 Заметки
-  9 Файлы (папка photos/) (справочно, не читается обратно)
+  1  Артикул (offer_id)
+  2  Статус ("Действующий" / "Новый (черновик)")
+  3  Фото (картинка, вставленная в ячейку)
+  4  Кол-во файлов фото/видео (справочно, не читается обратно)
+  5  Название товара
+  6  Цена, ₽
+  7  Цена до скидки, ₽
+  8  Описание
+  9  Хэштеги / Теги
+  10 Заметки
+  11 Файлы (папка photos/) (справочно, не читается обратно)
 
 Пустая ячейка в столбцах название/описание/хэштеги/заметки означает
 "не менять" — как и везде в этом проекте, обнулить значение так нельзя,
-для явной очистки впишите один пробел.
+для явной очистки впишите один пробел. Для цены/цены-до-скидки пустая
+ячейка тоже значит "не менять"; число 0 — это явное значение и будет
+записано (для "Цена до скидки" 0 означает "без скидки").
 """
 import hashlib
 import logging
@@ -53,9 +57,11 @@ COL_OFFER_ID = 1
 COL_STATUS = 2
 COL_PHOTO = 3
 COL_NAME = 5
-COL_DESCRIPTION = 6
-COL_HASHTAGS = 7
-COL_NOTES = 8
+COL_PRICE = 6
+COL_OLD_PRICE = 7
+COL_DESCRIPTION = 8
+COL_HASHTAGS = 9
+COL_NOTES = 10
 
 IMAGE_EXTS = (".jpg", ".jpeg", ".png")
 
@@ -63,7 +69,7 @@ IMAGE_EXTS = (".jpg", ".jpeg", ".png")
 def _read_master():
     """
     Возвращает (rows, images):
-      rows   — offer_id -> {"status","name","description","hashtags","notes"}
+      rows   — offer_id -> {"status","name","price","old_price","description","hashtags","notes"}
       images — offer_id -> raw bytes картинки, вставленной в столбец "Фото"
     """
     wb = load_workbook(MASTER_PATH)
@@ -82,6 +88,8 @@ def _read_master():
         rows[offer_id] = {
             "status": status,
             "name": row[COL_NAME - 1].value,
+            "price": row[COL_PRICE - 1].value,
+            "old_price": row[COL_OLD_PRICE - 1].value,
             "description": row[COL_DESCRIPTION - 1].value,
             "hashtags": row[COL_HASHTAGS - 1].value,
             "notes": row[COL_NOTES - 1].value,
@@ -219,9 +227,9 @@ def _sync_photos(images: dict, all_offer_ids) -> list:
 
 def _sync_catalog_xlsx(path: str, columns_module, updates: dict) -> int:
     """
-    Точечно обновляет name/description/hashtags/notes по offer_id в уже
-    существующем xlsx, не трогая остальные колонки (цену, ссылки на фото,
-    остаток, ТН ВЭД и т.д.) — они остаются как были.
+    Точечно обновляет name/price/old_price/description/hashtags/notes по
+    offer_id в уже существующем xlsx, не трогая остальные колонки (ссылки
+    на фото, остаток, ТН ВЭД и т.д.) — они остаются как были.
     """
     if not updates or not os.path.exists(path):
         return 0
@@ -240,13 +248,13 @@ def _sync_catalog_xlsx(path: str, columns_module, updates: dict) -> int:
         if not upd:
             continue
         row_changed = False
-        for key in ("name", "description", "hashtags", "notes"):
+        for key in ("name", "price", "old_price", "description", "hashtags", "notes"):
             col_idx = col_index.get(key)
             if not col_idx:
                 continue
             new_val = upd.get(key)
             if new_val in (None, ""):
-                continue  # пусто в master_control = "не менять"
+                continue  # пусто в master_control = "не менять" (0 — явное значение, применяется)
             cell = row[col_idx - 1]
             if cell.value != new_val:
                 cell.value = new_val
