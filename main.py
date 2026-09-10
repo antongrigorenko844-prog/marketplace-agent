@@ -989,6 +989,7 @@ def cmd_push_stock() -> int:
 
     total_ok = 0
     total_err = 0
+    failed_offer_ids = []
     chunk = 100
     for i in range(0, len(items), chunk):
         batch = items[i : i + chunk]
@@ -998,6 +999,7 @@ def cmd_push_stock() -> int:
         if not result_items:
             print(f"Партия {batch_num}: Ozon не вернул result, ответ: {result}")
             total_err += len(batch)
+            failed_offer_ids.extend(str(it.get("offer_id", "")) for it in batch)
             continue
         for it in result_items:
             offer_id = it.get("offer_id", "?")
@@ -1006,8 +1008,28 @@ def cmd_push_stock() -> int:
                 print(f"  ОК {offer_id}: остаток обновлён")
             else:
                 total_err += 1
+                failed_offer_ids.append(offer_id)
                 print(f"  ОШИБКА {offer_id}: {it.get('errors')}")
     print(f"\nИтого: успешно {total_ok}, с ошибками {total_err}")
+
+    # Диагностика: PRODUCT_IS_NOT_CREATED от /v2/products/stocks не значит
+    # обязательно "карточки нет вообще" — товар может существовать (виден в
+    # list_products/push-ozon-new-cards), но ещё не пройти внутреннюю
+    # обработку/модерацию Ozon, из-за чего остаток пока недоступен для
+    # записи. Запрашиваем по каждому упавшему offer_id реальный статус
+    # карточки, чтобы увидеть настоящую причину, а не гадать.
+    if failed_offer_ids:
+        print("\nПодробности по товарам с ошибкой (статус карточки в Ozon):")
+        for offer_id in failed_offer_ids:
+            if not offer_id or offer_id == "?":
+                continue
+            try:
+                info = ozon_client.get_product_info(offer_id)
+            except Exception as exc:
+                print(f"  {offer_id}: не удалось получить подробности — {exc}")
+                continue
+            print(f"  {offer_id}: {json.dumps(info, ensure_ascii=False)}")
+
     return 0 if total_err == 0 else 1
 
 
