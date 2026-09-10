@@ -144,15 +144,41 @@ def get_product_names(offer_ids: Optional[List[str]] = None, limit: int = 1000) 
 def get_warehouses() -> List[dict]:
     """
     Список складов продавца (для FBS/rFBS) — оттуда берётся warehouse_id,
-    без которого update_stocks не работает (см. его докстринг). Полей
-    несколько, важные: "warehouse_id", "name", "is_rfbs".
+    без которого update_stocks не работает (см. его докстринг).
 
-    ENDPOINT: POST /v1/warehouse/list — подтверждено в живой документации
-    docs.ozon.ru 10.09.2026, без параметров (кабинет определяется по
-    Client-Id).
+    ENDPOINT: POST /v1/warehouse/list БОЛЬШЕ НЕ РАБОТАЕТ — на живом запуске
+    10.09.2026 отдал 400 "obsolete method cannot be used". Ozon, судя по
+    всему, убрал прямой список складов и предлагает вместо него
+    /v1/delivery-method/list ("методы доставки" — каждый элемент содержит
+    warehouse_id того склада, к которому он привязан; подтверждено в живой
+    документации docs.ozon.ru 10.09.2026: filter — {provider_id, status,
+    warehouse_id}, все необязательные; limit/offset обязательные, limit
+    максимум 50; ответ — {"has_next": bool, "result": [{"id", "name",
+    "warehouse_id", "status", "provider_id", ...}]}).
+
+    Возвращает список складов (по уникальным warehouse_id), у каждого —
+    "warehouse_id" и список "delivery_methods" (их имя/статус) как
+    подсказка, какой склад к чему относится, раз собственного имени склада
+    в этом ответе нет.
     """
-    data = _post("/v1/warehouse/list", {})
-    return data.get("result", data.get("items", []))
+    by_warehouse: Dict[int, dict] = {}
+    offset = 0
+    limit = 50
+    while True:
+        data = _post("/v1/delivery-method/list", {"filter": {}, "limit": limit, "offset": offset})
+        items = data.get("result", [])
+        for it in items:
+            wid = it.get("warehouse_id")
+            if not wid:
+                continue
+            entry = by_warehouse.setdefault(wid, {"warehouse_id": wid, "delivery_methods": []})
+            entry["delivery_methods"].append(
+                {"id": it.get("id"), "name": it.get("name"), "status": it.get("status")}
+            )
+        if not data.get("has_next") or not items:
+            break
+        offset += limit
+    return sorted(by_warehouse.values(), key=lambda w: w["warehouse_id"])
 
 
 def update_stocks(items: List[dict]) -> dict:
