@@ -512,6 +512,8 @@ def cmd_push_ozon_new_cards() -> int:
 
     total_ok = 0
     total_err = 0
+    total_skipped = 0
+    submitted_offer_ids = [i.get("offer_id") for i in items if i.get("offer_id")]
     result = ozon_client.import_products(items)
     task_id = result.get("result", {}).get("task_id")
     if not task_id:
@@ -524,18 +526,54 @@ def cmd_push_ozon_new_cards() -> int:
         status = ozon_client.get_import_status(task_id)
         if status.get("result", {}).get("items"):
             break
+    skipped_offer_ids = []
     for it in status.get("result", {}).get("items", []):
         blocking, warnings = _split_errors_by_level(it.get("errors") or [])
+        item_status = it.get("status")
         if blocking:
             total_err += 1
             print(f"  ОШИБКА {it.get('offer_id')}: {blocking}")
         else:
             total_ok += 1
             note = f" (предупреждение: {warnings})" if warnings else ""
-            print(f"  ОК {it.get('offer_id')}: статус {it.get('status')}{note}")
-    print(f"\nИтого: успешно {total_ok}, с ошибками {total_err}")
+            print(f"  ОК {it.get('offer_id')}: статус {item_status}{note}")
+        # "skipped" на практике не всегда означает, что карточка реально
+        # создана — Ozon иногда возвращает skipped/без errors для товаров,
+        # которые так и не появляются в каталоге (похоже на дедупликацию
+        # по похожести карточки с чужим/своим товаром). Печатаем сырой
+        # ответ целиком для таких товаров и потом сверяем с list_products.
+        if item_status and item_status != "imported":
+            total_skipped += 1
+            skipped_offer_ids.append(it.get("offer_id"))
+            print(f"    сырой ответ Ozon: {json.dumps(it, ensure_ascii=False)}")
+    print(f"\nИтого: успешно {total_ok}, с ошибками {total_err}, из них со статусом не 'imported' (skipped/др.): {total_skipped}")
+
+    # Проверяем правду в лоб: реально ли карточки появились у продавца,
+    # независимо от того, что сказал статус импорта. /v3/product/list
+    # отдаёт offer_id+product_id для ВСЕХ товаров продавца (visibility ALL).
+    if submitted_offer_ids:
+        print("\nСверяю с фактическим списком товаров продавца (list_products)...")
+        try:
+            all_products = ozon_client.list_products()
+        except Exception as exc:
+            print(f"  Не удалось получить список товаров для сверки: {exc}")
+            all_products = []
+        existing_offer_ids = {p.get("offer_id") for p in all_products if p.get("offer_id")}
+        confirmed_missing = [oid for oid in submitted_offer_ids if oid not in existing_offer_ids]
+        confirmed_created = [oid for oid in submitted_offer_ids if oid in existing_offer_ids]
+        print(f"  Реально существуют у продавца: {len(confirmed_created)} из {len(submitted_offer_ids)} отправленных")
+        if confirmed_missing:
+            print(f"  ПОДТВЕРЖДЕНО ОТСУТСТВУЮТ несмотря на статус импорта: {confirmed_missing}")
+        if skipped_offer_ids:
+            skipped_but_created = [oid for oid in skipped_offer_ids if oid in existing_offer_ids]
+            skipped_and_missing = [oid for oid in skipped_offer_ids if oid not in existing_offer_ids]
+            if skipped_but_created:
+                print(f"  Из статуса не-'imported' — на деле СУЩЕСТВУЮТ (создались раньше): {skipped_but_created}")
+            if skipped_and_missing:
+                print(f"  Из статуса не-'imported' — на деле НЕ СУЩЕСТВУЮТ (реальная проблема): {skipped_and_missing}")
+
     if total_ok:
-        print("Не забудьте выполнить fetch-ozon ещё раз, чтобы новые товары попали в общий каталог.")
+        print("\nНе забудьте выполнить fetch-ozon ещё раз, чтобы новые товары попали в общий каталог.")
     return 0 if total_err == 0 else 1
 
 
