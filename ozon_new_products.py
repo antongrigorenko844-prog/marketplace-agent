@@ -136,8 +136,6 @@ def attach_new_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") -
     offer_id_col_idx = 1
     images_col_idx = next(i for i, (key, _) in enumerate(COLUMNS, start=1) if key == "images")
 
-    files = [f for f in os.listdir(photos_dir) if os.path.splitext(f)[1].lower() in catalog_editor.IMAGE_EXTS]
-
     matched: Dict[str, List[str]] = {}
     for row in ws.iter_rows(min_row=2):
         offer_id_cell = row[offer_id_col_idx - 1]
@@ -145,19 +143,17 @@ def attach_new_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") -
             continue
         offer_id = str(offer_id_cell.value).strip()
 
-        own_files = [
-            f
-            for f in files
-            if f.startswith(offer_id + "_") or f == offer_id + os.path.splitext(f)[1]
-        ]
+        own_files = catalog_editor.own_media_files(photos_dir, offer_id, catalog_editor.IMAGE_EXTS)
         if not own_files:
             continue
-        own_files.sort(key=lambda f: catalog_editor._photo_index(f, offer_id))
 
         urls = []
         for f in own_files:
             try:
-                url = photo_host.upload_file(os.path.join(photos_dir, f))
+                url = photo_host.upload_file(
+                    catalog_editor.media_path(photos_dir, offer_id, f),
+                    filename=catalog_editor.asset_filename_for(offer_id, f),
+                )
             except Exception as exc:
                 logger.warning("%s: не удалось загрузить фото %s: %s", offer_id, f, exc)
                 continue

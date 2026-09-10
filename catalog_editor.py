@@ -76,20 +76,100 @@ VIDEO_EXTS = {".mp4", ".mov"}
 
 def _photo_index(fname: str, offer_id: str) -> int:
     """
-    Номер фото — это число сразу после "<offer_id>_" в НАЧАЛЕ имени файла.
-    После номера можно дописать любое читаемое описание — оно не мешает
-    сортировке, так как не участвует в разборе:
-        143210608_1_общий-вид.jpg   -> номер 1
-        143210608_2_короб.jpg       -> номер 2
-        143210608_10_маркировка.jpg -> номер 10 (а не "встанет перед 2")
-    Файл без номера ("143210608.jpg") получает номер 0 и идёт первым.
+    Номер фото — ведущее число в имени файла сразу после префикса артикула
+    (разделитель "_" или "-", оба варианта встречаются в существующих
+    файлах): "143210608_1_общий-вид.jpg" -> 1, "143210608-2.png" -> 2.
+    Файл без числа после префикса ("143210608.jpg") получает номер 0 и
+    идёт первым.
     """
-    prefix = offer_id + "_"
-    if fname.startswith(prefix):
-        m = re.match(r"(\d+)", fname[len(prefix):])
-        if m:
-            return int(m.group(1))
+    for sep in ("_", "-"):
+        prefix = offer_id + sep
+        if fname.startswith(prefix):
+            m = re.match(r"(\d+)", fname[len(prefix):])
+            return int(m.group(1)) if m else 0
     return 0
+
+
+def _owns(fname: str, offer_id: str) -> bool:
+    """
+    Верно, если файл fname по имени принадлежит offer_id: начинается с
+    "<артикул>_" или "<артикул>-", либо равен ровно "<артикул>.<расширение>".
+    Сравнение ВСЕГДА регистрозависимое — см. own_media_files, почему это
+    важно на Mac (APFS).
+    """
+    if fname.startswith(offer_id + "_") or fname.startswith(offer_id + "-"):
+        return True
+    return fname == offer_id + os.path.splitext(fname)[1]
+
+
+def own_media_files(photos_dir: str, offer_id: str, exts) -> List[str]:
+    """
+    Имена файлов (без пути), принадлежащих товару `offer_id`.
+
+    Сначала ищет в СОБСТВЕННОЙ папке photos_dir/<offer_id>/ (у каждого
+    товара своя папка, с 2026-09-10). Если там подходящих файлов не
+    нашлось (папки нет или она пуста) — резервно, как раньше, плоско
+    прямо в photos_dir.
+
+    В ОБОИХ случаях файл засчитывается только если имя файла НАЧИНАЕТСЯ с
+    "<артикул>_" или РАВНО "<артикул>.<расширение>" — проверка ВСЕГДА
+    регистрозависимая (сравнение через startswith/==, не .lower()).
+
+    ВАЖНО — почему префиксная проверка нужна даже внутри своей папки (баг
+    найден и исправлен 2026-09-10 на живом запуске): нельзя просто
+    доверять "всё, что лежит в papке товара — его". На Mac по умолчанию
+    файловая система (APFS) НЕ различает регистр букв в имени папки — то
+    есть photos/DQ500/ и photos/Dq500/ физически ОДНА И ТА ЖЕ папка на
+    диске. В этом каталоге такие пары уже встречались (Ozon сам на них
+    указывал как на вероятный случайный дубль артикула, см.
+    validate_catalog ниже): DQ500/Dq500, EA888gen3/Ea888gen3,
+    0am325025H/0am325025h. Без проверки имени файла оба артикула такой
+    пары получали ОДИН И ТОТ ЖЕ смешанный набор фото — обнаружено по
+    вздутому счётчику "Медиафайлов" при пересборке master_control.xlsx
+    (209/207 вместо верных 192/190).
+    """
+    for base in (os.path.join(photos_dir, offer_id), photos_dir):
+        if not os.path.isdir(base):
+            continue
+        files = [
+            f
+            for f in os.listdir(base)
+            if os.path.isfile(os.path.join(base, f))
+            and os.path.splitext(f)[1].lower() in exts
+            and _owns(f, offer_id)
+        ]
+        if files:
+            files.sort(key=lambda f: _photo_index(f, offer_id))
+            return files
+    return []
+
+
+def media_path(photos_dir: str, offer_id: str, fname: str) -> str:
+    """
+    Полный путь к файлу, найденному через own_media_files — сама
+    разбирается, лежит ли он в своей папке (новый способ) или плоско в
+    photos_dir (старый, ещё не перенесённый файл).
+    """
+    candidate = os.path.join(photos_dir, offer_id, fname)
+    if os.path.isfile(candidate):
+        return candidate
+    return os.path.join(photos_dir, fname)
+
+
+def asset_filename_for(offer_id: str, fname: str) -> str:
+    """
+    Имя ассета GitHub Release для файла фото/видео товара `offer_id`.
+    Если имя файла уже само содержит артикул (старый перенесённый файл,
+    например "0BH325_1.png") — используем как есть, чтобы НЕ поменять уже
+    выданную и, возможно, уже подставленную на Ozon/WB ссылку. Иначе (новый
+    файл без артикула в имени, лежит в своей папке — например "1.jpg") —
+    добавляем артикул спереди, чтобы имена ассетов не пересекались между
+    разными товарами в одном общем релизе GitHub (иначе "1.jpg" одного
+    товара перезаписал бы "1.jpg" другого).
+    """
+    if _owns(fname, offer_id):
+        return fname
+    return f"{offer_id}_{fname}"
 
 
 def download_missing_photos(xlsx_path: str, photos_dir: str) -> Dict[str, str]:
@@ -127,14 +207,9 @@ def download_missing_photos(xlsx_path: str, photos_dir: str) -> Dict[str, str]:
     images_col_idx = next(i for i, (key, _) in enumerate(COLUMNS, start=1) if key == "images")
 
     os.makedirs(photos_dir, exist_ok=True)
-    existing_files = os.listdir(photos_dir)
 
     def has_local(offer_id: str) -> bool:
-        return any(
-            (f.startswith(offer_id + "_") or f == offer_id + os.path.splitext(f)[1])
-            and os.path.splitext(f)[1].lower() in IMAGE_EXTS
-            for f in existing_files
-        )
+        return bool(own_media_files(photos_dir, offer_id, IMAGE_EXTS))
 
     downloaded: Dict[str, str] = {}
     for row in ws.iter_rows(min_row=2, values_only=True):
@@ -152,7 +227,9 @@ def download_missing_photos(xlsx_path: str, photos_dir: str) -> Dict[str, str]:
         if ext not in IMAGE_EXTS:
             ext = ".jpg"
         target_name = f"{offer_id}_1{ext}"
-        target_path = os.path.join(photos_dir, target_name)
+        own_dir = os.path.join(photos_dir, offer_id)
+        os.makedirs(own_dir, exist_ok=True)
+        target_path = os.path.join(own_dir, target_name)
         try:
             resp = requests.get(url, timeout=30)
             resp.raise_for_status()
@@ -162,7 +239,6 @@ def download_missing_photos(xlsx_path: str, photos_dir: str) -> Dict[str, str]:
             logger.warning("%s: не удалось скачать уже имеющееся фото %s: %s", offer_id, url, exc)
             continue
         downloaded[offer_id] = target_name
-        existing_files.append(target_name)
 
     return downloaded
 
@@ -211,9 +287,6 @@ def attach_local_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "")
     images_col_idx = next(i for i, (key, _) in enumerate(COLUMNS, start=1) if key == "images")
     video_col_idx = next((i for i, (key, _) in enumerate(COLUMNS, start=1) if key == "video_url"), None)
 
-    files = [f for f in os.listdir(photos_dir) if os.path.splitext(f)[1].lower() in IMAGE_EXTS]
-    video_files = [f for f in os.listdir(photos_dir) if os.path.splitext(f)[1].lower() in VIDEO_EXTS]
-
     matched: Dict[str, List[str]] = {}
     for row in ws.iter_rows(min_row=2):
         offer_id_cell = row[offer_id_col_idx - 1]
@@ -221,18 +294,15 @@ def attach_local_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "")
             continue
         offer_id = str(offer_id_cell.value).strip()
 
-        own_files = [
-            f
-            for f in files
-            if f.startswith(offer_id + "_") or f == offer_id + os.path.splitext(f)[1]
-        ]
+        own_files = own_media_files(photos_dir, offer_id, IMAGE_EXTS)
         if own_files:
-            own_files.sort(key=lambda f: _photo_index(f, offer_id))
-
             urls = []
             for f in own_files:
                 try:
-                    url = photo_host.upload_file(os.path.join(photos_dir, f))
+                    url = photo_host.upload_file(
+                        media_path(photos_dir, offer_id, f),
+                        filename=asset_filename_for(offer_id, f),
+                    )
                 except Exception as exc:
                     logger.warning("%s: не удалось загрузить фото %s: %s", offer_id, f, exc)
                     continue
@@ -244,20 +314,16 @@ def attach_local_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "")
                 #
                 # Чтобы вместо замены ДОБАВИТЬ фото к уже висящим на
                 # маркетплейсе, ничего не убирая (например одно сравнительное
-                # фото к готовой карточке) — включите в сам локальный набор
-                # own_files также копии текущих файлов этого товара (тогда
-                # они просто окажутся частью нового набора и не потеряются).
+                # фото к готовой карточке) — положите в саму папку
+                # photos/<артикул>/ также копии текущих файлов этого товара
+                # (тогда они просто окажутся частью нового набора и не
+                # потеряются).
                 row[images_col_idx - 1].value = "|".join(urls)
                 matched[offer_id] = urls
 
         if video_col_idx:
-            own_videos = [
-                f
-                for f in video_files
-                if f.startswith(offer_id + "_") or f == offer_id + os.path.splitext(f)[1]
-            ]
+            own_videos = own_media_files(photos_dir, offer_id, VIDEO_EXTS)
             if own_videos:
-                own_videos.sort()
                 if len(own_videos) > 1:
                     logger.warning(
                         "%s: нашлось несколько видеофайлов (%s) — использован первый: %s",
@@ -266,7 +332,10 @@ def attach_local_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "")
                         own_videos[0],
                     )
                 try:
-                    video_url = photo_host.upload_file(os.path.join(photos_dir, own_videos[0]))
+                    video_url = photo_host.upload_file(
+                        media_path(photos_dir, offer_id, own_videos[0]),
+                        filename=asset_filename_for(offer_id, own_videos[0]),
+                    )
                     row[video_col_idx - 1].value = video_url
                 except Exception as exc:
                     logger.warning("%s: не удалось загрузить видео %s: %s", offer_id, own_videos[0], exc)

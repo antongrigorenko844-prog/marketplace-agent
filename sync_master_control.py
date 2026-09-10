@@ -56,6 +56,8 @@ import re
 
 from openpyxl import load_workbook
 
+import catalog_editor
+
 logger = logging.getLogger("marketplace-agent.sync_master_control")
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -157,47 +159,18 @@ def _guess_ext(data: bytes) -> str:
     return ".png"
 
 
-def _match_candidates(fname: str, offer_ids, case_sensitive: bool):
-    base, ext = os.path.splitext(fname)
-    f_cmp = fname if case_sensitive else fname.lower()
-    e_cmp = ext if case_sensitive else ext.lower()
-    out = []
-    for k in offer_ids:
-        k_cmp = k if case_sensitive else k.lower()
-        if f_cmp == (k_cmp + e_cmp) or f_cmp.startswith(k_cmp + "_") or f_cmp.startswith(k_cmp + "-"):
-            out.append(k)
-    return out
-
-
-def _match_known(fname: str, offer_ids):
-    exact = _match_candidates(fname, offer_ids, case_sensitive=True)
-    if exact:
-        return max(exact, key=len)
-    loose = _match_candidates(fname, offer_ids, case_sensitive=False)
-    if not loose:
-        return None
-    return max(loose, key=len)
-
-
 def _thumb_source_photo(offer_id: str, all_offer_ids):
     """
     Файл, из которого build_master_control.py строит маленький эскиз в
     столбце "Фото" для этого артикула — нужен, чтобы пересобрать такой же
     эскиз и сравнить с картинкой, вставленной в ячейку (см. _make_thumb_bytes).
-    Повторяет ТУ ЖЕ логику подбора, что и сам build-скрипт: артикулы и файлы
-    перебираются в алфавитном порядке имени файла, совпадение — сначала
-    точное по регистру, затем без учёта регистра, при нескольких кандидатах
-    побеждает самый длинный префикс (чтобы "0am325025H" не перехватывал
-    файлы артикула "0am325025HX").
+    С 2026-09-10 у каждого товара своя папка photos/<артикул>/ — файл
+    однозначно определяется папкой, поэтому `all_offer_ids` больше не
+    используется для разрешения неоднозначности (аргумент оставлен только
+    для обратной совместимости вызова).
     """
-    if not os.path.isdir(PHOTOS_DIR):
-        return None
-    files = sorted(os.listdir(PHOTOS_DIR))
-    media = [f for f in files if os.path.splitext(f)[1].lower() in IMAGE_EXTS]
-    for f in media:
-        if _match_known(f, all_offer_ids) == offer_id:
-            return f
-    return None
+    files = catalog_editor.own_media_files(PHOTOS_DIR, offer_id, IMAGE_EXTS)
+    return files[0] if files else None
 
 
 def _make_thumb_bytes(path: str):
@@ -242,13 +215,15 @@ def _sync_photos(images: dict, all_offer_ids) -> list:
 
         current = _thumb_source_photo(offer_id, all_offer_ids)
         if current:
-            expected_thumb = _make_thumb_bytes(os.path.join(PHOTOS_DIR, current))
+            expected_thumb = _make_thumb_bytes(catalog_editor.media_path(PHOTOS_DIR, offer_id, current))
             if expected_thumb is not None and hashlib.sha256(expected_thumb).hexdigest() == new_hash:
                 continue  # это тот же автосгенерированный эскиз — фото не меняли
 
         ext = _guess_ext(data)
         target_name = f"{offer_id}_1{ext}"
-        with open(os.path.join(PHOTOS_DIR, target_name), "wb") as fh:
+        own_dir = os.path.join(PHOTOS_DIR, offer_id)
+        os.makedirs(own_dir, exist_ok=True)
+        with open(os.path.join(own_dir, target_name), "wb") as fh:
             fh.write(data)
         written.append((offer_id, target_name, current))
     return written

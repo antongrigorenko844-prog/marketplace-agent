@@ -26,6 +26,8 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill
 from openpyxl.utils import get_column_letter
 
+import catalog_editor
+
 logger = logging.getLogger("marketplace-agent.wb_catalog_editor")
 
 FONT_NAME = "Arial"
@@ -160,21 +162,13 @@ def load_wb_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
     return edits
 
 
-def _photo_index(fname: str, vendor_code: str) -> int:
-    prefix = vendor_code + "_"
-    if fname.startswith(prefix):
-        m = re.match(r"(\d+)", fname[len(prefix):])
-        if m:
-            return int(m.group(1))
-    return 0
-
-
 def attach_wb_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") -> Dict[str, List[str]]:
     """
     То же самое, что attach_local_photos в catalog_editor.py (Ozon), но
     ключ — vendorCode. Если артикулы у вас общие для Ozon и WB (как и
-    задумано), фото из той же папки photos/ подойдут сразу для обеих
-    площадок — переименовывать/дублировать файлы не нужно.
+    задумано), папка photos/<артикул>/ подойдёт сразу для обеих площадок —
+    переименовывать/дублировать файлы не нужно (см.
+    catalog_editor.own_media_files).
 
     Каждый файл загружается как ассет GitHub Release (photo_host.py) —
     raw_base_url (raw.githubusercontent.com) больше не используется, он
@@ -189,8 +183,6 @@ def attach_wb_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") ->
     vendor_col_idx = 1
     images_col_idx = next(i for i, (key, _) in enumerate(COLUMNS, start=1) if key == "images")
 
-    files = [f for f in os.listdir(photos_dir) if os.path.splitext(f)[1].lower() in IMAGE_EXTS]
-
     matched: Dict[str, List[str]] = {}
     for row in ws.iter_rows(min_row=2):
         vendor_cell = row[vendor_col_idx - 1]
@@ -198,19 +190,17 @@ def attach_wb_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") ->
             continue
         vendor_code = str(vendor_cell.value).strip()
 
-        own_files = [
-            f
-            for f in files
-            if f.startswith(vendor_code + "_") or f == vendor_code + os.path.splitext(f)[1]
-        ]
+        own_files = catalog_editor.own_media_files(photos_dir, vendor_code, IMAGE_EXTS)
         if not own_files:
             continue
-        own_files.sort(key=lambda f: _photo_index(f, vendor_code))
 
         urls = []
         for f in own_files:
             try:
-                url = photo_host.upload_file(os.path.join(photos_dir, f))
+                url = photo_host.upload_file(
+                    catalog_editor.media_path(photos_dir, vendor_code, f),
+                    filename=catalog_editor.asset_filename_for(vendor_code, f),
+                )
             except Exception as exc:
                 logger.warning("%s: не удалось загрузить фото %s: %s", vendor_code, f, exc)
                 continue

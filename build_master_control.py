@@ -46,6 +46,8 @@ from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 from PIL import Image as PILImage
 
+import catalog_editor
+
 logger = logging.getLogger("marketplace-agent.build_master_control")
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -368,29 +370,6 @@ def _wb_title_by_segments(name, offer_id, limit):
     return result[:limit].rstrip() if len(result) > limit else result
 
 
-def _candidates(fname, known_ids, case_sensitive):
-    base, ext = os.path.splitext(fname)
-    f_cmp = fname if case_sensitive else fname.lower()
-    e_cmp = ext if case_sensitive else ext.lower()
-    out = []
-    for k in known_ids:
-        k_cmp = k if case_sensitive else k.lower()
-        if f_cmp == (k_cmp + e_cmp) or f_cmp.startswith(k_cmp + "_") or f_cmp.startswith(k_cmp + "-"):
-            out.append(k)
-    return out
-
-
-def _match_known(fname, known_ids):
-    # сначала пробуем точное совпадение регистра (важно для DQ500 / Dq500 / DQ500-a)
-    exact = _candidates(fname, known_ids, case_sensitive=True)
-    if exact:
-        return max(exact, key=len)
-    loose = _candidates(fname, known_ids, case_sensitive=False)
-    if not loose:
-        return None
-    return max(loose, key=len)
-
-
 def _make_thumb(src_path, dst_path):
     try:
         img = PILImage.open(src_path)
@@ -438,21 +417,37 @@ def run() -> int:
     wb_only_draft = {k: v for k, v in wb_draft.items() if k not in ozon_ids and k not in wb_only_existing}
     known_ids = sorted(ozon_ids | set(wb_only_existing) | set(wb_only_draft))
 
-    media_files = []
-    if os.path.isdir(PHOTOS_DIR):
-        media_files = [
-            f for f in sorted(os.listdir(PHOTOS_DIR))
-            if os.path.splitext(f)[1].lower() in (IMAGE_EXTS | VIDEO_EXTS)
-        ]
-
+    # Медиафайлы: с 2026-09-10 у каждого товара своя папка photos/<артикул>/
+    # — всё внутри неё однозначно принадлежит этому товару, без угадывания
+    # по префиксу имени файла (см. catalog_editor.own_media_files). Файлы,
+    # ещё не перенесённые в свою папку (старый плоский способ) и файлы с
+    # именем, не совпадающим ни с одним известным артикулом, остаются на
+    # верхнем уровне photos/ — они и попадают в "Нераспознанные фото".
     groups = {}
+    for oid in known_ids:
+        files = catalog_editor.own_media_files(PHOTOS_DIR, oid, IMAGE_EXTS | VIDEO_EXTS)
+        if files:
+            groups[oid] = files
+
     unmatched = []
-    for f in media_files:
-        hit = _match_known(f, known_ids)
-        if hit:
-            groups.setdefault(hit, []).append(f)
-        else:
-            unmatched.append(f)
+    media_files_count = sum(len(v) for v in groups.values())
+    if os.path.isdir(PHOTOS_DIR):
+        top_level = sorted(
+            f for f in os.listdir(PHOTOS_DIR)
+            if os.path.isfile(os.path.join(PHOTOS_DIR, f))
+            and os.path.splitext(f)[1].lower() in (IMAGE_EXTS | VIDEO_EXTS)
+        )
+        # Файл на верхнем уровне уже "занят", если own_media_files нашла его
+        # там же через старый плоский резервный разбор (это происходит,
+        # только пока у товара ещё нет своей папки).
+        claimed_flat = {
+            f
+            for oid, files in groups.items()
+            if not os.path.isdir(os.path.join(PHOTOS_DIR, oid))
+            for f in files
+        }
+        unmatched = [f for f in top_level if f not in claimed_flat]
+        media_files_count += len(unmatched)
 
     out = openpyxl.Workbook()
     ws = out.active
@@ -532,7 +527,7 @@ def run() -> int:
             ws.cell(row=row_i, column=c).border = border
 
         if img_files:
-            src_path = os.path.join(PHOTOS_DIR, img_files[0])
+            src_path = catalog_editor.media_path(PHOTOS_DIR, oid, img_files[0])
             thumb_path = os.path.join(THUMB_DIR, oid.replace("/", "_") + ".jpg")
             if _make_thumb(src_path, thumb_path):
                 xlimg = XLImage(thumb_path)
@@ -568,7 +563,7 @@ def run() -> int:
         f"(Ozon существующих {len(existing)}, Ozon черновиков {len(draft)}, "
         f"только-WB существующих {len(wb_only_existing)}, только-WB черновиков {len(wb_only_draft)})"
     )
-    print(f"Медиафайлов: {len(media_files)}, сопоставлено {sum(len(v) for v in groups.values())} в {len(groups)} товарах")
+    print(f"Медиафайлов: {media_files_count}, сопоставлено {sum(len(v) for v in groups.values())} в {len(groups)} товарах")
     if unmatched:
         print(f"Нераспознанных файлов: {len(unmatched)} — см. лист 'Нераспознанные фото' в {MASTER_PATH}")
     return 0
