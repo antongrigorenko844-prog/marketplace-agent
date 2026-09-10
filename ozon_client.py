@@ -254,33 +254,43 @@ def get_stocks(offer_ids: List[str]) -> List[dict]:
     return out
 
 
-def get_product_info(offer_id: str) -> dict:
+def get_product_info_list(offer_ids: List[str]) -> List[dict]:
     """
-    Подробная информация по ОДНОМУ товару, включая статус
-    создания/модерации (используется для диагностики, когда push-stock
-    падает с PRODUCT_IS_NOT_CREATED, чтобы понять реальную причину —
-    ещё обрабатывается, не прошёл модерацию, ошибки валидации и т.п.).
+    Подробная информация по товарам батчем, включая статус создания/
+    модерации и ошибки — используется для диагностики, когда push-stock
+    падает с PRODUCT_IS_NOT_CREATED, чтобы понять реальную причину
+    (ещё обрабатывается, не прошёл модерацию, ошибки валидации и т.п.).
 
-    Живая документация docs.ozon.ru по /v2/product/info и /v3/product/info/list
-    оказалась неполной/устаревшей (см. ozon-warehouses выше — та же
-    проблема с другими методами), поэтому пробуем /v2/product/info,
-    а если он ответит ошибкой — откатываемся на более старый
-    /v1/product/info. Оба принимают offer_id ИЛИ product_id, по одному
-    товару за раз. Ответ содержит объект "status" (или "result.status")
-    примерно вида {"state": "processing|moderating|processed|
-    failed_moderation|failed_validation|...", "validation_issues": [...]}
-    — точные имена полей проверяются по сырому ответу, который печатает
-    main.py --push-stock при ошибке.
+    ИСТОРИЯ: сначала пробовали /v2/product/info и /v1/product/info по
+    одному товару за раз — ОБА вернули живьём 404 "page not found"
+    10.09.2026 (пути в принципе не существуют в этом кабинете, не просто
+    "obsolete"). В комментарии к get_product_names() выше уже отмечено,
+    что /v3/product/info/list живьём проверялся 02.09.2026 и содержит
+    именно ошибки модерации (просто не содержит названия) — переходим на
+    него; на случай, если и этот путь окажется неверным, добавлен откат
+    на /v2/product/info/list.
     """
-    for path in ("/v2/product/info", "/v1/product/info"):
-        try:
-            data = _post(path, {"offer_id": offer_id})
-            data["_endpoint_used"] = path
-            return data
-        except OzonApiError as exc:
-            last_error = exc
+    out: List[dict] = []
+    chunk = 1000
+    last_error: Optional[Exception] = None
+    for i in range(0, len(offer_ids), chunk):
+        batch = offer_ids[i : i + chunk]
+        data = None
+        for path in ("/v3/product/info/list", "/v2/product/info/list"):
+            try:
+                data = _post(path, {"offer_id": batch, "product_id": [], "sku": []})
+                break
+            except OzonApiError as exc:
+                last_error = exc
+                continue
+        if data is None:
+            out.append({"_error": str(last_error), "_offer_ids": batch})
             continue
-    return {"_error": str(last_error)}
+        items = data.get("items")
+        if items is None:
+            items = data.get("result", {}).get("items", [])
+        out.extend(items)
+    return out
 
 
 def update_prices(items: List[dict]) -> dict:

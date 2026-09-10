@@ -1016,19 +1016,18 @@ def cmd_push_stock() -> int:
     # обязательно "карточки нет вообще" — товар может существовать (виден в
     # list_products/push-ozon-new-cards), но ещё не пройти внутреннюю
     # обработку/модерацию Ozon, из-за чего остаток пока недоступен для
-    # записи. Запрашиваем по каждому упавшему offer_id реальный статус
-    # карточки, чтобы увидеть настоящую причину, а не гадать.
+    # записи. Запрашиваем по упавшим offer_id реальный статус карточки
+    # батчем, чтобы увидеть настоящую причину, а не гадать.
+    failed_offer_ids = [oid for oid in failed_offer_ids if oid and oid != "?"]
     if failed_offer_ids:
         print("\nПодробности по товарам с ошибкой (статус карточки в Ozon):")
-        for offer_id in failed_offer_ids:
-            if not offer_id or offer_id == "?":
-                continue
-            try:
-                info = ozon_client.get_product_info(offer_id)
-            except Exception as exc:
-                print(f"  {offer_id}: не удалось получить подробности — {exc}")
-                continue
-            print(f"  {offer_id}: {json.dumps(info, ensure_ascii=False)}")
+        try:
+            infos = ozon_client.get_product_info_list(failed_offer_ids)
+        except Exception as exc:
+            print(f"  не удалось получить подробности — {exc}")
+            infos = []
+        for info in infos:
+            print(f"  {json.dumps(info, ensure_ascii=False)}")
 
     return 0 if total_err == 0 else 1
 
