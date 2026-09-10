@@ -61,6 +61,7 @@ COLUMNS = [
     ("quantity_to_sell", "Кол-во к продаже (пока не используется push-ozon-cards)"),
     ("notes", "Заметки"),
     ("tnved", "Код ТН ВЭД (пусто = не менять; заполните, если Ozon пишет 'не заполнен обязательный атрибут ТН ВЭД')"),
+    ("hashtags", "Хэштеги / ключевые слова (через запятую, пусто = не менять)"),
 ]
 
 # id атрибута внутри блока attributes, который зеркалит название товара —
@@ -314,11 +315,20 @@ def build_ozon_catalog(data: dict, xlsx_path: str) -> int:
             # раньше в этой же таблице, вместо того чтобы затирать пустотой.
             tnved = prev_tnved if prev_tnved not in (None, "") else ""
 
+        prev_hashtags = prev.get("hashtags")
+        hashtags_attr_id = _get_hashtags_attr_id(
+            n.get("description_category_id", 0), n.get("type_id", 0)
+        )
+        hashtags = _find_attr_value(n.get("attributes"), hashtags_attr_id) if hashtags_attr_id else ""
+        if not hashtags:
+            hashtags = prev_hashtags if prev_hashtags not in (None, "") else ""
+
         row_values = [
             offer_id, name, description, price, old_price, images_str, "",
             prev_qty if prev_qty not in (None, "") else "",
             prev_notes if prev_notes not in (None, "") else "",
             tnved,
+            hashtags,
         ]
         for col_idx, value in enumerate(row_values, start=1):
             cell = ws.cell(row=row_idx, column=col_idx, value=value)
@@ -327,7 +337,7 @@ def build_ozon_catalog(data: dict, xlsx_path: str) -> int:
                 cell.fill = EDIT_FILL
         row_idx += 1
 
-    widths = [18, 45, 45, 12, 18, 55, 45, 20, 25, 18]
+    widths = [18, 45, 45, 12, 18, 55, 45, 20, 25, 18, 30]
     for col_idx, width in enumerate(widths, start=1):
         ws.column_dimensions[get_column_letter(col_idx)].width = width
 
@@ -360,6 +370,7 @@ def load_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
         name_val = raw.get("name")
         video_val = raw.get("video_url")
         tnved_val = raw.get("tnved")
+        hashtags_val = raw.get("hashtags")
         edits[offer_id] = {
             "name": name_val.strip() if isinstance(name_val, str) else name_val,
             "description": raw.get("description") or "",
@@ -377,6 +388,7 @@ def load_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
             # атрибут 22232 отсутствовал у товаров, для которых код точно
             # вписывали.
             "tnved": tnved_val.strip() if isinstance(tnved_val, str) else (tnved_val or ""),
+            "hashtags": hashtags_val.strip() if isinstance(hashtags_val, str) else (hashtags_val or ""),
         }
     return edits
 
@@ -499,6 +511,12 @@ def _get_tnved_attr_id(description_category_id: int, type_id: int) -> Optional[i
     return _find_category_attr_id(description_category_id, type_id, "тн вэд", "tn ved", "тнвэд")
 
 
+def _get_hashtags_attr_id(description_category_id: int, type_id: int) -> Optional[int]:
+    return _find_category_attr_id(
+        description_category_id, type_id, "хэштег", "хештег", "hashtag", "ключев"
+    )
+
+
 def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:
     price_block = _price_block(detail)
 
@@ -536,6 +554,20 @@ def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:
             logger.warning(
                 "%s: в характеристиках его категории не нашлось атрибута 'ТН ВЭД' — код "
                 "НЕ добавлен, остальное обновится как обычно.",
+                name_entry.get("offer_id"),
+            )
+
+    hashtags = (edit.get("hashtags") or "").strip()
+    if hashtags:
+        hashtags_attr_id = _get_hashtags_attr_id(
+            name_entry.get("description_category_id", 0), name_entry.get("type_id", 0)
+        )
+        if hashtags_attr_id:
+            attributes = _with_overridden_attr(attributes, hashtags_attr_id, hashtags)
+        else:
+            logger.warning(
+                "%s: в характеристиках его категории не нашлось атрибута 'хэштеги' — хэштеги "
+                "НЕ добавлены, остальное обновится как обычно.",
                 name_entry.get("offer_id"),
             )
 
@@ -597,3 +629,29 @@ def build_import_items(data: dict, edits: Dict[str, dict]) -> List[dict]:
         detail = details_by_offer.get(offer_id, {})
         items.append(_build_one_item(name_entry, detail, edit))
     return items
+
+
+def validate_catalog(data: dict) -> List[str]:
+    """
+    Базовые проверки перед push (не блокируют, только предупреждают).
+    Сейчас проверяет одно: дублирующиеся offer_id, отличающиеся только
+    регистром букв (например DQ500 и Dq500) — частая случайная ошибка,
+    из-за которой на Ozon вместо одной карточки заводятся две.
+    """
+    warnings: List[str] = []
+    names = data.get("names", [])
+    seen: Dict[str, List[str]] = {}
+    for n in names:
+        oid = n.get("offer_id")
+        if not oid:
+            continue
+        seen.setdefault(oid.lower(), []).append(oid)
+    for variants in seen.values():
+        uniq = sorted(set(variants))
+        if len(uniq) > 1:
+            warnings.append(
+                "Похоже на случайный дубль артикула (отличаются только регистром букв): "
+                + ", ".join(uniq)
+                + " — возможно, это одна и та же деталь, заведённая дважды."
+            )
+    return warnings

@@ -142,6 +142,55 @@ def cmd_attach_ozon_photos() -> int:
     return 0
 
 
+def cmd_full_sync_ozon() -> int:
+    """
+    Составной шаг "всё сразу" для обычных (уже существующих) товаров Ozon:
+    fetch-ozon -> build-ozon-catalog -> attach-ozon-photos одной командой,
+    вместо трёх отдельных запусков workflow. Останавливается на первой же
+    неудачной части (чтобы не тратить время на следующие шаги вслепую).
+    После этого шага остаётся скачать/проверить data/ozon_catalog.xlsx и
+    сделать push-ozon-cards-dryrun как обычно.
+    """
+    print("=== Шаг 1/3: fetch-ozon ===")
+    rc = cmd_fetch_ozon()
+    if rc != 0:
+        print("full-sync-ozon остановлен: fetch-ozon завершился с ошибкой.")
+        return rc
+
+    print("\n=== Шаг 2/3: build-ozon-catalog ===")
+    rc = cmd_build_ozon_catalog()
+    if rc != 0:
+        print("full-sync-ozon остановлен: build-ozon-catalog завершился с ошибкой.")
+        return rc
+
+    print("\n=== Шаг 3/3: attach-ozon-photos ===")
+    rc = cmd_attach_ozon_photos()
+    if rc != 0:
+        print("full-sync-ozon остановлен: attach-ozon-photos завершился с ошибкой.")
+        return rc
+
+    print("\nГотово: full-sync-ozon завершён. Проверьте data/ozon_catalog.xlsx и переходите к push-ozon-cards-dryrun.")
+    return 0
+
+
+def cmd_build_master_control() -> int:
+    import build_master_control
+
+    return build_master_control.run()
+
+
+def cmd_sync_master_control() -> int:
+    """
+    Переносит правки, сделанные в data/master_control.xlsx (единый
+    файл-пульт), обратно в data/ozon_catalog.xlsx / data/ozon_new_products.xlsx
+    (название/описание/хэштеги/заметки) и, если в ячейке "Фото" вставлена
+    новая картинка, сохраняет её как обложку в photos/<артикул>_1.<расширение>.
+    """
+    import sync_master_control
+
+    return sync_master_control.run()
+
+
 def _load_ozon_push_inputs():
     import catalog_editor
 
@@ -159,12 +208,24 @@ def _load_ozon_push_inputs():
     return data, edits
 
 
+def _print_validation_warnings(data: dict) -> None:
+    import catalog_editor
+
+    warnings = catalog_editor.validate_catalog(data)
+    if warnings:
+        print("ПРЕДУПРЕЖДЕНИЯ ПЕРЕД ОТПРАВКОЙ (не блокируют, но проверьте):")
+        for w in warnings:
+            print(f"  - {w}")
+        print()
+
+
 def cmd_push_ozon_cards_dryrun() -> int:
     import catalog_editor
 
     data, edits = _load_ozon_push_inputs()
     if data is None:
         return 1
+    _print_validation_warnings(data)
     items = catalog_editor.build_import_items(data, edits)
     print(f"ПРОБНЫЙ ПРОГОН — в Ozon ничего не отправляется. Товаров к обновлению: {len(items)}\n")
     print(json.dumps({"items": items}, ensure_ascii=False, indent=2))
@@ -178,6 +239,7 @@ def cmd_push_ozon_cards() -> int:
     data, edits = _load_ozon_push_inputs()
     if data is None:
         return 1
+    _print_validation_warnings(data)
     items = catalog_editor.build_import_items(data, edits)
     if not items:
         print("Нечего отправлять: ни одна строка xlsx не совпала с offer_id из ozon_products.json.")
@@ -986,6 +1048,9 @@ def main() -> int:
     parser.add_argument("--attach-ozon-photos", action="store_true", help="Подставить в xlsx ссылки на фото из папки photos/ по имени файла (offer_id_1.jpg и т.п.)")
     parser.add_argument("--push-ozon-cards-dryrun", action="store_true", help="Показать, что будет отправлено в Ozon, БЕЗ реальной отправки")
     parser.add_argument("--push-ozon-cards", action="store_true", help="Реально отправить правки карточек в Ozon (сначала всегда делайте dryrun!)")
+    parser.add_argument("--full-sync-ozon", action="store_true", help="Composite: fetch-ozon + build-ozon-catalog + attach-ozon-photos одной командой")
+    parser.add_argument("--build-master-control", action="store_true", help="Собрать/обновить единый файл-пульт data/master_control.xlsx (фото+название+описание+хэштеги+заметки для всех товаров)")
+    parser.add_argument("--sync-master-control", action="store_true", help="Перенести правки из data/master_control.xlsx обратно в ozon_catalog.xlsx/ozon_new_products.xlsx/photos/")
     parser.add_argument("--build-ozon-new-template", action="store_true", help="Создать пустую таблицу для СОВСЕМ НОВЫХ товаров Ozon (по образцу существующего)")
     parser.add_argument("--attach-ozon-new-photos", action="store_true", help="Подставить фото из photos/ в таблицу новых товаров Ozon")
     parser.add_argument("--push-ozon-new-cards-dryrun", action="store_true", help="Показать, что будет создано в Ozon, БЕЗ реальной отправки")
@@ -1040,6 +1105,12 @@ def main() -> int:
         return cmd_push_ozon_cards_dryrun()
     if args.push_ozon_cards:
         return cmd_push_ozon_cards()
+    if args.full_sync_ozon:
+        return cmd_full_sync_ozon()
+    if args.build_master_control:
+        return cmd_build_master_control()
+    if args.sync_master_control:
+        return cmd_sync_master_control()
     if args.build_ozon_new_template:
         return cmd_build_ozon_new_template()
     if args.attach_ozon_new_photos:

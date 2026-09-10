@@ -64,9 +64,10 @@ COLUMNS = [
     ("images", "Фото: ссылки через | (заполняется автоматически attach-ozon-new-photos)"),
     ("video_url", "Видео: ссылка на .mp4/.mov, необязательно, ЭКСПЕРИМЕНТАЛЬНО"),
     ("notes", "Заметки"),
+    ("hashtags", "Хэштеги / ключевые слова (через запятую, необязательно)"),
 ]
 
-WIDTHS = [20, 30, 45, 45, 12, 18, 20, 20, 14, 14, 14, 14, 55, 45, 25]
+WIDTHS = [20, 30, 45, 45, 12, 18, 20, 20, 14, 14, 14, 14, 55, 45, 25, 30]
 
 
 def build_new_template(xlsx_path: str) -> None:
@@ -113,6 +114,7 @@ def load_new_edits(xlsx_path: str) -> Dict[str, dict]:
             "images": images,
             "video_url": (raw.get("video_url") or "").strip() if isinstance(raw.get("video_url"), str) else "",
             "notes": raw.get("notes"),
+            "hashtags": (raw.get("hashtags") or "").strip() if isinstance(raw.get("hashtags"), str) else (raw.get("hashtags") or ""),
         }
     return edits
 
@@ -246,6 +248,20 @@ def build_new_import_items(existing_data: dict, edits: Dict[str, dict]) -> List[
                 "прямо в личном кабинете Ozon).",
                 new_offer_id,
             )
+
+        hashtags = (edit.get("hashtags") or "").strip()
+        if hashtags:
+            hashtags_attr_id = catalog_editor._get_hashtags_attr_id(
+                sample.get("description_category_id", 0), sample.get("type_id", 0)
+            )
+            if hashtags_attr_id:
+                attributes = catalog_editor._with_overridden_attr(attributes, hashtags_attr_id, hashtags)
+            else:
+                logger.warning(
+                    "%s: не нашёлся атрибут 'хэштеги' в характеристиках этой категории — "
+                    "хэштеги не добавлены.",
+                    new_offer_id,
+                )
 
         images = edit.get("images") or []
         primary_image = images[0] if images else ""
