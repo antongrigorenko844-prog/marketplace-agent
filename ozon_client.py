@@ -143,41 +143,48 @@ def get_product_names(offer_ids: Optional[List[str]] = None, limit: int = 1000) 
 
 def get_warehouses() -> List[dict]:
     """
-    Список складов продавца (для FBS/rFBS) — оттуда берётся warehouse_id,
-    без которого update_stocks не работает (см. его докстринг).
+    Список складов продавца (FBS) — оттуда берётся warehouse_id, без
+    которого update_stocks не работает (см. его докстринг).
 
-    ENDPOINT: POST /v1/warehouse/list БОЛЬШЕ НЕ РАБОТАЕТ — на живом запуске
-    10.09.2026 отдал 400 "obsolete method cannot be used". Ozon, судя по
-    всему, убрал прямой список складов и предлагает вместо него
-    /v1/delivery-method/list ("методы доставки" — каждый элемент содержит
-    warehouse_id того склада, к которому он привязан; подтверждено в живой
-    документации docs.ozon.ru 10.09.2026: filter — {provider_id, status,
-    warehouse_id}, все необязательные; limit/offset обязательные, limit
-    максимум 50; ответ — {"has_next": bool, "result": [{"id", "name",
-    "warehouse_id", "status", "provider_id", ...}]}).
+    ДВА "документированных" метода подряд оказались на практике мёртвыми —
+    и /v1/warehouse/list, и предложенная взамен /v1/delivery-method/list
+    отдают 400 "obsolete method cannot be used" на живом запуске
+    10.09.2026, хотя оба числятся текущими в docs.ozon.ru (документация,
+    похоже, отстаёт от реального состояния API в этом кабинете). Поэтому
+    вместо угадывания ещё одного "правильного" эндпоинта warehouse_id
+    достаётся из УЖЕ проверенного рабочего места — заказов FBS
+    (/v3/posting/fbs/list, тот же метод, что использует stock_sync.py и
+    успешно отработал в этом кабинете): у каждого posting есть свой
+    warehouse_id (с каким складом отгружался заказ), это ровно то, что
+    нужно для update_stocks. Смотрим широкое окно (последние 180 дней),
+    чтобы почти наверняка зацепить хотя бы один FBS-заказ.
 
-    Возвращает список складов (по уникальным warehouse_id), у каждого —
-    "warehouse_id" и список "delivery_methods" (их имя/статус) как
-    подсказка, какой склад к чему относится, раз собственного имени склада
-    в этом ответе нет.
+    Если за 180 дней вообще не было ни одного FBS-заказа (только FBO, или
+    магазин совсем новый) — список будет пустым; тогда warehouse_id узнать
+    неоткуда через API, нужно смотреть в личном кабинете Ozon
+    (Настройки -> Схемы работы -> склады FBS) и вписать id вручную.
     """
+    import datetime
+
+    to_dt = datetime.datetime.utcnow()
+    since_dt = to_dt - datetime.timedelta(days=180)
+    postings = get_fbs_orders_since(
+        since_dt.strftime("%Y-%m-%dT%H:%M:%SZ"), to_dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+    )
+
     by_warehouse: Dict[int, dict] = {}
-    offset = 0
-    limit = 50
-    while True:
-        data = _post("/v1/delivery-method/list", {"filter": {}, "limit": limit, "offset": offset})
-        items = data.get("result", [])
-        for it in items:
-            wid = it.get("warehouse_id")
-            if not wid:
-                continue
-            entry = by_warehouse.setdefault(wid, {"warehouse_id": wid, "delivery_methods": []})
-            entry["delivery_methods"].append(
-                {"id": it.get("id"), "name": it.get("name"), "status": it.get("status")}
+    for p in postings:
+        wid = p.get("warehouse_id") or (p.get("delivery_method") or {}).get("warehouse_id")
+        if not wid:
+            continue
+        entry = by_warehouse.setdefault(wid, {"warehouse_id": wid, "example_postings": []})
+        if len(entry["example_postings"]) < 3:
+            entry["example_postings"].append(
+                {
+                    "posting_number": p.get("posting_number"),
+                    "delivery_method_name": (p.get("delivery_method") or {}).get("name"),
+                }
             )
-        if not data.get("has_next") or not items:
-            break
-        offset += limit
     return sorted(by_warehouse.values(), key=lambda w: w["warehouse_id"])
 
 
