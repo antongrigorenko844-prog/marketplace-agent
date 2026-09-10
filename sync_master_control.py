@@ -1,38 +1,51 @@
 """
 sync_master_control.py — переносит правки из ЕДИНОГО файла-пульта
-data/master_control.xlsx обратно в рабочие файлы конвейера:
-  - data/ozon_catalog.xlsx        (строки со статусом "Действующий")
-  - data/ozon_new_products.xlsx   (строки со статусом "Новый (черновик)")
+data/master_control.xlsx обратно в рабочие файлы конвейера, отдельно для
+каждой площадки:
+  - data/ozon_catalog.xlsx        (строки со статусом Ozon "Действующий")
+  - data/ozon_new_products.xlsx   (строки со статусом Ozon "Новый (черновик)")
+  - data/wb_catalog.xlsx          (строки со статусом WB "Действующий")
+  - data/wb_new_products.xlsx     (строки со статусом WB "Новый (черновик)")
 а также, если в столбце "Фото" картинку заменили на другую, сохраняет
-новую картинку как обложку в photos/<артикул>_1.<расширение>.
+новую картинку как обложку в photos/<артикул>_1.<расширение> (общая для
+обеих площадок — конвейер сам заливает её и на Ozon, и на WB).
+
+ВАЖНО: цену для уже существующих на WB товаров эта функция НЕ отправляет
+никуда — в конвейере пока нет отправки цены на WB для готовых карточек
+(см. build_master_control.py). Столбец "Цена WB" читается обратно только
+для строк со статусом WB "Новый (черновик)".
 
 master_control.xlsx сам НЕ используется ни одним другим шагом конвейера —
 он только человеко-читаемый обзор + место для правок. Реальные данные,
-которые уходят в Ozon, всегда лежат в ozon_catalog.xlsx / ozon_new_products.xlsx
-— эта функция и есть "мост" между ними: после правок в master_control.xlsx
-запустите sync-master-control, а дальше конвейер работает как обычно
-(attach-ozon-photos при смене обложки -> push-ozon-cards-dryrun -> push-ozon-cards,
-и аналогично attach-ozon-new-photos -> push-ozon-new-cards-dryrun -> push-ozon-new-cards
-для черновиков).
+которые уходят в Ozon/WB, всегда лежат в ozon_catalog.xlsx / ozon_new_products.xlsx
+/ wb_catalog.xlsx / wb_new_products.xlsx — эта функция и есть "мост" между
+ними: после правок в master_control.xlsx запустите sync-master-control, а
+дальше конвейер работает как обычно (attach-ozon-photos при смене обложки ->
+push-ozon-cards-dryrun -> push-ozon-cards, и аналогично attach-ozon-new-photos
+-> push-ozon-new-cards-dryrun -> push-ozon-new-cards для черновиков Ozon;
+для WB — свои шаги push-wb-cards / push-wb-new-cards).
 
 Столбцы master_control.xlsx (см. build_master_control.py), по позиции:
-  1  Артикул (offer_id)
-  2  Статус ("Действующий" / "Новый (черновик)")
-  3  Фото (картинка, вставленная в ячейку)
-  4  Кол-во файлов фото/видео (справочно, не читается обратно)
-  5  Название товара
-  6  Цена, ₽
-  7  Цена до скидки, ₽
-  8  Описание
-  9  Хэштеги / Теги
-  10 Заметки
-  11 Файлы (папка photos/) (справочно, не читается обратно)
+  1  Артикул (offer_id / vendorCode)
+  2  Статус Ozon ("Действующий" / "Новый (черновик)")
+  3  Статус WB ("Действующий" / "Новый (черновик)")
+  4  Фото (картинка, вставленная в ячейку)
+  5  Кол-во файлов фото/видео (справочно, не читается обратно)
+  6  Название товара (общее, уходит в Ozon)
+  7  Название WB (до 60 симв.) (отдельное, уходит в WB)
+  8  Цена, ₽ (Ozon)
+  9  Цена до скидки, ₽ (Ozon)
+  10 Цена WB, ₽ (только для новых WB-товаров)
+  11 Описание
+  12 Хэштеги / Теги (только Ozon — у WB такого поля нет)
+  13 Заметки
+  14 Файлы (папка photos/) (справочно, не читается обратно)
 
-Пустая ячейка в столбцах название/описание/хэштеги/заметки означает
-"не менять" — как и везде в этом проекте, обнулить значение так нельзя,
-для явной очистки впишите один пробел. Для цены/цены-до-скидки пустая
-ячейка тоже значит "не менять"; число 0 — это явное значение и будет
-записано (для "Цена до скидки" 0 означает "без скидки").
+Пустая ячейка в текстовых/числовых столбцах означает "не менять" — как и
+везде в этом проекте, обнулить значение так нельзя, для явной очистки
+впишите один пробел. Для цен пустая ячейка тоже значит "не менять"; число
+0 — это явное значение и будет записано (для "Цена до скидки" 0 означает
+"без скидки").
 """
 import hashlib
 import logging
@@ -47,6 +60,8 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 MASTER_PATH = os.path.join(ROOT, "data", "master_control.xlsx")
 CATALOG_PATH = os.path.join(ROOT, "data", "ozon_catalog.xlsx")
 NEW_PATH = os.path.join(ROOT, "data", "ozon_new_products.xlsx")
+WB_CATALOG_PATH = os.path.join(ROOT, "data", "wb_catalog.xlsx")
+WB_NEW_PATH = os.path.join(ROOT, "data", "wb_new_products.xlsx")
 PHOTOS_DIR = os.path.join(ROOT, "photos")
 
 STATUS_EXISTING = "Действующий"
@@ -54,14 +69,17 @@ STATUS_DRAFT = "Новый (черновик)"
 
 # позиции столбцов в master_control.xlsx (1-based) — см. build_master_control.py
 COL_OFFER_ID = 1
-COL_STATUS = 2
-COL_PHOTO = 3
-COL_NAME = 5
-COL_PRICE = 6
-COL_OLD_PRICE = 7
-COL_DESCRIPTION = 8
-COL_HASHTAGS = 9
-COL_NOTES = 10
+COL_STATUS_OZON = 2
+COL_STATUS_WB = 3
+COL_PHOTO = 4
+COL_NAME = 6
+COL_NAME_WB = 7
+COL_PRICE = 8
+COL_OLD_PRICE = 9
+COL_PRICE_WB = 10
+COL_DESCRIPTION = 11
+COL_HASHTAGS = 12
+COL_NOTES = 13
 
 IMAGE_EXTS = (".jpg", ".jpeg", ".png")
 
@@ -69,7 +87,12 @@ IMAGE_EXTS = (".jpg", ".jpeg", ".png")
 def _read_master():
     """
     Возвращает (rows, images):
-      rows   — offer_id -> {"status","name","price","old_price","description","hashtags","notes"}
+      rows   — offer_id -> {
+                 "status_ozon", "status_wb",
+                 "name", "name_wb",
+                 "price", "old_price", "price_wb",
+                 "description", "hashtags", "notes",
+               }
       images — offer_id -> raw bytes картинки, вставленной в столбец "Фото"
     """
     wb = load_workbook(MASTER_PATH)
@@ -84,12 +107,14 @@ def _read_master():
         offer_id = str(offer_cell.value).strip()
         row_idx = offer_cell.row
         row_to_offer[row_idx] = offer_id
-        status = str(row[COL_STATUS - 1].value or "").strip()
         rows[offer_id] = {
-            "status": status,
+            "status_ozon": str(row[COL_STATUS_OZON - 1].value or "").strip(),
+            "status_wb": str(row[COL_STATUS_WB - 1].value or "").strip(),
             "name": row[COL_NAME - 1].value,
+            "name_wb": row[COL_NAME_WB - 1].value,
             "price": row[COL_PRICE - 1].value,
             "old_price": row[COL_OLD_PRICE - 1].value,
+            "price_wb": row[COL_PRICE_WB - 1].value,
             "description": row[COL_DESCRIPTION - 1].value,
             "hashtags": row[COL_HASHTAGS - 1].value,
             "notes": row[COL_NOTES - 1].value,
@@ -225,11 +250,17 @@ def _sync_photos(images: dict, all_offer_ids) -> list:
     return written
 
 
-def _sync_catalog_xlsx(path: str, columns_module, updates: dict) -> int:
+def _sync_xlsx(path: str, columns_module, updates: dict, field_map: dict) -> int:
     """
-    Точечно обновляет name/price/old_price/description/hashtags/notes по
-    offer_id в уже существующем xlsx, не трогая остальные колонки (ссылки
-    на фото, остаток, ТН ВЭД и т.д.) — они остаются как были.
+    Точечно обновляет поля по offer_id/vendorCode в уже существующем xlsx,
+    не трогая остальные колонки (ссылки на фото, остаток, ТН ВЭД, размеры
+    и т.д.) — они остаются как были.
+
+    field_map: {ключ_в_columns_module.COLUMNS: ключ_в_updates[...]} —
+    позволяет использовать одну и ту же функцию и для Ozon-файлов (где
+    "название" в master_control лежит под ключом "name"), и для WB-файлов
+    (где то же самое поле называется "title" и берётся из master_control-
+    ключа "name_wb").
     """
     if not updates or not os.path.exists(path):
         return 0
@@ -248,11 +279,11 @@ def _sync_catalog_xlsx(path: str, columns_module, updates: dict) -> int:
         if not upd:
             continue
         row_changed = False
-        for key in ("name", "price", "old_price", "description", "hashtags", "notes"):
-            col_idx = col_index.get(key)
+        for dest_key, src_key in field_map.items():
+            col_idx = col_index.get(dest_key)
             if not col_idx:
                 continue
-            new_val = upd.get(key)
+            new_val = upd.get(src_key)
             if new_val in (None, ""):
                 continue  # пусто в master_control = "не менять" (0 — явное значение, применяется)
             cell = row[col_idx - 1]
@@ -267,6 +298,43 @@ def _sync_catalog_xlsx(path: str, columns_module, updates: dict) -> int:
     return changed
 
 
+# сопоставление полей master_control.xlsx -> колонки целевых файлов конвейера
+_OZON_FIELD_MAP = {
+    "name": "name",
+    "price": "price",
+    "old_price": "old_price",
+    "description": "description",
+    "hashtags": "hashtags",
+    "notes": "notes",
+}
+_WB_EXISTING_FIELD_MAP = {
+    "title": "name_wb",
+    "description": "description",
+    "notes": "notes",
+}
+_WB_DRAFT_FIELD_MAP = {
+    "title": "name_wb",
+    "price": "price_wb",
+    "description": "description",
+    "notes": "notes",
+}
+
+# Должно совпадать с WB_ALIAS в build_master_control.py — там же и
+# пояснение, что это за пары и почему они добавлены вручную. Там ключ —
+# vendorCode на WB, значение — offer_id на Ozon, под которым эта строка
+# показана в master_control.xlsx; здесь нужна обратная связка, чтобы найти
+# правильную строку в wb_catalog.xlsx/wb_new_products.xlsx (её ключ —
+# настоящий vendorCode, а не Ozon offer_id).
+_WB_ALIAS_OZON_TO_VENDOR = {
+    "0am325477ae": "0am325477",
+    "02e305045": "02E305045E",
+}
+
+
+def _remap_wb_keys(updates: dict) -> dict:
+    return {_WB_ALIAS_OZON_TO_VENDOR.get(oid, oid): upd for oid, upd in updates.items()}
+
+
 def run() -> int:
     if not os.path.exists(MASTER_PATH):
         print(f"Нет файла {MASTER_PATH} — сначала создайте его (build_master_control.py) и загрузите в репозиторий.")
@@ -274,18 +342,27 @@ def run() -> int:
 
     import catalog_editor
     import ozon_new_products
+    import wb_catalog_editor
+    import wb_new_products
 
     rows, images = _read_master()
 
-    existing_updates = {oid: r for oid, r in rows.items() if r["status"] == STATUS_EXISTING}
-    draft_updates = {oid: r for oid, r in rows.items() if r["status"] == STATUS_DRAFT}
+    existing_updates = {oid: r for oid, r in rows.items() if r["status_ozon"] == STATUS_EXISTING}
+    draft_updates = {oid: r for oid, r in rows.items() if r["status_ozon"] == STATUS_DRAFT}
+    wb_existing_updates = _remap_wb_keys({oid: r for oid, r in rows.items() if r["status_wb"] == STATUS_EXISTING})
+    wb_draft_updates = _remap_wb_keys({oid: r for oid, r in rows.items() if r["status_wb"] == STATUS_DRAFT})
 
-    changed_existing = _sync_catalog_xlsx(CATALOG_PATH, catalog_editor, existing_updates)
-    changed_draft = _sync_catalog_xlsx(NEW_PATH, ozon_new_products, draft_updates)
+    changed_existing = _sync_xlsx(CATALOG_PATH, catalog_editor, existing_updates, _OZON_FIELD_MAP)
+    changed_draft = _sync_xlsx(NEW_PATH, ozon_new_products, draft_updates, _OZON_FIELD_MAP)
+    changed_wb_existing = _sync_xlsx(WB_CATALOG_PATH, wb_catalog_editor, wb_existing_updates, _WB_EXISTING_FIELD_MAP)
+    changed_wb_draft = _sync_xlsx(WB_NEW_PATH, wb_new_products, wb_draft_updates, _WB_DRAFT_FIELD_MAP)
+
     written_photos = _sync_photos(images, set(rows.keys()))
 
     print(f"master_control.xlsx -> ozon_catalog.xlsx: обновлено строк {changed_existing}")
     print(f"master_control.xlsx -> ozon_new_products.xlsx: обновлено строк {changed_draft}")
+    print(f"master_control.xlsx -> wb_catalog.xlsx: обновлено строк {changed_wb_existing}")
+    print(f"master_control.xlsx -> wb_new_products.xlsx: обновлено строк {changed_wb_draft}")
     if written_photos:
         print(f"Обложки обновлены/добавлены в photos/ ({len(written_photos)}):")
         for oid, fname, old_file in written_photos:
@@ -298,8 +375,9 @@ def run() -> int:
 
     print(
         "\nГотово. Дальше как обычно: attach-ozon-photos (если менялись обложки существующих) "
-        "-> push-ozon-cards-dryrun -> push-ozon-cards; для черновиков — "
-        "attach-ozon-new-photos -> push-ozon-new-cards-dryrun -> push-ozon-new-cards."
+        "-> push-ozon-cards-dryrun -> push-ozon-cards; для черновиков Ozon — "
+        "attach-ozon-new-photos -> push-ozon-new-cards-dryrun -> push-ozon-new-cards; "
+        "для WB — свои шаги push-wb-cards / push-wb-new-cards."
     )
     return 0
 
