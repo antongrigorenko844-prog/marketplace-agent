@@ -162,39 +162,46 @@ def cmd_download_ozon_photos() -> int:
 
 def cmd_full_sync_ozon() -> int:
     """
-    Составной шаг "всё сразу" для обычных (уже существующих) товаров Ozon:
+    Составной шаг "всё сразу" для обычных (уже существующих) товаров Ozon —
+    ОДИН запуск вместо пяти:
     fetch-ozon -> build-ozon-catalog -> download-ozon-photos -> attach-ozon-photos
-    одной командой, вместо четырёх отдельных запусков workflow. Останавливается
-    на первой же неудачной части, КРОМЕ download-ozon-photos — это подстраховка
-    (докачивает то, чего нет локально), а не обязательный шаг, поэтому её сбой
-    не прерывает всё остальное.
-    После этого шага остаётся скачать/проверить data/ozon_catalog.xlsx и
-    сделать push-ozon-cards-dryrun как обычно.
+    -> build-master-control.
+    Останавливается на первой же неудачной части, КРОМЕ download-ozon-photos —
+    это подстраховка (докачивает то, чего нет локально), а не обязательный шаг,
+    поэтому её сбой не прерывает всё остальное.
+    После этого шага остаётся скачать data/master_control.xlsx (уже готовый,
+    со свежими фото) и, если правили что-то в нём — sync-master-control, а
+    для реальной отправки в Ozon — push-ozon-cards-dryrun как обычно.
     """
-    print("=== Шаг 1/3: fetch-ozon ===")
+    print("=== Шаг 1/5: fetch-ozon ===")
     rc = cmd_fetch_ozon()
     if rc != 0:
         print("full-sync-ozon остановлен: fetch-ozon завершился с ошибкой.")
         return rc
 
-    print("\n=== Шаг 2/4: build-ozon-catalog ===")
+    print("\n=== Шаг 2/5: build-ozon-catalog ===")
     rc = cmd_build_ozon_catalog()
     if rc != 0:
         print("full-sync-ozon остановлен: build-ozon-catalog завершился с ошибкой.")
         return rc
 
-    print("\n=== Шаг 3/4: download-ozon-photos (подтягиваем то, что есть только на карточке Ozon) ===")
+    print("\n=== Шаг 3/5: download-ozon-photos (подтягиваем то, что есть только на карточке Ozon) ===")
     rc = cmd_download_ozon_photos()
     if rc != 0:
         print("download-ozon-photos завершился с ошибкой — продолжаем без остановки (это не критично, просто часть фото останется без локального файла).")
 
-    print("\n=== Шаг 4/4: attach-ozon-photos ===")
+    print("\n=== Шаг 4/5: attach-ozon-photos ===")
     rc = cmd_attach_ozon_photos()
     if rc != 0:
         print("full-sync-ozon остановлен: attach-ozon-photos завершился с ошибкой.")
         return rc
 
-    print("\nГотово: full-sync-ozon завершён. Проверьте data/ozon_catalog.xlsx и переходите к push-ozon-cards-dryrun.")
+    print("\n=== Шаг 5/5: build-master-control ===")
+    rc = cmd_build_master_control()
+    if rc != 0:
+        print("build-master-control завершился с ошибкой — продолжаем без остановки (data/ozon_catalog.xlsx уже обновлён и это главное; просто пульт master_control.xlsx придётся пересобрать отдельно).")
+
+    print("\nГотово: full-sync-ozon завершён. Скачайте data/master_control.xlsx — он уже пересобран со свежими фото.")
     return 0
 
 
