@@ -822,6 +822,107 @@ def cmd_sync_orders() -> int:
               f"(остаток не изменён, проверьте вручную): {', '.join(unmatched)}")
 
 
+def _load_stock_items():
+    """
+    Собирает offer_id -> остаток из ЕДИНОГО столбца "Кол-во к продаже" —
+    для уже существующих товаров из data/ozon_catalog.xlsx, для черновиков
+    (совсем новых товаров) из data/ozon_new_products.xlsx (это их остаток
+    при первом появлении на Ozon). Обе колонки редактируются либо напрямую,
+    либо через единый файл-пульт master_control.xlsx + sync-master-control
+    (колонка "Остаток, шт.").
+
+    Пустая ячейка = остаток никто не задавал — такой товар в список НЕ
+    попадает (ничего не отправляется в Ozon), чтобы случайно не обнулить
+    остаток нетронутого товара. Нечисловое значение — пропускается с
+    предупреждением в лог.
+    """
+    import catalog_editor
+    import ozon_new_products
+
+    items = []
+
+    catalog_path = _data_path("ozon_catalog.xlsx")
+    if os.path.exists(catalog_path):
+        edits = catalog_editor.load_catalog_edits(catalog_path)
+        for offer_id, e in edits.items():
+            raw = e.get("quantity_to_sell")
+            if raw in (None, ""):
+                continue
+            try:
+                stock = int(raw)
+            except (TypeError, ValueError):
+                print(f"ВНИМАНИЕ: {offer_id} — 'Кол-во к продаже' не число ({raw!r}), пропущен.")
+                continue
+            items.append({"offer_id": offer_id, "stock": max(0, stock)})
+
+    new_path = _data_path("ozon_new_products.xlsx")
+    if os.path.exists(new_path):
+        new_edits = ozon_new_products.load_new_edits(new_path)
+        for offer_id, e in new_edits.items():
+            raw = e.get("quantity_to_sell")
+            if raw in (None, ""):
+                continue
+            try:
+                stock = int(raw)
+            except (TypeError, ValueError):
+                print(f"ВНИМАНИЕ: {offer_id} — 'Кол-во к продаже' не число ({raw!r}), пропущен.")
+                continue
+            items.append({"offer_id": offer_id, "stock": max(0, stock)})
+
+    return items
+
+
+def cmd_push_stock_dryrun() -> int:
+    items = _load_stock_items()
+    print(f"ПРОБНЫЙ ПРОГОН — в Ozon ничего не отправляется. Остатков к обновлению: {len(items)}\n")
+    print(json.dumps(items, ensure_ascii=False, indent=2))
+    if not items:
+        print(
+            "\n(Пусто — заполните столбец 'Остаток, шт.' в master_control.xlsx и запустите "
+            "sync-master-control, либо впишите число прямо в 'Кол-во к продаже' в "
+            "ozon_catalog.xlsx/ozon_new_products.xlsx.)"
+        )
+    return 0
+
+
+def cmd_push_stock() -> int:
+    """
+    Реально отправляет остатки в Ozon (POST /v2/products/stocks — быстрый
+    метод, отдельный от push-ozon-cards). Для НОВЫХ товаров запускайте
+    ПОСЛЕ push-ozon-new-cards и fetch-ozon (пока товара нет в Ozon,
+    обновлять остаток нечему — Ozon ответит ошибкой по этому offer_id).
+    """
+    import ozon_client
+
+    items = _load_stock_items()
+    if not items:
+        print("Нечего отправлять — ни у одного товара не заполнен остаток ('Кол-во к продаже' / 'Остаток, шт.').")
+        return 1
+
+    total_ok = 0
+    total_err = 0
+    chunk = 100
+    for i in range(0, len(items), chunk):
+        batch = items[i : i + chunk]
+        batch_num = i // chunk + 1
+        result = ozon_client.update_stocks(batch)
+        result_items = result.get("result", [])
+        if not result_items:
+            print(f"Партия {batch_num}: Ozon не вернул result, ответ: {result}")
+            total_err += len(batch)
+            continue
+        for it in result_items:
+            offer_id = it.get("offer_id", "?")
+            if it.get("updated"):
+                total_ok += 1
+                print(f"  ОК {offer_id}: остаток обновлён")
+            else:
+                total_err += 1
+                print(f"  ОШИБКА {offer_id}: {it.get('errors')}")
+    print(f"\nИтого: успешно {total_ok}, с ошибками {total_err}")
+    return 0 if total_err == 0 else 1
+
+
 def cmd_test_wordstat() -> int:
     import wordstat_client
 
@@ -1097,6 +1198,8 @@ def main() -> int:
     parser.add_argument("--push-wb-cards-dryrun", action="store_true", help="Показать, что будет отправлено в WB, БЕЗ реальной отправки")
     parser.add_argument("--push-wb-cards", action="store_true", help="Реально отправить правки карточек WB (сначала всегда делайте dryrun!)")
     parser.add_argument("--sync-orders", action="store_true", help="Общий учёт остатков: списать заказы Ozon+WB за 30 дней из 'Кол-во к продаже' в data/ozon_catalog.xlsx")
+    parser.add_argument("--push-stock-dryrun", action="store_true", help="Показать остатки ('Кол-во к продаже'/'Остаток, шт.'), которые будут отправлены в Ozon, БЕЗ реальной отправки")
+    parser.add_argument("--push-stock", action="store_true", help="Реально отправить остатки в Ozon (сначала всегда делайте dryrun!)")
     parser.add_argument("--test-wordstat", action="store_true", help="Проверить, что ключ Wordstat API работает")
     parser.add_argument("--wordstat-collect", action="store_true", help="Собрать SEO-семантику по артикулу через Wordstat API (см. --article/--seed-phrase)")
     parser.add_argument("--wordstat-collect-batch", action="store_true", help="Собрать SEO-семантику сразу по списку артикулов из data/wordstat_queue.xlsx")
@@ -1172,6 +1275,10 @@ def main() -> int:
         return cmd_push_wb_cards()
     if args.sync_orders:
         return cmd_sync_orders()
+    if args.push_stock_dryrun:
+        return cmd_push_stock_dryrun()
+    if args.push_stock:
+        return cmd_push_stock()
 
     parser.print_help()
     return 0

@@ -35,11 +35,13 @@ push-ozon-cards-dryrun -> push-ozon-cards, и аналогично attach-ozon-n
   7  Название WB (до 60 симв.) (отдельное, уходит в WB)
   8  Цена, ₽ (Ozon)
   9  Цена до скидки, ₽ (Ozon)
-  10 Цена WB, ₽ (только для новых WB-товаров)
-  11 Описание
-  12 Хэштеги / Теги (только Ozon — у WB такого поля нет)
-  13 Заметки
-  14 Файлы (папка photos/) (справочно, не читается обратно)
+  10 Остаток, шт. (Ozon — "Кол-во к продаже" в ozon_catalog.xlsx/ozon_new_products.xlsx;
+     реально уходит в Ozon только отдельной командой push-stock, см. main.py)
+  11 Цена WB, ₽ (только для новых WB-товаров)
+  12 Описание
+  13 Хэштеги / Теги (только Ozon — у WB такого поля нет)
+  14 Заметки
+  15 Файлы (папка photos/) (справочно, не читается обратно)
 
 Пустая ячейка в текстовых/числовых столбцах означает "не менять" — как и
 везде в этом проекте, обнулить значение так нельзя, для явной очистки
@@ -76,10 +78,11 @@ COL_NAME = 6
 COL_NAME_WB = 7
 COL_PRICE = 8
 COL_OLD_PRICE = 9
-COL_PRICE_WB = 10
-COL_DESCRIPTION = 11
-COL_HASHTAGS = 12
-COL_NOTES = 13
+COL_QUANTITY = 10
+COL_PRICE_WB = 11
+COL_DESCRIPTION = 12
+COL_HASHTAGS = 13
+COL_NOTES = 14
 
 IMAGE_EXTS = (".jpg", ".jpeg", ".png")
 
@@ -114,6 +117,7 @@ def _read_master():
             "name_wb": row[COL_NAME_WB - 1].value,
             "price": row[COL_PRICE - 1].value,
             "old_price": row[COL_OLD_PRICE - 1].value,
+            "quantity": row[COL_QUANTITY - 1].value,
             "price_wb": row[COL_PRICE_WB - 1].value,
             "description": row[COL_DESCRIPTION - 1].value,
             "hashtags": row[COL_HASHTAGS - 1].value,
@@ -303,6 +307,7 @@ _OZON_FIELD_MAP = {
     "name": "name",
     "price": "price",
     "old_price": "old_price",
+    "quantity_to_sell": "quantity",
     "description": "description",
     "hashtags": "hashtags",
     "notes": "notes",

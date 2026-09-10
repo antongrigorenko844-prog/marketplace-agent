@@ -63,11 +63,12 @@ COLUMNS = [
     ("height_mm", "Высота, мм (пусто = как у образца)"),
     ("images", "Фото: ссылки через | (заполняется автоматически attach-ozon-new-photos)"),
     ("video_url", "Видео: ссылка на .mp4/.mov, необязательно, ЭКСПЕРИМЕНТАЛЬНО"),
+    ("quantity_to_sell", "Кол-во к продаже (остаток при создании — реально уходит в Ozon отдельной командой push-stock после push-ozon-new-cards)"),
     ("notes", "Заметки"),
     ("hashtags", "Хэштеги / ключевые слова (через запятую, необязательно)"),
 ]
 
-WIDTHS = [20, 30, 45, 45, 12, 18, 20, 20, 14, 14, 14, 14, 55, 45, 25, 30]
+WIDTHS = [20, 30, 45, 45, 12, 18, 20, 20, 14, 14, 14, 14, 55, 45, 16, 25, 30]
 
 
 def build_new_template(xlsx_path: str) -> None:
@@ -113,6 +114,7 @@ def load_new_edits(xlsx_path: str) -> Dict[str, dict]:
             "height_mm": raw.get("height_mm"),
             "images": images,
             "video_url": (raw.get("video_url") or "").strip() if isinstance(raw.get("video_url"), str) else "",
+            "quantity_to_sell": raw.get("quantity_to_sell"),
             "notes": raw.get("notes"),
             "hashtags": (raw.get("hashtags") or "").strip() if isinstance(raw.get("hashtags"), str) else (raw.get("hashtags") or ""),
         }

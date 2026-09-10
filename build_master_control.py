@@ -94,13 +94,14 @@ HEADERS = [
     "Название WB (до 60 симв.)",
     "Цена, ₽",
     "Цена до скидки, ₽",
+    "Остаток, шт.",
     "Цена WB, ₽ (только для новых WB-товаров)",
     "Описание",
     "Хэштеги / Теги",
     "Заметки",
     "Файлы (папка photos/)",
 ]
-COL_WIDTHS = [22, 16, 16, 20, 10, 34, 24, 12, 14, 14, 50, 30, 34, 40]
+COL_WIDTHS = [22, 16, 16, 20, 10, 34, 24, 12, 14, 12, 14, 50, 30, 34, 40]
 
 
 def _find_header(headers, *, must_contain, must_not_contain=()):
@@ -116,7 +117,7 @@ def _find_header(headers, *, must_contain, must_not_contain=()):
 
 
 def _read_existing():
-    """offer_id -> {name, price, old_price, description, notes, tnved, hashtags, photo_url}."""
+    """offer_id -> {name, price, old_price, quantity, description, notes, tnved, hashtags, photo_url}."""
     if not os.path.exists(CATALOG_PATH):
         return {}
     wb = openpyxl.load_workbook(CATALOG_PATH)
@@ -128,6 +129,7 @@ def _read_existing():
     idx_tnved = [i for i, x in enumerate(h) if x and "ТН ВЭД" in x][0]
     idx_photo = [i for i, x in enumerate(h) if x and x.startswith("Фото")][0]
     idx_hashtags = next((i for i, x in enumerate(h) if x and "Хэштег" in x), None)
+    idx_qty = next((i for i, x in enumerate(h) if x and "Кол-во к продаже" in x), None)
     idx_price = _find_header(h, must_contain="Цена", must_not_contain=("до скидки",))
     idx_old_price = _find_header(h, must_contain="до скидки")
 
@@ -142,6 +144,7 @@ def _read_existing():
             "name": row[idx_name] or "",
             "price": row[idx_price] if idx_price is not None else None,
             "old_price": row[idx_old_price] if idx_old_price is not None else None,
+            "quantity": row[idx_qty] if idx_qty is not None else None,
             "description": row[idx_desc] or "",
             "notes": row[idx_notes] or "",
             "tnved": row[idx_tnved] or "",
@@ -152,7 +155,7 @@ def _read_existing():
 
 
 def _read_draft():
-    """offer_id -> {name, price, old_price, description, notes, sample, hashtags}."""
+    """offer_id -> {name, price, old_price, quantity, description, notes, sample, hashtags}."""
     if not os.path.exists(NEW_PATH):
         return {}
     wb = openpyxl.load_workbook(NEW_PATH)
@@ -163,6 +166,7 @@ def _read_draft():
     idx_notes = next(i for i, x in enumerate(h) if x and "Заметки" in x)
     idx_sample = next(i for i, x in enumerate(h) if x and "Образец" in x)
     idx_hashtags = next((i for i, x in enumerate(h) if x and "Хэштег" in x), None)
+    idx_qty = next((i for i, x in enumerate(h) if x and "Кол-во к продаже" in x), None)
     idx_price = _find_header(h, must_contain="Цена", must_not_contain=("до скидки",))
     idx_old_price = _find_header(h, must_contain="до скидки")
 
@@ -175,6 +179,7 @@ def _read_draft():
             "name": row[idx_name] or "",
             "price": row[idx_price] if idx_price is not None else None,
             "old_price": row[idx_old_price] if idx_old_price is not None else None,
+            "quantity": row[idx_qty] if idx_qty is not None else None,
             "description": row[idx_desc] or "",
             "notes": row[idx_notes] or "",
             "sample": row[idx_sample] or "",
@@ -481,6 +486,7 @@ def run() -> int:
         name = src.get("name", "")
         price = src.get("price")
         old_price = src.get("old_price")
+        quantity = src.get("quantity")
         # описание общее на обе площадки: берём Ozon-версию, если товара
         # нет на Ozon (только WB) — берём WB-версию.
         desc = src.get("description", "") or wb_src.get("description", "")
@@ -514,11 +520,12 @@ def run() -> int:
         ws.cell(row=row_i, column=7, value=name_wb)
         ws.cell(row=row_i, column=8, value=price)
         ws.cell(row=row_i, column=9, value=old_price)
-        ws.cell(row=row_i, column=10, value=price_wb)
-        ws.cell(row=row_i, column=11, value=desc)
-        ws.cell(row=row_i, column=12, value=hashtags)
-        ws.cell(row=row_i, column=13, value=notes)
-        ws.cell(row=row_i, column=14, value=files_str)
+        ws.cell(row=row_i, column=10, value=quantity)
+        ws.cell(row=row_i, column=11, value=price_wb)
+        ws.cell(row=row_i, column=12, value=desc)
+        ws.cell(row=row_i, column=13, value=hashtags)
+        ws.cell(row=row_i, column=14, value=notes)
+        ws.cell(row=row_i, column=15, value=files_str)
 
         for c in range(1, len(HEADERS) + 1):
             ws.cell(row=row_i, column=c).alignment = Alignment(vertical="top", wrap_text=True)
