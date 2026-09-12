@@ -116,6 +116,7 @@ jobs:
           OZON_WAREHOUSE_ID: ${{ secrets.OZON_WAREHOUSE_ID }}
           AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
           AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          AVITO_SELLER_ADDRESS: ${{ secrets.AVITO_SELLER_ADDRESS }}
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
           WORDSTAT_FOLDER_ID: ${{ secrets.WORDSTAT_FOLDER_ID }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
