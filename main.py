@@ -1119,6 +1119,32 @@ def cmd_push_stock() -> int:
     return 0 if total_err == 0 else 1
 
 
+def cmd_diag_ozon_product(article: str) -> int:
+    """
+    Диагностика одного товара Ozon по offer_id: печатает "сырой" ответ
+    /v3/product/info/list (или /v2/product/info/list как откат) — в нём
+    видно реальный статус модерации, ошибки и, что важнее всего для
+    вопроса "почему не обновились фото", список изображений, которые
+    Ozon СЕЙЧАС считает актуальными для карточки (поле images/primary_image
+    в ответе — если там всё ещё старые ссылки или счётчик фото не
+    совпадает с тем, что мы отправляли, значит правки застряли на стороне
+    Ozon, а не в нашем конвейере).
+    """
+    import ozon_client
+
+    article = (article or "").strip()
+    if not article:
+        print("Укажите артикул через --article, например: --diag-ozon-product --article 02e305045")
+        return 1
+    infos = ozon_client.get_product_info_list([article])
+    if not infos:
+        print(f"Ozon не вернул информацию по {article} — либо офер не существует, либо ошибка запроса.")
+        return 1
+    for info in infos:
+        print(json.dumps(info, ensure_ascii=False, indent=2))
+    return 0
+
+
 def cmd_pull_ozon_stock() -> int:
     """
     Разовое действие: подтягивает ТЕКУЩИЙ остаток напрямую из Ozon (сумма
@@ -1456,6 +1482,7 @@ def main() -> int:
     parser.add_argument("--push-stock-dryrun", action="store_true", help="Показать остатки ('Кол-во к продаже'/'Остаток, шт.'), которые будут отправлены в Ozon, БЕЗ реальной отправки")
     parser.add_argument("--push-stock", action="store_true", help="Реально отправить остатки в Ozon (сначала всегда делайте dryrun!)")
     parser.add_argument("--pull-ozon-stock", action="store_true", help="Разово подтянуть текущий остаток из Ozon в 'Кол-во к продаже' для товаров, где эта ячейка ещё пустая")
+    parser.add_argument("--diag-ozon-product", action="store_true", help="Диагностика: показать сырой ответ Ozon (статус/ошибки/фото) по одному offer_id из --article")
     parser.add_argument("--test-wordstat", action="store_true", help="Проверить, что ключ Wordstat API работает")
     parser.add_argument("--wordstat-collect", action="store_true", help="Собрать SEO-семантику по артикулу через Wordstat API (см. --article/--seed-phrase)")
     parser.add_argument("--wordstat-collect-batch", action="store_true", help="Собрать SEO-семантику сразу по списку артикулов из data/wordstat_queue.xlsx")
@@ -1545,6 +1572,8 @@ def main() -> int:
         return cmd_push_stock()
     if args.pull_ozon_stock:
         return cmd_pull_ozon_stock()
+    if args.diag_ozon_product:
+        return cmd_diag_ozon_product(args.article)
 
     parser.print_help()
     return 0
