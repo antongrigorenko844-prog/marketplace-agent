@@ -35,9 +35,6 @@ class Config:
     ozon_client_id: str = os.getenv("OZON_CLIENT_ID", "")
     ozon_api_key: str = os.getenv("OZON_API_KEY", "")
     ozon_api_base: str = os.getenv("OZON_API_BASE", "https://api-seller.ozon.ru")
-    # ID склада продавца (FBS) для отправки остатков через /v2/products/stocks
-    # — узнаётся через --ozon-warehouses, заполняется после первого запуска.
-    ozon_warehouse_id: str = os.getenv("OZON_WAREHOUSE_ID", "")
 
     # --- Wildberries API (Personal access token, категории: Контент/Цены/Маркетплейс) ---
     wb_api_token: str = os.getenv("WB_API_TOKEN", "")
@@ -83,6 +80,8 @@ class Config:
     )
     # Название компании/профиля продавца — должно совпадать с тем, что в кабинете Avito.
     avito_seller_name: str = os.getenv("AVITO_SELLER_NAME", "")
+    # Адрес продавца — обязательное поле в фиде Avito (колонка "Адрес").
+    avito_seller_address: str = os.getenv("AVITO_SELLER_ADDRESS", "")
 
     # --- Avito API (OAuth client_credentials) — заказы Авито Доставки + остатки ---
     # Получаются в личном кабинете: Настройки -> Avito API -> Регистрация приложения.

@@ -785,6 +785,75 @@ def cmd_ozon_warehouses() -> int:
     return 0
 
 
+def cmd_build_avito_catalog() -> int:
+    """
+    Собрать data/avito_feed.xlsx — файл для загрузки в личном кабинете Avito
+    (Автозагрузка -> Загрузить файл -> Вручную), из тех же данных, что уже
+    используются для Ozon (data/ozon_catalog.xlsx): название, описание, цена,
+    фото. НЕ требует AVITO_CLIENT_ID/AVITO_CLIENT_SECRET — это отдельный,
+    более простой способ (см. avito_feed.py).
+
+    Нужен файл data/avito_template.xlsx — официальный шаблон Avito для вашей
+    категории (скачивается в личном кабинете, раздел Автозагрузка ->
+    Документация), в нём нельзя менять строки 1-4 и лист "Справочники".
+
+    Адрес продавца берётся из AVITO_SELLER_ADDRESS (.env / GitHub Secrets) —
+    без него Avito не примет объявления (обязательное поле).
+    """
+    import avito_feed
+
+    catalog_path = _data_path("ozon_catalog.xlsx")
+    template_path = _data_path("avito_template.xlsx")
+    output_path = _data_path("avito_feed.xlsx")
+
+    if not os.path.exists(catalog_path):
+        print(f"Нет файла {catalog_path} — сначала выполните build-ozon-catalog.")
+        return 1
+    if not os.path.exists(template_path):
+        print(
+            f"Нет файла {template_path} — скачайте официальный шаблон Avito для вашей "
+            "категории (личный кабинет -> Автозагрузка -> Документация) и положите его "
+            "в data/avito_template.xlsx."
+        )
+        return 1
+
+    seller_address = config.avito_seller_address
+    if not seller_address:
+        print(
+            "Не задан AVITO_SELLER_ADDRESS (.env / GitHub Secrets) — это обязательное "
+            "поле 'Адрес' в фиде Avito. Добавьте переменную и запустите снова."
+        )
+        return 1
+
+    result = avito_feed.build_avito_feed(
+        catalog_path=catalog_path,
+        template_path=template_path,
+        output_path=output_path,
+        seller_address=seller_address,
+    )
+
+    print(f"Готово: {result['written']} товаров -> {output_path}")
+    if result["skipped_no_price"]:
+        print(f"Пропущено (нет цены): {', '.join(result['skipped_no_price'])}")
+    if result["unclassified"]:
+        print(
+            "\nВНИМАНИЕ: не удалось автоматически определить 'Тип детали трансмиссии' "
+            f"для {len(result['unclassified'])} товаров — они НЕ включены в файл (это "
+            "обязательное поле, пустым Avito бы всё равно отклонил). Если это ошибка "
+            "классификации — допишите ключевое слово в avito_feed.py. Если товар не "
+            "по теме этого шаблона (не запчасть трансмиссии) — для него нужен другой "
+            "шаблон категории Avito:"
+        )
+        for offer_id, title in result["unclassified"]:
+            print(f"  {offer_id}: {title}")
+    print(
+        f"\nСкачайте {output_path}, проверьте на https://autoload.avito.ru/format/xmlcheck/ "
+        "(там же можно проверять и XLSX), затем загрузите в личном кабинете Avito -> "
+        "Автозагрузка -> Загрузить файл -> Вручную."
+    )
+    return 0
+
+
 def cmd_test_avito() -> int:
     """
     Проверка доступа к Avito API: только получение токена (без реальных
@@ -1450,6 +1519,7 @@ def main() -> int:
     parser.add_argument("--fetch-wb", action="store_true")
     parser.add_argument("--wb-warehouses", action="store_true", help="Показать склады продавца на WB (для WB_WAREHOUSE_ID)")
     parser.add_argument("--ozon-warehouses", action="store_true", help="Показать склады продавца на Ozon (для OZON_WAREHOUSE_ID, нужен push-stock)")
+    parser.add_argument("--build-avito-catalog", action="store_true", help="Собрать data/avito_feed.xlsx для загрузки в Avito Автозагрузку (не требует ключей)")
     parser.add_argument("--test-avito", action="store_true", help="Проверить доступ к Avito API (AVITO_CLIENT_ID/AVITO_CLIENT_SECRET)")
     parser.add_argument("--fetch-avito-orders", action="store_true", help="Получить заказы Авито Доставки за 30 дней в data/avito_orders.json")
     parser.add_argument("--list-avito-items", action="store_true", help="Показать сырой список объявлений Avito (диагностика сопоставления с артикулом)")
@@ -1508,6 +1578,8 @@ def main() -> int:
         return cmd_wb_warehouses()
     if args.ozon_warehouses:
         return cmd_ozon_warehouses()
+    if args.build_avito_catalog:
+        return cmd_build_avito_catalog()
     if args.test_avito:
         return cmd_test_avito()
     if args.fetch_avito_orders:
