@@ -138,6 +138,29 @@ _CLASSIFY_RULES: List[Tuple[str, List[str]]] = [
 _HTML_TAG_RE = re.compile(r"<br\s*/?>", re.IGNORECASE)
 _ANY_TAG_RE = re.compile(r"<[^>]+>")
 
+# Avito требует, чтобы "Номер детали OEM" состоял ТОЛЬКО из латинских букв и
+# цифр (проверено на реальной загрузке — товар "123014‑AF" был отклонён с
+# ошибкой "Неправильно заполнен обязательный параметр — Номер детали OEM...
+# состоящий из латинских букв и цифр"). Наши артикулы иногда содержат пробелы,
+# дефисы (в т.ч. "не такой" юникодный дефис ‑, U+2011), суффиксы вида "-set"/
+# "-AF", а у части декоративно-ремонтных наборов ("salniki-shtokov-2sht" и
+# т.п.) в артикул закралась кириллица, похожая на латиницу (например "0am325025С"
+# — последняя буква на самом деле русская "С"). Чтобы поле проходило проверку,
+# нормализуем такие похожие буквы в латиницу, а всё остальное (пробелы,
+# дефисы любого вида, "_" и т.п.) просто вырезаем.
+_OEM_HOMOGLYPHS = str.maketrans({
+    "а": "a", "е": "e", "о": "o", "р": "p", "с": "c", "у": "y", "х": "x",
+    "А": "A", "В": "B", "Е": "E", "К": "K", "М": "M", "Н": "H", "О": "O",
+    "Р": "P", "С": "C", "Т": "T", "У": "Y", "Х": "X",
+})
+_OEM_STRIP_RE = re.compile(r"[^A-Za-z0-9]")
+
+
+def _clean_oem(offer_id: str) -> str:
+    """Приводит артикул к формату, который принимает Avito для Номера OEM."""
+    normalized = offer_id.translate(_OEM_HOMOGLYPHS)
+    return _OEM_STRIP_RE.sub("", normalized)
+
 # Явно НЕ детали трансмиссии, даже если в названии есть "фильтр"/"маслян" и
 # т.п. (например EA888 — это код ДВИГАТЕЛЯ VAG, а не коробки передач; "корпус
 # масляного фильтра двигателя" ловится словом "маслян"/"фильтр" из общих
@@ -260,7 +283,7 @@ def build_avito_feed(
             ws.cell(row=out_row, column=COL_TRANSMISSION_PART_TYPE, value=part_type)
         ws.cell(row=out_row, column=COL_CONDITION, value=condition)
         ws.cell(row=out_row, column=COL_BRAND, value=brand)
-        ws.cell(row=out_row, column=COL_OEM, value=offer_id)
+        ws.cell(row=out_row, column=COL_OEM, value=_clean_oem(offer_id))
 
         out_row += 1
         written += 1
