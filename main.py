@@ -309,6 +309,44 @@ def cmd_push_ozon_cards() -> int:
     return 0 if total_err == 0 else 1
 
 
+def cmd_full_sync_wb() -> int:
+    """
+    Составной шаг "всё сразу" для WB — ОДИН запуск вместо трёх:
+    fetch-wb -> build-wb-catalog -> attach-wb-photos, и сразу же
+    build-master-control (чтобы пульт master_control.xlsx стал видно
+    актуальным для обеих площадок).
+    Останавливается на первой же неудачной части.
+    После этого шага остаётся скачать data/master_control.xlsx и, если
+    правили что-то в нём — sync-master-control, а для реальной отправки в
+    WB — push-wb-cards-dryrun как обычно.
+    """
+    print("=== Шаг 1/4: fetch-wb ===")
+    rc = cmd_fetch_wb()
+    if rc != 0:
+        print("full-sync-wb остановлен: fetch-wb завершился с ошибкой.")
+        return rc
+
+    print("\n=== Шаг 2/4: build-wb-catalog ===")
+    rc = cmd_build_wb_catalog()
+    if rc != 0:
+        print("full-sync-wb остановлен: build-wb-catalog завершился с ошибкой.")
+        return rc
+
+    print("\n=== Шаг 3/4: attach-wb-photos ===")
+    rc = cmd_attach_wb_photos()
+    if rc != 0:
+        print("full-sync-wb остановлен: attach-wb-photos завершился с ошибкой.")
+        return rc
+
+    print("\n=== Шаг 4/4: build-master-control ===")
+    rc = cmd_build_master_control()
+    if rc != 0:
+        print("build-master-control завершился с ошибкой — продолжаем без остановки (data/wb_catalog.xlsx уже обновлён и это главное; просто пульт master_control.xlsx придётся пересобрать отдельно).")
+
+    print("\nГотово: full-sync-wb завершён. Скачайте data/master_control.xlsx — он уже пересобран со свежими данными WB.")
+    return 0
+
+
 def cmd_build_wb_catalog() -> int:
     import wb_catalog_editor
 
@@ -1409,6 +1447,7 @@ def main() -> int:
     parser.add_argument("--compare-ozon-wb", action="store_true", help="Сравнить каталоги Ozon и WB по артикулу продавца, без объединения")
     parser.add_argument("--build-wb-catalog", action="store_true", help="Собрать data/wb_catalog.xlsx для редактирования карточек WB (название, описание, фото)")
     parser.add_argument("--attach-wb-photos", action="store_true", help="Подставить в wb_catalog.xlsx ссылки на фото из папки photos/ по имени файла")
+    parser.add_argument("--full-sync-wb", action="store_true", help="Composite: fetch-wb + build-wb-catalog + attach-wb-photos + build-master-control одной командой")
     parser.add_argument("--push-wb-cards-dryrun", action="store_true", help="Показать, что будет отправлено в WB, БЕЗ реальной отправки")
     parser.add_argument("--push-wb-cards", action="store_true", help="Реально отправить правки карточек WB (сначала всегда делайте dryrun!)")
     parser.add_argument("--push-wb-price-dryrun", action="store_true", help="Показать, у каких товаров изменится цена на WB (колонка 'Цена WB' в wb_catalog.xlsx), БЕЗ реальной отправки")
@@ -1488,6 +1527,8 @@ def main() -> int:
         return cmd_build_wb_catalog()
     if args.attach_wb_photos:
         return cmd_attach_wb_photos()
+    if args.full_sync_wb:
+        return cmd_full_sync_wb()
     if args.push_wb_cards_dryrun:
         return cmd_push_wb_cards_dryrun()
     if args.push_wb_cards:
