@@ -10,10 +10,13 @@ data/master_control.xlsx обратно в рабочие файлы конве�
 новую картинку как обложку в photos/<артикул>_1.<расширение> (общая для
 обеих площадок — конвейер сам заливает её и на Ozon, и на WB).
 
-ВАЖНО: цену для уже существующих на WB товаров эта функция НЕ отправляет
-никуда — в конвейере пока нет отправки цены на WB для готовых карточек
-(см. build_master_control.py). Столбец "Цена WB" читается обратно только
-для строк со статусом WB "Новый (черновик)".
+Столбец "Цена WB" переносится в data/wb_catalog.xlsx (для существующих
+товаров) или data/wb_new_products.xlsx (для черновиков) как есть — это
+финальная цена для покупателя. Саму отправку на WB эта функция не
+делает — для существующих товаров дальше нужен push-wb-price-dryrun /
+push-wb-price (см. main.py), который пересчитает "цену до скидки" под
+текущий % скидки и отправит; для черновиков цена уходит как раньше,
+вместе с push-wb-new-cards.
 
 master_control.xlsx сам НЕ используется ни одним другим шагом конвейера —
 он только человеко-читаемый обзор + место для правок. Реальные данные,
@@ -37,7 +40,7 @@ push-ozon-cards-dryrun -> push-ozon-cards, и аналогично attach-ozon-n
   9  Цена до скидки, ₽ (Ozon)
   10 Остаток, шт. (Ozon — "Кол-во к продаже" в ozon_catalog.xlsx/ozon_new_products.xlsx;
      реально уходит в Ozon только отдельной командой push-stock, см. main.py)
-  11 Цена WB, ₽ (только для новых WB-товаров)
+  11 Цена WB, ₽ (финальная, покупателю)
   12 Описание
   13 Хэштеги / Теги (только Ozon — у WB такого поля нет)
   14 Заметки
@@ -290,6 +293,7 @@ _OZON_FIELD_MAP = {
 _WB_EXISTING_FIELD_MAP = {
     "title": "name_wb",
     "description": "description",
+    "price": "price_wb",
     "notes": "notes",
 }
 _WB_DRAFT_FIELD_MAP = {
@@ -311,8 +315,35 @@ _WB_ALIAS_OZON_TO_VENDOR = {
 }
 
 
-def _remap_wb_keys(updates: dict) -> dict:
-    return {_WB_ALIAS_OZON_TO_VENDOR.get(oid, oid): upd for oid, upd in updates.items()}
+def _remap_wb_keys(updates: dict, real_wb_vendor_codes: set) -> dict:
+    """
+    Обратная сторона build_master_control._apply_wb_alias(): строка в
+    master_control.xlsx ключится Ozon-артикулом (см. _WB_ALIAS_OZON_TO_VENDOR),
+    и её нужно перенаправить на настоящий vendorCode при записи в
+    wb_catalog.xlsx/wb_new_products.xlsx.
+
+    Но если этот Ozon-артикул СОВПАДАЕТ буквально с отдельным, настоящим,
+    независимо существующим vendorCode на WB (то же редкое совпадение, что
+    и в _apply_wb_alias) — перенаправлять НЕЛЬЗЯ: build_master_control.py в
+    этом случае уже не объединял строки, и текущая строка — это правки для
+    настоящего товара с этим vendorCode, а не для алиас-пары. real_wb_vendor_codes
+    передаётся с "земли" — реальные vendorCode, которые сейчас есть в
+    wb_catalog.xlsx/wb_new_products.xlsx.
+    """
+    out = {}
+    for oid, upd in updates.items():
+        target = _WB_ALIAS_OZON_TO_VENDOR.get(oid, oid)
+        if target != oid and oid in real_wb_vendor_codes:
+            logger.warning(
+                "WB_ALIAS: строка %s не перенаправлена на %s, потому что на WB "
+                "уже есть отдельный настоящий vendorCode %s — похоже, это два "
+                "разных товара. Правки записаны в его собственную строку.",
+                oid, target, oid,
+            )
+            out[oid] = upd
+        else:
+            out[target] = upd
+    return out
 
 
 def run() -> int:
@@ -327,10 +358,20 @@ def run() -> int:
 
     rows, images = _read_master()
 
+    real_wb_vendor_codes = set()
+    if os.path.exists(WB_CATALOG_PATH):
+        real_wb_vendor_codes |= set(wb_catalog_editor.load_wb_catalog_edits(WB_CATALOG_PATH))
+    if os.path.exists(WB_NEW_PATH):
+        real_wb_vendor_codes |= set(wb_new_products.load_new_edits(WB_NEW_PATH))
+
     existing_updates = {oid: r for oid, r in rows.items() if r["status_ozon"] == STATUS_EXISTING}
     draft_updates = {oid: r for oid, r in rows.items() if r["status_ozon"] == STATUS_DRAFT}
-    wb_existing_updates = _remap_wb_keys({oid: r for oid, r in rows.items() if r["status_wb"] == STATUS_EXISTING})
-    wb_draft_updates = _remap_wb_keys({oid: r for oid, r in rows.items() if r["status_wb"] == STATUS_DRAFT})
+    wb_existing_updates = _remap_wb_keys(
+        {oid: r for oid, r in rows.items() if r["status_wb"] == STATUS_EXISTING}, real_wb_vendor_codes
+    )
+    wb_draft_updates = _remap_wb_keys(
+        {oid: r for oid, r in rows.items() if r["status_wb"] == STATUS_DRAFT}, real_wb_vendor_codes
+    )
 
     changed_existing = _sync_xlsx(CATALOG_PATH, catalog_editor, existing_updates, _OZON_FIELD_MAP)
     changed_draft = _sync_xlsx(NEW_PATH, ozon_new_products, draft_updates, _OZON_FIELD_MAP)

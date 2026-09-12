@@ -432,6 +432,55 @@ def cmd_push_wb_cards() -> int:
     return 0 if total_err == 0 else 1
 
 
+def cmd_push_wb_price_dryrun() -> int:
+    import wb_catalog_editor
+
+    wb_data, edits = _load_wb_push_inputs()
+    if wb_data is None:
+        return 1
+    updates = wb_catalog_editor.build_wb_price_updates(wb_data, edits)
+
+    print("ПРОБНЫЙ ПРОГОН — в WB ничего не отправляется.")
+    print(f"Изменений цены: {len(updates)} товаров")
+    for u in updates:
+        print(
+            f"  {u['vendor_code']}: {u['old_final_price']} -> {u['new_final_price']} ₽ "
+            f"(скидка {u['discount']}% не меняется, в WB уйдёт 'цена до скидки' = {u['price_to_send']})"
+        )
+    if not updates:
+        print("Либо колонка 'Цена WB' пуста у всех товаров, либо вписанные значения совпадают с текущей ценой на WB.")
+    return 0
+
+
+def cmd_push_wb_price() -> int:
+    import wb_client
+    import wb_catalog_editor
+
+    wb_data, edits = _load_wb_push_inputs()
+    if wb_data is None:
+        return 1
+    updates = wb_catalog_editor.build_wb_price_updates(wb_data, edits)
+    if not updates:
+        print("Нечего отправлять — см. push-wb-price-dryrun.")
+        return 1
+
+    items = [{"nmID": u["nm_id"], "price": u["price_to_send"], "discount": u["discount"]} for u in updates]
+    try:
+        wb_client.update_prices(items)
+    except wb_client.WbApiError as exc:
+        print(f"ОШИБКА при отправке цены ({len(items)} товаров): {exc}")
+        return 1
+
+    print(f"Цена отправлена для {len(items)} товаров:")
+    for u in updates:
+        print(f"  {u['vendor_code']}: {u['old_final_price']} -> {u['new_final_price']} ₽")
+    print(
+        "\nWB обрабатывает изменение цены не мгновенно — проверьте карточку через несколько минут "
+        "(следующий fetch-wb покажет уже применившуюся цену)."
+    )
+    return 0
+
+
 def cmd_build_ozon_new_template() -> int:
     import ozon_new_products
 
@@ -1362,6 +1411,8 @@ def main() -> int:
     parser.add_argument("--attach-wb-photos", action="store_true", help="Подставить в wb_catalog.xlsx ссылки на фото из папки photos/ по имени файла")
     parser.add_argument("--push-wb-cards-dryrun", action="store_true", help="Показать, что будет отправлено в WB, БЕЗ реальной отправки")
     parser.add_argument("--push-wb-cards", action="store_true", help="Реально отправить правки карточек WB (сначала всегда делайте dryrun!)")
+    parser.add_argument("--push-wb-price-dryrun", action="store_true", help="Показать, у каких товаров изменится цена на WB (колонка 'Цена WB' в wb_catalog.xlsx), БЕЗ реальной отправки")
+    parser.add_argument("--push-wb-price", action="store_true", help="Реально отправить новую цену на WB для существующих товаров (сначала всегда делайте dryrun!)")
     parser.add_argument("--sync-orders", action="store_true", help="Общий учёт остатков: списать заказы Ozon+WB за 30 дней из 'Кол-во к продаже' в data/ozon_catalog.xlsx")
     parser.add_argument("--push-stock-dryrun", action="store_true", help="Показать остатки ('Кол-во к продаже'/'Остаток, шт.'), которые будут отправлены в Ozon, БЕЗ реальной отправки")
     parser.add_argument("--push-stock", action="store_true", help="Реально отправить остатки в Ozon (сначала всегда делайте dryrun!)")
@@ -1441,6 +1492,10 @@ def main() -> int:
         return cmd_push_wb_cards_dryrun()
     if args.push_wb_cards:
         return cmd_push_wb_cards()
+    if args.push_wb_price_dryrun:
+        return cmd_push_wb_price_dryrun()
+    if args.push_wb_price:
+        return cmd_push_wb_price()
     if args.sync_orders:
         return cmd_sync_orders()
     if args.push_stock_dryrun:

@@ -26,10 +26,13 @@ vendorCode у WB): если совпадает — это одна строка 
 push-wb-cards будет заменено на это. Для строк "только WB" (артикул не
 совпал ни с одним Ozon-товаром) название остаётся как есть на WB.
 
-Цена WB для УЖЕ существующих на WB товаров пока не редактируется отсюда
-(в конвейере ещё нет отправки цены на WB для готовых карточек) — колонка
-"Цена WB" заполняется и синхронизируется только для НОВЫХ товаров-черновиков
-WB (data/wb_new_products.xlsx это умеет).
+Цена WB (колонка "Цена WB, ₽") — это ФИНАЛЬНАЯ цена, которую видит
+покупатель. Для новых товаров-черновиков это просто цена товара. Для уже
+существующих на WB товаров сюда подставляется текущая цена, подтянутая с
+WB при последнем fetch-wb; впишете другое число — sync-master-control
+перенесёт его в data/wb_catalog.xlsx, а push-wb-price (см. main.py)
+отправит на WB, автоматически пересчитав "цену до скидки" так, чтобы
+текущий % скидки не изменился (см. wb_catalog_editor.price_before_discount).
 
 master_control.xlsx можно пересобирать сколько угодно раз (build-master-control)
 — название/цена/описание/хэштеги/заметки при этом БЕРУТСЯ из исходных файлов
@@ -97,7 +100,7 @@ HEADERS = [
     "Цена, ₽",
     "Цена до скидки, ₽",
     "Остаток, шт.",
-    "Цена WB, ₽ (только для новых WB-товаров)",
+    "Цена WB, ₽ (финальная, покупателю)",
     "Описание",
     "Хэштеги / Теги",
     "Заметки",
@@ -191,7 +194,7 @@ def _read_draft():
 
 
 def _read_wb_existing():
-    """vendorCode -> {title, description, notes}."""
+    """vendorCode -> {title, description, notes, price, discount}."""
     if not os.path.exists(WB_CATALOG_PATH):
         return {}
     wb = openpyxl.load_workbook(WB_CATALOG_PATH)
@@ -200,6 +203,8 @@ def _read_wb_existing():
     idx_title = next(i for i, x in enumerate(h) if x and "Название" in x)
     idx_desc = next(i for i, x in enumerate(h) if x and "Описание" in x)
     idx_notes = next((i for i, x in enumerate(h) if x and "Заметки" in x), None)
+    idx_price = next((i for i, x in enumerate(h) if x and x.startswith("Цена WB")), None)
+    idx_discount = next((i for i, x in enumerate(h) if x and x.startswith("Скидка WB")), None)
 
     out = {}
     for row in ws.iter_rows(min_row=2, values_only=True):
@@ -210,6 +215,8 @@ def _read_wb_existing():
             "title": row[idx_title] or "",
             "description": row[idx_desc] or "",
             "notes": (row[idx_notes] or "") if idx_notes is not None else "",
+            "price": row[idx_price] if idx_price is not None else None,
+            "discount": row[idx_discount] if idx_discount is not None else None,
         }
     return out
 
@@ -390,13 +397,32 @@ def _apply_wb_alias(d):
     vendorCode сохраняется в "_wb_vendor_code" — он нужен sync_master_control.py,
     чтобы знать, в какую строку wb_catalog.xlsx/wb_new_products.xlsx реально
     писать (там ключ — оригинальный vendorCode, а не Ozon offer_id).
+
+    Если целевой ключ (Ozon-артикул из WB_ALIAS) САМ по себе уже существует
+    как отдельный, настоящий vendorCode на WB — редкое, но реальное
+    совпадение строк — слияние для этой пары ОТМЕНЯЕТСЯ: обе записи
+    остаются отдельными строками под своими настоящими vendorCode. Иначе
+    одна из двух разных карточек молча теряется (перезаписывается другой
+    в словаре). В лог пишется предупреждение — такую пару стоит проверить
+    вручную и, возможно, убрать из WB_ALIAS (см. docstring WB_ALIAS).
     """
+    direct_targets = {vendor_code for vendor_code in d if vendor_code in WB_ALIAS.values()}
+
     out = {}
     for vendor_code, v in d.items():
         target_oid = WB_ALIAS.get(vendor_code, vendor_code)
         entry = dict(v)
         entry["_wb_vendor_code"] = vendor_code
-        out[target_oid] = entry
+        if target_oid != vendor_code and target_oid in direct_targets:
+            logger.warning(
+                "WB_ALIAS: %s -> %s не объединены, потому что на WB уже есть "
+                "отдельный настоящий vendorCode %s — похоже, это два разных "
+                "товара. Обе строки оставлены отдельно; проверьте вручную.",
+                vendor_code, target_oid, target_oid,
+            )
+            out[vendor_code] = entry
+        else:
+            out[target_oid] = entry
     return out
 
 
@@ -493,7 +519,14 @@ def run() -> int:
         # push-wb-cards. Если товара на Ozon нет (строка "только WB") —
         # берём то, что уже стоит на WB, как раньше.
         name_wb = _wb_title(name, oid) if src else wb_src.get("title", "")
+        # Цена WB: для черновиков — то, что уже вписано в wb_new_products.xlsx;
+        # для уже существующих на WB товаров — текущая финальная цена,
+        # подтянутая с WB при последнем fetch-wb (см. wb_catalog_editor.
+        # current_wb_price). Впишете сюда другое число — при следующем
+        # push-wb-price уйдёт новая цена, текущий % скидки не изменится.
         price_wb = wb_draft.get(oid, {}).get("price")
+        if price_wb in (None, "") and is_wb_existing:
+            price_wb = wb_existing.get(oid, {}).get("price")
 
         fgroup = groups.get(oid, [])
         img_files = [f for f in fgroup if os.path.splitext(f)[1].lower() in IMAGE_EXTS]

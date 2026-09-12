@@ -45,6 +45,8 @@ COLUMNS = [
     ("description", "Описание"),
     ("images", "Фото: ссылки через | , первая = главная (пусто = не менять)"),
     ("video_url", "Видео: ссылка на .mp4/.mov, до 50 МБ, максимум 1 (пусто = не менять)"),
+    ("price", "Цена WB, ₽ (финальная, покупателю — при пересборке подставляется текущая цена с WB)"),
+    ("discount", "Скидка WB, % (справочно — текущая; не редактируется отсюда, см. push_wb_price)"),
     ("notes", "Заметки"),
 ]
 
@@ -99,9 +101,66 @@ def _extract_video_url(card: dict) -> str:
     return ""
 
 
+def _prices_by_nm(wb_data: dict) -> Dict[int, dict]:
+    """
+    nmID -> {"price": <цена до скидки>, "discount": <% скидки>,
+    "discounted_price": <финальная цена покупателю>} из wb_data["prices"]
+    (см. wb_client.get_prices — GET /api/v2/list/goods/filter).
+
+    ЭКСПЕРИМЕНТАЛЬНО: точная структура ответа не проверена на реальных
+    данных этого кабинета — ниже разобраны самые вероятные названия полей
+    по живой документации dev.wildberries.ru на 2026-09-12 (nmID, sizes[0]
+    .price/.discountedPrice, discount). Если после fetch-wb + build-wb-
+    catalog колонка "Цена WB" у существующих товаров осталась пустой —
+    посмотрите сырой data/wb_cards.json (ключ "prices") и поправьте имена
+    полей здесь под то, что реально приходит.
+    """
+    out: Dict[int, dict] = {}
+    for item in wb_data.get("prices", []) or []:
+        nm_id = item.get("nmID") or item.get("nmId")
+        if not nm_id:
+            continue
+        sizes = item.get("sizes") or [{}]
+        size0 = sizes[0] if sizes else {}
+        base_price = size0.get("price")
+        discount = item.get("discount")
+        discounted = size0.get("discountedPrice")
+        if discounted is None and base_price is not None and discount is not None:
+            try:
+                discounted = round(float(base_price) * (1 - float(discount) / 100))
+            except (TypeError, ValueError):
+                discounted = None
+        out[nm_id] = {"price": base_price, "discount": discount, "discounted_price": discounted}
+    return out
+
+
+def current_wb_price(card: dict, prices_by_nm: Dict[int, dict]) -> dict:
+    """{"price": <финальная цена или None>, "discount": <% или None>} для карточки."""
+    nm_id = card.get("nmID")
+    info = prices_by_nm.get(nm_id, {}) if nm_id else {}
+    return {"price": info.get("discounted_price"), "discount": info.get("discount")}
+
+
+def price_before_discount(final_price, discount_pct) -> int:
+    """
+    Обратный пересчёт: какую "цену до скидки" нужно отправить в WB, чтобы
+    после применения ТЕКУЩЕГО % скидки покупатель увидел ровно final_price
+    — так push_wb_price.py меняет только видимую цену, не трогая саму
+    скидку (см. вопрос про логику цены WB, решили 2026-09-12).
+    """
+    try:
+        discount_pct = float(discount_pct or 0)
+    except (TypeError, ValueError):
+        discount_pct = 0
+    if discount_pct >= 100:
+        discount_pct = 0
+    return round(float(final_price) / (1 - discount_pct / 100))
+
+
 def build_wb_catalog(wb_data: dict, xlsx_path: str) -> int:
     """Строит редактируемый xlsx из уже загруженного data/wb_cards.json."""
     cards = _cards_by_vendor(wb_data)
+    prices_by_nm = _prices_by_nm(wb_data)
 
     workbook = Workbook()
     ws = workbook.active
@@ -119,8 +178,12 @@ def build_wb_catalog(wb_data: dict, xlsx_path: str) -> int:
         description = _card_description(card)
         images_str = "|".join(_extract_photo_urls(card))
         video_str = _extract_video_url(card)
+        price_info = current_wb_price(card, prices_by_nm)
 
-        row_values = [vendor_code, title, description, images_str, video_str, ""]
+        row_values = [
+            vendor_code, title, description, images_str, video_str,
+            price_info["price"], price_info["discount"], "",
+        ]
         for col_idx, value in enumerate(row_values, start=1):
             cell = ws.cell(row=row_idx, column=col_idx, value=value)
             cell.font = NORMAL_FONT
@@ -128,7 +191,7 @@ def build_wb_catalog(wb_data: dict, xlsx_path: str) -> int:
                 cell.fill = WARN_FILL
         row_idx += 1
 
-    widths = [18, 45, 45, 55, 45, 25]
+    widths = [18, 45, 45, 55, 45, 14, 12, 25]
     for col_idx, width in enumerate(widths, start=1):
         ws.column_dimensions[get_column_letter(col_idx)].width = width
 
@@ -157,6 +220,8 @@ def load_wb_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
             "description": raw.get("description") or "",
             "images": images,
             "video_url": video_val.strip() if isinstance(video_val, str) else (video_val or ""),
+            "price": raw.get("price"),
+            "discount": raw.get("discount"),
             "notes": raw.get("notes"),
         }
     return edits
@@ -243,6 +308,54 @@ def build_wb_update_items(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
             }
         )
     return items
+
+
+def build_wb_price_updates(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
+    """
+    Собирает список товаров, у которых "Цена WB" в xlsx отличается от
+    текущей цены на WB (пустая ячейка или совпадение с текущей ценой — не
+    считается изменением, такой товар в список не попадёт). Для каждого
+    считает "цену до скидки", которую нужно отправить в WB, чтобы после
+    применения ТЕКУЩЕГО % скидки покупатель увидел ровно вписанную цену
+    (см. price_before_discount) — сама скидка не меняется.
+
+    Возвращает список {"vendor_code", "nm_id", "old_final_price",
+    "new_final_price", "discount", "price_to_send"} — готово и для печати
+    в dry-run, и для сборки items под wb_client.update_prices (нужны
+    только "nm_id"/"price_to_send"/"discount" оттуда).
+    """
+    cards = _cards_by_vendor(wb_data)
+    prices_by_nm = _prices_by_nm(wb_data)
+    out: List[dict] = []
+    for vendor_code, edit in edits.items():
+        new_price = edit.get("price")
+        if new_price in (None, ""):
+            continue
+        card = cards.get(vendor_code)
+        if not card or not card.get("nmID"):
+            logger.warning("%s: нет карточки/nmID в wb_cards.json — цену отправить некуда, пропущено", vendor_code)
+            continue
+        current = current_wb_price(card, prices_by_nm)
+        old_final = current.get("price")
+        discount = current.get("discount") or 0
+        try:
+            new_final = round(float(new_price))
+        except (TypeError, ValueError):
+            logger.warning("%s: 'Цена WB' = %r не число, пропущено", vendor_code, new_price)
+            continue
+        if old_final is not None and new_final == round(float(old_final)):
+            continue  # не изменилось — нечего отправлять
+        out.append(
+            {
+                "vendor_code": vendor_code,
+                "nm_id": card["nmID"],
+                "old_final_price": old_final,
+                "new_final_price": new_final,
+                "discount": discount,
+                "price_to_send": price_before_discount(new_final, discount),
+            }
+        )
+    return out
 
 
 def build_wb_media_updates(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
