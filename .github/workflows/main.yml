@@ -2,8 +2,20 @@
 # потому что напрямую с вашего компьютера до API Ozon/WB/Avito достучаться
 # нельзя, а у GitHub Actions есть полный доступ в интернет.
 #
-# Как запустить: вкладка Actions -> marketplace-agent -> Run workflow ->
+# Как запустить вручную: вкладка Actions -> marketplace-agent -> Run workflow ->
 # выбрать команду из списка -> Run workflow.
+#
+# ОБЩИЙ СКЛАД (2026-09-13): помимо ручного запуска, этот workflow ещё
+# запускается САМ по расписанию (см. "on.schedule" ниже) каждые 3 часа —
+# в этом автоматическом прогоне (github.event_name == 'schedule') команда
+# из выпадающего списка игнорируется, вместо неё всегда выполняется
+# фиксированная цепочка sync-orders -> push-stock -> push-wb-stock: сначала
+# списываются проданные с Ozon/WB товары из общего остатка ("Кол-во к
+# продаже"/"Остаток, шт." в data/ozon_catalog.xlsx), потом обновлённое
+# число рассылается обратно на обе площадки. Если отправлять нечего (никто
+# не менял остаток) — это НЕ ошибка, шаг не должен становиться красным
+# (см. "|| true" в шаге ниже). Чтобы полностью отключить автозапуск —
+# закомментируйте/удалите блок "schedule:".
 #
 # Перед использованием (см. README):
 # 1. Settings -> Secrets and variables -> Actions -> добавить секреты:
@@ -15,6 +27,8 @@
 name: marketplace-agent
 
 on:
+  schedule:
+    - cron: "0 */3 * * *"  # каждые 3 часа (UTC) — общий учёт остатков, см. пояснение выше
   workflow_dispatch:
     inputs:
       command:
@@ -124,9 +138,16 @@ jobs:
           WORDSTAT_FOLDER_ID: ${{ secrets.WORDSTAT_FOLDER_ID }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python main.py --${{ github.event.inputs.command }} \
-            --article "${{ github.event.inputs.article }}" \
-            --seed-phrase "${{ github.event.inputs.seed_phrase }}"
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "Автозапуск по расписанию: общий учёт остатков (Ozon+WB)"
+            python main.py --sync-orders
+            python main.py --push-stock || true
+            python main.py --push-wb-stock || true
+          else
+            python main.py --${{ github.event.inputs.command }} \
+              --article "${{ github.event.inputs.article }}" \
+              --seed-phrase "${{ github.event.inputs.seed_phrase }}"
+          fi
 
       - name: Save data/ back to repo
         if: always()
