@@ -1218,6 +1218,114 @@ def cmd_push_stock() -> int:
     return 0 if total_err == 0 else 1
 
 
+def _wb_stock_rows():
+    """
+    offer_id -> (vendor_code, штрихкод, остаток) для отправки в WB — из
+    ТОГО ЖЕ единого столбца "Кол-во к продаже"/"Остаток, шт.", что и
+    push-stock для Ozon (см. _load_stock_items): склад общий на обе
+    площадки, sync-orders списывает продажи с Ozon И с WB в одно и то же
+    число, а push-stock/push-wb-stock просто рассылают текущее значение
+    обратно каждой площадке отдельно (у Ozon и WB разные API для остатков).
+
+    Наш артикул почти всегда совпадает с vendorCode на WB; для редких
+    вручную подтверждённых исключений (см. WB_ALIAS в build_master_control.py)
+    используется обратная карта _WB_ALIAS_OZON_TO_VENDOR из
+    sync_master_control.py. Штрихкод (WB требует именно его, не vendorCode,
+    см. wb_client.update_stocks) берётся через get_offer_barcode_map().
+    Товары без карточки/штрихкода на WB возвращаются отдельным списком
+    unmatched, чтобы не отправлять на них случайный мусор.
+    """
+    import wb_client
+    import sync_master_control
+
+    stock_items = {it["offer_id"]: it["stock"] for it in _load_stock_items()}
+    if not stock_items:
+        return [], []
+
+    barcode_map = wb_client.get_offer_barcode_map()
+    alias = sync_master_control._WB_ALIAS_OZON_TO_VENDOR
+
+    rows = []
+    unmatched = []
+    for offer_id, qty in sorted(stock_items.items()):
+        vendor_code = alias.get(offer_id, offer_id)
+        barcode = barcode_map.get(vendor_code)
+        if not barcode:
+            unmatched.append(offer_id)
+            continue
+        rows.append({"offer_id": offer_id, "vendor_code": vendor_code, "sku": barcode, "amount": max(0, int(qty))})
+    return rows, unmatched
+
+
+def cmd_push_wb_stock_dryrun() -> int:
+    from config import config
+
+    rows, unmatched = _wb_stock_rows()
+    print(f"ПРОБНЫЙ ПРОГОН — в WB ничего не отправляется. Остатков к обновлению: {len(rows)}\n")
+    print(json.dumps(rows, ensure_ascii=False, indent=2))
+    if not rows and not unmatched:
+        print(
+            "\n(Пусто — заполните столбец 'Остаток, шт.' в master_control.xlsx и запустите "
+            "sync-master-control, либо впишите число прямо в 'Кол-во к продаже' в "
+            "ozon_catalog.xlsx/ozon_new_products.xlsx.)"
+        )
+    if unmatched:
+        print(
+            f"\nВНИМАНИЕ: {len(unmatched)} артикул(ов) не нашлись на WB (нет карточки или штрихкода) — "
+            f"пропущены: {', '.join(unmatched)}"
+        )
+    if rows and not config.wb_warehouse_id:
+        print(
+            "\nВНИМАНИЕ: WB_WAREHOUSE_ID не задан — реальный push-wb-stock завершится ошибкой. "
+            "Запустите --wb-warehouses и впишите id нужного склада в секрет WB_WAREHOUSE_ID."
+        )
+    return 0
+
+
+def cmd_push_wb_stock() -> int:
+    """
+    Реально отправляет остатки в WB (PUT /api/v3/stocks/{warehouseId}) —
+    из того же единого столбца "Кол-во к продаже"/"Остаток, шт.", что и
+    push-stock у Ozon, так что после sync-orders достаточно запустить ОБЕ
+    команды (push-stock и push-wb-stock), чтобы актуальный остаток ушёл на
+    обе площадки сразу.
+    """
+    import wb_client
+    from config import config
+
+    warehouse_id = (config.wb_warehouse_id or "").strip()
+    if not warehouse_id:
+        print(
+            "WB_WAREHOUSE_ID не задан — запустите --wb-warehouses, чтобы увидеть список складов, "
+            "и впишите нужный id в секрет WB_WAREHOUSE_ID."
+        )
+        return 1
+
+    rows, unmatched = _wb_stock_rows()
+    if unmatched:
+        print(f"ВНИМАНИЕ: {len(unmatched)} артикул(ов) без карточки/штрихкода на WB, пропущены: {', '.join(unmatched)}")
+    if not rows:
+        print("Нечего отправлять — ни один артикул с заполненным остатком не нашёлся на WB.")
+        return 1
+
+    total_ok = 0
+    total_err = 0
+    chunk = 1000  # у WB лимит на партию заметно больше, чем у Ozon (см. update_stocks)
+    for i in range(0, len(rows), chunk):
+        batch = rows[i : i + chunk]
+        items = [{"sku": r["sku"], "amount": r["amount"]} for r in batch]
+        try:
+            wb_client.update_stocks(warehouse_id, items)
+            total_ok += len(batch)
+            print(f"  ОК: партия из {len(batch)} остатков отправлена ({', '.join(r['offer_id'] for r in batch)})")
+        except Exception as exc:
+            total_err += len(batch)
+            print(f"  ОШИБКА при отправке партии из {len(batch)}: {exc}")
+
+    print(f"\nИтого: успешно {total_ok}, с ошибками {total_err}")
+    return 0 if total_err == 0 else 1
+
+
 def cmd_diag_ozon_product(article: str) -> int:
     """
     Диагностика одного товара Ozon по offer_id: печатает "сырой" ответ
@@ -1582,6 +1690,8 @@ def main() -> int:
     parser.add_argument("--sync-orders", action="store_true", help="Общий учёт остатков: списать заказы Ozon+WB за 30 дней из 'Кол-во к продаже' в data/ozon_catalog.xlsx")
     parser.add_argument("--push-stock-dryrun", action="store_true", help="Показать остатки ('Кол-во к продаже'/'Остаток, шт.'), которые будут отправлены в Ozon, БЕЗ реальной отправки")
     parser.add_argument("--push-stock", action="store_true", help="Реально отправить остатки в Ozon (сначала всегда делайте dryrun!)")
+    parser.add_argument("--push-wb-stock-dryrun", action="store_true", help="Показать остатки ('Кол-во к продаже'/'Остаток, шт.'), которые будут отправлены в WB, БЕЗ реальной отправки")
+    parser.add_argument("--push-wb-stock", action="store_true", help="Реально отправить остатки в WB — тот же общий склад, что и push-stock у Ozon (сначала всегда делайте dryrun!)")
     parser.add_argument("--pull-ozon-stock", action="store_true", help="Разово подтянуть текущий остаток из Ozon в 'Кол-во к продаже' для товаров, где эта ячейка ещё пустая")
     parser.add_argument("--diag-ozon-product", action="store_true", help="Диагностика: показать сырой ответ Ozon (статус/ошибки/фото) по одному offer_id из --article")
     parser.add_argument("--test-wordstat", action="store_true", help="Проверить, что ключ Wordstat API работает")
@@ -1675,6 +1785,10 @@ def main() -> int:
         return cmd_push_stock_dryrun()
     if args.push_stock:
         return cmd_push_stock()
+    if args.push_wb_stock_dryrun:
+        return cmd_push_wb_stock_dryrun()
+    if args.push_wb_stock:
+        return cmd_push_wb_stock()
     if args.pull_ozon_stock:
         return cmd_pull_ozon_stock()
     if args.diag_ozon_product:
