@@ -31,6 +31,23 @@ Avito требует ровно одно значение из фиксиров�
 проверки (не заполняется, вместо этого попадает в возвращаемый список
 unclassified, чтобы main.py мог вывести предупреждение), потому что
 лучше явно попросить проверить, чем угадать неправильную категорию.
+
+ФОТО ДЛЯ AVITO — отдельный комплект, не такой же, как для Ozon/WB
+(обнаружено 2026-09-13): наши обычные фото (photos/<артикул>/) — вытянутые
+портретные "маркетинговые" картинки с заголовком сверху и плашками снизу
+(водяной знак, "100% ресурс" и т.п.). Avito в карточке товара показывает
+превью КВАДРАТОМ, обрезая по центру — весь текст сверху/снизу просто не
+попадает в кадр. Поэтому для Avito используется ОТДЕЛЬНАЯ папка
+photos_avito/<артикул>/ с фото, уже подготовленными под квадратный формат
+(пользователь готовит и подбирает их сам). attach_avito_photos() заливает
+их как ассеты GitHub Release (как и обычные фото — см. photo_host.py) и
+сохраняет ссылки в data/avito_photos.xlsx (offer_id -> ссылки через "|"),
+ОТДЕЛЬНО от ozon_catalog.xlsx, чтобы не трогать фото, уже работающие на
+Ozon/WB. build_avito_feed() при сборке фида сначала смотрит в этот файл, и
+только если там для товара ничего нет — берёт фото из ozon_catalog.xlsx
+(обычные). Если позже причина обрезки на Avito уйдёт (например появится
+возможность крутить/кадрировать фото прямо в кабинете) — можно просто
+удалить data/avito_photos.xlsx, и всё вернётся к общим фото автоматически.
 """
 import logging
 import os
@@ -186,6 +203,80 @@ def classify_transmission_part_type(title: str) -> Optional[str]:
     return None
 
 
+AVITO_PHOTOS_DIR = os.path.join(os.path.dirname(__file__), "photos_avito")
+AVITO_PHOTOS_MAP_PATH = os.path.join(os.path.dirname(__file__), "data", "avito_photos.xlsx")
+
+
+def attach_avito_photos(
+    photos_dir: str = AVITO_PHOTOS_DIR,
+    map_path: str = AVITO_PHOTOS_MAP_PATH,
+) -> Dict[str, List[str]]:
+    """
+    Заливает фото из photos_avito/<артикул>/ как ассеты GitHub Release (как
+    и обычные фото товара, через photo_host.py) и сохраняет ссылки в
+    data/avito_photos.xlsx — отдельно от ozon_catalog.xlsx, см. пояснение
+    про формат фото для Avito в начале модуля.
+
+    Имена файлов должны начинаться с артикула (например
+    "0AM325025B_1.jpg") — так уже готовит их сборка на нашей стороне,
+    вручную раскладывать не нужно.
+
+    Возвращает offer_id -> список залитых ссылок (для вывода в лог).
+    """
+    import photo_host
+
+    if not os.path.isdir(photos_dir):
+        return {}
+
+    matched: Dict[str, List[str]] = {}
+    for offer_id in sorted(os.listdir(photos_dir)):
+        offer_dir = os.path.join(photos_dir, offer_id)
+        if not os.path.isdir(offer_dir):
+            continue
+        files = sorted(
+            f for f in os.listdir(offer_dir)
+            if os.path.splitext(f)[1].lower() in (".jpg", ".jpeg", ".png", ".webp")
+        )
+        urls = []
+        for fname in files:
+            try:
+                url = photo_host.upload_file(os.path.join(offer_dir, fname), filename=fname)
+            except Exception as exc:  # noqa: BLE001
+                logger.warning("%s: не удалось загрузить фото для Avito %s: %s", offer_id, fname, exc)
+                continue
+            urls.append(url)
+        if urls:
+            matched[offer_id] = urls
+
+    if matched:
+        os.makedirs(os.path.dirname(map_path), exist_ok=True)
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Фото для Avito"
+        ws.append(["offer_id", "image_urls"])
+        for offer_id, urls in matched.items():
+            ws.append([offer_id, "|".join(urls)])
+        wb.save(map_path)
+
+    return matched
+
+
+def _load_avito_photo_overrides(map_path: str) -> Dict[str, List[str]]:
+    if not os.path.exists(map_path):
+        return {}
+    wb = openpyxl.load_workbook(map_path)
+    ws = wb.active
+    overrides: Dict[str, List[str]] = {}
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        if not row or not row[0]:
+            continue
+        offer_id = str(row[0]).strip()
+        urls = [u.strip() for u in str(row[1] or "").split("|") if u.strip()]
+        if urls:
+            overrides[offer_id] = urls
+    return overrides
+
+
 def _clean_description(html_desc: str) -> str:
     """<br/> -> перенос строки, остальные теги вырезаются, эмодзи оставляем как есть."""
     if not html_desc:
@@ -203,6 +294,7 @@ def build_avito_feed(
     brand: str = DEFAULT_BRAND,
     ad_type: str = DEFAULT_AD_TYPE,
     condition: str = DEFAULT_CONDITION,
+    avito_photos_map_path: str = AVITO_PHOTOS_MAP_PATH,
 ) -> Dict[str, object]:
     """
     Читает data/ozon_catalog.xlsx (общие данные — название/описание/цена/фото,
@@ -227,6 +319,7 @@ def build_avito_feed(
 
     src_wb = openpyxl.load_workbook(catalog_path)
     src_ws = src_wb.active
+    photo_overrides = _load_avito_photo_overrides(avito_photos_map_path)
 
     tmpl_wb = openpyxl.load_workbook(template_path)
     ws = tmpl_wb[SHEET_ADS]
@@ -255,7 +348,9 @@ def build_avito_feed(
             skipped_no_price.append(offer_id)
             continue
 
-        images = [u.strip() for u in str(images_raw).split("|") if u.strip()]
+        images = photo_overrides.get(offer_id) or [
+            u.strip() for u in str(images_raw).split("|") if u.strip()
+        ]
         part_type = classify_transmission_part_type(title)
         if part_type is None:
             # "Тип детали трансмиссии" — обязательное поле в этом шаблоне.

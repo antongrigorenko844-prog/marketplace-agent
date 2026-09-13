@@ -785,6 +785,36 @@ def cmd_ozon_warehouses() -> int:
     return 0
 
 
+def cmd_attach_avito_photos() -> int:
+    """
+    Залить фото из photos_avito/<артикул>/ (отдельный, квадратный формат
+    под Avito — обычные фото из photos/ у Avito обрезаются превью-квадратом,
+    см. пояснение в avito_feed.py) как ассеты GitHub Release и сохранить
+    ссылки в data/avito_photos.xlsx. Запускать ПЕРЕД build-avito-catalog,
+    если появились новые/обновлённые фото в photos_avito/.
+    """
+    import avito_feed
+
+    photos_dir = avito_feed.AVITO_PHOTOS_DIR
+    if not os.path.isdir(photos_dir):
+        print(
+            f"Нет папки {photos_dir} — загрузите в репозиторий фото под Avito "
+            "(по подпапкам photos_avito/<артикул>/) и запустите снова."
+        )
+        return 1
+
+    matched = avito_feed.attach_avito_photos()
+    if not matched:
+        print("Не нашлось фото для заливки в photos_avito/.")
+        return 1
+
+    print(f"Залито фото для {len(matched)} товаров -> data/avito_photos.xlsx:")
+    for offer_id, urls in matched.items():
+        print(f"  {offer_id}: {len(urls)} фото")
+    print("\nТеперь запустите build-avito-catalog — фид подхватит эти ссылки автоматически.")
+    return 0
+
+
 def cmd_build_avito_catalog() -> int:
     """
     Собрать data/avito_feed.xlsx — файл для загрузки в личном кабинете Avito
@@ -1519,6 +1549,7 @@ def main() -> int:
     parser.add_argument("--fetch-wb", action="store_true")
     parser.add_argument("--wb-warehouses", action="store_true", help="Показать склады продавца на WB (для WB_WAREHOUSE_ID)")
     parser.add_argument("--ozon-warehouses", action="store_true", help="Показать склады продавца на Ozon (для OZON_WAREHOUSE_ID, нужен push-stock)")
+    parser.add_argument("--attach-avito-photos", action="store_true", help="Залить фото из photos_avito/ (спец. квадратный формат под Avito) в data/avito_photos.xlsx")
     parser.add_argument("--build-avito-catalog", action="store_true", help="Собрать data/avito_feed.xlsx для загрузки в Avito Автозагрузку (не требует ключей)")
     parser.add_argument("--test-avito", action="store_true", help="Проверить доступ к Avito API (AVITO_CLIENT_ID/AVITO_CLIENT_SECRET)")
     parser.add_argument("--fetch-avito-orders", action="store_true", help="Получить заказы Авито Доставки за 30 дней в data/avito_orders.json")
@@ -1578,6 +1609,8 @@ def main() -> int:
         return cmd_wb_warehouses()
     if args.ozon_warehouses:
         return cmd_ozon_warehouses()
+    if args.attach_avito_photos:
+        return cmd_attach_avito_photos()
     if args.build_avito_catalog:
         return cmd_build_avito_catalog()
     if args.test_avito:
