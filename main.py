@@ -992,6 +992,55 @@ def cmd_build_avito_catalog() -> int:
     return 0
 
 
+def cmd_build_tilda_catalog() -> int:
+    """
+    Собрать data/tilda_feed.csv для импорта в магазин на Тильде (личный
+    кабинет -> магазин -> Товары -> Импорт/Экспорт -> Импорт). В отличие от
+    Avito, у Тильды нет ни "автозагрузки по ссылке", ни открытого API для
+    товаров — файл придётся каждый раз скачивать и загружать руками (см.
+    tilda_feed.py). Данные те же, что уже используются для Ozon и Avito
+    (data/ozon_catalog.xlsx): название, описание, ЦЕНА (та же, что на Avito,
+    БЕЗ наценки WB), фото (первая/обложка из общей папки photos/).
+
+    Решение от 2026-09-15: собираем "с нуля" — Tilda UID/External ID везде
+    пустые, поэтому импорт создаст все товары как НОВЫЕ. Перед первым
+    импортом удалите/очистите старые товары, заведённые в Тильде вручную —
+    иначе получите дубли.
+    """
+    import tilda_feed
+
+    catalog_path = _data_path("ozon_catalog.xlsx")
+    output_path = _data_path("tilda_feed.csv")
+
+    if not os.path.exists(catalog_path):
+        print(f"Нет файла {catalog_path} — сначала выполните build-ozon-catalog.")
+        return 1
+
+    result = tilda_feed.build_tilda_catalog(catalog_path=catalog_path, output_path=output_path)
+
+    print(f"Готово: {result['written']} товаров -> {output_path}")
+    if result["skipped_no_price"]:
+        print(f"Пропущено (нет цены): {', '.join(result['skipped_no_price'])}")
+    if result["skipped_no_photo"]:
+        print(f"ВНИМАНИЕ: без фото (карточка будет без картинки): {', '.join(result['skipped_no_photo'])}")
+
+    try:
+        import photo_host
+
+        feed_url = photo_host.upload_file(output_path, filename="tilda_feed.csv")
+        stable_url = feed_url.split("?v=")[0]
+        print(f"\nФайл также залит по постоянной ссылке (можно скачать прямо оттуда): {stable_url}")
+    except Exception as exc:  # noqa: BLE001
+        print(f"\n(не удалось залить по постоянной ссылке: {exc} — скачайте файл из data/ как обычно)")
+
+    print(
+        "\nДальше: скачайте tilda_feed.csv из data/ (или по ссылке выше) и загрузите в личном "
+        "кабинете Тильды: магазин -> Товары -> Импорт/Экспорт -> Импорт -> выбрать файл -> "
+        "сопоставить колонки (они уже названы как у Тильды) -> Импортировать."
+    )
+    return 0
+
+
 def cmd_test_avito() -> int:
     """
     Проверка доступа к Avito API: только получение токена (без реальных
@@ -1767,6 +1816,7 @@ def main() -> int:
     parser.add_argument("--ozon-warehouses", action="store_true", help="Показать склады продавца на Ozon (для OZON_WAREHOUSE_ID, нужен push-stock)")
     parser.add_argument("--attach-avito-photos", action="store_true", help="Залить фото из photos_avito/ (спец. квадратный формат под Avito) в data/avito_photos.xlsx")
     parser.add_argument("--build-avito-catalog", action="store_true", help="Собрать data/avito_feed.xlsx для загрузки в Avito Автозагрузку (не требует ключей)")
+    parser.add_argument("--build-tilda-catalog", action="store_true", help="Собрать data/tilda_feed.csv для ручного импорта в магазин на Тильде")
     parser.add_argument("--test-avito", action="store_true", help="Проверить доступ к Avito API (AVITO_CLIENT_ID/AVITO_CLIENT_SECRET)")
     parser.add_argument("--fetch-avito-orders", action="store_true", help="Получить заказы Авито Доставки за 30 дней в data/avito_orders.json")
     parser.add_argument("--list-avito-items", action="store_true", help="Показать сырой список объявлений Avito (диагностика сопоставления с артикулом)")
@@ -1834,6 +1884,8 @@ def main() -> int:
         return cmd_attach_avito_photos()
     if args.build_avito_catalog:
         return cmd_build_avito_catalog()
+    if args.build_tilda_catalog:
+        return cmd_build_tilda_catalog()
     if args.test_avito:
         return cmd_test_avito()
     if args.fetch_avito_orders:
