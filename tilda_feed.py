@@ -16,18 +16,28 @@ Ozon/Avito — НЕ отдельная "Цена WB" (в неё заложена
 строку (несколько фото на товар потребовали бы отдельных строк с общим
 Parent UID — пока не используется, см. README при необходимости добавить).
 
-СБОРКА "С НУЛЯ" (решение пользователя 2026-09-15): Tilda UID / External ID
-везде оставляются ПУСТЫМИ — это те же поля, по которым Тильда могла бы
-распознать уже существующий товар и обновить его, а не создать новый. Раз мы
-их не заполняем, при импорте этого файла все товары уйдут как НОВЫЕ. Поэтому
-перед первым импортом пользователю нужно вручную удалить/очистить старые
-товары, заведённые в Тильде руками ранее (иначе будут дубли).
+СБОРКА "С НУЛЯ" (решение пользователя 2026-09-15): каталог в Тильде сначала
+полностью очищается вручную, а этот импорт создаёт все товары заново.
+Изначально Tilda UID/External ID оставлялись пустыми, но импорт Тильды не
+принимает пустой UID даже для новых товаров ("Empty Uniq column: uid") —
+поэтому UID генерируется здесь сами, ДЕТЕРМИНИРОВАННО из артикула (sha256 от
+offer_id, взяты первые 12 цифр) — один и тот же товар при пересборке всегда
+получает один и тот же UID. External ID = сам артикул (offer_id), для
+наглядности и на будущее, если понадобится сопоставление при обновлении.
 """
+import hashlib
 import logging
 import re
 from typing import Dict, List, Optional
 
 import openpyxl
+
+
+def _stable_uid(offer_id: str) -> str:
+    """Детерминированный 12-значный числовой UID из артикула (см. docstring)."""
+    digest = hashlib.sha256(offer_id.encode("utf-8")).hexdigest()
+    num = int(digest, 16) % (10**12)
+    return f"{num:012d}"
 
 logger = logging.getLogger("marketplace-agent.tilda_feed")
 
@@ -113,7 +123,7 @@ def build_tilda_catalog(catalog_path: str, output_path: str) -> Dict[str, object
 
         rows_out.append(
             [
-                "",  # Tilda UID — пусто, см. docstring (сборка "с нуля")
+                _stable_uid(offer_id),  # Tilda UID — детерминированный, см. docstring
                 "",  # Brand
                 offer_id,  # SKU
                 "",  # Mark
@@ -127,7 +137,7 @@ def build_tilda_catalog(catalog_path: str, output_path: str) -> Dict[str, object
                 price_old_val,  # Price Old
                 "",  # Editions
                 "",  # Modifications
-                "",  # External ID — пусто, см. docstring
+                offer_id,  # External ID — тот же артикул, для наглядности
                 "",  # Parent UID
                 "0",  # Weight
                 "0",  # Length
