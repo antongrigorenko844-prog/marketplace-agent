@@ -1002,21 +1002,39 @@ def cmd_build_tilda_catalog() -> int:
     (data/ozon_catalog.xlsx): название, описание, ЦЕНА (та же, что на Avito,
     БЕЗ наценки WB), фото (первая/обложка из общей папки photos/).
 
-    Решение от 2026-09-15: собираем "с нуля" — Tilda UID/External ID везде
-    пустые, поэтому импорт создаст все товары как НОВЫЕ. Перед первым
-    импортом удалите/очистите старые товары, заведённые в Тильде вручную —
-    иначе получите дубли.
+    Решение от 2026-09-15: собираем "с нуля" — при пересборке UID/External ID
+    у каждого товара стабильные (не меняются), но каталог в Тильде перед
+    первым импортом нужно вручную очистить от старых товаров, заведённых
+    руками — иначе получите дубли.
+
+    ФОТО берутся НЕ из ozon_catalog.xlsx (там ссылки на GitHub Release,
+    Тильда их не смогла скачать), а напрямую с raw.githubusercontent.com —
+    поэтому, как и attach-ozon-photos/attach-wb-photos, эта команда должна
+    запускаться через GitHub Actions (нужен GITHUB_REPOSITORY).
     """
     import tilda_feed
 
     catalog_path = _data_path("ozon_catalog.xlsx")
     output_path = _data_path("tilda_feed.csv")
+    photos_dir = os.path.join(os.path.dirname(__file__), "photos")
 
     if not os.path.exists(catalog_path):
         print(f"Нет файла {catalog_path} — сначала выполните build-ozon-catalog.")
         return 1
+    if not os.path.isdir(photos_dir):
+        print(f"Нет папки {photos_dir} — см. README, раздел про фото.")
+        return 1
 
-    result = tilda_feed.build_tilda_catalog(catalog_path=catalog_path, output_path=output_path)
+    repo = os.environ.get("GITHUB_REPOSITORY", "")
+    branch = os.environ.get("GITHUB_REF_NAME", "main")
+    if not repo:
+        print("Не удалось определить репозиторий (GITHUB_REPOSITORY пуст) — эту команду нужно запускать через GitHub Actions.")
+        return 1
+    raw_base_url = f"https://raw.githubusercontent.com/{repo}/{branch}/photos"
+
+    result = tilda_feed.build_tilda_catalog(
+        catalog_path=catalog_path, output_path=output_path, photos_dir=photos_dir, raw_base_url=raw_base_url
+    )
 
     print(f"Готово: {result['written']} товаров -> {output_path}")
     if result["skipped_no_price"]:

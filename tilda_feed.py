@@ -12,9 +12,20 @@ Ozon/Avito — НЕ отдельная "Цена WB" (в неё заложена
 продажи через сайт она не нужна).
 
 ФОТО: общая папка photos/ (та же, что у Ozon и WB) — берём только первую
-(обложку) ссылку из колонки "Фото", т.к. формат CSV Тильды даёт одно фото на
-строку (несколько фото на товар потребовали бы отдельных строк с общим
-Parent UID — пока не используется, см. README при необходимости добавить).
+(обложку) ссылку, т.к. формат CSV Тильды даёт одно фото на строку (несколько
+фото на товар потребовали бы отдельных строк с общим Parent UID — пока не
+используется, см. README при необходимости добавить).
+
+ВАЖНО (обнаружено 2026-09-15): ссылку НЕЛЬЗЯ брать из колонки "Фото" в
+ozon_catalog.xlsx как есть — там ссылки на ассеты GitHub Release (через
+photo_host.py, нужны для Ozon/WB, см. его docstring), и Тильда при импорте
+их не смогла скачать ("Image not available over https"), хотя обычным curl
+файл открывается. Вместо этого строим ссылку САМИ напрямую на
+raw.githubusercontent.com/.../photos/<артикул>/<файл> — тот же способ, что
+раньше использовался для Ozon/WB (см. catalog_editor.attach_local_photos,
+там от него отказались из-за проблем с КЭШИРОВАНИЕМ на стороне Ozon/WB, а
+не потому что сама раздача не работала — для одноразового импорта в Тильду
+кэш ни при чём, поэтому здесь это безопасно).
 
 СБОРКА "С НУЛЯ" (решение пользователя 2026-09-15): каталог в Тильде сначала
 полностью очищается вручную, а этот импорт создаёт все товары заново.
@@ -27,10 +38,14 @@ offer_id, взяты первые 12 цифр) — один и тот же то�
 """
 import hashlib
 import logging
+import os
 import re
 from typing import Dict, List, Optional
+from urllib.parse import quote
 
 import openpyxl
+
+logger = logging.getLogger("marketplace-agent.tilda_feed")
 
 
 def _stable_uid(offer_id: str) -> str:
@@ -39,7 +54,28 @@ def _stable_uid(offer_id: str) -> str:
     num = int(digest, 16) % (10**12)
     return f"{num:012d}"
 
-logger = logging.getLogger("marketplace-agent.tilda_feed")
+
+def _cover_photo_raw_url(photos_dir: str, offer_id: str, raw_base_url: str) -> str:
+    """
+    Прямая ссылка raw.githubusercontent.com на файл обложки товара из
+    photos_dir — см. docstring модуля, почему не берём готовую ссылку из
+    ozon_catalog.xlsx.
+    """
+    import catalog_editor
+
+    files = catalog_editor.own_media_files(photos_dir, offer_id, catalog_editor.IMAGE_EXTS)
+    if not files:
+        return ""
+    fname = files[0]  # own_media_files уже сортирует по номеру, первый = обложка
+    full_path = catalog_editor.media_path(photos_dir, offer_id, fname)
+    # media_path сама разбирается, лежит ли файл в своей подпапке
+    # photos/<offer_id>/ (новый способ) или плоско в photos/ (старый) —
+    # определяем, какой из двух вариантов, чтобы собрать правильный URL.
+    if os.path.isfile(os.path.join(photos_dir, offer_id, fname)) and full_path == os.path.join(
+        photos_dir, offer_id, fname
+    ):
+        return f"{raw_base_url}/{quote(offer_id)}/{quote(fname)}"
+    return f"{raw_base_url}/{quote(fname)}"
 
 CSV_HEADER = [
     "Tilda UID",
@@ -77,12 +113,13 @@ def _clean_description(html_desc: str) -> str:
     return text.strip()
 
 
-def build_tilda_catalog(catalog_path: str, output_path: str) -> Dict[str, object]:
+def build_tilda_catalog(catalog_path: str, output_path: str, photos_dir: str, raw_base_url: str) -> Dict[str, object]:
     """
-    Читает data/ozon_catalog.xlsx (название/описание/цена/фото — те же, что
-    уже используются для Ozon и Avito) и строит CSV в формате, который
+    Читает data/ozon_catalog.xlsx (название/описание/цена — те же, что уже
+    используются для Ozon и Avito) и строит CSV в формате, который
     принимает импорт Тильды (см. CSV_HEADER — совпадает со структурой
     реального экспорта из личного кабинета пользователя от 2026-09-15).
+    Фото — см. _cover_photo_raw_url и docstring модуля.
 
     Возвращает {"written": N, "skipped_no_price": [...], "skipped_no_photo": [...]}.
     """
@@ -102,17 +139,15 @@ def build_tilda_catalog(catalog_path: str, output_path: str) -> Dict[str, object
         description_raw = row[2].value or ""
         price = row[3].value
         old_price = row[4].value
-        images_raw = row[5].value or ""
 
         if not price:
             skipped_no_price.append(offer_id)
             continue
 
-        images = [u.strip() for u in str(images_raw).split("|") if u.strip()]
-        if not images:
+        cover_photo = _cover_photo_raw_url(photos_dir, offer_id, raw_base_url)
+        if not cover_photo:
             skipped_no_photo.append(offer_id)
 
-        cover_photo = images[0] if images else ""
         description = _clean_description(description_raw)
         price_old_val = ""
         try:
