@@ -470,6 +470,85 @@ def cmd_push_wb_cards() -> int:
     return 0 if total_err == 0 else 1
 
 
+def cmd_attach_photos_all() -> int:
+    """
+    Composite: после того как поменяли файлы в общей папке photos/ (она одна
+    и для Ozon, и для WB), одной командой подставить новые ссылки на фото
+    сразу в ozon_catalog.xlsx И wb_catalog.xlsx, и пересобрать
+    master_control.xlsx, чтобы он тоже стал актуальным — вместо трёх
+    отдельных запусков (attach-ozon-photos, attach-wb-photos,
+    build-master-control).
+    Если фото совпало только для одной площадки (например, разное написание
+    артикула/vendorCode) — это не останавливает вторую; ошибкой считается
+    только случай, когда фото не подставилось НИ ДЛЯ ОДНОЙ площадки.
+    """
+    print("=== Шаг 1/3: attach-ozon-photos ===")
+    rc_ozon = cmd_attach_ozon_photos()
+
+    print("\n=== Шаг 2/3: attach-wb-photos ===")
+    rc_wb = cmd_attach_wb_photos()
+
+    if rc_ozon != 0 and rc_wb != 0:
+        print("\nattach-photos-all остановлен: фото не подставились ни для Ozon, ни для WB — см. ошибки выше.")
+        return 1
+
+    print("\n=== Шаг 3/3: build-master-control ===")
+    rc_master = cmd_build_master_control()
+    if rc_master != 0:
+        print(
+            "build-master-control завершился с ошибкой — не критично, ozon_catalog.xlsx/wb_catalog.xlsx уже "
+            "обновлены, это главное; пульт master_control.xlsx придётся пересобрать отдельно."
+        )
+
+    print("\nГотово: attach-photos-all завершён. Дальше — push-photos-dryrun, чтобы проверить, что уйдёт на Ozon и WB.")
+    return 0
+
+
+def cmd_push_photos_dryrun() -> int:
+    """
+    Composite: пробный прогон push-ozon-cards-dryrun + push-wb-cards-dryrun
+    одной командой — ничего никуда не отправляется, только показывает, что
+    уйдёт на каждую площадку.
+    """
+    print("=== Ozon: пробный прогон ===")
+    rc_ozon = cmd_push_ozon_cards_dryrun()
+
+    print("\n=== WB: пробный прогон ===")
+    rc_wb = cmd_push_wb_cards_dryrun()
+
+    if rc_ozon != 0 and rc_wb != 0:
+        print("\npush-photos-dryrun: не удалось подготовить прогон ни для Ozon, ни для WB — см. ошибки выше.")
+        return 1
+    return 0
+
+
+def cmd_push_photos() -> int:
+    """
+    Composite: реально отправить правки карточек (включая фото) сразу в
+    Ozon И WB одной командой — вместо push-ozon-cards + push-wb-cards по
+    отдельности. Сначала ВСЕГДА делайте push-photos-dryrun!
+    Ошибка на одной площадке не останавливает вторую — в конце выводится
+    итог по каждой отдельно.
+    """
+    print("=== Ozon: реальная отправка ===")
+    rc_ozon = cmd_push_ozon_cards()
+
+    print("\n=== WB: реальная отправка ===")
+    rc_wb = cmd_push_wb_cards()
+
+    print()
+    if rc_ozon != 0 and rc_wb != 0:
+        print("push-photos: ошибка на ОБЕИХ площадках — см. вывод выше.")
+        return 1
+    if rc_ozon != 0:
+        print("push-photos: WB отправлен успешно, но Ozon завершился с ошибкой — проверьте вывод выше.")
+    elif rc_wb != 0:
+        print("push-photos: Ozon отправлен успешно, но WB завершился с ошибкой — проверьте вывод выше.")
+    else:
+        print("push-photos: готово, обе площадки отправлены успешно.")
+    return 0
+
+
 def cmd_push_wb_price_dryrun() -> int:
     import wb_catalog_editor
 
@@ -1714,6 +1793,9 @@ def main() -> int:
     parser.add_argument("--full-sync-wb", action="store_true", help="Composite: fetch-wb + build-wb-catalog + attach-wb-photos + build-master-control одной командой")
     parser.add_argument("--push-wb-cards-dryrun", action="store_true", help="Показать, что будет отправлено в WB, БЕЗ реальной отправки")
     parser.add_argument("--push-wb-cards", action="store_true", help="Реально отправить правки карточек WB (сначала всегда делайте dryrun!)")
+    parser.add_argument("--attach-photos-all", action="store_true", help="Composite: attach-ozon-photos + attach-wb-photos + build-master-control одной командой (после правки общей папки photos/)")
+    parser.add_argument("--push-photos-dryrun", action="store_true", help="Composite: push-ozon-cards-dryrun + push-wb-cards-dryrun одной командой, ничего не отправляется")
+    parser.add_argument("--push-photos", action="store_true", help="Composite: реально отправить карточки (в т.ч. фото) сразу в Ozon и WB (сначала всегда делайте push-photos-dryrun!)")
     parser.add_argument("--push-wb-price-dryrun", action="store_true", help="Показать, у каких товаров изменится цена на WB (колонка 'Цена WB' в wb_catalog.xlsx), БЕЗ реальной отправки")
     parser.add_argument("--push-wb-price", action="store_true", help="Реально отправить новую цену на WB для существующих товаров (сначала всегда делайте dryrun!)")
     parser.add_argument("--sync-orders", action="store_true", help="Общий учёт остатков: списать заказы Ozon+WB за 30 дней из 'Кол-во к продаже' в data/ozon_catalog.xlsx")
@@ -1804,6 +1886,12 @@ def main() -> int:
         return cmd_push_wb_cards_dryrun()
     if args.push_wb_cards:
         return cmd_push_wb_cards()
+    if args.attach_photos_all:
+        return cmd_attach_photos_all()
+    if args.push_photos_dryrun:
+        return cmd_push_photos_dryrun()
+    if args.push_photos:
+        return cmd_push_photos()
     if args.push_wb_price_dryrun:
         return cmd_push_wb_price_dryrun()
     if args.push_wb_price:
