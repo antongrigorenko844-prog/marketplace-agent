@@ -68,14 +68,15 @@ def _cover_photo_raw_url(photos_dir: str, offer_id: str, raw_base_url: str) -> s
         return ""
     fname = files[0]  # own_media_files уже сортирует по номеру, первый = обложка
     full_path = catalog_editor.media_path(photos_dir, offer_id, fname)
-    # media_path сама разбирается, лежит ли файл в своей подпапке
-    # photos/<offer_id>/ (новый способ) или плоско в photos/ (старый) —
-    # определяем, какой из двух вариантов, чтобы собрать правильный URL.
-    if os.path.isfile(os.path.join(photos_dir, offer_id, fname)) and full_path == os.path.join(
-        photos_dir, offer_id, fname
-    ):
-        return f"{raw_base_url}/{quote(offer_id)}/{quote(fname)}"
-    return f"{raw_base_url}/{quote(fname)}"
+    # ВАЖНО (найдено 2026-09-15): папка на диске НЕ всегда называется как
+    # сам offer_id — есть FOLDER_ALIASES в catalog_editor.py (например
+    # "Dq500" -> "Dq500-sep", из-за регистронезависимой файловой системы на
+    # Mac). Поэтому НЕЛЬЗЯ собирать путь из offer_id самим — берём реальный
+    # относительный путь от full_path, который media_path уже правильно
+    # определила (с учётом алиасов).
+    rel_path = os.path.relpath(full_path, photos_dir)
+    parts = rel_path.split(os.sep)
+    return raw_base_url + "/" + "/".join(quote(p) for p in parts)
 
 CSV_HEADER = [
     "Tilda UID",
