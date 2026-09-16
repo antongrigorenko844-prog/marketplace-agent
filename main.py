@@ -1229,6 +1229,12 @@ def cmd_sync_orders() -> int:
         print(f"\nВНИМАНИЕ: {len(unmatched)} артикул(ов) из заказов НЕ найдены в каталоге "
               f"(остаток не изменён, проверьте вручную): {', '.join(unmatched)}")
 
+    kit_updates = summary.get("kit_updates") or {}
+    if kit_updates:
+        print(f"\nОстаток комплектов пересчитан ({len(kit_updates)} шт.):")
+        for kit_id, new_qty in sorted(kit_updates.items()):
+            print(f"  {kit_id}: можно собрать {new_qty} шт.")
+
 
 def cmd_sync_tilda_order() -> int:
     """
@@ -1297,6 +1303,67 @@ def cmd_sync_tilda_order() -> int:
     unmatched = summary.get("unmatched") or []
     if unmatched:
         print(f"ВНИМАНИЕ: артикул(ы) из заказа не найдены в каталоге: {', '.join(unmatched)}")
+
+    kit_updates = summary.get("kit_updates") or {}
+    if kit_updates:
+        print(f"Остаток комплектов пересчитан ({len(kit_updates)} шт.):")
+        for kit_id, new_qty in sorted(kit_updates.items()):
+            print(f"  {kit_id}: можно собрать {new_qty} шт.")
+    return 0
+
+
+def cmd_build_kits_template() -> int:
+    """Создаёт пустой data/kits.xlsx для описания состава комплектов (см. kits.py)."""
+    import kits
+
+    path = _data_path("kits.xlsx")
+    created = kits.build_kits_template(path)
+    if created:
+        print(
+            f"Создан {path}. Заполните по одной строке на каждую деталь комплекта:\n"
+            "  Артикул комплекта | Название (для справки) | Артикул детали | Кол-во детали в комплекте\n"
+            "Например для 'ремкомплект штоков' = 2 пыльника + 2 сальника + 2 крышки штока — три строки "
+            "с одним и тем же 'Артикул комплекта', но разными деталями и количеством 2 в каждой.\n"
+            "После заполнения запустите --recompute-kit-stock, чтобы посчитать, сколько комплектов "
+            "можно собрать из текущего остатка деталей."
+        )
+    else:
+        print(f"{path} уже существует — не трогаю, чтобы не затереть уже заполненное.")
+    return 0
+
+
+def cmd_recompute_kit_stock() -> int:
+    """
+    Пересчитывает 'Кол-во к продаже' для строк-комплектов из data/kits.xlsx
+    по текущему остатку деталей в ozon_catalog.xlsx. Запускайте вручную
+    после того, как поменяли остаток деталей руками (например, только что
+    заполнили склад) — дальше это делает сама каждая синхронизация заказов
+    (sync-orders/sync-tilda-order).
+    """
+    import kits
+
+    kits_path = _data_path("kits.xlsx")
+    catalog_path = _data_path("ozon_catalog.xlsx")
+    if not os.path.exists(kits_path):
+        print(f"Нет файла {kits_path} — сначала выполните --build-kits-template и заполните состав комплектов.")
+        return 1
+    if not os.path.exists(catalog_path):
+        print(f"Нет файла {catalog_path} — сначала выполните build-ozon-catalog.")
+        return 1
+
+    bom = kits.load_bom(kits_path)
+    if not bom:
+        print(f"{kits_path} пуст — заполните состав хотя бы одного комплекта и запустите снова.")
+        return 1
+
+    updates = kits.recompute_kit_stock(catalog_path, bom)
+    if not updates:
+        print("Изменений нет — остаток комплектов уже соответствует остатку деталей.")
+        return 0
+
+    print(f"Обновлено комплектов: {len(updates)}")
+    for kit_id, new_qty in sorted(updates.items()):
+        print(f"  {kit_id}: можно собрать {new_qty} шт.")
     return 0
 
 
@@ -1938,6 +2005,8 @@ def main() -> int:
     parser.add_argument("--push-wb-price", action="store_true", help="Реально отправить новую цену на WB для существующих товаров (сначала всегда делайте dryrun!)")
     parser.add_argument("--sync-orders", action="store_true", help="Общий учёт остатков: списать заказы Ozon+WB за 30 дней из 'Кол-во к продаже' в data/ozon_catalog.xlsx")
     parser.add_argument("--sync-tilda-order", action="store_true", help="Списать остаток по заказу с сайта (Тильда) — вызывается автоматически по вебхуку через repository_dispatch, вручную не запускать")
+    parser.add_argument("--build-kits-template", action="store_true", help="Создать пустой data/kits.xlsx для описания состава комплектов (наборов из тех же деталей, что продаются отдельно)")
+    parser.add_argument("--recompute-kit-stock", action="store_true", help="Пересчитать 'Кол-во к продаже' у комплектов по текущему остатку деталей (data/kits.xlsx)")
     parser.add_argument("--push-stock-dryrun", action="store_true", help="Показать остатки ('Кол-во к продаже'/'Остаток, шт.'), которые будут отправлены в Ozon, БЕЗ реальной отправки")
     parser.add_argument("--push-stock", action="store_true", help="Реально отправить остатки в Ozon (сначала всегда делайте dryrun!)")
     parser.add_argument("--push-wb-stock-dryrun", action="store_true", help="Показать остатки ('Кол-во к продаже'/'Остаток, шт.'), которые будут отправлены в WB, БЕЗ реальной отправки")
@@ -2041,6 +2110,10 @@ def main() -> int:
         return cmd_sync_orders()
     if args.sync_tilda_order:
         return cmd_sync_tilda_order()
+    if args.build_kits_template:
+        return cmd_build_kits_template()
+    if args.recompute_kit_stock:
+        return cmd_recompute_kit_stock()
     if args.push_stock_dryrun:
         return cmd_push_stock_dryrun()
     if args.push_stock:

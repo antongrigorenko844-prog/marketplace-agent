@@ -238,9 +238,16 @@ def sync_all_orders(
 
     summary["deltas"] = dict(deltas)
     if deltas:
-        applied, unmatched = catalog_editor.apply_stock_deltas(catalog_path, deltas)
+        import kits
+
+        bom = kits.load_bom()
+        expanded_deltas = kits.expand_deltas(deltas, bom)
+        applied, unmatched = catalog_editor.apply_stock_deltas(catalog_path, expanded_deltas)
         summary["applied"] = applied
         summary["unmatched"] = unmatched
+        kit_updates = kits.recompute_kit_stock(catalog_path, bom)
+        if kit_updates:
+            summary["kit_updates"] = kit_updates
     else:
         summary["applied"] = {}
         summary["unmatched"] = []
@@ -304,9 +311,16 @@ def sync_tilda_order(
 
     summary: Dict[str, object] = {"items": count, "skipped": skipped, "deltas": dict(deltas)}
     if deltas:
-        applied, unmatched = catalog_editor.apply_stock_deltas(catalog_path, deltas)
+        import kits
+
+        bom = kits.load_bom()
+        expanded_deltas = kits.expand_deltas(deltas, bom)
+        applied, unmatched = catalog_editor.apply_stock_deltas(catalog_path, expanded_deltas)
         summary["applied"] = applied
         summary["unmatched"] = unmatched
+        kit_updates = kits.recompute_kit_stock(catalog_path, bom)
+        if kit_updates:
+            summary["kit_updates"] = kit_updates
     else:
         summary["applied"] = {}
         summary["unmatched"] = []
