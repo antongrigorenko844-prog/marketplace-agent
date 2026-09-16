@@ -21,6 +21,11 @@ Avito ПОКА НЕ включён сюда — сопоставление об�
 появится подтверждённая карта, это будет отдельным шагом — структура here
 уже это учитывает (_reconcile — источник-агностичный).
 
+Тильда (сайт) включена отдельной функцией sync_tilda_order() — она НЕ
+опрашивает Тильду сама (открытого API заказов у неё нет), а принимает уже
+готовый список позиций заказа, присланный через Формы-вебхук -> Google Apps
+Script -> GitHub repository_dispatch (см. main.py --sync-tilda-order).
+
 ВАЖНО: этот модуль только СЧИТАЕТ и правит data/ozon_catalog.xlsx локально.
 Рассылку обновлённого остатка обратно в Ozon/WB (update_stocks) он пока НЕ
 делает — это следующий отдельный шаг (--push-stock), чтобы сначала
@@ -240,4 +245,69 @@ def sync_all_orders(
         summary["applied"] = {}
         summary["unmatched"] = []
 
+    return summary
+
+
+def sync_tilda_order(
+    order_key: str,
+    items: List[Dict[str, object]],
+    catalog_path: str = DEFAULT_CATALOG_PATH,
+    db_path: Optional[str] = None,
+) -> dict:
+    """
+    Один заказ с сайта (Тильда), пришедший через Формы-вебхук -> Google Apps
+    Script -> repository_dispatch (см. main.py --sync-tilda-order). Тот же
+    источник-агностичный _reconcile_line, что и для Ozon/WB — если Тильда
+    повторно пришлёт тот же заказ с тем же order_key, повторного списания
+    не будет.
+
+    order_key должен быть стабильным для одного и того же заказа между
+    повторными доставками вебхука (Тильда повторяет доставку до 2 раз, если
+    получатель не ответил 200 за 5 секунд) — формируется на стороне
+    Apps Script, см. его docstring/код.
+
+    items — список {"offer_id": str, "qty": int}.
+    """
+    import catalog_editor
+
+    if not os.path.exists(catalog_path):
+        raise FileNotFoundError(
+            f"Нет файла {catalog_path} — сначала выполните fetch-ozon и build-ozon-catalog."
+        )
+
+    db_path = db_path or config.db_path
+    os.makedirs(os.path.dirname(db_path), exist_ok=True)
+    conn = sqlite3.connect(db_path)
+    _ensure_db(conn)
+
+    deltas: Dict[str, int] = {}
+    count = 0
+    skipped: List[str] = []
+    for item in items:
+        offer_id = str(item.get("offer_id") or "").strip()
+        try:
+            quantity = int(item.get("qty") or item.get("quantity") or 1)
+        except (TypeError, ValueError):
+            quantity = 1
+        if not offer_id or quantity <= 0:
+            skipped.append(str(item))
+            continue
+        line_key = f"{order_key}:{offer_id}"
+        # Заказ с сайта — отмены через вебхук Тильда не присылает (это не
+        # Ozon/WB со статусами), поэтому is_cancelled всегда False; повторная
+        # доставка того же order_key просто ничего не изменит (см. _reconcile_line).
+        _reconcile_line(conn, "tilda", line_key, offer_id, quantity, False, deltas)
+        count += 1
+
+    conn.commit()
+    conn.close()
+
+    summary: Dict[str, object] = {"items": count, "skipped": skipped, "deltas": dict(deltas)}
+    if deltas:
+        applied, unmatched = catalog_editor.apply_stock_deltas(catalog_path, deltas)
+        summary["applied"] = applied
+        summary["unmatched"] = unmatched
+    else:
+        summary["applied"] = {}
+        summary["unmatched"] = []
     return summary

@@ -32,6 +32,8 @@ name: marketplace-agent
 on:
   schedule:
     - cron: "0 */3 * * *"  # каждые 3 часа (UTC) — общий учёт остатков, см. пояснение выше
+  repository_dispatch:
+    types: [tilda-order]  # заказ с сайта (Тильда) -> Google Apps Script -> сюда, см. stock_sync.sync_tilda_order
   workflow_dispatch:
     inputs:
       command:
@@ -144,6 +146,7 @@ jobs:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
           WORDSTAT_FOLDER_ID: ${{ secrets.WORDSTAT_FOLDER_ID }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TILDA_ORDER_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
         run: |
           if [ "${{ github.event_name }}" = "schedule" ]; then
             echo "Автозапуск по расписанию: общий учёт остатков (Ozon+WB)"
@@ -151,6 +154,9 @@ jobs:
             python main.py --push-stock || true
             python main.py --push-wb-stock || true
             python main.py --build-avito-catalog || true
+          elif [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            echo "Заказ с сайта (Тильда) через вебхук"
+            python main.py --sync-tilda-order
           else
             python main.py --${{ github.event.inputs.command }} \
               --article "${{ github.event.inputs.article }}" \

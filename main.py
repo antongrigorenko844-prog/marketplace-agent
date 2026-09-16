@@ -1230,6 +1230,76 @@ def cmd_sync_orders() -> int:
               f"(остаток не изменён, проверьте вручную): {', '.join(unmatched)}")
 
 
+def cmd_sync_tilda_order() -> int:
+    """
+    Списывает остаток по одному заказу с сайта (Тильда). Не предназначена
+    для ручного запуска — вызывается автоматически из GitHub Actions по
+    событию repository_dispatch (тип 'tilda-order'), которое присылает
+    Google Apps Script при срабатывании вебхука Тильды. Данные заказа
+    приходят в переменной окружения TILDA_ORDER_PAYLOAD (JSON), которую
+    workflow заполняет из github.event.client_payload — см.
+    .github/workflows/main.yml.
+    """
+    import stock_sync
+
+    raw = os.environ.get("TILDA_ORDER_PAYLOAD", "")
+    if not raw or raw.strip() in ("", "null", "{}"):
+        print(
+            "Нет данных заказа (TILDA_ORDER_PAYLOAD пуст) — эта команда "
+            "предназначена для автозапуска по вебхуку с сайта, вручную её "
+            "запускать не нужно."
+        )
+        return 1
+
+    try:
+        payload = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        print(f"Не удалось разобрать TILDA_ORDER_PAYLOAD как JSON: {exc}")
+        return 1
+
+    items = payload.get("items") or []
+    order_key = str(payload.get("order_key") or "").strip()
+    if not order_key:
+        import hashlib
+
+        order_key = "tilda-" + hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
+        print(
+            f"ВНИМАНИЕ: в заказе нет order_key от Apps Script, использую "
+            f"хэш всего payload как ключ ({order_key})."
+        )
+
+    if not items:
+        print(
+            "В заказе нет товарных позиций (items пуст) — проверьте лог "
+            "выполнения Apps Script (Просмотр выполнения/Executions), там "
+            "залогирован сырой payload вебхука, возможно формат отличается "
+            "от ожидаемого и extractOrderItems нужно поправить."
+        )
+        return 1
+
+    xlsx_path = _data_path("ozon_catalog.xlsx")
+    try:
+        summary = stock_sync.sync_tilda_order(order_key, items, catalog_path=xlsx_path)
+    except FileNotFoundError as exc:
+        print(str(exc))
+        return 1
+
+    print(f"Заказ с сайта [{order_key}]: обработано позиций {summary['items']}")
+    if summary.get("skipped"):
+        print(f"  Пропущено (нет артикула/количества): {summary['skipped']}")
+
+    deltas = summary.get("deltas") or {}
+    applied = summary.get("applied") or {}
+    for offer_id, delta in sorted(deltas.items()):
+        new_qty = applied.get(offer_id, "?")
+        print(f"  {offer_id}: {delta} -> новый остаток: {new_qty}")
+
+    unmatched = summary.get("unmatched") or []
+    if unmatched:
+        print(f"ВНИМАНИЕ: артикул(ы) из заказа не найдены в каталоге: {', '.join(unmatched)}")
+    return 0
+
+
 def _load_stock_items(warehouse_id=None):
     """
     Собирает offer_id -> остаток из ЕДИНОГО столбца "Кол-во к продаже" —
@@ -1867,6 +1937,7 @@ def main() -> int:
     parser.add_argument("--push-wb-price-dryrun", action="store_true", help="Показать, у каких товаров изменится цена на WB (колонка 'Цена WB' в wb_catalog.xlsx), БЕЗ реальной отправки")
     parser.add_argument("--push-wb-price", action="store_true", help="Реально отправить новую цену на WB для существующих товаров (сначала всегда делайте dryrun!)")
     parser.add_argument("--sync-orders", action="store_true", help="Общий учёт остатков: списать заказы Ozon+WB за 30 дней из 'Кол-во к продаже' в data/ozon_catalog.xlsx")
+    parser.add_argument("--sync-tilda-order", action="store_true", help="Списать остаток по заказу с сайта (Тильда) — вызывается автоматически по вебхуку через repository_dispatch, вручную не запускать")
     parser.add_argument("--push-stock-dryrun", action="store_true", help="Показать остатки ('Кол-во к продаже'/'Остаток, шт.'), которые будут отправлены в Ozon, БЕЗ реальной отправки")
     parser.add_argument("--push-stock", action="store_true", help="Реально отправить остатки в Ozon (сначала всегда делайте dryrun!)")
     parser.add_argument("--push-wb-stock-dryrun", action="store_true", help="Показать остатки ('Кол-во к продаже'/'Остаток, шт.'), которые будут отправлены в WB, БЕЗ реальной отправки")
@@ -1968,6 +2039,8 @@ def main() -> int:
         return cmd_push_wb_price()
     if args.sync_orders:
         return cmd_sync_orders()
+    if args.sync_tilda_order:
+        return cmd_sync_tilda_order()
     if args.push_stock_dryrun:
         return cmd_push_stock_dryrun()
     if args.push_stock:
