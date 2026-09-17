@@ -40,6 +40,7 @@ data/wb_new_products.xlsx — почти теми же данными дважд
 """
 import logging
 import os
+import re
 from typing import Dict, List
 
 from openpyxl import Workbook, load_workbook
@@ -47,6 +48,33 @@ from openpyxl.styles import Font, PatternFill
 from openpyxl.utils import get_column_letter
 
 logger = logging.getLogger("marketplace-agent.new_product")
+
+_EMOJI_RE = re.compile(
+    "["
+    "\U0001F300-\U0001FAFF"  # пиктограммы (🔧📦🔩 и т.п.)
+    "\U00002600-\U000027BF"  # значки/дингбаты (✅ и т.п.)
+    "\U00002B00-\U00002BFF"  # доп. символы/стрелки (⭐ и т.п.)
+    "\U0000FE0F"              # variation selector, часто идёт следом за эмодзи
+    "]+"
+)
+
+
+def _strip_emoji_for_wb(text):
+    """
+    WB (в отличие от Ozon) реально отклоняет создание карточки, если в
+    описании есть эмодзи — ошибка "Поле Описание не должно содержать
+    запрещенные символы: ...". Мы используем эмодзи в описаниях для Ozon
+    осознанно (разбивка на смысловые блоки для SEO), поэтому не убираем
+    их из общего edits[...]['description'] — а только из WB-версии здесь,
+    прямо перед отправкой на WB.
+    """
+    if not text:
+        return text
+    cleaned = _EMOJI_RE.sub("", text)
+    cleaned = re.sub(r" {2,}", " ", cleaned)
+    cleaned = re.sub(r"\n[ \t]+", "\n", cleaned)
+    return cleaned.strip()
+
 
 FONT_NAME = "Arial"
 HEADER_FILL = PatternFill(start_color="C00000", end_color="C00000", fill_type="solid")
@@ -202,8 +230,8 @@ def to_wb_edits(edits: Dict[str, dict]) -> Dict[str, dict]:
         name = e.get("name") or ""
         out[offer_id] = {
             "sample_vendor_code": e.get("sample_offer_id_wb") or e.get("sample_offer_id"),
-            "title": name[:60],
-            "description": e.get("description"),
+            "title": _strip_emoji_for_wb(name)[:60],
+            "description": _strip_emoji_for_wb(e.get("description")),
             "price": e.get("price"),
             "weight_kg": _g_to_kg(e.get("weight_g")),
             "length_cm": _mm_to_cm(e.get("length_mm")),
