@@ -130,7 +130,7 @@ def create_cards(subject_id: int, cards: List[dict]) -> dict:
     )
 
 
-def get_upload_errors() -> List[dict]:
+def get_upload_errors(limit: int = 100) -> List[dict]:
     """
     Причины, по которым недавние попытки создать карточку (cards/upload)
     не прошли валидацию на стороне WB — сам /cards/upload это не сообщает
@@ -139,12 +139,22 @@ def get_upload_errors() -> List[dict]:
     не появятся. Используется для диагностики: если после push-new-product-all
     товар не появился в data/wb_cards.json спустя разумное время, смотрим
     сюда, что WB ответил на самом деле.
+
+    ВАЖНО: несмотря на название (и на путь, похожий на "чтение списка"),
+    метод — POST с телом (курсор пагинации), а не GET (проверено на живом
+    аккаунте: голый GET отдаёт 405). Возвращает каждую "пачку" (batch)
+    последней попытки создания/редактирования карточек с её ошибками —
+    берём только те, у кого errors непустой.
     """
-    # ENDPOINT: GET /content/v2/cards/error/list
-    data = _request("GET", config.wb_content_base, "/content/v2/cards/error/list")
-    if isinstance(data, list):
-        return data
-    return data.get("data", []) if isinstance(data, dict) else []
+    # ENDPOINT: POST /content/v2/cards/error/list
+    data = _request(
+        "POST",
+        config.wb_content_base,
+        "/content/v2/cards/error/list",
+        {"cursor": {"limit": limit}, "order": {"ascending": False}},
+    )
+    items = (data.get("data") or {}).get("items", []) if isinstance(data, dict) else []
+    return [item for item in items if item.get("errors")]
 
 
 def update_cards(cards: List[dict]) -> dict:
