@@ -820,6 +820,170 @@ def cmd_push_wb_new_cards() -> int:
     return 0 if total_err == 0 else 1
 
 
+def cmd_build_new_product_template() -> int:
+    import new_product
+
+    path = _data_path("new_products.xlsx")
+    if os.path.exists(path):
+        print(f"{path} уже существует — не трогаю, чтобы не затереть уже заполненное.")
+        return 0
+    new_product.build_template(path)
+    print(
+        f"Готово: {path}. Заполните строку (артикул, образец, название, описание, цена...) — "
+        "один и тот же артикул и образец используются сразу для Ozon и WB. "
+        "Фото просто положите в photos/<артикул>/ — подхватятся сами, отдельно вписывать не нужно."
+    )
+    return 0
+
+
+def _load_new_product_edits():
+    import new_product
+
+    path = _data_path("new_products.xlsx")
+    if not os.path.exists(path):
+        print(f"Нет файла {path} — сначала выполните build-new-product-template.")
+        return None
+    edits = new_product.load_edits(path)
+    if not edits:
+        print(f"{path} пуст — заполните хотя бы одну строку.")
+        return None
+    photos_dir = os.path.join(os.path.dirname(__file__), "photos")
+    matched = new_product.attach_photos(edits, photos_dir)
+    for offer_id in edits:
+        if offer_id in matched:
+            print(f"  {offer_id}: найдено {len(matched[offer_id])} фото в photos/{offer_id}/")
+        else:
+            print(f"  ВНИМАНИЕ {offer_id}: нет фото в photos/{offer_id}/ — карточка Ozon создастся без фото.")
+    return edits
+
+
+def cmd_push_new_product_all_dryrun() -> int:
+    import new_product
+
+    edits = _load_new_product_edits()
+    if edits is None:
+        return 1
+    ozon_edits = new_product.to_ozon_edits(edits)
+    wb_edits = new_product.to_wb_edits(edits)
+    print(f"\nПРОБНЫЙ ПРОГОН — никуда ничего не отправляется. Товаров к созданию: {len(edits)}")
+    print("\n--- Ozon (создастся сразу с фото) ---")
+    print(json.dumps(ozon_edits, ensure_ascii=False, indent=2))
+    print("\n--- WB (создастся БЕЗ фото — так работает API WB, фото доедут через finish-new-product) ---")
+    print(json.dumps(wb_edits, ensure_ascii=False, indent=2))
+    return 0
+
+
+def cmd_push_new_product_all() -> int:
+    import new_product
+    import ozon_client
+    import ozon_new_products
+    import wb_client
+    import wb_new_products
+
+    edits = _load_new_product_edits()
+    if edits is None:
+        return 1
+
+    # --- Ozon ---
+    ozon_src_path = _data_path("ozon_products.json")
+    ozon_ok = 0
+    if not os.path.exists(ozon_src_path):
+        print(f"\nOzon: нет файла {ozon_src_path} — сначала выполните fetch-ozon (нужны данные образцов). Ozon-часть пропущена.")
+    else:
+        with open(ozon_src_path, "r", encoding="utf-8") as f:
+            ozon_data = json.load(f)
+        ozon_items = ozon_new_products.build_new_import_items(ozon_data, new_product.to_ozon_edits(edits))
+        if not ozon_items:
+            print("\nOzon: нечего отправлять (образец не найден в ozon_products.json).")
+        else:
+            result = ozon_client.import_products(ozon_items)
+            task_id = result.get("result", {}).get("task_id")
+            print(f"\nOzon: task_id={task_id}, жду обработку...")
+            status = {}
+            if task_id:
+                for _ in range(30):
+                    time.sleep(2)
+                    status = ozon_client.get_import_status(task_id)
+                    if status.get("result", {}).get("items"):
+                        break
+            for it in status.get("result", {}).get("items", []):
+                blocking, warnings = _split_errors_by_level(it.get("errors") or [])
+                if blocking:
+                    print(f"  Ozon ОШИБКА {it.get('offer_id')}: {blocking}")
+                else:
+                    ozon_ok += 1
+                    note = f" (предупреждение: {warnings})" if warnings else ""
+                    print(f"  Ozon ОК {it.get('offer_id')}: статус {it.get('status')}{note}")
+
+    # --- WB ---
+    wb_src_path = _data_path("wb_cards.json")
+    wb_ok = 0
+    if not os.path.exists(wb_src_path):
+        print(f"\nWB: нет файла {wb_src_path} — сначала выполните fetch-wb (нужны данные образцов). WB-часть пропущена.")
+    else:
+        with open(wb_src_path, "r", encoding="utf-8") as f:
+            wb_data = json.load(f)
+        wb_edits = new_product.to_wb_edits(edits)
+        barcodes = wb_client.generate_barcodes(max(len(wb_edits), 1))
+        groups = wb_new_products.build_new_card_groups(wb_data, wb_edits, barcodes)
+        if not groups:
+            print("\nWB: нечего отправлять (образец не найден в wb_cards.json).")
+        else:
+            for group in groups:
+                try:
+                    wb_client.create_cards(group["subject_id"], [group["variant"]])
+                    print(f"  WB ОК: {group['vendor_code']} отправлен на создание (раздел {group['subject_id']}).")
+                    wb_ok += 1
+                except wb_client.WbApiError as exc:
+                    print(f"  WB ОШИБКА при создании {group['vendor_code']}: {exc}")
+
+    print(f"\nИтого: Ozon создано {ozon_ok}, WB отправлено на создание {wb_ok} (из {len(edits)} строк(и)).")
+    if ozon_ok or wb_ok:
+        print(
+            "\nДальше:\n"
+            "  1. Подождите 2-5 минут (WB обрабатывает создание асинхронно).\n"
+            "  2. Запустите finish-new-product — подтянет товар в общий каталог, доливает фото на WB "
+            "и обновит фиды Avito и сайта."
+        )
+    return 0 if (ozon_ok or wb_ok) else 1
+
+
+def cmd_finish_new_product() -> int:
+    """
+    Второй (и последний) шаг после push-new-product-all: подтягивает уже
+    реально созданные товары с Ozon/WB в общий каталог (data/ozon_catalog.xlsx),
+    доливает фото на новые карточки WB (на Ozon они уже были при создании) и
+    обновляет фиды Avito и сайта — после этого новый товар виден везде.
+    Безопасно запускать даже если что-то из шагов ещё не готово — каждый шаг
+    просто ничего не найдёт и пропустится, ошибка не прерывает остальное.
+    """
+    print("=== Ozon: fetch-ozon + build-ozon-catalog + фото + master-control ===")
+    rc = cmd_full_sync_ozon()
+    if rc != 0:
+        print("Ozon-часть завершилась с ошибкой — проверьте вывод выше, продолжаю с WB.")
+
+    print("\n=== WB: fetch-wb + build-wb-catalog + attach-wb-photos ===")
+    rc_wb = cmd_full_sync_wb()
+    if rc_wb != 0:
+        print("WB-часть завершилась с ошибкой — проверьте вывод выше, фото на WB не доливаю.")
+    else:
+        print("\n=== push-wb-cards (доливаем фото на новые карточки WB) ===")
+        cmd_push_wb_cards()
+
+    print("\n=== build-avito-catalog ===")
+    cmd_build_avito_catalog()
+
+    print("\n=== build-tilda-catalog ===")
+    cmd_build_tilda_catalog()
+
+    print(
+        "\nГотово. Проверьте: новый товар должен появиться в data/master_control.xlsx, "
+        "в фиде Avito (подхватится автозагрузкой) и в свежем data/tilda_feed.csv "
+        "(его ещё нужно вручную импортировать в личном кабинете Тильды, см. build-tilda-catalog)."
+    )
+    return 0
+
+
 def cmd_compare_ozon_wb() -> int:
     import catalog_compare
 
@@ -1992,6 +2156,10 @@ def main() -> int:
     parser.add_argument("--build-wb-new-template", action="store_true", help="Создать пустую таблицу для СОВСЕМ НОВЫХ товаров WB (по образцу существующего)")
     parser.add_argument("--push-wb-new-cards-dryrun", action="store_true", help="Показать, что будет создано в WB, БЕЗ реальной отправки")
     parser.add_argument("--push-wb-new-cards", action="store_true", help="Реально создать новые товары в WB (сначала всегда dryrun!)")
+    parser.add_argument("--build-new-product-template", action="store_true", help="Создать пустой data/new_products.xlsx — ОДНА таблица для нового товара сразу на Ozon+WB (вместо отдельных ozon-new/wb-new)")
+    parser.add_argument("--push-new-product-all-dryrun", action="store_true", help="Показать, что будет создано на Ozon и WB по data/new_products.xlsx, БЕЗ реальной отправки")
+    parser.add_argument("--push-new-product-all", action="store_true", help="Реально создать новый товар на Ozon (с фото) и отправить на создание на WB (без фото — см. finish-new-product)")
+    parser.add_argument("--finish-new-product", action="store_true", help="Второй шаг после push-new-product-all: подтянуть новый товар в общий каталог, долить фото на WB, обновить фиды Avito и сайта")
     parser.add_argument("--compare-ozon-wb", action="store_true", help="Сравнить каталоги Ozon и WB по артикулу продавца, без объединения")
     parser.add_argument("--build-wb-catalog", action="store_true", help="Собрать data/wb_catalog.xlsx для редактирования карточек WB (название, описание, фото)")
     parser.add_argument("--attach-wb-photos", action="store_true", help="Подставить в wb_catalog.xlsx ссылки на фото из папки photos/ по имени файла")
@@ -2084,6 +2252,14 @@ def main() -> int:
         return cmd_push_wb_new_cards_dryrun()
     if args.push_wb_new_cards:
         return cmd_push_wb_new_cards()
+    if args.build_new_product_template:
+        return cmd_build_new_product_template()
+    if args.push_new_product_all_dryrun:
+        return cmd_push_new_product_all_dryrun()
+    if args.push_new_product_all:
+        return cmd_push_new_product_all()
+    if args.finish_new_product:
+        return cmd_finish_new_product()
     if args.compare_ozon_wb:
         return cmd_compare_ozon_wb()
     if args.build_wb_catalog:
