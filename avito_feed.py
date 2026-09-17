@@ -153,7 +153,29 @@ _CLASSIFY_RULES: List[Tuple[str, List[str]]] = [
 ]
 
 _HTML_TAG_RE = re.compile(r"<br\s*/?>", re.IGNORECASE)
+_BLOCK_TAG_RE = re.compile(r"</?(p|div|li|ul|ol|h[1-6])[^>]*>", re.IGNORECASE)
 _ANY_TAG_RE = re.compile(r"<[^>]+>")
+
+# Проверено 2026-09-17 на живом объявлении (категория "Трансмиссия и привод",
+# шаблон 103807): Avito обрезал заголовок ровно на 50-м символе, прямо
+# посреди слова ("...с гальван" вместо "...с гальваническим покрытием").
+# В рекламных материалах Avito упоминается лимит "до 100 символов", но на
+# практике (этот аккаунт/категория) реально применяется 50 — поэтому режем
+# ЗАРАНЕЕ на своей стороне до 50 символов, по границе слова, чтобы Avito
+# не обрезал сам и не ломал слово посередине.
+AVITO_TITLE_MAX_LEN = 50
+
+
+def _truncate_title(title: str, max_len: int = AVITO_TITLE_MAX_LEN) -> str:
+    """Обрезает заголовок до max_len символов ПО ГРАНИЦЕ СЛОВА (не посреди слова)."""
+    title = (title or "").strip()
+    if len(title) <= max_len:
+        return title
+    cut = title[:max_len]
+    last_space = cut.rfind(" ")
+    if last_space > 0:
+        cut = cut[:last_space]
+    return cut.rstrip(" ,.;:-—")
 
 # Avito требует, чтобы "Номер детали OEM" состоял ТОЛЬКО из латинских букв и
 # цифр (проверено на реальной загрузке — товар "123014‑AF" был отклонён с
@@ -278,11 +300,25 @@ def _load_avito_photo_overrides(map_path: str) -> Dict[str, List[str]]:
 
 
 def _clean_description(html_desc: str) -> str:
-    """<br/> -> перенос строки, остальные теги вырезаются, эмодзи оставляем как есть."""
+    """
+    <br/> и блочные теги (<p>/<div>/<li>/<ul>/<ol>/<h1-6>) -> перенос строки,
+    остальные теги вырезаются, эмодзи оставляем как есть.
+
+    ВАЖНО (нашли 2026-09-17 на живых объявлениях): раньше остальные теги
+    вырезались в "" — если тег стоял ВПЛОТНУЮ к тексту без пробела с двух
+    сторон (например "Назначение:<ul><li>Компенсирует..."), слова
+    склеивались в одно ("Назначение:Компенсирует"). Теги теперь заменяются
+    на перенос строки/пробел, а не на пустоту, поэтому склейки быть не
+    должно — дополнительно схлопываем лишние пробелы/переносы.
+    """
     if not html_desc:
         return ""
     text = _HTML_TAG_RE.sub("\n", html_desc)
-    text = _ANY_TAG_RE.sub("", text)
+    text = _BLOCK_TAG_RE.sub("\n", text)
+    text = _ANY_TAG_RE.sub(" ", text)
+    text = re.sub(r"[ \t]+", " ", text)
+    text = re.sub(r" *\n *", "\n", text)
+    text = re.sub(r"\n{2,}", "\n", text)
     return text.strip()
 
 
@@ -295,6 +331,7 @@ def build_avito_feed(
     ad_type: str = DEFAULT_AD_TYPE,
     condition: str = DEFAULT_CONDITION,
     avito_photos_map_path: str = AVITO_PHOTOS_MAP_PATH,
+    price_overrides_path: Optional[str] = None,
 ) -> Dict[str, object]:
     """
     Читает data/ozon_catalog.xlsx (общие данные — название/описание/цена/фото,
@@ -317,9 +354,12 @@ def build_avito_feed(
             "это обязательное поле в фиде Avito, без него объявления не пройдут модерацию."
         )
 
+    import site_pricing
+
     src_wb = openpyxl.load_workbook(catalog_path)
     src_ws = src_wb.active
     photo_overrides = _load_avito_photo_overrides(avito_photos_map_path)
+    price_overrides = site_pricing.load_price_overrides(price_overrides_path or site_pricing.OVERRIDES_PATH)
 
     tmpl_wb = openpyxl.load_workbook(template_path)
     ws = tmpl_wb[SHEET_ADS]
@@ -341,7 +381,9 @@ def build_avito_feed(
         offer_id = str(offer_id).strip()
         title = (row[1].value or "").strip()
         description_raw = row[2].value or ""
-        price = row[3].value
+        # Цена для Avito: если для товара есть оверрайд (новые товары,
+        # см. site_pricing.py) — берём его, иначе как раньше, общая цена.
+        price = price_overrides.get(offer_id, row[3].value)
         images_raw = row[5].value or ""
 
         if not price:
@@ -368,7 +410,7 @@ def build_avito_feed(
         ws.cell(row=out_row, column=COL_DESCRIPTION, value=_clean_description(description_raw))
         if images:
             ws.cell(row=out_row, column=COL_IMAGE_URLS, value="\n".join(images))
-        ws.cell(row=out_row, column=COL_TITLE, value=title)
+        ws.cell(row=out_row, column=COL_TITLE, value=_truncate_title(title))
         ws.cell(row=out_row, column=COL_PRICE, value=int(price))
         ws.cell(row=out_row, column=COL_GOODS_TYPE, value=GOODS_TYPE_VALUE)
         ws.cell(row=out_row, column=COL_AD_TYPE, value=ad_type)

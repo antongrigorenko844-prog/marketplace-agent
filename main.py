@@ -937,6 +937,30 @@ def cmd_push_new_product_all() -> int:
                 except wb_client.WbApiError as exc:
                     print(f"  WB ОШИБКА при создании {group['vendor_code']}: {exc}")
 
+    # Цена для Avito/сайта = половина от цены на маркетплейсах, только для
+    # НОВЫХ товаров (решение пользователя 2026-09-17, см. site_pricing.py).
+    # Пишем оверрайд для каждого товара, который реально ушёл хотя бы на
+    # одну площадку — если посчитать цену не удалось (пустая/некорректная),
+    # не молчим, а прямо просим пользователя проставить её вручную.
+    import site_pricing
+
+    if ozon_ok or wb_ok:
+        need_manual_price = []
+        for offer_id, e in edits.items():
+            half = site_pricing.half_price(e.get("price"))
+            if half is None:
+                need_manual_price.append(offer_id)
+                continue
+            site_pricing.set_price_override(offer_id, half)
+        if need_manual_price:
+            print(
+                "\nВНИМАНИЕ: не удалось посчитать цену для Avito/сайта (нет/некорректная цена "
+                f"в new_products.xlsx) для: {', '.join(need_manual_price)}. "
+                f"Проставьте цену вручную в data/avito_site_price_overrides.xlsx (offer_id -> цена) "
+                "перед build-avito-catalog/build-tilda-catalog, иначе для них будет использована "
+                "обычная (маркетплейсовая) цена."
+            )
+
     print(f"\nИтого: Ozon создано {ozon_ok}, WB отправлено на создание {wb_ok} (из {len(edits)} строк(и)).")
     if ozon_ok or wb_ok:
         print(
@@ -1857,6 +1881,72 @@ def cmd_diag_wb_new_cards() -> int:
     return 0
 
 
+def _parse_offer_ids_arg(article: str) -> list:
+    """--article "a,b,c" -> ["a","b","c"] — archive/unarchive-ozon-products принимают несколько сразу."""
+    return [a.strip() for a in (article or "").split(",") if a.strip()]
+
+
+def cmd_archive_ozon_products(article: str, dry_run: bool) -> int:
+    """
+    Перевести товар(ы) Ozon в архив — ОБРАТИМО, история и сами товары не
+    удаляются (см. ozon_client.archive_products). Решение пользователя
+    2026-09-16: не удалять лишние/дублирующиеся товары из каталога
+    насовсем, а архивировать — "мне бы в архив чтобы если мы чтото важное
+    удалили я могу потом проверить". article — один или несколько offer_id
+    через запятую.
+    """
+    import ozon_client
+
+    offer_ids = _parse_offer_ids_arg(article)
+    if not offer_ids:
+        print("Не передан артикул(ы) — заполните поле 'Артикул товара' (через запятую, если несколько).")
+        return 1
+
+    id_map = ozon_client.resolve_product_ids(offer_ids)
+    missing = [o for o in offer_ids if o not in id_map]
+    if missing:
+        print(f"Не найдены на Ozon (пропускаю): {', '.join(missing)}")
+    if not id_map:
+        print("Ни один артикул не найден на Ozon — архивировать нечего.")
+        return 1
+
+    print(f"{'[DRY RUN] ' if dry_run else ''}В архив уйдут ({len(id_map)}):")
+    for offer_id, pid in id_map.items():
+        print(f"  {offer_id} (product_id={pid})")
+
+    if dry_run:
+        print("\nЭто был пробный прогон — ничего не отправлено. Запустите archive-ozon-products, чтобы архивировать по-настоящему.")
+        return 0
+
+    result = ozon_client.archive_products(list(id_map.values()))
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    print("\nГотово. Товары ушли в архив — их видно в кабинете Ozon (фильтр 'Архивные'), можно вернуть командой unarchive-ozon-products.")
+    return 0
+
+
+def cmd_unarchive_ozon_products(article: str) -> int:
+    """Вернуть товар(ы) из архива Ozon обратно в активный каталог (см. cmd_archive_ozon_products)."""
+    import ozon_client
+
+    offer_ids = _parse_offer_ids_arg(article)
+    if not offer_ids:
+        print("Не передан артикул(ы) — заполните поле 'Артикул товара' (через запятую, если несколько).")
+        return 1
+
+    id_map = ozon_client.resolve_product_ids(offer_ids)
+    missing = [o for o in offer_ids if o not in id_map]
+    if missing:
+        print(f"Не найдены на Ozon (пропускаю): {', '.join(missing)}")
+    if not id_map:
+        print("Ни один артикул не найден на Ozon — восстанавливать нечего.")
+        return 1
+
+    result = ozon_client.unarchive_products(list(id_map.values()))
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    print(f"\nГотово. Возвращены из архива ({len(id_map)}): {', '.join(id_map.keys())}")
+    return 0
+
+
 def cmd_pull_ozon_stock() -> int:
     """
     Разовое действие: подтягивает ТЕКУЩИЙ остаток напрямую из Ozon (сумма
@@ -2211,10 +2301,13 @@ def main() -> int:
     parser.add_argument("--pull-ozon-stock", action="store_true", help="Разово подтянуть текущий остаток из Ozon в 'Кол-во к продаже' для товаров, где эта ячейка ещё пустая")
     parser.add_argument("--diag-ozon-product", action="store_true", help="Диагностика: показать сырой ответ Ozon (статус/ошибки/фото) по одному offer_id из --article")
     parser.add_argument("--diag-wb-new-cards", action="store_true", help="Диагностика: почему созданные через push-wb-new-cards/push-new-product-all карточки не появились на WB (причины ошибок)")
+    parser.add_argument("--archive-ozon-products-dryrun", action="store_true", help="Показать, какие товары (--article, через запятую) уйдут в архив на Ozon, БЕЗ реальной отправки")
+    parser.add_argument("--archive-ozon-products", action="store_true", help="Реально перевести товар(ы) в архив на Ozon — обратимо, не удаление (сначала всегда делайте dryrun!)")
+    parser.add_argument("--unarchive-ozon-products", action="store_true", help="Вернуть товар(ы) из архива Ozon обратно в активный каталог")
     parser.add_argument("--test-wordstat", action="store_true", help="Проверить, что ключ Wordstat API работает")
     parser.add_argument("--wordstat-collect", action="store_true", help="Собрать SEO-семантику по артикулу через Wordstat API (см. --article/--seed-phrase)")
     parser.add_argument("--wordstat-collect-batch", action="store_true", help="Собрать SEO-семантику сразу по списку артикулов из data/wordstat_queue.xlsx")
-    parser.add_argument("--article", type=str, default="", help="Артикул товара — для --wordstat-collect")
+    parser.add_argument("--article", type=str, default="", help="Артикул товара — для wordstat-collect/diag-ozon-product (один) или archive/unarchive-ozon-products (можно несколько через запятую)")
     parser.add_argument("--seed-phrase", type=str, default="", help="Стартовая фраза(ы) для --wordstat-collect, через ';' если несколько")
     args = parser.parse_args()
 
@@ -2334,6 +2427,12 @@ def main() -> int:
         return cmd_diag_ozon_product(args.article)
     if args.diag_wb_new_cards:
         return cmd_diag_wb_new_cards()
+    if args.archive_ozon_products_dryrun:
+        return cmd_archive_ozon_products(args.article, dry_run=True)
+    if args.archive_ozon_products:
+        return cmd_archive_ozon_products(args.article, dry_run=False)
+    if args.unarchive_ozon_products:
+        return cmd_unarchive_ozon_products(args.article)
 
     parser.print_help()
     return 0

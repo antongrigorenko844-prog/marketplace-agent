@@ -293,6 +293,48 @@ def get_product_info_list(offer_ids: List[str]) -> List[dict]:
     return out
 
 
+def resolve_product_ids(offer_ids: List[str]) -> Dict[str, int]:
+    """
+    offer_id -> внутренний числовой product_id Ozon — нужен для
+    archive_products/unarchive_products (эти методы принимают именно
+    product_id, а не offer_id, в отличие от большинства остального API).
+    Использует тот же /v3/product/info/list, что и get_product_info_list —
+    берём product_id (или id, на случай другого имени поля в ответе) из
+    каждого найденного товара; offer_id, для которых ничего не нашлось,
+    просто отсутствуют в результате (вызывающий код должен это проверить).
+    """
+    items = get_product_info_list(offer_ids)
+    out: Dict[str, int] = {}
+    for it in items:
+        if not isinstance(it, dict) or it.get("_error"):
+            continue
+        offer_id = it.get("offer_id")
+        pid = it.get("product_id") or it.get("id")
+        if offer_id and pid:
+            out[str(offer_id)] = int(pid)
+    return out
+
+
+def archive_products(product_ids: List[int]) -> dict:
+    """
+    Переводит товары в архив на Ozon — ОБРАТИМО (см. unarchive_products),
+    в отличие от удаления. Архивные товары пропадают с витрины и из
+    активного каталога продавца, но остаются в системе со всей историей
+    (заказы, отзывы и т.п.) и в любой момент восстанавливаются обратно.
+    Решение пользователя 2026-09-16: нужен именно архив, а не удаление —
+    "мне бы в архив чтобы если мы чтото важное удалили я могу потом
+    проверить".
+    """
+    # ENDPOINT: POST /v1/product/archive
+    return _post("/v1/product/archive", {"product_id": product_ids})
+
+
+def unarchive_products(product_ids: List[int]) -> dict:
+    """Возвращает товары из архива обратно в активный каталог (см. archive_products)."""
+    # ENDPOINT: POST /v1/product/unarchive
+    return _post("/v1/product/unarchive", {"product_id": product_ids})
+
+
 def update_prices(items: List[dict]) -> dict:
     """
     items: [{"offer_id": "...", "price": "1500", "old_price": "0",

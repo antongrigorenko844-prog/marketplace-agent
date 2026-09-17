@@ -96,11 +96,14 @@ on:
           - pull-ozon-stock
           - diag-ozon-product
           - diag-wb-new-cards
+          - archive-ozon-products-dryrun
+          - archive-ozon-products
+          - unarchive-ozon-products
           - test-wordstat
           - wordstat-collect
           - wordstat-collect-batch
       article:
-        description: "Артикул товара (только для wordstat-collect)"
+        description: "Артикул товара — для wordstat-collect/diag-ozon-product (один) или archive/unarchive-ozon-products (можно несколько через запятую)"
         required: false
         default: ""
         type: string

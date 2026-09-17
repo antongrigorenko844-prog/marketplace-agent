@@ -102,19 +102,38 @@ CSV_HEADER = [
 ]
 
 _HTML_TAG_RE = re.compile(r"<br\s*/?>", re.IGNORECASE)
+_BLOCK_TAG_RE = re.compile(r"</?(p|div|li|ul|ol|h[1-6])[^>]*>", re.IGNORECASE)
 _ANY_TAG_RE = re.compile(r"<[^>]+>")
 
 
 def _clean_description(html_desc: str) -> str:
-    """<br/> -> перенос строки, остальные теги вырезаются."""
+    """
+    <br/> и блочные теги -> перенос строки, остальные теги вырезаются.
+
+    ВАЖНО (тот же баг нашли и здесь 2026-09-17, что и в avito_feed.py —
+    смотри подробное объяснение там): раньше оставшиеся теги заменялись на
+    "" и слова, стоявшие вплотную к тегу без пробела, склеивались
+    ("Назначение:Компенсирует утечку..."). Теперь заменяем на перенос
+    строки/пробел, а не на пустоту.
+    """
     if not html_desc:
         return ""
     text = _HTML_TAG_RE.sub("\n", html_desc)
-    text = _ANY_TAG_RE.sub("", text)
+    text = _BLOCK_TAG_RE.sub("\n", text)
+    text = _ANY_TAG_RE.sub(" ", text)
+    text = re.sub(r"[ \t]+", " ", text)
+    text = re.sub(r" *\n *", "\n", text)
+    text = re.sub(r"\n{2,}", "\n", text)
     return text.strip()
 
 
-def build_tilda_catalog(catalog_path: str, output_path: str, photos_dir: str, raw_base_url: str) -> Dict[str, object]:
+def build_tilda_catalog(
+    catalog_path: str,
+    output_path: str,
+    photos_dir: str,
+    raw_base_url: str,
+    price_overrides_path: Optional[str] = None,
+) -> Dict[str, object]:
     """
     Читает data/ozon_catalog.xlsx (название/описание/цена — те же, что уже
     используются для Ozon и Avito) и строит CSV в формате, который
@@ -122,8 +141,18 @@ def build_tilda_catalog(catalog_path: str, output_path: str, photos_dir: str, ra
     реального экспорта из личного кабинета пользователя от 2026-09-15).
     Фото — см. _cover_photo_raw_url и docstring модуля.
 
+    ЦЕНА (решение пользователя 2026-09-17): для НОВЫХ товаров (см.
+    site_pricing.py) на сайте цена = половина от цены на маркетплейсах — а
+    "цена до скидки" для них вообще не выводится (это отдельный, более
+    выгодный канал, зачёркнутая маркетплейсовая цена тут ни к чему). Для
+    остального (старого) каталога — без изменений, как раньше.
+
     Возвращает {"written": N, "skipped_no_price": [...], "skipped_no_photo": [...]}.
     """
+    import site_pricing
+
+    price_overrides = site_pricing.load_price_overrides(price_overrides_path or site_pricing.OVERRIDES_PATH)
+
     wb = openpyxl.load_workbook(catalog_path)
     ws = wb.active
 
@@ -138,7 +167,8 @@ def build_tilda_catalog(catalog_path: str, output_path: str, photos_dir: str, ra
         offer_id = str(offer_id).strip()
         title = (row[1].value or "").strip()
         description_raw = row[2].value or ""
-        price = row[3].value
+        has_override = offer_id in price_overrides
+        price = price_overrides.get(offer_id, row[3].value)
         old_price = row[4].value
 
         if not price:
@@ -151,11 +181,12 @@ def build_tilda_catalog(catalog_path: str, output_path: str, photos_dir: str, ra
 
         description = _clean_description(description_raw)
         price_old_val = ""
-        try:
-            if old_price and float(old_price) > 0:
-                price_old_val = str(int(float(old_price)))
-        except (TypeError, ValueError):
-            price_old_val = ""
+        if not has_override:
+            try:
+                if old_price and float(old_price) > 0:
+                    price_old_val = str(int(float(old_price)))
+            except (TypeError, ValueError):
+                price_old_val = ""
 
         rows_out.append(
             [
