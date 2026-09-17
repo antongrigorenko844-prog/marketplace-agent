@@ -7,8 +7,13 @@
 data/wb_new_products.xlsx — почти теми же данными дважды, плюс отдельно
 подставлять фото. Здесь ОДНА таблица data/new_products.xlsx: артикул
 используется одновременно как offer_id на Ozon и vendorCode на WB (в
-проекте они и так всегда совпадают — см. --compare-ozon-wb), "образец"
-тоже один на обе площадки, фото берутся автоматически из photos/<артикул>/
+проекте они и так всегда совпадают — см. --compare-ozon-wb). "Образец"
+обычно один на обе площадки; если у нового товара образец продаётся
+ТОЛЬКО на Ozon (на WB такого раздела/линейки ещё нет) — заполните
+отдельную колонку "Образец ТОЛЬКО для WB" другим, похожим по типу
+товаром, который уже есть на WB (раздел/характеристики/габариты
+возьмутся у него, остальное всё равно из своих данных). Фото берутся
+автоматически из photos/<артикул>/
 (как для всех остальных товаров) — заливать их в таблицу вручную не нужно.
 
 ЧЕСТНО О ГРАНИЦАХ (это ограничения самих Ozon/WB API, обойти нельзя):
@@ -50,6 +55,7 @@ HEADER_FONT = Font(name=FONT_NAME, bold=True, color="FFFFFF")
 COLUMNS = [
     ("offer_id", "НОВЫЙ артикул — один и тот же для Ozon и WB, придумайте сами"),
     ("sample_offer_id", "Образец: артикул похожего товара, уже продающегося и на Ozon, и на WB"),
+    ("sample_offer_id_wb", "Образец ТОЛЬКО для WB, если Ozon-образец на WB не продаётся (необязательно — пусто = взять тот же, что для Ozon)"),
     ("name", "Название (для WB автоматически обрежется до 60 символов)"),
     ("description", "Описание"),
     ("price", "Цена, ₽"),
@@ -63,7 +69,7 @@ COLUMNS = [
     ("notes", "Заметки"),
     ("hashtags", "Хэштеги / ключевые слова через запятую (необязательно, только Ozon)"),
 ]
-WIDTHS = [20, 30, 45, 45, 12, 18, 20, 12, 12, 12, 12, 16, 25, 30]
+WIDTHS = [20, 30, 30, 45, 45, 12, 18, 20, 12, 12, 12, 12, 16, 25, 30]
 
 
 def build_template(xlsx_path: str) -> None:
@@ -96,6 +102,7 @@ def load_edits(xlsx_path: str) -> Dict[str, dict]:
         raw = {COLUMNS[i][0]: (row[i] if i < len(row) else None) for i in range(len(COLUMNS))}
         edits[offer_id] = {
             "sample_offer_id": str(raw.get("sample_offer_id") or "").strip(),
+            "sample_offer_id_wb": str(raw.get("sample_offer_id_wb") or "").strip(),
             "name": (raw.get("name") or "").strip() if isinstance(raw.get("name"), str) else raw.get("name"),
             "description": raw.get("description") or "",
             "price": raw.get("price"),
@@ -194,7 +201,7 @@ def to_wb_edits(edits: Dict[str, dict]) -> Dict[str, dict]:
     for offer_id, e in edits.items():
         name = e.get("name") or ""
         out[offer_id] = {
-            "sample_vendor_code": e.get("sample_offer_id"),
+            "sample_vendor_code": e.get("sample_offer_id_wb") or e.get("sample_offer_id"),
             "title": name[:60],
             "description": e.get("description"),
             "price": e.get("price"),
