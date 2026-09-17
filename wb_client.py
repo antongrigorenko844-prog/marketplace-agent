@@ -130,6 +130,23 @@ def create_cards(subject_id: int, cards: List[dict]) -> dict:
     )
 
 
+def get_upload_errors() -> List[dict]:
+    """
+    Причины, по которым недавние попытки создать карточку (cards/upload)
+    не прошли валидацию на стороне WB — сам /cards/upload это не сообщает
+    (он асинхронный, "принял" не значит "создал"), а список карточек
+    (list_cards) по неудачным попыткам ничего не покажет, они там просто
+    не появятся. Используется для диагностики: если после push-new-product-all
+    товар не появился в data/wb_cards.json спустя разумное время, смотрим
+    сюда, что WB ответил на самом деле.
+    """
+    # ENDPOINT: GET /content/v2/cards/error/list
+    data = _request("GET", config.wb_content_base, "/content/v2/cards/error/list")
+    if isinstance(data, list):
+        return data
+    return data.get("data", []) if isinstance(data, dict) else []
+
+
 def update_cards(cards: List[dict]) -> dict:
     """
     Редактирование существующих карточек. До 3000 позиций (nmID) за запрос.

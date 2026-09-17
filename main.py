@@ -1828,6 +1828,33 @@ def cmd_diag_ozon_product(article: str) -> int:
     return 0
 
 
+def cmd_diag_wb_new_cards() -> int:
+    """
+    Диагностика: почему push-wb-new-cards/push-new-product-all "принял"
+    товар на создание, а он так и не появился в data/wb_cards.json.
+    /content/v2/cards/upload асинхронный — WB отвечает "принято в
+    обработку" ещё до того, как реально проверит данные (раздел,
+    характеристики образца и т.д.), и если проверка не прошла, карточка
+    просто не создаётся, без уведомления в моменте. Единственный способ
+    узнать причину — отдельный метод с историей последних ошибок
+    (/content/v2/cards/error/list), который эта команда печатает как есть.
+    """
+    import wb_client
+
+    errors = wb_client.get_upload_errors()
+    if not errors:
+        print(
+            "WB не вернул ни одной ошибки создания карточек за последнее время. "
+            "Либо товар ещё в обработке (подождите и запустите fetch-wb ещё раз), "
+            "либо ошибка уже 'устарела' в истории WB — попробуйте push-wb-new-cards "
+            "заново и сразу после этого запустите diag-wb-new-cards."
+        )
+        return 0
+    for err in errors:
+        print(json.dumps(err, ensure_ascii=False, indent=2))
+    return 0
+
+
 def cmd_pull_ozon_stock() -> int:
     """
     Разовое действие: подтягивает ТЕКУЩИЙ остаток напрямую из Ozon (сумма
@@ -2181,6 +2208,7 @@ def main() -> int:
     parser.add_argument("--push-wb-stock", action="store_true", help="Реально отправить остатки в WB — тот же общий склад, что и push-stock у Ozon (сначала всегда делайте dryrun!)")
     parser.add_argument("--pull-ozon-stock", action="store_true", help="Разово подтянуть текущий остаток из Ozon в 'Кол-во к продаже' для товаров, где эта ячейка ещё пустая")
     parser.add_argument("--diag-ozon-product", action="store_true", help="Диагностика: показать сырой ответ Ozon (статус/ошибки/фото) по одному offer_id из --article")
+    parser.add_argument("--diag-wb-new-cards", action="store_true", help="Диагностика: почему созданные через push-wb-new-cards/push-new-product-all карточки не появились на WB (причины ошибок)")
     parser.add_argument("--test-wordstat", action="store_true", help="Проверить, что ключ Wordstat API работает")
     parser.add_argument("--wordstat-collect", action="store_true", help="Собрать SEO-семантику по артикулу через Wordstat API (см. --article/--seed-phrase)")
     parser.add_argument("--wordstat-collect-batch", action="store_true", help="Собрать SEO-семантику сразу по списку артикулов из data/wordstat_queue.xlsx")
@@ -2302,6 +2330,8 @@ def main() -> int:
         return cmd_pull_ozon_stock()
     if args.diag_ozon_product:
         return cmd_diag_ozon_product(args.article)
+    if args.diag_wb_new_cards:
+        return cmd_diag_wb_new_cards()
 
     parser.print_help()
     return 0
