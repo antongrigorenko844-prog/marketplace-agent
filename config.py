@@ -36,6 +36,11 @@ class Config:
     ozon_api_key: str = os.getenv("OZON_API_KEY", "")
     ozon_api_base: str = os.getenv("OZON_API_BASE", "https://api-seller.ozon.ru")
 
+    # ID склада продавца для остатков по схеме FBS на Ozon — узнаётся через
+    # --ozon-warehouses, заполняется в GitHub Secrets. Без него push-stock
+    # падает с AttributeError (баг, найден и исправлен 2026-09-18).
+    ozon_warehouse_id: str = os.getenv("OZON_WAREHOUSE_ID", "")
+
     # --- Wildberries API (Personal access token, категории: Контент/Цены/Маркетплейс) ---
     wb_api_token: str = os.getenv("WB_API_TOKEN", "")
     wb_content_base: str = os.getenv("WB_CONTENT_BASE", "https://content-api.wildberries.ru")
@@ -49,49 +54,4 @@ class Config:
     # заполняется после первого запуска (см. README, раздел про WB).
     wb_warehouse_id: str = os.getenv("WB_WAREHOUSE_ID", "")
 
-    # --- Wordstat API (Yandex Cloud AI Studio Search API) — сбор SEO-семантики ---
-    # Официальный бесплатный API, аккаунт в Яндекс Директ с расходами НЕ нужен.
-    # См. README, раздел 'Wordstat', как получить ключ и folderId.
-    wordstat_api_key: str = os.getenv("WORDSTAT_API_KEY", "")
-    wordstat_folder_id: str = os.getenv("WORDSTAT_FOLDER_ID", "")
-    wordstat_api_base: str = os.getenv("WORDSTAT_API_BASE", "https://searchapi.api.cloud.yandex.net")
-
-    # --- Яндекс Маркет (подключим отдельным шагом) ---
-    yandex_api_token: str = os.getenv("YANDEX_API_TOKEN", "")
-    yandex_business_id: str = os.getenv("YANDEX_BUSINESS_ID", "")
-    yandex_campaign_id: str = os.getenv("YANDEX_CAMPAIGN_ID", "")
-    yandex_api_base: str = os.getenv("YANDEX_API_BASE", "https://api.partner.market.yandex.ru")
-
-    # --- Telegram (тот же бот, что и в агенте недвижимости, для уведомлений) ---
-    telegram_bot_token: str = os.getenv("TELEGRAM_BOT_TOKEN", "")
-    telegram_chat_id: str = os.getenv("TELEGRAM_CHAT_ID", "")
-
-    # --- Общий каталог ---
-    catalog_path: str = os.getenv(
-        "CATALOG_PATH", os.path.join(os.path.dirname(__file__), "data", "catalog.csv")
-    )
-    db_path: str = os.getenv(
-        "DB_PATH", os.path.join(os.path.dirname(__file__), "data", "orders_seen.db")
-    )
-
-    # --- Avito: простая автозагрузка через XML-фид (без ключей) ---
-    avito_feed_path: str = os.getenv(
-        "AVITO_FEED_PATH", os.path.join(os.path.dirname(__file__), "data", "avito_feed.xml")
-    )
-    # Название компании/профиля продавца — должно совпадать с тем, что в кабинете Avito.
-    avito_seller_name: str = os.getenv("AVITO_SELLER_NAME", "")
-    # Адрес продавца — обязательное поле в фиде Avito (колонка "Адрес").
-    avito_seller_address: str = os.getenv("AVITO_SELLER_ADDRESS", "")
-
-    # --- Avito API (OAuth client_credentials) — заказы Авито Доставки + остатки ---
-    # Получаются в личном кабинете: Настройки -> Avito API -> Регистрация приложения.
-    avito_client_id: str = os.getenv("AVITO_CLIENT_ID", "")
-    avito_client_secret: str = os.getenv("AVITO_CLIENT_SECRET", "")
-    avito_api_base: str = os.getenv("AVITO_API_BASE", "https://api.avito.ru")
-
-    # --- Прочее ---
-    request_timeout_seconds: int = _get_int("REQUEST_TIMEOUT_SECONDS", 30)
-    log_level: str = os.getenv("LOG_LEVEL", "INFO")
-
-
-config = Config()
+    # ---
