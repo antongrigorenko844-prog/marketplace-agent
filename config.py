@@ -36,6 +36,11 @@ class Config:
     ozon_api_key: str = os.getenv("OZON_API_KEY", "")
     ozon_api_base: str = os.getenv("OZON_API_BASE", "https://api-seller.ozon.ru")
 
+    # ID склада продавца для остатков по схеме FBS на Ozon — узнаётся через
+    # --ozon-warehouses, заполняется в GitHub Secrets. Без него push-stock
+    # падает с AttributeError (баг, найден и исправлен 2026-09-18).
+    ozon_warehouse_id: str = os.getenv("OZON_WAREHOUSE_ID", "")
+
     # --- Wildberries API (Personal access token, категории: Контент/Цены/Маркетплейс) ---
     wb_api_token: str = os.getenv("WB_API_TOKEN", "")
     wb_content_base: str = os.getenv("WB_CONTENT_BASE", "https://content-api.wildberries.ru")
@@ -49,6 +54,7 @@ class Config:
     # заполняется после первого запуска (см. README, раздел про WB).
     wb_warehouse_id: str = os.getenv("WB_WAREHOUSE_ID", "")
 
+    # ---    
     # --- Wordstat API (Yandex Cloud AI Studio Search API) — сбор SEO-семантики ---
     # Официальный бесплатный API, аккаунт в Яндекс Директ с расходами НЕ нужен.
     # См. README, раздел 'Wordstat', как получить ключ и folderId.
