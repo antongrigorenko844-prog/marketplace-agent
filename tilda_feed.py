@@ -127,6 +127,36 @@ def _clean_description(html_desc: str) -> str:
     return text.strip()
 
 
+_SHORT_DESCRIPTION_MAX_LEN = 180
+
+
+def _short_description(clean_desc: str, max_len: int = _SHORT_DESCRIPTION_MAX_LEN) -> str:
+    """
+    Короткий отрывок для колонки "Description" (текст под фото товара в
+    каталоге Тильды) — НЕ то же самое, что колонка "Text" (полное описание,
+    показывается в попапе "Подробнее").
+
+    ВАЖНО (найдено 2026-09-21): раньше сюда шёл тот же полный текст, что и
+    в "Text" — из-за этого на странице каталога под каждым товаром
+    вылезало огромное полотно текста вместо короткой подписи. Тильда сама
+    не обрезает длинные описания на карточках, поэтому обрезаем здесь, один
+    раз, при сборке фида — тогда это применяется автоматически для всех
+    товаров, без ручного редактирования каждой карточки в кабинете.
+
+    Берём первую "смысловую" строку (обычно первое предложение/абзац до
+    переноса строки), затем, если всё ещё длиннее max_len, обрезаем по
+    границе слова и добавляем "...".
+    """
+    if not clean_desc:
+        return ""
+    first_line = clean_desc.split("\n", 1)[0].strip()
+    candidate = first_line if first_line else clean_desc.strip()
+    if len(candidate) <= max_len:
+        return candidate
+    truncated = candidate[:max_len].rsplit(" ", 1)[0].rstrip(" ,.;:-")
+    return truncated + "..."
+
+
 def build_tilda_catalog(
     catalog_path: str,
     output_path: str,
@@ -180,6 +210,7 @@ def build_tilda_catalog(
             skipped_no_photo.append(offer_id)
 
         description = _clean_description(description_raw)
+        short_description = _short_description(description)
         price_old_val = ""
         if not has_override:
             try:
@@ -196,8 +227,8 @@ def build_tilda_catalog(
                 "",  # Mark
                 "",  # Category
                 title,  # Title
-                description,  # Description
-                description,  # Text
+                short_description,  # Description — короткий отрывок для карточки в каталоге
+                description,  # Text — полное описание для попапа "Подробнее"
                 cover_photo,  # Photo
                 str(int(price)),  # Price
                 "",  # Quantity
