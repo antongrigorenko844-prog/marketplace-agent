@@ -5,6 +5,15 @@
 # Как запустить вручную: вкладка Actions -> marketplace-agent -> Run workflow ->
 # выбрать команду из списка -> Run workflow.
 #
+# Здесь — только часто используемые команды (ежедневная работа). Разовые,
+# диагностические и "сборочные" команды (шаблоны, dryrun-проверки,
+# archive/unarchive, wordstat и т.п.) вынесены в отдельный workflow
+# "marketplace-agent-tools" (файл tools.yml) — вкладка Actions -> он там
+# отдельной кнопкой "Run workflow". Сама логика выполнения команды (checkout,
+# установка зависимостей, запуск main.py, сохранение data/) общая для обоих
+# файлов и лежит в run-command.yml (переиспользуемый workflow), чтобы не
+# дублироваться.
+#
 # ОБЩИЙ СКЛАД (2026-09-13): помимо ручного запуска, этот workflow ещё
 # запускается САМ по расписанию (см. "on.schedule" ниже) каждые 3 часа —
 # в этом автоматическом прогоне (github.event_name == 'schedule') команда
@@ -37,7 +46,7 @@ on:
   workflow_dispatch:
     inputs:
       command:
-        description: "Что запустить"
+        description: "Что запустить (частые команды; остальное — в marketplace-agent-tools)"
         required: true
         default: "test-ozon"
         type: choice
@@ -46,93 +55,47 @@ on:
           - test-wb
           - fetch-ozon
           - fetch-wb
-          - wb-warehouses
-          - ozon-warehouses
-          - build-ozon-catalog
-          - attach-ozon-photos
-          - download-ozon-photos
           - full-sync-ozon
-          - build-master-control
-          - sync-master-control
-          - push-ozon-cards-dryrun
+          - full-sync-wb
           - push-ozon-cards
-          - build-new-product-template
-          - push-new-product-all-dryrun
+          - push-wb-cards
+          - push-photos
+          - push-wb-price
+          - push-stock
+          - push-wb-stock
+          - sync-orders
+          - build-avito-catalog
+          - build-tilda-catalog
           - push-new-product-all
           - launch-new-products
           - finish-new-product
-          - compare-ozon-wb
-          - build-wb-catalog
-          - attach-wb-photos
-          - full-sync-wb
-          - push-wb-cards-dryrun
-          - push-wb-cards
-          - attach-photos-all
-          - push-photos-dryrun
-          - push-photos
-          - push-wb-price-dryrun
-          - push-wb-price
-          - build-ozon-new-template
-          - attach-ozon-new-photos
-          - push-ozon-new-cards-dryrun
           - push-ozon-new-cards
-          - build-wb-new-template
-          - push-wb-new-cards-dryrun
           - push-wb-new-cards
-          - attach-avito-photos
-          - build-avito-catalog
-          - build-tilda-catalog
-          - test-avito
-          - fetch-avito-orders
-          - list-avito-items
-          - build-avito-item-map
-          - save-avito-item-map
-          - sync-orders
-          - build-kits-template
-          - recompute-kit-stock
-          - push-stock-dryrun
-          - push-stock
-          - push-wb-stock-dryrun
-          - push-wb-stock
-          - fix-wb-dimensions
-          - pull-ozon-stock
-          - diag-ozon-product
-          - diag-wb-new-cards
-          - archive-ozon-products-dryrun
-          - archive-ozon-products
-          - unarchive-ozon-products
-          - test-wordstat
-          - wordstat-collect
-          - wordstat-collect-batch
       article:
-        description: "Артикул товара — для wordstat-collect/diag-ozon-product (один) или archive/unarchive-ozon-products (можно несколько через запятую)"
+        description: "Артикул товара (если команда его требует)"
         required: false
         default: ""
         type: string
       seed_phrase:
-        description: "Стартовая фраза(ы) для Wordstat, через ';' если несколько (только для wordstat-collect)"
+        description: "Стартовая фраза(ы), через ';' (только для wordstat-команд — см. marketplace-agent-tools)"
         required: false
         default: ""
         type: string
 
 concurrency:
-  # Без этого GitHub Actions спокойно запускает ДВА (и больше) прогона этого
-  # workflow одновременно, если его запустили дважды подряд (например,
-  # случайно нажали "Run workflow" ещё раз, пока предыдущий прогон ещё не
-  # закончился). Для wordstat-collect-batch это реально приводило к дублям:
-  # оба прогона стартуют с одного и того же коммита, независимо решают, что
-  # одни и те же фразы по первым артикулам в очереди — "новые", и оба
-  # успешно пушат их в data/seo_keywords.xlsx до того, как второй прогон
-  # вообще узнаёт об изменениях первого (см. чат: 561 дублирующаяся строка
-  # ровно по первым 5 артикулам очереди). group ограничивает это ОДНИМ
-  # прогоном за раз на весь workflow; cancel-in-progress: false — не
-  # отменяет уже идущий прогон, а просто ставит новый в очередь следом, чтобы
-  # не потерять/оборвать реальный сбор данных на середине.
+  # Без этого GitHub Actions спокойно запускает ДВА (и больше) прогона
+  # одновременно (в т.ч. между main.yml и tools.yml — обе пишут в data/ и
+  # пушат в репозиторий), если запустили дважды подряд или совпало с
+  # расписанием. Группа одна и та же в main.yml и tools.yml, поэтому они
+  # тоже не пересекаются друг с другом. cancel-in-progress: false — не
+  # отменяет уже идущий прогон, а ставит новый в очередь следом, чтобы не
+  # потерять/оборвать реальный сбор данных на середине.
   group: marketplace-agent
   cancel-in-progress: false
 
 jobs:
-  run:
+  scheduled-or-webhook:
+    if: github.event_name == 'schedule' || github.event_name == 'repository_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -166,13 +129,9 @@ jobs:
             python main.py --push-stock || true
             python main.py --push-wb-stock || true
             python main.py --build-avito-catalog || true
-          elif [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+          else
             echo "Заказ с сайта (Тильда) через вебхук"
             python main.py --sync-tilda-order
-          else
-            python main.py --${{ github.event.inputs.command }} \
-              --article "${{ github.event.inputs.article }}" \
-              --seed-phrase "${{ github.event.inputs.seed_phrase }}"
           fi
 
       - name: Save data/ back to repo
@@ -183,3 +142,12 @@ jobs:
           git add data/ photos/ || true
           git diff --cached --quiet || git commit -m "chore: update data [skip ci]"
           git push || true
+
+  manual:
+    if: github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/run-command.yml
+    secrets: inherit
+    with:
+      command: ${{ github.event.inputs.command }}
+      article: ${{ github.event.inputs.article }}
+      seed_phrase: ${{ github.event.inputs.seed_phrase }}
