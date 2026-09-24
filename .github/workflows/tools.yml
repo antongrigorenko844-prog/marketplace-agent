@@ -1,0 +1,90 @@
+# Вторая кнопка "Run workflow" в Actions — редкие/разовые команды: сборка
+# шаблонов, dryrun-проверки перед реальной отправкой, диагностика, archive/
+# unarchive, сбор Wordstat-семантики и т.п. Часто используемые ежедневные
+# команды — в основном workflow "marketplace-agent" (файл main.yml), там же
+# расписание и приём заказов с Тильды. Сама логика выполнения команды
+# (checkout, установка зависимостей, запуск main.py, сохранение data/) общая
+# для обоих файлов и лежит в run-command.yml — если команда стала нужна
+# часто, просто перенесите её строку из списка options здесь в main.yml (и
+# наоборот для той, что почти не используется).
+#
+# Только ручной запуск — расписания у этого workflow нет.
+
+name: marketplace-agent-tools
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: "Что запустить (редкое/диагностика; частое — в marketplace-agent)"
+        required: true
+        default: "build-ozon-catalog"
+        type: choice
+        options:
+          - wb-warehouses
+          - ozon-warehouses
+          - build-ozon-catalog
+          - attach-ozon-photos
+          - download-ozon-photos
+          - build-master-control
+          - sync-master-control
+          - push-ozon-cards-dryrun
+          - build-new-product-template
+          - push-new-product-all-dryrun
+          - compare-ozon-wb
+          - build-wb-catalog
+          - attach-wb-photos
+          - push-wb-cards-dryrun
+          - attach-photos-all
+          - push-photos-dryrun
+          - push-wb-price-dryrun
+          - build-ozon-new-template
+          - attach-ozon-new-photos
+          - push-ozon-new-cards-dryrun
+          - build-wb-new-template
+          - push-wb-new-cards-dryrun
+          - attach-avito-photos
+          - test-avito
+          - fetch-avito-orders
+          - list-avito-items
+          - build-avito-item-map
+          - save-avito-item-map
+          - build-kits-template
+          - recompute-kit-stock
+          - push-stock-dryrun
+          - push-wb-stock-dryrun
+          - fix-wb-dimensions
+          - pull-ozon-stock
+          - diag-ozon-product
+          - diag-wb-new-cards
+          - archive-ozon-products-dryrun
+          - archive-ozon-products
+          - unarchive-ozon-products
+          - test-wordstat
+          - wordstat-collect
+          - wordstat-collect-batch
+      article:
+        description: "Артикул товара — для wordstat-collect/diag-ozon-product (один) или archive/unarchive-ozon-products (можно несколько через запятую)"
+        required: false
+        default: ""
+        type: string
+      seed_phrase:
+        description: "Стартовая фраза(ы) для Wordstat, через ';' если несколько (только для wordstat-collect)"
+        required: false
+        default: ""
+        type: string
+
+concurrency:
+  # Та же группа, что в main.yml — чтобы этот workflow и marketplace-agent
+  # не запускались одновременно и не пушили в data/ друг другу наперекор.
+  group: marketplace-agent
+  cancel-in-progress: false
+
+jobs:
+  manual:
+    uses: ./.github/workflows/run-command.yml
+    secrets: inherit
+    with:
+      command: ${{ github.event.inputs.command }}
+      article: ${{ github.event.inputs.article }}
+      seed_phrase: ${{ github.event.inputs.seed_phrase }}
