@@ -1,0 +1,66 @@
+# Переиспользуемый workflow (workflow_call): реальная работа — checkout,
+# установка зависимостей, запуск одной команды main.py и сохранение data/
+# обратно в репозиторий. Сам по себе руками не запускается (в Actions его
+# не будет видно в списке "Run workflow") — его вызывают main.yml и
+# tools.yml, у каждого свой (более короткий) выпадающий список команд,
+# чтобы не дублировать в каждом файле одни и те же шаги.
+#
+# Если нужно поменять сами шаги выполнения (версию Python, команду запуска,
+# логику сохранения data/) — меняются ТОЛЬКО здесь, а не в каждом файле.
+name: run-command
+
+on:
+  workflow_call:
+    inputs:
+      command:
+        required: true
+        type: string
+      article:
+        required: false
+        type: string
+        default: ""
+      seed_phrase:
+        required: false
+        type: string
+        default: ""
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run command
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+          OZON_WAREHOUSE_ID: ${{ secrets.OZON_WAREHOUSE_ID }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          AVITO_SELLER_ADDRESS: ${{ secrets.AVITO_SELLER_ADDRESS }}
+          WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
+          WORDSTAT_FOLDER_ID: ${{ secrets.WORDSTAT_FOLDER_ID }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python main.py --${{ inputs.command }} \
+            --article "${{ inputs.article }}" \
+            --seed-phrase "${{ inputs.seed_phrase }}"
+
+      - name: Save data/ back to repo
+        if: always()
+        run: |
+          git config user.name "marketplace-agent-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/ photos/ || true
+          git diff --cached --quiet || git commit -m "chore: update data [skip ci]"
+          git push || true
