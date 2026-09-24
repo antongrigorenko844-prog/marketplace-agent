@@ -261,6 +261,21 @@ def build_new_import_items(existing_data: dict, edits: Dict[str, dict]) -> List[
                     new_offer_id,
                 )
 
+        # ВАЖНО (найдено 2026-09-24): атрибуты 7236 и 9024 ("Артикул
+        # производителя"/аналог) клонируются из образца вместе со всеми
+        # остальными характеристиками выше — но их значение (сам артикул
+        # ОБРАЗЦА, например "0AM325467J") Ozon использует для поиска
+        # дублей (SPU). Если не переопределить их на артикул НОВОГО
+        # товара, Ozon считает новую карточку тем же физическим товаром,
+        # что и образец, и отказывается её создавать с ошибкой
+        # SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT — карточка так и остаётся
+        # "не создана" молча (без явной ошибки в выводе push-new-product-all,
+        # видно только через --diag-ozon-product). Правим на месте: новый
+        # товар — это другая деталь, у неё должен быть свой артикул, а не
+        # артикул образца.
+        for _dedupe_attr_id in (7236, 9024):
+            attributes = catalog_editor._with_overridden_attr(attributes, _dedupe_attr_id, new_offer_id)
+
         images = edit.get("images") or []
         primary_image = images[0] if images else ""
         rest_images = images[1:] if len(images) > 1 else []
