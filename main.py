@@ -1782,6 +1782,52 @@ def cmd_push_wb_stock_dryrun() -> int:
     return 0
 
 
+def cmd_fix_wb_dimensions() -> int:
+    """
+    Разовая правка битых габаритов/веса у двух карточек WB, из-за которых
+    WB отклонял ВЕСЬ пакет push-wb-stock (409 CargoWarehouseRestrictionSGT*,
+    склад не принимает "негабарит"): 0am325477 (250 кг вместо ~0.25 кг) и
+    0am325025HX (70x80x60 см вместо ~30x25x25 см). Значения подтверждены
+    пользователем 2026-09-24. Можно запускать повторно — идемпотентно.
+    """
+    import wb_client
+
+    fixes = {
+        "0am325477": {"width": 10, "height": 5, "length": 10, "weightBrutto": 0.25},
+        "0am325025HX": {"width": 30, "height": 25, "length": 25, "weightBrutto": 9},
+    }
+
+    cards = wb_client.list_cards()
+    payload = []
+    for c in cards:
+        vc = c.get("vendorCode")
+        if vc in fixes:
+            entry = {
+                "nmID": c["nmID"],
+                "vendorCode": c["vendorCode"],
+                "brand": c.get("brand", ""),
+                "title": c.get("title"),
+                "description": c.get("description"),
+                "dimensions": dict(fixes[vc], isValid=True),
+                "sizes": c.get("sizes", []),
+            }
+            if "characteristics" in c:
+                entry["characteristics"] = c["characteristics"]
+            payload.append(entry)
+
+    if not payload:
+        print("Не нашёл ни одной из целевых карточек (0am325477, 0am325025HX) в list_cards().")
+        return 1
+
+    for p in payload:
+        print(f"  {p['vendorCode']}: новые габариты -> {p['dimensions']}")
+
+    result = wb_client.update_cards(payload)
+    print("Ответ WB:", result)
+    print("\nГотово. Проверьте через пару минут push-wb-stock-dryrun/push-wb-stock — пакет больше не должен падать целиком.")
+    return 0
+
+
 def cmd_push_wb_stock() -> int:
     """
     Реально отправляет остатки в WB (PUT /api/v3/stocks/{warehouseId}) —
@@ -2298,6 +2344,7 @@ def main() -> int:
     parser.add_argument("--push-stock", action="store_true", help="Реально отправить остатки в Ozon (сначала всегда делайте dryrun!)")
     parser.add_argument("--push-wb-stock-dryrun", action="store_true", help="Показать остатки ('Кол-во к продаже'/'Остаток, шт.'), которые будут отправлены в WB, БЕЗ реальной отправки")
     parser.add_argument("--push-wb-stock", action="store_true", help="Реально отправить остатки в WB — тот же общий склад, что и push-stock у Ozon (сначала всегда делайте dryrun!)")
+    parser.add_argument("--fix-wb-dimensions", action="store_true", help="Разовая правка битых габаритов WB у 0am325477/0am325025HX (см. cmd_fix_wb_dimensions)")
     parser.add_argument("--pull-ozon-stock", action="store_true", help="Разово подтянуть текущий остаток из Ozon в 'Кол-во к продаже' для товаров, где эта ячейка ещё пустая")
     parser.add_argument("--diag-ozon-product", action="store_true", help="Диагностика: показать сырой ответ Ozon (статус/ошибки/фото) по одному offer_id из --article")
     parser.add_argument("--diag-wb-new-cards", action="store_true", help="Диагностика: почему созданные через push-wb-new-cards/push-new-product-all карточки не появились на WB (причины ошибок)")
@@ -2421,6 +2468,8 @@ def main() -> int:
         return cmd_push_wb_stock_dryrun()
     if args.push_wb_stock:
         return cmd_push_wb_stock()
+    if args.fix_wb_dimensions:
+        return cmd_fix_wb_dimensions()
     if args.pull_ozon_stock:
         return cmd_pull_ozon_stock()
     if args.diag_ozon_product:
