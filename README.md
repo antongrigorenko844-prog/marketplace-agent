@@ -20,6 +20,19 @@ GitHub Actions доступ в интернет обычный, без огра�
 3. Settings → Actions → General → Workflow permissions → выбрать
    "Read and write permissions" → Save.
 
+## Два workflow в Actions
+
+Команды разделены на два workflow (видны как отдельные кнопки
+"Run workflow" на вкладке Actions):
+- **marketplace-agent** — частые/ежедневные команды (test-ozon, push-stock,
+  push-wb-stock, push-ozon-cards, push-wb-cards, launch-new-products и т.п.),
+  плюс автозапуск по расписанию и приём заказов с Тильды.
+- **marketplace-agent-tools** — редкие: сборка шаблонов, dry-run проверки,
+  диагностика, archive/unarchive, Wordstat.
+
+Если команда, упомянутая ниже, не находится в списке marketplace-agent —
+ищите её в marketplace-agent-tools.
+
 ## Как проверить, что ключи работают
 
 Вкладка **Actions** → workflow **marketplace-agent** → **Run workflow** →
