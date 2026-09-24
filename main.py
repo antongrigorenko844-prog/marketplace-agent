@@ -1782,6 +1782,52 @@ def cmd_push_wb_stock_dryrun() -> int:
     return 0
 
 
+def cmd_launch_new_products() -> int:
+    """
+    Запустить совсем новые товары из data/new_products.xlsx ОДНОЙ командой
+    сразу на все площадки, где идёт продажа: Ozon, WB, Avito и сайт (Тильда).
+
+    Что реально происходит по шагам (раньше это были 2 отдельные ручные
+    команды с ожиданием между ними — push-new-product-all и finish-new-product,
+    см. их докстринги):
+      1. push-new-product-all — создаёт карточку на Ozon (сразу с фото) и
+         отправляет на создание карточку на WB (без фото, это нормально —
+         у WB создание асинхронное, фото доедут позже).
+      2. Пауза ~3 минуты — даём WB время обработать создание карточки
+         (нужен nmID, который WB не отдаёт сразу).
+      3. finish-new-product — подтягивает оба товара в общий каталог
+         (data/ozon_catalog.xlsx), доливает фото на карточку WB, пересобирает
+         фид Avito (он подхватывается автоматически по ссылке — с вашей
+         стороны действий не требуется) и фид сайта (data/tilda_feed.csv).
+
+    ЧЕСТНО О ГРАНИЦАХ: Avito подхватывает изменения САМ (автозагрузка по
+    постоянной ссылке — см. build-avito-catalog), но у Тильды нет API для
+    автоматического импорта фида — CSV всё равно нужно вручную загрузить в
+    личном кабинете Тильды (см. README/build-tilda-catalog), просто он уже
+    будет свежим сразу после этой команды.
+    """
+    print("=== Шаг 1/3: push-new-product-all ===")
+    rc = cmd_push_new_product_all()
+    if rc != 0:
+        print(
+            "\npush-new-product-all вернул ошибку (или отправлять было нечего) — "
+            "всё равно пробую доехать до finish-new-product на случай частичного успеха."
+        )
+
+    print("\n=== Шаг 2/3: жду ~3 минуты, пока WB асинхронно обработает создание карточек ===")
+    time.sleep(180)
+
+    print("\n=== Шаг 3/3: finish-new-product ===")
+    rc_finish = cmd_finish_new_product()
+
+    print(
+        "\nГотово. Ozon/WB/Avito обновлены автоматически. Для сайта (Тильда) "
+        "скачайте свежий data/tilda_feed.csv и импортируйте его в личном кабинете "
+        "Тильды вручную — API для этого шага у Тильды нет."
+    )
+    return rc_finish
+
+
 def cmd_fix_wb_dimensions() -> int:
     """
     Разовая правка битых габаритов/веса у двух карточек WB, из-за которых
@@ -2324,6 +2370,7 @@ def main() -> int:
     parser.add_argument("--build-new-product-template", action="store_true", help="Создать пустой data/new_products.xlsx — ОДНА таблица для нового товара сразу на Ozon+WB (вместо отдельных ozon-new/wb-new)")
     parser.add_argument("--push-new-product-all-dryrun", action="store_true", help="Показать, что будет создано на Ozon и WB по data/new_products.xlsx, БЕЗ реальной отправки")
     parser.add_argument("--push-new-product-all", action="store_true", help="Реально создать новый товар на Ozon (с фото) и отправить на создание на WB (без фото — см. finish-new-product)")
+    parser.add_argument("--launch-new-products", action="store_true", help="ОДНОЙ командой: push-new-product-all + пауза 3 мин + finish-new-product — запускает новые товары сразу на Ozon/WB/Avito (сайт всё равно импортируется вручную)")
     parser.add_argument("--finish-new-product", action="store_true", help="Второй шаг после push-new-product-all: подтянуть новый товар в общий каталог, долить фото на WB, обновить фиды Avito и сайта")
     parser.add_argument("--compare-ozon-wb", action="store_true", help="Сравнить каталоги Ozon и WB по артикулу продавца, без объединения")
     parser.add_argument("--build-wb-catalog", action="store_true", help="Собрать data/wb_catalog.xlsx для редактирования карточек WB (название, описание, фото)")
@@ -2428,6 +2475,8 @@ def main() -> int:
         return cmd_push_new_product_all_dryrun()
     if args.push_new_product_all:
         return cmd_push_new_product_all()
+    if args.launch_new_products:
+        return cmd_launch_new_products()
     if args.finish_new_product:
         return cmd_finish_new_product()
     if args.compare_ozon_wb:

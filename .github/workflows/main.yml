@@ -59,6 +59,7 @@ on:
           - build-new-product-template
           - push-new-product-all-dryrun
           - push-new-product-all
+          - launch-new-products
           - finish-new-product
           - compare-ozon-wb
           - build-wb-catalog
@@ -133,7 +134,7 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
