@@ -544,8 +544,37 @@ def cmd_push_photos() -> int:
         print("push-photos: WB отправлен успешно, но Ozon завершился с ошибкой — проверьте вывод выше.")
     elif rc_wb != 0:
         print("push-photos: Ozon отправлен успешно, но WB завершился с ошибкой — проверьте вывод выше.")
-    else:
-        print("push-photos: готово, обе площадки отправлены успешно.")
+def cmd_update_photos() -> int:
+    """
+    Composite "всё в одном" для смены фото: attach-photos-all (подставить
+    новые ссылки в ozon_catalog.xlsx/wb_catalog.xlsx/master_control.xlsx) +
+    push-photos (реально отправить карточки с фото на Ozon И WB) +
+    build-avito-catalog (пересобрать и перезалить фид для Avito — он сам
+    подхватит по "Автозагрузке по ссылке"). Без отдельного dry-run — для
+    простой смены фото у уже существующего товара это лишний шаг, карточка
+    и так уже создана и прошла модерацию, тут меняются только ссылки на
+    картинки.
+    Ошибка на одном из трёх шагов не останавливает остальные — в конце
+    выводится итог по каждому отдельно.
+    """
+    print("=== Шаг 1/3: attach-photos-all ===")
+    rc_attach = cmd_attach_photos_all()
+
+    print("\n=== Шаг 2/3: push-photos ===")
+    rc_push = cmd_push_photos()
+
+    print("\n=== Шаг 3/3: build-avito-catalog ===")
+    rc_avito = cmd_build_avito_catalog()
+
+    print()
+    failed = [
+        name for name, rc in (("attach-photos-all", rc_attach), ("push-photos", rc_push), ("build-avito-catalog", rc_avito))
+        if rc != 0
+    ]
+    if failed:
+        print(f"update-photos: ошибка на шаге(ах): {', '.join(failed)} — проверьте вывод выше.")
+        return 1
+    print("update-photos: готово, фото обновлены на Ozon, WB и в фиде Avito.")
     return 0
 
 
@@ -1141,6 +1170,8 @@ def cmd_build_avito_catalog() -> int:
     print(f"Готово: {result['written']} товаров -> {output_path}")
     if result["skipped_no_price"]:
         print(f"Пропущено (нет цены): {', '.join(result['skipped_no_price'])}")
+    if result.get("skipped_no_stock"):
+        print(f"Пропущено (остаток 0 в master_control.xlsx — сняты с продажи): {', '.join(result['skipped_no_stock'])}")
     if result["unclassified"]:
         print(
             "\nВНИМАНИЕ: не удалось автоматически определить 'Тип детали трансмиссии' "
@@ -2381,6 +2412,7 @@ def main() -> int:
     parser.add_argument("--attach-photos-all", action="store_true", help="Composite: attach-ozon-photos + attach-wb-photos + build-master-control одной командой (после правки общей папки photos/)")
     parser.add_argument("--push-photos-dryrun", action="store_true", help="Composite: push-ozon-cards-dryrun + push-wb-cards-dryrun одной командой, ничего не отправляется")
     parser.add_argument("--push-photos", action="store_true", help="Composite: реально отправить карточки (в т.ч. фото) сразу в Ozon и WB (сначала всегда делайте push-photos-dryrun!)")
+    parser.add_argument("--update-photos", action="store_true", help="Composite \"всё в одном\" для смены фото: attach-photos-all + push-photos + build-avito-catalog одной командой (без отдельного dry-run)")
     parser.add_argument("--push-wb-price-dryrun", action="store_true", help="Показать, у каких товаров изменится цена на WB (колонка 'Цена WB' в wb_catalog.xlsx), БЕЗ реальной отправки")
     parser.add_argument("--push-wb-price", action="store_true", help="Реально отправить новую цену на WB для существующих товаров (сначала всегда делайте dryrun!)")
     parser.add_argument("--sync-orders", action="store_true", help="Общий учёт остатков: списать заказы Ozon+WB за 30 дней из 'Кол-во к продаже' в data/ozon_catalog.xlsx")
@@ -2497,6 +2529,8 @@ def main() -> int:
         return cmd_push_photos_dryrun()
     if args.push_photos:
         return cmd_push_photos()
+    if args.update_photos:
+        return cmd_update_photos()
     if args.push_wb_price_dryrun:
         return cmd_push_wb_price_dryrun()
     if args.push_wb_price:

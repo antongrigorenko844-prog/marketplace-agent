@@ -227,6 +227,7 @@ def classify_transmission_part_type(title: str) -> Optional[str]:
 
 AVITO_PHOTOS_DIR = os.path.join(os.path.dirname(__file__), "photos_avito")
 AVITO_PHOTOS_MAP_PATH = os.path.join(os.path.dirname(__file__), "data", "avito_photos.xlsx")
+MASTER_CONTROL_PATH = os.path.join(os.path.dirname(__file__), "data", "master_control.xlsx")
 
 
 def attach_avito_photos(
@@ -299,6 +300,34 @@ def _load_avito_photo_overrides(map_path: str) -> Dict[str, List[str]]:
     return overrides
 
 
+def _load_stock_map(master_control_path: str) -> Dict[str, float]:
+    """
+    Остаток ("Остаток, шт.") по артикулу из data/master_control.xlsx —
+    используется, чтобы не включать в фид Avito товары с обнулённым
+    остатком (см. build_avito_feed). Товары, для которых остаток не
+    заполнен (пусто/None), НЕ считаются закончившимися — попадают в фид
+    как обычно (остаток для них просто не отслеживается на этом уровне).
+    Если файла нет — считаем, что ограничений по остатку нет (пустой dict).
+    """
+    if not os.path.exists(master_control_path):
+        return {}
+    wb = openpyxl.load_workbook(master_control_path, data_only=True)
+    ws = wb["Товары"] if "Товары" in wb.sheetnames else wb.active
+    stock_map: Dict[str, float] = {}
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        if not row or not row[0]:
+            continue
+        offer_id = str(row[0]).strip()
+        stock_cell = row[9] if len(row) > 9 else None
+        if stock_cell is None or str(stock_cell).strip() == "":
+            continue
+        try:
+            stock_map[offer_id] = float(stock_cell)
+        except (TypeError, ValueError):
+            continue
+    return stock_map
+
+
 def _clean_description(html_desc: str) -> str:
     """
     <br/> и блочные теги (<p>/<div>/<li>/<ul>/<ol>/<h1-6>) -> перенос строки,
@@ -332,6 +361,7 @@ def build_avito_feed(
     condition: str = DEFAULT_CONDITION,
     avito_photos_map_path: str = AVITO_PHOTOS_MAP_PATH,
     price_overrides_path: Optional[str] = None,
+    master_control_path: str = MASTER_CONTROL_PATH,
 ) -> Dict[str, object]:
     """
     Читает data/ozon_catalog.xlsx (общие данные — название/описание/цена/фото,
@@ -340,8 +370,11 @@ def build_avito_feed(
     трогаются) и сохраняет результат в output_path.
 
     Возвращает статистику: {"written": N, "skipped_no_price": [...],
-    "unclassified": [(offer_id, title), ...]} — unclassified нужно проверить
-    и классифицировать вручную (main.py печатает эти строки).
+    "skipped_no_stock": [...], "unclassified": [(offer_id, title), ...]} —
+    skipped_no_stock — товары с остатком 0 в data/master_control.xlsx, их
+    специально не включаем в фид, чтобы Avito сам снял объявление при
+    следующем опросе "Автозагрузки по ссылке" (см. _load_stock_map). Для
+    unclassified нужна ручная проверка (main.py печатает эти строки).
     """
     if not os.path.exists(template_path):
         raise FileNotFoundError(
@@ -360,6 +393,7 @@ def build_avito_feed(
     src_ws = src_wb.active
     photo_overrides = _load_avito_photo_overrides(avito_photos_map_path)
     price_overrides = site_pricing.load_price_overrides(price_overrides_path or site_pricing.OVERRIDES_PATH)
+    stock_map = _load_stock_map(master_control_path)
 
     tmpl_wb = openpyxl.load_workbook(template_path)
     ws = tmpl_wb[SHEET_ADS]
@@ -371,6 +405,7 @@ def build_avito_feed(
 
     written = 0
     skipped_no_price: List[str] = []
+    skipped_no_stock: List[str] = []
     unclassified: List[Tuple[str, str]] = []
 
     out_row = FIRST_DATA_ROW
@@ -388,6 +423,16 @@ def build_avito_feed(
 
         if not price:
             skipped_no_price.append(offer_id)
+            continue
+
+        stock = stock_map.get(offer_id)
+        if stock is not None and stock <= 0:
+            # Остаток обнулён в master_control.xlsx — не включаем в фид,
+            # чтобы объявление на Avito само снялось при следующем опросе
+            # "Автозагрузки по ссылке" (ручное снятие в кабинете Avito не
+            # держится — следующий авто-прогон build-avito-catalog просто
+            # вернул бы его обратно, если бы мы не делали эту проверку).
+            skipped_no_stock.append(offer_id)
             continue
 
         images = photo_overrides.get(offer_id) or [
@@ -430,5 +475,6 @@ def build_avito_feed(
     return {
         "written": written,
         "skipped_no_price": skipped_no_price,
+        "skipped_no_stock": skipped_no_stock,
         "unclassified": unclassified,
     }
