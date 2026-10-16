@@ -235,6 +235,13 @@ def attach_wb_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") ->
     переименовывать/дублировать файлы не нужно (см.
     catalog_editor.own_media_files).
 
+    ВИДЕО — по тому же принципу, что и у Ozon (см. docstring
+    catalog_editor.attach_local_photos): если в photos_dir лежит файл с тем
+    же артикулом и расширением .mp4/.mov, он тоже заливается и подставляется
+    в колонку "Видео" автоматически, отдельно заливать ссылку не нужно.
+    Фото и видео ищутся НЕЗАВИСИМО друг от друга — если у товара есть только
+    видео без новых фото (или наоборот), строка всё равно обрабатывается.
+
     Каждый файл загружается как ассет GitHub Release (photo_host.py) —
     raw_base_url (raw.githubusercontent.com) больше не используется, он
     оказался ненадёжным на практике; параметр оставлен только для
@@ -247,6 +254,7 @@ def attach_wb_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") ->
 
     vendor_col_idx = 1
     images_col_idx = next(i for i, (key, _) in enumerate(COLUMNS, start=1) if key == "images")
+    video_col_idx = next((i for i, (key, _) in enumerate(COLUMNS, start=1) if key == "video_url"), None)
 
     matched: Dict[str, List[str]] = {}
     for row in ws.iter_rows(min_row=2):
@@ -256,24 +264,40 @@ def attach_wb_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") ->
         vendor_code = str(vendor_cell.value).strip()
 
         own_files = catalog_editor.own_media_files(photos_dir, vendor_code, IMAGE_EXTS)
-        if not own_files:
-            continue
+        if own_files:
+            urls = []
+            for f in own_files:
+                try:
+                    url = photo_host.upload_file(
+                        catalog_editor.media_path(photos_dir, vendor_code, f),
+                        filename=catalog_editor.asset_filename_for(vendor_code, f),
+                    )
+                except Exception as exc:
+                    logger.warning("%s: не удалось загрузить фото %s: %s", vendor_code, f, exc)
+                    continue
+                urls.append(url)
+            if urls:
+                row[images_col_idx - 1].value = "|".join(urls)
+                matched[vendor_code] = urls
 
-        urls = []
-        for f in own_files:
-            try:
-                url = photo_host.upload_file(
-                    catalog_editor.media_path(photos_dir, vendor_code, f),
-                    filename=catalog_editor.asset_filename_for(vendor_code, f),
-                )
-            except Exception as exc:
-                logger.warning("%s: не удалось загрузить фото %s: %s", vendor_code, f, exc)
-                continue
-            urls.append(url)
-        if not urls:
-            continue
-        row[images_col_idx - 1].value = "|".join(urls)
-        matched[vendor_code] = urls
+        if video_col_idx:
+            own_videos = catalog_editor.own_media_files(photos_dir, vendor_code, catalog_editor.VIDEO_EXTS)
+            if own_videos:
+                if len(own_videos) > 1:
+                    logger.warning(
+                        "%s: нашлось несколько видеофайлов (%s) — использован первый: %s",
+                        vendor_code,
+                        ", ".join(own_videos),
+                        own_videos[0],
+                    )
+                try:
+                    video_url = photo_host.upload_file(
+                        catalog_editor.media_path(photos_dir, vendor_code, own_videos[0]),
+                        filename=catalog_editor.asset_filename_for(vendor_code, own_videos[0]),
+                    )
+                    row[video_col_idx - 1].value = video_url
+                except Exception as exc:
+                    logger.warning("%s: не удалось загрузить видео %s: %s", vendor_code, own_videos[0], exc)
 
     workbook.save(xlsx_path)
     return matched

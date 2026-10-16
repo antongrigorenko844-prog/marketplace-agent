@@ -70,6 +70,9 @@ COL_DESCRIPTION = 17
 COL_IMAGE_URLS = 19
 COL_TITLE = 24
 COL_PRICE = 34
+COL_VIDEO_FILE_URL = 35  # "URL видеофайла" — ПРЯМАЯ ссылка на файл .mp4 (НЕ путать
+# с колонкой 20 "Ссылка на видео" / VideoURL — та принимает только ссылки на
+# YouTube/Rutube, см. docstring build_avito_feed).
 COL_GOODS_TYPE = 36  # "Вид товара"
 COL_AD_TYPE = 37  # "Вид объявления"
 COL_PART_FOR = 38  # "Тип товара"
@@ -369,6 +372,20 @@ def build_avito_feed(
     шаблона Avito (лист "Объявления", строки 1-4 и лист "Справочники" не
     трогаются) и сохраняет результат в output_path.
 
+    ВИДЕО — если для товара уже есть ссылка в колонке "Видео" catalog_path
+    (её туда кладёт attach-ozon-photos/attach-wb-photos, подхватывая файл
+    .mp4/.mov из photos/<артикул>/ — см. catalog_editor.attach_local_photos),
+    она подставляется в колонку 35 шаблона Avito ("URL видеофайла" —
+    параметр VideoFileURL, прямая ссылка на файл). Это ОТДЕЛЬНОЕ поле от
+    колонки 20 "Ссылка на видео" (VideoURL), которая по документации Avito
+    принимает только ссылки на YouTube/Rutube, а не на произвольный файл —
+    для прямых ссылок (как наши, на GitHub Release) используется именно
+    VideoFileURL. Подставляется "как есть", отдельно не заливается — поэтому
+    build-avito-catalog нужно запускать ПОСЛЕ attach-ozon-photos (так уже
+    устроен composite update-photos/attach-photos-all). Формат и реальное
+    поведение этого поля Avito нигде подробно не описывает — проверьте на
+    одном товаре после первой загрузки фида в кабинете.
+
     Возвращает статистику: {"written": N, "skipped_no_price": [...],
     "skipped_no_stock": [...], "unclassified": [(offer_id, title), ...]} —
     skipped_no_stock — товары с остатком 0 в data/master_control.xlsx, их
@@ -420,6 +437,7 @@ def build_avito_feed(
         # см. site_pricing.py) — берём его, иначе как раньше, общая цена.
         price = price_overrides.get(offer_id, row[3].value)
         images_raw = row[5].value or ""
+        video_url = (row[6].value or "").strip()
 
         if not price:
             skipped_no_price.append(offer_id)
@@ -455,6 +473,8 @@ def build_avito_feed(
         ws.cell(row=out_row, column=COL_DESCRIPTION, value=_clean_description(description_raw))
         if images:
             ws.cell(row=out_row, column=COL_IMAGE_URLS, value="\n".join(images))
+        if video_url:
+            ws.cell(row=out_row, column=COL_VIDEO_FILE_URL, value=video_url)
         ws.cell(row=out_row, column=COL_TITLE, value=_truncate_title(title))
         ws.cell(row=out_row, column=COL_PRICE, value=int(price))
         ws.cell(row=out_row, column=COL_GOODS_TYPE, value=GOODS_TYPE_VALUE)
