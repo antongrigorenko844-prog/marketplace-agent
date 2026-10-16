@@ -599,6 +599,49 @@ def cmd_update_photos() -> int:
     return 0
 
 
+def cmd_update_cards() -> int:
+    """
+    Composite "всё в одном" для правок названия/описания/цены/фото: после
+    правок в data/master_control.xlsx (и/или замены файлов в photos/)
+    запускает ОДНУ команду вместо нескольких: sync-master-control (перенос
+    правок пульта в рабочие файлы Ozon/WB) -> attach-photos-all (новые
+    ссылки на фото) -> push-photos (отправка карточек в Ozon И WB, уходит
+    только то, что изменилось) -> push-wb-price (цена WB, только если
+    отличается от текущей) -> build-avito-catalog (фид Avito).
+    Если sync-master-control упал — дальше НЕ идём (иначе отправили бы
+    недосинхронизированные данные); ошибка на остальных шагах не
+    останавливает следующие, итог по каждому — в конце.
+    """
+    print("=== Шаг 1/5: sync-master-control ===")
+    rc_sync = cmd_sync_master_control()
+    if rc_sync != 0:
+        print("\nupdate-cards: sync-master-control завершился с ошибкой — дальше не иду, проверьте вывод выше.")
+        return 1
+
+    print("\n=== Шаг 2/5: attach-photos-all ===")
+    rc_attach = cmd_attach_photos_all()
+
+    print("\n=== Шаг 3/5: push-photos ===")
+    rc_push = cmd_push_photos()
+
+    print("\n=== Шаг 4/5: push-wb-price ===")
+    rc_price = cmd_push_wb_price()
+
+    print("\n=== Шаг 5/5: build-avito-catalog ===")
+    rc_avito = cmd_build_avito_catalog()
+
+    print()
+    failed = [
+        name for name, rc in (("attach-photos-all", rc_attach), ("push-photos", rc_push), ("push-wb-price", rc_price), ("build-avito-catalog", rc_avito))
+        if rc != 0
+    ]
+    if failed:
+        print(f"update-cards: ошибка на шаге(ах): {', '.join(failed)} — проверьте вывод выше.")
+        return 1
+    print("update-cards: готово — правки перенесены и отправлены на Ozon, WB и в фид Avito.")
+    return 0
+
+
 def cmd_push_wb_price_dryrun() -> int:
     import wb_catalog_editor
 
@@ -628,8 +671,8 @@ def cmd_push_wb_price() -> int:
         return 1
     updates = wb_catalog_editor.build_wb_price_updates(wb_data, edits)
     if not updates:
-        print("Нечего отправлять — см. push-wb-price-dryrun.")
-        return 1
+        print("Цены на WB менять не нужно: ни одна цена в wb_catalog.xlsx не отличается от текущей на WB.")
+        return 0
 
     items = [{"nmID": u["nm_id"], "price": u["price_to_send"], "discount": u["discount"]} for u in updates]
     try:
@@ -2434,6 +2477,7 @@ def main() -> int:
     parser.add_argument("--push-photos-dryrun", action="store_true", help="Composite: push-ozon-cards-dryrun + push-wb-cards-dryrun одной командой, ничего не отправляется")
     parser.add_argument("--push-photos", action="store_true", help="Composite: реально отправить карточки (в т.ч. фото) сразу в Ozon и WB (сначала всегда делайте push-photos-dryrun!)")
     parser.add_argument("--update-photos", action="store_true", help="Composite \"всё в одном\" для смены фото: attach-photos-all + push-photos + build-avito-catalog одной командой (без отдельного dry-run)")
+    parser.add_argument("--update-cards", action="store_true", help="Composite \"всё в одном\" для правок названия/описания/цены/фото: sync-master-control + attach-photos-all + push-photos + build-avito-catalog одной командой")
     parser.add_argument("--push-wb-price-dryrun", action="store_true", help="Показать, у каких товаров изменится цена на WB (колонка 'Цена WB' в wb_catalog.xlsx), БЕЗ реальной отправки")
     parser.add_argument("--push-wb-price", action="store_true", help="Реально отправить новую цену на WB для существующих товаров (сначала всегда делайте dryrun!)")
     parser.add_argument("--sync-orders", action="store_true", help="Общий учёт остатков: списать заказы Ozon+WB за 30 дней из 'Кол-во к продаже' в data/ozon_catalog.xlsx")
@@ -2552,6 +2596,8 @@ def main() -> int:
         return cmd_push_photos()
     if args.update_photos:
         return cmd_update_photos()
+    if args.update_cards:
+        return cmd_update_cards()
     if args.push_wb_price_dryrun:
         return cmd_push_wb_price_dryrun()
     if args.push_wb_price:
