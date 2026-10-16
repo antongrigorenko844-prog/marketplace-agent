@@ -46,7 +46,7 @@ import logging
 import os
 import re
 import time
-from typing import Optional
+from typing import List, Optional
 
 import requests
 
@@ -157,17 +157,62 @@ def _get_or_create_release(token: str, repo: str) -> dict:
     return resp.json()
 
 
+def _list_all_assets(token: str, repo: str, release_id: int) -> List[dict]:
+    """
+    Полный список ассетов релиза — СВОИМ отдельным пагинированным запросом
+    (GET .../releases/{id}/assets?per_page=100), а не через release["assets"]
+    из ответа на /releases/tags/{tag}.
+
+    ВАЖНО (баг найден 2026-10-16): release["assets"], который отдаёт ответ на
+    "get release by tag", на практике не всегда содержит ВСЕ ассеты, если их
+    в релизе уже много (у нас 170+ фото/видео) — из-за этого
+    _delete_asset_if_exists не находил старую версию файла, которая на
+    самом деле там есть, не удалял её, и повторная заливка падала с
+    "already_exists" даже после 3 попыток (конкретный повторяющийся случай —
+    0am325025H_2.png). Явная пагинация по выделенному эндпоинту ассетов
+    гарантированно возвращает все страницы, а не только то, что GitHub решил
+    встроить в объект релиза.
+    """
+    headers = _headers(token)
+    assets: List[dict] = []
+    page = 1
+    while True:
+        resp = requests.get(
+            f"{API_BASE}/repos/{repo}/releases/{release_id}/assets",
+            headers=headers,
+            params={"per_page": 100, "page": page},
+            timeout=30,
+        )
+        if not resp.ok:
+            logger.warning(
+                "Не удалось получить страницу %d списка ассетов релиза: %s",
+                page,
+                resp.text[:200],
+            )
+            break
+        batch = resp.json()
+        if not batch:
+            break
+        assets.extend(batch)
+        if len(batch) < 100:
+            break
+        page += 1
+    return assets
+
+
 def _delete_asset_if_exists(token: str, repo: str, release: dict, filename: str) -> bool:
     """Удаляет старую версию ассета с таким именем, если она есть.
 
     Сравнение идёт по нормализованному имени (см. _normalize_asset_name),
     чтобы находить старую версию, даже если GitHub при первой загрузке
-    заменил в её имени пробелы/кириллицу/т.п. на точки. Возвращает True,
-    если что-то реально удалили.
+    заменил в её имени пробелы/кириллицу/т.п. на точки. Список ассетов
+    берём через _list_all_assets (см. её docstring, почему не через
+    release["assets"]), а не из переданного release целиком — нужен только
+    release["id"]. Возвращает True, если что-то реально удалили.
     """
     headers = _headers(token)
     target = _normalize_asset_name(filename)
-    for asset in release.get("assets", []):
+    for asset in _list_all_assets(token, repo, release["id"]):
         if _normalize_asset_name(asset.get("name", "")) == target:
             del_resp = requests.delete(
                 f"{API_BASE}/repos/{repo}/releases/assets/{asset['id']}",
