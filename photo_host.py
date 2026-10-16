@@ -42,6 +42,7 @@ sha256 от содержимого файла>". Пока содержимое �
 скачать её заново.
 """
 import hashlib
+import json
 import logging
 import os
 import re
@@ -54,6 +55,17 @@ logger = logging.getLogger("marketplace-agent.photo_host")
 
 API_BASE = "https://api.github.com"
 RELEASE_TAG = "product-photos"
+
+# Кэш "какой файл с каким содержимым уже залит и под какой ссылкой" —
+# data/photo_upload_cache.json, коммитится в репозиторий вместе с остальным
+# data/ (см. .github/workflows/main.yml, шаг "Save data back to repo"), и
+# поэтому переживает между запусками GitHub Actions. Без этого кэша
+# upload_file() раньше ВСЕГДА удалял и перезаливал ассет заново при каждом
+# запуске attach-*-photos, даже если содержимое файла не поменялось ни на
+# байт — отсюда 10-15 минут на update-photos ради замены одной-двух фоток
+# (170+ файлов перезаливались все подряд). Теперь при совпадении хэша
+# содержимого файл просто пропускается — без единого запроса к GitHub.
+_CACHE_PATH = os.path.join(os.path.dirname(__file__), "data", "photo_upload_cache.json")
 
 _CONTENT_TYPES = {
     ".jpg": "image/jpeg",
@@ -93,6 +105,40 @@ def _normalize_asset_name(name: str) -> str:
 
 class PhotoHostError(RuntimeError):
     pass
+
+
+def _load_cache() -> dict:
+    try:
+        with open(_CACHE_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
+    except (json.JSONDecodeError, OSError) as exc:
+        logger.warning("Не удалось прочитать %s (%s) — кэш загрузок считается пустым.", _CACHE_PATH, exc)
+        return {}
+
+
+def _save_cache(cache: dict) -> None:
+    """
+    Пишет через временный файл + os.replace, чтобы не оставить битый
+    (наполовину записанный) JSON, если запуск оборвётся прямо на записи.
+    """
+    try:
+        os.makedirs(os.path.dirname(_CACHE_PATH), exist_ok=True)
+        tmp_path = _CACHE_PATH + ".tmp"
+        with open(tmp_path, "w", encoding="utf-8") as f:
+            json.dump(cache, f, ensure_ascii=False, indent=2, sort_keys=True)
+        os.replace(tmp_path, _CACHE_PATH)
+    except OSError as exc:
+        # Не фатально — просто в следующий раз этот файл перезальётся заново,
+        # как будто кэша для него не было.
+        logger.warning("Не удалось сохранить %s: %s", _CACHE_PATH, exc)
+
+
+def _remember_upload(filename: str, content_hash: str, url: str) -> None:
+    cache = _load_cache()
+    cache[filename] = {"hash": content_hash, "url": url}
+    _save_cache(cache)
 
 
 def _get_token() -> str:
@@ -241,10 +287,26 @@ def upload_file(local_path: str, filename: Optional[str] = None, retries: int = 
     уже известному им URL изменилось, и продолжают показывать старую
     картинку. Хэш меняется только вместе с содержимым файла, так что
     ссылка остаётся стабильной, пока вы не положите в photos/ другой файл.
+
+    КЭШ (см. _CACHE_PATH выше): если для этого имени файла уже есть запись
+    в кэше с ТЕМ ЖЕ хэшем содержимого — ничего никуда не заливаем и не
+    удаляем, просто возвращаем уже известную ссылку. Запрос к GitHub вообще
+    не делается. Это значит, что attach-ozon-photos/attach-wb-photos теперь
+    реально обрабатывают только то, что вы поменяли, а не весь photos/
+    целиком на каждый запуск.
     """
+    filename = filename or os.path.basename(local_path)
+
+    with open(local_path, "rb") as f:
+        data = f.read()
+    content_hash = hashlib.sha256(data).hexdigest()[:10]
+
+    cached = _load_cache().get(filename)
+    if cached and cached.get("hash") == content_hash and cached.get("url"):
+        return cached["url"]
+
     token = _get_token()
     repo = _get_repo()
-    filename = filename or os.path.basename(local_path)
 
     release = _get_or_create_release(token, repo)
     _delete_asset_if_exists(token, repo, release, filename)
@@ -255,8 +317,6 @@ def upload_file(local_path: str, filename: Optional[str] = None, retries: int = 
 
     last_error = None
     for attempt in range(1, retries + 1):
-        with open(local_path, "rb") as f:
-            data = f.read()
         resp = requests.post(
             upload_url,
             headers={**_headers(token), "Content-Type": content_type},
@@ -266,8 +326,9 @@ def upload_file(local_path: str, filename: Optional[str] = None, retries: int = 
         )
         if resp.ok:
             base_url = resp.json()["browser_download_url"]
-            content_hash = hashlib.sha256(data).hexdigest()[:10]
-            return f"{base_url}?v={content_hash}"
+            result_url = f"{base_url}?v={content_hash}"
+            _remember_upload(filename, content_hash, result_url)
+            return result_url
         last_error = f"{resp.status_code}: {resp.text[:300]}"
         # Если GitHub всё равно ответил "такое имя уже есть" (например, наша
         # нормализация не поймала какой-то редкий символ) — сразу же ещё раз
