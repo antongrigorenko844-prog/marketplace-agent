@@ -333,6 +333,7 @@ def build_wb_update_items(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
     каждый раз, даже если ничего не меняли.
     """
     cards = _cards_by_vendor(wb_data)
+    text_cache = _load_media_push_cache()
     items: List[dict] = []
     skipped = 0
     for vendor_code, edit in edits.items():
@@ -344,6 +345,12 @@ def build_wb_update_items(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
         current_title = (_card_title(card) or "").strip()[:TITLE_MAX_LEN]
         current_description = _card_description(card) or ""
         if title == current_title and description == current_description:
+            skipped += 1
+            continue
+        # WB мог принять текст, но в wb_cards.json (последний fetch-wb) пока
+        # лежит старое значение — не слать то же самое повторно, пока не
+        # сделают fetch-wb: смотрим, что именно мы сами отправляли в прошлый раз.
+        if text_cache.get("text:" + vendor_code) == _text_fingerprint(title, description):
             skipped += 1
             continue
         items.append(
@@ -444,6 +451,20 @@ def _save_media_push_cache(cache: Dict[str, str]) -> None:
 def _urls_fingerprint(urls: List[str]) -> str:
     raw = json.dumps(list(urls), ensure_ascii=False)
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
+
+
+def _text_fingerprint(title: str, description: str) -> str:
+    raw = json.dumps([title, description], ensure_ascii=False)
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
+
+
+def mark_text_pushed(items: List[dict]) -> None:
+    """Запомнить, что название/описание этих items успешно отправлены в WB
+    (хранится в том же data/wb_media_push_cache.json, ключ "text:<vendorCode>")."""
+    cache = _load_media_push_cache()
+    for it in items:
+        cache["text:" + it["vendorCode"]] = _text_fingerprint(it["title"], it["description"])
+    _save_media_push_cache(cache)
 
 
 def mark_media_pushed(vendor_code: str, urls: List[str]) -> None:

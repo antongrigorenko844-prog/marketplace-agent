@@ -470,6 +470,7 @@ def cmd_push_wb_cards() -> int:
                 wb_client.update_cards(batch)
                 print(f"Название/описание: партия {i // chunk + 1} ({len(batch)} шт.) отправлена.")
                 total_ok += len(batch)
+                wb_catalog_editor.mark_text_pushed(batch)
             except wb_client.WbApiError as exc:
                 print(f"ОШИБКА при отправке названия/описания (партия {i // chunk + 1}): {exc}")
                 total_err += len(batch)
