@@ -30,6 +30,8 @@
 сырых данных Ozon без изменений — так собственные данные карточки не
 портятся при правке одного поля.
 """
+import hashlib
+import json
 import logging
 import os
 import re
@@ -41,6 +43,15 @@ from openpyxl.styles import Font, PatternFill
 from openpyxl.utils import get_column_letter
 
 logger = logging.getLogger("marketplace-agent.catalog_editor")
+
+# Кэш "что из xlsx уже успешно отправлено в Ozon" — data/ozon_push_cache.json,
+# коммитится вместе с остальным data/ (см. .github/workflows/main.yml, шаг
+# "Save data back to repo"). Без него push-ozon-cards каждый раз отправлял
+# ВЕСЬ каталог (100+ товаров) в Ozon, даже если правили текст в одной
+# карточке — здесь храним отпечаток (хэш) полей, которые реально отправлены
+# по каждому offer_id, и пропускаем те строки, где он не изменился со
+# времени прошлой УСПЕШНОЙ отправки (см. build_import_items, mark_pushed).
+_PUSH_CACHE_PATH = os.path.join(os.path.dirname(__file__), "data", "ozon_push_cache.json")
 
 FONT_NAME = "Arial"
 HEADER_FILL = PatternFill(start_color="305496", end_color="305496", fill_type="solid")
@@ -844,12 +855,84 @@ def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:
     }
 
 
-def build_import_items(data: dict, edits: Dict[str, dict]) -> List[dict]:
-    """Склеивает сырые данные Ozon с правками из xlsx в готовые items для /v3/product/import."""
+def _load_push_cache() -> Dict[str, str]:
+    try:
+        with open(_PUSH_CACHE_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
+    except (json.JSONDecodeError, OSError) as exc:
+        logger.warning(
+            "Не удалось прочитать %s (%s) — кэш отправленных карточек считается пустым.",
+            _PUSH_CACHE_PATH,
+            exc,
+        )
+        return {}
+
+
+def _save_push_cache(cache: Dict[str, str]) -> None:
+    try:
+        os.makedirs(os.path.dirname(_PUSH_CACHE_PATH), exist_ok=True)
+        tmp_path = _PUSH_CACHE_PATH + ".tmp"
+        with open(tmp_path, "w", encoding="utf-8") as f:
+            json.dump(cache, f, ensure_ascii=False, indent=2, sort_keys=True)
+        os.replace(tmp_path, _PUSH_CACHE_PATH)
+    except OSError as exc:
+        logger.warning("Не удалось сохранить %s: %s", _PUSH_CACHE_PATH, exc)
+
+
+def _edit_fingerprint(edit: dict) -> str:
+    """Хэш тех полей edit, которые реально уходят в Ozon — см. _build_one_item."""
+    payload = {
+        "name": (edit.get("name") or "").strip() if isinstance(edit.get("name"), str) else (edit.get("name") or ""),
+        "description": edit.get("description") or "",
+        "price": str(edit.get("price")).strip() if edit.get("price") not in (None, "") else "",
+        "old_price": str(edit.get("old_price")).strip() if edit.get("old_price") not in (None, "") else "",
+        "images": list(edit.get("images") or []),
+        "video_url": edit.get("video_url") or "",
+        "tnved": edit.get("tnved") or "",
+        "hashtags": edit.get("hashtags") or "",
+    }
+    raw = json.dumps(payload, ensure_ascii=False, sort_keys=True)
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
+
+
+def mark_pushed(offer_id: str, edit: dict) -> None:
+    """
+    Запомнить, что именно ЭТОТ вариант edit для offer_id уже успешно
+    отправлен в Ozon (вызывать ТОЛЬКО после подтверждённого успеха по
+    этому товару, не просто после попытки отправки — см. cmd_push_ozon_cards
+    в main.py) — используется build_import_items, чтобы не отправлять то,
+    что не менялось, при следующем push-ozon-cards.
+    """
+    cache = _load_push_cache()
+    cache[offer_id] = _edit_fingerprint(edit)
+    _save_push_cache(cache)
+
+
+def build_import_items(data: dict, edits: Dict[str, dict], force: bool = False) -> List[dict]:
+    """
+    Склеивает сырые данные Ozon с правками из xlsx в готовые items для
+    /v3/product/import.
+
+    ТОЛЬКО ИЗМЕНИВШИЕСЯ ТОВАРЫ (добавлено 2026-10-16): по умолчанию товар
+    пропускается, если ни одно из отправляемых полей (название, описание,
+    цена, старая цена, фото, видео, ТН ВЭД, хэштеги) не поменялось со
+    времени прошлой УСПЕШНОЙ отправки через push-ozon-cards — сравнение по
+    отпечатку в data/ozon_push_cache.json (см. _edit_fingerprint,
+    mark_pushed). Раньше здесь всегда собирались items для ВСЕХ строк
+    xlsx — отсюда push-ozon-cards каждый раз отправлял в Ozon весь каталог
+    (100+ товаров), даже если правили название в одной-единственной
+    карточке. force=True отключает фильтр и собирает items для всех строк
+    как раньше (на случай, если кэш когда-то разойдётся с реальностью —
+    например, что-то поменяли прямо в кабинете Ozon мимо этого пайплайна).
+    """
     names_by_offer = {n.get("offer_id"): n for n in data.get("names", []) if n.get("offer_id")}
     details_by_offer = {d.get("offer_id"): d for d in data.get("details", []) if d.get("offer_id")}
+    push_cache = {} if force else _load_push_cache()
 
     items: List[dict] = []
+    skipped = 0
     for offer_id, edit in edits.items():
         name_entry = names_by_offer.get(offer_id)
         if not name_entry:
@@ -859,8 +942,18 @@ def build_import_items(data: dict, edits: Dict[str, dict]) -> List[dict]:
                 offer_id,
             )
             continue
+        if not force and push_cache.get(offer_id) == _edit_fingerprint(edit):
+            skipped += 1
+            continue
         detail = details_by_offer.get(offer_id, {})
         items.append(_build_one_item(name_entry, detail, edit))
+    if skipped:
+        logger.info(
+            "Пропущено %d товаров без изменений с прошлой успешной отправки в Ozon "
+            "(см. data/ozon_push_cache.json). Если кэш устарел — удалите этот файл из "
+            "data/ в репозитории, и следующий push-ozon-cards отправит всё заново.",
+            skipped,
+        )
     return items
 
 

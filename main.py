@@ -274,8 +274,13 @@ def cmd_push_ozon_cards() -> int:
     _print_validation_warnings(data)
     items = catalog_editor.build_import_items(data, edits)
     if not items:
-        print("Нечего отправлять: ни одна строка xlsx не совпала с offer_id из ozon_products.json.")
-        return 1
+        print(
+            "Отправлять нечего: либо ни одна строка xlsx не совпала с offer_id из "
+            "ozon_products.json (см. предупреждения выше), либо (чаще) всё, что есть в "
+            "xlsx, уже было отправлено раньше и с тех пор не менялось (см. "
+            "data/ozon_push_cache.json) — это нормальный исход, не ошибка."
+        )
+        return 0
 
     total_ok = 0
     total_err = 0
@@ -305,6 +310,14 @@ def cmd_push_ozon_cards() -> int:
                 total_ok += 1
                 note = f" (предупреждение: {warnings})" if warnings else ""
                 print(f"  ОК {it.get('offer_id')}: статус {it.get('status')}{note}")
+                # Запоминаем, что ИМЕННО ЭТОТ вариант карточки успешно
+                # отправлен — только теперь, после подтверждённого Ozon
+                # статуса (не сразу после отправки партии), чтобы при
+                # следующем push-ozon-cards не отправлять то, что не
+                # поменялось (см. build_import_items/mark_pushed).
+                offer_id = it.get("offer_id")
+                if offer_id in edits:
+                    catalog_editor.mark_pushed(offer_id, edits[offer_id])
     print(f"\nИтого: успешно {total_ok}, с ошибками {total_err}")
     return 0 if total_err == 0 else 1
 
@@ -439,8 +452,12 @@ def cmd_push_wb_cards() -> int:
     media_items = wb_catalog_editor.build_wb_media_updates(wb_data, edits)
 
     if not text_items and not media_items:
-        print("Нечего отправлять — ни одна строка xlsx не совпала с vendorCode из wb_cards.json.")
-        return 1
+        print(
+            "Отправлять нечего: либо ни одна строка xlsx не совпала с vendorCode из "
+            "wb_cards.json, либо (чаще) всё, что есть в xlsx, уже было отправлено раньше "
+            "и с тех пор не менялось — это нормальный исход, не ошибка."
+        )
+        return 0
 
     total_ok = 0
     total_err = 0
@@ -462,6 +479,9 @@ def cmd_push_wb_cards() -> int:
             wb_client.update_media(media["nm_id"], media["urls"])
             print(f"Фото: {media['vendor_code']} — {len(media['urls'])} фото отправлено.")
             total_ok += 1
+            # Запоминаем именно после подтверждённого успеха (не раньше) —
+            # см. mark_media_pushed/build_wb_media_updates.
+            wb_catalog_editor.mark_media_pushed(media["vendor_code"], media["urls"])
         except wb_client.WbApiError as exc:
             print(f"ОШИБКА при отправке фото {media['vendor_code']}: {exc}")
             total_err += 1

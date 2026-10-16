@@ -16,6 +16,8 @@
 Ozon — соответственно, ниже две отдельные функции сборки: build_wb_update_items
 (текст) и build_wb_media_updates (фото), их можно отправлять по отдельности.
 """
+import hashlib
+import json
 import logging
 import os
 import re
@@ -29,6 +31,16 @@ from openpyxl.utils import get_column_letter
 import catalog_editor
 
 logger = logging.getLogger("marketplace-agent.wb_catalog_editor")
+
+# Кэш "какие фото/видео уже успешно отправлены на WB" — data/wb_media_push_cache.json,
+# коммитится вместе с остальным data/. Почему не сравнивать напрямую с тем,
+# что отдаёт wb_cards.json (как сделано для title/description ниже, см.
+# build_wb_update_items): WB может отдавать фото по СОБСТВЕННЫМ ссылкам (не
+# по тем, что мы заливали на GitHub Release) — сравнение "наша ссылка" vs
+# "ссылка от WB" никогда бы не совпало, и фильтр был бы бесполезен. Поэтому
+# здесь запоминаем именно то, что САМИ успешно отправили в прошлый раз (см.
+# build_wb_media_updates, mark_media_pushed).
+_MEDIA_PUSH_CACHE_PATH = os.path.join(os.path.dirname(__file__), "data", "wb_media_push_cache.json")
 
 FONT_NAME = "Arial"
 HEADER_FILL = PatternFill(start_color="305496", end_color="305496", fill_type="solid")
@@ -309,27 +321,48 @@ def build_wb_update_items(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
     description, всё остальное (brand, dimensions, characteristics, sizes,
     kizMarked) копирует из уже выгруженной карточки без изменений. Фото
     сюда не входят — для них build_wb_media_updates.
+
+    ТОЛЬКО ИЗМЕНИВШИЕСЯ ТОВАРЫ (добавлено 2026-10-16): строка пропускается,
+    если итоговые название и описание совпадают с тем, что по последнему
+    fetch-wb уже стоит на WB (_card_title/_card_description) — сравниваем
+    напрямую с данными WB (не через отдельный кэш, как для фото ниже),
+    потому что title/description WB отдаёт как есть, без подмены на
+    собственные ссылки/CDN, так что сравнение надёжно и само "самочинится"
+    при каждом fetch-wb. Раньше здесь собирались items для ВСЕХ строк xlsx —
+    push-wb-cards отправлял /content/v2/cards/update на весь каталог
+    каждый раз, даже если ничего не меняли.
     """
     cards = _cards_by_vendor(wb_data)
     items: List[dict] = []
+    skipped = 0
     for vendor_code, edit in edits.items():
         card = cards.get(vendor_code)
         if not card:
             continue
-        title = (edit.get("title") or _card_title(card) or "").strip()
+        title = (edit.get("title") or _card_title(card) or "").strip()[:TITLE_MAX_LEN]
         description = edit.get("description") or _card_description(card)
+        current_title = (_card_title(card) or "").strip()[:TITLE_MAX_LEN]
+        current_description = _card_description(card) or ""
+        if title == current_title and description == current_description:
+            skipped += 1
+            continue
         items.append(
             {
                 "nmID": card.get("nmID"),
                 "vendorCode": vendor_code,
                 "kizMarked": card.get("kizMarked", False),
                 "brand": card.get("brand", ""),
-                "title": title[:TITLE_MAX_LEN],
+                "title": title,
                 "description": description,
                 "dimensions": card.get("dimensions") or {},
                 "characteristics": card.get("characteristics") or [],
                 "sizes": card.get("sizes") or [],
             }
+        )
+    if skipped:
+        logger.info(
+            "Пропущено %d товаров без изменений названия/описания (совпадает с данными последнего fetch-wb).",
+            skipped,
         )
     return items
 
@@ -382,6 +415,48 @@ def build_wb_price_updates(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
     return out
 
 
+def _load_media_push_cache() -> Dict[str, str]:
+    try:
+        with open(_MEDIA_PUSH_CACHE_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
+    except (json.JSONDecodeError, OSError) as exc:
+        logger.warning(
+            "Не удалось прочитать %s (%s) — кэш отправленных фото/видео считается пустым.",
+            _MEDIA_PUSH_CACHE_PATH,
+            exc,
+        )
+        return {}
+
+
+def _save_media_push_cache(cache: Dict[str, str]) -> None:
+    try:
+        os.makedirs(os.path.dirname(_MEDIA_PUSH_CACHE_PATH), exist_ok=True)
+        tmp_path = _MEDIA_PUSH_CACHE_PATH + ".tmp"
+        with open(tmp_path, "w", encoding="utf-8") as f:
+            json.dump(cache, f, ensure_ascii=False, indent=2, sort_keys=True)
+        os.replace(tmp_path, _MEDIA_PUSH_CACHE_PATH)
+    except OSError as exc:
+        logger.warning("Не удалось сохранить %s: %s", _MEDIA_PUSH_CACHE_PATH, exc)
+
+
+def _urls_fingerprint(urls: List[str]) -> str:
+    raw = json.dumps(list(urls), ensure_ascii=False)
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
+
+
+def mark_media_pushed(vendor_code: str, urls: List[str]) -> None:
+    """Запомнить, что именно ЭТОТ список ссылок (фото+видео) уже успешно
+    отправлен в WB для vendor_code — вызывать ТОЛЬКО после подтверждённого
+    успеха (см. cmd_push_wb_cards в main.py), иначе реальная неудачная
+    отправка будет ошибочно считаться выполненной и пропущена в следующий
+    раз."""
+    cache = _load_media_push_cache()
+    cache[vendor_code] = _urls_fingerprint(urls)
+    _save_media_push_cache(cache)
+
+
 def build_wb_media_updates(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
     """
     Собирает список {"nm_id":..., "vendor_code":..., "urls": [...]} для
@@ -392,9 +467,21 @@ def build_wb_media_updates(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
     отправлялся с видео, а сейчас меняете только фото, видео нужно оставить
     в колонке "Видео" (не стирать), иначе оно пропадёт при этом запросе.
     Видео, если указано, всегда добавляется В КОНЕЦ списка (после фото).
+
+    ТОЛЬКО ИЗМЕНИВШИЕСЯ ФОТО/ВИДЕО (добавлено 2026-10-16): если точно
+    такой же список ссылок для этого vendor_code уже был успешно отправлен
+    в прошлый раз (см. data/wb_media_push_cache.json, mark_media_pushed) —
+    строка пропускается. Раньше attach-wb-photos каждый раз заново
+    заполнял колонку "Фото" (даже если содержимое файла не менялось —
+    photo_host просто возвращал ту же ссылку из своего кэша), а
+    build_wb_media_updates видел непустую колонку и отправлял /content/v3/
+    media/save ПОВТОРНО для ВСЕХ товаров с локальными фото на каждый
+    push-wb-cards — отсюда десятки лишних запросов на ровном месте.
     """
     cards = _cards_by_vendor(wb_data)
+    cache = _load_media_push_cache()
     out: List[dict] = []
+    skipped = 0
     for vendor_code, edit in edits.items():
         images = list(edit.get("images") or [])
         video_url = (edit.get("video_url") or "").strip()
@@ -404,5 +491,13 @@ def build_wb_media_updates(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
         if not card or not card.get("nmID"):
             continue
         urls = images + ([video_url] if video_url else [])
+        if cache.get(vendor_code) == _urls_fingerprint(urls):
+            skipped += 1
+            continue
         out.append({"nm_id": card["nmID"], "vendor_code": vendor_code, "urls": urls})
+    if skipped:
+        logger.info(
+            "Пропущено %d товаров — то же фото/видео уже было отправлено в прошлый раз.",
+            skipped,
+        )
     return out
