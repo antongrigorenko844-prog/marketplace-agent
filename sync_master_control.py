@@ -332,6 +332,7 @@ _WB_DRAFT_FIELD_MAP = {
 _WB_ALIAS_OZON_TO_VENDOR = {
     "0am325477ae": "0am325477",
     "02e305045": "02E305045E",
+    "0AM927769N": "0AM927769D",  # WB "0AM927769D" = прокладки платы = Ozon "0AM927769N"
 }
 
 
