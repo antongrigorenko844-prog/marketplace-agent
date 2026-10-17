@@ -212,19 +212,10 @@ def build_new_import_items(existing_data: dict, edits: Dict[str, dict]) -> List[
         attributes = catalog_editor._with_overridden_attr(attributes, catalog_editor.ATTR_ID_NAME_MIRROR, new_name)
         attributes = catalog_editor._with_overridden_attr(attributes, catalog_editor.ATTR_ID_DESCRIPTION, new_description)
 
+        complex_attributes = list(sample.get("complex_attributes") or [])
         video_url = (edit.get("video_url") or "").strip()
         if video_url:
-            video_attr_id = catalog_editor._get_video_attr_id(
-                sample.get("description_category_id", 0), sample.get("type_id", 0)
-            )
-            if video_attr_id:
-                attributes = catalog_editor._with_overridden_attr(attributes, video_attr_id, video_url)
-            else:
-                logger.warning(
-                    "%s: в характеристиках категории образца не нашлось атрибута 'видео' — "
-                    "видео НЕ добавлено, остальное создастся как обычно.",
-                    new_offer_id,
-                )
+            complex_attributes = catalog_editor._with_video_complex(complex_attributes, video_url, new_offer_id)
 
         tnved = (edit.get("tnved") or "").strip()
         if tnved:
@@ -294,7 +285,7 @@ def build_new_import_items(existing_data: dict, edits: Dict[str, dict]) -> List[
                 "type_id": sample.get("type_id", 0),
                 "barcode": edit.get("barcode") or "",
                 "attributes": attributes,
-                "complex_attributes": sample.get("complex_attributes") or [],
+                "complex_attributes": complex_attributes,
                 "color_image": "",
                 "images": rest_images,
                 "primary_image": primary_image,

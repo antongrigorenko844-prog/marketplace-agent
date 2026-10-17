@@ -761,6 +761,30 @@ def _get_hashtags_attr_id(description_category_id: int, type_id: int) -> Optiona
     )
 
 
+_VIDEO_COMPLEX_ID = 100001
+_VIDEO_URL_ATTR_ID = 21841
+_VIDEO_NAME_ATTR_ID = 21837
+
+
+def _with_video_complex(complex_attributes: List[dict], video_url: str, video_name: str) -> List[dict]:
+    """Возвращает complex_attributes с одним видео (старые записи видео заменяются)."""
+    result: List[dict] = []
+    for entry in complex_attributes:
+        attrs = entry.get("attributes") or []
+        if any(a.get("complex_id") == _VIDEO_COMPLEX_ID or a.get("id") in (_VIDEO_URL_ATTR_ID, _VIDEO_NAME_ATTR_ID) for a in attrs):
+            continue
+        result.append(entry)
+    result.append(
+        {
+            "attributes": [
+                {"id": _VIDEO_URL_ATTR_ID, "complex_id": _VIDEO_COMPLEX_ID, "values": [{"value": video_url}]},
+                {"id": _VIDEO_NAME_ATTR_ID, "complex_id": _VIDEO_COMPLEX_ID, "values": [{"value": video_name}]},
+            ]
+        }
+    )
+    return result
+
+
 def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:
     price_block = _price_block(detail)
 
@@ -773,19 +797,15 @@ def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:
     attributes = _with_overridden_attr(attributes, ATTR_ID_NAME_MIRROR, new_name)
     attributes = _with_overridden_attr(attributes, ATTR_ID_DESCRIPTION, new_description)
 
+    # Видео у Ozon — это КОМПЛЕКСНЫЙ атрибут (complex_attributes, complex_id 100001):
+    # 21841 = ссылка на видео, 21837 = название видео. В обычных характеристиках
+    # категории его нет, поэтому поиск по названию (_get_video_attr_id) не работал.
+    complex_attributes = list(name_entry.get("complex_attributes") or [])
     video_url = (edit.get("video_url") or "").strip()
     if video_url:
-        video_attr_id = _get_video_attr_id(
-            name_entry.get("description_category_id", 0), name_entry.get("type_id", 0)
+        complex_attributes = _with_video_complex(
+            complex_attributes, video_url, name_entry.get("offer_id", "") or "video"
         )
-        if video_attr_id:
-            attributes = _with_overridden_attr(attributes, video_attr_id, video_url)
-        else:
-            logger.warning(
-                "%s: в характеристиках его категории не нашлось атрибута 'видео' — видео "
-                "НЕ добавлено, остальное обновится как обычно.",
-                name_entry.get("offer_id"),
-            )
 
     tnved = (edit.get("tnved") or "").strip()
     if tnved:
@@ -837,7 +857,7 @@ def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:
         "type_id": name_entry.get("type_id", 0),
         "barcode": name_entry.get("barcode", "") or "",
         "attributes": attributes,
-        "complex_attributes": name_entry.get("complex_attributes") or [],
+        "complex_attributes": complex_attributes,
         "color_image": name_entry.get("color_image", "") or "",
         "images": images,
         "primary_image": primary_image,
@@ -893,6 +913,8 @@ def _edit_fingerprint(edit: dict) -> str:
         "tnved": edit.get("tnved") or "",
         "hashtags": edit.get("hashtags") or "",
     }
+    if payload["video_url"]:
+        payload["video_mode"] = "complex-v1"  # способ передачи видео изменился — переотправить один раз
     raw = json.dumps(payload, ensure_ascii=False, sort_keys=True)
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
 
