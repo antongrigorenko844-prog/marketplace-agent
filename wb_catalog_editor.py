@@ -239,6 +239,18 @@ def load_wb_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
     return edits
 
 
+# Для некоторых карточек WB фото лежат в папке ДРУГОГО артикула:
+# vendorCode на WB -> артикул (папка photos/<артикул>/), откуда брать фото/видео.
+# 0AM927769D на WB — это ПРОКЛАДКИ платы (фото берём у Ozon-артикула
+# 0AM927769N), а не электронная плата, чьё фото лежит в photos/0AM927769D/
+# (иначе на карточке прокладок показывалось фото платы — исправлено 2026-10-17).
+# 0AM927769D-plata — новая отдельная WB-карточка электронной платы.
+WB_PHOTO_SOURCE = {
+    "0AM927769D": "0AM927769N",
+    "0AM927769D-plata": "0AM927769D",
+}
+
+
 def attach_wb_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") -> Dict[str, List[str]]:
     """
     То же самое, что attach_local_photos в catalog_editor.py (Ozon), но
@@ -275,14 +287,15 @@ def attach_wb_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") ->
             continue
         vendor_code = str(vendor_cell.value).strip()
 
-        own_files = catalog_editor.own_media_files(photos_dir, vendor_code, IMAGE_EXTS)
+        src = WB_PHOTO_SOURCE.get(vendor_code, vendor_code)
+        own_files = catalog_editor.own_media_files(photos_dir, src, IMAGE_EXTS)
         if own_files:
             urls = []
             for f in own_files:
                 try:
                     url = photo_host.upload_file(
-                        catalog_editor.media_path(photos_dir, vendor_code, f),
-                        filename=catalog_editor.asset_filename_for(vendor_code, f),
+                        catalog_editor.media_path(photos_dir, src, f),
+                        filename=catalog_editor.asset_filename_for(src, f),
                     )
                 except Exception as exc:
                     logger.warning("%s: не удалось загрузить фото %s: %s", vendor_code, f, exc)
@@ -293,7 +306,7 @@ def attach_wb_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") ->
                 matched[vendor_code] = urls
 
         if video_col_idx:
-            own_videos = catalog_editor.own_media_files(photos_dir, vendor_code, catalog_editor.VIDEO_EXTS)
+            own_videos = catalog_editor.own_media_files(photos_dir, src, catalog_editor.VIDEO_EXTS)
             if own_videos:
                 if len(own_videos) > 1:
                     logger.warning(
@@ -304,8 +317,8 @@ def attach_wb_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") ->
                     )
                 try:
                     video_url = photo_host.upload_file(
-                        catalog_editor.media_path(photos_dir, vendor_code, own_videos[0]),
-                        filename=catalog_editor.asset_filename_for(vendor_code, own_videos[0]),
+                        catalog_editor.media_path(photos_dir, src, own_videos[0]),
+                        filename=catalog_editor.asset_filename_for(src, own_videos[0]),
                     )
                     row[video_col_idx - 1].value = video_url
                 except Exception as exc:
