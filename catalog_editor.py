@@ -530,6 +530,43 @@ def build_ozon_catalog(data: dict, xlsx_path: str) -> int:
     return row_idx - 2
 
 
+HASHTAG_MAX_LEN = 30  # включая "#"; Ozon отвечает BR_hashtags_symbols_limit на более длинные
+HASHTAG_MAX_COUNT = 30
+
+
+def normalize_hashtags(value) -> str:
+    """
+    Приводит хэштеги к формату Ozon: через пробел, каждый начинается с "#",
+    только буквы/цифры/подчёркивание, не длиннее HASHTAG_MAX_LEN символов.
+    Запятые и дефисы/пробелы внутри заменяются, слишком длинный тег
+    обрезается по границе слова ("_"), дубли убираются, порядок сохраняется.
+    Правится только то, что уходит на Ozon; файл master_control не меняется.
+    """
+    import re
+
+    if value in (None, ""):
+        return ""
+    raw = re.sub(r"[,;\n]+", " ", str(value))
+    out: List[str] = []
+    for tok in raw.split():
+        tok = tok.lstrip("#")
+        tok = re.sub(r"[^\w]+", "_", tok, flags=re.UNICODE).strip("_")
+        if not tok:
+            continue
+        tag = "#" + tok
+        if len(tag) > HASHTAG_MAX_LEN:
+            cut = tag[:HASHTAG_MAX_LEN]
+            if "_" in cut[1:]:
+                cut = cut.rsplit("_", 1)[0]
+            tag = cut.rstrip("_")
+            if len(tag) < 3:
+                continue
+        if tag not in out:
+            out.append(tag)
+    return " ".join(out[:HASHTAG_MAX_COUNT])
+
+
+
 def load_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
     """
     Читает отредактированный каталог обратно.
@@ -570,7 +607,7 @@ def load_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
             # атрибут 22232 отсутствовал у товаров, для которых код точно
             # вписывали.
             "tnved": tnved_val.strip() if isinstance(tnved_val, str) else (tnved_val or ""),
-            "hashtags": hashtags_val.strip() if isinstance(hashtags_val, str) else (hashtags_val or ""),
+            "hashtags": normalize_hashtags(hashtags_val),
         }
     return edits
 
