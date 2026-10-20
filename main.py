@@ -723,6 +723,32 @@ def cmd_push_yandex_stock(dry_run: bool = False) -> int:
     if not stocks:
         print("Нечего отправлять — ни у одного товара не заполнен остаток.")
         return 1
+
+    # Маркет различает регистр SKU: у части товаров там есть второй вариант артикула, отличающийся
+    # только регистром (например "0am325025L" рядом с нашим "0am325025l"). Список SKU Маркета берём
+    # из data/yandex_market_offers.xlsx (команда yandex-market-export) и отправляем тот же остаток
+    # на такие варианты, иначе там остался бы старый остаток.
+    unmanaged = []
+    offers_path = _data_path("yandex_market_offers.xlsx")
+    if os.path.exists(offers_path):
+        import openpyxl
+
+        low = {k.lower(): v for k, v in stocks.items()}
+        ws_m = openpyxl.load_workbook(offers_path, read_only=True, data_only=True).worksheets[0]
+        for r in list(ws_m.iter_rows(values_only=True))[1:]:
+            sku = str(r[0]).strip() if r and r[0] else ""
+            if not sku or sku in stocks:
+                continue
+            if sku.lower() in low:
+                stocks[sku] = low[sku.lower()]
+                print(f"  {sku}: вариант артикула с другим регистром — отправляю остаток {low[sku.lower()]}")
+            else:
+                unmanaged.append(sku)
+    if unmanaged:
+        print(
+            f"ВНИМАНИЕ: на Маркете есть товары, которых нет в нашем каталоге с остатком — их остаток бот НЕ меняет "
+            f"({len(unmanaged)}): {', '.join(unmanaged)}"
+        )
     if dry_run:
         print(f"ПРОБНЫЙ ПРОГОН — на Маркет ничего не уходит. Остатков к отправке: {len(stocks)}")
         for offer_id, n in sorted(stocks.items()):
