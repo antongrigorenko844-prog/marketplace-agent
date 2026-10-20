@@ -2004,7 +2004,10 @@ def _load_stock_items(warehouse_id=None):
     new_path = _data_path("ozon_new_products.xlsx")
     if os.path.exists(new_path):
         new_edits = ozon_new_products.load_new_edits(new_path)
+        already = {it["offer_id"] for it in items}
         for offer_id, e in new_edits.items():
+            if offer_id in already:
+                continue  # артикул уже есть в основном каталоге — не отправляем остаток дважды (Ozon: TOO_MANY_REQUESTS)
             raw = e.get("quantity_to_sell")
             if raw in (None, ""):
                 continue
@@ -2321,6 +2324,68 @@ def cmd_push_wb_stock() -> int:
 
     print(f"\nИтого: успешно {total_ok}, с ошибками {total_err}")
     return 0 if total_err == 0 else 1
+
+
+def cmd_ozon_status() -> int:
+    """
+    Статус ВСЕХ товаров каталога на Ozon одной командой (или только --article "а,б,в"):
+    сколько товаров в каждом статусе и подробности по тем, у кого что-то не так
+    (карточка не создана, не прошла модерацию, скрыта, есть ошибки). Только чтение.
+    Помогает понять, почему push-stock отвечает PRODUCT_IS_NOT_CREATED.
+    """
+    import openpyxl
+
+    import ozon_client
+
+    wanted = _parse_offer_ids_arg(os.environ.get("OZON_STATUS_ARTICLES", "")) or []
+    if wanted:
+        offer_ids = wanted
+    else:
+        catalog_path = _data_path("ozon_catalog.xlsx")
+        if not os.path.exists(catalog_path):
+            print(f"Нет файла {catalog_path}.")
+            return 1
+        ws = openpyxl.load_workbook(catalog_path, read_only=True, data_only=True).active
+        offer_ids = [str(r[0]).strip() for r in list(ws.iter_rows(values_only=True))[1:] if r and r[0]]
+
+    infos = ozon_client.get_product_info_list(offer_ids)
+    counts: dict = {}
+    problems = []
+    for info in infos:
+        if not isinstance(info, dict):
+            continue
+        if info.get("_error"):
+            print(f"Ошибка запроса к Ozon: {info['_error']}")
+            continue
+        st = info.get("statuses") or {}
+        status_name = st.get("status_name") or st.get("status") or "?"
+        counts[status_name] = counts.get(status_name, 0) + 1
+        errs = info.get("errors") or []
+        err_txt = "; ".join(
+            f"{e.get('code', '?')}: {str(e.get('description') or e.get('message') or '')[:150]}" for e in errs if isinstance(e, dict)
+        )
+        is_created = st.get("is_created")
+        vis = info.get("visibility_details") or {}
+        hidden = [k for k, v in vis.items() if v is False and k.startswith("has_")]
+        bad = (is_created is False) or err_txt or str(st.get("status", "")).lower() in ("failed", "failed_moderation", "failed_validation") or (
+            "ошиб" in str(status_name).lower() or "не прош" in str(status_name).lower() or "не созд" in str(status_name).lower()
+        )
+        if bad:
+            problems.append(
+                f"  {info.get('offer_id', '?')}: статус «{status_name}»"
+                + (f", {st.get('status_description')}" if st.get("status_description") else "")
+                + (f", создан: {is_created}" if is_created is not None else "")
+                + (f", ошибки: {err_txt}" if err_txt else "")
+            )
+    print("Товаров по статусам:")
+    for name, n in sorted(counts.items(), key=lambda x: -x[1]):
+        print(f"  {name}: {n}")
+    if problems:
+        print(f"\nТовары с проблемами ({len(problems)}):")
+        print("\n".join(problems))
+    else:
+        print("\nПроблемных товаров не найдено.")
+    return 0
 
 
 def cmd_diag_ozon_product(article: str) -> int:
@@ -2899,6 +2964,7 @@ def main() -> int:
     parser.add_argument("--push-yandex-stock", action="store_true", help="Отправить остатки на Яндекс Маркет (FBS)")
     parser.add_argument("--push-yandex-price-dryrun", action="store_true", help="Показать цены, которые уйдут на Яндекс Маркет, БЕЗ отправки")
     parser.add_argument("--push-yandex-price", action="store_true", help="Отправить цены на Яндекс Маркет (те же, что на Ozon; сначала всегда dryrun!)")
+    parser.add_argument("--ozon-status", action="store_true", help="Статус ВСЕХ товаров на Ozon (создан ли, модерация, ошибки) — почему push-stock отвечает PRODUCT_IS_NOT_CREATED; --article \"а,б\" — только указанные")
     parser.add_argument("--test-wordstat", action="store_true", help="Проверить, что ключ Wordstat API работает")
     parser.add_argument("--wordstat-collect", action="store_true", help="Собрать SEO-семантику по артикулу через Wordstat API (см. --article/--seed-phrase)")
     parser.add_argument("--wordstat-collect-batch", action="store_true", help="Собрать SEO-семантику сразу по списку артикулов из data/wordstat_queue.xlsx")
@@ -2922,6 +2988,10 @@ def main() -> int:
         return cmd_build_tilda_commerceml()
     if args.push_tilda:
         return cmd_push_tilda()
+    if args.ozon_status:
+        if args.article:
+            os.environ["OZON_STATUS_ARTICLES"] = args.article
+        return cmd_ozon_status()
     if args.validate_master:
         return cmd_validate_master()
     if args.remove_product_dryrun:
