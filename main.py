@@ -2373,9 +2373,15 @@ def cmd_ozon_status() -> int:
         status_name = st.get("status_name") or st.get("status") or "?"
         counts[status_name] = counts.get(status_name, 0) + 1
         errs = info.get("errors") or []
-        err_txt = "; ".join(
-            f"{e.get('code', '?')}: {str(e.get('description') or e.get('message') or '')[:150]}" for e in errs if isinstance(e, dict)
-        )
+        def _err_line(e):
+            txt = str(e.get("description") or e.get("message") or "")[:150]
+            # Ozon часто присылает пустое описание, но указывает атрибут/поле — выводим всё, что есть
+            extra = {k: v for k, v in e.items() if k not in ("code", "description", "message") and v not in (None, "", [], {})}
+            if extra:
+                txt = (txt + " " if txt else "") + json.dumps(extra, ensure_ascii=False)[:250]
+            return f"{e.get('code', '?')}: {txt}"
+
+        err_txt = "; ".join(_err_line(e) for e in errs if isinstance(e, dict))
         is_created = st.get("is_created")
         vis = info.get("visibility_details") or {}
         hidden = [k for k, v in vis.items() if v is False and k.startswith("has_")]
