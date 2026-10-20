@@ -2370,10 +2370,18 @@ def cmd_ozon_status() -> int:
         bad = (is_created is False) or err_txt or str(st.get("status", "")).lower() in ("failed", "failed_moderation", "failed_validation") or (
             "ошиб" in str(status_name).lower() or "не прош" in str(status_name).lower() or "не созд" in str(status_name).lower()
         )
-        if bad:
+        not_selling = str(status_name).strip().lower() not in ("продается", "продаётся", "?")
+        if bad or not_selling or wanted:
+            extra = []
+            for key in ("status_tooltip", "status_failed", "moderate_status", "validation_state", "state_name", "state_description"):
+                if st.get(key):
+                    extra.append(f"{key}={st.get(key)}")
+            if vis:
+                extra.append("visibility=" + ",".join(f"{k}:{v}" for k, v in vis.items()))
             problems.append(
                 f"  {info.get('offer_id', '?')}: статус «{status_name}»"
                 + (f", {st.get('status_description')}" if st.get("status_description") else "")
+                + (f", {'; '.join(extra)}" if extra else "")
                 + (f", создан: {is_created}" if is_created is not None else "")
                 + (f", ошибки: {err_txt}" if err_txt else "")
             )
