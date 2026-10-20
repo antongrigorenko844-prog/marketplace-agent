@@ -19,7 +19,7 @@
 # в этом автоматическом прогоне (github.event_name == 'schedule') команда
 # из выпадающего списка игнорируется, вместо неё всегда выполняется
 # фиксированная цепочка sync-orders -> push-stock -> push-wb-stock ->
-# [+ push-yandex-stock, если подключён Яндекс Маркет; Tilda (push-tilda) в автозапуск НЕ включена до проверки первого запуска] build-avito-catalog: сначала списываются проданные с Ozon/WB товары из
+# [+ push-yandex-stock, если подключён Яндекс Маркет; + push-tilda, если заданы секреты Tilda (первый запуск проверен 2026-10-20)] build-avito-catalog: сначала списываются проданные с Ozon/WB товары из
 # общего остатка ("Кол-во к продаже"/"Остаток, шт." в data/ozon_catalog.xlsx),
 # потом обновлённое число рассылается обратно на Ozon и WB, а следом
 # пересобирается и перезаливается по ПОСТОЯННОЙ ссылке data/avito_feed.xlsx —
@@ -140,6 +140,7 @@ jobs:
             # Яндекс Маркет: остатки отправляем сами (цены он берёт из Ozon); заказы учитывает sync-orders
             if [ -n "$YANDEX_MARKET_API_KEY" ]; then python main.py --push-yandex-stock || true; fi
             python main.py --build-avito-catalog || true
+            if [ -n "$TILDA_COMMERCEML_URL" ]; then python main.py --push-tilda || true; fi
           else
             echo "Заказ с сайта (Тильда) через вебхук"
             python main.py --sync-tilda-order
