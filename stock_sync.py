@@ -184,7 +184,7 @@ def _sync_wb(conn: sqlite3.Connection, date_from_iso: str, deltas: Dict[str, int
     return count
 
 
-def _sync_yandex(conn: sqlite3.Connection, deltas: Dict[str, int]) -> int:
+def _sync_yandex(conn: sqlite3.Connection, deltas: Dict[str, int], known_ids=None) -> int:
     """
     Заказы Яндекс Маркета (FBS) за последние ~30 дней — тем же идемпотентным
     механизмом, что Ozon/WB. Отмена (status CANCELLED) возвращает остаток.
@@ -195,6 +195,17 @@ def _sync_yandex(conn: sqlite3.Connection, deltas: Dict[str, int]) -> int:
     продаж списался бы повторно. Списываются только заказы, появившиеся после.
     """
     import yandex_market_client
+
+    # Маркет различает регистр SKU, а у нас артикул один: заказ "0am325025L" должен списаться с
+    # "0am325025l". known_ids — артикулы каталога; если точного совпадения нет, ищем без учёта регистра.
+    lower_map: Dict[str, str] = {}
+    for kid in (known_ids or []):
+        lower_map.setdefault(kid.lower(), kid)
+
+    def _canon(offer: str) -> str:
+        if known_ids and offer not in known_ids:
+            return lower_map.get(offer.lower(), offer)
+        return offer
 
     orders = yandex_market_client.get_orders_since(days_back=29)
     marker = conn.execute(
@@ -228,7 +239,7 @@ def _sync_yandex(conn: sqlite3.Connection, deltas: Dict[str, int]) -> int:
                 )
                 count += 1
                 continue
-            _reconcile_line(conn, "yandex_market", order_key, offer_id, quantity, cancelled, deltas)
+            _reconcile_line(conn, "yandex_market", order_key, _canon(offer_id), quantity, cancelled, deltas)
             count += 1
     if first_run:
         conn.execute(
@@ -292,7 +303,13 @@ def sync_all_orders(
 
     if yandex_market_client.is_configured():  # Маркет подключён (есть секреты) — иначе молча пропускаем
         try:
-            summary["yandex_market"] = _sync_yandex(conn, deltas)
+            import openpyxl
+
+            ids = set()
+            if os.path.exists(catalog_path):
+                ws_ids = openpyxl.load_workbook(catalog_path, read_only=True, data_only=True).active
+                ids = {str(r[0]).strip() for r in list(ws_ids.iter_rows(values_only=True))[1:] if r and r[0]}
+            summary["yandex_market"] = _sync_yandex(conn, deltas, known_ids=ids)
         except Exception as exc:
             logger.error("Яндекс Маркет: ошибка при получении/разборе заказов: %s", exc)
             summary["yandex_market_error"] = str(exc)
