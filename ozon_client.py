@@ -54,8 +54,15 @@ def _post(path: str, payload: dict, retries: int = 3) -> dict:
             continue
 
         if resp.status_code == 429:
-            logger.warning("Ozon %s: превышен лимit запросов, жду и повторяю", path)
-            time.sleep(3 * attempt)
+            # Ожидание растёт (по умолчанию 6/12/24/48 с, но не меньше Retry-After от Ozon) —
+            # иначе при плотном графике запросов все попытки укладываются в одно окно лимита.
+            try:
+                retry_after = int(resp.headers.get("Retry-After", 0) or 0)
+            except ValueError:
+                retry_after = 0
+            wait = min(60, max(retry_after, 6 * (2 ** (attempt - 1))))
+            logger.warning("Ozon %s: превышен лимит запросов (попытка %d/%d), жду %d с", path, attempt, retries, wait)
+            time.sleep(wait)
             continue
 
         if not resp.ok:
@@ -434,6 +441,7 @@ def get_fbs_orders_since(since_iso: str, to_iso: str) -> List[dict]:
     артикулом в вашем каталоге, сопоставление автоматическое.
     """
     # ENDPOINT: POST /v3/posting/fbs/list — result.postings (подтверждено)
+    # retries=6: этот метод у Ozon часто упирается в лимит запросов, а от него зависит списание остатка
     data = _post(
         "/v3/posting/fbs/list",
         {
@@ -443,6 +451,7 @@ def get_fbs_orders_since(since_iso: str, to_iso: str) -> List[dict]:
             "offset": 0,
             "with": {"analytics_data": False, "financial_data": False},
         },
+        retries=6,
     )
     return data.get("result", {}).get("postings", [])
 
@@ -462,16 +471,16 @@ def get_fbo_orders_since(since_iso: str, to_iso: str) -> List[dict]:
     print) — это НЕ проверено напрямую в живой документации, в отличие от
     get_fbs_orders_since.
     """
-    # ENDPOINT: POST /v2/posting/fbo/list
+    # ENDPOINT: POST /v3/posting/fbo/list (старый /v2 Ozon отключил — "obsolete method cannot be used", 2026-10-20)
     data = _post(
-        "/v2/posting/fbo/list",
+        "/v3/posting/fbo/list",
         {
             "dir": "ASC",
             "filter": {"since": since_iso, "to": to_iso},
             "limit": 1000,
             "offset": 0,
             "translit": False,
-            "with": {"analytics_data": False, "financial_data": False},
+            "with": {"analytics_data": False, "financial_data": False, "legal_info": False},
         },
     )
     result = data.get("result", [])
