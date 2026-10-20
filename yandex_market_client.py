@@ -232,3 +232,52 @@ def get_orders_since(days_back: int = 29) -> List[dict]:
         if not token:
             break
     return orders
+
+
+def get_business_id() -> int:
+    """businessId (номер кабинета) по номеру магазина: GET /v2/campaigns/{campaignId} -> campaign.business.id."""
+    _, campaign = _creds()
+    status, body = _request("GET", f"/v2/campaigns/{campaign}")
+    if status != 200:
+        raise YandexMarketError(f"не удалось получить businessId: HTTP {status}: {_errors_text(body)}")
+    biz = ((body.get("campaign") or {}).get("business") or {}).get("id")
+    if not biz:
+        raise YandexMarketError("в ответе Маркета нет номера бизнеса (campaign.business.id)")
+    return int(biz)
+
+
+def get_all_offers(archived: bool = False) -> List[dict]:
+    """
+    Все товары каталога кабинета: POST /v2/businesses/{businessId}/offer-mappings
+    (limit=100, постранично по pageToken). Возвращает список
+    {sku, name, archived, market_sku, category}.
+    """
+    business_id = get_business_id()
+    out: List[dict] = []
+    token: Optional[str] = None
+    for _ in range(500):
+        params = {"limit": 100}
+        if token:
+            params["pageToken"] = token
+        status, body = _request(
+            "POST", f"/v2/businesses/{business_id}/offer-mappings", params=params, json_body={"archived": archived}
+        )
+        if status != 200:
+            raise YandexMarketError(f"список товаров: HTTP {status}: {_errors_text(body)}")
+        result = body.get("result") or {}
+        for om in result.get("offerMappings", []) or []:
+            offer = om.get("offer") or {}
+            mapping = om.get("mapping") or {}
+            out.append(
+                {
+                    "sku": str(offer.get("offerId", "")).strip(),
+                    "name": offer.get("name", ""),
+                    "archived": bool(offer.get("archived", False)),
+                    "market_sku": mapping.get("marketSku", ""),
+                    "category": mapping.get("marketCategoryName", ""),
+                }
+            )
+        token = (result.get("paging") or {}).get("nextPageToken")
+        if not token:
+            break
+    return out

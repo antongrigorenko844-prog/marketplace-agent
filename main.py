@@ -639,6 +639,53 @@ def _build_tilda_commerceml_files():
     return import_xml, offers_xml
 
 
+def cmd_yandex_market_export() -> int:
+    """
+    Выгрузить ВСЕ товары кабинета Яндекс Маркета в data/yandex_market_offers.xlsx
+    и сравнить SKU с нашим каталогом: что есть на Маркете, но нет у нас, и наоборот.
+    Только чтение — на Маркете ничего не меняется.
+    """
+    import openpyxl
+
+    import yandex_market_client
+
+    if not yandex_market_client.is_configured():
+        print("Яндекс Маркет не подключён: нет секретов YANDEX_MARKET_API_KEY / YANDEX_MARKET_CAMPAIGN_ID.")
+        return 1
+    try:
+        offers = yandex_market_client.get_all_offers(archived=False)
+    except yandex_market_client.YandexMarketError as exc:
+        print(f"yandex-market-export: ОШИБКА — {exc}")
+        return 1
+
+    ours = set()
+    catalog_path = _data_path("ozon_catalog.xlsx")
+    if os.path.exists(catalog_path):
+        ws_c = openpyxl.load_workbook(catalog_path, read_only=True, data_only=True).active
+        ours = {str(r[0]).strip() for r in list(ws_c.iter_rows(values_only=True))[1:] if r and r[0]}
+    market = {o["sku"] for o in offers}
+    only_market = sorted(market - ours)
+    only_ours = sorted(ours - market)
+
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Товары на Маркете"
+    ws.append(["SKU (ваш артикул)", "Название", "В архиве", "Артикул Маркета", "Категория", "Есть в нашем каталоге"])
+    for o in offers:
+        ws.append([o["sku"], o["name"], "да" if o["archived"] else "нет", o["market_sku"], o["category"], "да" if o["sku"] in ours else "НЕТ"])
+    ws2 = wb.create_sheet("Есть у нас, нет на Маркете")
+    ws2.append(["Артикул"])
+    for a in only_ours:
+        ws2.append([a])
+    wb.save(_data_path("yandex_market_offers.xlsx"))
+
+    print(f"Товаров на Маркете (не в архиве): {len(offers)}; в нашем каталоге: {len(ours)}.")
+    print(f"Есть на Маркете, но нет в каталоге ({len(only_market)}): {', '.join(only_market) or '—'}")
+    print(f"Есть в каталоге, но нет на Маркете ({len(only_ours)}): {', '.join(only_ours) or '—'}")
+    print("\nПолный список сохранён в data/yandex_market_offers.xlsx (после запуска сделайте Pull origin).")
+    return 0
+
+
 def cmd_yandex_market_test() -> int:
     """Проверить доступ к Яндекс Маркету (секреты YANDEX_MARKET_API_KEY / YANDEX_MARKET_CAMPAIGN_ID)."""
     import yandex_market_client
@@ -805,7 +852,7 @@ def cmd_update_cards() -> int:
          (уходит только изменившееся);
       4) push-wb-price — цена WB;
       5) push-stock, 6) push-wb-stock — остатки на Ozon и WB;
-      7) Яндекс Маркет: остатки и цены — только если подключены секреты;
+      7) Яндекс Маркет — остатки (цены он берёт из Ozon сам), только если подключены секреты;
       8) build-avito-catalog — фид Avito (товары с остатком 0 закрываются);
       9) Tilda (сайт) через CommerceML — только если подключены секреты.
 
@@ -843,11 +890,13 @@ def cmd_update_cards() -> int:
     step("Шаг 5: push-stock (Ozon)", "push-stock", cmd_push_stock)
     step("Шаг 6: push-wb-stock (WB)", "push-wb-stock", cmd_push_wb_stock)
 
+    # Яндекс Маркет: ЦЕНЫ приходят из Ozon сами (встроенная синхронизация Маркета), а ОСТАТКИ
+    # она не переносит — их отправляем мы (общий остаток, тот же, что на Ozon/WB). Цены на Маркет
+    # не шлём (двойной источник = конфликт; при необходимости — push-yandex-price в tools).
     import yandex_market_client
 
     if yandex_market_client.is_configured():
-        step("Шаг 7a: Яндекс Маркет — остатки", "push-yandex-stock", cmd_push_yandex_stock)
-        step("Шаг 7b: Яндекс Маркет — цены", "push-yandex-price", cmd_push_yandex_price)
+        step("Шаг 7: Яндекс Маркет — остатки", "push-yandex-stock", cmd_push_yandex_stock)
     else:
         print("\n(Яндекс Маркет не подключён — шаг пропущен)")
 
@@ -863,7 +912,12 @@ def cmd_update_cards() -> int:
     if failed:
         print(f"update-cards: ошибка на шаге(ах): {', '.join(failed)} — проверьте вывод выше (остальные шаги выполнены).")
         return 1
-    print("update-cards: готово — всё обновлено: Ozon, WB, Avito" + (", Яндекс Маркет" if yandex_market_client.is_configured() else "") + (", сайт" if os.environ.get("TILDA_COMMERCEML_URL", "").strip() else "") + ".")
+    print(
+        "update-cards: готово — всё обновлено: Ozon, WB, Avito"
+        + (", сайт" if os.environ.get("TILDA_COMMERCEML_URL", "").strip() else "")
+        + (", Яндекс Маркет (остатки)" if yandex_market_client.is_configured() else "")
+        + "."
+    )
     return 0
 
 
@@ -2814,6 +2868,7 @@ def main() -> int:
     parser.add_argument("--build-tilda-commerceml", action="store_true", help="Собрать data/tilda_import0_1.xml и tilda_offers0_1.xml для синхронизации с Тильдой (CommerceML), БЕЗ отправки")
     parser.add_argument("--push-tilda", action="store_true", help="Отправить каталог (цены, остатки, новые товары) в Тильду по CommerceML (нужны секреты TILDA_COMMERCEML_*)")
     parser.add_argument("--yandex-market-test", action="store_true", help="Проверить доступ к Яндекс Маркету (секреты YANDEX_MARKET_API_KEY/YANDEX_MARKET_CAMPAIGN_ID)")
+    parser.add_argument("--yandex-market-export", action="store_true", help="Выгрузить все товары кабинета Яндекс Маркета в data/yandex_market_offers.xlsx и сверить SKU с нашим каталогом (только чтение)")
     parser.add_argument("--push-yandex-stock-dryrun", action="store_true", help="Показать остатки, которые уйдут на Яндекс Маркет, БЕЗ отправки")
     parser.add_argument("--push-yandex-stock", action="store_true", help="Отправить остатки на Яндекс Маркет (FBS)")
     parser.add_argument("--push-yandex-price-dryrun", action="store_true", help="Показать цены, которые уйдут на Яндекс Маркет, БЕЗ отправки")
@@ -2827,6 +2882,8 @@ def main() -> int:
 
     if args.yandex_market_test:
         return cmd_yandex_market_test()
+    if args.yandex_market_export:
+        return cmd_yandex_market_export()
     if args.push_yandex_stock_dryrun:
         return cmd_push_yandex_stock(dry_run=True)
     if args.push_yandex_stock:

@@ -137,7 +137,7 @@ jobs:
             python main.py --sync-orders
             python main.py --push-stock || true
             python main.py --push-wb-stock || true
-            # Яндекс Маркет: только если подключены секреты (иначе шаг пропускается)
+            # Яндекс Маркет: остатки отправляем сами (цены он берёт из Ozon); заказы учитывает sync-orders
             if [ -n "$YANDEX_MARKET_API_KEY" ]; then python main.py --push-yandex-stock || true; fi
             python main.py --build-avito-catalog || true
           else
