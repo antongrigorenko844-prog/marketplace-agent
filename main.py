@@ -2084,6 +2084,7 @@ def cmd_push_stock() -> int:
     total_ok = 0
     total_err = 0
     failed_offer_ids = []
+    not_created = []
     chunk = 100
     for i in range(0, len(items), chunk):
         batch = items[i : i + chunk]
@@ -2101,10 +2102,21 @@ def cmd_push_stock() -> int:
                 total_ok += 1
                 print(f"  ОК {offer_id}: остаток обновлён")
             else:
+                codes = {str(e.get("code")) for e in (it.get("errors") or []) if isinstance(e, dict)}
+                if codes and codes <= {"PRODUCT_IS_NOT_CREATED"}:
+                    # Карточка ещё не создана на Ozon (см. --ozon-status): это не сбой
+                    # синхронизации, остальные товары обновлены — не валим весь запуск.
+                    not_created.append(offer_id)
+                    continue
                 total_err += 1
                 failed_offer_ids.append(offer_id)
                 print(f"  ОШИБКА {offer_id}: {it.get('errors')}")
-    print(f"\nИтого: успешно {total_ok}, с ошибками {total_err}")
+    print(f"\nИтого: успешно {total_ok}, с ошибками {total_err}, карточка не создана на Ozon {len(not_created)}")
+    if not_created:
+        print(
+            "Карточки не созданы на Ozon (остаток не отправлен; причины — запустите ozon-status): "
+            + ", ".join(not_created)
+        )
 
     # Диагностика: PRODUCT_IS_NOT_CREATED от /v2/products/stocks не значит
     # обязательно "карточки нет вообще" — товар может существовать (виден в
