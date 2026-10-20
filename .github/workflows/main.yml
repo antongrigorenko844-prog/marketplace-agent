@@ -19,7 +19,7 @@
 # в этом автоматическом прогоне (github.event_name == 'schedule') команда
 # из выпадающего списка игнорируется, вместо неё всегда выполняется
 # фиксированная цепочка sync-orders -> push-stock -> push-wb-stock ->
-# build-avito-catalog: сначала списываются проданные с Ozon/WB товары из
+# [+ push-yandex-stock, если подключён Яндекс Маркет; Tilda (push-tilda) в автозапуск НЕ включена до проверки первого запуска] build-avito-catalog: сначала списываются проданные с Ozon/WB товары из
 # общего остатка ("Кол-во к продаже"/"Остаток, шт." в data/ozon_catalog.xlsx),
 # потом обновлённое число рассылается обратно на Ozon и WB, а следом
 # пересобирается и перезаливается по ПОСТОЯННОЙ ссылке data/avito_feed.xlsx —
@@ -60,6 +60,7 @@ on:
           - push-ozon-cards
           - push-wb-cards
           - push-photos
+          - validate-master
           - update-cards
           - update-photos
           - build-master-control
@@ -70,6 +71,10 @@ on:
           - sync-orders
           - build-avito-catalog
           - build-tilda-catalog
+          - build-tilda-commerceml
+          - push-tilda
+          - yandex-market-test
+          - push-yandex-stock
           - push-new-product-all
           - launch-new-products
           - finish-new-product
@@ -125,6 +130,11 @@ jobs:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
           WORDSTAT_FOLDER_ID: ${{ secrets.WORDSTAT_FOLDER_ID }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
           TILDA_ORDER_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
         run: |
           if [ "${{ github.event_name }}" = "schedule" ]; then
@@ -132,6 +142,8 @@ jobs:
             python main.py --sync-orders
             python main.py --push-stock || true
             python main.py --push-wb-stock || true
+            # Яндекс Маркет: только если подключены секреты (иначе шаг пропускается)
+            if [ -n "$YANDEX_MARKET_API_KEY" ]; then python main.py --push-yandex-stock || true; fi
             python main.py --build-avito-catalog || true
           else
             echo "Заказ с сайта (Тильда) через вебхук"

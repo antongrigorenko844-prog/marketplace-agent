@@ -57,6 +57,11 @@ on:
           - pull-ozon-stock
           - diag-ozon-product
           - diag-wb-new-cards
+          - push-yandex-stock-dryrun
+          - push-yandex-price-dryrun
+          - push-yandex-price
+          - remove-product-dryrun
+          - remove-product
           - archive-ozon-products-dryrun
           - archive-ozon-products
           - unarchive-ozon-products
@@ -64,7 +69,7 @@ on:
           - wordstat-collect
           - wordstat-collect-batch
       article:
-        description: "Артикул товара — для wordstat-collect/diag-ozon-product (один) или archive/unarchive-ozon-products (можно несколько через запятую)"
+        description: "Артикул товара — для wordstat-collect/diag-ozon-product (один) или archive/unarchive-ozon-products и remove-product (можно несколько через запятую)"
         required: false
         default: ""
         type: string

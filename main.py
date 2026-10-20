@@ -606,46 +606,259 @@ def cmd_update_photos() -> int:
     return 0
 
 
+def _build_tilda_commerceml_files():
+    """Общая часть build-tilda-commerceml и push-tilda: собирает import.xml/offers.xml в data/."""
+    import tilda_commerceml
+
+    catalog_path = _data_path("ozon_catalog.xlsx")
+    photos_dir = os.path.join(os.path.dirname(__file__), "photos")
+    if not os.path.exists(catalog_path):
+        print(f"Нет файла {catalog_path} — сначала выполните build-ozon-catalog.")
+        return None
+    repo = os.environ.get("GITHUB_REPOSITORY", "")
+    branch = os.environ.get("GITHUB_REF_NAME", "main")
+    if not repo:
+        print("Не удалось определить репозиторий (GITHUB_REPOSITORY пуст) — запускайте через GitHub Actions.")
+        return None
+    raw_base_url = f"https://raw.githubusercontent.com/{repo}/{branch}/photos"
+
+    items, problems = tilda_commerceml.load_items(catalog_path, photos_dir, raw_base_url)
+    import_xml = tilda_commerceml.build_import_xml(items)
+    offers_xml = tilda_commerceml.build_offers_xml(items)
+    with open(_data_path("tilda_import0_1.xml"), "w", encoding="utf-8") as f:
+        f.write(import_xml)
+    with open(_data_path("tilda_offers0_1.xml"), "w", encoding="utf-8") as f:
+        f.write(offers_xml)
+
+    zero = sum(1 for it in items if it["qty"] == 0)
+    print(f"Собрано товаров: {len(items)} (из них с остатком 0 -> на сайте 'нет в наличии': {zero}).")
+    if problems["no_price"]:
+        print(f"Без цены (карточка не создаётся/не обновляется, остаток передаётся): {', '.join(problems['no_price'])}")
+    if problems["no_photo"]:
+        print(f"Без фото: {', '.join(problems['no_photo'])}")
+    return import_xml, offers_xml
+
+
+def cmd_yandex_market_test() -> int:
+    """Проверить доступ к Яндекс Маркету (секреты YANDEX_MARKET_API_KEY / YANDEX_MARKET_CAMPAIGN_ID)."""
+    import yandex_market_client
+
+    ok, msg = yandex_market_client.test_connection()
+    print(f"Яндекс Маркет: {msg}")
+    return 0 if ok else 1
+
+
+def _print_yandex_failures(failed: dict) -> None:
+    if failed:
+        print(f"\nНе приняты Маркетом ({len(failed)}) — чаще всего такого SKU там нет или он назван иначе:")
+        for offer_id, reason in failed.items():
+            print(f"  {offer_id}: {reason}")
+
+
+def cmd_push_yandex_stock(dry_run: bool = False) -> int:
+    """
+    Остатки -> Яндекс Маркет (FBS): те же числа, что уходят на Ozon/WB
+    ("Кол-во к продаже"). SKU на Маркете = артикул. Принятые/отклонённые
+    товары печатаются списком; один отклонённый товар остальным не мешает.
+    """
+    import yandex_market_client
+
+    if not yandex_market_client.is_configured():
+        print("Яндекс Маркет не подключён: нет секретов YANDEX_MARKET_API_KEY / YANDEX_MARKET_CAMPAIGN_ID.")
+        return 1
+    items = _load_stock_items()
+    stocks = {it["offer_id"]: it["stock"] for it in items}
+    if not stocks:
+        print("Нечего отправлять — ни у одного товара не заполнен остаток.")
+        return 1
+    if dry_run:
+        print(f"ПРОБНЫЙ ПРОГОН — на Маркет ничего не уходит. Остатков к отправке: {len(stocks)}")
+        for offer_id, n in sorted(stocks.items()):
+            print(f"  {offer_id}: {n}")
+        return 0
+    try:
+        ok, failed = yandex_market_client.update_stocks(stocks)
+    except yandex_market_client.YandexMarketError as exc:
+        print(f"push-yandex-stock: ОШИБКА — {exc}")
+        return 1
+    print(f"push-yandex-stock: принято Маркетом {ok} из {len(stocks)}.")
+    _print_yandex_failures(failed)
+    return 0 if ok else 1
+
+
+def cmd_push_yandex_price(dry_run: bool = False) -> int:
+    """
+    Цены -> Яндекс Маркет: берётся ТА ЖЕ цена, что и на Ozon (колонка 'Цена, ₽' в
+    ozon_catalog.xlsx), а 'цена до скидки' передаётся как зачёркнутая, если
+    скидка укладывается в 5-99%. Для товаров без цены ничего не отправляется.
+    ВАЖНО: перезаписывает цены на Маркете — сначала всегда пробный прогон.
+    """
+    import openpyxl
+
+    import yandex_market_client
+
+    if not yandex_market_client.is_configured():
+        print("Яндекс Маркет не подключён: нет секретов YANDEX_MARKET_API_KEY / YANDEX_MARKET_CAMPAIGN_ID.")
+        return 1
+    catalog_path = _data_path("ozon_catalog.xlsx")
+    if not os.path.exists(catalog_path):
+        print(f"Нет файла {catalog_path}.")
+        return 1
+    prices = {}
+    ws = openpyxl.load_workbook(catalog_path, data_only=True).active
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        row = list(row) + [None] * 6
+        if not row[0]:
+            continue
+        try:
+            price = int(float(row[3]))
+        except (TypeError, ValueError):
+            continue
+        if price <= 0:
+            continue
+        try:
+            old = int(float(row[4])) if row[4] not in (None, "") else None
+        except (TypeError, ValueError):
+            old = None
+        prices[str(row[0]).strip()] = (price, old)
+    if not prices:
+        print("Нечего отправлять — нет товаров с ценой.")
+        return 1
+    if dry_run:
+        print(f"ПРОБНЫЙ ПРОГОН — на Маркет ничего не уходит. Цен к отправке: {len(prices)}")
+        for offer_id, (p, old) in sorted(prices.items()):
+            print(f"  {offer_id}: {p}" + (f" (было {old})" if old and old > p else ""))
+        return 0
+    try:
+        ok, failed = yandex_market_client.update_prices(prices)
+    except yandex_market_client.YandexMarketError as exc:
+        print(f"push-yandex-price: ОШИБКА — {exc}")
+        return 1
+    print(f"push-yandex-price: принято Маркетом {ok} из {len(prices)}.")
+    _print_yandex_failures(failed)
+    return 0 if ok else 1
+
+
+def cmd_build_tilda_commerceml() -> int:
+    """Только собрать data/tilda_import0_1.xml и data/tilda_offers0_1.xml (без отправки) — для проверки глазами."""
+    return 0 if _build_tilda_commerceml_files() else 1
+
+
+def cmd_push_tilda() -> int:
+    """
+    Собрать каталог и отправить в Тильду по CommerceML (см. tilda_commerceml.py):
+    цены, остатки, новые товары; остаток 0 -> "нет в наличии". Нужны секреты
+    TILDA_COMMERCEML_URL / TILDA_COMMERCEML_USER / TILDA_COMMERCEML_PASSWORD.
+    Первый запуск — ВНИМАТЕЛЬНО проверьте "Историю синхронизации" в Тильде.
+    """
+    import tilda_commerceml
+
+    url = os.environ.get("TILDA_COMMERCEML_URL", "").strip()
+    user = os.environ.get("TILDA_COMMERCEML_USER", "").strip()
+    password = os.environ.get("TILDA_COMMERCEML_PASSWORD", "").strip()
+    if not (url and user and password):
+        print(
+            "Не заданы секреты TILDA_COMMERCEML_URL / TILDA_COMMERCEML_USER / TILDA_COMMERCEML_PASSWORD "
+            "(GitHub -> Settings -> Secrets and variables -> Actions). Значения берутся в Тильде: "
+            "Товары -> три точки -> Синхронизация через CommerceML. Пока можно запускать build-tilda-commerceml."
+        )
+        return 1
+
+    built = _build_tilda_commerceml_files()
+    if not built:
+        return 1
+    import_xml, offers_xml = built
+    try:
+        log = tilda_commerceml.push(url, user, password, import_xml, offers_xml)
+    except Exception as exc:  # noqa: BLE001
+        # В тексте ошибки не печатаем URL/пароль — только ответ сервера.
+        print(f"push-tilda: ОШИБКА — {exc}")
+        print("Загляните в Тильду: Товары -> три точки -> Синхронизация через CommerceML -> История синхронизации.")
+        return 1
+    for line in log:
+        print("  " + line)
+    print("push-tilda: готово. Проверьте результат на сайте и в 'Истории синхронизации' в Тильде.")
+    return 0
+
+
+def cmd_validate_master() -> int:
+    """Проверка data/master_control.xlsx без отправки куда-либо (см. validate_master.py)."""
+    import validate_master
+
+    return validate_master.run()
+
+
 def cmd_update_cards() -> int:
     """
-    Composite "всё в одном" для правок названия/описания/цены/фото: после
-    правок в data/master_control.xlsx (и/или замены файлов в photos/)
-    запускает ОДНУ команду вместо нескольких: sync-master-control (перенос
-    правок пульта в рабочие файлы Ozon/WB) -> attach-photos-all (новые
-    ссылки на фото) -> push-photos (отправка карточек в Ozon И WB, уходит
-    только то, что изменилось) -> push-wb-price (цена WB, только если
-    отличается от текущей) -> build-avito-catalog (фид Avito).
-    Если sync-master-control упал — дальше НЕ идём (иначе отправили бы
-    недосинхронизированные данные); ошибка на остальных шагах не
-    останавливает следующие, итог по каждому — в конце.
+    ОДНА команда "обновить всё везде" после правок в data/master_control.xlsx
+    (названия, описания, цены, остатки) и/или замены файлов в photos/:
+
+      0) проверка master_control (только показывает, не блокирует);
+      1) sync-master-control — правки пульта -> рабочие файлы (если упал — дальше
+         НЕ идём, иначе отправили бы недосинхронизированное);
+      2) attach-photos-all, 3) push-photos — карточки и фото на Ozon и WB
+         (уходит только изменившееся);
+      4) push-wb-price — цена WB;
+      5) push-stock, 6) push-wb-stock — остатки на Ozon и WB;
+      7) Яндекс Маркет: остатки и цены — только если подключены секреты;
+      8) build-avito-catalog — фид Avito (товары с остатком 0 закрываются);
+      9) Tilda (сайт) через CommerceML — только если подключены секреты.
+
+    Ошибка на шагах 2-9 не останавливает следующие; итог по каждому — в конце.
+    Шаги Маркета и Tilda без секретов молча пропускаются.
     """
-    print("=== Шаг 1/5: sync-master-control ===")
+    print("=== Проверка master_control.xlsx (не блокирует, только показывает) ===")
+    try:
+        import validate_master
+
+        validate_master.run(quiet_ok=True)
+    except Exception as exc:  # noqa: BLE001 — проверка не должна ронять update-cards
+        print(f"(проверка не выполнена: {exc})")
+
+    print("\n=== Шаг 1: sync-master-control ===")
     rc_sync = cmd_sync_master_control()
     if rc_sync != 0:
         print("\nupdate-cards: sync-master-control завершился с ошибкой — дальше не иду, проверьте вывод выше.")
         return 1
 
-    print("\n=== Шаг 2/5: attach-photos-all ===")
-    rc_attach = cmd_attach_photos_all()
+    results = []
 
-    print("\n=== Шаг 3/5: push-photos ===")
-    rc_push = cmd_push_photos()
+    def step(title: str, name: str, fn) -> None:
+        print(f"\n=== {title} ===")
+        try:
+            rc = fn()
+        except Exception as exc:  # noqa: BLE001 — один шаг не должен обрывать остальные
+            print(f"{name}: исключение — {exc}")
+            rc = 1
+        results.append((name, rc))
 
-    print("\n=== Шаг 4/5: push-wb-price ===")
-    rc_price = cmd_push_wb_price()
+    step("Шаг 2: attach-photos-all", "attach-photos-all", cmd_attach_photos_all)
+    step("Шаг 3: push-photos (Ozon + WB)", "push-photos", cmd_push_photos)
+    step("Шаг 4: push-wb-price", "push-wb-price", cmd_push_wb_price)
+    step("Шаг 5: push-stock (Ozon)", "push-stock", cmd_push_stock)
+    step("Шаг 6: push-wb-stock (WB)", "push-wb-stock", cmd_push_wb_stock)
 
-    print("\n=== Шаг 5/5: build-avito-catalog ===")
-    rc_avito = cmd_build_avito_catalog()
+    import yandex_market_client
+
+    if yandex_market_client.is_configured():
+        step("Шаг 7a: Яндекс Маркет — остатки", "push-yandex-stock", cmd_push_yandex_stock)
+        step("Шаг 7b: Яндекс Маркет — цены", "push-yandex-price", cmd_push_yandex_price)
+    else:
+        print("\n(Яндекс Маркет не подключён — шаг пропущен)")
+
+    step("Шаг 8: build-avito-catalog", "build-avito-catalog", cmd_build_avito_catalog)
+
+    if os.environ.get("TILDA_COMMERCEML_URL", "").strip():
+        step("Шаг 9: Tilda (сайт), CommerceML", "push-tilda", cmd_push_tilda)
+    else:
+        print("\n(Tilda CommerceML не подключена — шаг пропущен)")
 
     print()
-    failed = [
-        name for name, rc in (("attach-photos-all", rc_attach), ("push-photos", rc_push), ("push-wb-price", rc_price), ("build-avito-catalog", rc_avito))
-        if rc != 0
-    ]
+    failed = [name for name, rc in results if rc != 0]
     if failed:
-        print(f"update-cards: ошибка на шаге(ах): {', '.join(failed)} — проверьте вывод выше.")
+        print(f"update-cards: ошибка на шаге(ах): {', '.join(failed)} — проверьте вывод выше (остальные шаги выполнены).")
         return 1
-    print("update-cards: готово — правки перенесены и отправлены на Ozon, WB и в фид Avito.")
+    print("update-cards: готово — всё обновлено: Ozon, WB, Avito" + (", Яндекс Маркет" if yandex_market_client.is_configured() else "") + (", сайт" if os.environ.get("TILDA_COMMERCEML_URL", "").strip() else "") + ".")
     return 0
 
 
@@ -1502,6 +1715,11 @@ def cmd_sync_orders() -> int:
     if "wb_error" in summary:
         print(f"    ОШИБКА WB: {summary['wb_error']}")
 
+    if "yandex_market" in summary or "yandex_market_error" in summary:
+        print(f"  Яндекс Маркет: {summary.get('yandex_market', 'ошибка — см. ниже')}")
+        if "yandex_market_error" in summary:
+            print(f"    ОШИБКА Яндекс Маркет: {summary['yandex_market_error']}")
+
     deltas = summary.get("deltas") or {}
     if not deltas:
         print("\nНовых изменений остатка нет (нечего списывать/возвращать за этот период).")
@@ -2118,6 +2336,89 @@ def cmd_archive_ozon_products(article: str, dry_run: bool) -> int:
     return 0
 
 
+def cmd_remove_product(article: str, dry_run: bool) -> int:
+    """
+    "Снять товар отовсюду" одной командой (--article "арт1,арт2"):
+      1) остаток в data/master_control.xlsx -> 0 (см. remove_product.py);
+      2) sync-master-control — остаток уходит в рабочие каталоги;
+      3) push-stock — Ozon: остаток 0;
+      4) push-wb-stock — WB: остаток 0;
+      5) archive-ozon-products — товар уходит в архив Ozon (обратимо);
+      6) build-avito-catalog — товар исчезает из фида, объявление Avito закроется.
+    НЕ делается автоматически: карточка WB остаётся (у WB нет безопасного архива
+    в API — удалить можно только вручную в кабинете, остаток 0 = "нет в наличии");
+    сайт на Тильде — пока скрыть вручную (после подключения CommerceML скрывается
+    само по остатку 0). Каждый шаг идёт независимо: ошибка одного не мешает остальным,
+    итог по шагам — в конце. --dry-run (remove-product-dryrun) ничего не меняет.
+    """
+    import remove_product
+
+    offer_ids = _parse_offer_ids_arg(article)
+    if not offer_ids:
+        print("Не передан артикул(ы) — заполните поле 'Артикул товара' (через запятую, если несколько).")
+        return 1
+    if len(offer_ids) > remove_product.MAX_ARTICLES:
+        print(f"Слишком много артикулов за раз ({len(offer_ids)}, максимум {remove_product.MAX_ARTICLES}) — разбейте на несколько запусков.")
+        return 1
+
+    master_path = remove_product.MASTER_PATH
+    if not os.path.exists(master_path):
+        print(f"Нет файла {master_path}.")
+        return 1
+
+    found, missing = remove_product.zero_stock(offer_ids, dry_run=dry_run)
+    if missing:
+        print(f"НЕ НАЙДЕНЫ в master_control.xlsx (проверьте написание артикула, регистр важен): {', '.join(missing)}")
+    if not found:
+        print("Ни один артикул не найден — снимать нечего.")
+        return 1
+
+    print(f"{'[ПРОБНЫЙ ПРОГОН] ' if dry_run else ''}Снимаются с продажи ({len(found)}):")
+    for offer, old in found:
+        print(f"  {offer}: остаток был {old if old not in (None, '') else 'не задан'} -> станет 0")
+
+    if dry_run:
+        print(
+            "\nЭто был пробный прогон — ничего не изменено и не отправлено. Запустите remove-product, "
+            "чтобы снять товар по-настоящему: остаток 0 на Ozon и WB, архив Ozon, закрытие объявления Avito."
+        )
+        return 0
+
+    found_ids = ",".join(o for o, _ in found)
+    results = []
+
+    print("\n=== Шаг 1/5: sync-master-control (остаток 0 -> рабочие файлы) ===")
+    rc = cmd_sync_master_control()
+    results.append(("sync-master-control", rc))
+    if rc != 0:
+        print("\nremove-product: sync-master-control упал — дальше не иду (иначе отправили бы старые остатки). Проверьте вывод выше.")
+        return 1
+
+    print("\n=== Шаг 2/5: push-stock (Ozon, остаток 0) ===")
+    results.append(("push-stock", cmd_push_stock()))
+
+    print("\n=== Шаг 3/5: push-wb-stock (WB, остаток 0) ===")
+    results.append(("push-wb-stock", cmd_push_wb_stock()))
+
+    print("\n=== Шаг 4/5: archive-ozon-products (архив Ozon, обратимо) ===")
+    results.append(("archive-ozon-products", cmd_archive_ozon_products(found_ids, dry_run=False)))
+
+    print("\n=== Шаг 5/5: build-avito-catalog (убрать из фида Avito) ===")
+    results.append(("build-avito-catalog", cmd_build_avito_catalog()))
+
+    print()
+    failed = [name for name, rc in results if rc != 0]
+    if failed:
+        print(f"remove-product: ошибка на шаге(ах): {', '.join(failed)} — проверьте вывод выше (остальные шаги выполнены).")
+    else:
+        print(f"remove-product: готово — {found_ids}: остаток 0 на Ozon и WB, архив Ozon, убран из фида Avito.")
+    print(
+        "Осталось вручную: скрыть товар на сайте (Тильда) и, если нужно, удалить карточку WB в кабинете "
+        "(сейчас на WB стоит остаток 0)."
+    )
+    return 1 if failed else 0
+
+
 def cmd_unarchive_ozon_products(article: str) -> int:
     """Вернуть товар(ы) из архива Ozon обратно в активный каталог (см. cmd_archive_ozon_products)."""
     import ozon_client
@@ -2484,7 +2785,7 @@ def main() -> int:
     parser.add_argument("--push-photos-dryrun", action="store_true", help="Composite: push-ozon-cards-dryrun + push-wb-cards-dryrun одной командой, ничего не отправляется")
     parser.add_argument("--push-photos", action="store_true", help="Composite: реально отправить карточки (в т.ч. фото) сразу в Ozon и WB (сначала всегда делайте push-photos-dryrun!)")
     parser.add_argument("--update-photos", action="store_true", help="Composite \"всё в одном\" для смены фото: attach-photos-all + push-photos + build-avito-catalog одной командой (без отдельного dry-run)")
-    parser.add_argument("--update-cards", action="store_true", help="Composite \"всё в одном\" для правок названия/описания/цены/фото: sync-master-control + attach-photos-all + push-photos + build-avito-catalog одной командой")
+    parser.add_argument("--update-cards", action="store_true", help="ОДНА команда \"обновить всё везде\": проверка + sync-master-control + карточки/фото/цены/остатки на Ozon и WB + Яндекс Маркет (если подключён) + фид Avito + сайт Tilda (если подключена)")
     parser.add_argument("--push-wb-price-dryrun", action="store_true", help="Показать, у каких товаров изменится цена на WB (колонка 'Цена WB' в wb_catalog.xlsx), БЕЗ реальной отправки")
     parser.add_argument("--push-wb-price", action="store_true", help="Реально отправить новую цену на WB для существующих товаров (сначала всегда делайте dryrun!)")
     parser.add_argument("--sync-orders", action="store_true", help="Общий учёт остатков: списать заказы Ozon+WB за 30 дней из 'Кол-во к продаже' в data/ozon_catalog.xlsx")
@@ -2502,6 +2803,16 @@ def main() -> int:
     parser.add_argument("--archive-ozon-products-dryrun", action="store_true", help="Показать, какие товары (--article, через запятую) уйдут в архив на Ozon, БЕЗ реальной отправки")
     parser.add_argument("--archive-ozon-products", action="store_true", help="Реально перевести товар(ы) в архив на Ozon — обратимо, не удаление (сначала всегда делайте dryrun!)")
     parser.add_argument("--unarchive-ozon-products", action="store_true", help="Вернуть товар(ы) из архива Ozon обратно в активный каталог")
+    parser.add_argument("--validate-master", action="store_true", help="Проверить data/master_control.xlsx (цены, остатки, названия, фото) БЕЗ отправки — ловит ошибки до update-cards")
+    parser.add_argument("--remove-product-dryrun", action="store_true", help="Показать, какие товары (--article, через запятую) будут сняты с продажи (remove-product), БЕЗ изменений")
+    parser.add_argument("--remove-product", action="store_true", help="Снять товар(ы) (--article) отовсюду: остаток 0 на Ozon/WB, архив Ozon, убрать из фида Avito (сначала всегда dryrun!)")
+    parser.add_argument("--build-tilda-commerceml", action="store_true", help="Собрать data/tilda_import0_1.xml и tilda_offers0_1.xml для синхронизации с Тильдой (CommerceML), БЕЗ отправки")
+    parser.add_argument("--push-tilda", action="store_true", help="Отправить каталог (цены, остатки, новые товары) в Тильду по CommerceML (нужны секреты TILDA_COMMERCEML_*)")
+    parser.add_argument("--yandex-market-test", action="store_true", help="Проверить доступ к Яндекс Маркету (секреты YANDEX_MARKET_API_KEY/YANDEX_MARKET_CAMPAIGN_ID)")
+    parser.add_argument("--push-yandex-stock-dryrun", action="store_true", help="Показать остатки, которые уйдут на Яндекс Маркет, БЕЗ отправки")
+    parser.add_argument("--push-yandex-stock", action="store_true", help="Отправить остатки на Яндекс Маркет (FBS)")
+    parser.add_argument("--push-yandex-price-dryrun", action="store_true", help="Показать цены, которые уйдут на Яндекс Маркет, БЕЗ отправки")
+    parser.add_argument("--push-yandex-price", action="store_true", help="Отправить цены на Яндекс Маркет (те же, что на Ozon; сначала всегда dryrun!)")
     parser.add_argument("--test-wordstat", action="store_true", help="Проверить, что ключ Wordstat API работает")
     parser.add_argument("--wordstat-collect", action="store_true", help="Собрать SEO-семантику по артикулу через Wordstat API (см. --article/--seed-phrase)")
     parser.add_argument("--wordstat-collect-batch", action="store_true", help="Собрать SEO-семантику сразу по списку артикулов из data/wordstat_queue.xlsx")
@@ -2509,6 +2820,26 @@ def main() -> int:
     parser.add_argument("--seed-phrase", type=str, default="", help="Стартовая фраза(ы) для --wordstat-collect, через ';' если несколько")
     args = parser.parse_args()
 
+    if args.yandex_market_test:
+        return cmd_yandex_market_test()
+    if args.push_yandex_stock_dryrun:
+        return cmd_push_yandex_stock(dry_run=True)
+    if args.push_yandex_stock:
+        return cmd_push_yandex_stock()
+    if args.push_yandex_price_dryrun:
+        return cmd_push_yandex_price(dry_run=True)
+    if args.push_yandex_price:
+        return cmd_push_yandex_price()
+    if args.build_tilda_commerceml:
+        return cmd_build_tilda_commerceml()
+    if args.push_tilda:
+        return cmd_push_tilda()
+    if args.validate_master:
+        return cmd_validate_master()
+    if args.remove_product_dryrun:
+        return cmd_remove_product(args.article, dry_run=True)
+    if args.remove_product:
+        return cmd_remove_product(args.article, dry_run=False)
     if args.test_ozon:
         return cmd_test_ozon()
     if args.test_wb:

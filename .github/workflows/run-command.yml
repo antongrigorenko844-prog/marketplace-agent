@@ -51,6 +51,11 @@ jobs:
           WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
           WORDSTAT_FOLDER_ID: ${{ secrets.WORDSTAT_FOLDER_ID }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
         run: |
           python main.py --${{ inputs.command }} \
             --article "${{ inputs.article }}" \

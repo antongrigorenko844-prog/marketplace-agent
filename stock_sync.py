@@ -184,6 +184,61 @@ def _sync_wb(conn: sqlite3.Connection, date_from_iso: str, deltas: Dict[str, int
     return count
 
 
+def _sync_yandex(conn: sqlite3.Connection, deltas: Dict[str, int]) -> int:
+    """
+    Заказы Яндекс Маркета (FBS) за последние ~30 дней — тем же идемпотентным
+    механизмом, что Ozon/WB. Отмена (status CANCELLED) возвращает остаток.
+
+    ПЕРВЫЙ ЗАПУСК = "нулевая точка": остаток в каталоге уже учитывает прошлые
+    продажи, поэтому все заказы, которые Маркет отдаёт в первый раз, только
+    запоминаются (status 'baseline') и НЕ списываются — иначе месяц прошлых
+    продаж списался бы повторно. Списываются только заказы, появившиеся после.
+    """
+    import yandex_market_client
+
+    orders = yandex_market_client.get_orders_since(days_back=29)
+    marker = conn.execute(
+        "SELECT 1 FROM processed_orders WHERE source = 'yandex_market' AND order_key = '__baseline_done__'"
+    ).fetchone()
+    first_run = marker is None
+    now = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    count = 0
+    for order in orders:
+        order_id = order.get("id")
+        if order_id is None:
+            continue
+        cancelled = str(order.get("status") or "").strip().upper() == "CANCELLED"
+        for item in order.get("items", []) or []:
+            offer_id = str(item.get("offerId") or "").strip()
+            try:
+                quantity = int(item.get("count") or 0)
+            except (TypeError, ValueError):
+                quantity = 0
+            order_key = f"{order_id}:{offer_id}"
+            seen = conn.execute(
+                "SELECT status FROM processed_orders WHERE source = 'yandex_market' AND order_key = ?", (order_key,)
+            ).fetchone()
+            if seen and seen[0] == "baseline":
+                continue  # заказ из "нулевой точки" — не трогаем
+            if first_run and seen is None:
+                conn.execute(
+                    "INSERT INTO processed_orders (source, order_key, offer_id, decremented, status, updated_at) "
+                    "VALUES ('yandex_market', ?, ?, 0, 'baseline', ?)",
+                    (order_key, offer_id, now),
+                )
+                count += 1
+                continue
+            _reconcile_line(conn, "yandex_market", order_key, offer_id, quantity, cancelled, deltas)
+            count += 1
+    if first_run:
+        conn.execute(
+            "INSERT OR IGNORE INTO processed_orders (source, order_key, offer_id, decremented, status, updated_at) "
+            "VALUES ('yandex_market', '__baseline_done__', '', 0, 'marker', ?)",
+            (now,),
+        )
+    return count
+
+
 def sync_all_orders(
     days_back: int = 30,
     catalog_path: str = DEFAULT_CATALOG_PATH,
@@ -232,6 +287,15 @@ def sync_all_orders(
     except Exception as exc:
         logger.error("WB: ошибка при получении/разборе заказов: %s", exc)
         summary["wb_error"] = str(exc)
+
+    import yandex_market_client
+
+    if yandex_market_client.is_configured():  # Маркет подключён (есть секреты) — иначе молча пропускаем
+        try:
+            summary["yandex_market"] = _sync_yandex(conn, deltas)
+        except Exception as exc:
+            logger.error("Яндекс Маркет: ошибка при получении/разборе заказов: %s", exc)
+            summary["yandex_market_error"] = str(exc)
 
     conn.commit()
     conn.close()
