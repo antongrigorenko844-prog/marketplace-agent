@@ -643,6 +643,11 @@ def cmd_yandex_market_test() -> int:
     """Проверить доступ к Яндекс Маркету (секреты YANDEX_MARKET_API_KEY / YANDEX_MARKET_CAMPAIGN_ID)."""
     import yandex_market_client
 
+    if os.environ.get("YANDEX_MARKET_API_KEY", "").strip() and not os.environ.get("YANDEX_MARKET_CAMPAIGN_ID", "").strip():
+        ok, msg = yandex_market_client.list_campaigns()
+        print(f"Яндекс Маркет: {msg}")
+        print("\nВпишите нужный номер магазина (кампании) в секрет YANDEX_MARKET_CAMPAIGN_ID и запустите проверку ещё раз.")
+        return 0 if ok else 1
     ok, msg = yandex_market_client.test_connection()
     print(f"Яндекс Маркет: {msg}")
     return 0 if ok else 1

@@ -102,6 +102,31 @@ def _errors_text(body: dict) -> str:
     return str(body)[:300]
 
 
+def list_campaigns() -> Tuple[bool, str]:
+    """
+    GET /v2/campaigns — список магазинов (кампаний) токена. Нужен, чтобы узнать
+    номер кампании для YANDEX_MARKET_CAMPAIGN_ID, если он неизвестен (в адресе
+    кабинета после /business/ стоит номер БИЗНЕСА, а не магазина).
+    """
+    token = os.environ.get("YANDEX_MARKET_API_KEY", "").strip()
+    if not token:
+        return False, "Не задан секрет YANDEX_MARKET_API_KEY."
+    try:
+        r = requests.get(BASE_URL + "/v2/campaigns", headers=_headers(token), timeout=60)
+        body = r.json()
+    except (requests.RequestException, ValueError) as exc:
+        return False, f"не удалось получить список магазинов ({exc})"
+    if r.status_code != 200:
+        return False, f"HTTP {r.status_code}: {_errors_text(body)}"
+    rows = []
+    for c in body.get("campaigns", []) or []:
+        biz = (c.get("business") or {}).get("id", "?")
+        rows.append(f"  номер магазина (кампании) = {c.get('id')}, сайт/название: {c.get('domain', '?')}, схема: {c.get('placementType', '?')}, бизнес: {biz}")
+    if not rows:
+        return True, "токен принят, но магазинов в списке нет"
+    return True, "токен принят. Ваши магазины:\n" + "\n".join(rows)
+
+
 def test_connection() -> Tuple[bool, str]:
     """GET /v2/campaigns/{id} — есть ли доступ к магазину. Возвращает (ok, сообщение)."""
     try:
