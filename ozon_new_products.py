@@ -303,3 +303,96 @@ def build_new_import_items(existing_data: dict, edits: Dict[str, dict]) -> List[
             }
         )
     return items
+
+
+def plan_missing(data_dir: str) -> dict:
+    """
+    Что нужно создать на Ozon: товары, которые ДОЛЖНЫ там быть (колонка «Ozon (да/нет)» мастера, пусто = да),
+    с остатком > 0, но которых нет на Ozon (по ревизии). Ничего не пишет и не отправляет.
+
+    Образец (откуда берутся категория, тип, характеристики): самая похожая по названию карточка Ozon, только при
+    уверенном сходстве (>= 0.5); иначе товар пропускается с причиной. Вес/габариты — из
+    мастера (кг/см -> г/мм), пусто = как у образца. Цена, старая цена, название, описание, хэштеги — из мастера.
+    Пропускаются: тестовые, двойники «-v2», двигательные EA888* (нужен образец другого раздела), артикулы с
+    пробелом/слэшем, без похожего образца. Фото не отправляются: следующий update-cards добавит их обычным путём.
+    Возвращает {"edits": {артикул: {...как в load_new_edits}}, "info": {артикул: (образец, сходство)}, "skipped": [(артикул, причина)]}.
+    """
+    import json
+    import re
+
+    import audit
+    import sync_master_control
+
+    res = audit.compute()
+    master = res["master"]
+    raw_rows, _ = sync_master_control._read_master()
+    oz = json.load(open(os.path.join(data_dir, "ozon_products.json"), encoding="utf-8"))
+    names = [p for p in oz.get("names", []) if p.get("offer_id")]
+    by_offer = {p["offer_id"]: p for p in names}
+
+    def words(text):
+        stop = {"мехатроник", "мехатроника", "комплект", "оригинальный", "оригинальные", "оригинальных"}
+        return {w[:5] for w in re.findall(r"[a-zа-я]{4,}", str(text or "").lower()) if w not in stop}
+
+    name_words = [(p, words(p.get("name"))) for p in names]
+    wanted = [p for p in res["problems"] if p["ch"] == "Ozon" and p["kind"] == "нет на площадке"]
+    edits, info, skipped = {}, {}, []
+    for p in wanted:
+        art = str(p["art"])
+        m = master[art]
+        raw = raw_rows.get(art) or {}
+        low = art.lower()
+        if low.endswith("-v2") and m["flags"].get("Ozon") != "да":
+            skipped.append((art, "двойник -v2 (на Ozon такой же товар уже есть под базовым артикулом; впишите «да» в колонку Ozon мастера и образец)"))
+            continue
+        if any(ch in art for ch in " /\\"):
+            skipped.append((art, "в артикуле пробел или слэш — на Ozon лучше завести вручную"))
+            continue
+        name = (m["name"] or raw.get("name") or "").strip()
+        if not name:
+            skipped.append((art, "в мастере нет названия"))
+            continue
+        # Образец только по сходству названия с карточкой Ozon (колонка «Образец для WB» — это каталог WB,
+        # категория там может не совпасть с Ozon). Автосоздание — только при уверенном совпадении.
+        if low.startswith("ea888") or low.startswith("test"):
+            skipped.append((art, "двигательная/тестовая позиция — нужен образец другого раздела"))
+            continue
+        ow = words(name)
+        best, score = None, 0.0
+        for c, cw in name_words:
+            if not cw or not ow or c["offer_id"] == art:
+                continue
+            sc = len(ow & cw) / len(ow | cw)
+            if sc > score:
+                best, score = c, sc
+        if not best or score < 0.5:
+            skipped.append((art, f"образец неуверенный (ближайший {best['offer_id'] if best else '—'}, сходство {round(score, 2)}) — создайте вручную (launch-new-products)"))
+            continue
+        sample = best["offer_id"]
+
+        def kg_to_g(v):
+            return round(float(v) * 1000) if v else None
+
+        def cm_to_mm(v):
+            return round(float(v) * 10) if v else None
+
+        edits[art] = {
+            "sample_offer_id": sample,
+            "name": name,
+            "description": m["desc"] or raw.get("description") or "",
+            "price": m["price"] or raw.get("price"),
+            "old_price": raw.get("old_price"),
+            "barcode": "",
+            "tnved": str(raw.get("tnved") or "").strip(),
+            "weight_g": kg_to_g(m["weight"]),
+            "length_mm": cm_to_mm(m["length"]),
+            "width_mm": cm_to_mm(m["width"]),
+            "height_mm": cm_to_mm(m["height"]),
+            "images": [],
+            "video_url": "",
+            "quantity_to_sell": m["stock"],
+            "notes": "",
+            "hashtags": str(raw.get("hashtags") or "").strip(),
+        }
+        info[art] = (sample, round(score, 2))
+    return {"edits": edits, "info": info, "skipped": skipped}

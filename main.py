@@ -892,6 +892,7 @@ def cmd_update_cards() -> int:
     (названия, описания, цены, остатки) и/или замены файлов в photos/:
 
       0) проверка master_control (только показывает, не блокирует);
+      0а-2, 0а-3) недостающие товары мастера создаются на WB и на Ozon (до 5 за запуск на каждой);
       0б) цена WB приравнивается к цене Ozon (правило «одна цена на Ozon/WB/Маркете»);
       1) sync-master-control — правки пульта -> рабочие файлы (если упал — дальше
          НЕ идём, иначе отправили бы недосинхронизированное);
@@ -916,8 +917,7 @@ def cmd_update_cards() -> int:
         print(f"(проверка не выполнена: {exc})")
 
     # Свежие карточки WB — чтобы только что созданные карточки сразу получили фото/остатки/цену (за один запуск).
-    print("\n=== Шаг 0а: свежие карточки WB ===")
-    try:
+    def _refresh_wb_cards():
         cmd_fetch_wb()
         import wb_catalog_editor
 
@@ -925,8 +925,31 @@ def cmd_update_cards() -> int:
             n_new = wb_catalog_editor.append_missing_wb_catalog_rows(json.load(f_), _data_path("wb_catalog.xlsx"))
         if n_new:
             print(f"В wb_catalog.xlsx добавлено строк для новых карточек WB: {n_new}")
+
+    print("\n=== Шаг 0а: свежие карточки WB ===")
+    try:
+        _refresh_wb_cards()
     except Exception as exc:  # noqa: BLE001 — не должно ронять update-cards
         print(f"(обновление карточек WB пропущено: {exc})")
+
+    # Новые товары мастера, которых нет на WB, создаются здесь же (до WB_AUTO_CREATE_MAX за запуск),
+    # затем карточки перечитываются — и фото/цена/остаток доезжают в этом же запуске.
+    print("\n=== Шаг 0а-2: создать недостающие карточки WB ===")
+    try:
+        _WB_LAST_CREATED.clear()
+        cmd_wb_create_missing(dry_run=False, auto=True)
+        if _WB_LAST_CREATED:
+            print(f"Создано на WB: {', '.join(_WB_LAST_CREATED)} — перечитываю карточки WB.")
+            _refresh_wb_cards()
+    except Exception as exc:  # noqa: BLE001 — не должно ронять update-cards
+        print(f"(автосоздание карточек WB пропущено: {exc})")
+
+    print("\n=== Шаг 0а-3: создать недостающие карточки Ozon ===")
+    try:
+        _OZON_LAST_CREATED.clear()
+        cmd_ozon_create_missing(dry_run=False, auto=True)
+    except Exception as exc:  # noqa: BLE001 — не должно ронять update-cards
+        print(f"(автосоздание карточек Ozon пропущено: {exc})")
 
     # Правило: цена на Ozon, WB и Маркете одинаковая. Перед переносом правок мастера в каталоги
     # цена WB приравнивается к цене Ozon (колонки «Цена WB» и «Цена, ₽» мастера).
@@ -2573,7 +2596,159 @@ def cmd_fix_spu(article: str, dry_run: bool) -> int:
     return 0
 
 
-def cmd_wb_create_missing(dry_run: bool, article: str = "") -> int:
+_OZON_LAST_CREATED: list = []
+
+
+def cmd_ozon_create_missing(dry_run: bool, article: str = "", auto: bool = False) -> int:
+    """
+    Создать на Ozon товары, которых там нет, но которые должны быть (по ревизии) — всё из master_control.xlsx
+    (колонка «Ozon (да/нет)», пусто = да; образец подбирается по названию). В автоматическом режиме (update-cards):
+    не больше WB_AUTO_CREATE_MAX за запуск, дважды отклонённые Ozon-ом не повторяются (data/ozon_create_state.json).
+    Фото не отправляются: следующий update-cards добавляет их обычным путём (после обновления каталога Ozon).
+    """
+    import ozon_client
+    import ozon_new_products
+
+    data_dir = os.path.dirname(_data_path("ozon_products.json"))
+    plan = ozon_new_products.plan_missing(data_dir)
+    edits = plan["edits"]
+    if article.strip():
+        wanted = {a.strip() for a in article.split(",") if a.strip()}
+        unknown = sorted(wanted - set(edits))
+        if unknown:
+            print("Не в плане (нет в списке недостающих или пропущены): " + ", ".join(unknown))
+        edits = {k: v for k, v in edits.items() if k in wanted}
+    if auto:
+        edits = _wb_auto_filter(edits, "ozon")
+    print(f"К созданию на Ozon: {len(edits)} товаров.")
+    for a, v in edits.items():
+        smp, score = plan["info"][a]
+        flag = "" if score >= 0.5 else "   <-- образец подобран неуверенно"
+        print(f"  {a}: «{v['name']}» | образец {smp} (сходство {score}) | цена {v['price']}{flag}")
+    if plan["skipped"] and not article.strip():
+        print(f"\nПропущено ({len(plan['skipped'])}):")
+        for a, why in plan["skipped"]:
+            print(f"  - {a}: {why}")
+    if not edits:
+        return 0
+
+    with open(_data_path("ozon_products.json"), "r", encoding="utf-8") as f:
+        data = json.load(f)
+    items = ozon_new_products.build_new_import_items(data, edits)
+    if dry_run:
+        print(f"\nПРОБНЫЙ ПРОГОН — в Ozon ничего не отправлено. Готово к созданию: {len(items)}.")
+        if items:
+            print(json.dumps(items[0], ensure_ascii=False, indent=2)[:2500])
+        return 0
+    if not items:
+        print("Нечего отправлять: ни у одного товара не нашёлся образец в ozon_products.json.")
+        return 1
+
+    sent = [i["offer_id"] for i in items if i.get("offer_id")]
+    problems: dict = {}
+    created: list = []
+    try:
+        result = ozon_client.import_products(items)
+        task_id = result.get("result", {}).get("task_id")
+        if not task_id:
+            print(f"Ozon не вернул task_id, ответ: {result}")
+            return 1
+        print(f"task_id={task_id}, жду обработку...")
+        status = {}
+        for _ in range(30):
+            time.sleep(2)
+            status = ozon_client.get_import_status(task_id)
+            if status.get("result", {}).get("items"):
+                break
+        for it in status.get("result", {}).get("items", []):
+            blocking, warnings = _split_errors_by_level(it.get("errors") or [])
+            if blocking:
+                problems[it.get("offer_id")] = [json.dumps(blocking, ensure_ascii=False)]
+        existing = {p.get("offer_id") for p in ozon_client.list_products() if p.get("offer_id")}
+        created = [a for a in sent if a in existing]
+        print(f"\nРЕЗУЛЬТАТ: создано на Ozon {len(created)} из {len(sent)}.")
+        for a in sent:
+            if a in created:
+                print(f"  ОК: {a}")
+            elif a in problems:
+                print(f"  ОТКЛОНЕНО: {a} — {problems[a][0][:400]}")
+            else:
+                print(f"  ПОКА НЕТ: {a} (ошибок нет — возможно, ещё в обработке или Ozon счёл дублем; проверит следующий запуск)")
+    except Exception as exc:  # noqa: BLE001
+        print(f"ОШИБКА при создании на Ozon: {exc}")
+        return 1
+    finally:
+        if auto and sent:
+            _wb_auto_update_state(sent, created, problems, "ozon")
+        global _OZON_LAST_CREATED
+        _OZON_LAST_CREATED = list(created)
+    print("Дальше: следующий update-cards добавит фото, цену и остаток новым карточкам.")
+    return 0
+
+
+_WB_LAST_CREATED: list = []  # что создал последний вызов cmd_wb_create_missing (для update-cards)
+WB_AUTO_CREATE_MAX = 5  # не больше стольких новых карточек WB за один запуск update-cards
+WB_AUTO_RETRY_AFTER_H = 6  # отправленную, но ещё не появившуюся карточку повторно не шлём столько часов
+WB_AUTO_MAX_REJECTS = 2  # после стольких отказов WB карточку автоматически больше не пробуем
+
+
+def _wb_auto_state_path(ch: str = "wb") -> str:
+    return _data_path(f"{ch}_create_state.json")
+
+
+def _wb_auto_load_state(ch: str = "wb") -> dict:
+    try:
+        with open(_wb_auto_state_path(ch), "r", encoding="utf-8") as f_:
+            st = json.load(f_)
+        return st if isinstance(st, dict) else {}
+    except (OSError, ValueError):
+        return {}
+
+
+def _wb_auto_filter(edits: dict, ch: str = "wb") -> dict:
+    """Автосоздание: пропускает то, что уже отправлено недавно или дважды отклонено, и ограничивает число."""
+    st = _wb_auto_load_state(ch)
+    now = time.time()
+    keep, skipped = {}, []
+    for a, v in edits.items():
+        e = st.get(a) or {}
+        if int(e.get("rejected", 0)) >= WB_AUTO_MAX_REJECTS:
+            skipped.append(f"{a}: WB отклонил {e.get('rejected')} раз(а) — {str(e.get('reason', ''))[:200]} (авто-создание отключено; вручную: {ch}-create-missing --article {a}; сбросить — удалить запись из data/{ch}_create_state.json)")
+            continue
+        if e.get("sent") and now - float(e["sent"]) < WB_AUTO_RETRY_AFTER_H * 3600:
+            skipped.append(f"{a}: отправлен недавно, WB ещё обрабатывает — повторно не шлю")
+            continue
+        keep[a] = v
+    for line in skipped:
+        print("  пропуск: " + line)
+    if len(keep) > WB_AUTO_CREATE_MAX:
+        rest = sorted(keep)[WB_AUTO_CREATE_MAX:]
+        keep = {a: keep[a] for a in sorted(keep)[:WB_AUTO_CREATE_MAX]}
+        print(f"  лимит {WB_AUTO_CREATE_MAX} за запуск: остальные ({len(rest)}) создадутся при следующих запусках: {', '.join(rest[:10])}{'...' if len(rest) > 10 else ''}")
+    return keep
+
+
+def _wb_auto_update_state(sent: list, created: list, problems: dict, ch: str = "wb") -> None:
+    st = _wb_auto_load_state(ch)
+    now = time.time()
+    for a in sent:
+        e = st.get(a) or {}
+        if a in created:
+            st.pop(a, None)
+            continue
+        e["sent"] = now
+        if a in problems:
+            e["rejected"] = int(e.get("rejected", 0)) + 1
+            e["reason"] = problems[a][0][:300]
+        st[a] = e
+    try:
+        with open(_wb_auto_state_path(ch), "w", encoding="utf-8") as f_:
+            json.dump(st, f_, ensure_ascii=False, indent=1)
+    except OSError as exc:
+        print(f"(не удалось сохранить data/{ch}_create_state.json: {exc})")
+
+
+def cmd_wb_create_missing(dry_run: bool, article: str = "", auto: bool = False) -> int:
     """
     Создать на WB товары, которых там нет, но которые должны быть (по ревизии) — БЕЗ отдельной таблицы:
     всё берётся из master_control.xlsx (колонка «WB (да/нет)», при желании «Образец для WB» и габариты)
@@ -2601,6 +2776,8 @@ def cmd_wb_create_missing(dry_run: bool, article: str = "") -> int:
         if unknown:
             print("Не в плане (нет в списке недостающих или пропущены): " + ", ".join(unknown))
         edits = {k: v for k, v in edits.items() if k in wanted}
+    if auto:
+        edits = _wb_auto_filter(edits)
     print(f"К созданию на WB: {len(edits)} товаров.")
     for a, v in edits.items():
         smp, subj, score = plan["info"][a]
@@ -2639,6 +2816,7 @@ def cmd_wb_create_missing(dry_run: bool, article: str = "") -> int:
             err += 1
     print(f"\nИтого: отправлено {ok}, с ошибками {err}.")
     sent = [g["vendor_code"] for g in groups]
+    created, problems = [], {}
     if ok:
         # Создание асинхронное: сами ждём и проверяем итог, чтобы не запускать отдельную диагностику.
         print("Проверяю результат каждые 30 с (до 5 минут), пока WB обрабатывает карточки...")
@@ -2665,6 +2843,10 @@ def cmd_wb_create_missing(dry_run: bool, article: str = "") -> int:
                     print(f"  ПОКА НЕТ: {v} (ошибок нет — возможно, ещё в обработке; проверит ночная ревизия)")
         except Exception as exc:  # проверка — удобство, её сбой не должен краснить создание
             print(f"Не удалось проверить результат ({exc}). Запустите audit — он покажет, что появилось.")
+    if auto and sent:
+        _wb_auto_update_state(sent, created, problems)
+    global _WB_LAST_CREATED
+    _WB_LAST_CREATED = list(created)
     print("Дальше: update-cards добавит фото и остатки новым карточкам.")
     return 0 if err == 0 else 1
 
