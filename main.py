@@ -2240,7 +2240,7 @@ def _wb_stock_rows():
         return [], []
 
     barcode_map = wb_client.get_offer_barcode_map()
-    alias = sync_master_control._WB_ALIAS_OZON_TO_VENDOR
+    alias = {**sync_master_control._WB_ALIAS_OZON_TO_VENDOR, **sync_master_control._WB_FORCED_OZON_TO_VENDOR}
 
     rows = []
     unmatched = []
@@ -2251,6 +2251,12 @@ def _wb_stock_rows():
             unmatched.append(offer_id)
             continue
         rows.append({"offer_id": offer_id, "vendor_code": vendor_code, "sku": barcode, "amount": max(0, int(qty))})
+    # снятые с продажи карточки WB: остаток всегда 0
+    for vc in sync_master_control.WB_RETIRED_VENDOR_CODES:
+        barcode = barcode_map.get(vc)
+        if barcode:
+            rows = [r for r in rows if r["vendor_code"] != vc]
+            rows.append({"offer_id": f"{vc} (снята)", "vendor_code": vc, "sku": barcode, "amount": 0})
     return rows, unmatched
 
 

@@ -345,8 +345,20 @@ _WB_DRAFT_FIELD_MAP = {
 _WB_ALIAS_OZON_TO_VENDOR = {
     "0am325477ae": "0am325477",
     "02e305045": "02E305045E",
-    "0AM927769N": "0AM927769D",  # WB "0AM927769D" = прокладки платы = Ozon "0AM927769N"
 }
+
+# Принудительная переадресация Ozon-артикул -> vendorCode на WB, даже если Ozon-артикул
+# буквально совпадает с настоящим vendorCode на WB (тогда _WB_ALIAS_OZON_TO_VENDOR не
+# сработал бы). Ozon "0AM927769D" — это электронная плата, а на WB карточка с таким
+# vendorCode — старые ПРОКЛАДКИ; плата на WB живёт как "0AM927769D-plata", прокладки —
+# как отдельная "0AM927769N" (исправлено 2026-10-22, до этого данные платы попадали
+# в карточку прокладок: цена 78 800, название платы).
+_WB_FORCED_OZON_TO_VENDOR = {
+    "0AM927769D": "0AM927769D-plata",
+}
+
+# Карточки WB, которые больше не продаём: остаток при каждом push-wb-stock = 0.
+WB_RETIRED_VENDOR_CODES = ("0AM927769D",)
 
 
 def _remap_wb_keys(updates: dict, real_wb_vendor_codes: set) -> dict:
@@ -365,7 +377,11 @@ def _remap_wb_keys(updates: dict, real_wb_vendor_codes: set) -> dict:
     wb_catalog.xlsx/wb_new_products.xlsx.
     """
     out = {}
+    forced = {}
     for oid, upd in updates.items():
+        if oid in _WB_FORCED_OZON_TO_VENDOR:
+            forced[_WB_FORCED_OZON_TO_VENDOR[oid]] = upd
+            continue
         target = _WB_ALIAS_OZON_TO_VENDOR.get(oid, oid)
         if target != oid and oid in real_wb_vendor_codes:
             logger.warning(
@@ -377,6 +393,7 @@ def _remap_wb_keys(updates: dict, real_wb_vendor_codes: set) -> dict:
             out[oid] = upd
         else:
             out[target] = upd
+    out.update(forced)  # принудительная переадресация сильнее обычной строки с тем же ключом
     return out
 
 
