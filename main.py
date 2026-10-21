@@ -2145,6 +2145,21 @@ def _load_stock_items(warehouse_id=None):
                 item["warehouse_id"] = warehouse_id
             items.append(item)
 
+    # Товары, у которых в мастере «Ozon (да/нет)» = «нет», на Ozon не отправляем
+    # (иначе каждый запуск пишет «карточка не создана» про то, что мы и не продаём).
+    try:
+        import audit
+
+        _m = audit.load_master()
+        _fl = audit.channel_flags(_m)
+        _off = {audit.key(a) for a, f in _fl.items() if f.get("Ozon") == audit.NO}
+        _before = len(items)
+        items = [it for it in items if audit.key(str(it.get("offer_id", ""))) not in _off]
+        if len(items) != _before:
+            print(f"Пропущено по мастеру «Ozon: нет»: {_before - len(items)}")
+    except Exception as exc:  # noqa: BLE001
+        print(f"(фильтр «Ozon: нет» не применён: {exc})")
+
     return items
 
 
