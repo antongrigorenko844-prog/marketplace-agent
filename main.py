@@ -2573,6 +2573,12 @@ def cmd_sync_ozon_prices(dry_run: bool, article: str = "") -> int:
     edits = catalog_editor.load_catalog_edits(_data_path("ozon_catalog.xlsx"))
     only = {a.strip() for a in (article or "").split(",") if a.strip()}
     ids = [o for o in edits if (not only or o in only)]
+    # Товары с "no_price_sync": true в data/ozon_overrides.json не трогаем никогда
+    overrides = catalog_editor._load_overrides()
+    skipped = [o for o in ids if (overrides.get(o) or {}).get("no_price_sync")]
+    if skipped:
+        print("Пропускаю (no_price_sync в ozon_overrides.json): " + ", ".join(skipped))
+    ids = [o for o in ids if o not in skipped]
     live = {it.get("offer_id"): (it.get("price") or {}) for it in ozon_client.get_prices_and_stocks(ids)}
 
     def _num(v):
