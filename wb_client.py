@@ -247,7 +247,7 @@ def update_stocks(warehouse_id: str, items: List[dict]) -> dict:
     )
 
 
-def get_offer_barcode_map() -> Dict[str, str]:
+def get_offer_barcode_map(cards: Optional[List[dict]] = None) -> Dict[str, str]:
     """
     Артикул продавца (vendorCode = offer_id из вашего каталога) -> штрихкод
     первого размера/варианта его карточки WB. Нужно только для
@@ -256,7 +256,7 @@ def get_offer_barcode_map() -> Dict[str, str]:
     случай: запчасти) там ровно один вариант и один штрихкод.
     """
     out: Dict[str, str] = {}
-    for card in list_cards():
+    for card in (cards if cards is not None else list_cards()):
         vendor_code = card.get("vendorCode")
         if not vendor_code:
             continue

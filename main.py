@@ -1029,7 +1029,7 @@ def cmd_update_cards() -> int:
     # Шаг 10: ревизия (только чтение) — сразу видно, что после обновления где-то не доехало.
     print("\n=== Шаг 10: ревизия площадок (только чтение, на результат update-cards не влияет) ===")
     try:
-        cmd_audit(refresh=True)
+        cmd_audit(refresh=True, skip_wb=True)
     except Exception as exc:  # noqa: BLE001
         print(f"ревизия пропущена: {exc}")
 
@@ -2238,9 +2238,18 @@ def cmd_push_stock() -> int:
     print(f"\nИтого: успешно {total_ok}, с ошибками {total_err}, карточка не создана на Ozon {len(not_created)}")
     if not_created:
         print(
-            "Карточки не созданы на Ozon (остаток не отправлен; причины — запустите ozon-status): "
+            "Карточки не созданы на Ozon (остаток не отправлен): "
             + ", ".join(not_created)
         )
+        # Причины сразу в этом же логе (раньше для этого нужна была отдельная команда ozon-status).
+        try:
+            print("\nПричины (статус карточек на Ozon):")
+            os.environ["OZON_STATUS_ARTICLES"] = ",".join(not_created)
+            cmd_ozon_status()
+        except Exception as exc:  # noqa: BLE001
+            print(f"(статусы карточек не получены: {exc})")
+        finally:
+            os.environ.pop("OZON_STATUS_ARTICLES", None)
 
     # Диагностика: PRODUCT_IS_NOT_CREATED от /v2/products/stocks не значит
     # обязательно "карточки нет вообще" — товар может существовать (виден в
@@ -2286,18 +2295,36 @@ def _wb_stock_rows():
     if not stock_items:
         return [], []
 
-    barcode_map = wb_client.get_offer_barcode_map()
+    # Карточки WB только что скачаны шагом 0а update-cards — берём их из файла, а не качаем в третий раз.
+    cards = None
+    try:
+        wb_path = _data_path("wb_cards.json")
+        if os.path.exists(wb_path) and time.time() - os.path.getmtime(wb_path) < 20 * 60:
+            with open(wb_path, "r", encoding="utf-8") as f_:
+                cards = json.load(f_).get("cards") or None
+    except (OSError, ValueError):
+        cards = None
+    barcode_map = wb_client.get_offer_barcode_map(cards)
     alias = {**sync_master_control._WB_ALIAS_OZON_TO_VENDOR, **sync_master_control._WB_FORCED_OZON_TO_VENDOR}
 
     rows = []
     unmatched = []
     for offer_id, qty in sorted(stock_items.items()):
         vendor_code = alias.get(offer_id, offer_id)
+        if vendor_code != offer_id and offer_id in barcode_map and offer_id not in sync_master_control._WB_FORCED_OZON_TO_VENDOR:
+            vendor_code = offer_id  # такой артикул сам по себе настоящая карточка WB — остаток идёт ей, а не «двойнику»
         barcode = barcode_map.get(vendor_code)
         if not barcode:
             unmatched.append(offer_id)
             continue
         rows.append({"offer_id": offer_id, "vendor_code": vendor_code, "sku": barcode, "amount": max(0, int(qty))})
+    # если два артикула дали одну карточку WB — оставляем тот, чей offer_id совпадает с её vendorCode
+    best = {}
+    for r in rows:
+        cur = best.get(r["vendor_code"])
+        if cur is None or (r["offer_id"] == r["vendor_code"] and cur["offer_id"] != cur["vendor_code"]):
+            best[r["vendor_code"]] = r
+    rows = list(best.values())
     # снятые с продажи карточки WB: остаток всегда 0
     for vc in sync_master_control.WB_RETIRED_VENDOR_CODES:
         barcode = barcode_map.get(vc)
@@ -2923,7 +2950,7 @@ def cmd_align_wb_prices(dry_run: bool) -> int:
     return 0
 
 
-def cmd_audit(refresh: bool = True, fail_on_new: bool = False) -> int:
+def cmd_audit(refresh: bool = True, fail_on_new: bool = False, skip_wb: bool = False) -> int:
     """
     РЕВИЗИЯ площадок (только чтение, ничего не меняет на Ozon/WB/Авито/Маркете/сайте).
 
@@ -2948,7 +2975,10 @@ def cmd_audit(refresh: bool = True, fail_on_new: bool = False) -> int:
 
         safe("Ozon: товары", cmd_fetch_ozon)
         safe("Ozon: остатки", _audit_fetch_ozon_stocks)
-        safe("WB: карточки", cmd_fetch_wb)
+        if skip_wb:
+            print("\n--- WB: карточки --- (берём файл, скачанный в начале update-cards)")
+        else:
+            safe("WB: карточки", cmd_fetch_wb)
         safe("Яндекс Маркет", cmd_yandex_market_export)
         safe("Авито: объявления и отчёт автозагрузки", _audit_fetch_avito)
         print("\n=== Ревизия: сверка ===")
