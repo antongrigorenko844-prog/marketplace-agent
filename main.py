@@ -910,6 +910,20 @@ def cmd_update_cards() -> int:
     except Exception as exc:  # noqa: BLE001 — не должно ронять update-cards
         print(f"(выравнивание цены WB пропущено: {exc})")
 
+    # Цена Авито/сайта = доля (70%) от цены маркетплейсов; доля — в data/avito_site_price_overrides.xlsx (лист «Настройки»).
+    print("\n=== Шаг 0в: цены Авито и сайта = доля от цены маркетплейсов ===")
+    try:
+        import site_pricing
+
+        changed = site_pricing.recalc_from_master(_data_path("master_control.xlsx"))
+        print(f"Доля {site_pricing.get_share():.0%}; пересчитано цен Авито/сайта: {len(changed)}")
+        for a_, o_, n_ in changed[:15]:
+            print(f"  {a_}: {o_ if o_ is not None else '—'} -> {n_:g}")
+        if len(changed) > 15:
+            print(f"  ... и ещё {len(changed) - 15}")
+    except Exception as exc:  # noqa: BLE001 — не должно ронять update-cards
+        print(f"(пересчёт цен Авито/сайта пропущен: {exc})")
+
     print("\n=== Шаг 1: sync-master-control ===")
     rc_sync = cmd_sync_master_control()
     if rc_sync != 0:

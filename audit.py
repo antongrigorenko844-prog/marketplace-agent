@@ -355,16 +355,17 @@ def compute() -> dict:
         if mm and mm.get("name") and _norm_text(mm["name"]) != _norm_text(m["name"]):
             add("НИЗКО", art, "Маркет", "название", f"Маркет: «{mm['name'][:50]}» ≠ мастер: «{m['name'][:50]}»", "поправить в кабинете Маркета (названия через API не синхронизируются)")
         # Две ценовые ступени: маркетплейсы (Ozon/WB/Маркет — с комиссией) и Авито + сайт (без комиссии,
-        # цена ≈ половина маркетплейсовой; минимальную цену Авито не учитываем).
+        # цена = доля (70%) от маркетплейсовой; минимальную цену Авито не учитываем).
         fa, tt = feed.get(k), tl.get(k)
         if fa and fa.get("price") and tt and tt.get("price") and abs(fa["price"] - tt["price"]) > 1 and stock > 0:
             add("СРЕДНЕ", art, "Авито/сайт", "цены Авито и сайта разные", f"Авито {fa['price']:g} ≠ сайт {tt['price']:g}", "должны совпадать — проверьте avito_site_price_overrides.xlsx")
         if stock > 0 and m["price"] and fa and fa.get("price"):
-            half = int(m["price"] / 2 + 0.5)
+            import site_pricing as _sp
+            half = int(_sp.site_price(m["price"]) or 0)
             if abs(fa["price"] - m["price"]) <= 1:
                 add("СРЕДНЕ", art, "Авито/сайт", "нет цены без комиссии", f"на Авито цена как на маркетплейсах ({fa['price']:g}); по правилу ≈ {half}", f"добавить {art} = {half} в data/avito_site_price_overrides.xlsx")
             elif abs(fa["price"] - half) > max(5, 0.03 * half):
-                add("НИЗКО", art, "Авито/сайт", "цена не равна половине", f"Авито/сайт {fa['price']:g}, половина маркетплейса {half}", "оставить, если это сознательная цена")
+                add("НИЗКО", art, "Авито/сайт", "цена не равна правилу", f"Авито/сайт {fa['price']:g}, по правилу ({_sp.get_share():.0%} от маркетплейса) {half}", "оставить, если это сознательная цена")
         if live and k in live and k in feed and live[k].get("price") and feed[k].get("price"):
             if abs(live[k]["price"] - feed[k]["price"]) > 1:
                 add("СРЕДНЕ", art, "Авито", "цена", f"на Авито {live[k]['price']:g} ≠ в нашем файле {feed[k]['price']:g}", "дождаться следующей автозагрузки / проверить её отчёт")
