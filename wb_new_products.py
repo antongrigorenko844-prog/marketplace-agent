@@ -218,15 +218,48 @@ def build_new_card_groups(wb_data: dict, edits: Dict[str, dict], barcodes: List[
         if edit.get("weight_kg") not in (None, ""):
             dimensions["weightBrutto"] = edit.get("weight_kg")
 
+        # API WB строгий к типам: длина/ширина/высота — ЦЕЛЫЕ сантиметры (20.0 даёт 400 «Invalid request
+        # format»), вес — число в кг, цена — целое.
+        import math
+
+        def _int_cm(v):
+            try:
+                return max(1, int(math.ceil(float(v))))
+            except (TypeError, ValueError):
+                return 1
+
+        dimensions = {
+            "length": _int_cm(dimensions.get("length")),
+            "width": _int_cm(dimensions.get("width")),
+            "height": _int_cm(dimensions.get("height")),
+            "weightBrutto": round(float(dimensions.get("weightBrutto") or 0.1), 3),
+        }
+        try:
+            new_size["price"] = int(round(float(new_size["price"])))
+        except (TypeError, ValueError):
+            new_size["price"] = 0
+
         variant = {
-            "vendorCode": vendor_code,
+            "vendorCode": str(vendor_code),
             "title": (edit.get("title") or "")[:60],
             "description": edit.get("description") or "",
-            "brand": sample.get("brand", ""),
             "dimensions": dimensions,
-            "characteristics": sample.get("characteristics") or [],
             "sizes": [new_size],
         }
+        if sample.get("brand"):
+            variant["brand"] = sample["brand"]
+        # Характеристики образца: WB принимает только {"id", "value"} (лишнее поле name даёт 400), а
+        # «Артикул производителя» у образца — ЕГО артикул, у нового товара должен быть свой.
+        chars = []
+        for ch in sample.get("characteristics") or []:
+            if not ch.get("id") or not ch.get("value"):
+                continue
+            value = ch["value"]
+            if str(ch.get("name", "")).strip().lower() == "артикул производителя":
+                value = [str(vendor_code)]
+            chars.append({"id": ch["id"], "value": value})
+        if chars:
+            variant["characteristics"] = chars
         groups.append({"subject_id": subject_id, "vendor_code": vendor_code, "variant": variant})
 
     return groups

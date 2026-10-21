@@ -2566,6 +2566,8 @@ def cmd_wb_create_missing(dry_run: bool, article: str = "") -> int:
             ok += 1
         except wb_client.WbApiError as exc:
             print(f"ОШИБКА при создании {g['vendor_code']}: {exc}")
+            if err == 0:
+                print("Что отправляли (для диагностики): " + json.dumps(g, ensure_ascii=False)[:1800])
             err += 1
     print(f"\nИтого: отправлено {ok}, с ошибками {err}. Создание асинхронное: подождите 2-5 минут, затем запустите audit (он обновит WB), а потом update-cards — он доберёт фото.")
     return 0 if err == 0 else 1
