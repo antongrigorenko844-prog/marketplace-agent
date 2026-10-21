@@ -899,6 +899,12 @@ def cmd_update_cards() -> int:
     print("\n=== Шаг 0а: свежие карточки WB ===")
     try:
         cmd_fetch_wb()
+        import wb_catalog_editor
+
+        with open(_data_path("wb_cards.json"), "r", encoding="utf-8") as f_:
+            n_new = wb_catalog_editor.append_missing_wb_catalog_rows(json.load(f_), _data_path("wb_catalog.xlsx"))
+        if n_new:
+            print(f"В wb_catalog.xlsx добавлено строк для новых карточек WB: {n_new}")
     except Exception as exc:  # noqa: BLE001 — не должно ронять update-cards
         print(f"(обновление карточек WB пропущено: {exc})")
 

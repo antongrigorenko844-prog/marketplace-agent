@@ -250,6 +250,42 @@ def build_wb_catalog(wb_data: dict, xlsx_path: str) -> int:
     return row_idx - 2
 
 
+def append_missing_wb_catalog_rows(wb_data: dict, xlsx_path: str) -> int:
+    """
+    Дописать в data/wb_catalog.xlsx строки для карточек, которые есть на WB (wb_cards.json), но ещё не
+    в таблице — например, только что созданных через wb-create-missing. Существующие строки (и правки в
+    них) НЕ трогаются; полная пересборка (build-wb-catalog) стёрла бы несинхронизированные правки.
+    Возвращает число добавленных строк.
+    """
+    if not os.path.exists(xlsx_path):
+        return 0
+    cards = _cards_by_vendor(wb_data)
+    prices_by_nm = _prices_by_nm(wb_data)
+    workbook = load_workbook(xlsx_path)
+    ws = workbook.active
+    have = {str(r[0]).strip() for r in ws.iter_rows(min_row=2, values_only=True) if r and r[0]}
+    row_idx = ws.max_row + 1
+    added = 0
+    for vendor_code in sorted(cards.keys()):
+        if vendor_code in have:
+            continue
+        card = cards[vendor_code]
+        price_info = current_wb_price(card, prices_by_nm)
+        row_values = [
+            vendor_code, _card_title(card), _card_description(card),
+            "|".join(_extract_photo_urls(card)), _extract_video_url(card),
+            price_info["price"], price_info["discount"], "",
+        ]
+        for col_idx, value in enumerate(row_values, start=1):
+            ws.cell(row=row_idx, column=col_idx, value=value).font = NORMAL_FONT
+        row_idx += 1
+        added += 1
+    if added:
+        ws.auto_filter.ref = f"A1:{get_column_letter(len(COLUMNS))}{row_idx - 1}"
+        workbook.save(xlsx_path)
+    return added
+
+
 def load_wb_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
     workbook = load_workbook(xlsx_path, data_only=True)
     ws = workbook.active
