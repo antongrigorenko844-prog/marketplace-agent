@@ -954,12 +954,14 @@ def cmd_update_cards() -> int:
     results = []
 
     def step(title: str, name: str, fn) -> None:
-        print(f"\n=== {title} ===")
+        print(f"\n=== {title} ===", flush=True)
+        t0 = time.time()
         try:
             rc = fn()
         except Exception as exc:  # noqa: BLE001 — один шаг не должен обрывать остальные
             print(f"{name}: исключение — {exc}")
             rc = 1
+        print(f"[{name}: {time.time() - t0:.0f} с]", flush=True)
         results.append((name, rc))
 
     step("Шаг 2: attach-photos-all", "attach-photos-all", cmd_attach_photos_all)
