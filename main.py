@@ -2559,7 +2559,9 @@ def cmd_wb_create_missing(dry_run: bool, article: str = "") -> int:
         return 0
 
     ok = err = 0
-    for g in groups:
+    for i, g in enumerate(groups):
+        if i:
+            time.sleep(7)  # лимит WB на создание карточек: примерно 1 запрос в 6 секунд
         try:
             wb_client.create_cards(g["subject_id"], [g["variant"]])
             print(f"ОК: {g['vendor_code']} отправлен на создание (раздел {g['subject_id']}).")
@@ -2569,7 +2571,31 @@ def cmd_wb_create_missing(dry_run: bool, article: str = "") -> int:
             if err == 0:
                 print("Что отправляли (для диагностики): " + json.dumps(g, ensure_ascii=False)[:1800])
             err += 1
-    print(f"\nИтого: отправлено {ok}, с ошибками {err}. Создание асинхронное: подождите 2-5 минут, затем запустите audit (он обновит WB), а потом update-cards — он доберёт фото.")
+    print(f"\nИтого: отправлено {ok}, с ошибками {err}.")
+    sent = [g["vendor_code"] for g in groups]
+    if ok:
+        # Создание асинхронное: сами ждём и проверяем итог, чтобы не запускать отдельную диагностику.
+        print("Жду 4 минуты, пока WB обработает карточки, затем проверяю результат...")
+        time.sleep(240)
+        try:
+            present = {c.get("vendorCode") for c in wb_client.list_cards()}
+            problems = {}
+            for e in wb_client.get_upload_errors():
+                for vc in e.get("vendorCodes") or []:
+                    if vc in sent and vc not in present:
+                        problems.setdefault(vc, []).append(str(e.get("errors")))
+            created = [v for v in sent if v in present]
+            print(f"\nРЕЗУЛЬТАТ: создано на WB {len(created)} из {len(sent)}.")
+            for v in sent:
+                if v in present:
+                    print(f"  ОК: {v}")
+                elif v in problems:
+                    print(f"  ОТКЛОНЕНО: {v} — {problems[v][0][:400]}")
+                else:
+                    print(f"  ПОКА НЕТ: {v} (ошибок нет — возможно, ещё в обработке; проверит ночная ревизия)")
+        except Exception as exc:  # проверка — удобство, её сбой не должен краснить создание
+            print(f"Не удалось проверить результат ({exc}). Запустите audit — он покажет, что появилось.")
+    print("Дальше: update-cards добавит фото и остатки новым карточкам.")
     return 0 if err == 0 else 1
 
 

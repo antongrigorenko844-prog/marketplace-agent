@@ -30,6 +30,42 @@ from openpyxl.utils import get_column_letter
 
 import catalog_editor
 
+
+WB_DESC_MAX = 2000
+_KEEP_SYMBOLS = set("°№")
+
+
+def clean_wb_description(text, max_len: int = WB_DESC_MAX) -> str:
+    """
+    Описание для WB: без эмодзи/пиктограмм (WB отклоняет карточку с
+    «запрещёнными символами»; на Ozon эмодзи остаются) и не длиннее max_len
+    (в ряде разделов лимит 2000). Обрезка — по границе предложения/строки.
+    """
+    import unicodedata
+    if not text:
+        return ""
+    out = []
+    for ch in str(text):
+        cat = unicodedata.category(ch)
+        if ch in _KEEP_SYMBOLS:
+            out.append(ch)
+        elif cat in ("So", "Cs", "Co", "Cn") or (cat == "Cf") or ch == "\ufe0f":
+            continue
+        else:
+            out.append(ch)
+    t = "".join(out)
+    t = re.sub(r"[ \t]{2,}", " ", t)
+    t = re.sub(r"[ \t]+\n", "\n", t)
+    t = re.sub(r"\n[ \t]+", "\n", t)
+    t = re.sub(r"\n{3,}", "\n\n", t).strip()
+    if len(t) > max_len:
+        cut = t[:max_len]
+        pos = max(cut.rfind(". "), cut.rfind(".\n"), cut.rfind("\n"))
+        if pos >= max_len * 0.6:
+            cut = cut[: pos + 1]
+        t = cut.rstrip()
+    return t
+
 logger = logging.getLogger("marketplace-agent.wb_catalog_editor")
 
 # Кэш "какие фото/видео уже успешно отправлены на WB" — data/wb_media_push_cache.json,
@@ -354,10 +390,10 @@ def build_wb_update_items(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
         if not card:
             continue
         title = (edit.get("title") or _card_title(card) or "").strip()[:TITLE_MAX_LEN]
-        description = edit.get("description") or _card_description(card)
+        description = clean_wb_description(edit.get("description") or _card_description(card))
         current_title = (_card_title(card) or "").strip()[:TITLE_MAX_LEN]
         current_description = _card_description(card) or ""
-        if title == current_title and description == current_description:
+        if title == current_title and description in (current_description, clean_wb_description(current_description)):
             skipped += 1
             continue
         # WB мог принять текст, но в wb_cards.json (последний fetch-wb) пока

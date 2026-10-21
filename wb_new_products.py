@@ -33,6 +33,8 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill
 from openpyxl.utils import get_column_letter
 
+from wb_catalog_editor import clean_wb_description as _clean_desc
+
 logger = logging.getLogger("marketplace-agent.wb_new")
 
 FONT_NAME = "Arial"
@@ -242,7 +244,7 @@ def build_new_card_groups(wb_data: dict, edits: Dict[str, dict], barcodes: List[
         variant = {
             "vendorCode": str(vendor_code),
             "title": (edit.get("title") or "")[:60],
-            "description": edit.get("description") or "",
+            "description": _clean_desc(edit.get("description") or ""),
             "dimensions": dimensions,
             "sizes": [new_size],
         }
