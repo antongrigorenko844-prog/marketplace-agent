@@ -1,0 +1,24 @@
+# Автоматическая страховка цен Ozon: 2 раза в сутки (08:00 и 20:00 по Москве)
+# сравнивает цены на Ozon с мастер-файлом и возвращает цену и цену до скидки
+# из файла там, где акции Ozon их сбили (см. cmd_sync_ozon_prices в main.py).
+# Товары с "no_price_sync": true в data/ozon_overrides.json не трогаются.
+# Цены нужно менять в master_control.xlsx, а не в кабинете Ozon — иначе
+# следующий прогон вернёт цену из файла.
+# Чтобы отключить — удалите или закомментируйте блок "schedule:".
+name: marketplace-agent-sync-prices
+
+on:
+  schedule:
+    - cron: "0 5,17 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+
+jobs:
+  sync-prices:
+    uses: ./.github/workflows/run-command.yml
+    secrets: inherit
+    with:
+      command: sync-ozon-prices
