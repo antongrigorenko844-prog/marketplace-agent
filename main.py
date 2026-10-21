@@ -2557,6 +2557,64 @@ def cmd_diag_ozon_prices(article: str) -> int:
     return 0
 
 
+def cmd_sync_ozon_prices(dry_run: bool, article: str = "") -> int:
+    """
+    Выравнивает цены Ozon по мастер-файлу. После перехода Ozon на "предельную
+    цену" (октябрь 2026) акции сами опускают price товара ниже нашей цены, и
+    наш push её больше не возвращает. Здесь: берём price/old_price из
+    data/ozon_catalog.xlsx (он собирается из master_control.xlsx), сравниваем
+    с живым /v5/product/info/prices и отправляем ТОЛЬКО те товары, где цена
+    на Ozon отличается. Если предельная цена товара выше акционной, Ozon сам
+    выводит товар из акции. --article (через запятую) ограничивает список.
+    """
+    import ozon_client
+    import catalog_editor
+
+    edits = catalog_editor.load_catalog_edits(_data_path("ozon_catalog.xlsx"))
+    only = {a.strip() for a in (article or "").split(",") if a.strip()}
+    ids = [o for o in edits if (not only or o in only)]
+    live = {it.get("offer_id"): (it.get("price") or {}) for it in ozon_client.get_prices_and_stocks(ids)}
+
+    def _num(v):
+        try:
+            return int(round(float(str(v).replace(" ", "").replace(",", "."))))
+        except (TypeError, ValueError):
+            return 0
+
+    to_push = []
+    for oid in ids:
+        if oid not in live:
+            continue
+        want_price = _num(edits[oid].get("price"))
+        want_old = _num(edits[oid].get("old_price"))
+        if want_price <= 0:
+            continue
+        cur = live[oid]
+        cur_price = _num(cur.get("price"))
+        cur_old = _num(cur.get("old_price"))
+        if cur_price != want_price or cur_old != want_old:
+            print(f"{oid}: на Ozon {cur_price} / до скидки {cur_old} -> по файлу {want_price} / {want_old}")
+            to_push.append({
+                "offer_id": oid,
+                "price": str(want_price),
+                "old_price": str(want_old),
+                "currency_code": "RUB",
+            })
+    print(f"\nТоваров с расхождением цены: {len(to_push)} из {len(ids)}")
+    if dry_run:
+        print("ПРОБНЫЙ ПРОГОН — в Ozon ничего не отправлено.")
+        return 0
+    bad = 0
+    for i in range(0, len(to_push), 100):
+        resp = ozon_client.update_prices(to_push[i : i + 100])
+        for r in resp.get("result", []):
+            if not r.get("updated", True) or r.get("errors"):
+                bad += 1
+                print(f"ОШИБКА {r.get('offer_id')}: {json.dumps(r.get('errors'), ensure_ascii=False)}")
+    print(f"Отправлено: {len(to_push) - bad}, с ошибкой: {bad}")
+    return 1 if bad else 0
+
+
 def cmd_diag_wb_new_cards() -> int:
     """
     Диагностика: почему push-wb-new-cards/push-new-product-all "принял"
@@ -3091,6 +3149,8 @@ def main() -> int:
     parser.add_argument("--push-wb-stock", action="store_true", help="Реально отправить остатки в WB — тот же общий склад, что и push-stock у Ozon (сначала всегда делайте dryrun!)")
     parser.add_argument("--fix-wb-dimensions", action="store_true", help="Разовая правка битых габаритов WB у 0am325477/0am325025HX (см. cmd_fix_wb_dimensions)")
     parser.add_argument("--pull-ozon-stock", action="store_true", help="Разово подтянуть текущий остаток из Ozon в 'Кол-во к продаже' для товаров, где эта ячейка ещё пустая")
+    parser.add_argument("--sync-ozon-prices-dryrun", action="store_true", help="Показать товары, где цена на Ozon отличается от мастер-файла (ничего не отправляет)")
+    parser.add_argument("--sync-ozon-prices", action="store_true", help="Вернуть на Ozon цены из мастер-файла там, где акции их опустили (--article ограничивает список)")
     parser.add_argument("--diag-ozon-prices", action="store_true", help="Диагностика (только чтение): цены и предельная цена Ozon по --article (через запятую) или по всем товарам")
     parser.add_argument("--diag-ozon-product", action="store_true", help="Диагностика: показать сырой ответ Ozon (статус/ошибки/фото) по одному offer_id из --article")
     parser.add_argument("--diag-wb-new-cards", action="store_true", help="Диагностика: почему созданные через push-wb-new-cards/push-new-product-all карточки не появились на WB (причины ошибок)")
@@ -3268,6 +3328,10 @@ def main() -> int:
         return cmd_fix_wb_dimensions()
     if args.pull_ozon_stock:
         return cmd_pull_ozon_stock()
+    if args.sync_ozon_prices_dryrun:
+        return cmd_sync_ozon_prices(True, args.article)
+    if args.sync_ozon_prices:
+        return cmd_sync_ozon_prices(False, args.article)
     if args.diag_ozon_prices:
         return cmd_diag_ozon_prices(args.article)
     if args.diag_ozon_product:
