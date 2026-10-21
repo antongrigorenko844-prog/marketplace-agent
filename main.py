@@ -872,6 +872,7 @@ def cmd_update_cards() -> int:
     (названия, описания, цены, остатки) и/или замены файлов в photos/:
 
       0) проверка master_control (только показывает, не блокирует);
+      0б) цена WB приравнивается к цене Ozon (правило «одна цена на Ozon/WB/Маркете»);
       1) sync-master-control — правки пульта -> рабочие файлы (если упал — дальше
          НЕ идём, иначе отправили бы недосинхронизированное);
       2) attach-photos-all, 3) push-photos — карточки и фото на Ozon и WB
@@ -893,6 +894,14 @@ def cmd_update_cards() -> int:
         validate_master.run(quiet_ok=True)
     except Exception as exc:  # noqa: BLE001 — проверка не должна ронять update-cards
         print(f"(проверка не выполнена: {exc})")
+
+    # Правило: цена на Ozon, WB и Маркете одинаковая. Перед переносом правок мастера в каталоги
+    # цена WB приравнивается к цене Ozon (колонки «Цена WB» и «Цена, ₽» мастера).
+    print("\n=== Шаг 0б: цена WB = цена Ozon ===")
+    try:
+        cmd_align_wb_prices(dry_run=False)
+    except Exception as exc:  # noqa: BLE001 — не должно ронять update-cards
+        print(f"(выравнивание цены WB пропущено: {exc})")
 
     print("\n=== Шаг 1: sync-master-control ===")
     rc_sync = cmd_sync_master_control()
