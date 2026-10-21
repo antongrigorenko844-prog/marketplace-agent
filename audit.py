@@ -212,10 +212,15 @@ def load_avito_live(feed: Dict[str, dict]) -> Optional[Dict[str, dict]]:
     if not d:
         return None
     by_title = {_norm_text(v.get("title")): k for k, v in feed.items()}
+    # точное соответствие «объявление Авито -> наш артикул» даёт отчёт автозагрузки (ad_id = наш артикул)
+    by_id = {}
+    for r in (_json("avito_autoload.json") or {}).get("items", []):
+        if r.get("avito_id") and r.get("ad_id"):
+            by_id[int(r["avito_id"])] = key(r["ad_id"])
     out: Dict[str, dict] = {}
     unmatched = []
     for it in d.get("items", []):
-        k = by_title.get(_norm_text(it.get("title")))
+        k = by_id.get(int(it.get("id") or 0)) or by_title.get(_norm_text(it.get("title")))
         if not k:
             unmatched.append(it)
             continue
@@ -228,9 +233,11 @@ def load_avito_autoload() -> Dict[str, List[str]]:
     d = _json("avito_autoload.json") or {}
     out: Dict[str, List[str]] = {}
     for it in d.get("items", []):
-        msgs = [m for m in it.get("messages", []) if str(m.get("type", "")).lower() in ("error", "warning")]
+        # только настоящие ошибки (type=error): «автоподстановка телефона» и «вид запчасти определён
+        # автоматически» — это предупреждения Авито, объявление при них публикуется
+        msgs = [m for m in it.get("messages", []) if str(m.get("type", "")).lower() == "error"]
         if msgs:
-            out[key(it.get("ad_id"))] = [f"{m.get('type')}: {m.get('title') or ''} {m.get('description') or ''}".strip() for m in msgs]
+            out[key(it.get("ad_id"))] = [re.sub(r"<[^>]+>", " ", f"{m.get('title') or ''} {m.get('description') or ''}") for m in msgs]
     return out
 
 
