@@ -2621,6 +2621,59 @@ def cmd_sync_ozon_prices(dry_run: bool, article: str = "") -> int:
     return 1 if bad else 0
 
 
+def cmd_disable_ozon_auto_actions(dry_run: bool, article: str = "") -> int:
+    """
+    Выключает у товаров флаг "Автоматически добавлять товар в акции Ozon"
+    (price.auto_add_to_ozon_actions_list_enabled -> DISABLED). Цену не меняет:
+    в запросе уходят ТЕКУЩИЕ price/old_price с Ozon. Нужно --article (через
+    запятую) или пусто = все товары, у которых флаг сейчас включён.
+    """
+    import ozon_client
+
+    ids = [a.strip() for a in (article or "").split(",") if a.strip()]
+    if not ids:
+        with open(_data_path("ozon_products.json"), encoding="utf-8") as f:
+            data = json.load(f)
+        rows = data.get("list", []) if isinstance(data, dict) else data
+        ids = [x.get("offer_id") for x in rows if x.get("offer_id")]
+
+    def _num(v):
+        try:
+            return int(round(float(v)))
+        except (TypeError, ValueError):
+            return 0
+
+    items = []
+    for it in ozon_client.get_prices_and_stocks(ids):
+        pr = it.get("price") or {}
+        if not pr.get("auto_add_to_ozon_actions_list_enabled"):
+            continue
+        price = _num(pr.get("price"))
+        if price <= 0:
+            continue
+        print(f"{it.get('offer_id')}: автодобавление в акции ВКЛ (цена {price})")
+        items.append({
+            "offer_id": it.get("offer_id"),
+            "price": str(price),
+            "old_price": str(_num(pr.get("old_price"))),
+            "currency_code": "RUB",
+            "auto_add_to_ozon_actions_list_enabled": "DISABLED",
+        })
+    print(f"\nТоваров с включённым автодобавлением: {len(items)}")
+    if dry_run:
+        print("ПРОБНЫЙ ПРОГОН — в Ozon ничего не отправлено.")
+        return 0
+    bad = 0
+    for i in range(0, len(items), 100):
+        resp = ozon_client.update_prices(items[i : i + 100])
+        for r in resp.get("result", []):
+            if not r.get("updated", True) or r.get("errors"):
+                bad += 1
+                print(f"ОШИБКА {r.get('offer_id')}: {json.dumps(r.get('errors'), ensure_ascii=False)}")
+    print(f"Выключено: {len(items) - bad}, с ошибкой: {bad}")
+    return 1 if bad else 0
+
+
 def cmd_diag_wb_new_cards() -> int:
     """
     Диагностика: почему push-wb-new-cards/push-new-product-all "принял"
@@ -3157,6 +3210,8 @@ def main() -> int:
     parser.add_argument("--pull-ozon-stock", action="store_true", help="Разово подтянуть текущий остаток из Ozon в 'Кол-во к продаже' для товаров, где эта ячейка ещё пустая")
     parser.add_argument("--sync-ozon-prices-dryrun", action="store_true", help="Показать товары, где цена на Ozon отличается от мастер-файла (ничего не отправляет)")
     parser.add_argument("--sync-ozon-prices", action="store_true", help="Вернуть на Ozon цены из мастер-файла там, где акции их опустили (--article ограничивает список)")
+    parser.add_argument("--disable-ozon-auto-actions-dryrun", action="store_true", help="Показать товары с включённым автодобавлением в акции Ozon (ничего не меняет)")
+    parser.add_argument("--disable-ozon-auto-actions", action="store_true", help="Выключить автодобавление в акции Ozon (цены не меняются; --article ограничивает список)")
     parser.add_argument("--diag-ozon-prices", action="store_true", help="Диагностика (только чтение): цены и предельная цена Ozon по --article (через запятую) или по всем товарам")
     parser.add_argument("--diag-ozon-product", action="store_true", help="Диагностика: показать сырой ответ Ozon (статус/ошибки/фото) по одному offer_id из --article")
     parser.add_argument("--diag-wb-new-cards", action="store_true", help="Диагностика: почему созданные через push-wb-new-cards/push-new-product-all карточки не появились на WB (причины ошибок)")
@@ -3338,6 +3393,10 @@ def main() -> int:
         return cmd_sync_ozon_prices(True, args.article)
     if args.sync_ozon_prices:
         return cmd_sync_ozon_prices(False, args.article)
+    if args.disable_ozon_auto_actions_dryrun:
+        return cmd_disable_ozon_auto_actions(True, args.article)
+    if args.disable_ozon_auto_actions:
+        return cmd_disable_ozon_auto_actions(False, args.article)
     if args.diag_ozon_prices:
         return cmd_diag_ozon_prices(args.article)
     if args.diag_ozon_product:
