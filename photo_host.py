@@ -113,6 +113,31 @@ def _normalize_asset_name(name: str) -> str:
     return _UNSAFE_NAME_CHARS.sub(".", name).lower()
 
 
+_CYR = dict(zip("абвгдеёжзийклмнопрстуфхцчшщъыьэюя",
+                ["a","b","v","g","d","e","e","zh","z","i","y","k","l","m","n","o","p","r","s","t","u","f","h","c","ch","sh","sch","","y","","e","yu","ya"]))
+
+
+def _ascii_asset_name(name: str) -> str:
+    """
+    Имя ассета без кириллицы: GitHub заменяет кириллицу точкой («0сц_1.png» -> «0._1.png»), из-за чего имена
+    разных артикулов сливаются, а WB не может скачать файл. Кириллица транслитерируется с меткой «-cyr-»
+    («0сц_1.png» -> «0-cyr-sc_1.png»), чтобы имя было уникальным и не совпадало с латинским артикулом.
+    Имена без кириллицы не меняются — их ссылки остаются прежними.
+    """
+    if not re.search(r"[\u0400-\u04FF]", name):
+        return name
+    out, run = [], False
+    for ch in name:
+        low = ch.lower()
+        if low in _CYR:
+            out.append(("-cyr-" if not run else "") + _CYR[low])
+            run = True
+        else:
+            run = False
+            out.append(ch)
+    return "".join(out)
+
+
 class PhotoHostError(RuntimeError):
     pass
 
@@ -305,7 +330,7 @@ def upload_file(local_path: str, filename: Optional[str] = None, retries: int = 
     реально обрабатывают только то, что вы поменяли, а не весь photos/
     целиком на каждый запуск.
     """
-    filename = filename or os.path.basename(local_path)
+    filename = _ascii_asset_name(filename or os.path.basename(local_path))
 
     with open(local_path, "rb") as f:
         data = f.read()

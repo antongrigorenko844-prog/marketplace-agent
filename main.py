@@ -475,16 +475,31 @@ def cmd_push_wb_cards() -> int:
                 print(f"ОШИБКА при отправке названия/описания (партия {i // chunk + 1}): {exc}")
                 total_err += len(batch)
 
+    def _send_media(media):
+        """None при успехе, иначе текст ошибки. WB иногда не может скачать только что залитый файл с GitHub —
+        это временный сбой, поэтому «скачивание файла»-ошибки повторяем (3 попытки, пауза 25 с)."""
+        err = ""
+        for attempt in range(3):
+            try:
+                wb_client.update_media(media["nm_id"], media["urls"])
+                print(f"Фото: {media['vendor_code']} — {len(media['urls'])} фото отправлено.")
+                # Запоминаем именно после подтверждённого успеха (не раньше) —
+                # см. mark_media_pushed/build_wb_media_updates.
+                wb_catalog_editor.mark_media_pushed(media["vendor_code"], media["urls"])
+                return None
+            except wb_client.WbApiError as exc:
+                err = str(exc)
+                if "скачивание файла" not in err or attempt == 2:
+                    break
+                time.sleep(25)
+        return err
+
     for media in media_items:
-        try:
-            wb_client.update_media(media["nm_id"], media["urls"])
-            print(f"Фото: {media['vendor_code']} — {len(media['urls'])} фото отправлено.")
+        err_text = _send_media(media)
+        if err_text is None:
             total_ok += 1
-            # Запоминаем именно после подтверждённого успеха (не раньше) —
-            # см. mark_media_pushed/build_wb_media_updates.
-            wb_catalog_editor.mark_media_pushed(media["vendor_code"], media["urls"])
-        except wb_client.WbApiError as exc:
-            print(f"ОШИБКА при отправке фото {media['vendor_code']}: {exc}")
+        else:
+            print(f"ОШИБКА при отправке фото {media['vendor_code']}: {err_text[:500]}")
             total_err += 1
 
     print(f"\nИтого успешных операций: {total_ok}, с ошибками: {total_err}")
