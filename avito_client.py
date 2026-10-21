@@ -216,3 +216,37 @@ def update_stocks(items: List[dict]) -> dict:
         return {}
     PATH = "/stock-management/1/stocks"  # ENDPOINT: подтверждено описанием API
     return _request("POST", PATH, json={"items": items})
+
+
+def list_all_items(statuses: Optional[List[str]] = None, per_page: int = 100, max_pages: int = 50) -> List[dict]:
+    """Все объявления продавца постранично (для ревизии audit). Только чтение."""
+    out: List[dict] = []
+    for page in range(1, max_pages + 1):
+        data = list_items(page=page, per_page=per_page, statuses=statuses)
+        res = data.get("resources") or data.get("items") or []
+        out.extend(res)
+        if len(res) < per_page:
+            break
+    return out
+
+
+def get_autoload_report_items(max_pages: int = 30, per_page: int = 200) -> dict:
+    """
+    Строки последнего завершённого отчёта автозагрузки (какие объявления из нашего файла
+    Авито принял/отклонил и почему). Только чтение. ENDPOINT-ы взяты из документации Авито
+    (autoload v2); если у приложения нет доступа или путь изменился — вызывающий код
+    ловит AvitoApiError и просто пропускает эту часть ревизии.
+    """
+    last = _request("GET", "/autoload/v2/reports/last_completed_report")
+    report_id = last.get("report_id") or last.get("id")
+    if not report_id:
+        return {"report": last, "items": []}
+    items: List[dict] = []
+    for page in range(0, max_pages):
+        data = _request("GET", f"/autoload/v2/reports/{report_id}/items", params={"page": page, "per_page": per_page})
+        res = data.get("items") or data.get("resources") or []
+        items.extend(res)
+        if len(res) < per_page:
+            break
+    return {"report": last, "items": items}
+

@@ -880,7 +880,8 @@ def cmd_update_cards() -> int:
       5) push-stock, 6) push-wb-stock — остатки на Ozon и WB;
       7) Яндекс Маркет — остатки (цены он берёт из Ozon сам), только если подключены секреты;
       8) build-avito-catalog — фид Avito (товары с остатком 0 закрываются);
-      9) Tilda (сайт) через CommerceML — только если подключены секреты.
+      9) Tilda (сайт) через CommerceML — только если подключены секреты;
+     10) ревизия площадок (audit, только чтение) — что где не доехало.
 
     Ошибка на шагах 2-9 не останавливает следующие; итог по каждому — в конце.
     Шаги Маркета и Tilda без секретов молча пропускаются.
@@ -932,6 +933,13 @@ def cmd_update_cards() -> int:
         step("Шаг 9: Tilda (сайт), CommerceML", "push-tilda", cmd_push_tilda)
     else:
         print("\n(Tilda CommerceML не подключена — шаг пропущен)")
+
+    # Шаг 10: ревизия (только чтение) — сразу видно, что после обновления где-то не доехало.
+    print("\n=== Шаг 10: ревизия площадок (только чтение, на результат update-cards не влияет) ===")
+    try:
+        cmd_audit(refresh=True)
+    except Exception as exc:  # noqa: BLE001
+        print(f"ревизия пропущена: {exc}")
 
     print()
     failed = [name for name, rc in results if rc != 0]
@@ -2490,6 +2498,202 @@ def cmd_fix_spu(article: str, dry_run: bool) -> int:
     return 0
 
 
+def cmd_wb_create_missing(dry_run: bool, article: str = "") -> int:
+    """
+    Создать на WB товары, которых там нет, но которые должны быть (по ревизии) — БЕЗ отдельной таблицы:
+    всё берётся из master_control.xlsx (колонка «WB (да/нет)», при желании «Образец для WB» и габариты)
+    и из карточек Ozon. --article (через запятую) ограничивает список — для пробного запуска на 1-3
+    товарах; пусто = все подходящие. Фото на этом шаге не отправляются (так работает API WB) — они
+    добавляются обычным update-cards после того, как карточки появятся (подождите 2-5 минут, fetch-wb).
+    """
+    import wb_client
+    import wb_new_products
+
+    data_dir = os.path.dirname(_data_path("wb_cards.json"))
+    wb_path = _data_path("wb_cards.json")
+    if not os.path.exists(wb_path):
+        print("Нет data/wb_cards.json — сначала fetch-wb.")
+        return 1
+    age_h = (time.time() - os.path.getmtime(wb_path)) / 3600.0
+    if age_h > 12 and not dry_run:
+        print(f"data/wb_cards.json устарел ({age_h:.0f} ч): сначала запустите audit (он обновит WB), иначе можно попытаться создать то, что уже есть.")
+        return 1
+    plan = wb_new_products.plan_missing(data_dir)
+    edits = plan["edits"]
+    if article.strip():
+        wanted = {a.strip() for a in article.split(",") if a.strip()}
+        unknown = sorted(wanted - set(edits))
+        if unknown:
+            print("Не в плане (нет в списке недостающих или пропущены): " + ", ".join(unknown))
+        edits = {k: v for k, v in edits.items() if k in wanted}
+    print(f"К созданию на WB: {len(edits)} товаров.")
+    for a, v in edits.items():
+        smp, subj, score = plan["info"][a]
+        flag = "" if score >= 0.5 else "   <-- образец подобран неуверенно, проверьте раздел"
+        print(f"  {a}: «{v['title']}» | образец {smp} (раздел «{subj}», сходство {score}) | цена {v['price']} | {v['weight_kg']} кг {v['length_cm']}x{v['width_cm']}x{v['height_cm']} см{flag}")
+    if plan["skipped"] and not article.strip():
+        print(f"\nПропущено ({len(plan['skipped'])}):")
+        for a, why in plan["skipped"]:
+            print(f"  - {a}: {why}")
+    if not edits:
+        return 0
+
+    with open(wb_path, "r", encoding="utf-8") as f:
+        wb_data = json.load(f)
+    barcodes = wb_client.generate_barcodes(len(edits)) if not dry_run else ["0000000000000"] * len(edits)
+    groups = wb_new_products.build_new_card_groups(wb_data, edits, barcodes)
+    if dry_run:
+        print(f"\nПРОБНЫЙ ПРОГОН — в WB ничего не отправлено. Карточек готово к созданию: {len(groups)}.")
+        print("Подробное содержимое одной карточки (для проверки):")
+        if groups:
+            print(json.dumps(groups[0], ensure_ascii=False, indent=2)[:3000])
+        return 0
+
+    ok = err = 0
+    for g in groups:
+        try:
+            wb_client.create_cards(g["subject_id"], [g["variant"]])
+            print(f"ОК: {g['vendor_code']} отправлен на создание (раздел {g['subject_id']}).")
+            ok += 1
+        except wb_client.WbApiError as exc:
+            print(f"ОШИБКА при создании {g['vendor_code']}: {exc}")
+            err += 1
+    print(f"\nИтого: отправлено {ok}, с ошибками {err}. Создание асинхронное: подождите 2-5 минут, затем запустите audit (он обновит WB), а потом update-cards — он доберёт фото.")
+    return 0 if err == 0 else 1
+
+
+def cmd_align_wb_prices(dry_run: bool) -> int:
+    """
+    Выровнять цену WB с ценой Ozon (правило: на Ozon, WB и Маркете цена покупателя одинаковая).
+    Правит ТОЛЬКО колонку «Цена WB» в data/master_control.xlsx: туда вписывается цена Ozon (колонка «Цена, ₽»)
+    у всех товаров, где они расходятся. Ничего не отправляет на WB — после этой команды (и Pull)
+    запустите push-wb-price-dryrun, посмотрите изменения и затем update-cards (или push-wb-price).
+    """
+    from openpyxl import load_workbook
+
+    path = _data_path("master_control.xlsx")
+    wb = load_workbook(path)
+    ws = wb["Товары"] if "Товары" in wb.sheetnames else wb.active
+    head = [str(c.value or "") for c in ws[1]]
+    try:
+        c_art = 0
+        c_price = head.index("Цена, ₽")
+        c_wb = next(i for i, h in enumerate(head) if h.startswith("Цена WB"))
+    except (ValueError, StopIteration):
+        print("В мастере не нашёл колонки «Цена, ₽» / «Цена WB».")
+        return 1
+
+    def num(v):
+        try:
+            return float(str(v).replace(" ", "").replace("\xa0", "").replace(",", "."))
+        except (TypeError, ValueError):
+            return None
+
+    changes = []
+    for row in ws.iter_rows(min_row=2):
+        art = row[c_art].value
+        po, pw = num(row[c_price].value), num(row[c_wb].value)
+        if not art or not po or not pw:
+            continue  # у товара нет цены WB (его нет на WB) — не трогаем
+        if abs(po - pw) > 1:
+            changes.append((str(art), pw, po, row[c_wb]))
+    print(f"Расхождений цены WB и Ozon: {len(changes)}")
+    for art, pw, po, _ in sorted(changes, key=lambda x: x[1] / x[2]):
+        print(f"  {art}: WB {pw:g} -> {po:g} ₽ ({po / pw - 1:+.0%})")
+    if dry_run or not changes:
+        print("\nПРОБНЫЙ ПРОГОН — мастер не изменён." if dry_run else "")
+        return 0
+    for _, _, po, cell in changes:
+        cell.value = int(po) if float(po).is_integer() else po
+    wb.save(path)
+    print("\nГотово: колонка «Цена WB» в мастере обновлена. Дальше: Pull, push-wb-price-dryrun (проверить), затем update-cards.")
+    return 0
+
+
+def cmd_audit(refresh: bool = True, fail_on_new: bool = False) -> int:
+    """
+    РЕВИЗИЯ площадок (только чтение, ничего не меняет на Ozon/WB/Авито/Маркете/сайте).
+
+    refresh=True (команда audit): сначала обновляет выгрузки с площадок — Ozon (товары+остатки),
+    WB, Яндекс Маркет, Авито (живые объявления + отчёт автозагрузки) — каждую в try/except,
+    чтобы сбой одной площадки не остановил остальные; затем сверяет всё с master_control и
+    channels.xlsx и пишет data/audit_report.xlsx + data/audit_summary.md.
+    refresh=False (команда audit-offline): только сверка по уже лежащим в data/ файлам.
+    Всегда возвращает 0 (расхождения — не ошибка запуска, чтобы не краснел ночной цикл).
+    """
+    import audit
+
+    if refresh:
+        print("=== Ревизия: обновляю выгрузки с площадок ===")
+
+        def safe(title, fn):
+            print(f"\n--- {title} ---")
+            try:
+                fn()
+            except Exception as exc:  # noqa: BLE001 — одна площадка не должна ронять остальные
+                print(f"{title}: пропущено — {exc}")
+
+        safe("Ozon: товары", cmd_fetch_ozon)
+        safe("Ozon: остатки", _audit_fetch_ozon_stocks)
+        safe("WB: карточки", cmd_fetch_wb)
+        safe("Яндекс Маркет", cmd_yandex_market_export)
+        safe("Авито: объявления и отчёт автозагрузки", _audit_fetch_avito)
+        print("\n=== Ревизия: сверка ===")
+    out = audit.run()
+    if fail_on_new and out.get("new_important"):
+        # Красный прогон = письмо от GitHub: так узнаём о НОВЫХ проблемах без отдельного бота.
+        print(f"\nНОВЫЕ важные проблемы ({len(out['new_important'])}) — прогон помечен ошибкой, чтобы пришло уведомление.")
+        return 1
+    return 0
+
+
+def _audit_fetch_ozon_stocks() -> int:
+    """data/ozon_stocks.json {offer_id: остаток FBS}. Разбор ответа защитный: не поняли форму — не пишем."""
+    import ozon_client
+
+    path = _data_path("ozon_products.json")
+    if not os.path.exists(path):
+        return 1
+    with open(path, "r", encoding="utf-8") as f:
+        offer_ids = [p["offer_id"] for p in json.load(f).get("list", []) if p.get("offer_id")]
+    items = ozon_client.get_stocks(offer_ids)
+    out = {}
+    for it in items:
+        st = it.get("stocks") or []
+        if not isinstance(st, list):
+            continue
+        fbs = [s.get("present", 0) for s in st if str(s.get("type", "")).lower() == "fbs"]
+        if fbs:
+            out[str(it.get("offer_id", "")).strip()] = sum(fbs)
+    if not out:
+        print("Ozon: остатки не разобраны (неожиданная форма ответа) — сверка остатков пропущена.")
+        return 1
+    with open(_data_path("ozon_stocks.json"), "w", encoding="utf-8") as f:
+        json.dump(out, f, ensure_ascii=False, indent=1)
+    print(f"Ozon: остатки FBS по {len(out)} товарам -> data/ozon_stocks.json")
+    return 0
+
+
+def _audit_fetch_avito() -> int:
+    import avito_client
+
+    try:
+        items = avito_client.list_all_items(statuses=["active", "old", "blocked", "rejected"])
+        with open(_data_path("avito_live.json"), "w", encoding="utf-8") as f:
+            json.dump({"items": items}, f, ensure_ascii=False, indent=1)
+        print(f"Авито: {len(items)} объявлений -> data/avito_live.json")
+    except Exception as exc:  # noqa: BLE001
+        print(f"Авито: список объявлений не получен — {exc}")
+    try:
+        rep = avito_client.get_autoload_report_items()
+        with open(_data_path("avito_autoload.json"), "w", encoding="utf-8") as f:
+            json.dump(rep, f, ensure_ascii=False, indent=1)
+        print(f"Авито: строк отчёта автозагрузки: {len(rep.get('items', []))} -> data/avito_autoload.json")
+    except Exception as exc:  # noqa: BLE001
+        print(f"Авито: отчёт автозагрузки не получен — {exc}")
+    return 0
+
+
 def cmd_split_model(article: str, dry_run: bool) -> int:
     """
     Расклеивает уже СОЗДАННЫЕ (в том числе продающиеся) карточки Ozon, которые склеились
@@ -3325,6 +3529,13 @@ def main() -> int:
     parser.add_argument("--validate-master", action="store_true", help="Проверить data/master_control.xlsx (цены, остатки, названия, фото) БЕЗ отправки — ловит ошибки до update-cards")
     parser.add_argument("--fix-spu-dryrun", action="store_true", help="Показать, как будут исправлены НЕ СОЗДАННЫЕ карточки Ozon с конфликтом SPU (--article), БЕЗ отправки")
     parser.add_argument("--fix-spu", action="store_true", help="Сделать характеристики 7236/9024/9048 не созданных карточек (--article) уникальными; созданные/продающиеся карточки не трогает")
+    parser.add_argument("--audit", action="store_true", help="РЕВИЗИЯ: обновить выгрузки со всех площадок и показать расхождения с мастером (только чтение) -> data/audit_report.xlsx")
+    parser.add_argument("--wb-create-missing-dryrun", action="store_true", help="Показать, какие товары будут созданы на WB (нет на WB, но должны быть по ревизии), БЕЗ отправки. --article (через запятую) — только эти")
+    parser.add_argument("--wb-create-missing", action="store_true", help="Реально создать на WB недостающие товары (сначала dryrun!). --article (через запятую) — только эти")
+    parser.add_argument("--align-wb-prices-dryrun", action="store_true", help="Показать, у каких товаров цена WB отличается от Ozon и какой станет (мастер не меняется)")
+    parser.add_argument("--align-wb-prices", action="store_true", help="Вписать цену Ozon в колонку «Цена WB» мастера у всех расходящихся товаров (на WB пока ничего не уходит)")
+    parser.add_argument("--audit-nightly", action="store_true", help="Ночная ревизия: как audit, но прогон краснеет, если появились НОВЫЕ важные расхождения (чтобы пришло письмо)")
+    parser.add_argument("--audit-offline", action="store_true", help="Ревизия только по уже лежащим в data/ файлам, без обращения к площадкам")
     parser.add_argument("--split-model-dryrun", action="store_true", help="Показать, как будет расклеена модель Ozon (характеристика 9048) у карточек из --article, БЕЗ отправки")
     parser.add_argument("--split-model", action="store_true", help="Расклеить модель Ozon у карточек из --article: меняет ТОЛЬКО 9048 на offer_id")
     parser.add_argument("--remove-product-dryrun", action="store_true", help="Показать, какие товары (--article, через запятую) будут сняты с продажи (remove-product), БЕЗ изменений")
@@ -3371,6 +3582,20 @@ def main() -> int:
         return cmd_fix_spu(args.article, dry_run=True)
     if args.fix_spu:
         return cmd_fix_spu(args.article, dry_run=False)
+    if args.audit:
+        return cmd_audit(refresh=True)
+    if args.audit_offline:
+        return cmd_audit(refresh=False)
+    if args.wb_create_missing_dryrun:
+        return cmd_wb_create_missing(dry_run=True, article=args.article)
+    if args.wb_create_missing:
+        return cmd_wb_create_missing(dry_run=False, article=args.article)
+    if args.align_wb_prices_dryrun:
+        return cmd_align_wb_prices(dry_run=True)
+    if args.align_wb_prices:
+        return cmd_align_wb_prices(dry_run=False)
+    if args.audit_nightly:
+        return cmd_audit(refresh=True, fail_on_new=True)
     if args.split_model_dryrun:
         return cmd_split_model(args.article, dry_run=True)
     if args.split_model:

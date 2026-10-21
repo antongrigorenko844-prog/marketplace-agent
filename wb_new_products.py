@@ -230,3 +230,152 @@ def build_new_card_groups(wb_data: dict, edits: Dict[str, dict], barcodes: List[
         groups.append({"subject_id": subject_id, "vendor_code": vendor_code, "variant": variant})
 
     return groups
+
+
+# ----------------------------------------------------------------------------
+# Автозаполнение таблицы новых товаров WB по результатам ревизии
+# ----------------------------------------------------------------------------
+
+_WORD = None
+
+
+def _words(text: str) -> set:
+    import re
+
+    stop = {"мехатроник", "мехатроника", "комплект", "оригинальный", "оригинальные", "оригинальных"}
+    # основа слова (первые 5 букв), чтобы «планка»/«планки», «сальник»/«сальники» считались одним словом
+    return {w[:5] for w in re.findall(r"[a-zа-я]{4,}", str(text or "").lower()) if w not in stop}
+
+
+_DROP_ORDER = [
+    "мехатроника", "мехатроник", "оригинальные", "оригинальный", "оригинальных", "оригинал", "Германия",
+    "Volkswagen", "VAG", "полный", "комплект", "на", "весь",
+]
+
+
+def _fit_wb_title(name: str, limit: int = 60) -> str:
+    """Название под лимит WB: сначала выкидываем второстепенные слова, начало (главное существительное)
+    и обозначения коробки/коды (DSG*, DQ*, 0AM…) сохраняем."""
+    words = [w for w in str(name or "").replace(" ,", ",").split() if w]
+    for drop in _DROP_ORDER:
+        if len(" ".join(words)) <= limit:
+            break
+        words = [w for w in words if w.strip(",").lower() != drop.lower()]
+    while len(" ".join(words)) > limit and len(words) > 3:
+        words.pop()  # с конца; код и обозначение коробки обычно в середине, но проверим ниже
+    return " ".join(words)[:limit].rstrip(" ,+")
+
+
+def _finalize_wb_title(title: str, o_name: str, limit: int = 60) -> str:
+    """Убирает «хвосты» вроде «без», «на весь» и гарантирует обозначение коробки (DSG*/DQ*) в названии."""
+    import re
+
+    stop = {"без", "на", "с", "и", "для", "весь", "+", "из", "по"}
+    words = str(title).split()
+    while words and words[-1].strip(",").lower() in stop:
+        words.pop()
+    t = " ".join(words)
+    need = [m for m in re.findall(r"(?:DSG\s?\d|DQ\s?\d{3})", o_name or "", flags=re.I)]
+    seen = []
+    for m in need:
+        m = m.upper().replace(" ", "")
+        if m not in seen:
+            seen.append(m)
+    add = [m for m in seen if m not in t.upper().replace(" ", "")]
+    if add:
+        tail = " " + " ".join(add)
+        while words and len(" ".join(words)) + len(tail) > limit:
+            words.pop()
+        while words and (words[-1].strip(",").lower() in stop or words[-1].strip(",").isdigit()):
+            words.pop()
+        t = " ".join(words) + tail
+    return t[:limit].rstrip(" ,+")
+
+
+def plan_missing(data_dir: str) -> dict:
+    """
+    Что нужно создать на WB: товары, которые ДОЛЖНЫ там быть (колонка «WB (да/нет)» мастера, пусто = да),
+    есть на Ozon, с остатком > 0, но которых нет на WB (по ревизии). Ничего не пишет и не отправляет.
+
+    Для каждого: образец — из колонки мастера «Образец для WB» или, если пусто, существующая карточка WB
+    с самым похожим названием (от образца берутся раздел, бренд, характеристики); габариты и вес — из
+    колонок мастера или, если пусто, из карточки Ozon; цена — текущая цена Ozon.
+    Пропускаются: тестовые, двойники «-v2» (на WB два одинаковых товара — дубль), двигательные EA888*
+    (нужен образец другого раздела — впишите его в мастер), без похожего образца.
+    Возвращает {"edits": {артикул: {...как в load_new_edits}}, "info": {артикул: (образец, раздел, сходство)},
+    "skipped": [(артикул, причина)]}.
+    """
+    import json
+    import os
+
+    import audit
+
+    res = audit.compute()
+    master = res["master"]
+    wb_data = json.load(open(os.path.join(data_dir, "wb_cards.json"), encoding="utf-8"))
+    oz = json.load(open(os.path.join(data_dir, "ozon_products.json"), encoding="utf-8"))
+    oz_by = {p.get("offer_id"): p for p in oz.get("names", [])}
+    oz_price = {p.get("offer_id"): (p.get("price") or {}).get("price") for p in oz.get("details", [])}
+    cards = [c for c in wb_data.get("cards", []) if c.get("vendorCode") and c.get("title")]
+    by_vendor = {c["vendorCode"]: c for c in cards}
+    card_words = [(c, _words(c["title"])) for c in cards]
+
+    wanted = [p for p in res["problems"] if p["ch"] == "WB" and p["kind"] == "нет на площадке"]
+    edits, info, skipped = {}, {}, []
+    for p in wanted:
+        art = str(p["art"])
+        m = master[art]
+        low = art.lower()
+        if low.endswith("-v2") and m["flags"].get("WB") != "да":
+            skipped.append((art, "двойник -v2: на WB такой же товар уже создаётся под базовым артикулом (или впишите «да» в колонку WB мастера и образец)"))
+            continue
+        if art not in oz_by:
+            skipped.append((art, "нет на Ozon — данных для габаритов нет"))
+            continue
+        if any(ch in art for ch in " /\\"):
+            skipped.append((art, "в артикуле пробел или слэш — на WB лучше завести вручную"))
+            continue
+        title = (m["name_wb"] or m["name"] or "")[:60]
+        o_name = (oz_by.get(art) or {}).get("name") or m["name"] or ""
+        first = lambda t: str(t).split()[0].lower().strip(",+") if str(t).split() else ""
+        if o_name and first(title) != first(o_name):
+            # автоназвание WB потеряло начало (главное слово) — собираем своё из названия Ozon
+            title = _fit_wb_title(o_name)
+        title = _finalize_wb_title(title, o_name)
+        sample_code, score = m["sample"], 1.0
+        if sample_code and sample_code not in by_vendor:
+            skipped.append((art, f"образец «{sample_code}» из мастера не найден среди карточек WB"))
+            continue
+        if not sample_code:
+            if low.startswith("ea888") or low.startswith("test"):
+                skipped.append((art, "двигательная/тестовая позиция — впишите «Образец для WB» в мастер"))
+                continue
+            ow = _words(m["name"] or title)
+            best, score = None, 0.0
+            for c, cw in card_words:
+                if not cw or not ow:
+                    continue
+                sc = len(ow & cw) / len(ow | cw)
+                if sc > score:
+                    best, score = c, sc
+            if not best or score < 0.2:
+                skipped.append((art, "не нашёл похожий образец на WB — впишите «Образец для WB» в мастер"))
+                continue
+            sample_code = best["vendorCode"]
+        sample = by_vendor[sample_code]
+        o = oz_by.get(art) or {}
+        unit = 0.1 if str(o.get("dimension_unit", "mm")) == "mm" else 1.0
+        w_g = o.get("weight") or 0
+        edits[art] = {
+            "sample_vendor_code": sample_code,
+            "title": title,
+            "description": m["desc"],
+            "price": oz_price.get(art) or m["price"],
+            "weight_kg": m["weight"] or (round(w_g / 1000.0, 3) if w_g else None),
+            "length_cm": m["length"] or (round((o.get("depth") or 0) * unit, 1) or None),
+            "width_cm": m["width"] or (round((o.get("width") or 0) * unit, 1) or None),
+            "height_cm": m["height"] or (round((o.get("height") or 0) * unit, 1) or None),
+            "notes": "",
+        }
+        info[art] = (sample_code, sample.get("subjectName"), round(score, 2))
+    return {"edits": edits, "info": info, "skipped": skipped}

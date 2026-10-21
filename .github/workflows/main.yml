@@ -41,6 +41,7 @@ name: marketplace-agent
 on:
   schedule:
     - cron: "0 */3 * * *"  # каждые 3 часа (UTC) — общий учёт остатков, см. пояснение выше
+    - cron: "40 1 * * *"   # каждую ночь (04:40 МСК) — РЕВИЗИЯ площадок (audit-nightly, только чтение)
   repository_dispatch:
     types: [tilda-order]  # заказ с сайта (Тильда) -> Google Apps Script -> сюда, см. stock_sync.sync_tilda_order
   workflow_dispatch:
@@ -61,6 +62,8 @@ on:
           - push-wb-cards
           - push-photos
           - update-cards
+          - audit
+          - audit-offline
           - update-photos
           - build-master-control
           - sync-master-control
@@ -132,7 +135,10 @@ jobs:
           YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
           TILDA_ORDER_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
         run: |
-          if [ "${{ github.event_name }}" = "schedule" ]; then
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "${{ github.event.schedule }}" = "40 1 * * *" ]; then
+            echo "Ночная ревизия площадок (только чтение)"
+            python main.py --audit-nightly
+          elif [ "${{ github.event_name }}" = "schedule" ]; then
             echo "Автозапуск по расписанию: общий учёт остатков (Ozon+WB)"
             python main.py --sync-orders
             python main.py --push-stock || true

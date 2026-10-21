@@ -116,6 +116,51 @@ HEADERS = [
 ]
 COL_WIDTHS = [22, 16, 16, 20, 10, 34, 24, 12, 14, 12, 14, 50, 30, 34, 40, 16]
 
+# ДОПОЛНИТЕЛЬНЫЕ колонки (17+), которые заполняет человек и которых нет ни в одном каталоге:
+# куда товар ДОЛЖЕН быть выставлен (пусто = «да», кроме тестовых) и параметры для создания
+# карточки на WB (пусто = подобрать автоматически). Мастер пересобирается с нуля при каждом
+# запуске, поэтому эти значения при пересборке ПЕРЕНОСЯТСЯ из прежнего файла по артикулу
+# (см. _read_old_extras) — иначе они бы пропадали.
+EXTRA_HEADERS = [
+    "Ozon (да/нет)",
+    "WB (да/нет)",
+    "Авито (да/нет)",
+    "Маркет (да/нет)",
+    "Сайт (да/нет)",
+    "Образец для WB (артикул)",
+    "Вес, кг",
+    "Длина, см",
+    "Ширина, см",
+    "Высота, см",
+]
+EXTRA_WIDTHS = [9, 9, 9, 9, 9, 22, 8, 8, 8, 8]
+HEADERS = HEADERS + EXTRA_HEADERS
+COL_WIDTHS = COL_WIDTHS + EXTRA_WIDTHS
+EXTRA_FIRST_COL = 17
+
+
+def _read_old_extras():
+    """{артикул: {заголовок: значение}} из прежнего master_control.xlsx (только EXTRA_HEADERS)."""
+    out = {}
+    if not os.path.exists(MASTER_PATH):
+        return out
+    try:
+        ws = openpyxl.load_workbook(MASTER_PATH, read_only=True, data_only=True)["Товары"]
+        rows = list(ws.iter_rows(values_only=True))
+    except Exception:  # noqa: BLE001 — нет/битый файл: просто начинаем с пустых
+        return out
+    if not rows:
+        return out
+    head = [str(h or "").strip() for h in rows[0]]
+    idx = {h: i for i, h in enumerate(head) if h in EXTRA_HEADERS}
+    for r in rows[1:]:
+        if not r or not r[0]:
+            continue
+        vals = {h: r[i] for h, i in idx.items() if i < len(r) and r[i] not in (None, "")}
+        if vals:
+            out[str(r[0]).strip()] = vals
+    return out
+
 
 def _find_header(headers, *, must_contain, must_not_contain=()):
     for i, x in enumerate(headers):
@@ -438,6 +483,7 @@ def run() -> int:
     os.makedirs(THUMB_DIR, exist_ok=True)
     os.makedirs(os.path.dirname(MASTER_PATH), exist_ok=True)
 
+    old_extras = _read_old_extras()
     existing = _read_existing()
     draft = _read_draft()
     wb_existing = _apply_wb_alias(_read_wb_existing())
@@ -563,6 +609,11 @@ def run() -> int:
         ws.cell(row=row_i, column=14, value=notes)
         ws.cell(row=row_i, column=15, value=files_str)
         ws.cell(row=row_i, column=16, value=catalog_editor.tnved_digits(src.get("tnved", "")) or None)
+
+        for j, h in enumerate(EXTRA_HEADERS):
+            v = old_extras.get(oid, {}).get(h)
+            if v is not None:
+                ws.cell(row=row_i, column=EXTRA_FIRST_COL + j, value=v)
 
         for c in range(1, len(HEADERS) + 1):
             ws.cell(row=row_i, column=c).alignment = Alignment(vertical="top", wrap_text=True)
