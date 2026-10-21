@@ -1081,7 +1081,7 @@ def cmd_push_wb_price() -> int:
 
     items = [{"nmID": u["nm_id"], "price": u["price_to_send"], "discount": u["discount"]} for u in updates]
     try:
-        wb_client.update_prices(items)
+        upload = wb_client.update_prices(items)
     except wb_client.WbApiError as exc:
         print(f"ОШИБКА при отправке цены ({len(items)} товаров): {exc}")
         return 1
@@ -1089,6 +1089,29 @@ def cmd_push_wb_price() -> int:
     print(f"Цена отправлена для {len(items)} товаров:")
     for u in updates:
         print(f"  {u['vendor_code']}: {u['old_final_price']} -> {u['new_final_price']} ₽")
+    # Узнаём, что WB реально сделал с ценами (применил / карантин / ошибка) — не ждём вслепую.
+    try:
+        upload_id = ((upload or {}).get("data") or {}).get("id")
+        if upload_id:
+            by_nm = {u["nm_id"]: u["vendor_code"] for u in updates}
+            res = {}
+            for _ in range(6):
+                time.sleep(8)
+                res = wb_client.get_price_upload_result(upload_id)
+                if res["goods"]:
+                    break
+            bad = 0
+            for g in res.get("goods", []):
+                err = str(g.get("errorText") or "").strip()
+                if err:
+                    bad += 1
+                    print(f"  WB НЕ ПРИМЕНИЛ {by_nm.get(g.get('nmID'), g.get('nmID'))}: {err[:300]}")
+            if res.get("goods") and not bad:
+                print("  WB принял все цены без ошибок.")
+            elif not res.get("goods"):
+                print(f"  (WB ещё обрабатывает загрузку {upload_id}; итог смотрите в кабинете: Цены и скидки → История)")
+    except Exception as exc:  # noqa: BLE001 — диагностика не должна ронять шаг
+        print(f"  (не удалось получить итог загрузки цен: {exc})")
     print(
         "\nWB обрабатывает изменение цены не мгновенно — проверьте карточку через несколько минут "
         "(следующий fetch-wb покажет уже применившуюся цену)."

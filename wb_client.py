@@ -212,6 +212,16 @@ def update_prices(items: List[dict]) -> dict:
     return _request("POST", config.wb_prices_base, "/api/v2/upload/task", {"data": items})
 
 
+def get_price_upload_result(upload_id) -> dict:
+    """Итог загрузки цен: статус задачи и по каждому товару — статус/текст ошибки (в т.ч. «карантин»)."""
+    # ENDPOINT: GET /api/v2/history/tasks?uploadID=...  и  GET /api/v2/history/goods/task?uploadID=...
+    task = _request("GET", config.wb_prices_base, f"/api/v2/history/tasks?uploadID={upload_id}").get("data") or {}
+    goods = _request(
+        "GET", config.wb_prices_base, f"/api/v2/history/goods/task?uploadID={upload_id}&limit=1000&offset=0"
+    ).get("data") or {}
+    return {"task": task, "goods": goods.get("historyGoods") or []}
+
+
 # ---------- Остатки и заказы (Marketplace API, схема FBS) ----------
 
 def get_warehouses() -> List[dict]:
