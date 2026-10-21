@@ -28,6 +28,10 @@ COL_DESCRIPTION, COL_NOTES = 12, 14
 
 WB_NAME_MAX = 60
 
+# Служебные строки (нужны для привязки/редиректа карточек, сами не продаются) — не проверяем.
+SERVICE_ARTICLES = {"0am927769d-plata", "testwb001"}
+COL_FLAG_OZON, COL_FLAG_WB = 17, 18  # «Ozon (да/нет)», «WB (да/нет)»
+
 
 def _num(value):
     """Число или None. Пустое -> None; нечисловое -> ValueError."""
@@ -64,14 +68,19 @@ def validate(path: str = MASTER_PATH) -> Tuple[List[str], List[str]]:
 
         if "Тестов" in notes or "Тестов" in name_wb_cell:
             continue  # TEST001 / TESTWB001 не публикуются
+        if offer.lower() in SERVICE_ARTICLES:
+            continue  # служебные строки
 
         key = _norm_article(offer)
         if key in seen and seen[key] != offer:
             warns.append(f"{offer}: похож на «{seen[key]}» (отличается только регистром/пробелами) — убедитесь, что это два разных товара")
         seen.setdefault(key, offer)
 
-        on_ozon = st_oz != ""
-        on_wb = st_wb != ""
+        # Канал, отключённый в мастере («нет»), не проверяем: на нём товар не продаём.
+        off_oz = str(r[COL_FLAG_OZON - 1] or "").strip().lower() == "нет"
+        off_wb = str(r[COL_FLAG_WB - 1] or "").strip().lower() == "нет"
+        on_ozon = st_oz != "" and not off_oz
+        on_wb = st_wb != "" and not off_wb
         checked += 1
 
         # --- остаток

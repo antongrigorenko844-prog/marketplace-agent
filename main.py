@@ -2084,7 +2084,11 @@ def cmd_recompute_kit_stock() -> int:
     return 0
 
 
-def _load_stock_items(warehouse_id=None):
+class _SkipOzonOff(Exception):
+    pass
+
+
+def _load_stock_items(warehouse_id=None, skip_ozon_off=False):
     """
     Собирает offer_id -> остаток из ЕДИНОГО столбца "Кол-во к продаже" —
     для уже существующих товаров из data/ozon_catalog.xlsx, для черновиков
@@ -2148,6 +2152,8 @@ def _load_stock_items(warehouse_id=None):
     # Товары, у которых в мастере «Ozon (да/нет)» = «нет», на Ozon не отправляем
     # (иначе каждый запуск пишет «карточка не создана» про то, что мы и не продаём).
     try:
+        if not skip_ozon_off:
+            raise _SkipOzonOff()
         import audit
 
         _m = audit.load_master()
@@ -2157,6 +2163,8 @@ def _load_stock_items(warehouse_id=None):
         items = [it for it in items if audit.key(str(it.get("offer_id", ""))) not in _off]
         if len(items) != _before:
             print(f"Пропущено по мастеру «Ozon: нет»: {_before - len(items)}")
+    except _SkipOzonOff:
+        pass  # WB/Маркет/Авито/сайт берут остатки без этого фильтра — он только для Ozon
     except Exception as exc:  # noqa: BLE001
         print(f"(фильтр «Ozon: нет» не применён: {exc})")
 
@@ -2179,7 +2187,7 @@ def _ozon_warehouse_id_int():
 def cmd_push_stock_dryrun() -> int:
     from config import config
 
-    items = _load_stock_items(warehouse_id=_ozon_warehouse_id_int())
+    items = _load_stock_items(warehouse_id=_ozon_warehouse_id_int(), skip_ozon_off=True)
     print(f"ПРОБНЫЙ ПРОГОН — в Ozon ничего не отправляется. Остатков к обновлению: {len(items)}\n")
     print(json.dumps(items, ensure_ascii=False, indent=2))
     if not items:
@@ -2215,7 +2223,7 @@ def cmd_push_stock() -> int:
         )
         return 1
 
-    items = _load_stock_items(warehouse_id=warehouse_id)
+    items = _load_stock_items(warehouse_id=warehouse_id, skip_ozon_off=True)
     if not items:
         print("Нечего отправлять — ни у одного товара не заполнен остаток ('Кол-во к продаже' / 'Остаток, шт.').")
         return 1
