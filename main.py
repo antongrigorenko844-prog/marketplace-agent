@@ -2575,15 +2575,19 @@ def cmd_wb_create_missing(dry_run: bool, article: str = "") -> int:
     sent = [g["vendor_code"] for g in groups]
     if ok:
         # Создание асинхронное: сами ждём и проверяем итог, чтобы не запускать отдельную диагностику.
-        print("Жду 4 минуты, пока WB обработает карточки, затем проверяю результат...")
-        time.sleep(240)
+        print("Проверяю результат каждые 30 с (до 5 минут), пока WB обрабатывает карточки...")
+        present, problems = set(), {}
         try:
-            present = {c.get("vendorCode") for c in wb_client.list_cards()}
-            problems = {}
-            for e in wb_client.get_upload_errors():
-                for vc in e.get("vendorCodes") or []:
-                    if vc in sent and vc not in present:
-                        problems.setdefault(vc, []).append(str(e.get("errors")))
+            for _ in range(10):
+                time.sleep(30)
+                present = {c.get("vendorCode") for c in wb_client.list_cards()}
+                problems = {}
+                for e in wb_client.get_upload_errors():
+                    for vc in e.get("vendorCodes") or []:
+                        if vc in sent and vc not in present:
+                            problems.setdefault(vc, []).append(str(e.get("errors")))
+                if all(v in present or v in problems for v in sent):
+                    break
             created = [v for v in sent if v in present]
             print(f"\nРЕЗУЛЬТАТ: создано на WB {len(created)} из {len(sent)}.")
             for v in sent:
