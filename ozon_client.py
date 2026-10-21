@@ -426,6 +426,16 @@ def import_products(items: List[dict]) -> dict:
     return _post("/v3/product/import", {"items": items})
 
 
+def update_attributes(items: List[dict]) -> dict:
+    """
+    Точечно меняет ТОЛЬКО перечисленные характеристики карточек (остальное — название,
+    фото, цена, остатки — не затрагивается).
+    items: [{"offer_id": "...", "attributes": [{"id": 7236, "complex_id": 0, "values": [{"value": "..."}]}]}]
+    """
+    # ENDPOINT: POST /v1/product/attributes/update
+    return _post("/v1/product/attributes/update", {"items": items})
+
+
 def get_import_status(task_id: int) -> dict:
     # ENDPOINT: POST /v1/product/import/info — исправлено 02.09.2026:
     # живая документация docs.ozon.ru показывает v1, а не v3 (была ошибка).

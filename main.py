@@ -2414,6 +2414,82 @@ def cmd_ozon_status() -> int:
     return 0
 
 
+def cmd_fix_spu(article: str, dry_run: bool) -> int:
+    """
+    Лечит конфликт SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT у НЕ СОЗДАННЫХ карточек Ozon:
+    делает "Артикул производителя" (7236), "Артикул" (9024) и "Название модели" (9048)
+    уникальными (по offer_id), чтобы Ozon не считал карточку копией соседней.
+    Меняются ТОЛЬКО эти три характеристики, остальное в карточке не трогается.
+    ЗАЩИТА: карточки, которые уже созданы/продаются, команда НЕ ТРОГАЕТ — пропускает с пометкой.
+    --dry-run (fix-spu-dryrun) только показывает, что изменится.
+    Артикулы — через --article (через запятую, не больше 10 за раз).
+    """
+    import ozon_client
+
+    wanted = _parse_offer_ids_arg(article) or []
+    if not wanted:
+        print("Укажите артикулы через --article, например: --fix-spu-dryrun --article plita-filtr-orig")
+        return 1
+    if len(wanted) > 10:
+        print(f"Слишком много артикулов ({len(wanted)}), максимум 10 за раз.")
+        return 1
+
+    infos = {str(i.get("offer_id")): i for i in ozon_client.get_product_info_list(wanted) if isinstance(i, dict) and not i.get("_error")}
+    local = {}
+    try:
+        data = json.load(open(_data_path("ozon_products.json"), encoding="utf-8"))
+        stack = [data]
+        while stack:
+            o = stack.pop()
+            if isinstance(o, dict):
+                if "offer_id" in o and "attributes" in o:
+                    local[str(o["offer_id"])] = o
+                else:
+                    stack.extend(o.values())
+            elif isinstance(o, list):
+                stack.extend(o)
+    except Exception as exc:
+        print(f"Не удалось прочитать data/ozon_products.json: {exc}")
+        return 1
+
+    payload = []
+    for oid in wanted:
+        info = infos.get(oid)
+        if not info:
+            print(f"  {oid}: Ozon не вернул карточку — пропускаю.")
+            continue
+        st = info.get("statuses") or {}
+        if st.get("is_created") is not False:
+            print(f"  {oid}: карточка уже СОЗДАНА (статус «{st.get('status_name')}») — не трогаю (команда лечит только не созданные).")
+            continue
+        card = local.get(oid)
+        if not card:
+            print(f"  {oid}: нет в data/ozon_products.json (сначала fetch-ozon) — пропускаю.")
+            continue
+        cur = {a["id"]: "; ".join(str(v.get("value")) for v in a.get("values", [])) for a in card.get("attributes", []) if isinstance(a, dict) and "id" in a}
+        model_old = cur.get(9048, "")
+        model_new = model_old if oid.lower() in model_old.lower() else (f"{model_old}_{oid}" if model_old else oid)
+        new_vals = {7236: oid, 9024: oid, 9048: model_new}
+        print(f"  {oid}:")
+        for aid, nv in new_vals.items():
+            print(f"      {aid}: «{cur.get(aid, '')}» -> «{nv}»")
+        payload.append({
+            "offer_id": oid,
+            "attributes": [{"id": aid, "complex_id": 0, "values": [{"value": nv}]} for aid, nv in new_vals.items()],
+        })
+
+    if not payload:
+        print("Нечего менять.")
+        return 0
+    if dry_run:
+        print(f"\nПробный прогон: ничего не отправлено. Карточек к исправлению: {len(payload)}. Для отправки запустите fix-spu.")
+        return 0
+    res = ozon_client.update_attributes(payload)
+    print(f"\nОтправлено на Ozon, ответ: {res}")
+    print("Подождите несколько минут и запустите ozon-status с этим артикулом (--article), чтобы увидеть результат.")
+    return 0
+
+
 def cmd_diag_ozon_product(article: str) -> int:
     """
     Диагностика одного товара Ozon по offer_id: печатает "сырой" ответ
@@ -2980,6 +3056,8 @@ def main() -> int:
     parser.add_argument("--archive-ozon-products", action="store_true", help="Реально перевести товар(ы) в архив на Ozon — обратимо, не удаление (сначала всегда делайте dryrun!)")
     parser.add_argument("--unarchive-ozon-products", action="store_true", help="Вернуть товар(ы) из архива Ozon обратно в активный каталог")
     parser.add_argument("--validate-master", action="store_true", help="Проверить data/master_control.xlsx (цены, остатки, названия, фото) БЕЗ отправки — ловит ошибки до update-cards")
+    parser.add_argument("--fix-spu-dryrun", action="store_true", help="Показать, как будут исправлены НЕ СОЗДАННЫЕ карточки Ozon с конфликтом SPU (--article), БЕЗ отправки")
+    parser.add_argument("--fix-spu", action="store_true", help="Сделать характеристики 7236/9024/9048 не созданных карточек (--article) уникальными; созданные/продающиеся карточки не трогает")
     parser.add_argument("--remove-product-dryrun", action="store_true", help="Показать, какие товары (--article, через запятую) будут сняты с продажи (remove-product), БЕЗ изменений")
     parser.add_argument("--remove-product", action="store_true", help="Снять товар(ы) (--article) отовсюду: остаток 0 на Ozon/WB, архив Ozon, убрать из фида Avito (сначала всегда dryrun!)")
     parser.add_argument("--build-tilda-commerceml", action="store_true", help="Собрать data/tilda_import0_1.xml и tilda_offers0_1.xml для синхронизации с Тильдой (CommerceML), БЕЗ отправки")
@@ -3020,6 +3098,10 @@ def main() -> int:
         return cmd_ozon_status()
     if args.validate_master:
         return cmd_validate_master()
+    if args.fix_spu_dryrun:
+        return cmd_fix_spu(args.article, dry_run=True)
+    if args.fix_spu:
+        return cmd_fix_spu(args.article, dry_run=False)
     if args.remove_product_dryrun:
         return cmd_remove_product(args.article, dry_run=True)
     if args.remove_product:

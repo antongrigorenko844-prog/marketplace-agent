@@ -872,6 +872,17 @@ def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:
                 name_entry.get("offer_id"),
             )
 
+    # Ручные поправки из data/ozon_overrides.json (вес, бренд "Нет бренда") — применяются
+    # при каждой отправке, чтобы повторный fetch-ozon их не затирал.
+    override = _load_overrides().get(str(name_entry.get("offer_id", "")), {})
+    weight_override = override.get("weight_g")
+    if weight_override:
+        attributes = _with_overridden_attr(attributes, 4497, str(int(weight_override)))
+    if override.get("no_brand"):
+        attributes = [a for a in attributes if a.get("id") != 85] + [
+            {"id": 85, "complex_id": 0, "values": [{"dictionary_value_id": 126745801, "value": "Нет бренда"}]}
+        ]
+
     edited_images = edit.get("images") or []
     final_images = edited_images if edited_images else _extract_images(name_entry)
     primary_image = final_images[0] if final_images else ""
@@ -907,9 +918,20 @@ def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:
         "width": name_entry.get("width", 0),
         "height": name_entry.get("height", 0),
         "dimension_unit": name_entry.get("dimension_unit") or "mm",
-        "weight": name_entry.get("weight", 0),
+        "weight": int(weight_override) if weight_override else name_entry.get("weight", 0),
         "weight_unit": name_entry.get("weight_unit") or "g",
     }
+
+
+def _load_overrides() -> Dict[str, dict]:
+    """data/ozon_overrides.json -> {offer_id: {weight_g, no_brand}}; нет файла/ошибка -> пусто."""
+    path = os.path.join(os.path.dirname(__file__), "data", "ozon_overrides.json")
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        return {}
+    return {k: v for k, v in data.items() if isinstance(v, dict)}
 
 
 def _load_push_cache() -> Dict[str, str]:
