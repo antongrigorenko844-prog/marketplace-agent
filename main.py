@@ -2490,6 +2490,72 @@ def cmd_fix_spu(article: str, dry_run: bool) -> int:
     return 0
 
 
+def cmd_split_model(article: str, dry_run: bool) -> int:
+    """
+    Расклеивает уже СОЗДАННЫЕ (в том числе продающиеся) карточки Ozon, которые склеились
+    в одну "модель" с соседней из-за одинакового "Названия модели" (характеристика 9048).
+    Меняет ТОЛЬКО 9048: ставит значение, равное offer_id карточки (уникальное).
+    Название, описание, фото, цена, остаток, 7236/9024 и остальное НЕ затрагиваются.
+    Если 9048 уже содержит offer_id — карточку пропускает.
+    --dry-run (split-model-dryrun) только показывает, что изменится.
+    Артикулы — через --article (через запятую, не больше 5 за раз).
+    """
+    import ozon_client
+
+    wanted = _parse_offer_ids_arg(article) or []
+    if not wanted:
+        print("Укажите артикулы через --article, например: --split-model-dryrun --article Ea888gen3")
+        return 1
+    if len(wanted) > 5:
+        print(f"Слишком много артикулов ({len(wanted)}), максимум 5 за раз.")
+        return 1
+
+    local = {}
+    try:
+        data = json.load(open(_data_path("ozon_products.json"), encoding="utf-8"))
+        stack = [data]
+        while stack:
+            o = stack.pop()
+            if isinstance(o, dict):
+                if "offer_id" in o and "attributes" in o:
+                    local[str(o["offer_id"])] = o
+                else:
+                    stack.extend(o.values())
+            elif isinstance(o, list):
+                stack.extend(o)
+    except Exception as exc:
+        print(f"Не удалось прочитать data/ozon_products.json: {exc}")
+        return 1
+
+    payload = []
+    for oid in wanted:
+        card = local.get(oid)
+        if not card:
+            print(f"  {oid}: нет в data/ozon_products.json (сначала fetch-ozon) — пропускаю.")
+            continue
+        cur = {a["id"]: "; ".join(str(v.get("value")) for v in a.get("values", [])) for a in card.get("attributes", []) if isinstance(a, dict) and "id" in a}
+        model_old = cur.get(9048, "")
+        if oid.lower() in model_old.lower():
+            print(f"  {oid}: «Название модели» уже уникальное («{model_old}») — пропускаю.")
+            continue
+        print(f"  {oid}: 9048 «{model_old}» -> «{oid}» (модель сейчас: {card.get('model_info')})")
+        payload.append({
+            "offer_id": oid,
+            "attributes": [{"id": 9048, "complex_id": 0, "values": [{"value": oid}]}],
+        })
+
+    if not payload:
+        print("Нечего менять.")
+        return 0
+    if dry_run:
+        print(f"\nПробный прогон: ничего не отправлено. Карточек к расклейке: {len(payload)}. Для отправки запустите split-model.")
+        return 0
+    res = ozon_client.update_attributes(payload)
+    print(f"\nОтправлено на Ozon, ответ: {res}")
+    print("Подождите несколько минут, затем fetch-ozon: у карточки должен смениться model_id.")
+    return 0
+
+
 def cmd_diag_ozon_product(article: str) -> int:
     """
     Диагностика одного товара Ozon по offer_id: печатает "сырой" ответ
@@ -3259,6 +3325,8 @@ def main() -> int:
     parser.add_argument("--validate-master", action="store_true", help="Проверить data/master_control.xlsx (цены, остатки, названия, фото) БЕЗ отправки — ловит ошибки до update-cards")
     parser.add_argument("--fix-spu-dryrun", action="store_true", help="Показать, как будут исправлены НЕ СОЗДАННЫЕ карточки Ozon с конфликтом SPU (--article), БЕЗ отправки")
     parser.add_argument("--fix-spu", action="store_true", help="Сделать характеристики 7236/9024/9048 не созданных карточек (--article) уникальными; созданные/продающиеся карточки не трогает")
+    parser.add_argument("--split-model-dryrun", action="store_true", help="Показать, как будет расклеена модель Ozon (характеристика 9048) у карточек из --article, БЕЗ отправки")
+    parser.add_argument("--split-model", action="store_true", help="Расклеить модель Ozon у карточек из --article: меняет ТОЛЬКО 9048 на offer_id")
     parser.add_argument("--remove-product-dryrun", action="store_true", help="Показать, какие товары (--article, через запятую) будут сняты с продажи (remove-product), БЕЗ изменений")
     parser.add_argument("--remove-product", action="store_true", help="Снять товар(ы) (--article) отовсюду: остаток 0 на Ozon/WB, архив Ozon, убрать из фида Avito (сначала всегда dryrun!)")
     parser.add_argument("--build-tilda-commerceml", action="store_true", help="Собрать data/tilda_import0_1.xml и tilda_offers0_1.xml для синхронизации с Тильдой (CommerceML), БЕЗ отправки")
@@ -3303,6 +3371,10 @@ def main() -> int:
         return cmd_fix_spu(args.article, dry_run=True)
     if args.fix_spu:
         return cmd_fix_spu(args.article, dry_run=False)
+    if args.split_model_dryrun:
+        return cmd_split_model(args.article, dry_run=True)
+    if args.split_model:
+        return cmd_split_model(args.article, dry_run=False)
     if args.remove_product_dryrun:
         return cmd_remove_product(args.article, dry_run=True)
     if args.remove_product:
