@@ -45,6 +45,8 @@ push-ozon-cards-dryrun -> push-ozon-cards, и аналогично attach-ozon-n
   13 Хэштеги / Теги (только Ozon — у WB такого поля нет)
   14 Заметки
   15 Файлы (папка photos/) (справочно, не читается обратно)
+  16 ТН ВЭД (10 цифр кода; уходит в Ozon, если отличается от кода в карточке;
+     колонку создаёт сам sync-master-control, если её ещё нет)
 
 Пустая ячейка в текстовых/числовых столбцах означает "не менять" — как и
 везде в этом проекте, обнулить значение так нельзя, для явной очистки
@@ -88,6 +90,8 @@ COL_PRICE_WB = 11
 COL_DESCRIPTION = 12
 COL_HASHTAGS = 13
 COL_NOTES = 14
+COL_FILES = 15
+COL_TNVED = 16  # "ТН ВЭД" — добавлен 2026-10-21 в конец, чтобы не сдвигать остальные позиции
 
 IMAGE_EXTS = (".jpg", ".jpeg", ".png")
 
@@ -127,6 +131,7 @@ def _read_master():
             "description": row[COL_DESCRIPTION - 1].value,
             "hashtags": row[COL_HASHTAGS - 1].value,
             "notes": row[COL_NOTES - 1].value,
+            "tnved": row[COL_TNVED - 1].value if len(row) >= COL_TNVED else None,
         }
 
     images = {}
@@ -289,6 +294,13 @@ def _sync_xlsx(path: str, columns_module, updates: dict, field_map: dict) -> int
             if new_val in (None, ""):
                 continue  # пусто в master_control = "не менять" (0 — явное значение, применяется)
             cell = row[col_idx - 1]
+            if dest_key == "tnved":
+                # В каталоге код лежит как "8708409909 - Части…", в пульте — только 10 цифр:
+                # сравниваем по цифрам, чтобы не затирать полную запись без реальной правки.
+                new_digits = catalog_editor.tnved_digits(new_val)
+                if not new_digits or new_digits == catalog_editor.tnved_digits(cell.value):
+                    continue
+                new_val = new_digits
             if cell.value != new_val:
                 cell.value = new_val
                 row_changed = True
@@ -309,6 +321,7 @@ _OZON_FIELD_MAP = {
     "description": "description",
     "hashtags": "hashtags",
     "notes": "notes",
+    "tnved": "tnved",
 }
 _WB_EXISTING_FIELD_MAP = {
     "title": "name_wb",
@@ -367,6 +380,52 @@ def _remap_wb_keys(updates: dict, real_wb_vendor_codes: set) -> dict:
     return out
 
 
+def _ensure_tnved_column() -> int:
+    """
+    Если в master_control.xlsx ещё нет колонки 16 "ТН ВЭД" — создаёт её и
+    заполняет ТЕКУЩИМИ кодами (10 цифр) из ozon_catalog.xlsx / ozon_new_products.xlsx.
+    Существующие значения не меняются. Возвращает число заполненных строк (0, если
+    колонка уже есть).
+    """
+    from copy import copy
+
+    wb = load_workbook(MASTER_PATH)
+    ws = wb["Товары"] if "Товары" in wb.sheetnames else wb.active
+    if str(ws.cell(row=1, column=COL_TNVED).value or "").strip():
+        return 0
+
+    codes = {}
+    for path in (NEW_PATH, CATALOG_PATH):  # каталог перекрывает черновики
+        if not os.path.exists(path):
+            continue
+        src = load_workbook(path, read_only=True, data_only=True).active
+        header = [c for c in next(src.iter_rows(values_only=True))]
+        idx = next((i for i, x in enumerate(header) if x and "ТН ВЭД" in str(x)), None)
+        if idx is None:
+            continue
+        for r in src.iter_rows(min_row=2, values_only=True):
+            if r and r[0]:
+                d = catalog_editor.tnved_digits(r[idx])
+                if d:
+                    codes[str(r[0]).strip()] = d
+
+    head = ws.cell(row=1, column=COL_TNVED)
+    head.value = "ТН ВЭД"
+    head._style = copy(ws.cell(row=1, column=COL_FILES)._style)
+    ws.column_dimensions[ws.cell(row=1, column=COL_TNVED).column_letter].width = 16
+    filled = 0
+    for r in range(2, ws.max_row + 1):
+        oid = ws.cell(row=r, column=COL_OFFER_ID).value
+        cell = ws.cell(row=r, column=COL_TNVED)
+        cell._style = copy(ws.cell(row=r, column=COL_FILES)._style)
+        if oid and str(oid).strip() in codes:
+            cell.value = codes[str(oid).strip()]
+            cell.number_format = "@"
+            filled += 1
+    wb.save(MASTER_PATH)
+    return filled
+
+
 def run() -> int:
     if not os.path.exists(MASTER_PATH):
         print(f"Нет файла {MASTER_PATH} — сначала создайте его (build_master_control.py) и загрузите в репозиторий.")
@@ -376,6 +435,10 @@ def run() -> int:
     import ozon_new_products
     import wb_catalog_editor
     import wb_new_products
+
+    filled = _ensure_tnved_column()
+    if filled:
+        print(f"В master_control.xlsx добавлена колонка 'ТН ВЭД' (16), заполнено текущими кодами: {filled} строк.")
 
     rows, images = _read_master()
 

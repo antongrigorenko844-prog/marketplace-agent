@@ -112,8 +112,9 @@ HEADERS = [
     "Хэштеги / Теги",
     "Заметки",
     "Файлы (папка photos/)",
+    "ТН ВЭД",
 ]
-COL_WIDTHS = [22, 16, 16, 20, 10, 34, 24, 12, 14, 12, 14, 50, 30, 34, 40]
+COL_WIDTHS = [22, 16, 16, 20, 10, 34, 24, 12, 14, 12, 14, 50, 30, 34, 40, 16]
 
 
 def _find_header(headers, *, must_contain, must_not_contain=()):
@@ -561,6 +562,7 @@ def run() -> int:
         ws.cell(row=row_i, column=13, value=hashtags)
         ws.cell(row=row_i, column=14, value=notes)
         ws.cell(row=row_i, column=15, value=files_str)
+        ws.cell(row=row_i, column=16, value=catalog_editor.tnved_digits(src.get("tnved", "")) or None)
 
         for c in range(1, len(HEADERS) + 1):
             ws.cell(row=row_i, column=c).alignment = Alignment(vertical="top", wrap_text=True)

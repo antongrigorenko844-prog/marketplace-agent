@@ -391,6 +391,54 @@ def _find_attr_value(attributes: Optional[List[dict]], attr_id: int) -> str:
     return ""
 
 
+def tnved_digits(value) -> str:
+    """Первые 10 цифр кода ТН ВЭД из строки вида '8708409909 - Части…' (или '')."""
+    m = re.match(r"\s*(\d{10})", str(value or ""))
+    return m.group(1) if m else ""
+
+
+_tnved_dict_cache: Dict[tuple, Optional[tuple]] = {}
+
+
+def resolve_tnved_dictionary(description_category_id: int, type_id: int, attr_id: int, code: str):
+    """
+    Ищет в справочнике Ozon значение ТН ВЭД по 10-значному коду. Возвращает
+    (dictionary_value_id, текст) или None, если ровно такого кода нет.
+    """
+    import ozon_client
+
+    digits = tnved_digits(code)
+    if not digits:
+        return None
+    key = (description_category_id, type_id, attr_id, digits)
+    if key not in _tnved_dict_cache:
+        found = None
+        try:
+            for item in ozon_client.search_attribute_values(description_category_id, type_id, attr_id, digits):
+                if tnved_digits(item.get("value")) == digits and item.get("id"):
+                    found = (item["id"], item.get("value") or digits)
+                    break
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("Поиск ТН ВЭД %s в справочнике Ozon не удался: %s", digits, exc)
+        _tnved_dict_cache[key] = found
+    return _tnved_dict_cache[key]
+
+
+def _with_dictionary_attr(attributes: Optional[List[dict]], attr_id: int, dictionary_value_id: int, value: str) -> List[dict]:
+    """Заменяет значение характеристики справочным (dictionary_value_id + текст)."""
+    result: List[dict] = []
+    found = False
+    for attr in attributes or []:
+        attr = dict(attr)
+        if attr.get("id") == attr_id:
+            attr["values"] = [{"dictionary_value_id": dictionary_value_id, "value": value}]
+            found = True
+        result.append(attr)
+    if not found:
+        result.append({"id": attr_id, "complex_id": 0, "values": [{"dictionary_value_id": dictionary_value_id, "value": value}]})
+    return result
+
+
 def _with_overridden_attr(attributes: Optional[List[dict]], attr_id: int, new_value: str) -> List[dict]:
     """
     Возвращает НОВЫЙ список attributes с изменённым текстом значения
@@ -857,7 +905,24 @@ def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:
             name_entry.get("description_category_id", 0), name_entry.get("type_id", 0)
         )
         if tnved_attr_id:
-            attributes = _with_overridden_attr(attributes, tnved_attr_id, tnved)
+            new_digits = tnved_digits(tnved)
+            cur_digits = tnved_digits(_find_attr_value(attributes, tnved_attr_id))
+            if new_digits and new_digits != cur_digits:
+                # Код ТН ВЭД у Ozon — значение справочника: меняем его через
+                # dictionary_value_id, а не просто текстом (иначе Ozon оставит старый).
+                resolved = resolve_tnved_dictionary(
+                    name_entry.get("description_category_id", 0), name_entry.get("type_id", 0),
+                    tnved_attr_id, new_digits,
+                )
+                if resolved:
+                    attributes = _with_dictionary_attr(attributes, tnved_attr_id, resolved[0], resolved[1])
+                else:
+                    logger.warning(
+                        "%s: код ТН ВЭД %s не найден в справочнике Ozon — код НЕ изменён, "
+                        "остальное обновится как обычно.", name_entry.get("offer_id"), new_digits,
+                    )
+            else:
+                attributes = _with_overridden_attr(attributes, tnved_attr_id, tnved)
         else:
             logger.warning(
                 "%s: в характеристиках его категории не нашлось атрибута 'ТН ВЭД' — код "

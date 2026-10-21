@@ -416,6 +416,26 @@ def get_category_attributes(description_category_id: int, type_id: int, language
     return []
 
 
+def search_attribute_values(description_category_id: int, type_id: int, attribute_id: int,
+                            value: str, limit: int = 50) -> List[dict]:
+    """
+    Поиск значений справочника характеристики по тексту (например, код ТН ВЭД).
+    Возвращает список {"id": ..., "value": ..., "info": ...}. Только чтение.
+    """
+    # ENDPOINT: POST /v1/description-category/attribute/values/search
+    data = _post(
+        "/v1/description-category/attribute/values/search",
+        {
+            "attribute_id": attribute_id,
+            "description_category_id": description_category_id,
+            "type_id": type_id,
+            "value": value,
+            "limit": limit,
+        },
+    )
+    return data.get("result", []) or []
+
+
 def import_products(items: List[dict]) -> dict:
     """
     Создание/обновление карточек товара. Структура каждого элемента items
