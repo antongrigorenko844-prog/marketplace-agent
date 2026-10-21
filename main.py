@@ -2516,6 +2516,47 @@ def cmd_diag_ozon_product(article: str) -> int:
     return 0
 
 
+def cmd_diag_ozon_prices(article: str) -> int:
+    """
+    Только чтение: сырой ответ /v5/product/info/prices по товарам из --article
+    (через запятую) или, если пусто, по всем офферам из data/ozon_products.json.
+    Нужен, чтобы увидеть реальные поля цен (price, old_price, min_price,
+    auto_action_enabled, marketing_* и т.п.) и понять, как Ozon сейчас хранит
+    "предельную цену" для акций. Ничего не меняет.
+    """
+    import ozon_client
+
+    ids = [a.strip() for a in (article or "").split(",") if a.strip()]
+    if not ids:
+        try:
+            with open("data/ozon_products.json", encoding="utf-8") as f:
+                data = json.load(f)
+            rows = data.get("list", []) if isinstance(data, dict) else data
+            ids = [x.get("offer_id") for x in rows if x.get("offer_id")]
+        except Exception as exc:  # noqa: BLE001
+            print(f"Не удалось прочитать список товаров: {exc}")
+            return 1
+    items = ozon_client.get_prices_and_stocks(ids)
+    if not items:
+        print("Ozon не вернул цен по этим товарам.")
+        return 1
+    if len(ids) <= 3:
+        for it in items:
+            print(json.dumps(it, ensure_ascii=False, indent=2))
+        return 0
+    # Для большого списка — только ключевое в одну строку на товар
+    print(f"Товаров: {len(items)}")
+    for it in items:
+        pr = it.get("price") or {}
+        print(
+            f"{it.get('offer_id')}: price={pr.get('price')} old={pr.get('old_price')} "
+            f"min={pr.get('min_price')} net={pr.get('net_price')} "
+            f"auto_action={pr.get('auto_action_enabled')} "
+            f"mkt_seller={pr.get('marketing_seller_price')} mkt_price={pr.get('marketing_price')}"
+        )
+    return 0
+
+
 def cmd_diag_wb_new_cards() -> int:
     """
     Диагностика: почему push-wb-new-cards/push-new-product-all "принял"
@@ -3050,6 +3091,7 @@ def main() -> int:
     parser.add_argument("--push-wb-stock", action="store_true", help="Реально отправить остатки в WB — тот же общий склад, что и push-stock у Ozon (сначала всегда делайте dryrun!)")
     parser.add_argument("--fix-wb-dimensions", action="store_true", help="Разовая правка битых габаритов WB у 0am325477/0am325025HX (см. cmd_fix_wb_dimensions)")
     parser.add_argument("--pull-ozon-stock", action="store_true", help="Разово подтянуть текущий остаток из Ozon в 'Кол-во к продаже' для товаров, где эта ячейка ещё пустая")
+    parser.add_argument("--diag-ozon-prices", action="store_true", help="Диагностика (только чтение): цены и предельная цена Ozon по --article (через запятую) или по всем товарам")
     parser.add_argument("--diag-ozon-product", action="store_true", help="Диагностика: показать сырой ответ Ozon (статус/ошибки/фото) по одному offer_id из --article")
     parser.add_argument("--diag-wb-new-cards", action="store_true", help="Диагностика: почему созданные через push-wb-new-cards/push-new-product-all карточки не появились на WB (причины ошибок)")
     parser.add_argument("--archive-ozon-products-dryrun", action="store_true", help="Показать, какие товары (--article, через запятую) уйдут в архив на Ozon, БЕЗ реальной отправки")
@@ -3226,6 +3268,8 @@ def main() -> int:
         return cmd_fix_wb_dimensions()
     if args.pull_ozon_stock:
         return cmd_pull_ozon_stock()
+    if args.diag_ozon_prices:
+        return cmd_diag_ozon_prices(args.article)
     if args.diag_ozon_product:
         return cmd_diag_ozon_product(args.article)
     if args.diag_wb_new_cards:
