@@ -481,7 +481,12 @@ def cmd_push_wb_cards() -> int:
         err = ""
         for attempt in range(3):
             try:
-                wb_client.update_media(media["nm_id"], media["urls"])
+                # На повторах добавляем к ссылкам безвредный параметр: WB, похоже, запоминает неудачное
+                # скачивание по ТОЧНО той же ссылке и не пробует её снова.
+                urls_try = media["urls"] if attempt == 0 else [
+                    u + ("&" if "?" in u else "?") + f"r={attempt}" for u in media["urls"]
+                ]
+                wb_client.update_media(media["nm_id"], urls_try)
                 print(f"Фото: {media['vendor_code']} — {len(media['urls'])} фото отправлено.")
                 # Запоминаем именно после подтверждённого успеха (не раньше) —
                 # см. mark_media_pushed/build_wb_media_updates.
