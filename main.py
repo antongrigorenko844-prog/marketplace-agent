@@ -963,6 +963,17 @@ def cmd_update_cards() -> int:
     else:
         print("\n(Яндекс Маркет не подключён — шаг пропущен)")
 
+    def _avito_photos_step() -> int:
+        # Фото для Авито (photos_avito/) заливаются по хэшу содержимого — неизменённые файлы не перезаливаются.
+        import avito_feed
+
+        if not os.path.isdir(avito_feed.AVITO_PHOTOS_DIR):
+            return 0
+        matched = avito_feed.attach_avito_photos()
+        print(f"Фото для Авито: товаров с актуальными ссылками — {len(matched)}")
+        return 0
+
+    step("Шаг 7б: фото для Авито (photos_avito)", "attach-avito-photos", _avito_photos_step)
     step("Шаг 8: build-avito-catalog", "build-avito-catalog", cmd_build_avito_catalog)
 
     if os.environ.get("TILDA_COMMERCEML_URL", "").strip():
