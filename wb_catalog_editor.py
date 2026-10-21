@@ -16,6 +16,7 @@
 Ozon — соответственно, ниже две отдельные функции сборки: build_wb_update_items
 (текст) и build_wb_media_updates (фото), их можно отправлять по отдельности.
 """
+import math
 import hashlib
 import json
 import logging
@@ -459,6 +460,9 @@ def build_wb_update_items(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
     return items
 
 
+WB_MAX_DROP_RATIO = 0.52  # минимум от текущей цены за один шаг снижения (WB: не более чем вдвое)
+
+
 def build_wb_price_updates(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
     """
     Собирает список товаров, у которых "Цена WB" в xlsx отличается от
@@ -494,12 +498,19 @@ def build_wb_price_updates(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
             continue
         if old_final is not None and new_final == round(float(old_final)):
             continue  # не изменилось — нечего отправлять
+        target = new_final
+        # WB не принимает снижение цены больше чем в 2 раза за раз («New prices are more than twice lower
+        # than the current ones. Please lower them gradually») — снижаем ступенями: шаг не ниже 52% от текущей.
+        if old_final and new_final < float(old_final) * WB_MAX_DROP_RATIO:
+            new_final = int(math.ceil(float(old_final) * WB_MAX_DROP_RATIO))
+            logger.info("%s: цена %s -> %s больше чем вдвое — снижаю ступенью до %s, дальше следующим запуском", vendor_code, old_final, target, new_final)
         out.append(
             {
                 "vendor_code": vendor_code,
                 "nm_id": card["nmID"],
                 "old_final_price": old_final,
                 "new_final_price": new_final,
+                "target_price": target,
                 "discount": discount,
                 "price_to_send": price_before_discount(new_final, discount),
             }

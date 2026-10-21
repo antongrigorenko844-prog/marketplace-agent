@@ -1088,7 +1088,8 @@ def cmd_push_wb_price() -> int:
 
     print(f"Цена отправлена для {len(items)} товаров:")
     for u in updates:
-        print(f"  {u['vendor_code']}: {u['old_final_price']} -> {u['new_final_price']} ₽")
+        step = "" if u.get("target_price") in (None, u["new_final_price"]) else f"  (ступенью: WB не даёт снижать больше чем вдвое; цель {u['target_price']} ₽ — следующим запуском)"
+        print(f"  {u['vendor_code']}: {u['old_final_price']} -> {u['new_final_price']} ₽{step}")
     # Узнаём, что WB реально сделал с ценами (применил / карантин / ошибка) — не ждём вслепую.
     try:
         upload_id = ((upload or {}).get("data") or {}).get("id")
