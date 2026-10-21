@@ -2674,6 +2674,43 @@ def cmd_disable_ozon_auto_actions(dry_run: bool, article: str = "") -> int:
     return 1 if bad else 0
 
 
+def cmd_diag_tnved(article: str, code: str) -> int:
+    """
+    Только чтение: показывает, что Ozon знает про ТН ВЭД у товара --article и находит ли
+    он код (--seed-phrase, по умолчанию 8708409909) в справочнике этой категории.
+    Нужен перед тем, как менять код через колонку "ТН ВЭД" в master_control.xlsx.
+    """
+    import catalog_editor
+    import ozon_client
+
+    article = (article or "").split(",")[0].strip()
+    code = (code or "").strip() or "8708409909"
+    if not article:
+        print("Укажите артикул через --article, например: --diag-tnved --article 0am325025H")
+        return 1
+    entries = ozon_client.get_product_names([article])
+    if not entries:
+        print(f"Ozon не вернул характеристики для {article}.")
+        return 1
+    entry = entries[0]
+    cat, typ = entry.get("description_category_id", 0), entry.get("type_id", 0)
+    attr_id = catalog_editor._get_tnved_attr_id(cat, typ)
+    print(f"{article}: категория {cat}, тип {typ}, id характеристики ТН ВЭД: {attr_id}")
+    if not attr_id:
+        print("В характеристиках категории не нашлось ТН ВЭД.")
+        return 1
+    for attr in entry.get("attributes") or []:
+        if attr.get("id") == attr_id:
+            print("Сейчас в карточке:", json.dumps(attr.get("values"), ensure_ascii=False))
+    found = ozon_client.search_attribute_values(cat, typ, attr_id, code)
+    print(f"Поиск '{code}' в справочнике Ozon: найдено {len(found)}")
+    for it in found[:10]:
+        print(f"  id={it.get('id')}: {str(it.get('value'))[:140]}")
+    hit = catalog_editor.resolve_tnved_dictionary(cat, typ, attr_id, code)
+    print("Точное совпадение:", hit if hit else "НЕТ")
+    return 0
+
+
 def cmd_diag_wb_new_cards() -> int:
     """
     Диагностика: почему push-wb-new-cards/push-new-product-all "принял"
@@ -3212,6 +3249,7 @@ def main() -> int:
     parser.add_argument("--sync-ozon-prices", action="store_true", help="Вернуть на Ozon цены из мастер-файла там, где акции их опустили (--article ограничивает список)")
     parser.add_argument("--disable-ozon-auto-actions-dryrun", action="store_true", help="Показать товары с включённым автодобавлением в акции Ozon (ничего не меняет)")
     parser.add_argument("--disable-ozon-auto-actions", action="store_true", help="Выключить автодобавление в акции Ozon (цены не меняются; --article ограничивает список)")
+    parser.add_argument("--diag-tnved", action="store_true", help="Диагностика (только чтение): ищет код ТН ВЭД (--seed-phrase, по умолчанию 8708409909) в справочнике Ozon для категории товара --article")
     parser.add_argument("--diag-ozon-prices", action="store_true", help="Диагностика (только чтение): цены и предельная цена Ozon по --article (через запятую) или по всем товарам")
     parser.add_argument("--diag-ozon-product", action="store_true", help="Диагностика: показать сырой ответ Ozon (статус/ошибки/фото) по одному offer_id из --article")
     parser.add_argument("--diag-wb-new-cards", action="store_true", help="Диагностика: почему созданные через push-wb-new-cards/push-new-product-all карточки не появились на WB (причины ошибок)")
@@ -3397,6 +3435,8 @@ def main() -> int:
         return cmd_disable_ozon_auto_actions(True, args.article)
     if args.disable_ozon_auto_actions:
         return cmd_disable_ozon_auto_actions(False, args.article)
+    if args.diag_tnved:
+        return cmd_diag_tnved(args.article, getattr(args, "seed_phrase", ""))
     if args.diag_ozon_prices:
         return cmd_diag_ozon_prices(args.article)
     if args.diag_ozon_product:
