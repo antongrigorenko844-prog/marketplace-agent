@@ -532,6 +532,11 @@ def build_ozon_catalog(data: dict, xlsx_path: str) -> int:
 
 HASHTAG_MAX_LEN = 30  # включая "#"; Ozon отвечает BR_hashtags_symbols_limit на более длинные
 HASHTAG_MAX_COUNT = 30
+# Слова, которые Ozon считает рекламными в хэштегах (ответ BR_hashtag_marketing, 2026-10-21: «оригинал»).
+HASHTAG_MARKETING_WORDS = {
+    "оригинал", "оригинальный", "оригинальная", "лучший", "лучшая", "лучшие", "скидка", "скидки",
+    "акция", "распродажа", "хит", "топ", "дешево", "дёшево", "новинка", "выгодно", "бесплатно",
+}
 
 
 def normalize_hashtags(value) -> str:
@@ -553,6 +558,8 @@ def normalize_hashtags(value) -> str:
         tok = re.sub(r"[^\w]+", "_", tok, flags=re.UNICODE).strip("_")
         if not tok:
             continue
+        if tok.lower() in HASHTAG_MARKETING_WORDS:
+            continue  # Ozon: BR_hashtag_marketing — «уберите рекламные выражения»
         tag = "#" + tok
         if len(tag) > HASHTAG_MAX_LEN:
             cut = tag[:HASHTAG_MAX_LEN]
