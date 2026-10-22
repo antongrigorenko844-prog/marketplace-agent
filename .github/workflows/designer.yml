@@ -1,0 +1,42 @@
+# Telegram-бот для дизайнера (см. designer_bot.py).
+# Расписание (будни):
+#   09:15 МСК (06:15 UTC)  -> designer-send: задание на пост следующего рабочего дня + исходные фото
+#   каждые 30 минут днём   -> designer-collect: забирает присланные макеты в social/<№>/
+# Без секрета TELEGRAM_BOT_TOKEN и без designer-link команды ничего не делают.
+# Вручную: Actions -> marketplace-agent-designer -> Run workflow.
+
+name: marketplace-agent-designer
+
+on:
+  schedule:
+    - cron: "15 6 * * 1-5"
+    - cron: "*/30 5-17 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      command:
+        description: "Что сделать"
+        required: true
+        default: "designer-send-dryrun"
+        type: choice
+        options:
+          - designer-link
+          - designer-send-dryrun
+          - designer-send
+          - designer-collect
+      article:
+        description: "Номер поста (пусто — пост следующего рабочего дня). Для designer-link: слово owner — привязать ВАШ чат"
+        required: false
+        default: ""
+        type: string
+
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+
+jobs:
+  designer:
+    uses: ./.github/workflows/run-command.yml
+    secrets: inherit
+    with:
+      command: ${{ github.event.inputs.command || (github.event.schedule == '15 6 * * 1-5' && 'designer-send' || 'designer-collect') }}
+      article: ${{ github.event.inputs.article || '' }}

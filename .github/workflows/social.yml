@@ -1,0 +1,42 @@
+# Публикация постов в VK и Instagram (см. social_publish.py).
+#
+# По расписанию (каждый день в 07:00 UTC = 10:00 МСК) запускается автопубликация:
+# один самый ранний пост на площадку, у которого уже наступила дата в
+# data/content_plan.xlsx и есть готовые картинки в social/<№>/. Работает ТОЛЬКО
+# если в Secrets задан SOCIAL_AUTOPUBLISH = 1 — иначе ничего не публикуется.
+# Вручную: Actions -> marketplace-agent-social -> Run workflow.
+
+name: marketplace-agent-social
+
+on:
+  schedule:
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+    inputs:
+      command:
+        description: "Что сделать"
+        required: true
+        default: "social-status"
+        type: choice
+        options:
+          - social-status
+          - social-test
+          - social-publish-dryrun
+          - social-publish
+      article:
+        description: "Номера постов через запятую (принудительно, независимо от даты). Пусто — по расписанию"
+        required: false
+        default: ""
+        type: string
+
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+
+jobs:
+  social:
+    uses: ./.github/workflows/run-command.yml
+    secrets: inherit
+    with:
+      command: ${{ github.event.inputs.command || 'social-autopublish' }}
+      article: ${{ github.event.inputs.article || '' }}

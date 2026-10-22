@@ -4046,6 +4046,15 @@ def main() -> int:
     parser.add_argument("--wordstat-collect-batch", action="store_true", help="Собрать SEO-семантику сразу по списку артикулов из data/wordstat_queue.xlsx")
     parser.add_argument("--article", type=str, default="", help="Артикул товара — для wordstat-collect/diag-ozon-product (один) или archive/unarchive-ozon-products (можно несколько через запятую)")
     parser.add_argument("--seed-phrase", type=str, default="", help="Стартовая фраза(ы) для --wordstat-collect, через ';' если несколько")
+    parser.add_argument("--social-test", action="store_true", help="Проверить токены VK и Instagram")
+    parser.add_argument("--social-status", action="store_true", help="Сколько постов готово/опубликовано (data/content_plan.xlsx + social/)")
+    parser.add_argument("--social-publish-dryrun", action="store_true", help="Показать, какие посты уйдут в VK/Instagram, БЕЗ публикации (--article N — принудительно номера постов)")
+    parser.add_argument("--social-publish", action="store_true", help="Опубликовать самый ранний готовый пост на каждую площадку (--article N,M — принудительно эти посты)")
+    parser.add_argument("--social-autopublish", action="store_true", help="То же по расписанию; работает только при секрете SOCIAL_AUTOPUBLISH=1")
+    parser.add_argument("--designer-link", action="store_true", help="Запомнить Telegram-чат дизайнера (после Start у бота); с --article owner — запомнить ВАШ чат (для пересылки макетов и команд «стоп N»)")
+    parser.add_argument("--designer-send-dryrun", action="store_true", help="Показать задание дизайнеру БЕЗ отправки (--article N — номер поста, иначе пост следующего рабочего дня)")
+    parser.add_argument("--designer-send", action="store_true", help="Отправить дизайнеру в Telegram задание + исходные фото (пост следующего рабочего дня или --article N)")
+    parser.add_argument("--designer-collect", action="store_true", help="Забрать присланные дизайнером макеты из Telegram в social/<№>/")
     args = parser.parse_args()
 
     if args.yandex_market_test:
@@ -4242,6 +4251,34 @@ def main() -> int:
         return cmd_archive_ozon_products(args.article, dry_run=False)
     if args.unarchive_ozon_products:
         return cmd_unarchive_ozon_products(args.article)
+
+    if args.designer_link:
+        import designer_bot
+        return designer_bot.cmd_link(args.article)
+    if args.designer_send_dryrun:
+        import designer_bot
+        return designer_bot.cmd_send(True, args.article)
+    if args.designer_send:
+        import designer_bot
+        return designer_bot.cmd_send(False, args.article)
+    if args.designer_collect:
+        import designer_bot
+        return designer_bot.cmd_collect()
+    if args.social_test:
+        import social_publish
+        return social_publish.cmd_test()
+    if args.social_status:
+        import social_publish
+        return social_publish.cmd_status()
+    if args.social_publish_dryrun:
+        import social_publish
+        return social_publish.cmd_publish(True, article=args.article)
+    if args.social_publish:
+        import social_publish
+        return social_publish.cmd_publish(False, article=args.article)
+    if args.social_autopublish:
+        import social_publish
+        return social_publish.cmd_publish(False, auto=True)
 
     parser.print_help()
     return 0
