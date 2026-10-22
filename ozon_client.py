@@ -352,6 +352,46 @@ def update_prices(items: List[dict]) -> dict:
     return _post("/v1/product/import/prices", {"prices": items})
 
 
+def _get(path: str) -> dict:
+    url = f"{config.ozon_api_base}{path}"
+    resp = requests.get(url, headers=_headers(), timeout=config.request_timeout_seconds)
+    if not resp.ok:
+        raise OzonApiError(f"Ozon {path} вернул {resp.status_code}: {resp.text[:500]}")
+    try:
+        return resp.json()
+    except ValueError:
+        return {}
+
+
+def get_actions() -> List[dict]:
+    """Акции, доступные продавцу (id, title, action_type, ...)."""
+    # ENDPOINT: GET /v1/actions  (если 404 — сверить путь в docs.ozon.ru/api/seller, раздел «Акции»)
+    data = _get("/v1/actions")
+    return data.get("result") or []
+
+
+def get_action_products(action_id: int) -> List[dict]:
+    """Товары, участвующие в акции (id = product_id)."""
+    out: List[dict] = []
+    offset = 0
+    while True:
+        # ENDPOINT: POST /v1/actions/products
+        data = _post("/v1/actions/products", {"action_id": action_id, "limit": 100, "offset": offset})
+        res = data.get("result") or {}
+        rows = res.get("products") or []
+        out.extend(rows)
+        offset += len(rows)
+        if not rows or offset >= int(res.get("total") or 0):
+            break
+    return out
+
+
+def deactivate_action_products(action_id: int, product_ids: List[int]) -> dict:
+    """Убрать товары из акции."""
+    # ENDPOINT: POST /v1/actions/products/deactivate
+    return _post("/v1/actions/products/deactivate", {"action_id": action_id, "product_ids": product_ids})
+
+
 def get_category_tree(language: str = "RU") -> List[dict]:
     # ENDPOINT: POST /v2/category/tree — дерево категорий Ozon
     data = _post("/v2/category/tree", {"language": language})

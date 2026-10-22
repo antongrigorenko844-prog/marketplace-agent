@@ -997,6 +997,7 @@ def cmd_update_cards() -> int:
     step("Шаг 4: push-wb-price", "push-wb-price", cmd_push_wb_price)
     step("Шаг 5: push-stock (Ozon)", "push-stock", cmd_push_stock)
     step("Шаг 6: push-wb-stock (WB)", "push-wb-stock", cmd_push_wb_stock)
+    step("Шаг 6б: Ozon — выход из бустинга и автоакций", "ozon-leave-boosting", cmd_ozon_leave_boosting)
 
     # Яндекс Маркет: ЦЕНЫ приходят из Ozon сами (встроенная синхронизация Маркета), а ОСТАТКИ
     # она не переносит — их отправляем мы (общий остаток, тот же, что на Ozon/WB). Цены на Маркет
@@ -3257,6 +3258,59 @@ def cmd_sync_ozon_prices(dry_run: bool, article: str = "") -> int:
     return 1 if bad else 0
 
 
+def cmd_ozon_leave_boosting(dry_run: bool = False) -> int:
+    """
+    Выход из «бустинга» Ozon: убирает наши товары из акций, в названии которых есть «бустинг»
+    (по умолчанию; другие слова — env OZON_LEAVE_ACTIONS, через запятую), и выключает автодобавление
+    в акции (cmd_disable_ozon_auto_actions). Остальные акции не трогает. Если акция бустинга через API
+    не видна — так и пишет (тогда убрать вручную в кабинете: Маркетинговые инструменты → Акции).
+    """
+    import ozon_client
+
+    words = [w.strip().lower() for w in os.environ.get("OZON_LEAVE_ACTIONS", "бустинг").split(",") if w.strip()]
+    try:
+        actions = ozon_client.get_actions()
+    except Exception as exc:  # noqa: BLE001
+        print(f"Акции через API не получены ({exc}). Убрать из бустинга вручную: Маркетинговые инструменты → Акции.")
+        actions = []
+    print(f"Акций, доступных продавцу через API: {len(actions)}")
+    removed_total = 0
+    bad = 0
+    found_boost = False
+    for a in actions:
+        title = str(a.get("title") or "")
+        aid = a.get("id")
+        match = any(w in title.lower() for w in words)
+        try:
+            prods = ozon_client.get_action_products(int(aid))
+        except Exception as exc:  # noqa: BLE001
+            print(f"  «{title}» (id {aid}): список товаров не получен: {exc}")
+            continue
+        print(f"  «{title}» (id {aid}): наших товаров в акции {len(prods)}{' — ВЫХОДИМ' if match and prods else ''}")
+        if not match or not prods:
+            continue
+        found_boost = True
+        ids = [int(p["id"]) for p in prods if p.get("id")]
+        if dry_run:
+            continue
+        for i in range(0, len(ids), 100):
+            resp = ozon_client.deactivate_action_products(int(aid), ids[i : i + 100])
+            res = resp.get("result") or {}
+            rej = res.get("rejected") or []
+            removed_total += len(res.get("product_ids") or [])
+            for r in rej:
+                bad += 1
+                print(f"    не убран {r.get('product_id')}: {r.get('reason')}")
+    if actions and not found_boost:
+        print("Акций с «бустинг» в названии, где у нас есть товары, через API не найдено. "
+              "Если в кабинете товары всё ещё в бустинге — убрать вручную: Маркетинговые инструменты → Акции.")
+    if not dry_run:
+        print(f"Убрано из акций: {removed_total}, не убрано: {bad}")
+    print("\nАвтодобавление в акции:")
+    rc = cmd_disable_ozon_auto_actions(dry_run, "")
+    return 1 if (bad or rc) else 0
+
+
 def cmd_disable_ozon_auto_actions(dry_run: bool, article: str = "") -> int:
     """
     Выключает у товаров флаг "Автоматически добавлять товар в акции Ozon"
@@ -3883,6 +3937,8 @@ def main() -> int:
     parser.add_argument("--pull-ozon-stock", action="store_true", help="Разово подтянуть текущий остаток из Ozon в 'Кол-во к продаже' для товаров, где эта ячейка ещё пустая")
     parser.add_argument("--sync-ozon-prices-dryrun", action="store_true", help="Показать товары, где цена на Ozon отличается от мастер-файла (ничего не отправляет)")
     parser.add_argument("--sync-ozon-prices", action="store_true", help="Вернуть на Ozon цены из мастер-файла там, где акции их опустили (--article ограничивает список)")
+    parser.add_argument("--ozon-leave-boosting-dryrun", action="store_true", help="Показать акции Ozon и наши товары в «бустинге» (ничего не меняет)")
+    parser.add_argument("--ozon-leave-boosting", action="store_true", help="Убрать товары из акций «бустинг» и выключить автодобавление")
     parser.add_argument("--disable-ozon-auto-actions-dryrun", action="store_true", help="Показать товары с включённым автодобавлением в акции Ozon (ничего не меняет)")
     parser.add_argument("--disable-ozon-auto-actions", action="store_true", help="Выключить автодобавление в акции Ozon (цены не меняются; --article ограничивает список)")
     parser.add_argument("--diag-tnved", action="store_true", help="Диагностика (только чтение): ищет код ТН ВЭД (--seed-phrase, по умолчанию 8708409909) в справочнике Ozon для категории товара --article")
@@ -4094,6 +4150,10 @@ def main() -> int:
         return cmd_sync_ozon_prices(True, args.article)
     if args.sync_ozon_prices:
         return cmd_sync_ozon_prices(False, args.article)
+    if args.ozon_leave_boosting_dryrun:
+        return cmd_ozon_leave_boosting(True)
+    if args.ozon_leave_boosting:
+        return cmd_ozon_leave_boosting(False)
     if args.disable_ozon_auto_actions_dryrun:
         return cmd_disable_ozon_auto_actions(True, args.article)
     if args.disable_ozon_auto_actions:
