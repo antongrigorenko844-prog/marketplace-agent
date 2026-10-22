@@ -3293,8 +3293,23 @@ def cmd_ozon_leave_boosting(dry_run: bool = False) -> int:
         ids = [int(p["id"]) for p in prods if p.get("id")]
         if dry_run:
             continue
+        try:
+            with open(_data_path("ozon_products.json"), encoding="utf-8") as _f:
+                _pj = json.load(_f)
+            _rows = _pj.get("list", []) if isinstance(_pj, dict) else _pj
+            _by_pid = {int(x["product_id"]): x.get("offer_id") for x in _rows if x.get("product_id")}
+            print("    товары в акции: " + ", ".join(str(_by_pid.get(i, i)) for i in ids))
+        except Exception:  # noqa: BLE001
+            pass
         for i in range(0, len(ids), 100):
-            resp = ozon_client.deactivate_action_products(int(aid), ids[i : i + 100])
+            try:
+                resp = ozon_client.deactivate_action_products(int(aid), ids[i : i + 100])
+            except Exception as exc:  # noqa: BLE001
+                # Ozon закрыл старый метод («unified price logic»): не валим update-cards, идём дальше.
+                print(f"    Через API убрать из акции не удалось: {exc}")
+                print("    -> Убрать вручную: Маркетинговые инструменты → Акции → эта акция → выбрать товары → убрать. "
+                      "Ниже выключаем автодобавление — это может вывести товары из эластичного бустинга само.")
+                break
             res = resp.get("result") or {}
             rej = res.get("rejected") or []
             removed_total += len(res.get("product_ids") or [])
