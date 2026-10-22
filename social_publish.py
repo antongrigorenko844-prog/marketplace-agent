@@ -145,6 +145,22 @@ def final_text_path(n: int) -> str:
     return os.path.join(TEXTS_DIR, f"{n}.txt")
 
 
+IG_MAX_TAGS = 5  # Instagram: не более 5 хэштегов в посте
+
+
+def cap_hashtags(text: str, n: int = IG_MAX_TAGS) -> str:
+    """Оставляет первые n хэштегов, остальные убирает."""
+    cnt = 0
+
+    def repl(m):
+        nonlocal cnt
+        cnt += 1
+        return m.group(0) if cnt <= n else ""
+
+    out = re.sub(r"(?<!\S)#[^\s#]+", repl, text)
+    return re.sub(r"[ \t]+\n", "\n", out).rstrip()
+
+
 def full_text(p: dict, limit: Optional[int] = None) -> str:
     """Если дизайнер прислал итоговый текст (data/post_texts/<№>.txt) — берём его целиком (хэштеги уже внутри).
     Иначе — подпись + хэштеги из плана."""
@@ -152,6 +168,7 @@ def full_text(p: dict, limit: Optional[int] = None) -> str:
         with open(final_text_path(p["n"]), "r", encoding="utf-8") as f:
             text = f.read().strip()
         if text:
+            text = cap_hashtags(text)
             if limit and len(text) > limit:
                 text = text[: limit - 1].rstrip() + "…"
             return text
@@ -161,6 +178,7 @@ def full_text(p: dict, limit: Optional[int] = None) -> str:
     tags = p["tags"].strip()
     if tags:
         text += "\n\n" + tags
+    text = cap_hashtags(text)
     if limit and len(text) > limit:
         text = text[: limit - 1].rstrip() + "…"
     return text
