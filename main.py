@@ -3299,6 +3299,10 @@ def cmd_ozon_leave_boosting(dry_run: bool = False) -> int:
             _rows = _pj.get("list", []) if isinstance(_pj, dict) else _pj
             _by_pid = {int(x["product_id"]): x.get("offer_id") for x in _rows if x.get("product_id")}
             print("    товары в акции: " + ", ".join(str(_by_pid.get(i, i)) for i in ids))
+            print("    артикул: наша цена | цена в акции | ПОРОГ (выйти — поставить цену выше порога) | режим")
+            for p in prods:
+                print(f"      {_by_pid.get(int(p['id']), p['id'])}: {p.get('price')} | {p.get('action_price')} | "
+                      f"{p.get('max_action_price')} | {p.get('add_mode')}")
         except Exception:  # noqa: BLE001
             pass
         for i in range(0, len(ids), 100):
