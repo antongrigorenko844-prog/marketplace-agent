@@ -3258,6 +3258,44 @@ def cmd_sync_ozon_prices(dry_run: bool, article: str = "") -> int:
     return 1 if bad else 0
 
 
+def _ozon_set_price_floor(offer_ids) -> None:
+    """Для товаров, застрявших в акции Ozon: min_price = текущая цена (Ozon не опустит цену ниже нашей).
+    Цена и «цена до скидки» не меняются. Если поле не принято — ошибка в лог, ничего не ломается."""
+    import ozon_client
+
+    def _n(v):
+        try:
+            return int(round(float(v)))
+        except (TypeError, ValueError):
+            return 0
+
+    items = []
+    for it in ozon_client.get_prices_and_stocks(list(offer_ids)):
+        pr = it.get("price") or {}
+        price = _n(pr.get("price"))
+        if price <= 0:
+            continue
+        if _n(pr.get("min_price")) == price:
+            print(f"  {it.get('offer_id')}: лимит уже = цене ({price})")
+            continue
+        items.append({
+            "offer_id": it.get("offer_id"),
+            "price": str(price),
+            "old_price": str(_n(pr.get("old_price"))),
+            "min_price": str(price),
+            "currency_code": "RUB",
+        })
+        print(f"  {it.get('offer_id')}: лимит {_n(pr.get('min_price'))} -> {price}")
+    bad = 0
+    for i in range(0, len(items), 100):
+        resp = ozon_client.update_prices(items[i : i + 100])
+        for r in resp.get("result", []):
+            if not r.get("updated", True) or r.get("errors"):
+                bad += 1
+                print(f"  ОШИБКА {r.get('offer_id')}: {json.dumps(r.get('errors'), ensure_ascii=False)}")
+    print(f"  лимит выставлен: {len(items) - bad}, с ошибкой: {bad}")
+
+
 def cmd_ozon_leave_boosting(dry_run: bool = False) -> int:
     """
     Выход из «бустинга» Ozon: убирает наши товары из акций, в названии которых есть «бустинг»
@@ -3277,6 +3315,7 @@ def cmd_ozon_leave_boosting(dry_run: bool = False) -> int:
     removed_total = 0
     bad = 0
     found_boost = False
+    stuck_offers = []
     for a in actions:
         title = str(a.get("title") or "")
         aid = a.get("id")
@@ -3311,6 +3350,10 @@ def cmd_ozon_leave_boosting(dry_run: bool = False) -> int:
             except Exception as exc:  # noqa: BLE001
                 # Ozon закрыл старый метод («unified price logic»): не валим update-cards, идём дальше.
                 print(f"    Через API убрать из акции не удалось: {exc}")
+                try:
+                    stuck_offers.extend(str(_by_pid.get(i)) for i in ids if _by_pid.get(i))
+                except Exception:  # noqa: BLE001
+                    pass
                 print("    -> Убрать вручную: Маркетинговые инструменты → Акции → эта акция → выбрать товары → убрать. "
                       "Ниже выключаем автодобавление — это может вывести товары из эластичного бустинга само.")
                 break
@@ -3325,6 +3368,12 @@ def cmd_ozon_leave_boosting(dry_run: bool = False) -> int:
               "Если в кабинете товары всё ещё в бустинге — убрать вручную: Маркетинговые инструменты → Акции.")
     if not dry_run:
         print(f"Убрано из акций: {removed_total}, не убрано: {bad}")
+    if stuck_offers and not dry_run:
+        print("\nЛимит акции (минимальная цена = наша цена), чтобы Ozon не опускал цену на сайте ниже нашей:")
+        try:
+            _ozon_set_price_floor(sorted(set(stuck_offers)))
+        except Exception as exc:  # noqa: BLE001
+            print(f"  лимит акции не выставлен: {exc}")
     print("\nАвтодобавление в акции:")
     rc = cmd_disable_ozon_auto_actions(dry_run, "")
     return 1 if (bad or rc) else 0
