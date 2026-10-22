@@ -244,6 +244,11 @@ def cmd_link(role_arg: str = "") -> int:
 
 
 def cmd_send(dry_run: bool, article: str = "") -> int:
+    if not dry_run and _token() and _chat_id():
+        try:  # сначала забираем свежие сообщения (например, «стоп N» от владельца), потом отправляем
+            cmd_collect()
+        except Exception as exc:  # noqa: BLE001 — сбой приёма не должен мешать отправке
+            print(f"(перед отправкой: приём сообщений не удался: {exc})")
     rows = _plan_rows()
     nums = re.findall(r"\d+", article or "")
     if nums:
@@ -320,6 +325,49 @@ def cmd_send(dry_run: bool, article: str = "") -> int:
                 _tg("sendMessage", chat_id=_owner, text=f"✅ Отправил дизайнеру задание по посту №{n} (выход {r['Дата выхода']:%d.%m.%Y}).")
             except DesignerBotError as exc:
                 print(f"не удалось уведомить владельца: {exc}")
+    return 0
+
+
+def cmd_owner_preview(article: str = "") -> int:
+    """В 08:41 МСК присылает ВЛАДЕЛЬЦУ пост следующего рабочего дня на проверку: текст + картинки.
+    Тишина = «ок» (в 09:15 задание уйдёт дизайнеру). «стоп N» — остановить, «старт N» — вернуть."""
+    owner = _owner_id()
+    if not owner or not _token():
+        print("Владелец не привязан или нет токена — предпросмотр не отправлен.")
+        return 0
+    rows = _plan_rows()
+    nums = re.findall(r"\d+", article or "")
+    if nums:
+        targets = [r for r in rows if int(r["№"]) in {int(x) for x in nums}]
+    else:
+        today = dt.datetime.now(sp.MSK).date()
+        if today.weekday() >= 5:
+            print("Выходной — предпросмотр не отправляем.")
+            return 0
+        nd = _next_workday(today)
+        targets = [r for r in rows if r.get("Дата выхода") == nd]
+    state = _load(STATE_PATH, {})
+    prev = state.setdefault("previewed", {})
+    for r in targets:
+        n = int(r["№"])
+        if str(n) in prev and not nums:
+            print(f"Предпросмотр поста №{n} уже отправлялся — пропуск.")
+            continue
+        arts = [a.strip() for a in str(r.get("Артикулы в master") or "").split(",") if a.strip() and a.strip() != "—"]
+        imgs = sp.post_images(n, arts)
+        _tg("sendMessage", chat_id=owner, text=(
+            f"🔎 ПОСТ №{n} на проверку (выход {r['Дата выхода']:%d.%m.%Y} в 10:00)\n"
+            "Проверьте текст и картинки ниже.\n"
+            "• Всё хорошо — ничего не пишите: в 9:15 задание уйдёт дизайнеру.\n"
+            f"• Остановить — напишите «стоп {n}».\n"
+            "• Правки — напишите их Claude, он передаст дизайнеру."))
+        if imgs:
+            _send_images(owner, imgs)
+        _tg("sendMessage", chat_id=owner, text=("✏️ ТЕКСТ ПОСТА:\n────────\n" + sp.full_text(
+            {"n": n, "caption": str(r.get("Подпись к посту") or "").strip(), "tags": str(r.get("Хэштеги") or "").strip(), "arts": arts}, 3800))[:4000])
+        prev[str(n)] = dt.datetime.now(sp.MSK).isoformat(timespec="seconds")
+        _save(STATE_PATH, state)
+        print(f"Отправил владельцу предпросмотр поста №{n}.")
     return 0
 
 

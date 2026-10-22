@@ -4141,6 +4141,7 @@ def main() -> int:
     parser.add_argument("--designer-link", action="store_true", help="Запомнить Telegram-чат дизайнера (после Start у бота); с --article owner — запомнить ВАШ чат (для пересылки макетов и команд «стоп N»)")
     parser.add_argument("--designer-send-dryrun", action="store_true", help="Показать задание дизайнеру БЕЗ отправки (--article N — номер поста, иначе пост следующего рабочего дня)")
     parser.add_argument("--designer-send", action="store_true", help="Отправить дизайнеру в Telegram задание + исходные фото (пост следующего рабочего дня или --article N)")
+    parser.add_argument("--owner-preview", action="store_true", help="Прислать ВЛАДЕЛЬЦУ в Telegram пост следующего рабочего дня на проверку (08:41 МСК)")
     parser.add_argument("--designer-collect", action="store_true", help="Забрать присланные дизайнером макеты из Telegram в social/<№>/")
     args = parser.parse_args()
 
@@ -4355,6 +4356,9 @@ def main() -> int:
     if args.designer_collect:
         import designer_bot
         return designer_bot.cmd_collect()
+    if args.owner_preview:
+        import designer_bot
+        return designer_bot.cmd_owner_preview(args.article)
     if args.social_test:
         import social_publish
         return social_publish.cmd_test()

@@ -11,6 +11,7 @@ name: marketplace-agent-designer
 
 on:
   schedule:
+    - cron: "41 5 * * 1-5"      # 08:41 МСК — владельцу на проверку пост следующего рабочего дня
     - cron: "15 6 * * 1-5"      # 09:15 МСК — задание дизайнеру
     - cron: "45 6 * * 1-5"      # 09:45 МСК — запасной запуск (повтор не отправляется: бот помнит отправленное)
     - cron: "*/30 5-17 * * 1-5"
@@ -31,6 +32,7 @@ on:
           - designer-send-dryrun
           - designer-send
           - designer-collect
+          - owner-preview
       article:
         description: "Номер поста (пусто — пост следующего рабочего дня). Для designer-link: слово owner — привязать ВАШ чат"
         required: false
@@ -46,5 +48,5 @@ jobs:
     uses: ./.github/workflows/run-command.yml
     secrets: inherit
     with:
-      command: ${{ github.event.inputs.command || ((github.event.schedule == '15 6 * * 1-5' || github.event.schedule == '45 6 * * 1-5') && 'designer-send' || 'designer-collect') }}
+      command: ${{ github.event.inputs.command || (github.event.schedule == '41 5 * * 1-5' && 'owner-preview' || ((github.event.schedule == '15 6 * * 1-5' || github.event.schedule == '45 6 * * 1-5') && 'designer-send' || 'designer-collect')) }}
       article: ${{ github.event.inputs.article || '' }}
