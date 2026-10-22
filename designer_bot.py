@@ -150,12 +150,51 @@ def build_brief(r: dict) -> str:
         lines += ["", f"Артикулы: {arts}"]
     lines += [
         "",
-        "ПРАВИЛА: без цен, без слов «скидка/дешевле/акция», без знака %, без логотипов автопроизводителей. Единый стиль серии.",
+        "Единый стиль для всей серии постов.",
         "",
         f"КАК СДАТЬ: пришлите ВСЕ слайды сюда одним альбомом (лучше «Файлом», без сжатия). В подписи укажите номер поста: {n}. Порядок в альбоме = порядок слайдов.",
         f"СРОК: до 10:00 {date:%d.%m.%Y}.",
     ]
     return "\n".join(lines)
+
+
+def build_review_brief(r: dict) -> str:
+    n = int(r["№"])
+    date = r["Дата выхода"]
+    return (f"📌 ПОСТ №{n} (выход {date:%d.%m.%Y}) — на проверку\n\n"
+            "Ниже готовые картинки и текст поста. Просмотри.\n"
+            "• Всё хорошо — ничего не присылай, пост выйдет в таком виде.\n"
+            f"• Поправить текст — пришли «Текст {n}» и новый текст.\n"
+            f"• Заменить картинки — пришли свои альбомом, в подписи: {n}\n"
+            f"• Добавить картинки к этим — то же, в подписи: {n} добавить\n"
+            f"СРОК: до 10:00 {date:%d.%m.%Y}.")
+
+
+def _send_images(chat, paths: List[str]) -> None:
+    """Готовые картинки поста: превью фото (если Telegram не примет — файлами)."""
+    if len(paths) == 1:
+        with open(paths[0], "rb") as f:
+            _tg("sendPhoto", chat_id=chat, files={"photo": (os.path.basename(paths[0]), f)})
+        return
+    for kind, field in (("photo", "photo"), ("document", "document")):
+        media, fh = [], {}
+        try:
+            for i, p in enumerate(paths[:10]):
+                fh[f"f{i}"] = (os.path.basename(p), open(p, "rb"))
+                media.append({"type": kind, "media": f"attach://f{i}"})
+            _tg("sendMediaGroup", files=fh, chat_id=chat, media=json.dumps(media))
+            return
+        except DesignerBotError as exc:
+            print(f"sendMediaGroup как {kind}: {exc}")
+        finally:
+            for _, (_, h) in fh.items():
+                h.close()
+
+
+def _draft_text(r: dict) -> str:
+    cap = str(r.get("Подпись к посту") or "").strip()
+    tags = str(r.get("Хэштеги") or "").strip()
+    return cap + ("\n\n" + tags if tags else "")
 
 
 def _source_photos(arts: str) -> List[str]:
@@ -235,14 +274,29 @@ def cmd_send(dry_run: bool, article: str = "") -> int:
         if str(n) in sent and not nums:
             print(f"Задание по посту №{n} уже отправлено {sent[str(n)]} — пропуск.")
             continue
-        brief = build_brief(r)
-        photos = _source_photos(str(r.get("Артикулы в master") or ""))
+        arts_list = [a.strip() for a in str(r.get("Артикулы в master") or "").split(",") if a.strip() and a.strip() != "—"]
+        ready = sp.post_images(n, arts_list)
+        if ready:
+            brief = build_review_brief(r)
+            photos = []
+        else:
+            brief = build_brief(r)
+            photos = _source_photos(str(r.get("Артикулы в master") or ""))
         if dry_run or not _token() or not chat:
             print(f"--- ПРОБНЫЙ РЕЖИМ (отправки нет{'' if _token() else ': нет токена'}{'' if chat else ', дизайнер не привязан'}) ---")
             print(brief)
             print(f"[фото к отправке: {len(photos)}] " + ", ".join(os.path.relpath(p, _ROOT) for p in photos))
+            if ready:
+                print(f"[готовые картинки поста на проверку: {len(ready)}] " + ", ".join(os.path.relpath(p, _ROOT) for p in ready))
             continue
         _tg("sendMessage", chat_id=chat, text=brief[:4000])
+        if ready:
+            _send_images(chat, ready)
+        draft = _draft_text(r)
+        _tg("sendMessage", chat_id=chat, text=(
+            f"✏️ ТЕКСТ ПОСТА №{n} (черновик). Это подпись под постом вместе с хэштегами. Можешь править: абзацы, отступы, эмодзи, формулировки.\n"
+            f"Когда готово — пришли боту ОДНИМ сообщением, начав со слов «Текст {n}», затем текст. Если править не нужно — ничего не присылай, уйдёт этот вариант.\n"
+            f"────────\n") + draft[:3500])
         if len(photos) == 1:
             with open(photos[0], "rb") as f:
                 _tg("sendDocument", chat_id=chat, files={"document": (os.path.basename(photos[0]), f)})
@@ -263,6 +317,14 @@ def cmd_send(dry_run: bool, article: str = "") -> int:
     return 0
 
 
+def _last_sent(state: dict) -> Optional[int]:
+    """Номер поста, задание по которому отправлено дизайнеру последним."""
+    sent = state.get("sent") or {}
+    if not sent:
+        return None
+    return int(max(sent.items(), key=lambda kv: kv[1])[0])
+
+
 def _download(file_id: str) -> bytes:
     info = _tg("getFile", file_id=file_id)
     r = requests.get(f"https://api.telegram.org/file/bot{_token()}/{info['file_path']}", timeout=120)
@@ -270,34 +332,109 @@ def _download(file_id: str) -> bytes:
     return r.content
 
 
+def _plan_arts(n: int) -> List[str]:
+    for r in _plan_rows():
+        if int(r["№"]) == n:
+            return [a.strip() for a in str(r.get("Артикулы в master") or "").split(",") if a.strip() and a.strip() != "—"]
+    return []
+
+
+def _save_set(n: int, files: List[tuple], append: bool) -> int:
+    """files: [(bytes, ext)]. Заменяет набор картинок поста или добавляет к текущему."""
+    import shutil
+    folder = os.path.join(sp.IMAGES_DIR, str(n))
+    os.makedirs(folder, exist_ok=True)
+    cur = [f for f in os.listdir(folder) if f.lower().endswith(sp.IMG_EXT) and not f.startswith(".")]
+    if append and not cur:
+        # материализуем текущий набор (готовые картинки из каталога), чтобы добавить к нему
+        for k, src in enumerate(sp.auto_images(_plan_arts(n)), start=1):
+            shutil.copyfile(src, os.path.join(folder, f"{k}{os.path.splitext(src)[1].lower()}"))
+    elif not append:
+        for f in cur:
+            os.remove(os.path.join(folder, f))
+    existing = [f for f in os.listdir(folder) if f.lower().endswith(sp.IMG_EXT) and not f.startswith(".")]
+    k0 = len(existing)
+    total = 0
+    for k, (data, ext) in enumerate(files, start=1):
+        if k0 + k > 10:
+            break
+        if ext not in sp.IMG_EXT:
+            ext = ".png"
+        with open(os.path.join(folder, f"{k0 + k}{ext}"), "wb") as fh:
+            fh.write(data)
+        total += 1
+    return k0 + total
+
+
+OUTBOX_DIR = "data/outbox"
+OUTBOX_DONE = "data/outbox_done.json"
+
+
+def _process_outbox(designer, owner) -> int:
+    """Сообщения от Claude: файлы data/outbox/*.json вида {"to": "designer"|"owner", "text": "...", "images": ["social/5/1.png"]}.
+    Каждый отправляется один раз (список отправленных — data/outbox_done.json)."""
+    if not os.path.isdir(OUTBOX_DIR):
+        return 0
+    done = _load(OUTBOX_DONE, [])
+    sent = 0
+    for name in sorted(os.listdir(OUTBOX_DIR)):
+        if not name.endswith(".json") or name in done:
+            continue
+        msg = _load(os.path.join(OUTBOX_DIR, name), {})
+        chat = owner if msg.get("to") == "owner" else designer
+        if not chat:
+            print(f"outbox {name}: получатель не привязан — пропуск.")
+            continue
+        if msg.get("text"):
+            _tg("sendMessage", chat_id=chat, text=msg["text"])
+        imgs = [x for x in msg.get("images", []) if os.path.exists(x)]
+        if imgs:
+            _send_images(chat, imgs)
+        done.append(name)
+        sent += 1
+        print(f"outbox {name}: отправлено ({msg.get('to')}).")
+    if sent:
+        _save(OUTBOX_DONE, done)
+    return sent
+
+
 def cmd_collect() -> int:
+    """Забирает сообщения из Telegram. Дизайнер и владелец могут: присылать картинки (подпись «12» — заменить набор,
+    «12 добавить» — добавить), «Текст 12 …» — итоговый текст. Владелец: «стоп 12» / «старт 12», «Дизайнеру 12: …» — переслать задание."""
     if not _token():
         print("TELEGRAM_BOT_TOKEN не задан — пропуск.")
         return 0
-    chat = _chat_id()
-    if not chat:
+    designer = _chat_id()
+    if not designer:
         print("Дизайнер не привязан (нет data/designer_chat.json) — запустите designer-link.")
         return 0
+    owner = _owner_id()
+    _process_outbox(designer, owner)
     state = _load(STATE_PATH, {})
-    offset = state.get("offset")
     params = {"timeout": 0, "allowed_updates": json.dumps(["message"])}
-    if offset:
-        params["offset"] = offset
+    if state.get("offset"):
+        params["offset"] = state["offset"]
     ups = _tg("getUpdates", **params)
     if not ups:
         print("Новых сообщений нет.")
         return 0
     last_number = state.get("last_number")
-    groups = {}   # номер поста -> список (message_id, file_id, ext)
-    group_caption = {}
-    items = []
+    texts_new = []
+    group_cap = {}      # gid -> (номер, добавить?)
+    fwd_groups = set()  # альбомы владельца, которые надо переслать дизайнеру
+    items = []          # (sender_chat, message_id, gid, file_id, ext)
     for u in ups:
         state["offset"] = u["update_id"] + 1
         m = u.get("message") or {}
         mchat = (m.get("chat") or {}).get("id")
-        if mchat == _owner_id() and mchat != chat:
-            t = (m.get("text") or "").strip().lower()
-            mm = re.fullmatch(r"(стоп|старт)\s*№?\s*(\d+)", t)
+        if mchat not in (designer, owner):
+            continue
+        is_owner = mchat == owner and mchat != designer
+        raw = m.get("text") or m.get("caption") or ""
+        gid = m.get("media_group_id") or f"single{m['message_id']}"
+        # --- команды владельца
+        if is_owner:
+            mm = re.fullmatch(r"\s*(стоп|старт)\s*№?\s*(\d+)\s*", raw.lower())
             if mm:
                 hold = _read_hold()
                 num = int(mm.group(2))
@@ -310,13 +447,38 @@ def cmd_collect() -> int:
                 _write_hold(hold)
                 _tg("sendMessage", chat_id=mchat, text=reply)
                 print(reply)
-            continue
-        if mchat != chat:
+                continue
+            fw = re.match(r"^\s*дизайнер\w*\s*№?\s*(\d+)?\s*[:\-–—]?\s*(.*)$", raw, re.S | re.I)
+            if fw and (fw.group(2).strip() or m.get("photo") or m.get("document")):
+                num = fw.group(1)
+                head = f"📩 ДОПОЛНИТЕЛЬНОЕ ЗАДАНИЕ от владельца" + (f" · пост №{num}" if num else "")
+                _tg("sendMessage", chat_id=designer, text=head)
+                _tg("copyMessage", chat_id=designer, from_chat_id=mchat, message_id=m["message_id"])
+                if m.get("media_group_id"):
+                    fwd_groups.add(m["media_group_id"])
+                _tg("sendMessage", chat_id=mchat, text="✅ Переслал дизайнеру." )
+                print("Задание владельца переслано дизайнеру")
+                continue
+            if m.get("media_group_id") in fwd_groups:
+                _tg("copyMessage", chat_id=designer, from_chat_id=mchat, message_id=m["message_id"])
+                continue
+        # --- итоговый текст
+        mt = re.match(r"^\s*(?:текст|text)\b\s*(?:№?\s*(\d+))?\s*[:\-–—]?\s*(.*)$", m.get("text") or "", re.S | re.I)
+        if mt and mt.group(2).strip() and (mt.group(1) or _last_sent(state)):
+            tn = int(mt.group(1)) if mt.group(1) else _last_sent(state)
+            os.makedirs(sp.TEXTS_DIR, exist_ok=True)
+            with open(sp.final_text_path(tn), "w", encoding="utf-8") as fh:
+                fh.write(mt.group(2).strip() + "\n")
+            _tg("sendMessage", chat_id=mchat, text=f"✅ Принял текст поста №{tn}.")
+            print(f"Пост №{tn}: сохранён итоговый текст ({len(mt.group(2).strip())} симв.)")
+            if not is_owner:
+                texts_new.append(tn)
             continue
         text = (m.get("text") or "").strip()
         if text and re.fullmatch(r"№?\s*\d+", text):
             last_number = int(re.findall(r"\d+", text)[0])
             continue
+        # --- картинки
         fid, ext = None, None
         if m.get("document") and str(m["document"].get("mime_type", "")).startswith("image/"):
             fid = m["document"]["file_id"]
@@ -327,35 +489,31 @@ def cmd_collect() -> int:
         if not fid:
             continue
         cap = m.get("caption") or ""
-        gid = m.get("media_group_id") or f"single{m['message_id']}"
         if cap and re.search(r"\d+", cap):
-            group_caption[gid] = int(re.findall(r"\d+", cap)[0])
-        items.append((m["message_id"], gid, fid, ext))
+            group_cap[gid] = (int(re.findall(r"\d+", cap)[0]), bool(re.search(r"(\+|добав)", cap, re.I)))
+        items.append((mchat, m["message_id"], gid, fid, ext))
     by_post = {}
-    for mid, gid, fid, ext in items:
-        n = group_caption.get(gid) or last_number
+    for mchat, mid, gid, fid, ext in items:
+        n, app = group_cap.get(gid, (None, False))
+        n = n or _last_sent(state) or last_number
         if not n:
-            _tg("sendMessage", chat_id=chat, text="Не понял, к какому посту файл. Напишите номер поста в подписи к альбому (например: 12) и пришлите ещё раз.")
+            _tg("sendMessage", chat_id=mchat, text="Не понял, к какому посту картинки. Напишите номер поста в подписи (например: 12; чтобы добавить к текущим — 12 добавить) и пришлите ещё раз.")
             continue
-        by_post.setdefault(n, []).append((mid, fid, ext))
+        e = by_post.setdefault((n, app, mchat), [])
+        e.append((mid, fid, ext))
         last_number = n
     state["last_number"] = last_number
-    for n, lst in by_post.items():
+    for tn in texts_new:
+        _notify_owner_text(tn)
+    for (n, app, mchat), lst in by_post.items():
         lst.sort()
-        folder = os.path.join(sp.IMAGES_DIR, str(n))
-        os.makedirs(folder, exist_ok=True)
-        for f in os.listdir(folder):  # правки: заменяем набор целиком
-            if f.lower().endswith(sp.IMG_EXT):
-                os.remove(os.path.join(folder, f))
-        for k, (_, fid, ext) in enumerate(lst[:10], start=1):
-            data = _download(fid)
-            if ext not in sp.IMG_EXT:
-                ext = ".png"
-            with open(os.path.join(folder, f"{k}{ext}"), "wb") as fh:
-                fh.write(data)
-        _tg("sendMessage", chat_id=chat, text=f"✅ Принял пост №{n}: файлов {min(len(lst), 10)}. Спасибо!")
-        print(f"Пост №{n}: сохранено файлов {min(len(lst), 10)} в social/{n}/")
-        _notify_owner(n)
+        files = [(_download(fid), ext) for _, fid, ext in lst[:10]]
+        total = _save_set(n, files, app)
+        who = "владельца" if mchat == owner and mchat != designer else "дизайнера"
+        _tg("sendMessage", chat_id=mchat, text=f"✅ Принял пост №{n}: {'добавлено ' + str(len(files)) + ', всего ' + str(total) if app else 'файлов ' + str(total)}. Спасибо!")
+        print(f"Пост №{n} ({who}): {'добавлено' if app else 'заменено'} файлов {len(files)}, всего {total} в social/{n}/")
+        if mchat == designer and mchat != owner:
+            _notify_owner(n)
     _save(STATE_PATH, state)
     return 0
 
@@ -387,3 +545,16 @@ def _notify_owner(n: int) -> None:
                     h.close()
     except Exception as exc:  # noqa — уведомление не должно ломать приём файлов
         print(f"Не удалось уведомить владельца о посте №{n}: {exc}")
+
+
+def _notify_owner_text(n: int) -> None:
+    owner = _owner_id()
+    if not owner:
+        return
+    try:
+        with open(sp.final_text_path(n), "r", encoding="utf-8") as f:
+            txt = f.read().strip()
+        _tg("sendMessage", chat_id=owner,
+            text=f"📝 Дизайнер прислала итоговый текст поста №{n} (так он выйдет). Не подходит — напишите «стоп {n}».\n────────\n" + txt[:3800])
+    except Exception as exc:  # noqa
+        print(f"Не удалось уведомить владельца о тексте поста №{n}: {exc}")

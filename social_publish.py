@@ -4,7 +4,7 @@
 КАК ЭТО РАБОТАЕТ
 - Тексты (подпись + хэштеги) берутся из data/content_plan.xlsx, лист «Контент-план»
   (колонки «№», «Дата выхода», «Подпись к посту», «Хэштеги»).
-- Картинки от дизайнера лежат в папке social/<№ поста>/1.png, 2.png, ... (до 10 шт.;
+- Картинки: если дизайнер прислала свои — social/<№ поста>/1.png, 2.png, ... (до 10 шт.;
   порядок по номеру в имени файла). Нет картинок — пост пропускается, ничего не ломается.
 - За один запуск публикуется не больше одного поста на площадку (SOCIAL_MAX_PER_RUN) —
   самый ранний по дате среди тех, у кого «Дата выхода» уже наступила и картинки готовы.
@@ -38,6 +38,7 @@ PLAN_PATH = os.path.join(_ROOT, "data", "content_plan.xlsx")
 STATE_PATH = os.path.join(_ROOT, "data", "social_state.json")
 HOLD_PATH = os.path.join(_ROOT, "data", "social_hold.txt")  # номера постов через запятую/с новой строки — их НЕ публикуем
 IMAGES_DIR = os.path.join(_ROOT, "social")
+TEXTS_DIR = os.path.join(_ROOT, "data", "post_texts")  # итоговый текст поста от дизайнера: data/post_texts/<№>.txt (если есть — вместо подписи+хэштегов из плана)
 SHEET = "Контент-план"
 
 VK_API = "https://api.vk.com/method"
@@ -80,6 +81,7 @@ def load_plan() -> List[dict]:
             "caption": str(row[idx["Подпись к посту"]] or ""),
             "tags": str(row[idx["Хэштеги"]] or ""),
             "design": str(row[idx["Статус дизайна"]] or "") if "Статус дизайна" in idx else "",
+            "arts": [a.strip() for a in str(row[idx["Артикулы в master"]] or "").split(",") if a.strip() and a.strip() != "—"] if "Артикулы в master" in idx else [],
         })
     return posts
 
@@ -104,15 +106,57 @@ def _natural(name: str):
     return [int(t) if t.isdigit() else t.lower() for t in re.split(r"(\d+)", name)]
 
 
-def post_images(n: int) -> List[str]:
-    d = os.path.join(IMAGES_DIR, str(n))
-    if not os.path.isdir(d):
+PHOTOS_DIR = os.path.join(_ROOT, "photos")
+
+
+def auto_images(arts: List[str]) -> List[str]:
+    """Готовые картинки из каталога (photos/<артикул>/): для одного товара — все его картинки,
+    для карусели из нескольких товаров — главная картинка каждого. Не больше 10."""
+    if not arts or not os.path.isdir(PHOTOS_DIR):
         return []
-    files = [f for f in os.listdir(d) if f.lower().endswith(IMG_EXT) and not f.startswith(".")]
-    return [os.path.join(d, f) for f in sorted(files, key=_natural)][:10]
+    folders = {d.lower(): d for d in os.listdir(PHOTOS_DIR)}
+    per = []
+    for a in arts:
+        d = folders.get(a.lower())
+        if not d:
+            continue
+        full = os.path.join(PHOTOS_DIR, d)
+        files = [f for f in os.listdir(full) if f.lower().endswith(IMG_EXT) and not f.startswith(".")]
+        per.append([os.path.join(full, f) for f in sorted(files, key=_natural)])
+    per = [x for x in per if x]
+    if not per:
+        return []
+    if len(per) == 1:
+        return per[0][:10]
+    return [x[0] for x in per][:10]
+
+
+def post_images(n: int, arts: Optional[List[str]] = None) -> List[str]:
+    """Картинки, присланные дизайнером (social/<№>/), иначе — готовые из каталога (по артикулам поста)."""
+    d = os.path.join(IMAGES_DIR, str(n))
+    if os.path.isdir(d):
+        files = [f for f in os.listdir(d) if f.lower().endswith(IMG_EXT) and not f.startswith(".")]
+        if files:
+            return [os.path.join(d, f) for f in sorted(files, key=_natural)][:10]
+    return auto_images(arts or [])
+
+
+def final_text_path(n: int) -> str:
+    return os.path.join(TEXTS_DIR, f"{n}.txt")
 
 
 def full_text(p: dict, limit: Optional[int] = None) -> str:
+    """Если дизайнер прислал итоговый текст (data/post_texts/<№>.txt) — берём его целиком (хэштеги уже внутри).
+    Иначе — подпись + хэштеги из плана."""
+    try:
+        with open(final_text_path(p["n"]), "r", encoding="utf-8") as f:
+            text = f.read().strip()
+        if text:
+            if limit and len(text) > limit:
+                text = text[: limit - 1].rstrip() + "…"
+            return text
+    except FileNotFoundError:
+        pass
     text = p["caption"].strip()
     tags = p["tags"].strip()
     if tags:
@@ -201,6 +245,16 @@ def _to_jpeg(path: str, n: int, k: int) -> str:
     if w > 1440:
         im = im.resize((1440, int(h * 1440 / w)))
     ratio = im.size[0] / im.size[1]
+    if ratio < 0.8:
+        # Instagram не принимает картинки уже 4:5 — расширяем холст по бокам цветом краёв (карточки 3:4 -> 4:5)
+        w, h = im.size
+        new_w = int(round(h * 0.8))
+        edge = [im.getpixel((x, y)) for x in (0, w - 1) for y in range(0, h, max(1, h // 20))]
+        col = tuple(int(sum(c[i] for c in edge) / len(edge)) for i in range(3))
+        canvas = Image.new("RGB", (new_w, h), col)
+        canvas.paste(im, ((new_w - w) // 2, 0))
+        im = canvas
+        ratio = im.size[0] / im.size[1]
     if not (0.8 <= ratio <= 1.91):
         logger.warning("Пост %s, слайд %s: пропорции %.2f вне 4:5…1.91:1 — Instagram может отклонить", n, k, ratio)
     tmp = os.path.join(tempfile.gettempdir(), f"social_{n}_{k}.jpg")
@@ -309,7 +363,7 @@ def cmd_publish(dry_run: bool, auto: bool = False, article: str = "") -> int:
                 continue
             if p["n"] in hold and not forced:
                 continue
-            imgs = post_images(p["n"])
+            imgs = post_images(p["n"], p.get("arts"))
             if not imgs:
                 if forced:
                     print(f"[{plat}] пост {p['n']}: нет картинок в social/{p['n']}/ — пропуск")
@@ -341,7 +395,7 @@ def cmd_status() -> int:
     ready = pub_vk = pub_ig = 0
     missing = []
     for p in plan:
-        has = bool(post_images(p["n"]))
+        has = bool(post_images(p["n"], p.get("arts")))
         ready += has
         s = state.get(str(p["n"]), {})
         pub_vk += "vk" in s
