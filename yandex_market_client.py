@@ -281,3 +281,20 @@ def get_all_offers(archived: bool = False) -> List[dict]:
         if not token:
             break
     return out
+
+
+NAME_MAX = 256  # предел Маркета на название товара
+
+
+def update_names(names: Dict[str, str]) -> Tuple[int, Dict[str, str]]:
+    """
+    names: {offer_id: новое название}. POST /v2/businesses/{businessId}/offer-mappings/update —
+    меняется только название (остальные поля карточки не затрагиваются).
+    """
+    business_id = get_business_id()
+    entries = [(offer, {"offer": {"offerId": offer, "name": name[:NAME_MAX]}}) for offer, name in names.items()]
+
+    def send(elems):
+        return _request("POST", f"/v2/businesses/{business_id}/offer-mappings/update", json_body={"offerMappings": elems})
+
+    return _send_isolating("названия", send, entries)

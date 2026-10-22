@@ -784,6 +784,77 @@ def cmd_push_yandex_stock(dry_run: bool = False) -> int:
     return 0 if ok else 1
 
 
+def cmd_push_yandex_names(dry_run: bool = False) -> int:
+    """
+    Названия -> Яндекс Маркет: название товара на Маркете приводится к названию из
+    data/master_control.xlsx (колонка «Название», то же, что на Ozon). Берётся свежий
+    список товаров Маркета; меняются только названия, которые отличаются. Архивные
+    и отсутствующие в мастере товары не трогаются. Сначала всегда пробный прогон.
+    """
+    import re
+
+    import openpyxl
+
+    import yandex_market_client
+
+    if not yandex_market_client.is_configured():
+        print("Яндекс Маркет не подключён: нет секретов YANDEX_MARKET_API_KEY / YANDEX_MARKET_CAMPAIGN_ID.")
+        return 1
+    master_path = _data_path("master_control.xlsx")
+    if not os.path.exists(master_path):
+        print(f"Нет файла {master_path}.")
+        return 1
+
+    def norm(t) -> str:
+        return re.sub(r"\s+", " ", str(t or "")).strip().lower()
+
+    master = {}
+    ws = openpyxl.load_workbook(master_path, data_only=True)["Товары"]
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        if row and row[0] and row[5]:
+            master[str(row[0]).strip()] = str(row[5]).strip()
+    master_low = {k.lower() for k in master}
+
+    try:
+        offers = yandex_market_client.get_all_offers(archived=False)
+    except yandex_market_client.YandexMarketError as exc:
+        print(f"push-yandex-names: ОШИБКА — {exc}")
+        return 1
+    changes, same, unknown, case_only = {}, 0, [], []
+    for o in offers:
+        if o["archived"] or not o["sku"]:
+            continue
+        # Маркет различает регистр SKU: "0am325025L" и "0am325025l" там — РАЗНЫЕ товары. Меняем только точное совпадение.
+        want = master.get(o["sku"])
+        if not want:
+            (case_only if o["sku"].lower() in master_low else unknown).append(o["sku"])
+        elif norm(want) == norm(o["name"]):
+            same += 1
+        else:
+            changes[o["sku"]] = (o["name"], want)
+    print(f"На Маркете товаров: {len(offers)}; названия совпадают: {same}; отличаются: {len(changes)}; нет в мастере: {len(unknown)}")
+    if unknown:
+        print(f"  Нет в мастере (не трогаю): {', '.join(unknown)}")
+    if case_only:
+        print(f"  Артикул совпадает только без учёта регистра (другой товар Маркета, не трогаю): {', '.join(case_only)}")
+    for sku, (old, new) in sorted(changes.items()):
+        print(f"  {sku}:\n     было:  {old}\n     будет: {new[:yandex_market_client.NAME_MAX]}")
+    if not changes:
+        print("Менять нечего.")
+        return 0
+    if dry_run:
+        print("\nПРОБНЫЙ ПРОГОН — на Маркет ничего не уходит.")
+        return 0
+    try:
+        ok, failed = yandex_market_client.update_names({k: v[1] for k, v in changes.items()})
+    except yandex_market_client.YandexMarketError as exc:
+        print(f"push-yandex-names: ОШИБКА — {exc}")
+        return 1
+    print(f"push-yandex-names: принято Маркетом {ok} из {len(changes)}.")
+    _print_yandex_failures(failed)
+    return 0 if ok else 1
+
+
 def cmd_push_yandex_price(dry_run: bool = False) -> int:
     """
     Цены -> Яндекс Маркет: берётся ТА ЖЕ цена, что и на Ozon (колонка 'Цена, ₽' в
@@ -3551,7 +3622,8 @@ def cmd_remove_product(article: str, dry_run: bool) -> int:
       3) push-stock — Ozon: остаток 0;
       4) push-wb-stock — WB: остаток 0;
       5) archive-ozon-products — товар уходит в архив Ozon (обратимо);
-      6) build-avito-catalog — товар исчезает из фида, объявление Avito закроется.
+      6) build-avito-catalog — товар исчезает из фида, объявление Avito закроется;
+      7) Яндекс Маркет — остаток 0; 8) Tilda (CommerceML) — «нет в наличии» (если заданы секреты).
     НЕ делается автоматически: карточка WB остаётся (у WB нет безопасного архива
     в API — удалить можно только вручную в кабинете, остаток 0 = "нет в наличии");
     сайт на Тильде — пока скрыть вручную (после подключения CommerceML скрывается
@@ -3613,16 +3685,27 @@ def cmd_remove_product(article: str, dry_run: bool) -> int:
     print("\n=== Шаг 5/5: build-avito-catalog (убрать из фида Avito) ===")
     results.append(("build-avito-catalog", cmd_build_avito_catalog()))
 
+    import yandex_market_client
+
+    if yandex_market_client.is_configured():
+        print("\n=== Шаг 6: push-yandex-stock (Яндекс Маркет, остаток 0) ===")
+        results.append(("push-yandex-stock", cmd_push_yandex_stock()))
+    else:
+        print("\n(Яндекс Маркет не подключён — шаг пропущен)")
+
+    if os.environ.get("TILDA_COMMERCEML_URL", "").strip():
+        print("\n=== Шаг 7: push-tilda (сайт, остаток 0 -> «нет в наличии») ===")
+        results.append(("push-tilda", cmd_push_tilda()))
+    else:
+        print("\n(Tilda CommerceML не подключена — шаг пропущен)")
+
     print()
     failed = [name for name, rc in results if rc != 0]
     if failed:
         print(f"remove-product: ошибка на шаге(ах): {', '.join(failed)} — проверьте вывод выше (остальные шаги выполнены).")
     else:
-        print(f"remove-product: готово — {found_ids}: остаток 0 на Ozon и WB, архив Ozon, убран из фида Avito.")
-    print(
-        "Осталось вручную: скрыть товар на сайте (Тильда) и, если нужно, удалить карточку WB в кабинете "
-        "(сейчас на WB стоит остаток 0)."
-    )
+        print(f"remove-product: готово — {found_ids}: остаток 0 на Ozon, WB, Маркете и сайте, архив Ozon, убран из фида Avito.")
+    print("Осталось вручную (если нужно): удалить карточку WB в кабинете (сейчас на WB стоит остаток 0).")
     return 1 if failed else 0
 
 
@@ -4038,6 +4121,8 @@ def main() -> int:
     parser.add_argument("--yandex-market-export", action="store_true", help="Выгрузить все товары кабинета Яндекс Маркета в data/yandex_market_offers.xlsx и сверить SKU с нашим каталогом (только чтение)")
     parser.add_argument("--push-yandex-stock-dryrun", action="store_true", help="Показать остатки, которые уйдут на Яндекс Маркет, БЕЗ отправки")
     parser.add_argument("--push-yandex-stock", action="store_true", help="Отправить остатки на Яндекс Маркет (FBS)")
+    parser.add_argument("--push-yandex-names-dryrun", action="store_true", help="Показать, какие названия на Яндекс Маркете будут приведены к мастеру, БЕЗ отправки")
+    parser.add_argument("--push-yandex-names", action="store_true", help="Привести названия на Яндекс Маркете к названиям из master_control (сначала всегда dryrun!)")
     parser.add_argument("--push-yandex-price-dryrun", action="store_true", help="Показать цены, которые уйдут на Яндекс Маркет, БЕЗ отправки")
     parser.add_argument("--push-yandex-price", action="store_true", help="Отправить цены на Яндекс Маркет (те же, что на Ozon; сначала всегда dryrun!)")
     parser.add_argument("--ozon-status", action="store_true", help="Статус ВСЕХ товаров на Ozon (создан ли, модерация, ошибки) — почему push-stock отвечает PRODUCT_IS_NOT_CREATED; --article \"а,б\" — только указанные")
@@ -4065,6 +4150,10 @@ def main() -> int:
         return cmd_push_yandex_stock(dry_run=True)
     if args.push_yandex_stock:
         return cmd_push_yandex_stock()
+    if args.push_yandex_names_dryrun:
+        return cmd_push_yandex_names(dry_run=True)
+    if args.push_yandex_names:
+        return cmd_push_yandex_names()
     if args.push_yandex_price_dryrun:
         return cmd_push_yandex_price(dry_run=True)
     if args.push_yandex_price:
