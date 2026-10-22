@@ -995,6 +995,8 @@ def cmd_update_cards() -> int:
     step("Шаг 2: attach-photos-all", "attach-photos-all", cmd_attach_photos_all)
     step("Шаг 3: push-photos (Ozon + WB)", "push-photos", cmd_push_photos)
     step("Шаг 4: push-wb-price", "push-wb-price", cmd_push_wb_price)
+    # Цены Ozon после перехода на «предельную цену» (окт. 2026) не всегда доезжают через карточку — добиваем напрямую (только расхождения).
+    step("Шаг 4б: цены Ozon = мастер (только расхождения)", "sync-ozon-prices", lambda: cmd_sync_ozon_prices(False))
     step("Шаг 5: push-stock (Ozon)", "push-stock", cmd_push_stock)
     step("Шаг 6: push-wb-stock (WB)", "push-wb-stock", cmd_push_wb_stock)
     step("Шаг 6б: Ozon — выход из бустинга и автоакций", "ozon-leave-boosting", cmd_ozon_leave_boosting)
