@@ -314,6 +314,12 @@ def cmd_send(dry_run: bool, article: str = "") -> int:
         sent[str(n)] = dt.datetime.now(sp.MSK).isoformat(timespec="seconds")
         _save(STATE_PATH, state)
         print(f"Отправил дизайнеру задание по посту №{n} (фото: {len(photos)}).")
+        _owner = _owner_id()
+        if _owner and _owner != chat:
+            try:
+                _tg("sendMessage", chat_id=_owner, text=f"✅ Отправил дизайнеру задание по посту №{n} (выход {r['Дата выхода']:%d.%m.%Y}).")
+            except DesignerBotError as exc:
+                print(f"не удалось уведомить владельца: {exc}")
     return 0
 
 
@@ -386,10 +392,20 @@ def _process_outbox(designer, owner) -> int:
             print(f"outbox {name}: получатель не привязан — пропуск.")
             continue
         if msg.get("text"):
-            _tg("sendMessage", chat_id=chat, text=msg["text"])
+            _tg("sendMessage", chat_id=chat, text=msg["text"][:4000])
         imgs = [x for x in msg.get("images", []) if os.path.exists(x)]
         if imgs:
             _send_images(chat, imgs)
+        for extra in msg.get("texts", []):
+            _tg("sendMessage", chat_id=chat, text=str(extra)[:4000])
+        if msg.get("mark_sent"):  # посты, задание по которым уже ушло этим сообщением (чтобы 09:15 не отправило повторно)
+            st = _load(STATE_PATH, {})
+            for n in msg["mark_sent"]:
+                st.setdefault("sent", {})[str(n)] = dt.datetime.now(sp.MSK).isoformat(timespec="seconds")
+            _save(STATE_PATH, st)
+        if owner and chat != owner:
+            head = (msg.get("text") or "").strip().splitlines()[0][:80] if msg.get("text") else "(только картинки)"
+            _tg("sendMessage", chat_id=owner, text=f"✅ Отправил дизайнеру: {head}" + (f" (+{len(imgs)} карт.)" if imgs else ""))
         done.append(name)
         sent += 1
         print(f"outbox {name}: отправлено ({msg.get('to')}).")

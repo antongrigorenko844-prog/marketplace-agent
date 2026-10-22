@@ -1,6 +1,8 @@
 # Telegram-бот для дизайнера (см. designer_bot.py).
 # Расписание (будни):
 #   09:15 МСК (06:15 UTC)  -> designer-send: задание на пост следующего рабочего дня + исходные фото
+#   09:45 МСК (06:45 UTC)  -> запасной designer-send (дубль не уходит)
+#   после Push файлов в data/outbox/ -> designer-collect сразу
 #   каждые 30 минут днём   -> designer-collect: забирает присланные макеты в social/<№>/
 # Без секрета TELEGRAM_BOT_TOKEN и без designer-link команды ничего не делают.
 # Вручную: Actions -> marketplace-agent-designer -> Run workflow.
@@ -9,8 +11,14 @@ name: marketplace-agent-designer
 
 on:
   schedule:
-    - cron: "15 6 * * 1-5"
+    - cron: "15 6 * * 1-5"      # 09:15 МСК — задание дизайнеру
+    - cron: "45 6 * * 1-5"      # 09:45 МСК — запасной запуск (повтор не отправляется: бот помнит отправленное)
     - cron: "*/30 5-17 * * 1-5"
+  push:                         # после Commit+Push сообщений для дизайнера бот отправляет их сразу
+    paths:
+      - "data/outbox/**"
+      - "data/post_texts/**"
+      - "data/content_plan.xlsx"
   workflow_dispatch:
     inputs:
       command:
@@ -38,5 +46,5 @@ jobs:
     uses: ./.github/workflows/run-command.yml
     secrets: inherit
     with:
-      command: ${{ github.event.inputs.command || (github.event.schedule == '15 6 * * 1-5' && 'designer-send' || 'designer-collect') }}
+      command: ${{ github.event.inputs.command || ((github.event.schedule == '15 6 * * 1-5' || github.event.schedule == '45 6 * * 1-5') && 'designer-send' || 'designer-collect') }}
       article: ${{ github.event.inputs.article || '' }}

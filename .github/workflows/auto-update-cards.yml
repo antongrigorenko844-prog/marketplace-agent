@@ -1,0 +1,26 @@
+# update-cards САМ после Commit+Push изменений в мастере или фото:
+#   data/master_control.xlsx, photos/**, photos_avito/**.
+# Уходит только изменившееся (кэши в data/). Перед отправкой проверяется master_control:
+# при серьёзных ошибках (validate-master) на площадки ничего не отправляется.
+# Коммиты самого бота (data/ [skip ci]) этот запуск не вызывают.
+# Отключить: удалить этот файл. Вручную по-прежнему: Actions -> marketplace-agent -> update-cards.
+
+name: marketplace-agent-auto-update
+
+on:
+  push:
+    paths:
+      - "data/master_control.xlsx"
+      - "photos/**"
+      - "photos_avito/**"
+
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+
+jobs:
+  update:
+    uses: ./.github/workflows/run-command.yml
+    secrets: inherit
+    with:
+      command: update-cards
