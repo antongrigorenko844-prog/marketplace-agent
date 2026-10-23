@@ -257,8 +257,15 @@ def full_text(p: dict, limit: Optional[int] = None, platform: Optional[str] = No
 
 
 # --------------------------------------------------------------------------- VK
+# Два вида токена. VK_GROUP_TOKEN — ключ сообщества (Управление → Работа с API): бессрочный, не привязан к
+# человеку и IP; фото загружаются через сервер сообщений (getWallUploadServer с ключом сообщества VK не даёт).
+# VK_TOKEN — токен пользователя (старый путь). Если задан ключ сообщества — используется он.
+def _vk_group_token() -> str:
+    return os.getenv("VK_GROUP_TOKEN", "").strip()
+
+
 def _vk_cfg():
-    token = os.getenv("VK_TOKEN", "").strip()
+    token = _vk_group_token() or os.getenv("VK_TOKEN", "").strip()
     gid = os.getenv("VK_GROUP_ID", "").strip().lstrip("-")
     return (token, gid) if token and gid else None
 
@@ -277,7 +284,18 @@ def _vk(method: str, **params) -> dict:
 def vk_publish(p: dict, images: List[str]) -> str:
     _, gid = _vk_cfg()
     atts = []
+    group_mode = bool(_vk_group_token())
     for path in images:
+        if group_mode:
+            srv = _vk("photos.getMessagesUploadServer", peer_id=0)
+            with open(path, "rb") as f:
+                ct = mimetypes.guess_type(path)[0] or "image/png"
+                up = requests.post(srv["upload_url"], files={"photo": (os.path.basename(path), f, ct)}, timeout=120).json()
+            if not up.get("photo") or up.get("photo") == "[]":
+                raise SocialError(f"VK не принял файл {path}: {up}")
+            saved = _vk("photos.saveMessagesPhoto", photo=up["photo"], server=up["server"], hash=up["hash"])[0]
+            atts.append(f"photo{saved['owner_id']}_{saved['id']}" + (f"_{saved['access_key']}" if saved.get("access_key") else ""))
+            continue
         srv = _vk("photos.getWallUploadServer", group_id=gid)
         with open(path, "rb") as f:
             ct = mimetypes.guess_type(path)[0] or "image/png"
@@ -295,6 +313,15 @@ def vk_test() -> bool:
         print("VK: VK_TOKEN / VK_GROUP_ID не заданы — пропуск")
         return False
     _, gid = _vk_cfg()
+    if _vk_group_token():
+        info = _vk("groups.getById")
+        g = info["groups"][0] if isinstance(info, dict) and "groups" in info else info[0]
+        print(f"VK: ключ сообщества работает, сообщество «{g.get('name')}» (id {g.get('id')})")
+        if str(g.get("id")) != gid:
+            print(f"VK: ВНИМАНИЕ — ключ от сообщества {g.get('id')}, а VK_GROUP_ID = {gid}")
+        _vk("photos.getMessagesUploadServer", peer_id=0)
+        print("VK: загрузка фото через ключ сообщества — доступна")
+        return True
     info = _vk("groups.getById", group_id=gid)
     g = info["groups"][0] if isinstance(info, dict) and "groups" in info else info[0]
     print(f"VK: токен работает, сообщество «{g.get('name')}» (id {gid})")
