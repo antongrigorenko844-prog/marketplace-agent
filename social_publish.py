@@ -296,7 +296,7 @@ def ig_test() -> bool:
         print("Instagram: IG_USER_ID / IG_ACCESS_TOKEN не заданы — пропуск")
         return False
     uid, _ = _ig_cfg()
-    info = _ig("GET", me, fields="username")
+    info = _ig("GET", "me", fields="username")
     print(f"Instagram: токен работает, аккаунт @{info.get('username')}")
     return True
 
