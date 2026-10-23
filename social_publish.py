@@ -343,6 +343,8 @@ def vk_test() -> bool:
         ("GET, обычный", lambda: requests.get(f"{VK_API}/groups.getById", params={"v": VK_VERSION, "access_token": tok}, timeout=30)),
         ("GET, браузер", lambda: requests.get(f"{VK_API}/groups.getById", params={"v": VK_VERSION, "access_token": tok}, headers={"User-Agent": UA}, timeout=30)),
         ("POST, браузер", lambda: requests.post(f"{VK_API}/groups.getById", data={"v": VK_VERSION, "access_token": tok}, headers={"User-Agent": UA}, timeout=30)),
+        ("POST, ключ в заголовке Authorization: Bearer", lambda: requests.post(f"{VK_API}/groups.getById", data={"v": VK_VERSION}, headers={"Authorization": f"Bearer {tok}", "User-Agent": UA}, timeout=30)),
+        ("GET, ключ в заголовке Authorization: Bearer", lambda: requests.get(f"{VK_API}/groups.getById", params={"v": VK_VERSION}, headers={"Authorization": f"Bearer {tok}"}, timeout=30)),
         ("GET, браузер, api.vk.com", lambda: requests.get("https://api.vk.com/method/groups.getById", params={"v": VK_VERSION, "access_token": tok}, headers={"User-Agent": UA}, timeout=30)),
     ):
         try:
