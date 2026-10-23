@@ -41,7 +41,7 @@ IMAGES_DIR = os.path.join(_ROOT, "social")
 TEXTS_DIR = os.path.join(_ROOT, "data", "post_texts")  # итоговый текст поста от дизайнера: data/post_texts/<№>.txt (если есть — вместо подписи+хэштегов из плана)
 SHEET = "Контент-план"
 
-VK_API = "https://api.vk.com/method"
+VK_API = os.getenv("VK_API_BASE", "https://api.vk.ru/method")  # VK с осени 2025 принимает API на домене vk.ru
 VK_VERSION = "5.199"
 IG_BASE = os.getenv("IG_GRAPH_BASE", "https://graph.instagram.com/v21.0")
 IMG_EXT = (".png", ".jpg", ".jpeg", ".webp")
