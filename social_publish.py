@@ -336,6 +336,20 @@ def vk_test() -> bool:
         print(f"VK: IP сервера GitHub — {ip}")
     except Exception as exc:  # noqa
         print(f"VK: диагностика без токена не удалась: {exc}")
+    # диагностика: тот же ключ разными способами (GET/POST, с браузерным User-Agent и без)
+    tok = _vk_cfg()[0]
+    UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0 Safari/537.36"
+    for label, fn in (
+        ("GET, обычный", lambda: requests.get(f"{VK_API}/groups.getById", params={"v": VK_VERSION, "access_token": tok}, timeout=30)),
+        ("GET, браузер", lambda: requests.get(f"{VK_API}/groups.getById", params={"v": VK_VERSION, "access_token": tok}, headers={"User-Agent": UA}, timeout=30)),
+        ("POST, браузер", lambda: requests.post(f"{VK_API}/groups.getById", data={"v": VK_VERSION, "access_token": tok}, headers={"User-Agent": UA}, timeout=30)),
+        ("GET, браузер, api.vk.com", lambda: requests.get("https://api.vk.com/method/groups.getById", params={"v": VK_VERSION, "access_token": tok}, headers={"User-Agent": UA}, timeout=30)),
+    ):
+        try:
+            j = fn().json()
+            print(f"VK: проба [{label}] — " + ("OK" if "response" in j else f"ошибка {j['error'].get('error_code')} {j['error'].get('error_msg')}"))
+        except Exception as exc:  # noqa
+            print(f"VK: проба [{label}] — исключение {exc}")
     print("VK: запросы идут " + ("через посредника в Яндекс Облаке" if _vk_proxy() else "напрямую с серверов GitHub (посредник не задан)"))
     print("VK: используется " + ("ключ сообщества (VK_GROUP_TOKEN)" if _vk_group_token() else "токен пользователя (VK_TOKEN) — VK_GROUP_TOKEN не найден"))
     if _vk_group_token():
