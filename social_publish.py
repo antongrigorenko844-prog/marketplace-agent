@@ -519,6 +519,12 @@ def cmd_publish(dry_run: bool, auto: bool = False, article: str = "") -> int:
         return 0
     print(f"Площадки: {', '.join(pl) or 'нет (сухой прогон)'} · сегодня {_today():%d.%m.%Y} (МСК) · постов в плане: {len(plan)}")
 
+    once = re.fullmatch(r"\s*([\d,\s]+)@(\d{4}-\d{2}-\d{2})\s*", article or "")
+    if once:  # разовый запуск по расписанию: «1@2026-10-24» — только в этот день (МСК), в другие годы ничего
+        if dt.date.fromisoformat(once.group(2)) != _today():
+            print(f"Разовая публикация на {once.group(2)} — сегодня не тот день, пропуск.")
+            return 0
+        article = once.group(1)
     forced = {int(x) for x in re.findall(r"\d+", article or "")}
     try:
         with open(HOLD_PATH, "r", encoding="utf-8") as f:

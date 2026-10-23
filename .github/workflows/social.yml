@@ -11,6 +11,7 @@ name: marketplace-agent-social
 on:
   schedule:
     - cron: "0 7 * * *"
+    - cron: "0 13 24 10 *"   # РАЗОВО: пост №1 в сб 24.10.2026 в 16:00 МСК (в другие годы код пропустит)
   workflow_dispatch:
     inputs:
       command:
@@ -40,5 +41,5 @@ jobs:
     uses: ./.github/workflows/run-command.yml
     secrets: inherit
     with:
-      command: ${{ github.event.inputs.command || 'social-autopublish' }}
-      article: ${{ github.event.inputs.article || '' }}
+      command: ${{ github.event.inputs.command || (github.event.schedule == '0 13 24 10 *' && 'social-publish' || 'social-autopublish') }}
+      article: ${{ github.event.inputs.article || (github.event.schedule == '0 13 24 10 *' && '1@2026-10-24' || '') }}
