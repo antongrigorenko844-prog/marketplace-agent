@@ -313,6 +313,7 @@ def vk_test() -> bool:
         print("VK: VK_TOKEN / VK_GROUP_ID не заданы — пропуск")
         return False
     _, gid = _vk_cfg()
+    print("VK: используется " + ("ключ сообщества (VK_GROUP_TOKEN)" if _vk_group_token() else "токен пользователя (VK_TOKEN) — VK_GROUP_TOKEN не найден"))
     if _vk_group_token():
         info = _vk("groups.getById")
         g = info["groups"][0] if isinstance(info, dict) and "groups" in info else info[0]
