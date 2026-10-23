@@ -275,7 +275,7 @@ def _ig_wait(container_id: str, tries: int = 30):
 
 
 def ig_publish(p: dict, images: List[str]) -> str:
-    uid, _ = _ig_cfg()
+    uid = str(_ig("GET", "me", fields="user_id")["user_id"])
     urls = [_to_jpeg(path, p["n"], k) for k, path in enumerate(images, start=1)]
     text = full_text(p, 2200)
     if len(urls) == 1:
@@ -296,7 +296,7 @@ def ig_test() -> bool:
         print("Instagram: IG_USER_ID / IG_ACCESS_TOKEN не заданы — пропуск")
         return False
     uid, _ = _ig_cfg()
-    info = _ig("GET", uid, fields="username")
+    info = _ig("GET", me, fields="username")
     print(f"Instagram: токен работает, аккаунт @{info.get('username')}")
     return True
 
