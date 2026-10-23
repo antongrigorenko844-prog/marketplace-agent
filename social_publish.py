@@ -315,13 +315,22 @@ def vk_test() -> bool:
     _, gid = _vk_cfg()
     print("VK: используется " + ("ключ сообщества (VK_GROUP_TOKEN)" if _vk_group_token() else "токен пользователя (VK_TOKEN) — VK_GROUP_TOKEN не найден"))
     if _vk_group_token():
-        info = _vk("groups.getById")
-        g = info["groups"][0] if isinstance(info, dict) and "groups" in info else info[0]
-        print(f"VK: ключ сообщества работает, сообщество «{g.get('name')}» (id {g.get('id')})")
-        if str(g.get("id")) != gid:
-            print(f"VK: ВНИМАНИЕ — ключ от сообщества {g.get('id')}, а VK_GROUP_ID = {gid}")
-        _vk("photos.getMessagesUploadServer", peer_id=0)
-        print("VK: загрузка фото через ключ сообщества — доступна")
+        ok = True
+        for label, method, kw in (("загрузка фото", "photos.getMessagesUploadServer", {"peer_id": 0}),
+                                  ("стена (чтение)", "wall.get", {"owner_id": f"-{gid}", "count": 1}),
+                                  ("сообщество", "groups.getById", {})):
+            try:
+                res = _vk(method, **kw)
+                extra = ""
+                if method == "groups.getById":
+                    g = res["groups"][0] if isinstance(res, dict) and "groups" in res else res[0]
+                    extra = f": «{g.get('name')}» (id {g.get('id')})"
+                print(f"VK: {label} — OK{extra}")
+            except SocialError as exc:
+                print(f"VK: {label} — ОШИБКА {exc}")
+                ok = False
+        if not ok:
+            raise SocialError("часть проверок VK не прошла (см. выше)")
         return True
     info = _vk("groups.getById", group_id=gid)
     g = info["groups"][0] if isinstance(info, dict) and "groups" in info else info[0]
