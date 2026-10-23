@@ -270,10 +270,26 @@ def _vk_cfg():
     return (token, gid) if token and gid else None
 
 
+# VK не пускает запросы с ключом из зарубежных дата-центров (серверы GitHub получают «Flood control»),
+# поэтому запросы идут через функцию в Яндекс Облаке (российский адрес): секреты VK_PROXY_URL, VK_PROXY_KEY.
+# Код функции — vk_proxy/index.py. Загрузка самих файлов на upload_url идёт напрямую (без ключа VK пускает).
+def _vk_proxy():
+    url = os.getenv("VK_PROXY_URL", "").strip()
+    key = os.getenv("VK_PROXY_KEY", "").strip()
+    return (url, key) if url and key else None
+
+
 def _vk(method: str, **params) -> dict:
     cfg = _vk_cfg()
     params.update({"access_token": cfg[0], "v": VK_VERSION})
-    r = requests.post(f"{VK_API}/{method}", data=params, timeout=60)
+    proxy = _vk_proxy()
+    if proxy:
+        r = requests.post(proxy[0], json={"method": method, "params": params},
+                          headers={"X-Proxy-Key": proxy[1]}, timeout=60)
+        if r.status_code != 200:
+            raise SocialError(f"VK-посредник (Яндекс Облако): HTTP {r.status_code} {r.text[:200]}")
+    else:
+        r = requests.post(f"{VK_API}/{method}", data=params, timeout=60)
     data = r.json()
     if "error" in data:
         e = data["error"]
@@ -320,6 +336,7 @@ def vk_test() -> bool:
         print(f"VK: IP сервера GitHub — {ip}")
     except Exception as exc:  # noqa
         print(f"VK: диагностика без токена не удалась: {exc}")
+    print("VK: запросы идут " + ("через посредника в Яндекс Облаке" if _vk_proxy() else "напрямую с серверов GitHub (посредник не задан)"))
     print("VK: используется " + ("ключ сообщества (VK_GROUP_TOKEN)" if _vk_group_token() else "токен пользователя (VK_TOKEN) — VK_GROUP_TOKEN не найден"))
     if _vk_group_token():
         ok = True
