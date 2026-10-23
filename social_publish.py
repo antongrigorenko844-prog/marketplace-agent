@@ -420,13 +420,26 @@ def ig_test() -> bool:
 
 # --------------------------------------------------------------------------- команды
 def cmd_test() -> int:
+    """Проверка подключений. Итог пишется и в data/social_test_result.txt (без токенов), чтобы его было видно в репозитории."""
+    import contextlib
+    import io
     rc = 0
+    buf = io.StringIO()
     for name, fn in (("VK", vk_test), ("Instagram", ig_test)):
+        out = io.StringIO()
         try:
-            fn()
+            with contextlib.redirect_stdout(out):
+                fn()
         except Exception as exc:  # noqa
-            print(f"{name}: ОШИБКА — {exc}")
+            out.write(f"{name}: ОШИБКА — {exc}\n")
             rc = 1
+        print(out.getvalue(), end="")
+        buf.write(out.getvalue())
+    try:
+        with open(os.path.join(_ROOT, "data", "social_test_result.txt"), "w", encoding="utf-8") as f:
+            f.write(f"{dt.datetime.now(MSK):%d.%m.%Y %H:%M} МСК\n" + buf.getvalue())
+    except OSError:
+        pass
     return rc
 
 
