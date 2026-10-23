@@ -145,25 +145,115 @@ def final_text_path(n: int) -> str:
     return os.path.join(TEXTS_DIR, f"{n}.txt")
 
 
-def full_text(p: dict, limit: Optional[int] = None) -> str:
+# --------------------------------------------------------------------------- где купить (концовка поста)
+# Строка артикулов площадок добавляется к товарным постам автоматически (Ozon -> WB -> Маркет; площадки,
+# где товара нет, не показываются). В VK перед ней — ссылка на товар на сайте, если задан SITE_PRODUCT_URL
+# (шаблон с {uid} — Tilda UID товара, {offer} — наш артикул). В Instagram ссылок нет (некликабельны в подписи).
+SITE_PRODUCT_URL = os.getenv("SITE_PRODUCT_URL", "").strip()
+UTM = "utm_source={src}&utm_medium=social&utm_campaign=post{n}"
+_IDS = None
+
+
+def _marketplace_ids() -> Dict[str, dict]:
+    """offer_id (в нижнем регистре) -> {"ozon": sku, "wb": nmID, "ym": артикул Маркета}."""
+    global _IDS
+    if _IDS is not None:
+        return _IDS
+    ids: Dict[str, dict] = {}
+    try:
+        with open(os.path.join(_ROOT, "data", "ozon_products.json"), "r", encoding="utf-8") as f:
+            for it in json.load(f).get("list", []):
+                if it.get("sku") and not it.get("archived"):
+                    ids.setdefault(str(it["offer_id"]).lower(), {})["ozon"] = it["sku"]
+    except (FileNotFoundError, json.JSONDecodeError, AttributeError):
+        pass
+    try:
+        with open(os.path.join(_ROOT, "data", "wb_cards.json"), "r", encoding="utf-8") as f:
+            for c in json.load(f).get("cards", []):
+                if c.get("nmID") and c.get("vendorCode"):
+                    ids.setdefault(str(c["vendorCode"]).lower(), {})["wb"] = c["nmID"]
+    except (FileNotFoundError, json.JSONDecodeError, AttributeError):
+        pass
+    try:
+        import openpyxl
+        ws = openpyxl.load_workbook(os.path.join(_ROOT, "data", "yandex_market_offers.xlsx"), read_only=True, data_only=True).worksheets[0]
+        rows = ws.iter_rows(values_only=True)
+        head = [str(h or "") for h in next(rows)]
+        i_sku, i_ym, i_arch = head.index("SKU (ваш артикул)"), head.index("Артикул Маркета"), head.index("В архиве")
+        for r in rows:
+            if r[i_sku] and r[i_ym] and str(r[i_arch] or "").lower() != "да":
+                ids.setdefault(str(r[i_sku]).lower(), {})["ym"] = r[i_ym]
+    except Exception:  # noqa — файла может не быть
+        pass
+    _IDS = ids
+    return ids
+
+
+def _tilda_uid(offer: str) -> str:
+    import tilda_feed
+    return tilda_feed._stable_uid(offer)
+
+
+def buy_block(p: dict, platform: str) -> str:
+    arts = p.get("arts") or []
+    if not arts:
+        return ""
+    ids = _marketplace_ids()
+    lines = []
+    for a in arts[:3]:
+        m = ids.get(a.lower(), {})
+        parts = [f"{name} {m[k]}" for k, name in (("ozon", "Ozon"), ("wb", "WB"), ("ym", "Маркет")) if m.get(k)]
+        if parts:
+            lines.append(((a + ": ") if len(arts) > 1 else "") + " · ".join(parts))
+    out = []
+    if platform == "vk" and SITE_PRODUCT_URL:
+        url = SITE_PRODUCT_URL.format(uid=_tilda_uid(arts[0]), offer=arts[0])
+        url += ("&" if "?" in url else "?") + UTM.format(src="vk", n=p["n"])
+        out.append(f"🛒 На сайте дешевле, чем на маркетплейсах: {url}")
+    if lines:
+        out.append("Артикулы: " + lines[0] if len(lines) == 1 else "Артикулы:\n" + "\n".join(lines))
+    return "\n".join(out)
+
+
+def _with_buy(text: str, p: dict, platform: Optional[str]) -> str:
+    """Вставляет блок «где купить» перед хэштегами (или в конец)."""
+    if not platform:
+        return text
+    if platform == "vk":  # подписи писались под Instagram — во VK «шапки профиля» нет
+        text = text.replace("в шапке профиля", "в описании сообщества")
+    block = buy_block(p, platform)
+    if not block or "Ozon " in text:
+        return text
+    lines = text.rstrip().split("\n")
+    k = len(lines)
+    while k > 0 and (lines[k - 1].strip().startswith("#") or not lines[k - 1].strip()):
+        k -= 1
+    if k == len(lines):
+        return text.rstrip() + "\n\n" + block
+    return "\n".join(lines[:k]).rstrip() + "\n\n" + block + "\n\n" + "\n".join(lines[k:]).strip()
+
+
+def _cut(text: str, limit: Optional[int]) -> str:
+    if limit and len(text) > limit:
+        text = text[: limit - 1].rstrip() + "…"
+    return text
+
+
+def full_text(p: dict, limit: Optional[int] = None, platform: Optional[str] = None) -> str:
     """Если дизайнер прислал итоговый текст (data/post_texts/<№>.txt) — берём его целиком (хэштеги уже внутри).
-    Иначе — подпись + хэштеги из плана."""
+    Иначе — подпись + хэштеги из плана. platform="vk"/"ig" — добавить блок «где купить»."""
     try:
         with open(final_text_path(p["n"]), "r", encoding="utf-8") as f:
             text = f.read().strip()
         if text:
-            if limit and len(text) > limit:
-                text = text[: limit - 1].rstrip() + "…"
-            return text
+            return _cut(_with_buy(text, p, platform), limit)
     except FileNotFoundError:
         pass
     text = p["caption"].strip()
     tags = p["tags"].strip()
     if tags:
         text += "\n\n" + tags
-    if limit and len(text) > limit:
-        text = text[: limit - 1].rstrip() + "…"
-    return text
+    return _cut(_with_buy(text, p, platform), limit)
 
 
 # --------------------------------------------------------------------------- VK
@@ -196,7 +286,7 @@ def vk_publish(p: dict, images: List[str]) -> str:
             raise SocialError(f"VK не принял файл {path}: {up}")
         saved = _vk("photos.saveWallPhoto", group_id=gid, photo=up["photo"], server=up["server"], hash=up["hash"])
         atts.append(f"photo{saved[0]['owner_id']}_{saved[0]['id']}")
-    res = _vk("wall.post", owner_id=f"-{gid}", from_group=1, message=full_text(p, 15000), attachments=",".join(atts))
+    res = _vk("wall.post", owner_id=f"-{gid}", from_group=1, message=full_text(p, 15000, "vk"), attachments=",".join(atts))
     return str(res.get("post_id"))
 
 
@@ -277,7 +367,7 @@ def _ig_wait(container_id: str, tries: int = 30):
 def ig_publish(p: dict, images: List[str]) -> str:
     uid = str(_ig("GET", "me", fields="user_id")["user_id"])
     urls = [_to_jpeg(path, p["n"], k) for k, path in enumerate(images, start=1)]
-    text = full_text(p, 2200)
+    text = full_text(p, 2200, "ig")
     if len(urls) == 1:
         c = _ig("POST", f"{uid}/media", image_url=urls[0], caption=text)["id"]
     else:

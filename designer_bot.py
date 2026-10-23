@@ -2,8 +2,10 @@
 Telegram-бот для дизайнера: отправка заданий и приём готовых макетов.
 
 ЗАЧЕМ: владелец проверяет задание утром, дальше всё идёт само —
-  1) designer-send: в 9:15 МСК дизайнеру в Telegram уходит задание на пост следующего рабочего дня
-     (текст макета, состав слайдов, правила) + исходные фото из photos/ файлами;
+  1) designer-send: в 9:15 МСК (по будням) дизайнеру в Telegram уходят задания на все посты ближайших
+     DESIGNER_DAYS_AHEAD дней (по умолчанию 5), по которым задание ещё не отправлялось — посты выходят
+     КАЖДЫЙ день, включая выходные, а дизайнер работает наперёд. Каждое задание — один раз;
+     дизайнер может попросить ещё: написать боту «ещё» (или «ещё 5») — придут следующие задания;
   2) designer-collect: каждые 30 минут бот забирает присланные дизайнером картинки и кладёт их в
      social/<№ поста>/1.png, 2.png … (дальше их публикует social_publish.py в 10:00 МСК в день выхода).
 
@@ -17,6 +19,10 @@ Telegram-бот для дизайнера: отправка заданий и п
 КАК ДИЗАЙНЕР СДАЁТ РАБОТУ: присылает ВСЕ слайды поста одним альбомом (лучше как «Файл», без сжатия),
 в подписи пишет номер поста (например «12»). Порядок в альбоме = порядок слайдов. Если пришлёт ещё раз с тем же номером —
 папка поста заменится новыми файлами (правки). Бот отвечает «Принял пост N».
+
+ВЛАДЕЛЕЦ ПРОВЕРЯЕТ: готовые макеты и тексты от дизайнера сразу пересылаются владельцу. Команды владельца боту:
+«план» — что готово на ближайшие 2 недели; «покажи 12» — прислать пост №12 целиком (картинки + итоговый текст);
+«стоп 12» / «старт 12» — пауза/снятие паузы; «Дизайнеру 12: …» — переслать правки дизайнеру.
 
 Остановить пост: впишите его номер в data/social_hold.txt — задание не уйдёт, публикация пропустит.
 """
@@ -40,6 +46,11 @@ STATE_PATH = os.path.join(_ROOT, "data", "designer_state.json")
 OWNER_PATH = os.path.join(_ROOT, "data", "owner_chat.json")
 PHOTOS_DIR = os.path.join(_ROOT, "photos")
 MAX_DOCS = 10
+DAYS_AHEAD = max(1, int(os.getenv("DESIGNER_DAYS_AHEAD", "5") or 5))
+# Владелец видит посты раньше дизайнера: предпросмотр — на OWNER_EXTRA_DAYS дней дальше,
+# а задание дизайнеру уходит не раньше чем через OWNER_REVIEW_HOURS часов после предпросмотра.
+OWNER_EXTRA_DAYS = max(0, int(os.getenv("OWNER_EXTRA_DAYS", "3") or 3))
+OWNER_REVIEW_HOURS = max(0, int(os.getenv("OWNER_REVIEW_HOURS", "24") or 24))
 
 
 class DesignerBotError(RuntimeError):
@@ -125,6 +136,36 @@ def _next_workday(today: dt.date) -> dt.date:
     return d
 
 
+def _upcoming(rows: List[dict], today: dt.date, extra: int = 0) -> List[dict]:
+    """Посты, задание по которым пора дать: дата выхода после сегодня и не позже чем через DAYS_AHEAD дней
+    (но как минимум до следующего рабочего дня — в пятницу захватываются суббота, воскресенье и понедельник)."""
+    last = max(today + dt.timedelta(days=DAYS_AHEAD + extra), _next_workday(today))
+    out = [r for r in rows if isinstance(r.get("Дата выхода"), dt.date) and today < r["Дата выхода"] <= last]
+    return sorted(out, key=lambda r: (r["Дата выхода"], int(r["№"])))
+
+
+def _arts(r: dict) -> List[str]:
+    return [a.strip() for a in str(r.get("Артикулы в master") or "").split(",") if a.strip() and a.strip() != "—"]
+
+
+def _single_open(state: dict, need: str) -> Optional[int]:
+    """Если дизайнер не указал номер поста: подставляем номер, только когда открытый пост ровно один
+    (задание отправлено, дата не прошла, ещё нет картинок / итогового текста). Иначе — переспросим."""
+    sent = state.get("sent") or {}
+    today = dt.datetime.now(sp.MSK).date()
+    hold = _read_hold()
+    cands = []
+    for r in _plan_rows():
+        n = int(r["№"])
+        if str(n) not in sent or n in hold or not isinstance(r.get("Дата выхода"), dt.date) or r["Дата выхода"] < today:
+            continue
+        if need == "img" and not os.path.isdir(os.path.join(sp.IMAGES_DIR, str(n))):
+            cands.append(n)
+        elif need == "text" and not os.path.exists(sp.final_text_path(n)):
+            cands.append(n)
+    return cands[0] if len(cands) == 1 else None
+
+
 def build_brief(r: dict) -> str:
     n = int(r["№"])
     date = r["Дата выхода"]
@@ -152,8 +193,9 @@ def build_brief(r: dict) -> str:
         "",
         "Единый стиль для всей серии постов.",
         "",
-        f"КАК СДАТЬ: пришлите ВСЕ слайды сюда одним альбомом (лучше «Файлом», без сжатия). В подписи укажите номер поста: {n}. Порядок в альбоме = порядок слайдов.",
-        f"СРОК: до 10:00 {date:%d.%m.%Y}.",
+        f"КАК СДАТЬ: пришлите ВСЕ слайды сюда одним альбомом (лучше «Файлом», без сжатия). В подписи ОБЯЗАТЕЛЬНО укажите номер поста: {n}. Порядок в альбоме = порядок слайдов.",
+        f"СРОК: до 10:00 {date:%d.%m.%Y}. Можно сдавать раньше — пост выйдет в свой день.",
+        "Хотите сделать больше наперёд — напишите боту «ещё», пришлю следующие задания.",
     ]
     return "\n".join(lines)
 
@@ -258,11 +300,17 @@ def cmd_send(dry_run: bool, article: str = "") -> int:
         if today.weekday() >= 5:
             print("Выходной — задание не отправляем.")
             return 0
-        nd = _next_workday(today)
-        targets = [r for r in rows if r.get("Дата выхода") == nd]
+        targets = _upcoming(rows, today)
         if not targets:
-            print(f"На {nd:%d.%m.%Y} в плане нет поста — нечего отправлять.")
+            print(f"На ближайшие {DAYS_AHEAD} дн. в плане нет постов — нечего отправлять.")
             return 0
+    return _send_targets(targets, bool(nums), dry_run)
+
+
+def _send_targets(targets: List[dict], forced: bool, dry_run: bool) -> int:
+    """Отправляет дизайнеру задания по списку постов. Возвращает, сколько отправлено."""
+    nums = forced
+    count = 0
     state = _load(STATE_PATH, {})
     sent = state.setdefault("sent", {})
     try:
@@ -278,6 +326,9 @@ def cmd_send(dry_run: bool, article: str = "") -> int:
             continue
         if str(n) in sent and not nums:
             print(f"Задание по посту №{n} уже отправлено {sent[str(n)]} — пропуск.")
+            continue
+        if not nums and not _reviewed(state, n):
+            print(f"Пост №{n} ещё на проверке у владельца (меньше {OWNER_REVIEW_HOURS} ч после предпросмотра) — задание позже.")
             continue
         arts_list = [a.strip() for a in str(r.get("Артикулы в master") or "").split(",") if a.strip() and a.strip() != "—"]
         ready = sp.post_images(n, arts_list)
@@ -318,6 +369,7 @@ def cmd_send(dry_run: bool, article: str = "") -> int:
                     fh.close()
         sent[str(n)] = dt.datetime.now(sp.MSK).isoformat(timespec="seconds")
         _save(STATE_PATH, state)
+        count += 1
         print(f"Отправил дизайнеру задание по посту №{n} (фото: {len(photos)}).")
         _owner = _owner_id()
         if _owner and _owner != chat:
@@ -325,10 +377,37 @@ def cmd_send(dry_run: bool, article: str = "") -> int:
                 _tg("sendMessage", chat_id=_owner, text=f"✅ Отправил дизайнеру задание по посту №{n} (выход {r['Дата выхода']:%d.%m.%Y}).")
             except DesignerBotError as exc:
                 print(f"не удалось уведомить владельца: {exc}")
-    return 0
+    return count
 
 
-def cmd_owner_preview(article: str = "") -> int:
+def _reviewed(state: dict, n: int) -> bool:
+    """Владелец видел пост не меньше OWNER_REVIEW_HOURS часов назад (или владелец не привязан)."""
+    if not _owner_id() or OWNER_REVIEW_HOURS == 0:
+        return True
+    t = (state.get("previewed") or {}).get(str(n))
+    if not t:
+        return False
+    return dt.datetime.now(sp.MSK) - dt.datetime.fromisoformat(t) >= dt.timedelta(hours=OWNER_REVIEW_HOURS)
+
+
+def _send_more(k: int) -> int:
+    """По просьбе дизайнера («ещё»): следующие k будущих постов, по которым задание ещё не уходило."""
+    state = _load(STATE_PATH, {})
+    sent = state.get("sent") or {}
+    hold = _read_hold()
+    today = dt.datetime.now(sp.MSK).date()
+    rows = sorted((r for r in _plan_rows() if isinstance(r.get("Дата выхода"), dt.date) and r["Дата выхода"] > today),
+                  key=lambda r: (r["Дата выхода"], int(r["№"])))
+    todo = [r for r in rows if str(int(r["№"])) not in sent and int(r["№"]) not in hold]
+    nxt = [r for r in todo if _reviewed(state, int(r["№"]))][:k]
+    # следующие посты, которые владелец ещё не видел, — сразу ему на проверку (дизайнер получит их позже)
+    unseen = [str(int(r["№"])) for r in todo if str(int(r["№"])) not in (state.get("previewed") or {})][:k]
+    if unseen and _owner_id():
+        cmd_owner_preview(",".join(unseen), review=True)
+    return _send_targets(nxt, False, False) if nxt else 0
+
+
+def cmd_owner_preview(article: str = "", review: bool = False) -> int:
     """В 08:41 МСК присылает ВЛАДЕЛЬЦУ пост следующего рабочего дня на проверку: текст + картинки.
     Тишина = «ок» (в 09:15 задание уйдёт дизайнеру). «стоп N» — остановить, «старт N» — вернуть."""
     owner = _owner_id()
@@ -344,8 +423,7 @@ def cmd_owner_preview(article: str = "") -> int:
         if today.weekday() >= 5:
             print("Выходной — предпросмотр не отправляем.")
             return 0
-        nd = _next_workday(today)
-        targets = [r for r in rows if r.get("Дата выхода") == nd]
+        targets = _upcoming(rows, today, OWNER_EXTRA_DAYS)
     state = _load(STATE_PATH, {})
     prev = state.setdefault("previewed", {})
     for r in targets:
@@ -355,10 +433,13 @@ def cmd_owner_preview(article: str = "") -> int:
             continue
         arts = [a.strip() for a in str(r.get("Артикулы в master") or "").split(",") if a.strip() and a.strip() != "—"]
         imgs = sp.post_images(n, arts)
+        if nums and not review:  # «покажи N» — пост как он выйдет, с итоговым текстом дизайнера, если он есть
+            _show_post(owner, r)
+            continue
         _tg("sendMessage", chat_id=owner, text=(
             f"🔎 ПОСТ №{n} на проверку (выход {r['Дата выхода']:%d.%m.%Y} в 10:00)\n"
             "Проверьте текст и картинки ниже.\n"
-            "• Всё хорошо — ничего не пишите: в 9:15 задание уйдёт дизайнеру.\n"
+            f"• Всё хорошо — ничего не пишите: задание дизайнеру уйдёт не раньше чем через {OWNER_REVIEW_HOURS} ч (в будни в 9:15).\n"
             f"• Остановить — напишите «стоп {n}».\n"
             "• Правки — напишите их Claude, он передаст дизайнеру."))
         if imgs:
@@ -369,6 +450,44 @@ def cmd_owner_preview(article: str = "") -> int:
         _save(STATE_PATH, state)
         print(f"Отправил владельцу предпросмотр поста №{n}.")
     return 0
+
+
+def _show_post(chat, r: dict) -> None:
+    n = int(r["№"])
+    arts = _arts(r)
+    imgs = sp.post_images(n, arts)
+    final = os.path.exists(sp.final_text_path(n))
+    hold = n in _read_hold()
+    _tg("sendMessage", chat_id=chat, text=(
+        f"👁 ПОСТ №{n} · выход {r['Дата выхода']:%d.%m.%Y} в 10:00 МСК{' · ⏸ НА ПАУЗЕ' if hold else ''}\n"
+        f"Картинки: {len(imgs) if imgs else 'нет'} · текст: {'итоговый от дизайнера' if final else 'черновик из плана'}.\n"
+        f"Не подходит — «стоп {n}», правки дизайнеру — «Дизайнеру {n}: …»."))
+    if imgs:
+        _send_images(chat, imgs)
+    txt = sp.full_text({"n": n, "caption": str(r.get("Подпись к посту") or "").strip(),
+                        "tags": str(r.get("Хэштеги") or "").strip(), "arts": arts}, 3800)
+    _tg("sendMessage", chat_id=chat, text=("✏️ ТЕКСТ ПОСТА:\n────────\n" + txt)[:4000])
+
+
+def _plan_summary(days: int = 14) -> str:
+    today = dt.datetime.now(sp.MSK).date()
+    state = _load(STATE_PATH, {})
+    sent = state.get("sent") or {}
+    hold = _read_hold()
+    wd = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
+    lines = [f"📅 План на {days} дн. (🖼 макет · ✏️ итоговый текст · 📤 задание ушло · ⏸ пауза)"]
+    for r in sorted(_plan_rows(), key=lambda r: (r.get("Дата выхода") or dt.date.max, int(r["№"]))):
+        d = r.get("Дата выхода")
+        if not isinstance(d, dt.date) or not (today <= d <= today + dt.timedelta(days=days)):
+            continue
+        n = int(r["№"])
+        has_img = os.path.isdir(os.path.join(sp.IMAGES_DIR, str(n))) and bool(sp.post_images(n, []))
+        marks = ("🖼" if has_img else "⬜") + ("✏️" if os.path.exists(sp.final_text_path(n)) else "") \
+            + ("📤" if str(n) in sent else "") + ("⏸" if n in hold else "")
+        title = str(r.get("Заголовок на макете") or r.get("Рубрика / серия") or "")[:40]
+        lines.append(f"{d:%d.%m} {wd[d.weekday()]} · №{n} {marks} {title}")
+    lines.append("Посмотреть пост целиком — «покажи N».")
+    return "\n".join(lines)
 
 
 def _last_sent(state: dict) -> Optional[int]:
@@ -482,7 +601,7 @@ def cmd_collect() -> int:
     if not ups:
         print("Новых сообщений нет.")
         return 0
-    last_number = state.get("last_number")
+    last_number = None  # номер, присланный отдельным сообщением в этой же пачке
     texts_new = []
     group_cap = {}      # gid -> (номер, добавить?)
     fwd_groups = set()  # альбомы владельца, которые надо переслать дизайнеру
@@ -496,7 +615,28 @@ def cmd_collect() -> int:
         is_owner = mchat == owner and mchat != designer
         raw = m.get("text") or m.get("caption") or ""
         gid = m.get("media_group_id") or f"single{m['message_id']}"
+        low = raw.strip().lower().replace("ё", "е")
+        # --- дизайнер просит задания наперёд: «ещё» / «ещё 5»
+        me = re.fullmatch(r"(?:еще|дальше|следующ\w*)\s*(\d+)?", low)
+        if not is_owner and me and not (m.get("photo") or m.get("document")):
+            k = min(int(me.group(1) or 3), 10)
+            _save(STATE_PATH, state)
+            got = _send_more(k)
+            state = {**_load(STATE_PATH, {}), "offset": state["offset"]}
+            if not got:
+                _tg("sendMessage", chat_id=mchat, text="Следующие посты сейчас на проверке у владельца — задания придут, как только пройдёт проверка (обычно на следующий день) 👍")
+            print(f"Дизайнер попросил задания наперёд: отправлено {got}.")
+            continue
         # --- команды владельца
+        if is_owner and low in ("план", "plan", "статус"):
+            _tg("sendMessage", chat_id=mchat, text=_plan_summary()[:4000])
+            continue
+        ms = re.fullmatch(r"(?:покажи|показать|пост)\s*№?\s*(\d+)", low)
+        if is_owner and ms:
+            _save(STATE_PATH, state)
+            cmd_owner_preview(ms.group(1))
+            state = {**_load(STATE_PATH, {}), "offset": state["offset"]}
+            continue
         if is_owner:
             mm = re.fullmatch(r"\s*(стоп|старт)\s*№?\s*(\d+)\s*", raw.lower())
             if mm:
@@ -528,8 +668,12 @@ def cmd_collect() -> int:
                 continue
         # --- итоговый текст
         mt = re.match(r"^\s*(?:текст|text)\b\s*(?:№?\s*(\d+))?\s*[:\-–—]?\s*(.*)$", m.get("text") or "", re.S | re.I)
-        if mt and mt.group(2).strip() and (mt.group(1) or _last_sent(state)):
-            tn = int(mt.group(1)) if mt.group(1) else _last_sent(state)
+        tn_guess = None if (not mt or mt.group(1)) else _single_open(state, "text")
+        if mt and mt.group(2).strip() and not mt.group(1) and not tn_guess:
+            _tg("sendMessage", chat_id=mchat, text="Не понял, к какому посту текст. Начните со слов «Текст 12» (номер поста) и пришлите ещё раз.")
+            continue
+        if mt and mt.group(2).strip() and (mt.group(1) or tn_guess):
+            tn = int(mt.group(1)) if mt.group(1) else tn_guess
             os.makedirs(sp.TEXTS_DIR, exist_ok=True)
             with open(sp.final_text_path(tn), "w", encoding="utf-8") as fh:
                 fh.write(mt.group(2).strip() + "\n")
@@ -559,14 +703,14 @@ def cmd_collect() -> int:
     by_post = {}
     for mchat, mid, gid, fid, ext in items:
         n, app = group_cap.get(gid, (None, False))
-        n = n or _last_sent(state) or last_number
+        n = n or last_number or _single_open(state, "img")
         if not n:
             _tg("sendMessage", chat_id=mchat, text="Не понял, к какому посту картинки. Напишите номер поста в подписи (например: 12; чтобы добавить к текущим — 12 добавить) и пришлите ещё раз.")
             continue
         e = by_post.setdefault((n, app, mchat), [])
         e.append((mid, fid, ext))
         last_number = n
-    state["last_number"] = last_number
+    state.pop("last_number", None)
     for tn in texts_new:
         _notify_owner_text(tn)
     for (n, app, mchat), lst in by_post.items():

@@ -4134,6 +4134,8 @@ def main() -> int:
     parser.add_argument("--article", type=str, default="", help="Артикул товара — для wordstat-collect/diag-ozon-product (один) или archive/unarchive-ozon-products (можно несколько через запятую)")
     parser.add_argument("--seed-phrase", type=str, default="", help="Стартовая фраза(ы) для --wordstat-collect, через ';' если несколько")
     parser.add_argument("--social-test", action="store_true", help="Проверить токены VK и Instagram")
+    parser.add_argument("--plan-reorder", action="store_true", help="Переставить даты постов в data/content_plan.xlsx: мехатроники/платы первыми, похожие детали не подряд (см. plan_order.py)")
+    parser.add_argument("--plan-reorder-dryrun", action="store_true", help="То же без сохранения — показать новый порядок")
     parser.add_argument("--social-status", action="store_true", help="Сколько постов готово/опубликовано (data/content_plan.xlsx + social/)")
     parser.add_argument("--social-publish-dryrun", action="store_true", help="Показать, какие посты уйдут в VK/Instagram, БЕЗ публикации (--article N — принудительно номера постов)")
     parser.add_argument("--social-publish", action="store_true", help="Опубликовать самый ранний готовый пост на каждую площадку (--article N,M — принудительно эти посты)")
@@ -4362,6 +4364,9 @@ def main() -> int:
     if args.social_test:
         import social_publish
         return social_publish.cmd_test()
+    if args.plan_reorder or args.plan_reorder_dryrun:
+        import plan_order
+        return plan_order.reorder(dry_run=args.plan_reorder_dryrun)
     if args.social_status:
         import social_publish
         return social_publish.cmd_status()
