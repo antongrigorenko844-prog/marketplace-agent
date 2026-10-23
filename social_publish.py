@@ -313,6 +313,13 @@ def vk_test() -> bool:
         print("VK: VK_TOKEN / VK_GROUP_ID не заданы — пропуск")
         return False
     _, gid = _vk_cfg()
+    try:  # диагностика: запрос БЕЗ токена — если и он «Flood control», VK режет сам адрес сервера (IP), а не ключ
+        r = requests.get(f"{VK_API}/utils.getServerTime", params={"v": VK_VERSION}, timeout=30).json()
+        print("VK: запрос без токена — " + ("OK" if "response" in r else f"ОШИБКА {r.get('error', {}).get('error_code')} {r.get('error', {}).get('error_msg')}"))
+        ip = requests.get("https://api.ipify.org", timeout=15).text.strip()
+        print(f"VK: IP сервера GitHub — {ip}")
+    except Exception as exc:  # noqa
+        print(f"VK: диагностика без токена не удалась: {exc}")
     print("VK: используется " + ("ключ сообщества (VK_GROUP_TOKEN)" if _vk_group_token() else "токен пользователя (VK_TOKEN) — VK_GROUP_TOKEN не найден"))
     if _vk_group_token():
         ok = True
