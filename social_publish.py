@@ -43,7 +43,7 @@ SHEET = "Контент-план"
 
 VK_API = "https://api.vk.com/method"
 VK_VERSION = "5.199"
-IG_BASE = os.getenv("IG_GRAPH_BASE", "https://graph.facebook.com/v21.0")
+IG_BASE = os.getenv("IG_GRAPH_BASE", "https://graph.instagram.com/v21.0")
 IMG_EXT = (".png", ".jpg", ".jpeg", ".webp")
 MSK = dt.timezone(dt.timedelta(hours=3))
 
