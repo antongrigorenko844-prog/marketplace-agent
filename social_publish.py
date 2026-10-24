@@ -194,6 +194,21 @@ def _marketplace_ids() -> Dict[str, dict]:
     return ids
 
 
+def _site_url(p: dict, src: str) -> str:
+    """Ссылка на карточку товара на сайте (data/site_links.json, собирается командой site-links) + UTM-метка."""
+    import site_links
+    links = site_links.load()
+    for a in p.get("arts") or []:
+        url = links.get(a.lower())
+        if url:
+            return url + ("&" if "?" in url else "?") + UTM.format(src=src, n=p["n"])
+    arts = p.get("arts") or []
+    if arts and SITE_PRODUCT_URL:
+        url = SITE_PRODUCT_URL.format(uid=_tilda_uid(arts[0]), offer=arts[0])
+        return url + ("&" if "?" in url else "?") + UTM.format(src=src, n=p["n"])
+    return ""
+
+
 def _tilda_uid(offer: str) -> str:
     import tilda_feed
     return tilda_feed._stable_uid(offer)
@@ -212,9 +227,8 @@ def buy_block(p: dict, platform: str) -> str:
         if v:
             parts.append(f"{name} {v}")
     out = []
-    if platform == "vk" and SITE_PRODUCT_URL:
-        url = SITE_PRODUCT_URL.format(uid=_tilda_uid(arts[0]), offer=arts[0])
-        url += ("&" if "?" in url else "?") + UTM.format(src="vk", n=p["n"])
+    url = _site_url(p, "vk") if platform == "vk" else ""
+    if url:
         out.append(f"🛒 На сайте дешевле, чем на маркетплейсах: {url}")
     if parts:
         out.append("Артикулы: " + " · ".join(parts))
@@ -612,9 +626,9 @@ VK_FEED_ITEMS = 20
 
 def _product_link(p: dict) -> str:
     arts = p.get("arts") or []
-    if arts and SITE_PRODUCT_URL:
-        url = SITE_PRODUCT_URL.format(uid=_tilda_uid(arts[0]), offer=arts[0])
-        return url + ("&" if "?" in url else "?") + UTM.format(src="vk", n=p["n"])
+    url = _site_url(p, "vk")
+    if url:
+        return url
     if arts:
         sku = _marketplace_ids().get(arts[0].lower(), {}).get("ozon")
         if sku:
@@ -705,6 +719,11 @@ def cmd_publish(dry_run: bool, auto: bool = False, article: str = "") -> int:
         return 0
     if not dry_run:
         ig_refresh_token()
+        try:  # свежие ссылки на товары сайта (если сайт недоступен — остаются вчерашние)
+            import site_links
+            site_links.cmd_site_links()
+        except Exception as exc:  # noqa
+            print(f"Ссылки сайта не обновлены: {exc}")
     plan = load_plan()
     state = load_state()
     posts_state = state.setdefault("posts", {})
