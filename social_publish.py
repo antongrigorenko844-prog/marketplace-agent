@@ -381,10 +381,98 @@ def vk_test() -> bool:
 
 
 # --------------------------------------------------------------------------- Instagram
+# ---- продление токена Instagram (живёт 60 дней; продлевается не раньше чем через 24 ч после выдачи)
+# Раз в IG_REFRESH_DAYS дней бот продлевает токен. Если Instagram выдал НОВУЮ строку токена, она хранится
+# зашифрованной в data/ig_token.enc (ключ — секрет IG_TOKEN_KEY, любая длинная строка); в открытом виде
+# токен в репозиторий не попадает. Срок действия — в data/ig_token_state.json (без токена).
+# Если продлить не удаётся и до конца срока < 10 дней — бот пишет владельцу в Telegram.
+IG_TOKEN_ENC = os.path.join(_ROOT, "data", "ig_token.enc")
+IG_TOKEN_STATE = os.path.join(_ROOT, "data", "ig_token_state.json")
+IG_REFRESH_DAYS = 7
+
+
+def _fernet():
+    key = os.getenv("IG_TOKEN_KEY", "").strip()
+    if not key:
+        return None
+    import base64
+    import hashlib
+    from cryptography.fernet import Fernet
+    return Fernet(base64.urlsafe_b64encode(hashlib.sha256(("leoparts-ig:" + key).encode()).digest()))
+
+
+def _ig_token() -> str:
+    f = _fernet()
+    if f and os.path.exists(IG_TOKEN_ENC):
+        try:
+            with open(IG_TOKEN_ENC, "rb") as fh:
+                return f.decrypt(fh.read().strip()).decode()
+        except Exception as exc:  # noqa — битый файл/другой ключ: работаем с секретом
+            print(f"Instagram: сохранённый токен не расшифрован ({type(exc).__name__}) — беру IG_ACCESS_TOKEN")
+    return os.getenv("IG_ACCESS_TOKEN", "").strip()
+
+
 def _ig_cfg():
-    uid = os.getenv("IG_USER_ID", "").strip()
-    token = os.getenv("IG_ACCESS_TOKEN", "").strip()
-    return (uid, token) if uid and token else None
+    token = _ig_token()
+    return ("", token) if token else None
+
+
+def _notify_owner(text: str) -> None:
+    tok = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
+    try:
+        with open(os.path.join(_ROOT, "data", "owner_chat.json"), "r", encoding="utf-8") as fh:
+            chat = json.load(fh).get("chat_id")
+    except (FileNotFoundError, json.JSONDecodeError):
+        chat = None
+    if tok and chat:
+        try:
+            requests.post(f"https://api.telegram.org/bot{tok}/sendMessage", data={"chat_id": chat, "text": text[:4000]}, timeout=30)
+        except Exception:  # noqa
+            pass
+
+
+def ig_refresh_token(force: bool = False) -> None:
+    """Продлевает токен Instagram раз в IG_REFRESH_DAYS дней. Ошибки не роняют публикацию."""
+    if not _ig_cfg():
+        return
+    try:
+        with open(IG_TOKEN_STATE, "r", encoding="utf-8") as fh:
+            st = json.load(fh)
+    except (FileNotFoundError, json.JSONDecodeError):
+        st = {}
+    now = dt.datetime.now(MSK)
+    last = st.get("refreshed_at")
+    if not force and last and now - dt.datetime.fromisoformat(last) < dt.timedelta(days=IG_REFRESH_DAYS):
+        return
+    old = _ig_token()
+    try:
+        r = requests.get("https://graph.instagram.com/refresh_access_token",
+                         params={"grant_type": "ig_refresh_token", "access_token": old}, timeout=60).json()
+        if "access_token" not in r:
+            raise SocialError((r.get("error") or {}).get("message") or str(r)[:200])
+        new = r["access_token"]
+        exp = now + dt.timedelta(seconds=int(r.get("expires_in") or 0))
+        changed = new != old
+        if changed:
+            f = _fernet()
+            if not f:
+                raise SocialError("Instagram выдал новый токен, а секрета IG_TOKEN_KEY нет — сохранить его негде")
+            with open(IG_TOKEN_ENC, "wb") as fh:
+                fh.write(f.encrypt(new.encode()))
+        st.update({"refreshed_at": now.isoformat(timespec="seconds"), "expires_at": exp.isoformat(timespec="seconds"),
+                   "last_error": "", "token_changed_on_last_refresh": changed})
+        print(f"Instagram: токен продлён до {exp:%d.%m.%Y}" + (" (новый токен сохранён зашифрованным)" if changed else ""))
+    except Exception as exc:  # noqa
+        st.update({"last_error": f"{now:%d.%m.%Y %H:%M}: {exc}", "last_attempt": now.isoformat(timespec="seconds")})
+        print(f"Instagram: продлить токен не удалось — {exc}")
+        exp_s = st.get("expires_at")
+        left = (dt.datetime.fromisoformat(exp_s) - now).days if exp_s else None
+        if left is not None and left < 10:
+            _notify_owner(f"⚠️ Токен Instagram истекает через {left} дн. ({exp_s[:10]}), а продлить его автоматически не удалось: {exc}\n"
+                          "Напишите Claude — нужно получить новый токен, иначе посты в Instagram остановятся.")
+    os.makedirs(os.path.dirname(IG_TOKEN_STATE), exist_ok=True)
+    with open(IG_TOKEN_STATE, "w", encoding="utf-8") as fh:
+        json.dump(st, fh, ensure_ascii=False, indent=2)
 
 
 def _ig(method: str, path: str, **params) -> dict:
@@ -465,6 +553,14 @@ def ig_test() -> bool:
     uid, _ = _ig_cfg()
     info = _ig("GET", "me", fields="username")
     print(f"Instagram: токен работает, аккаунт @{info.get('username')}")
+    try:
+        with open(IG_TOKEN_STATE, "r", encoding="utf-8") as fh:
+            st = json.load(fh)
+        print(f"Instagram: токен действует до {st.get('expires_at', '?')[:10]}, продлён {st.get('refreshed_at', '?')[:10]}"
+              + (f"; последняя ошибка продления: {st['last_error']}" if st.get("last_error") else "")
+              + ("" if os.getenv("IG_TOKEN_KEY") else "; ⚠️ нет секрета IG_TOKEN_KEY"))
+    except (FileNotFoundError, json.JSONDecodeError):
+        pass
     return True
 
 
@@ -601,6 +697,8 @@ def cmd_publish(dry_run: bool, auto: bool = False, article: str = "") -> int:
     if auto and os.getenv("SOCIAL_AUTOPUBLISH", "").strip() not in ("1", "true", "yes", "on"):
         print("Автопубликация выключена (секрет SOCIAL_AUTOPUBLISH != 1) — ничего не делаем.")
         return 0
+    if not dry_run:
+        ig_refresh_token()
     plan = load_plan()
     state = load_state()
     posts_state = state.setdefault("posts", {})
