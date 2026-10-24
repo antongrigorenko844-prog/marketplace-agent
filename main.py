@@ -692,7 +692,7 @@ def cmd_yandex_market_export() -> int:
     ws.title = "Товары на Маркете"
     ws.append(["SKU (ваш артикул)", "Название", "В архиве", "Артикул Маркета", "Категория", "Есть в нашем каталоге"])
     for o in offers:
-        ws.append([o["sku"], o["name"], "да" if o["archived"] else "нет", o["market_sku"], o["category"], "да" if o["sku"] in ours else "НЕТ"])
+        ws.append([o["sku"], o["name"], "да" if o["archived"] else "нет", str(o["market_sku"] or ""), o["category"], "да" if o["sku"] in ours else "НЕТ"])
     ws2 = wb.create_sheet("Есть у нас, нет на Маркете")
     ws2.append(["Артикул"])
     for a in only_ours:
@@ -4134,9 +4134,14 @@ def main() -> int:
     parser.add_argument("--article", type=str, default="", help="Артикул товара — для wordstat-collect/diag-ozon-product (один) или archive/unarchive-ozon-products (можно несколько через запятую)")
     parser.add_argument("--seed-phrase", type=str, default="", help="Стартовая фраза(ы) для --wordstat-collect, через ';' если несколько")
     parser.add_argument("--social-test", action="store_true", help="Проверить токены VK и Instagram")
+    parser.add_argument("--plan-reorder", action="store_true", help="Переставить даты постов в data/content_plan.xlsx: мехатроники/платы первыми, похожие детали не подряд (см. plan_order.py)")
+    parser.add_argument("--plan-reorder-dryrun", action="store_true", help="То же без сохранения — показать новый порядок")
     parser.add_argument("--social-status", action="store_true", help="Сколько постов готово/опубликовано (data/content_plan.xlsx + social/)")
     parser.add_argument("--social-publish-dryrun", action="store_true", help="Показать, какие посты уйдут в VK/Instagram, БЕЗ публикации (--article N — принудительно номера постов)")
     parser.add_argument("--social-publish", action="store_true", help="Опубликовать самый ранний готовый пост на каждую площадку (--article N,M — принудительно эти посты)")
+    parser.add_argument("--store-links", action="store_true", help="Ссылки на страницы наших магазинов на Ozon/WB/Маркете (data/store_links.json)")
+    parser.add_argument("--site-links", action="store_true", help="Собрать ссылки на товары сайта (data/site_links.json) для постов")
+    parser.add_argument("--social-vk-feed", action="store_true", help="Пересобрать ленту RSS для импорта во VK (data/vk_feed.xml)")
     parser.add_argument("--social-autopublish", action="store_true", help="То же по расписанию; работает только при секрете SOCIAL_AUTOPUBLISH=1")
     parser.add_argument("--designer-link", action="store_true", help="Запомнить Telegram-чат дизайнера (после Start у бота); с --article owner — запомнить ВАШ чат (для пересылки макетов и команд «стоп N»)")
     parser.add_argument("--designer-send-dryrun", action="store_true", help="Показать задание дизайнеру БЕЗ отправки (--article N — номер поста, иначе пост следующего рабочего дня)")
@@ -4362,9 +4367,21 @@ def main() -> int:
     if args.social_test:
         import social_publish
         return social_publish.cmd_test()
+    if args.plan_reorder or args.plan_reorder_dryrun:
+        import plan_order
+        return plan_order.reorder(dry_run=args.plan_reorder_dryrun)
     if args.social_status:
         import social_publish
         return social_publish.cmd_status()
+    if args.store_links:
+        import store_links
+        return store_links.cmd_store_links()
+    if args.site_links:
+        import site_links
+        return site_links.cmd_site_links()
+    if args.social_vk_feed:
+        import social_publish
+        return social_publish.build_vk_feed()
     if args.social_publish_dryrun:
         import social_publish
         return social_publish.cmd_publish(True, article=args.article)

@@ -57,9 +57,13 @@ jobs:
           YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
           YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
           VK_TOKEN: ${{ secrets.VK_TOKEN }}
+          VK_GROUP_TOKEN: ${{ secrets.VK_GROUP_TOKEN }}
+          VK_PROXY_URL: ${{ secrets.VK_PROXY_URL }}
+          VK_PROXY_KEY: ${{ secrets.VK_PROXY_KEY }}
           VK_GROUP_ID: ${{ secrets.VK_GROUP_ID }}
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_TOKEN_KEY: ${{ secrets.IG_TOKEN_KEY }}
           SOCIAL_AUTOPUBLISH: ${{ secrets.SOCIAL_AUTOPUBLISH }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         run: |

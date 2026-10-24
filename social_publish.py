@@ -41,9 +41,9 @@ IMAGES_DIR = os.path.join(_ROOT, "social")
 TEXTS_DIR = os.path.join(_ROOT, "data", "post_texts")  # итоговый текст поста от дизайнера: data/post_texts/<№>.txt (если есть — вместо подписи+хэштегов из плана)
 SHEET = "Контент-план"
 
-VK_API = "https://api.vk.com/method"
+VK_API = os.getenv("VK_API_BASE", "https://api.vk.ru/method")  # VK с осени 2025 принимает API на домене vk.ru
 VK_VERSION = "5.199"
-IG_BASE = os.getenv("IG_GRAPH_BASE", "https://graph.facebook.com/v21.0")
+IG_BASE = os.getenv("IG_GRAPH_BASE", "https://graph.instagram.com/v21.0")
 IMG_EXT = (".png", ".jpg", ".jpeg", ".webp")
 MSK = dt.timezone(dt.timedelta(hours=3))
 
@@ -145,56 +145,171 @@ def final_text_path(n: int) -> str:
     return os.path.join(TEXTS_DIR, f"{n}.txt")
 
 
-IG_MAX_TAGS = 5  # Instagram: не более 5 хэштегов в посте
+# --------------------------------------------------------------------------- где купить (концовка поста)
+# Строка артикулов площадок добавляется к товарным постам автоматически (Ozon -> WB -> Маркет; площадки,
+# где товара нет, не показываются). В VK перед ней — ссылка на товар на сайте, если задан SITE_PRODUCT_URL
+# (шаблон с {uid} — Tilda UID товара, {offer} — наш артикул). В Instagram ссылок нет (некликабельны в подписи).
+SITE_PRODUCT_URL = os.getenv("SITE_PRODUCT_URL", "").strip()
+UTM = "utm_source={src}&utm_medium=social&utm_campaign=post{n}"
+_IDS = None
 
 
-def cap_hashtags(text: str, n: int = IG_MAX_TAGS) -> str:
-    """Оставляет первые n хэштегов, остальные убирает."""
-    cnt = 0
+def _marketplace_ids() -> Dict[str, dict]:
+    """offer_id (в нижнем регистре) -> {"ozon": sku, "wb": nmID, "ym": артикул Маркета}."""
+    global _IDS
+    if _IDS is not None:
+        return _IDS
+    ids: Dict[str, dict] = {}
+    try:
+        with open(os.path.join(_ROOT, "data", "ozon_products.json"), "r", encoding="utf-8") as f:
+            for it in json.load(f).get("list", []):
+                if it.get("sku") and not it.get("archived"):
+                    ids.setdefault(str(it["offer_id"]).lower(), {})["ozon"] = it["sku"]
+    except (FileNotFoundError, json.JSONDecodeError, AttributeError):
+        pass
+    try:
+        with open(os.path.join(_ROOT, "data", "wb_cards.json"), "r", encoding="utf-8") as f:
+            for c in json.load(f).get("cards", []):
+                if c.get("nmID") and c.get("vendorCode"):
+                    ids.setdefault(str(c["vendorCode"]).lower(), {})["wb"] = c["nmID"]
+    except (FileNotFoundError, json.JSONDecodeError, AttributeError):
+        pass
+    try:
+        import openpyxl
+        ws = openpyxl.load_workbook(os.path.join(_ROOT, "data", "yandex_market_offers.xlsx"), read_only=True, data_only=True).worksheets[0]
+        rows = ws.iter_rows(values_only=True)
+        head = [str(h or "") for h in next(rows)]
+        i_sku, i_ym, i_arch = head.index("SKU (ваш артикул)"), head.index("Артикул Маркета"), head.index("В архиве")
+        for r in rows:
+            v = r[i_ym]
+            if isinstance(v, float):  # старый файл: номер сохранён числом с потерей точности — не показываем
+                v = int(v) if v.is_integer() and v < 1e15 else None
+            if v and str(v).strip().isdigit() and int(str(v).strip()) > 2 ** 53:
+                v = None  # такие номера Маркет отдаёт уже округлёнными (кратны 32) — точный номер неизвестен, не показываем
+            if r[i_sku] and v and str(r[i_arch] or "").lower() != "да":
+                ids.setdefault(str(r[i_sku]).lower(), {})["ym"] = str(v).strip()
+    except Exception:  # noqa — файла может не быть
+        pass
+    _IDS = ids
+    return ids
 
-    def repl(m):
-        nonlocal cnt
-        cnt += 1
-        return m.group(0) if cnt <= n else ""
 
-    out = re.sub(r"(?<!\S)#[^\s#]+", repl, text)
-    return re.sub(r"[ \t]+\n", "\n", out).rstrip()
+def _site_url(p: dict, src: str) -> str:
+    """Ссылка на карточку товара на сайте (data/site_links.json, собирается командой site-links) + UTM-метка."""
+    import site_links
+    links = site_links.load()
+    for a in p.get("arts") or []:
+        url = links.get(a.lower())
+        if url:
+            return url + ("&" if "?" in url else "?") + UTM.format(src=src, n=p["n"])
+    arts = p.get("arts") or []
+    if arts and SITE_PRODUCT_URL:
+        url = SITE_PRODUCT_URL.format(uid=_tilda_uid(arts[0]), offer=arts[0])
+        return url + ("&" if "?" in url else "?") + UTM.format(src=src, n=p["n"])
+    return ""
 
 
-def full_text(p: dict, limit: Optional[int] = None) -> str:
+def _tilda_uid(offer: str) -> str:
+    import tilda_feed
+    return tilda_feed._stable_uid(offer)
+
+
+def buy_block(p: dict, platform: str) -> str:
+    """Одна строка артикулов: для каждой площадки — первый товар поста, который там есть
+    (в каруселях несколько карточек часто одного и того же товара — не путаем покупателя вариантами)."""
+    arts = p.get("arts") or []
+    if not arts:
+        return ""
+    ids = _marketplace_ids()
+    parts = []
+    for k, name in (("ozon", "Ozon"), ("wb", "WB"), ("ym", "Маркет")):
+        v = next((ids[a.lower()][k] for a in arts if ids.get(a.lower(), {}).get(k)), None)
+        if v:
+            parts.append(f"{name} {v}")
+    out = []
+    url = _site_url(p, "vk") if platform == "vk" else ""
+    if url:
+        out.append(f"🛒 На сайте дешевле, чем на маркетплейсах: {url}")
+    if parts:
+        out.append("Артикулы: " + " · ".join(parts))
+    return "\n".join(out)
+
+
+def _with_buy(text: str, p: dict, platform: Optional[str]) -> str:
+    """Вставляет блок «где купить» перед хэштегами (или в конец)."""
+    if not platform:
+        return text
+    if platform == "vk":  # подписи писались под Instagram — во VK «шапки профиля» нет
+        text = text.replace("в шапке профиля", "в описании сообщества")
+    block = buy_block(p, platform)
+    if not block or "Ozon " in text:
+        return text
+    lines = text.rstrip().split("\n")
+    k = len(lines)
+    while k > 0 and (lines[k - 1].strip().startswith("#") or not lines[k - 1].strip()):
+        k -= 1
+    if k == len(lines):
+        return text.rstrip() + "\n\n" + block
+    return "\n".join(lines[:k]).rstrip() + "\n\n" + block + "\n\n" + "\n".join(lines[k:]).strip()
+
+
+def _cut(text: str, limit: Optional[int]) -> str:
+    if limit and len(text) > limit:
+        text = text[: limit - 1].rstrip() + "…"
+    return text
+
+
+def full_text(p: dict, limit: Optional[int] = None, platform: Optional[str] = None) -> str:
     """Если дизайнер прислал итоговый текст (data/post_texts/<№>.txt) — берём его целиком (хэштеги уже внутри).
-    Иначе — подпись + хэштеги из плана."""
+    Иначе — подпись + хэштеги из плана. platform="vk"/"ig" — добавить блок «где купить»."""
     try:
         with open(final_text_path(p["n"]), "r", encoding="utf-8") as f:
             text = f.read().strip()
         if text:
-            text = cap_hashtags(text)
-            if limit and len(text) > limit:
-                text = text[: limit - 1].rstrip() + "…"
-            return text
+            return _cut(_with_buy(text, p, platform), limit)
     except FileNotFoundError:
         pass
     text = p["caption"].strip()
     tags = p["tags"].strip()
     if tags:
         text += "\n\n" + tags
-    text = cap_hashtags(text)
-    if limit and len(text) > limit:
-        text = text[: limit - 1].rstrip() + "…"
-    return text
+    return _cut(_with_buy(text, p, platform), limit)
 
 
 # --------------------------------------------------------------------------- VK
+# Два вида токена. VK_GROUP_TOKEN — ключ сообщества (Управление → Работа с API): бессрочный, не привязан к
+# человеку и IP; фото загружаются через сервер сообщений (getWallUploadServer с ключом сообщества VK не даёт).
+# VK_TOKEN — токен пользователя (старый путь). Если задан ключ сообщества — используется он.
+def _vk_group_token() -> str:
+    return os.getenv("VK_GROUP_TOKEN", "").strip()
+
+
 def _vk_cfg():
-    token = os.getenv("VK_TOKEN", "").strip()
+    token = _vk_group_token() or os.getenv("VK_TOKEN", "").strip()
     gid = os.getenv("VK_GROUP_ID", "").strip().lstrip("-")
     return (token, gid) if token and gid else None
+
+
+# VK не пускает запросы с ключом из зарубежных дата-центров (серверы GitHub получают «Flood control»),
+# поэтому запросы идут через функцию в Яндекс Облаке (российский адрес): секреты VK_PROXY_URL, VK_PROXY_KEY.
+# Код функции — vk_proxy/index.py. Загрузка самих файлов на upload_url идёт напрямую (без ключа VK пускает).
+def _vk_proxy():
+    url = os.getenv("VK_PROXY_URL", "").strip()
+    key = os.getenv("VK_PROXY_KEY", "").strip()
+    return (url, key) if url and key else None
 
 
 def _vk(method: str, **params) -> dict:
     cfg = _vk_cfg()
     params.update({"access_token": cfg[0], "v": VK_VERSION})
-    r = requests.post(f"{VK_API}/{method}", data=params, timeout=60)
+    proxy = _vk_proxy()
+    if proxy:
+        r = requests.post(proxy[0], json={"method": method, "params": params},
+                          headers={"X-Proxy-Key": proxy[1]}, timeout=60)
+        if r.status_code != 200:
+            raise SocialError(f"VK-посредник (Яндекс Облако): HTTP {r.status_code} {r.text[:200]}")
+    else:
+        r = requests.post(f"{VK_API}/{method}", data=params, timeout=60)
     data = r.json()
     if "error" in data:
         e = data["error"]
@@ -205,7 +320,18 @@ def _vk(method: str, **params) -> dict:
 def vk_publish(p: dict, images: List[str]) -> str:
     _, gid = _vk_cfg()
     atts = []
+    group_mode = bool(_vk_group_token())
     for path in images:
+        if group_mode:
+            srv = _vk("photos.getMessagesUploadServer", peer_id=0)
+            with open(path, "rb") as f:
+                ct = mimetypes.guess_type(path)[0] or "image/png"
+                up = requests.post(srv["upload_url"], files={"photo": (os.path.basename(path), f, ct)}, timeout=120).json()
+            if not up.get("photo") or up.get("photo") == "[]":
+                raise SocialError(f"VK не принял файл {path}: {up}")
+            saved = _vk("photos.saveMessagesPhoto", photo=up["photo"], server=up["server"], hash=up["hash"])[0]
+            atts.append(f"photo{saved['owner_id']}_{saved['id']}" + (f"_{saved['access_key']}" if saved.get("access_key") else ""))
+            continue
         srv = _vk("photos.getWallUploadServer", group_id=gid)
         with open(path, "rb") as f:
             ct = mimetypes.guess_type(path)[0] or "image/png"
@@ -214,7 +340,7 @@ def vk_publish(p: dict, images: List[str]) -> str:
             raise SocialError(f"VK не принял файл {path}: {up}")
         saved = _vk("photos.saveWallPhoto", group_id=gid, photo=up["photo"], server=up["server"], hash=up["hash"])
         atts.append(f"photo{saved[0]['owner_id']}_{saved[0]['id']}")
-    res = _vk("wall.post", owner_id=f"-{gid}", from_group=1, message=full_text(p, 15000), attachments=",".join(atts))
+    res = _vk("wall.post", owner_id=f"-{gid}", from_group=1, message=full_text(p, 15000, "vk"), attachments=",".join(atts))
     return str(res.get("post_id"))
 
 
@@ -223,6 +349,49 @@ def vk_test() -> bool:
         print("VK: VK_TOKEN / VK_GROUP_ID не заданы — пропуск")
         return False
     _, gid = _vk_cfg()
+    try:  # диагностика: запрос БЕЗ токена — если и он «Flood control», VK режет сам адрес сервера (IP), а не ключ
+        r = requests.get(f"{VK_API}/utils.getServerTime", params={"v": VK_VERSION}, timeout=30).json()
+        print("VK: запрос без токена — " + ("OK" if "response" in r else f"ОШИБКА {r.get('error', {}).get('error_code')} {r.get('error', {}).get('error_msg')}"))
+        ip = requests.get("https://api.ipify.org", timeout=15).text.strip()
+        print(f"VK: IP сервера GitHub — {ip}")
+    except Exception as exc:  # noqa
+        print(f"VK: диагностика без токена не удалась: {exc}")
+    # диагностика: тот же ключ разными способами (GET/POST, с браузерным User-Agent и без)
+    tok = _vk_cfg()[0]
+    UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0 Safari/537.36"
+    for label, fn in (
+        ("GET, обычный", lambda: requests.get(f"{VK_API}/groups.getById", params={"v": VK_VERSION, "access_token": tok}, timeout=30)),
+        ("GET, браузер", lambda: requests.get(f"{VK_API}/groups.getById", params={"v": VK_VERSION, "access_token": tok}, headers={"User-Agent": UA}, timeout=30)),
+        ("POST, браузер", lambda: requests.post(f"{VK_API}/groups.getById", data={"v": VK_VERSION, "access_token": tok}, headers={"User-Agent": UA}, timeout=30)),
+        ("POST, ключ в заголовке Authorization: Bearer", lambda: requests.post(f"{VK_API}/groups.getById", data={"v": VK_VERSION}, headers={"Authorization": f"Bearer {tok}", "User-Agent": UA}, timeout=30)),
+        ("GET, ключ в заголовке Authorization: Bearer", lambda: requests.get(f"{VK_API}/groups.getById", params={"v": VK_VERSION}, headers={"Authorization": f"Bearer {tok}"}, timeout=30)),
+        ("GET, браузер, api.vk.com", lambda: requests.get("https://api.vk.com/method/groups.getById", params={"v": VK_VERSION, "access_token": tok}, headers={"User-Agent": UA}, timeout=30)),
+    ):
+        try:
+            j = fn().json()
+            print(f"VK: проба [{label}] — " + ("OK" if "response" in j else f"ошибка {j['error'].get('error_code')} {j['error'].get('error_msg')}"))
+        except Exception as exc:  # noqa
+            print(f"VK: проба [{label}] — исключение {exc}")
+    print("VK: запросы идут " + ("через посредника в Яндекс Облаке" if _vk_proxy() else "напрямую с серверов GitHub (посредник не задан)"))
+    print("VK: используется " + ("ключ сообщества (VK_GROUP_TOKEN)" if _vk_group_token() else "токен пользователя (VK_TOKEN) — VK_GROUP_TOKEN не найден"))
+    if _vk_group_token():
+        ok = True
+        for label, method, kw in (("загрузка фото", "photos.getMessagesUploadServer", {"peer_id": 0}),
+                                  ("стена (чтение)", "wall.get", {"owner_id": f"-{gid}", "count": 1}),
+                                  ("сообщество", "groups.getById", {})):
+            try:
+                res = _vk(method, **kw)
+                extra = ""
+                if method == "groups.getById":
+                    g = res["groups"][0] if isinstance(res, dict) and "groups" in res else res[0]
+                    extra = f": «{g.get('name')}» (id {g.get('id')})"
+                print(f"VK: {label} — OK{extra}")
+            except SocialError as exc:
+                print(f"VK: {label} — ОШИБКА {exc}")
+                ok = False
+        if not ok:
+            raise SocialError("часть проверок VK не прошла (см. выше)")
+        return True
     info = _vk("groups.getById", group_id=gid)
     g = info["groups"][0] if isinstance(info, dict) and "groups" in info else info[0]
     print(f"VK: токен работает, сообщество «{g.get('name')}» (id {gid})")
@@ -232,10 +401,98 @@ def vk_test() -> bool:
 
 
 # --------------------------------------------------------------------------- Instagram
+# ---- продление токена Instagram (живёт 60 дней; продлевается не раньше чем через 24 ч после выдачи)
+# Раз в IG_REFRESH_DAYS дней бот продлевает токен. Если Instagram выдал НОВУЮ строку токена, она хранится
+# зашифрованной в data/ig_token.enc (ключ — секрет IG_TOKEN_KEY, любая длинная строка); в открытом виде
+# токен в репозиторий не попадает. Срок действия — в data/ig_token_state.json (без токена).
+# Если продлить не удаётся и до конца срока < 10 дней — бот пишет владельцу в Telegram.
+IG_TOKEN_ENC = os.path.join(_ROOT, "data", "ig_token.enc")
+IG_TOKEN_STATE = os.path.join(_ROOT, "data", "ig_token_state.json")
+IG_REFRESH_DAYS = 7
+
+
+def _fernet():
+    key = os.getenv("IG_TOKEN_KEY", "").strip()
+    if not key:
+        return None
+    import base64
+    import hashlib
+    from cryptography.fernet import Fernet
+    return Fernet(base64.urlsafe_b64encode(hashlib.sha256(("leoparts-ig:" + key).encode()).digest()))
+
+
+def _ig_token() -> str:
+    f = _fernet()
+    if f and os.path.exists(IG_TOKEN_ENC):
+        try:
+            with open(IG_TOKEN_ENC, "rb") as fh:
+                return f.decrypt(fh.read().strip()).decode()
+        except Exception as exc:  # noqa — битый файл/другой ключ: работаем с секретом
+            print(f"Instagram: сохранённый токен не расшифрован ({type(exc).__name__}) — беру IG_ACCESS_TOKEN")
+    return os.getenv("IG_ACCESS_TOKEN", "").strip()
+
+
 def _ig_cfg():
-    uid = os.getenv("IG_USER_ID", "").strip()
-    token = os.getenv("IG_ACCESS_TOKEN", "").strip()
-    return (uid, token) if uid and token else None
+    token = _ig_token()
+    return ("", token) if token else None
+
+
+def _notify_owner(text: str) -> None:
+    tok = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
+    try:
+        with open(os.path.join(_ROOT, "data", "owner_chat.json"), "r", encoding="utf-8") as fh:
+            chat = json.load(fh).get("chat_id")
+    except (FileNotFoundError, json.JSONDecodeError):
+        chat = None
+    if tok and chat:
+        try:
+            requests.post(f"https://api.telegram.org/bot{tok}/sendMessage", data={"chat_id": chat, "text": text[:4000]}, timeout=30)
+        except Exception:  # noqa
+            pass
+
+
+def ig_refresh_token(force: bool = False) -> None:
+    """Продлевает токен Instagram раз в IG_REFRESH_DAYS дней. Ошибки не роняют публикацию."""
+    if not _ig_cfg():
+        return
+    try:
+        with open(IG_TOKEN_STATE, "r", encoding="utf-8") as fh:
+            st = json.load(fh)
+    except (FileNotFoundError, json.JSONDecodeError):
+        st = {}
+    now = dt.datetime.now(MSK)
+    last = st.get("refreshed_at")
+    if not force and last and now - dt.datetime.fromisoformat(last) < dt.timedelta(days=IG_REFRESH_DAYS):
+        return
+    old = _ig_token()
+    try:
+        r = requests.get("https://graph.instagram.com/refresh_access_token",
+                         params={"grant_type": "ig_refresh_token", "access_token": old}, timeout=60).json()
+        if "access_token" not in r:
+            raise SocialError((r.get("error") or {}).get("message") or str(r)[:200])
+        new = r["access_token"]
+        exp = now + dt.timedelta(seconds=int(r.get("expires_in") or 0))
+        changed = new != old
+        if changed:
+            f = _fernet()
+            if not f:
+                raise SocialError("Instagram выдал новый токен, а секрета IG_TOKEN_KEY нет — сохранить его негде")
+            with open(IG_TOKEN_ENC, "wb") as fh:
+                fh.write(f.encrypt(new.encode()))
+        st.update({"refreshed_at": now.isoformat(timespec="seconds"), "expires_at": exp.isoformat(timespec="seconds"),
+                   "last_error": "", "token_changed_on_last_refresh": changed})
+        print(f"Instagram: токен продлён до {exp:%d.%m.%Y}" + (" (новый токен сохранён зашифрованным)" if changed else ""))
+    except Exception as exc:  # noqa
+        st.update({"last_error": f"{now:%d.%m.%Y %H:%M}: {exc}", "last_attempt": now.isoformat(timespec="seconds")})
+        print(f"Instagram: продлить токен не удалось — {exc}")
+        exp_s = st.get("expires_at")
+        left = (dt.datetime.fromisoformat(exp_s) - now).days if exp_s else None
+        if left is not None and left < 10:
+            _notify_owner(f"⚠️ Токен Instagram истекает через {left} дн. ({exp_s[:10]}), а продлить его автоматически не удалось: {exc}\n"
+                          "Напишите Claude — нужно получить новый токен, иначе посты в Instagram остановятся.")
+    os.makedirs(os.path.dirname(IG_TOKEN_STATE), exist_ok=True)
+    with open(IG_TOKEN_STATE, "w", encoding="utf-8") as fh:
+        json.dump(st, fh, ensure_ascii=False, indent=2)
 
 
 def _ig(method: str, path: str, **params) -> dict:
@@ -293,9 +550,9 @@ def _ig_wait(container_id: str, tries: int = 30):
 
 
 def ig_publish(p: dict, images: List[str]) -> str:
-    uid, _ = _ig_cfg()
+    uid = str(_ig("GET", "me", fields="user_id")["user_id"])
     urls = [_to_jpeg(path, p["n"], k) for k, path in enumerate(images, start=1)]
-    text = full_text(p, 2200)
+    text = full_text(p, 2200, "ig")
     if len(urls) == 1:
         c = _ig("POST", f"{uid}/media", image_url=urls[0], caption=text)["id"]
     else:
@@ -314,26 +571,138 @@ def ig_test() -> bool:
         print("Instagram: IG_USER_ID / IG_ACCESS_TOKEN не заданы — пропуск")
         return False
     uid, _ = _ig_cfg()
-    info = _ig("GET", uid, fields="username")
+    info = _ig("GET", "me", fields="username")
     print(f"Instagram: токен работает, аккаунт @{info.get('username')}")
+    try:
+        with open(IG_TOKEN_STATE, "r", encoding="utf-8") as fh:
+            st = json.load(fh)
+        print(f"Instagram: токен действует до {st.get('expires_at', '?')[:10]}, продлён {st.get('refreshed_at', '?')[:10]}"
+              + (f"; последняя ошибка продления: {st['last_error']}" if st.get("last_error") else "")
+              + ("" if os.getenv("IG_TOKEN_KEY") else "; ⚠️ нет секрета IG_TOKEN_KEY"))
+    except (FileNotFoundError, json.JSONDecodeError):
+        pass
     return True
 
 
 # --------------------------------------------------------------------------- команды
 def cmd_test() -> int:
+    """Проверка подключений. Итог пишется и в data/social_test_result.txt (без токенов), чтобы его было видно в репозитории."""
+    import contextlib
+    import io
     rc = 0
-    for name, fn in (("VK", vk_test), ("Instagram", ig_test)):
+    buf = io.StringIO()
+    if _vk_via_rss():
+        buf.write(f"VK: публикация через импорт RSS сообщества, лента {VK_FEED_URL}\n")
+        print(buf.getvalue(), end="")
+    for name, fn in ((("VK", vk_test),) if not _vk_via_rss() else ()) + (("Instagram", ig_test),):
+        out = io.StringIO()
         try:
-            fn()
+            with contextlib.redirect_stdout(out):
+                fn()
         except Exception as exc:  # noqa
-            print(f"{name}: ОШИБКА — {exc}")
+            out.write(f"{name}: ОШИБКА — {exc}\n")
             rc = 1
+        print(out.getvalue(), end="")
+        buf.write(out.getvalue())
+    try:
+        with open(os.path.join(_ROOT, "data", "social_test_result.txt"), "w", encoding="utf-8") as f:
+            f.write(f"{dt.datetime.now(MSK):%d.%m.%Y %H:%M} МСК\n" + buf.getvalue())
+    except OSError:
+        pass
     return rc
+
+
+# VK через API с серверов не пускает (ошибка 9 «Flood control» с любых дата-центров, 10.2026), поэтому по
+# умолчанию VK получает посты через ВСТРОЕННЫЙ ИМПОРТ RSS сообщества: бот ведёт ленту data/vk_feed.xml,
+# VK сам забирает из неё новые записи. Вернуть публикацию через API — секрет VK_MODE=api.
+def _vk_via_rss() -> bool:
+    return os.getenv("VK_MODE", "rss").strip().lower() != "api"
+
+
+VK_FEED_PATH = os.path.join(_ROOT, "data", "vk_feed.xml")
+VK_FEED_URL = "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/data/vk_feed.xml"
+VK_FEED_ITEMS = 20
+
+
+def _product_link(p: dict) -> str:
+    arts = p.get("arts") or []
+    url = _site_url(p, "vk")
+    if url:
+        return url
+    if arts:
+        sku = _marketplace_ids().get(arts[0].lower(), {}).get("ozon")
+        if sku:
+            return f"https://www.ozon.ru/product/{sku}/"
+    return "https://vk.ru/leopartsakpp"
+
+
+def build_vk_feed(verbose: bool = True) -> int:
+    """Лента RSS для импорта во VK: посты с наступившей датой (не на паузе; поставленные на паузу — только
+    после публикации в Instagram), последние VK_FEED_ITEMS. Картинки — публичные ссылки (photo_host)."""
+    from email.utils import format_datetime
+    from xml.sax.saxutils import escape
+    import photo_host
+    plan = load_plan()
+    posts_state = load_state().get("posts", {})
+    try:
+        with open(HOLD_PATH, "r", encoding="utf-8") as f:
+            hold = {int(x) for x in re.findall(r"\d+", f.read())}
+    except FileNotFoundError:
+        hold = set()
+    today = _today()
+    items = []
+    for p in plan:
+        st = posts_state.get(str(p["n"]), {})
+        ig_at = (st.get("ig") or {}).get("at")
+        if not ig_at and (p["date"] is None or p["date"] > today or p["n"] in hold):
+            continue
+        imgs = post_images(p["n"], p.get("arts"))
+        if not imgs:
+            continue
+        when = dt.datetime.fromisoformat(ig_at) if ig_at else dt.datetime.combine(p["date"], dt.time(10, 0), MSK)
+        items.append((when, p, imgs))
+    items = sorted(items, key=lambda x: x[0])[-VK_FEED_ITEMS:]
+    out = []
+    for when, p, imgs in reversed(items):
+        urls = []
+        for k, path in enumerate(imgs[:10], start=1):
+            try:
+                urls.append(photo_host.upload_file(path, f"vk_{p['n']}_{k}{os.path.splitext(path)[1].lower()}"))
+            except Exception as exc:  # noqa
+                print(f"VK RSS: пост №{p['n']}, картинка {k} не загружена: {exc}")
+        text = full_text(p, 15000, "vk")
+        body = "".join(f"<p>{escape(line)}</p>" if line.strip() else "" for line in text.split("\n"))
+        figs = "".join(f'<figure><img src="{escape(u)}"/></figure>' for u in urls)
+        enclosure = f'<enclosure url="{escape(urls[0])}" type="image/jpeg" length="0"/>' if urls else ""
+        title = p.get("title") or f"Пост {p['n']}"
+        out.append(
+            "<item>"
+            f"<title>{escape(title)}</title>"
+            f"<link>{escape(_product_link(p))}</link>"
+            f'<guid isPermaLink="false">leoparts-post-{p["n"]}</guid>'
+            f"<pubDate>{format_datetime(when)}</pubDate>"
+            f"<description><![CDATA[{escape(text)}]]></description>"
+            f"<content:encoded><![CDATA[{figs}{body}]]></content:encoded>"
+            f"{enclosure}"
+            "</item>")
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+           '<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">'
+           "<channel><title>LeoParts — запчасти для DSG</title>"
+           "<link>https://vk.ru/leopartsakpp</link>"
+           "<description>Посты LeoParts</description>"
+           f"<lastBuildDate>{format_datetime(dt.datetime.now(MSK))}</lastBuildDate>"
+           + "".join(out) + "</channel></rss>\n")
+    os.makedirs(os.path.dirname(VK_FEED_PATH), exist_ok=True)
+    with open(VK_FEED_PATH, "w", encoding="utf-8") as f:
+        f.write(xml)
+    if verbose:
+        print(f"VK RSS: в ленте {len(out)} пост(ов): " + ", ".join(f"№{p['n']}" for _, p, _ in reversed(items)) + f" → {VK_FEED_URL}")
+    return 0
 
 
 def _platforms():
     pl = {}
-    if _vk_cfg():
+    if _vk_cfg() and not _vk_via_rss():
         pl["vk"] = vk_publish
     if _ig_cfg():
         pl["ig"] = ig_publish
@@ -348,6 +717,13 @@ def cmd_publish(dry_run: bool, auto: bool = False, article: str = "") -> int:
     if auto and os.getenv("SOCIAL_AUTOPUBLISH", "").strip() not in ("1", "true", "yes", "on"):
         print("Автопубликация выключена (секрет SOCIAL_AUTOPUBLISH != 1) — ничего не делаем.")
         return 0
+    if not dry_run:
+        ig_refresh_token()
+        try:  # свежие ссылки на товары сайта (если сайт недоступен — остаются вчерашние)
+            import site_links
+            site_links.cmd_site_links()
+        except Exception as exc:  # noqa
+            print(f"Ссылки сайта не обновлены: {exc}")
     plan = load_plan()
     state = load_state()
     posts_state = state.setdefault("posts", {})
@@ -357,6 +733,12 @@ def cmd_publish(dry_run: bool, auto: bool = False, article: str = "") -> int:
         return 0
     print(f"Площадки: {', '.join(pl) or 'нет (сухой прогон)'} · сегодня {_today():%d.%m.%Y} (МСК) · постов в плане: {len(plan)}")
 
+    once = re.fullmatch(r"\s*([\d,\s]+)@(\d{4}-\d{2}-\d{2})\s*", article or "")
+    if once:  # разовый запуск по расписанию: «1@2026-10-24» — только в этот день (МСК), в другие годы ничего
+        if dt.date.fromisoformat(once.group(2)) != _today():
+            print(f"Разовая публикация на {once.group(2)} — сегодня не тот день, пропуск.")
+            return 0
+        article = once.group(1)
     forced = {int(x) for x in re.findall(r"\d+", article or "")}
     try:
         with open(HOLD_PATH, "r", encoding="utf-8") as f:
@@ -404,6 +786,12 @@ def cmd_publish(dry_run: bool, auto: bool = False, article: str = "") -> int:
             done += 1
         if done == 0:
             print(f"[{plat}] публиковать нечего (нет постов с наступившей датой и готовыми картинками).")
+    if not dry_run and _vk_via_rss():
+        try:
+            build_vk_feed()
+        except Exception as exc:  # noqa — лента VK не должна ломать Instagram
+            print(f"VK RSS: ОШИБКА сборки ленты: {exc}")
+            rc = 1
     return rc
 
 
