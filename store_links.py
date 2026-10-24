@@ -27,7 +27,7 @@ def cmd_store_links() -> int:
     cid = os.getenv("OZON_CLIENT_ID", "").strip()
     if cid:
         out["ozon"] = f"https://www.ozon.ru/seller/{cid}/"
-        print("Ozon:", out["ozon"], _try(out["ozon"]))
+        out["ozon_check"] = _try(out["ozon"])
     try:
         with open(os.path.join(_ROOT, "data", "wb_cards.json"), "r", encoding="utf-8") as f:
             nms = [c["nmID"] for c in json.load(f)["cards"][:5]]
@@ -45,6 +45,21 @@ def cmd_store_links() -> int:
                     print("WB карточка:", url[:60], exc)
             if "wb" in out:
                 break
+            vol, part = nm // 100000, nm // 1000
+            for b in range(1, 41):
+                url = f"https://basket-{b:02d}.wbbasket.ru/vol{vol}/part{part}/{nm}/info/ru/card.json"
+                try:
+                    r = requests.get(url, headers=UA, timeout=15)
+                    if r.status_code == 200:
+                        sel = (r.json().get("selling") or {})
+                        if sel.get("supplier_id"):
+                            out["wb"] = f"https://www.wildberries.ru/seller/{sel['supplier_id']}"
+                            out["wb_name"] = sel.get("brand_name", "")
+                        break
+                except Exception:  # noqa
+                    continue
+            if "wb" in out:
+                break
         print("WB:", out.get("wb"), out.get("wb_name"))
     except Exception as exc:  # noqa
         print("WB:", exc)
@@ -54,7 +69,7 @@ def cmd_store_links() -> int:
         out["ym_business_id"] = biz
         for url in (f"https://market.yandex.ru/business--leoparts/{biz}", f"https://market.yandex.ru/business/{biz}"):
             st, final = _try(url)
-            print("Маркет:", url, st, final)
+            out.setdefault("ym_checks", []).append([url, st, final])
             if st == 200:
                 out["ym"] = final.split("?")[0]
                 break
