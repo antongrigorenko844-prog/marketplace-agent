@@ -184,6 +184,8 @@ def _marketplace_ids() -> Dict[str, dict]:
             v = r[i_ym]
             if isinstance(v, float):  # старый файл: номер сохранён числом с потерей точности — не показываем
                 v = int(v) if v.is_integer() and v < 1e15 else None
+            if v and str(v).strip().isdigit() and int(str(v).strip()) > 2 ** 53:
+                v = None  # такие номера Маркет отдаёт уже округлёнными (кратны 32) — точный номер неизвестен, не показываем
             if r[i_sku] and v and str(r[i_arch] or "").lower() != "да":
                 ids.setdefault(str(r[i_sku]).lower(), {})["ym"] = str(v).strip()
     except Exception:  # noqa — файла может не быть
