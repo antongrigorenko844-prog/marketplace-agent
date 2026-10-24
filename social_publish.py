@@ -181,8 +181,11 @@ def _marketplace_ids() -> Dict[str, dict]:
         head = [str(h or "") for h in next(rows)]
         i_sku, i_ym, i_arch = head.index("SKU (ваш артикул)"), head.index("Артикул Маркета"), head.index("В архиве")
         for r in rows:
-            if r[i_sku] and r[i_ym] and str(r[i_arch] or "").lower() != "да":
-                ids.setdefault(str(r[i_sku]).lower(), {})["ym"] = r[i_ym]
+            v = r[i_ym]
+            if isinstance(v, float):  # старый файл: номер сохранён числом с потерей точности — не показываем
+                v = int(v) if v.is_integer() and v < 1e15 else None
+            if r[i_sku] and v and str(r[i_arch] or "").lower() != "да":
+                ids.setdefault(str(r[i_sku]).lower(), {})["ym"] = str(v).strip()
     except Exception:  # noqa — файла может не быть
         pass
     _IDS = ids
@@ -195,23 +198,24 @@ def _tilda_uid(offer: str) -> str:
 
 
 def buy_block(p: dict, platform: str) -> str:
+    """Одна строка артикулов: для каждой площадки — первый товар поста, который там есть
+    (в каруселях несколько карточек часто одного и того же товара — не путаем покупателя вариантами)."""
     arts = p.get("arts") or []
     if not arts:
         return ""
     ids = _marketplace_ids()
-    lines = []
-    for a in arts[:3]:
-        m = ids.get(a.lower(), {})
-        parts = [f"{name} {m[k]}" for k, name in (("ozon", "Ozon"), ("wb", "WB"), ("ym", "Маркет")) if m.get(k)]
-        if parts:
-            lines.append(((f"Вариант {len(lines) + 1}: ") if len(arts) > 1 else "") + " · ".join(parts))
+    parts = []
+    for k, name in (("ozon", "Ozon"), ("wb", "WB"), ("ym", "Маркет")):
+        v = next((ids[a.lower()][k] for a in arts if ids.get(a.lower(), {}).get(k)), None)
+        if v:
+            parts.append(f"{name} {v}")
     out = []
     if platform == "vk" and SITE_PRODUCT_URL:
         url = SITE_PRODUCT_URL.format(uid=_tilda_uid(arts[0]), offer=arts[0])
         url += ("&" if "?" in url else "?") + UTM.format(src="vk", n=p["n"])
         out.append(f"🛒 На сайте дешевле, чем на маркетплейсах: {url}")
-    if lines:
-        out.append("Артикулы: " + lines[0] if len(lines) == 1 else "Артикулы:\n" + "\n".join(lines))
+    if parts:
+        out.append("Артикулы: " + " · ".join(parts))
     return "\n".join(out)
 
 

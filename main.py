@@ -692,7 +692,7 @@ def cmd_yandex_market_export() -> int:
     ws.title = "Товары на Маркете"
     ws.append(["SKU (ваш артикул)", "Название", "В архиве", "Артикул Маркета", "Категория", "Есть в нашем каталоге"])
     for o in offers:
-        ws.append([o["sku"], o["name"], "да" if o["archived"] else "нет", o["market_sku"], o["category"], "да" if o["sku"] in ours else "НЕТ"])
+        ws.append([o["sku"], o["name"], "да" if o["archived"] else "нет", str(o["market_sku"] or ""), o["category"], "да" if o["sku"] in ours else "НЕТ"])
     ws2 = wb.create_sheet("Есть у нас, нет на Маркете")
     ws2.append(["Артикул"])
     for a in only_ours:
