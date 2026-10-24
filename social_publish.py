@@ -204,7 +204,7 @@ def buy_block(p: dict, platform: str) -> str:
         m = ids.get(a.lower(), {})
         parts = [f"{name} {m[k]}" for k, name in (("ozon", "Ozon"), ("wb", "WB"), ("ym", "Маркет")) if m.get(k)]
         if parts:
-            lines.append(((a + ": ") if len(arts) > 1 else "") + " · ".join(parts))
+            lines.append(((f"Вариант {len(lines) + 1}: ") if len(arts) > 1 else "") + " · ".join(parts))
     out = []
     if platform == "vk" and SITE_PRODUCT_URL:
         url = SITE_PRODUCT_URL.format(uid=_tilda_uid(arts[0]), offer=arts[0])
@@ -475,7 +475,10 @@ def cmd_test() -> int:
     import io
     rc = 0
     buf = io.StringIO()
-    for name, fn in (("VK", vk_test), ("Instagram", ig_test)):
+    if _vk_via_rss():
+        buf.write(f"VK: публикация через импорт RSS сообщества, лента {VK_FEED_URL}\n")
+        print(buf.getvalue(), end="")
+    for name, fn in ((("VK", vk_test),) if not _vk_via_rss() else ()) + (("Instagram", ig_test),):
         out = io.StringIO()
         try:
             with contextlib.redirect_stdout(out):
@@ -493,9 +496,97 @@ def cmd_test() -> int:
     return rc
 
 
+# VK через API с серверов не пускает (ошибка 9 «Flood control» с любых дата-центров, 10.2026), поэтому по
+# умолчанию VK получает посты через ВСТРОЕННЫЙ ИМПОРТ RSS сообщества: бот ведёт ленту data/vk_feed.xml,
+# VK сам забирает из неё новые записи. Вернуть публикацию через API — секрет VK_MODE=api.
+def _vk_via_rss() -> bool:
+    return os.getenv("VK_MODE", "rss").strip().lower() != "api"
+
+
+VK_FEED_PATH = os.path.join(_ROOT, "data", "vk_feed.xml")
+VK_FEED_URL = "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/data/vk_feed.xml"
+VK_FEED_ITEMS = 20
+
+
+def _product_link(p: dict) -> str:
+    arts = p.get("arts") or []
+    if arts and SITE_PRODUCT_URL:
+        url = SITE_PRODUCT_URL.format(uid=_tilda_uid(arts[0]), offer=arts[0])
+        return url + ("&" if "?" in url else "?") + UTM.format(src="vk", n=p["n"])
+    if arts:
+        sku = _marketplace_ids().get(arts[0].lower(), {}).get("ozon")
+        if sku:
+            return f"https://www.ozon.ru/product/{sku}/"
+    return "https://vk.ru/leopartsakpp"
+
+
+def build_vk_feed(verbose: bool = True) -> int:
+    """Лента RSS для импорта во VK: посты с наступившей датой (не на паузе; поставленные на паузу — только
+    после публикации в Instagram), последние VK_FEED_ITEMS. Картинки — публичные ссылки (photo_host)."""
+    from email.utils import format_datetime
+    from xml.sax.saxutils import escape
+    import photo_host
+    plan = load_plan()
+    posts_state = load_state().get("posts", {})
+    try:
+        with open(HOLD_PATH, "r", encoding="utf-8") as f:
+            hold = {int(x) for x in re.findall(r"\d+", f.read())}
+    except FileNotFoundError:
+        hold = set()
+    today = _today()
+    items = []
+    for p in plan:
+        st = posts_state.get(str(p["n"]), {})
+        ig_at = (st.get("ig") or {}).get("at")
+        if not ig_at and (p["date"] is None or p["date"] > today or p["n"] in hold):
+            continue
+        imgs = post_images(p["n"], p.get("arts"))
+        if not imgs:
+            continue
+        when = dt.datetime.fromisoformat(ig_at) if ig_at else dt.datetime.combine(p["date"], dt.time(10, 0), MSK)
+        items.append((when, p, imgs))
+    items = sorted(items, key=lambda x: x[0])[-VK_FEED_ITEMS:]
+    out = []
+    for when, p, imgs in reversed(items):
+        urls = []
+        for k, path in enumerate(imgs[:10], start=1):
+            try:
+                urls.append(photo_host.upload_file(path, f"vk_{p['n']}_{k}{os.path.splitext(path)[1].lower()}"))
+            except Exception as exc:  # noqa
+                print(f"VK RSS: пост №{p['n']}, картинка {k} не загружена: {exc}")
+        text = full_text(p, 15000, "vk")
+        body = "".join(f"<p>{escape(line)}</p>" if line.strip() else "" for line in text.split("\n"))
+        figs = "".join(f'<figure><img src="{escape(u)}"/></figure>' for u in urls)
+        enclosure = f'<enclosure url="{escape(urls[0])}" type="image/jpeg" length="0"/>' if urls else ""
+        title = p.get("title") or f"Пост {p['n']}"
+        out.append(
+            "<item>"
+            f"<title>{escape(title)}</title>"
+            f"<link>{escape(_product_link(p))}</link>"
+            f'<guid isPermaLink="false">leoparts-post-{p["n"]}</guid>'
+            f"<pubDate>{format_datetime(when)}</pubDate>"
+            f"<description><![CDATA[{escape(text)}]]></description>"
+            f"<content:encoded><![CDATA[{figs}{body}]]></content:encoded>"
+            f"{enclosure}"
+            "</item>")
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+           '<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">'
+           "<channel><title>LeoParts — запчасти для DSG</title>"
+           "<link>https://vk.ru/leopartsakpp</link>"
+           "<description>Посты LeoParts</description>"
+           f"<lastBuildDate>{format_datetime(dt.datetime.now(MSK))}</lastBuildDate>"
+           + "".join(out) + "</channel></rss>\n")
+    os.makedirs(os.path.dirname(VK_FEED_PATH), exist_ok=True)
+    with open(VK_FEED_PATH, "w", encoding="utf-8") as f:
+        f.write(xml)
+    if verbose:
+        print(f"VK RSS: в ленте {len(out)} пост(ов): " + ", ".join(f"№{p['n']}" for _, p, _ in reversed(items)) + f" → {VK_FEED_URL}")
+    return 0
+
+
 def _platforms():
     pl = {}
-    if _vk_cfg():
+    if _vk_cfg() and not _vk_via_rss():
         pl["vk"] = vk_publish
     if _ig_cfg():
         pl["ig"] = ig_publish
@@ -572,6 +663,12 @@ def cmd_publish(dry_run: bool, auto: bool = False, article: str = "") -> int:
             done += 1
         if done == 0:
             print(f"[{plat}] публиковать нечего (нет постов с наступившей датой и готовыми картинками).")
+    if not dry_run and _vk_via_rss():
+        try:
+            build_vk_feed()
+        except Exception as exc:  # noqa — лента VK не должна ломать Instagram
+            print(f"VK RSS: ОШИБКА сборки ленты: {exc}")
+            rc = 1
     return rc
 
 

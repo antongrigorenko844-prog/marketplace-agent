@@ -4139,6 +4139,7 @@ def main() -> int:
     parser.add_argument("--social-status", action="store_true", help="Сколько постов готово/опубликовано (data/content_plan.xlsx + social/)")
     parser.add_argument("--social-publish-dryrun", action="store_true", help="Показать, какие посты уйдут в VK/Instagram, БЕЗ публикации (--article N — принудительно номера постов)")
     parser.add_argument("--social-publish", action="store_true", help="Опубликовать самый ранний готовый пост на каждую площадку (--article N,M — принудительно эти посты)")
+    parser.add_argument("--social-vk-feed", action="store_true", help="Пересобрать ленту RSS для импорта во VK (data/vk_feed.xml)")
     parser.add_argument("--social-autopublish", action="store_true", help="То же по расписанию; работает только при секрете SOCIAL_AUTOPUBLISH=1")
     parser.add_argument("--designer-link", action="store_true", help="Запомнить Telegram-чат дизайнера (после Start у бота); с --article owner — запомнить ВАШ чат (для пересылки макетов и команд «стоп N»)")
     parser.add_argument("--designer-send-dryrun", action="store_true", help="Показать задание дизайнеру БЕЗ отправки (--article N — номер поста, иначе пост следующего рабочего дня)")
@@ -4370,6 +4371,9 @@ def main() -> int:
     if args.social_status:
         import social_publish
         return social_publish.cmd_status()
+    if args.social_vk_feed:
+        import social_publish
+        return social_publish.build_vk_feed()
     if args.social_publish_dryrun:
         import social_publish
         return social_publish.cmd_publish(True, article=args.article)
