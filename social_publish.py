@@ -310,19 +310,20 @@ def _rub(v: int) -> str:
 
 
 def price_line(p: dict, platform: str) -> str:
+    """Цена САЙТА (живая, с leoparts-akpp.ru); если на сайте товара нет — цена маркетплейсов."""
     arts = [a.lower() for a in (p.get("arts") or [])]
     if not arts:
         return ""
     mp, site = _prices()
     m = [mp[a] for a in arts if a in mp]
-    if not m or max(m) >= PRICE_HIDE_FROM:
+    if m and max(m) >= PRICE_HIDE_FROM:
         return ""
     s_ = [site[a] for a in arts if a in site]
-    pre = "от " if len(set(m)) > 1 else ""
-    line = f"💰 Цена: {pre}{_rub(min(m))} на маркетплейсах"
-    if platform == "vk" and s_ and min(s_) < min(m):
-        line += f" · на нашем сайте {('от ' if len(set(s_)) > 1 else '')}{_rub(min(s_))}"
-    return line
+    if s_:
+        return f"💰 Цена на нашем сайте: {('от ' if len(set(s_)) > 1 else '')}{_rub(min(s_))}"
+    if m:
+        return f"💰 Цена: {('от ' if len(set(m)) > 1 else '')}{_rub(min(m))}"
+    return ""
 
 
 def buy_block(p: dict, platform: str) -> str:
