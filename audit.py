@@ -219,13 +219,23 @@ def load_avito_live(feed: Dict[str, dict]) -> Optional[Dict[str, dict]]:
             by_id[int(r["avito_id"])] = key(r["ad_id"])
     out: Dict[str, dict] = {}
     unmatched = []
-    for it in d.get("items", []):
+    duplicates = []  # второе (обычно старое ручное) объявление того же товара
+    items = d.get("items", [])
+    # Сначала объявления, точно привязанные к фиду отчётом автозагрузки, потом совпавшие только по названию:
+    # если у артикула уже есть объявление из фида, совпадение по названию — дубль, а не «другая цена».
+    items = sorted(items, key=lambda it: 0 if int(it.get("id") or 0) in by_id else 1)
+    for it in items:
         k = by_id.get(int(it.get("id") or 0)) or by_title.get(_norm_text(it.get("title")))
         if not k:
             unmatched.append(it)
             continue
-        out[k] = {"status": it.get("status"), "price": _num(it.get("price")), "url": it.get("url"), "id": it.get("id")}
+        rec = {"status": it.get("status"), "price": _num(it.get("price")), "url": it.get("url"), "id": it.get("id")}
+        if k in out:
+            duplicates.append((k, rec))
+            continue
+        out[k] = rec
     out["__unmatched__"] = unmatched  # type: ignore[assignment]
+    out["__duplicates__"] = duplicates  # type: ignore[assignment]
     return out
 
 
@@ -290,6 +300,7 @@ def compute() -> dict:
     oz, wb_, feed, mk, tl = load_ozon(), load_wb(), load_avito_feed(), load_market(), load_tilda()
     live = load_avito_live(feed)
     unmatched_live = (live or {}).pop("__unmatched__", []) if live else []
+    dup_live = (live or {}).pop("__duplicates__", []) if live else []
     autoload = load_avito_autoload()
 
     have_data = {
@@ -379,6 +390,9 @@ def compute() -> dict:
         for k, v in src.items():
             if k not in mk_keys and loose(k) not in {loose(a) for a in master}:
                 add("СРЕДНЕ", v.get("art", k), ch, "нет в мастере", "товар есть на площадке, но в master_control его нет", "завести в мастер или убрать с площадки")
+    for k, rec in dup_live:
+        if str(rec.get("status")) == "active":
+            add("СРЕДНЕ", k, "Авито", "дубль объявления", f"кроме объявления из фида активно ещё id {rec.get('id')}, цена {rec.get('price') or 0:g}", "снять старое с публикации (или привязать к фиду через AvitoId)")
     for it in unmatched_live[:50]:
         add("СРЕДНЕ", it.get("title", "?"), "Авито", "объявление не из фида", f"id {it.get('id')} статус {it.get('status')}", "закрыть, если старое/дубль")
 

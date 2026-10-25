@@ -229,6 +229,15 @@ def classify_transmission_part_type(title: str) -> Optional[str]:
 
 
 AVITO_PHOTOS_DIR = os.path.join(os.path.dirname(__file__), "photos_avito")
+
+# Авито в категории «Запчасти и аксессуары» обрабатывает не больше 10 фото
+# (лишние отбрасывает с предупреждением 1105).
+AVITO_MAX_PHOTOS = 10
+
+
+def _natural_key(name: str):
+    """'X_2.jpg' < 'X_10.jpg': числа в имени сравниваются как числа."""
+    return [int(t) if t.isdigit() else t.lower() for t in re.split(r"(\d+)", name)]
 AVITO_PHOTOS_MAP_PATH = os.path.join(os.path.dirname(__file__), "data", "avito_photos.xlsx")
 MASTER_CONTROL_PATH = os.path.join(os.path.dirname(__file__), "data", "master_control.xlsx")
 
@@ -259,10 +268,13 @@ def attach_avito_photos(
         offer_dir = os.path.join(photos_dir, offer_id)
         if not os.path.isdir(offer_dir):
             continue
+        # Сортировка по номеру, а не как текст: иначе _10.._14 встают перед _2,
+        # а Авито берёт только первые AVITO_MAX_PHOTOS фото.
         files = sorted(
-            f for f in os.listdir(offer_dir)
-            if os.path.splitext(f)[1].lower() in (".jpg", ".jpeg", ".png", ".webp")
-        )
+            (f for f in os.listdir(offer_dir)
+             if os.path.splitext(f)[1].lower() in (".jpg", ".jpeg", ".png", ".webp")),
+            key=_natural_key,
+        )[:AVITO_MAX_PHOTOS]
         urls = []
         for fname in files:
             try:
@@ -453,9 +465,9 @@ def build_avito_feed(
             skipped_no_stock.append(offer_id)
             continue
 
-        images = photo_overrides.get(offer_id) or [
+        images = (photo_overrides.get(offer_id) or [
             u.strip() for u in str(images_raw).split("|") if u.strip()
-        ]
+        ])[:AVITO_MAX_PHOTOS]
         part_type = classify_transmission_part_type(title)
         if part_type is None:
             # "Тип детали трансмиссии" — обязательное поле в этом шаблоне.
