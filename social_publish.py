@@ -151,6 +151,26 @@ def _dedupe(paths: List[str]) -> List[str]:
     return out
 
 
+_NO_VIDEO = None
+
+
+def _video_slides() -> set:
+    """Картинки с надписью «смотри видео» (по распознаванию, data/photo_text_audit.xlsx) — в посты их не берём:
+    видео в посте нет. В карточках маркетплейсов они остаются (там видео может быть)."""
+    global _NO_VIDEO
+    if _NO_VIDEO is None:
+        _NO_VIDEO = set()
+        try:
+            import openpyxl
+            ws = openpyxl.load_workbook(os.path.join(_ROOT, "data", "photo_text_audit.xlsx"), read_only=True).active
+            for r in ws.iter_rows(min_row=2, values_only=True):
+                if r[3] and "видео" in str(r[3]) and r[0] == "photos":
+                    _NO_VIDEO.add(os.path.join(PHOTOS_DIR, str(r[1]), str(r[2])))
+        except Exception:  # noqa
+            pass
+    return _NO_VIDEO
+
+
 def post_images(n: int, arts: Optional[List[str]] = None) -> List[str]:
     """Картинки, присланные дизайнером (social/<№>/), иначе — готовые из каталога (по артикулам поста)."""
     d = os.path.join(IMAGES_DIR, str(n))
@@ -158,7 +178,9 @@ def post_images(n: int, arts: Optional[List[str]] = None) -> List[str]:
         files = [f for f in os.listdir(d) if f.lower().endswith(IMG_EXT) and not f.startswith(".")]
         if files:
             return [os.path.join(d, f) for f in sorted(files, key=_natural)][:10]
-    return auto_images(arts or [])
+    imgs = auto_images(arts or [])
+    clean = [x for x in imgs if x not in _video_slides()]
+    return clean or imgs
 
 
 def final_text_path(n: int) -> str:
