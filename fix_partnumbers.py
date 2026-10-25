@@ -22,6 +22,22 @@ WB_CHAR = "Артикул производителя"
 
 
 def cmd_fix_partnumbers(dry_run: bool) -> int:
+    import builtins
+    import io
+    log = io.StringIO()
+    _print = builtins.print
+
+    def print(*a, **k):  # noqa: A001 — дублируем вывод в файл, чтобы итог был виден в репозитории
+        _print(*a, **k)
+        _print(*a, file=log)
+    try:
+        return _run(dry_run, print)
+    finally:
+        with open(os.path.join(_ROOT, "data", "fix_partnumbers_result.txt"), "w", encoding="utf-8") as fh:
+            fh.write(log.getvalue())
+
+
+def _run(dry_run, print):
     import main
     main.cmd_fetch_ozon()
     main.cmd_fetch_wb()
