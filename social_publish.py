@@ -831,6 +831,19 @@ def cmd_publish(dry_run: bool, auto: bool = False, article: str = "") -> int:
     if auto and os.getenv("SOCIAL_AUTOPUBLISH", "").strip() not in ("1", "true", "yes", "on"):
         print("Автопубликация выключена (секрет SOCIAL_AUTOPUBLISH != 1) — ничего не делаем.")
         return 0
+    plan = load_plan()
+    if auto:  # быстрый выход повторных запусков: на сегодня всё уже опубликовано
+        st0 = load_state().get("posts", {})
+        due = [p for p in plan if p["date"] and p["date"] <= _today() and not st0.get(str(p["n"]), {}).get("ig")
+               and post_images(p["n"], p.get("arts"))]
+        try:
+            with open(HOLD_PATH, "r", encoding="utf-8") as f:
+                hold0 = {int(x) for x in re.findall(r"\d+", f.read())}
+        except FileNotFoundError:
+            hold0 = set()
+        if not [p for p in due if p["n"] not in hold0]:
+            print("На сегодня публиковать нечего (всё уже вышло) — выходим.")
+            return 0
     if not dry_run:
         ig_refresh_token()
         try:  # свежие ссылки на товары сайта (если сайт недоступен — остаются вчерашние)
@@ -838,7 +851,6 @@ def cmd_publish(dry_run: bool, auto: bool = False, article: str = "") -> int:
             site_links.cmd_site_links()
         except Exception as exc:  # noqa
             print(f"Ссылки сайта не обновлены: {exc}")
-    plan = load_plan()
     state = load_state()
     posts_state = state.setdefault("posts", {})
     pl = _platforms()
