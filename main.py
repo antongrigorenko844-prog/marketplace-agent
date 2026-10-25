@@ -4141,6 +4141,8 @@ def main() -> int:
     parser.add_argument("--social-publish", action="store_true", help="Опубликовать самый ранний готовый пост на каждую площадку (--article N,M — принудительно эти посты)")
     parser.add_argument("--store-links", action="store_true", help="Ссылки на страницы наших магазинов на Ozon/WB/Маркете (data/store_links.json)")
     parser.add_argument("--photo-text-audit", action="store_true", help="Распознать текст на всех картинках и найти «видео/скидка/%/дешевле/оптовикам» (data/photo_text_audit.xlsx)")
+    parser.add_argument("--fix-partnumbers", action="store_true", help="Исправить «номер детали» на 7 карточках Ozon/WB (fix_partnumbers.py)")
+    parser.add_argument("--fix-partnumbers-dryrun", action="store_true", help="То же без отправки")
     parser.add_argument("--site-links", action="store_true", help="Собрать ссылки на товары сайта (data/site_links.json) для постов")
     parser.add_argument("--social-vk-feed", action="store_true", help="Пересобрать ленту RSS для импорта во VK (data/vk_feed.xml)")
     parser.add_argument("--social-autopublish", action="store_true", help="То же по расписанию; работает только при секрете SOCIAL_AUTOPUBLISH=1")
@@ -4380,6 +4382,9 @@ def main() -> int:
     if args.photo_text_audit:
         import photo_text_audit
         return photo_text_audit.cmd_photo_text_audit()
+    if args.fix_partnumbers or args.fix_partnumbers_dryrun:
+        import fix_partnumbers
+        return fix_partnumbers.cmd_fix_partnumbers(args.fix_partnumbers_dryrun)
     if args.site_links:
         import site_links
         return site_links.cmd_site_links()
