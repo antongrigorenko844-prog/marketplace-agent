@@ -15,6 +15,8 @@ import requests
 _ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = os.getenv("SITE_URL", "https://leoparts-akpp.ru").rstrip("/")
 OUT = os.path.join(_ROOT, "data", "site_links.json")
+PRICES_OUT = os.path.join(_ROOT, "data", "site_prices.json")  # живые цены с сайта {артикул: цена}
+PRICES: Dict[str, float] = {}
 UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0 Safari/537.36"}
 
 
@@ -54,6 +56,11 @@ def fetch() -> Dict[str, str]:
                 url = str(p.get("url") or "").strip()
                 if sku and url:
                     links[sku.lower()] = url
+                try:
+                    if sku and float(p.get("price") or 0) > 0:
+                        PRICES[sku.lower()] = float(p["price"])
+                except (TypeError, ValueError):
+                    pass
                 for e in p.get("editions") or []:
                     if e.get("sku") and url:
                         links.setdefault(str(e["sku"]).strip().lower(), url)
@@ -73,6 +80,10 @@ def cmd_site_links() -> int:
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(dict(sorted(links.items())), f, ensure_ascii=False, indent=2)
     print(f"Сохранено: {OUT}")
+    if PRICES:
+        with open(PRICES_OUT, "w", encoding="utf-8") as f:
+            json.dump(dict(sorted(PRICES.items())), f, ensure_ascii=False, indent=2)
+        print(f"Цены сайта: {len(PRICES)} → {PRICES_OUT}")
     for k in list(links)[:5]:
         print(f"  {k} -> {links[k]}")
     return 0

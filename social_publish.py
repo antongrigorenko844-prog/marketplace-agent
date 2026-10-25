@@ -234,6 +234,75 @@ def _tilda_uid(offer: str) -> str:
     return tilda_feed._stable_uid(offer)
 
 
+# Цена в посте подставляется в момент публикации (всегда актуальная): маркетплейсы — из master_control,
+# сайт — из data/tilda_feed.csv. Для дорогих товаров (мехатроники, платы: от PRICE_HIDE_FROM ₽) цену не пишем —
+# исследования показывают, что цена «первой» у дорогих покупок переключает внимание с ценности на «дорого».
+PRICE_HIDE_FROM = int(os.getenv("POST_PRICE_HIDE_FROM", "50000") or 50000)
+_PRICES = None
+
+
+def _prices():
+    global _PRICES
+    if _PRICES is not None:
+        return _PRICES
+    mp, site = {}, {}
+    try:
+        import openpyxl
+        ws = openpyxl.load_workbook(os.path.join(_ROOT, "data", "master_control.xlsx"), read_only=True, data_only=True).worksheets[0]
+        rows = ws.iter_rows(values_only=True)
+        head = [str(h or "") for h in next(rows)]
+        i_a, i_p = head.index("Артикул (offer_id)"), head.index("Цена, ₽")
+        for r in rows:
+            try:
+                if r[i_a] and r[i_p]:
+                    mp[str(r[i_a]).lower()] = int(float(r[i_p]))
+            except (TypeError, ValueError):
+                pass
+    except Exception:  # noqa
+        pass
+    try:  # живые цены с сайта (собирает site-links перед публикацией)
+        with open(os.path.join(_ROOT, "data", "site_prices.json"), "r", encoding="utf-8") as fh:
+            site = {k: int(v) for k, v in json.load(fh).items()}
+    except (FileNotFoundError, json.JSONDecodeError, ValueError):
+        site = {}
+    if not site:
+      try:
+        import csv
+        with open(os.path.join(_ROOT, "data", "tilda_feed.csv"), "r", encoding="utf-8-sig") as fh:
+            rd = csv.reader(fh, delimiter=";")
+            head = next(rd)
+            i_s, i_p = head.index("SKU"), head.index("Price")
+            for r in rd:
+                try:
+                    site[r[i_s].lower()] = int(float(r[i_p]))
+                except (IndexError, ValueError):
+                    pass
+      except Exception:  # noqa
+        pass
+    _PRICES = (mp, site)
+    return _PRICES
+
+
+def _rub(v: int) -> str:
+    return f"{v:,}".replace(",", " ") + " ₽"
+
+
+def price_line(p: dict, platform: str) -> str:
+    arts = [a.lower() for a in (p.get("arts") or [])]
+    if not arts:
+        return ""
+    mp, site = _prices()
+    m = [mp[a] for a in arts if a in mp]
+    if not m or max(m) >= PRICE_HIDE_FROM:
+        return ""
+    s_ = [site[a] for a in arts if a in site]
+    pre = "от " if len(set(m)) > 1 else ""
+    line = f"💰 Цена: {pre}{_rub(min(m))} на маркетплейсах"
+    if platform == "vk" and s_ and min(s_) < min(m):
+        line += f" · на нашем сайте {('от ' if len(set(s_)) > 1 else '')}{_rub(min(s_))}"
+    return line
+
+
 def buy_block(p: dict, platform: str) -> str:
     """Одна строка артикулов: для каждой площадки — первый товар поста, который там есть
     (в каруселях несколько карточек часто одного и того же товара — не путаем покупателя вариантами)."""
@@ -247,6 +316,9 @@ def buy_block(p: dict, platform: str) -> str:
         if v:
             parts.append(f"{name} {v}")
     out = []
+    pl = price_line(p, platform)
+    if pl:
+        out.append(pl)
     url = _site_url(p, "vk") if platform == "vk" else ""
     if url:
         out.append(f"🛒 На сайте дешевле, чем на маркетплейсах: {url}")
