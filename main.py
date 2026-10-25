@@ -4140,6 +4140,7 @@ def main() -> int:
     parser.add_argument("--social-publish-dryrun", action="store_true", help="Показать, какие посты уйдут в VK/Instagram, БЕЗ публикации (--article N — принудительно номера постов)")
     parser.add_argument("--social-publish", action="store_true", help="Опубликовать самый ранний готовый пост на каждую площадку (--article N,M — принудительно эти посты)")
     parser.add_argument("--store-links", action="store_true", help="Ссылки на страницы наших магазинов на Ozon/WB/Маркете (data/store_links.json)")
+    parser.add_argument("--photo-text-audit", action="store_true", help="Распознать текст на всех картинках и найти «видео/скидка/%/дешевле/оптовикам» (data/photo_text_audit.xlsx)")
     parser.add_argument("--site-links", action="store_true", help="Собрать ссылки на товары сайта (data/site_links.json) для постов")
     parser.add_argument("--social-vk-feed", action="store_true", help="Пересобрать ленту RSS для импорта во VK (data/vk_feed.xml)")
     parser.add_argument("--social-autopublish", action="store_true", help="То же по расписанию; работает только при секрете SOCIAL_AUTOPUBLISH=1")
@@ -4376,6 +4377,9 @@ def main() -> int:
     if args.store_links:
         import store_links
         return store_links.cmd_store_links()
+    if args.photo_text_audit:
+        import photo_text_audit
+        return photo_text_audit.cmd_photo_text_audit()
     if args.site_links:
         import site_links
         return site_links.cmd_site_links()
