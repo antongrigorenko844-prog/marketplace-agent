@@ -420,10 +420,7 @@ def cmd_owner_preview(article: str = "", review: bool = False) -> int:
         targets = [r for r in rows if int(r["№"]) in {int(x) for x in nums}]
     else:
         today = dt.datetime.now(sp.MSK).date()
-        if today.weekday() >= 5:
-            print("Выходной — предпросмотр не отправляем.")
-            return 0
-        targets = _upcoming(rows, today, OWNER_EXTRA_DAYS)
+        targets = _upcoming(rows, today, OWNER_EXTRA_DAYS)  # посты выходят каждый день — предпросмотр тоже ежедневно
     state = _load(STATE_PATH, {})
     prev = state.setdefault("previewed", {})
     for r in targets:
