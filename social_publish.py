@@ -786,7 +786,8 @@ def build_vk_feed(verbose: bool = True) -> int:
             except Exception as exc:  # noqa
                 print(f"VK RSS: пост №{p['n']}, картинка {k} не загружена: {exc}")
         text = full_text(p, 15000, "vk")
-        body = "".join(f"<p>{escape(line)}</p>" if line.strip() else "" for line in text.split("\n"))
+        body = "".join(f"<p>{re.sub(r'(https://[^ <]+)', lambda m: '<a href=\"' + m.group(1) + '\">' + m.group(1) + '</a>', escape(line))}</p>"
+                       if line.strip() else "" for line in text.split("\n"))  # ссылки кликабельные
         figs = "".join(f'<figure><img src="{escape(u)}"/></figure>' for u in urls)
         enclosure = f'<enclosure url="{escape(urls[0])}" type="image/jpeg" length="0"/>' if urls else ""
         title = p.get("title") or f"Пост {p['n']}"
