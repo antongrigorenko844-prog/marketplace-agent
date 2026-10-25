@@ -127,8 +127,28 @@ def auto_images(arts: List[str]) -> List[str]:
     if not per:
         return []
     if len(per) == 1:
-        return per[0][:10]
-    return [x[0] for x in per][:10]
+        return _dedupe(per[0])[:10]
+    mains = _dedupe([x[0] for x in per])
+    if len(mains) < len(per):
+        # несколько карточек одного и того же товара (одинаковые главные фото) — показываем все разные фото
+        return _dedupe([f for x in per for f in x])[:10]
+    return mains[:10]
+
+
+def _dedupe(paths: List[str]) -> List[str]:
+    """Убирает одинаковые по содержимому картинки (одно и то же фото в папках разных карточек)."""
+    import hashlib
+    seen, out = set(), []
+    for pth in paths:
+        try:
+            with open(pth, "rb") as fh:
+                h = hashlib.md5(fh.read()).hexdigest()
+        except OSError:
+            continue
+        if h not in seen:
+            seen.add(h)
+            out.append(pth)
+    return out
 
 
 def post_images(n: int, arts: Optional[List[str]] = None) -> List[str]:
