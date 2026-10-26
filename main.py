@@ -3050,6 +3050,7 @@ def cmd_align_wb_prices(dry_run: bool) -> int:
     except (ValueError, StopIteration):
         print("В мастере не нашёл колонки «Цена, ₽» / «Цена WB».")
         return 1
+    c_wbst = head.index("Статус WB") if "Статус WB" in head else None
 
     def num(v):
         try:
@@ -3061,13 +3062,17 @@ def cmd_align_wb_prices(dry_run: bool) -> int:
     for row in ws.iter_rows(min_row=2):
         art = row[c_art].value
         po, pw = num(row[c_price].value), num(row[c_wb].value)
+        on_wb = c_wbst is not None and str(row[c_wbst].value or "").strip() not in ("", "None")
+        if art and po and not pw and on_wb:
+            changes.append((str(art), 0.0, po, row[c_wb]))  # товар есть на WB, а цена WB пустая/0 — вписываем цену Ozon
+            continue
         if not art or not po or not pw:
             continue  # у товара нет цены WB (его нет на WB) — не трогаем
         if abs(po - pw) > 1:
             changes.append((str(art), pw, po, row[c_wb]))
     print(f"Расхождений цены WB и Ozon: {len(changes)}")
     for art, pw, po, _ in sorted(changes, key=lambda x: x[1] / x[2]):
-        print(f"  {art}: WB {pw:g} -> {po:g} ₽ ({po / pw - 1:+.0%})")
+        print(f"  {art}: WB {pw:g} -> {po:g} ₽" + (f" ({po / pw - 1:+.0%})" if pw else " (цена WB была пустой)"))
     if dry_run or not changes:
         print("\nПРОБНЫЙ ПРОГОН — мастер не изменён." if dry_run else "")
         return 0
