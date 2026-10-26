@@ -3030,6 +3030,28 @@ def cmd_wb_create_missing(dry_run: bool, article: str = "", auto: bool = False) 
     return 0 if err == 0 else 1
 
 
+def cmd_wb_zero_stock(articles: str) -> int:
+    """Остаток 0 на WB для перечисленных артикулов (снять с продажи товары, у которых в мастере остаток не ведётся)."""
+    import wb_client
+
+    want = {a.strip().lower() for a in articles.split(",") if a.strip()}
+    bmap = {k.lower(): v for k, v in wb_client.get_offer_barcode_map().items()}
+    items = [{"sku": bmap[a], "amount": 0} for a in sorted(want) if a in bmap]
+    lines = [f"не найдено на WB: {a}" for a in sorted(want) if a not in bmap]
+    try:
+        if items:
+            wb_client.update_stocks(config.wb_warehouse_id, items)
+        lines.insert(0, f"WB: остаток 0 отправлен для {len(items)} шт.: " + ", ".join(a for a in sorted(want) if a in bmap))
+        rc = 0
+    except Exception as exc:  # noqa: BLE001
+        lines.insert(0, f"WB: ОШИБКА — {exc}")
+        rc = 1
+    print("\n".join(lines))
+    with open(_data_path("wb_zero_stock_result.txt"), "w", encoding="utf-8") as fh:
+        fh.write("\n".join(lines) + "\n")
+    return rc
+
+
 def cmd_align_wb_prices(dry_run: bool) -> int:
     """
     Выровнять цену WB с ценой Ozon (правило: на Ozon, WB и Маркете цена покупателя одинаковая).
@@ -4175,6 +4197,7 @@ def main() -> int:
     parser.add_argument("--social-publish", action="store_true", help="Опубликовать самый ранний готовый пост на каждую площадку (--article N,M — принудительно эти посты)")
     parser.add_argument("--store-links", action="store_true", help="Ссылки на страницы наших магазинов на Ozon/WB/Маркете (data/store_links.json)")
     parser.add_argument("--photo-text-audit", action="store_true", help="Распознать текст на всех картинках и найти «видео/скидка/%/дешевле/оптовикам» (data/photo_text_audit.xlsx)")
+    parser.add_argument("--wb-zero-stock", action="store_true", help="Обнулить остаток на WB для артикулов из --article (через запятую)")
     parser.add_argument("--fix-partnumbers", action="store_true", help="Исправить «номер детали» на 7 карточках Ozon/WB (fix_partnumbers.py)")
     parser.add_argument("--fix-partnumbers-dryrun", action="store_true", help="То же без отправки")
     parser.add_argument("--site-links", action="store_true", help="Собрать ссылки на товары сайта (data/site_links.json) для постов")
@@ -4416,6 +4439,8 @@ def main() -> int:
     if args.photo_text_audit:
         import photo_text_audit
         return photo_text_audit.cmd_photo_text_audit()
+    if args.wb_zero_stock:
+        return cmd_wb_zero_stock(args.article or "")
     if args.fix_partnumbers or args.fix_partnumbers_dryrun:
         import fix_partnumbers
         return fix_partnumbers.cmd_fix_partnumbers(args.fix_partnumbers_dryrun)
