@@ -958,6 +958,35 @@ def cmd_validate_master() -> int:
 
 
 def cmd_update_cards() -> int:
+    """Обёртка: весь вывод update-cards дублируется в data/update_cards_log.txt (логи Actions нам недоступны)."""
+    import io
+
+    class _Tee(io.TextIOBase):
+        def __init__(self, a, b):
+            self.a, self.b = a, b
+
+        def write(self, x):
+            self.a.write(x)
+            self.b.write(x)
+            return len(x)
+
+        def flush(self):
+            self.a.flush()
+            self.b.flush()
+
+    old = sys.stdout
+    with open(_data_path("update_cards_log.txt"), "w", encoding="utf-8") as fh:
+        sys.stdout = _Tee(old, fh)
+        try:
+            return _cmd_update_cards_impl()
+        except Exception as exc:  # noqa: BLE001
+            print(f"update-cards: исключение — {exc}")
+            raise
+        finally:
+            sys.stdout = old
+
+
+def _cmd_update_cards_impl() -> int:
     """
     ОДНА команда "обновить всё везде" после правок в data/master_control.xlsx
     (названия, описания, цены, остатки) и/или замены файлов в photos/:
