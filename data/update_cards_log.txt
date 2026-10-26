@@ -1,5 +1,4 @@
 === Проверка master_control.xlsx (ОШИБКИ блокируют отправку, предупреждения только показываются) ===
-  ОШИБКА: korpus-filtra-0bh325159: нет цены WB
   внимание: 02E305045E: остаток не задан — на Ozon/WB/Avito не обновится
   внимание: 02E305045E: нет фото
   внимание: 02e305045: похож на «02E 305 045» (отличается только регистром/пробелами) — убедитесь, что это два разных товара
@@ -21,6 +20,554 @@
   внимание: prokladka-vtulki-verh-dq200: нет фото
   внимание: separatornaya-plastiny-solenoid-dq200: нет фото
   внимание: solenoid-02e-0b5-bolshoy: нет фото
-validate-master: ошибок 1, предупреждений 21.
+validate-master: критичных ошибок нет, предупреждений 21.
 
-update-cards: в master_control.xlsx есть ошибки (см. выше) — на площадки НИЧЕГО не отправлено. Исправьте мастер и Commit+Push (или запустите update-cards ещё раз).
+=== Шаг 0а: свежие карточки WB ===
+Сохранено 117 карточек WB в /home/runner/work/marketplace-agent/marketplace-agent/data/wb_cards.json
+
+=== Шаг 0а-2: создать недостающие карточки WB ===
+К созданию на WB: 0 товаров.
+
+Пропущено (7):
+  - EA888: двигательная/тестовая позиция — впишите «Образец для WB» в мастер
+  - EA888gen3: двигательная/тестовая позиция — впишите «Образец для WB» в мастер
+  - Ea888gen3: двигательная/тестовая позиция — впишите «Образец для WB» в мастер
+  - plita-filtr-v2: двойник -v2: на WB такой же товар уже создаётся под базовым артикулом (или впишите «да» в колонку WB мастера и образец)
+  - podshipnik-vilki-6: не нашёл похожий образец на WB — впишите «Образец для WB» в мастер
+  - porshni-usil-pylniki-kryshki-v2: двойник -v2: на WB такой же товар уже создаётся под базовым артикулом (или впишите «да» в колонку WB мастера и образец)
+  - salnik-shtoka-orig-v2: двойник -v2: на WB такой же товар уже создаётся под базовым артикулом (или впишите «да» в колонку WB мастера и образец)
+
+=== Шаг 0а-3: создать недостающие карточки Ozon ===
+К созданию на Ozon: 0 товаров.
+
+=== Шаг 0б: цена WB = цена Ozon ===
+Расхождений цены WB и Ozon: 0
+
+
+=== Шаг 0в: цены Авито и сайта = доля от цены маркетплейсов ===
+Доля 70%; пересчитано цен Авито/сайта: 0
+
+=== Шаг 1: sync-master-control ===
+master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 11
+master_control.xlsx -> ozon_new_products.xlsx: обновлено строк 0
+master_control.xlsx -> wb_catalog.xlsx: обновлено строк 1
+master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
+Изменённых обложек в столбце 'Фото' не найдено.
+
+Готово. Дальше как обычно: attach-ozon-photos (если менялись обложки существующих) -> push-ozon-cards-dryrun -> push-ozon-cards; для черновиков Ozon — attach-ozon-new-photos -> push-ozon-new-cards-dryrun -> push-ozon-new-cards; для WB — свои шаги push-wb-cards / push-wb-new-cards.
+
+=== Шаг 2: attach-photos-all ===
+=== Шаг 1/3: attach-ozon-photos ===
+Ссылки на фото подставлены в /home/runner/work/marketplace-agent/marketplace-agent/data/ozon_catalog.xlsx для 117 товаров:
+  01X301127C: 1 фото
+  02E 305 045: 1 фото
+  02E305051C: 1 фото
+  02E927770AL: 1 фото
+  02e305045: 2 фото
+  0AM301212A: 1 фото
+  0AM325025B: 2 фото
+  0AM325120A: 1 фото
+  0AM325219C: 1 фото
+  0AM325413A: 1 фото
+  0AM325433E: 1 фото
+  0AM325443D: 2 фото
+  0AM325467J: 1 фото
+  0AM325473: 2 фото
+  0AM325587E: 3 фото
+  0AM927769D: 1 фото
+  0AM927769N: 1 фото
+  0BH325: 4 фото
+  0BH325183: 2 фото
+  0BH325183 B: 2 фото
+  0am325025: 2 фото
+  0am325025D: 1 фото
+  0am325025G: 3 фото
+  0am325025H: 3 фото
+  0am325025HX: 3 фото
+  0am325025P: 1 фото
+  0am325025ae: 1 фото
+  0am325025f: 1 фото
+  0am325025hfe: 2 фото
+  0am325025j: 1 фото
+  0am325025l: 1 фото
+  0am325025m: 1 фото
+  0am325025n: 1 фото
+  0am325025q: 1 фото
+  0am325025r: 1 фото
+  0am325025u: 1 фото
+  0am325025x: 1 фото
+  0am325025z: 1 фото
+  0am325025С: 1 фото
+  0am325066AC: 1 фото
+  0am325066ad: 2 фото
+  0am325066ae: 2 фото
+  0am325091e: 1 фото
+  0am325091e-set: 1 фото
+  0am325091f: 1 фото
+  0am325091f-set: 1 фото
+  0am325477: 1 фото
+  0am325477ae: 1 фото
+  0ambset: 2 фото
+  0cw0am: 2 фото
+  0cw0am325025: 3 фото
+  0cw0amdsgdq200: 1 фото
+  0cw325025h: 1 фото
+  0сц: 4 фото
+  122390AKAF: 1 фото
+  123014‑AF: 1 фото
+  31705-1XF0C: 1 фото
+  31705-X428B: 3 фото
+  317053TX0C: 1 фото
+  55565480: 1 фото
+  6t30: 1 фото
+  DQ500: 4 фото
+  Dq200dsg7: 1 фото
+  Dq200dsg70am0cw: 1 фото
+  Dq500: 2 фото
+  EA888: 1 фото
+  EA888gen3: 1 фото
+  Ea888gen3: 1 фото
+  TEST001: 1 фото
+  WHT001922: 1 фото
+  filtr-dsg7-dq200: 2 фото
+  filtr-dsg7-dq500: 1 фото
+  filtr-setka-0b5-orig: 1 фото
+  gidroakkumulyator-orig: 1 фото
+  jf011e: 1 фото
+  klipsy-shtokov-2sht: 1 фото
+  korpus-filtra-0bh325159: 2 фото
+  kryshka-mehatronika-dq200: 1 фото
+  nakladki-pedali: 2 фото
+  planka-solenoid-2sht: 1 фото
+  plastina-solenoid-dq200: 1 фото
+  plastiny-solenoid-orig: 1 фото
+  plita-filtr: 1 фото
+  plita-filtr-orig: 1 фото
+  plita-filtr-pylniki: 1 фото
+  plita-filtr-pylniki-orig: 1 фото
+  plita-filtr-pylniki-sal: 1 фото
+  plita-filtr-pylniki-sal-orig: 1 фото
+  plita-filtr-salniki-orig: 1 фото
+  plita-filtr-v2: 1 фото
+  plita-pylniki-salniki: 1 фото
+  plita-pylniki-salniki-orig: 1 фото
+  plita-pylniki-salniki-orig-v2: 1 фото
+  podshipnik-vilki-6: 2 фото
+  porshni-usil-pylniki-kryshki: 1 фото
+  porshni-usil-pylniki-kryshki-v2: 1 фото
+  prokladka-kryshki-dq200: 1 фото
+  prokladka-vtulki-dq200: 1 фото
+  pylniki-shtokov-orig: 1 фото
+  pylniki-shtokov-orig-v2: 1 фото
+  remkomplekt-shtokov-orig: 1 фото
+  remkomplekt-shtokov-orig-v2: 1 фото
+  salnik-shtoka-orig: 2 фото
+  salnik-shtoka-orig-v2: 1 фото
+  salnik-tolkatelya-alum: 2 фото
+  salniki-shtokov-2sht: 1 фото
+  salniki-shtokov-orig: 1 фото
+  salniki-tolkatelya-4sht: 2 фото
+  salnikprivod-l: 1 фото
+  salnikprivod-r: 1 фото
+  salnikvhod: 1 фото
+  salnikvihod: 1 фото
+  separatornaya-plastina-dq200: 1 фото
+  stalnaya-vstavka-plity: 1 фото
+  tolkateli-4-salniki-4: 1 фото
+  tolkateli-salniki-alum-komplekt: 1 фото
+  vtulki-shtokov-2sht: 1 фото
+
+Скачайте ozon_catalog.xlsx из data/, проверьте и переходите к push-ozon-cards-dryrun.
+
+=== Шаг 2/3: attach-wb-photos ===
+Ссылки на фото подставлены в /home/runner/work/marketplace-agent/marketplace-agent/data/wb_catalog.xlsx для 104 товаров:
+  01X301127C: 1 фото
+  02E 305 045: 1 фото
+  02E305051C: 1 фото
+  02e305045: 2 фото
+  0AM301212A: 1 фото
+  0AM325025B: 2 фото
+  0AM325120A: 1 фото
+  0AM325219C: 1 фото
+  0AM325413A: 1 фото
+  0AM325433E: 1 фото
+  0AM325443D: 2 фото
+  0AM325467J: 1 фото
+  0AM325473: 2 фото
+  0AM325587E: 3 фото
+  0AM927769D: 1 фото
+  0BH325183: 2 фото
+  0BH325183 B: 2 фото
+  0BH325183B: 3 фото
+  0am325025: 2 фото
+  0am325025D: 1 фото
+  0am325025G: 3 фото
+  0am325025H: 3 фото
+  0am325025HX: 3 фото
+  0am325025P: 1 фото
+  0am325025ae: 1 фото
+  0am325025f: 1 фото
+  0am325025hfe: 2 фото
+  0am325025j: 1 фото
+  0am325025l: 1 фото
+  0am325025m: 1 фото
+  0am325025n: 1 фото
+  0am325025q: 1 фото
+  0am325025r: 1 фото
+  0am325025u: 1 фото
+  0am325025z: 1 фото
+  0am325025С: 1 фото
+  0am325066AC: 1 фото
+  0am325066ad: 2 фото
+  0am325066ae: 2 фото
+  0am325091e: 1 фото
+  0am325091f: 1 фото
+  0am325477: 1 фото
+  122390AKAF: 1 фото
+  123014‑AF: 1 фото
+  31705-1XF0C: 1 фото
+  31705-X428B: 3 фото
+  317053TX0C: 1 фото
+  55565480: 1 фото
+  DQ500: 4 фото
+  TESTWB001: 1 фото
+  WHT001922: 1 фото
+  filtr-dsg7-dq200: 2 фото
+  filtr-dsg7-dq500: 1 фото
+  jf011e: 1 фото
+  kryshka-mehatronika-dq200: 1 фото
+  plastina-solenoid-dq200: 1 фото
+  plita-filtr-orig: 1 фото
+  plita-filtr-pylniki-sal-orig: 1 фото
+  plita-pylniki-salniki: 1 фото
+  prokladka-kryshki-dq200: 1 фото
+  prokladka-vtulki-dq200: 1 фото
+  separatornaya-plastina-dq200: 1 фото
+  02E927770AL: 1 фото
+  0AM927769D-plata: 1 фото
+  0AM927769N: 1 фото
+  0am325025x: 1 фото
+  0am325091e-set: 1 фото
+  0am325091f-set: 1 фото
+  0am325477ae: 1 фото
+  0cw0am: 2 фото
+  0cw0am325025: 3 фото
+  0cw0amdsgdq200: 1 фото
+  0cw325025h: 1 фото
+  0сц: 4 фото
+  Dq200dsg7: 1 фото
+  Dq200dsg70am0cw: 1 фото
+  filtr-setka-0b5-orig: 1 фото
+  gidroakkumulyator-orig: 1 фото
+  klipsy-shtokov-2sht: 1 фото
+  planka-solenoid-2sht: 1 фото
+  plastiny-solenoid-orig: 1 фото
+  plita-filtr: 1 фото
+  plita-filtr-pylniki: 1 фото
+  plita-filtr-pylniki-orig: 1 фото
+  plita-filtr-pylniki-sal: 1 фото
+  plita-filtr-salniki-orig: 1 фото
+  plita-pylniki-salniki-orig: 1 фото
+  porshni-usil-pylniki-kryshki: 1 фото
+  pylniki-shtokov-orig: 1 фото
+  remkomplekt-shtokov-orig: 1 фото
+  salnik-shtoka-orig: 2 фото
+  salnik-tolkatelya-alum: 2 фото
+  salniki-shtokov-2sht: 1 фото
+  salniki-shtokov-orig: 1 фото
+  salniki-tolkatelya-4sht: 2 фото
+  salnikprivod-l: 1 фото
+  salnikprivod-r: 1 фото
+  salnikvhod: 1 фото
+  salnikvihod: 1 фото
+  stalnaya-vstavka-plity: 1 фото
+  tolkateli-4-salniki-4: 1 фото
+  tolkateli-salniki-alum-komplekt: 1 фото
+  vtulki-shtokov-2sht: 1 фото
+  korpus-filtra-0bh325159: 2 фото
+
+=== Шаг 3/3: build-master-control ===
+Готово: /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
+Известных артикулов: 133 (Ozon существующих 123, Ozon черновиков 1, только-WB существующих 10, только-WB черновиков 0)
+Медиафайлов: 173, сопоставлено 171 в 119 товарах
+Нераспознанных файлов: 2 — см. лист 'Нераспознанные фото' в /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
+
+Готово: attach-photos-all завершён. Дальше — push-photos-dryrun, чтобы проверить, что уйдёт на Ozon и WB.
+[attach-photos-all: 33 с]
+
+=== Шаг 3: push-photos (Ozon + WB) ===
+=== Ozon: реальная отправка ===
+ПРЕДУПРЕЖДЕНИЯ ПЕРЕД ОТПРАВКОЙ (не блокируют, но проверьте):
+  - Похоже на случайный дубль артикула (отличаются только регистром букв): DQ500, Dq500 — возможно, это одна и та же деталь, заведённая дважды.
+  - Похоже на случайный дубль артикула (отличаются только регистром букв): EA888gen3, Ea888gen3 — возможно, это одна и та же деталь, заведённая дважды.
+
+Отправлять нечего: либо ни одна строка xlsx не совпала с offer_id из ozon_products.json (см. предупреждения выше), либо (чаще) всё, что есть в xlsx, уже было отправлено раньше и с тех пор не менялось (см. data/ozon_push_cache.json) — это нормальный исход, не ошибка.
+
+=== WB: реальная отправка ===
+Отправлять нечего: либо ни одна строка xlsx не совпала с vendorCode из wb_cards.json, либо (чаще) всё, что есть в xlsx, уже было отправлено раньше и с тех пор не менялось — это нормальный исход, не ошибка.
+
+[push-photos: 0 с]
+
+=== Шаг 4: push-wb-price ===
+Цены на WB менять не нужно: ни одна цена в wb_catalog.xlsx не отличается от текущей на WB.
+[push-wb-price: 0 с]
+
+=== Шаг 4б: цены Ozon = мастер (только расхождения) ===
+Пропускаю (no_price_sync в ozon_overrides.json): Ea888gen3
+0am325477ae: на Ozon 2479 / до скидки 4000 -> по файлу 2860 / 4000
+
+Товаров с расхождением цены: 1 из 122
+Отправлено: 1, с ошибкой: 0
+[sync-ozon-prices: 2 с]
+
+=== Шаг 5: push-stock (Ozon) ===
+Пропущено по мастеру «Ozon: нет»: 2
+  ОК 01X301127C: остаток обновлён
+  ОК 02E 305 045: остаток обновлён
+  ОК 02E305051C: остаток обновлён
+  ОК 02E927770AL: остаток обновлён
+  ОК 02e305045: остаток обновлён
+  ОК 0AM301212A: остаток обновлён
+  ОК 0AM325025B: остаток обновлён
+  ОК 0AM325120A: остаток обновлён
+  ОК 0AM325219C: остаток обновлён
+  ОК 0AM325413A: остаток обновлён
+  ОК 0AM325433E: остаток обновлён
+  ОК 0AM325443D: остаток обновлён
+  ОК 0AM325467J: остаток обновлён
+  ОК 0AM325473: остаток обновлён
+  ОК 0AM325587E: остаток обновлён
+  ОК 0AM927769D: остаток обновлён
+  ОК 0AM927769N: остаток обновлён
+  ОК 0BH325183: остаток обновлён
+  ОК 0BH325183 B: остаток обновлён
+  ОК 0am325025: остаток обновлён
+  ОК 0am325025D: остаток обновлён
+  ОК 0am325025G: остаток обновлён
+  ОК 0am325025H: остаток обновлён
+  ОК 0am325025HX: остаток обновлён
+  ОК 0am325025P: остаток обновлён
+  ОК 0am325025ae: остаток обновлён
+  ОК 0am325025f: остаток обновлён
+  ОК 0am325025hfe: остаток обновлён
+  ОК 0am325025j: остаток обновлён
+  ОК 0am325025l: остаток обновлён
+  ОК 0am325025m: остаток обновлён
+  ОК 0am325025n: остаток обновлён
+  ОК 0am325025q: остаток обновлён
+  ОК 0am325025r: остаток обновлён
+  ОК 0am325025u: остаток обновлён
+  ОК 0am325025x: остаток обновлён
+  ОК 0am325025z: остаток обновлён
+  ОК 0am325025С: остаток обновлён
+  ОК 0am325066AC: остаток обновлён
+  ОК 0am325066ad: остаток обновлён
+  ОК 0am325066ae: остаток обновлён
+  ОК 0am325091e: остаток обновлён
+  ОК 0am325091e-set: остаток обновлён
+  ОК 0am325091f: остаток обновлён
+  ОК 0am325091f-set: остаток обновлён
+  ОК 0am325477: остаток обновлён
+  ОК 0am325477ae: остаток обновлён
+  ОК 0ambset: остаток обновлён
+  ОК 0cw0am: остаток обновлён
+  ОК 0cw0am325025: остаток обновлён
+  ОК 0cw0amdsgdq200: остаток обновлён
+  ОК 0cw325025h: остаток обновлён
+  ОК 0сц: остаток обновлён
+  ОК 122390AK-AF: остаток обновлён
+  ОК 122390AKAF: остаток обновлён
+  ОК 123014‑AF: остаток обновлён
+  ОК 31705-1XF0C: остаток обновлён
+  ОК 31705-X428B: остаток обновлён
+  ОК 317053TX0C: остаток обновлён
+  ОК 55565480: остаток обновлён
+  ОК 6t30: остаток обновлён
+  ОК DQ500: остаток обновлён
+  ОК Dq200dsg7: остаток обновлён
+  ОК Dq200dsg70am0cw: остаток обновлён
+  ОК Dq500: остаток обновлён
+  ОК EA888: остаток обновлён
+  ОК EA888gen3: остаток обновлён
+  ОК Ea888gen3: остаток обновлён
+  ОК WHT001922: остаток обновлён
+  ОК filtr-dsg7-dq200: остаток обновлён
+  ОК filtr-dsg7-dq500: остаток обновлён
+  ОК filtr-setka-0b5-orig: остаток обновлён
+  ОК gidroakkumulyator-orig: остаток обновлён
+  ОК jf011e: остаток обновлён
+  ОК klipsy-shtokov-2sht: остаток обновлён
+  ОК korpus-filtra-0bh325159: остаток обновлён
+  ОК kryshka-mehatronika-dq200: остаток обновлён
+  ОК nakladki-pedali: остаток обновлён
+  ОК planka-solenoid-2sht: остаток обновлён
+  ОК plastina-solenoid-dq200: остаток обновлён
+  ОК plastiny-solenoid-orig: остаток обновлён
+  ОК plita-filtr-orig: остаток обновлён
+  ОК plita-filtr-pylniki: остаток обновлён
+  ОК plita-filtr-pylniki-orig: остаток обновлён
+  ОК plita-filtr-pylniki-sal: остаток обновлён
+  ОК plita-filtr-salniki-orig: остаток обновлён
+  ОК plita-filtr-v2: остаток обновлён
+  ОК podshipnik-vilki-6: остаток обновлён
+  ОК prokladka-kryshki-dq200: остаток обновлён
+  ОК prokladka-vtulki-dq200: остаток обновлён
+  ОК pylniki-shtokov-orig: остаток обновлён
+  ОК pylniki-shtokov-orig-v2: остаток обновлён
+  ОК salnik-tolkatelya-alum: остаток обновлён
+  ОК salniki-shtokov-2sht: остаток обновлён
+  ОК salniki-shtokov-orig: остаток обновлён
+  ОК salniki-tolkatelya-4sht: остаток обновлён
+  ОК salnikprivod-l: остаток обновлён
+  ОК salnikprivod-r: остаток обновлён
+  ОК salnikvhod: остаток обновлён
+  ОК salnikvihod: остаток обновлён
+  ОК separatornaya-plastina-dq200: остаток обновлён
+  ОК stalnaya-vstavka-plity: остаток обновлён
+  ОК tolkateli-4-salniki-4: остаток обновлён
+  ОК tolkateli-salniki-alum-komplekt: остаток обновлён
+  ОК vtulki-shtokov-2sht: остаток обновлён
+
+Итого: успешно 105, с ошибками 0, карточка не создана на Ozon 16
+Карточки не созданы на Ozon (остаток не отправлен): plastiny-solenoid-dq200-2sht, plita-filtr, plita-filtr-pylniki-sal-orig, plita-pylniki-salniki, plita-pylniki-salniki-orig, plita-pylniki-salniki-orig-v2, porshni-usil-pylniki-kryshki, porshni-usil-pylniki-kryshki-v2, prokladka-vtulki-niz-dq200, prokladka-vtulki-verh-dq200, remkomplekt-shtokov-orig, remkomplekt-shtokov-orig-v2, salnik-shtoka-orig, salnik-shtoka-orig-v2, separatornaya-plastiny-solenoid-dq200, solenoid-02e-0b5-bolshoy
+
+Причины (статус карточек на Ozon):
+Товаров по статусам:
+  Не продается: 16
+
+Товары с проблемами (16):
+  porshni-usil-pylniki-kryshki-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: pylniki-shtokov-orig - 2670095, pylniki-shtokov-orig
+  prokladka-vtulki-verh-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
+  plita-filtr: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-v2 - 2670095. Узнать", "short_descriptio
+  porshni-usil-pylniki-kryshki: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: pylniki-shtokov-orig - 2670095, pylniki-shtokov-orig
+  plita-pylniki-salniki: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-pylniki-sal - 2670095, plita-filtr-salni
+  remkomplekt-shtokov-orig-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
+  separatornaya-plastiny-solenoid-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
+  plita-filtr-pylniki-sal-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-salniki-orig - 2670095, plita-filtr-pyln
+  solenoid-02e-0b5-bolshoy: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
+  prokladka-vtulki-niz-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
+  salnik-shtoka-orig-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0AM325413A - 2670095. Узнать", "short_description": 
+  salnik-shtoka-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0AM325413A - 2670095. Узнать", "short_description": 
+  plita-pylniki-salniki-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-v2 - 2670095, plita-filtr-pylniki - 2670
+  plastiny-solenoid-dq200-2sht: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
+  plita-pylniki-salniki-orig-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-pylniki - 2670095, plita-filtr-pylniki-o
+  remkomplekt-shtokov-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
+[push-stock: 3 с]
+
+=== Шаг 6: push-wb-stock (WB) ===
+ВНИМАНИЕ: 16 артикул(ов) без карточки/штрихкода на WB, пропущены: 0BH325, 0ambset, 6t30, Dq500, EA888, EA888gen3, Ea888gen3, TEST001, nakladki-pedali, plita-filtr-v2, plita-pylniki-salniki-orig-v2, podshipnik-vilki-6, porshni-usil-pylniki-kryshki-v2, pylniki-shtokov-orig-v2, remkomplekt-shtokov-orig-v2, salnik-shtoka-orig-v2
+  ОК: партия из 108 остатков отправлена (01X301127C, 02E 305 045, 02E305051C, 02E927770AL, 02e305045, 0AM301212A, 0AM325025B, 0AM325120A, 0AM325219C, 0AM325413A, 0AM325433E, 0AM325443D, 0AM325467J, 0AM325473, 0AM325587E, 0AM927769D, 0AM927769N, 0BH325183, 0BH325183 B, 0am325025, 0am325025D, 0am325025G, 0am325025H, 0am325025HX, 0am325025P, 0am325025ae, 0am325025f, 0am325025hfe, 0am325025j, 0am325025l, 0am325025m, 0am325025n, 0am325025q, 0am325025r, 0am325025u, 0am325025x, 0am325025z, 0am325025С, 0am325066AC, 0am325066ad, 0am325066ae, 0am325091e, 0am325091e-set, 0am325091f, 0am325091f-set, 0am325477, 0am325477ae, 0cw0am, 0cw0am325025, 0cw0amdsgdq200, 0cw325025h, 0сц, 122390AK-AF, 122390AKAF, 123014‑AF, 31705-1XF0C, 31705-X428B, 317053TX0C, 55565480, DQ500, Dq200dsg7, Dq200dsg70am0cw, WHT001922, filtr-dsg7-dq200, filtr-dsg7-dq500, filtr-setka-0b5-orig, gidroakkumulyator-orig, jf011e, klipsy-shtokov-2sht, korpus-filtra-0bh325159, kryshka-mehatronika-dq200, planka-solenoid-2sht, plastina-solenoid-dq200, plastiny-solenoid-dq200-2sht, plastiny-solenoid-orig, plita-filtr, plita-filtr-orig, plita-filtr-pylniki, plita-filtr-pylniki-orig, plita-filtr-pylniki-sal, plita-filtr-pylniki-sal-orig, plita-filtr-salniki-orig, plita-pylniki-salniki, plita-pylniki-salniki-orig, porshni-usil-pylniki-kryshki, prokladka-kryshki-dq200, prokladka-vtulki-dq200, prokladka-vtulki-niz-dq200, prokladka-vtulki-verh-dq200, pylniki-shtokov-orig, remkomplekt-shtokov-orig, salnik-shtoka-orig, salnik-tolkatelya-alum, salniki-shtokov-2sht, salniki-shtokov-orig, salniki-tolkatelya-4sht, salnikprivod-l, salnikprivod-r, salnikvhod, salnikvihod, separatornaya-plastina-dq200, separatornaya-plastiny-solenoid-dq200, solenoid-02e-0b5-bolshoy, stalnaya-vstavka-plity, tolkateli-4-salniki-4, tolkateli-salniki-alum-komplekt, vtulki-shtokov-2sht, 0AM927769D (снята))
+
+Итого: успешно 108, с ошибками 0
+[push-wb-stock: 1 с]
+
+=== Шаг 6б: Ozon — выход из бустинга и автоакций ===
+Акций, доступных продавцу через API: 5
+  «Эластичный бустинг. Без ограничения срока действия» (id 1977747): наших товаров в акции 6 — ВЫХОДИМ
+    товары в акции: 0am325025l, 0am325025D, 01X301127C, 0AM927769N, 0am325025z, 0am325477ae
+    артикул: наша цена | цена в акции | ПОРОГ (выйти — поставить цену выше порога) | режим
+      0am325025l: 1490 | 1490 | 2173 | MANUAL
+      0am325025D: 2890 | 2890 | 4126 | MANUAL
+      01X301127C: 879 | 879 | 1533 | MANUAL
+      0AM927769N: 3479 | 3479 | 4867 | MANUAL
+      0am325025z: 4490 | 4490 | 6198 | MANUAL
+      0am325477ae: 2479 | 2479 | 2850 | MANUAL
+    Через API убрать из акции не удалось: Ozon /v1/actions/products/deactivate вернул 400: {"code":9,"message":"the method is blocked due to unified price logic. To resume management via promotions, please switch to the new methods https://docs.ozon.ru/api/seller/#tag/Promos"}
+    -> Убрать вручную: Маркетинговые инструменты → Акции → эта акция → выбрать товары → убрать. Ниже выключаем автодобавление — это может вывести товары из эластичного бустинга само.
+  «Супербустинг с дополнительными баллами за скидки» (id 4420432): наших товаров в акции 0
+  «Максимальный бустинг 11.11» (id 4400847): наших товаров в акции 0
+  «Максимальный бустинг: усиление 11.11» (id 4410985): наших товаров в акции 0
+  «Максимальный бустинг: усиление.» (id 4375943): наших товаров в акции 0
+Убрано из акций: 0, не убрано: 0
+
+Лимит акции (минимальная цена = наша цена), чтобы Ozon не опускал цену на сайте ниже нашей:
+  0am325025l: лимит уже = цене (1490)
+  0am325025D: лимит уже = цене (2890)
+  01X301127C: лимит уже = цене (879)
+  0AM927769N: лимит уже = цене (3479)
+  0am325025z: лимит уже = цене (4490)
+  0am325477ae: лимит уже = цене (2479)
+  лимит выставлен: 0, с ошибкой: 0
+
+Автодобавление в акции:
+
+Товаров с включённым автодобавлением: 0
+Выключено: 0, с ошибкой: 0
+[ozon-leave-boosting: 6 с]
+
+=== Шаг 7: Яндекс Маркет — остатки ===
+  0am325025L: вариант артикула с другим регистром — отправляю остаток 95
+  0am325025p: вариант артикула с другим регистром — отправляю остаток 80
+  0am325066ac: вариант артикула с другим регистром — отправляю остаток 24
+ВНИМАНИЕ: на Маркете есть товары, которых нет в нашем каталоге с остатком — их остаток бот НЕ меняет (6): 0am325025e, 0b5, 0BH325183B, 31705-1XF1A, jf015, 0am325025Y
+push-yandex-stock: принято Маркетом 126 из 126.
+[push-yandex-stock: 2 с]
+
+=== Шаг 7б: фото для Авито (photos_avito) ===
+Фото для Авито: товаров с актуальными ссылками — 85
+[attach-avito-photos: 27 с]
+
+=== Шаг 8: build-avito-catalog ===
+Готово: 100 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
+Пропущено (остаток 0 в master_control.xlsx — сняты с продажи): 0AM325473, 0BH325, 0ambset, 0cw0am325025, 122390AKAF, 31705-1XF0C, 31705-X428B, 6t30, Dq200dsg70am0cw, TEST001, jf011e, nakladki-pedali, plita-filtr-pylniki-orig, plita-filtr-pylniki-sal-orig, plita-pylniki-salniki-orig, plita-pylniki-salniki-orig-v2, pylniki-shtokov-orig, pylniki-shtokov-orig-v2, remkomplekt-shtokov-orig, remkomplekt-shtokov-orig-v2
+
+ВНИМАНИЕ: не удалось автоматически определить 'Тип детали трансмиссии' для 3 товаров — они НЕ включены в файл (это обязательное поле, пустым Avito бы всё равно отклонил). Если это ошибка классификации — допишите ключевое слово в avito_feed.py. Если товар не по теме этого шаблона (не запчасть трансмиссии) — для него нужен другой шаблон категории Avito:
+  EA888: Алюминиевый корпус масляного фильтра EA888 Gen3 (крышка, колба, корпус обратного клапана) 06L115401S для 1.8 2.0 TSI
+  EA888gen3: Комплект: алюминиевый корпус (крышка) масляного фильтра + обратный клапан EA888 Gen3 06L115401S 06L115678AD
+  Ea888gen3: Обратный клапан масляного фильтра EA888 Gen3 06L115678AD для двигателей 1.8 2.0 TSI
+
+Файл также залит по постоянной ссылке: https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito_feed.xlsx
+Если ещё не настроили — вставьте эту ссылку ОДИН РАЗ в личном кабинете Avito: Автозагрузка -> Настройки -> «Автозагрузка по ссылке», отметьте побольше дней/часов опроса. Дальше Avito сам будет скачивать и обрабатывать файл — загружать вручную больше не нужно.
+[build-avito-catalog: 4 с]
+
+=== Шаг 9: Tilda (сайт), CommerceML ===
+Собрано товаров: 123 (из них с остатком 0 -> на сайте 'нет в наличии': 20).
+Без фото: 122390AK-AF, plastiny-solenoid-dq200-2sht, prokladka-vtulki-niz-dq200, prokladka-vtulki-verh-dq200, separatornaya-plastiny-solenoid-dq200, solenoid-02e-0b5-bolshoy
+  checkauth: success
+  init: zip=no | file_limit=3145728
+  file import0_1.xml: success
+  file offers0_1.xml: success
+  import import0_1.xml: success
+  import offers0_1.xml: success
+push-tilda: готово. Проверьте результат на сайте и в 'Истории синхронизации' в Тильде.
+[push-tilda: 5 с]
+
+=== Шаг 10: ревизия площадок (только чтение, на результат update-cards не влияет) ===
+=== Ревизия: обновляю выгрузки с площадок ===
+
+--- Ozon: товары ---
+Сохранено 122 товаров Ozon (с названиями) в /home/runner/work/marketplace-agent/marketplace-agent/data/ozon_products.json
+
+--- Ozon: остатки ---
+Ozon: остатки FBS по 105 товарам -> data/ozon_stocks.json
+
+--- WB: карточки --- (берём файл, скачанный в начале update-cards)
+
+--- Яндекс Маркет ---
+Товаров на Маркете (не в архиве): 132; в нашем каталоге: 123.
+Есть на Маркете, но нет в каталоге (9): 0BH325183B, 0am325025L, 0am325025Y, 0am325025e, 0am325025p, 0am325066ac, 0b5, 31705-1XF1A, jf015
+Есть в каталоге, но нет на Маркете (0): —
+
+Полный список сохранён в data/yandex_market_offers.xlsx (после запуска сделайте Pull origin).
+
+--- Авито: объявления и отчёт автозагрузки ---
+Авито: 170 объявлений -> data/avito_live.json
+Авито: строк отчёта автозагрузки: 111 -> data/avito_autoload.json
+
+=== Ревизия: сверка ===
+Ревизия площадок: проблем ВАЖНО 12, СРЕДНЕ 60, НИЗКО 7 (Авито: живые объявления)
+  - Авито: объявление не из фида — 50
+  - WB: нет на площадке — 7
+  - Маркет: нет в мастере — 4
+  - Авито: нет на площадке — 3
+  - Ozon: цена — 2
+  - Ozon: лишний — 2
+  - Маркет: название — 2
+  - Tilda: лишний — 1
+  - WB: лишний — 1
+  - Авито: дубль объявления — 1
+  - Маркет: лишний — 1
+  - Ozon: артикул отличается регистром — 1
+Подробности: data/audit_report.xlsx (после запуска сделайте Pull origin).
+
+update-cards: готово — всё обновлено: Ozon, WB, Avito, сайт, Яндекс Маркет (остатки).
