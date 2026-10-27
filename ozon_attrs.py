@@ -264,6 +264,25 @@ def cmd_apply() -> int:
             coll = "(список)" in str(r[idx["Тип"]] or "")
             if did:
                 values = [{"dictionary_value_id": int(did), "value": val}]
+            elif "справочник" in str(r[idx["Тип"]] or ""):
+                # значения справочника без id: ищем ТОЧНОЕ совпадение по каждому слову; если хоть одно
+                # не найдено — атрибут не отправляем (ничего неверного на Ozon не уходит)
+                inf = infos.get(art) or {}
+                dcid, tid = inf.get("description_category_id"), inf.get("type_id")
+                values, miss = [], []
+                for part in [v.strip() for v in val.split(",") if v.strip()]:
+                    try:
+                        found = oc.search_attribute_values(dcid, tid, aid, part)
+                    except Exception:  # noqa: BLE001
+                        found = []
+                    hit = next((f for f in found if str(f.get("value", "")).strip().lower() == part.lower()), None)
+                    if hit:
+                        values.append({"dictionary_value_id": int(hit["id"]), "value": hit["value"]})
+                    else:
+                        miss.append(f"«{part}» (похожие: {', '.join(str(f.get('value')) for f in found[:8]) or 'нет'})")
+                if miss or not values:
+                    log.append(f"{art}: {r[idx['Атрибут']]} НЕ отправлено — нет в справочнике Ozon: {'; '.join(miss)}")
+                    continue
             elif coll:
                 values = [{"value": v.strip()} for v in val.split(",") if v.strip()]
             else:
