@@ -116,8 +116,9 @@ EXTRA_HEADERS = [
     "Длина, см",
     "Ширина, см",
     "Высота, см",
+    "Закупка, ₽",
 ]
-EXTRA_WIDTHS = [9, 9, 9, 9, 9, 22, 8, 8, 8, 8]
+EXTRA_WIDTHS = [9, 9, 9, 9, 9, 22, 8, 8, 8, 8, 11]
 HEADERS = HEADERS + EXTRA_HEADERS
 COL_WIDTHS = COL_WIDTHS + EXTRA_WIDTHS
 EXTRA_FIRST_COL = 17

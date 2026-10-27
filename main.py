@@ -4197,6 +4197,8 @@ def main() -> int:
     parser.add_argument("--social-publish", action="store_true", help="Опубликовать самый ранний готовый пост на каждую площадку (--article N,M — принудительно эти посты)")
     parser.add_argument("--store-links", action="store_true", help="Ссылки на страницы наших магазинов на Ozon/WB/Маркете (data/store_links.json)")
     parser.add_argument("--photo-text-audit", action="store_true", help="Распознать текст на всех картинках и найти «видео/скидка/%/дешевле/оптовикам» (data/photo_text_audit.xlsx)")
+    parser.add_argument("--price-audit", action="store_true", help="Ревизия цен и прибыли (data/price_audit.xlsx), с начислениями Ozon")
+    parser.add_argument("--ozon-finance", action="store_true", help="Фактические начисления Ozon за 30 дней (data/ozon_finance.json)")
     parser.add_argument("--wb-zero-stock", action="store_true", help="Обнулить остаток на WB для артикулов из --article (через запятую)")
     parser.add_argument("--fix-partnumbers", action="store_true", help="Исправить «номер детали» на 7 карточках Ozon/WB (fix_partnumbers.py)")
     parser.add_argument("--fix-partnumbers-dryrun", action="store_true", help="То же без отправки")
@@ -4439,6 +4441,12 @@ def main() -> int:
     if args.photo_text_audit:
         import photo_text_audit
         return photo_text_audit.cmd_photo_text_audit()
+    if args.price_audit:
+        import price_audit
+        return price_audit.cmd_price_audit()
+    if args.ozon_finance:
+        import price_audit
+        return price_audit.cmd_ozon_finance()
     if args.wb_zero_stock:
         return cmd_wb_zero_stock(args.article or "")
     if args.fix_partnumbers or args.fix_partnumbers_dryrun:
