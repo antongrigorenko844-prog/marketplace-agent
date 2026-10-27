@@ -3295,6 +3295,42 @@ def cmd_diag_ozon_product(article: str) -> int:
     return 0
 
 
+def cmd_diag_ozon_orders() -> int:
+    """
+    Только чтение: проверяет, отдаёт ли Ozon заказы FBS/FBO (те же методы, что
+    stock_sync.py), и пишет итог в data/ozon_orders_diag.txt — по дням и с
+    текстом ошибки, если она есть. Ничего не меняет (остатки не списывает).
+    """
+    import collections
+    import datetime
+    import traceback
+    import ozon_client
+
+    lines = []
+    now = datetime.datetime.now(datetime.timezone.utc)
+    fmt = lambda d: d.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+    for days in (30, 10):
+        since = now - datetime.timedelta(days=days)
+        for name, fn in (("FBS", ozon_client.get_fbs_orders_since), ("FBO", ozon_client.get_fbo_orders_since)):
+            try:
+                posts = fn(fmt(since), fmt(now))
+                by_day = collections.Counter(
+                    str(p.get("in_process_at") or p.get("created_at") or "")[:10] for p in posts
+                )
+                statuses = collections.Counter(str(p.get("status")) for p in posts)
+                lines.append(f"{name} за {days} дн.: {len(posts)} отправлений; статусы {dict(statuses)}")
+                for d in sorted(by_day):
+                    lines.append(f"   {d}: {by_day[d]}")
+            except Exception as exc:
+                lines.append(f"{name} за {days} дн.: ОШИБКА {exc}")
+                lines.append(traceback.format_exc()[-1500:])
+    os.makedirs("data", exist_ok=True)
+    with open(os.path.join("data", "ozon_orders_diag.txt"), "w", encoding="utf-8") as f:
+        f.write(f"Проверка {fmt(now)}\n" + "\n".join(lines) + "\n")
+    print("\n".join(lines))
+    return 0
+
+
 def cmd_diag_ozon_prices(article: str) -> int:
     """
     Только чтение: сырой ответ /v5/product/info/prices по товарам из --article
@@ -4185,6 +4221,7 @@ def main() -> int:
     parser.add_argument("--disable-ozon-auto-actions-dryrun", action="store_true", help="Показать товары с включённым автодобавлением в акции Ozon (ничего не меняет)")
     parser.add_argument("--disable-ozon-auto-actions", action="store_true", help="Выключить автодобавление в акции Ozon (цены не меняются; --article ограничивает список)")
     parser.add_argument("--diag-tnved", action="store_true", help="Диагностика (только чтение): ищет код ТН ВЭД (--seed-phrase, по умолчанию 8708409909) в справочнике Ozon для категории товара --article")
+    parser.add_argument("--diag-ozon-orders", action="store_true", help="Диагностика (только чтение): отдаёт ли Ozon заказы FBS/FBO, итог в data/ozon_orders_diag.txt")
     parser.add_argument("--diag-ozon-prices", action="store_true", help="Диагностика (только чтение): цены и предельная цена Ozon по --article (через запятую) или по всем товарам")
     parser.add_argument("--diag-ozon-product", action="store_true", help="Диагностика: показать сырой ответ Ozon (статус/ошибки/фото) по одному offer_id из --article")
     parser.add_argument("--diag-wb-new-cards", action="store_true", help="Диагностика: почему созданные через push-wb-new-cards/push-new-product-all карточки не появились на WB (причины ошибок)")
@@ -4432,6 +4469,8 @@ def main() -> int:
         return cmd_disable_ozon_auto_actions(False, args.article)
     if args.diag_tnved:
         return cmd_diag_tnved(args.article, getattr(args, "seed_phrase", ""))
+    if args.diag_ozon_orders:
+        return cmd_diag_ozon_orders()
     if args.diag_ozon_prices:
         return cmd_diag_ozon_prices(args.article)
     if args.diag_ozon_product:
