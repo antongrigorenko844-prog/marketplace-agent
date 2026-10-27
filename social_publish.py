@@ -348,9 +348,39 @@ def buy_block(p: dict, platform: str) -> str:
     url = _site_url(p, "vk") if platform == "vk" else ""
     if url:
         out.append(f"🛒 На сайте дешевле, чем на маркетплейсах: {url}")
+    ex = exchange_line(arts)
+    if ex:
+        out.append(ex)
     if parts:
         out.append("Артикулы: " + " · ".join(parts))
     return "\n".join(out)
+
+
+_NAMES = None
+
+
+def exchange_line(arts: List[str]) -> str:
+    """Обмен мехатроника DQ200 (условия владельца 27.10.2026): старый без платы — вернём 4 000 ₽,
+    в сборе с платой — 6 000 ₽; принимаем без ржавчины и следов воды, пригодный к восстановлению."""
+    global _NAMES
+    if _NAMES is None:
+        _NAMES = {}
+        try:
+            import openpyxl
+            ws = openpyxl.load_workbook(os.path.join(_ROOT, "data", "master_control.xlsx"), read_only=True).worksheets[0]
+            for r in ws.iter_rows(min_row=2, values_only=True):
+                if r[0] and r[5]:
+                    _NAMES[str(r[0]).lower()] = str(r[5])
+        except Exception:  # noqa
+            pass
+    names = [_NAMES.get(a.lower(), "").lower() for a in arts]
+    mech = [n for n in names if n.startswith("мехатроник") and "dq200" in n]
+    if not mech:
+        return ""
+    amount = "6 000" if any("плат" in n for n in mech) else "4 000"
+    what = "старого мехатроника с платой" if amount == "6 000" else "старого мехатроника"
+    return (f"♻️ Обмен: при сдаче {what} — на {amount} ₽ дешевле (на сайте и Авито). "
+            "Старый — без ржавчины и следов воды, пригодный к восстановлению; пересылку оплачиваем мы")
 
 
 def _with_buy(text: str, p: dict, platform: Optional[str]) -> str:
