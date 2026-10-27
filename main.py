@@ -1053,6 +1053,25 @@ def _cmd_update_cards_impl() -> int:
     except Exception as exc:  # noqa: BLE001 — не должно ронять update-cards
         print(f"(автосоздание карточек Ozon пропущено: {exc})")
 
+    # Новые карточки, уже созданные на Ozon, должны попасть в общий каталог (ozon_catalog.xlsx) — иначе им не
+    # уходят фото/остаток на Ozon и они не появляются на Авито и сайте (найдено 2026-10-28 на 0AM927769F).
+    print("\n=== Шаг 0а-4: новые карточки Ozon -> общий каталог ===")
+    try:
+        import openpyxl as _ox
+        with open(_data_path("ozon_products.json"), "r", encoding="utf-8") as _f:
+            _on_ozon = {p.get("offer_id") for p in json.load(_f).get("names", []) if p.get("offer_id")}
+        _ws = _ox.load_workbook(_data_path("ozon_catalog.xlsx"), read_only=True).active
+        _in_cat = {str(r[0]).strip() for r in _ws.iter_rows(min_row=2, values_only=True) if r and r[0]}
+        _missing = sorted((_on_ozon - _in_cat) | (set(_OZON_LAST_CREATED) - _in_cat))
+        if _missing:
+            print(f"Есть на Ozon, но нет в каталоге: {', '.join(_missing)} — fetch-ozon + build-ozon-catalog.")
+            if cmd_fetch_ozon() == 0:
+                cmd_build_ozon_catalog()
+        else:
+            print("Все карточки Ozon уже в каталоге.")
+    except Exception as exc:  # noqa: BLE001 — не должно ронять update-cards
+        print(f"(обновление каталога Ozon пропущено: {exc})")
+
     # Правило: цена на Ozon, WB и Маркете одинаковая. Перед переносом правок мастера в каталоги
     # цена WB приравнивается к цене Ozon (колонки «Цена WB» и «Цена, ₽» мастера).
     print("\n=== Шаг 0б: цена WB = цена Ozon ===")
