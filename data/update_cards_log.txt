@@ -45,32 +45,18 @@ validate-master: критичных ошибок нет, предупрежде�
 К созданию на Ozon: 0 товаров.
 
 === Шаг 0б: цена WB = цена Ozon ===
-Расхождений цены WB и Ozon: 0
+Расхождений цены WB и Ozon: 1
+  0AM927769D: WB 78800 -> 78850 ₽ (+0%)
 
+Готово: колонка «Цена WB» в мастере обновлена. Дальше: Pull, push-wb-price-dryrun (проверить), затем update-cards.
 
 === Шаг 0в: цены Авито и сайта = доля от цены маркетплейсов ===
-Правило: доля 70%; пересчитано цен Авито/сайта: 113
-  01X301127C: 620.0 -> 670
-  02E 305 045: 4120.0 -> 4090
-  02E305051C: 1320.0 -> 1300
-  02E927770AL: 70800.0 -> 71310
-  02e305045: 2720.0 -> 2700
-  0AM301212A: 1040.0 -> 940
-  0AM325025B: 6640.0 -> 6550
-  0AM325120A: 700.0 -> 670
-  0AM325219C: 2890.0 -> 3050
-  0AM325413A: 700.0 -> 670
-  0AM325433E: 1040.0 -> 940
-  0AM325443D: 1780.0 -> 1650
-  0AM325467J: 1390.0 -> 1300
-  0AM325473: 8390.0 -> 8300
-  0AM927769D: 47280.0 -> 47310
-  ... и ещё 98
+Правило: доля 70%; пересчитано цен Авито/сайта: 0
 
 === Шаг 1: sync-master-control ===
-master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 114
+master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 0
 master_control.xlsx -> ozon_new_products.xlsx: обновлено строк 0
-master_control.xlsx -> wb_catalog.xlsx: обновлено строк 100
+master_control.xlsx -> wb_catalog.xlsx: обновлено строк 0
 master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Изменённых обложек в столбце 'Фото' не найдено.
 
@@ -313,7 +299,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Нераспознанных файлов: 2 — см. лист 'Нераспознанные фото' в /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
 
 Готово: attach-photos-all завершён. Дальше — push-photos-dryrun, чтобы проверить, что уйдёт на Ozon и WB.
-[attach-photos-all: 29 с]
+[attach-photos-all: 33 с]
 
 === Шаг 3: push-photos (Ozon + WB) ===
 === Ozon: реальная отправка ===
@@ -321,246 +307,28 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   - Похоже на случайный дубль артикула (отличаются только регистром букв): DQ500, Dq500 — возможно, это одна и та же деталь, заведённая дважды.
   - Похоже на случайный дубль артикула (отличаются только регистром букв): EA888gen3, Ea888gen3 — возможно, это одна и та же деталь, заведённая дважды.
 
-Партия 1: task_id=5904731100, жду обработку...
-  ОК 01X301127C: статус imported
-  ОК 02E 305 045: статус imported
-  ОК 02E305051C: статус imported
-  ОК 02E927770AL: статус imported
-  ОК 02e305045: статус imported
-  ОК 0AM301212A: статус imported
-  ОК 0AM325025B: статус imported
-  ОК 0AM325120A: статус imported
-  ОК 0AM325219C: статус imported
-  ОК 0AM325413A: статус imported
-  ОК 0AM325433E: статус imported
-  ОК 0AM325443D: статус imported
-  ОК 0AM325467J: статус imported
-  ОК 0AM325473: статус imported
-  ОК 0AM927769D: статус imported
-  ОК 0AM927769N: статус imported
-  ОК 0BH325: статус imported
-  ОК 0BH325183: статус imported
-  ОК 0BH325183 B: статус imported
-  ОК 0am325025: статус imported
-  ОК 0am325025D: статус imported
-  ОК 0am325025G: статус imported
-  ОК 0am325025H: статус imported
-  ОК 0am325025HX: статус imported
-  ОК 0am325025P: статус imported
-  ОК 0am325025ae: статус imported
-  ОК 0am325025f: статус imported
-  ОК 0am325025hfe: статус imported
-  ОК 0am325025j: статус imported
-  ОК 0am325025l: статус imported
-  ОК 0am325025m: статус imported
-  ОК 0am325025n: статус imported
-  ОШИБКА 0am325025q: [{'code': 'ML_INCORRECT_VOLUME_WEIGHT', 'field': 'weight', 'attribute_id': 0, 'state': 'offer_validated', 'level': 'error', 'description': 'Габариты или вес сильно отличаются от похожих товаров: исправьте их и снова загрузите товар. Если уверены, что всё верно, пришлите артикул в поддержку: Товары и цены → Карточка товара → Наполнение карточки → ОВХ товара (размеры/вес).', 'attribute_name': '', 'message': 'Габариты или вес сильно отличаются от похожих товаров: исправьте их и снова загрузите товар. Если уверены, что всё верно, пришлите артикул в поддержку: Товары и цены → Карточка товара → Наполнение карточки → ОВХ товара (размеры/вес).'}]
-  ОК 0am325025r: статус imported
-  ОК 0am325025u: статус imported
-  ОК 0am325025x: статус imported
-  ОК 0am325025z: статус imported
-  ОК 0am325025С: статус imported
-  ОК 0am325066AC: статус imported
-  ОК 0am325066ad: статус imported
-  ОК 0am325066ae: статус imported
-  ОК 0am325091e: статус imported
-  ОК 0am325091f: статус imported
-  ОК 0am325477: статус imported
-  ОК 0am325477ae: статус imported
-  ОК 0ambset: статус imported
-  ОК 0cw0am: статус imported
-  ОК 0cw0am325025: статус imported
-  ОК 0cw0amdsgdq200: статус imported
-  ОК 0cw325025h: статус imported
-  ОК 0сц: статус imported
-  ОК 122390AK-AF: статус imported
-  ОК 122390AKAF: статус imported
-  ОК 123014‑AF: статус imported
-  ОК 31705-1XF0C: статус imported
-  ОК 31705-X428B: статус imported
-  ОК 317053TX0C: статус imported
-  ОК 55565480: статус imported
-  ОК 6t30: статус imported
-  ОК Dq200dsg7: статус imported
-  ОК Dq200dsg70am0cw: статус imported
-  ОК Dq500: статус imported
-  ОК EA888: статус imported
-  ОК EA888gen3: статус imported
-  ОК Ea888gen3: статус imported
-  ОК WHT001922: статус imported
-  ОК filtr-dsg7-dq200: статус imported
-  ОК filtr-dsg7-dq500: статус imported
-  ОК gidroakkumulyator-orig: статус imported
-  ОК jf011e: статус imported
-  ОК korpus-filtra-0bh325159: статус imported
-  ОК kryshka-mehatronika-dq200: статус imported
-  ОК planka-solenoid-2sht: статус imported
-  ОК plastina-solenoid-dq200: статус imported
-  ОК plastiny-solenoid-dq200-2sht: статус imported
-  ОК plastiny-solenoid-orig: статус imported
-  ОК plita-filtr: статус imported
-  ОК plita-filtr-orig: статус imported
-  ОК plita-filtr-pylniki: статус imported
-  ОК plita-filtr-pylniki-orig: статус imported
-  ОК plita-filtr-pylniki-sal: статус imported
-  ОК plita-filtr-pylniki-sal-orig: статус imported
-  ОК plita-filtr-salniki-orig: статус imported
-  ОК plita-filtr-v2: статус imported
-  ОК plita-pylniki-salniki: статус imported
-  ОК plita-pylniki-salniki-orig: статус imported
-  ОК plita-pylniki-salniki-orig-v2: статус imported
-  ОК podshipnik-vilki-6: статус imported
-  ОК porshni-usil-pylniki-kryshki: статус imported
-  ОК porshni-usil-pylniki-kryshki-v2: статус imported
-  ОК prokladka-kryshki-dq200: статус imported
-  ОК prokladka-vtulki-dq200: статус imported
-  ОК prokladka-vtulki-niz-dq200: статус imported
-  ОК prokladka-vtulki-verh-dq200: статус imported
-  ОК pylniki-shtokov-orig: статус imported
-  ОК pylniki-shtokov-orig-v2: статус imported
-  ОК salnik-shtoka-orig: статус imported
-  ОК salnik-shtoka-orig-v2: статус imported
-  ОК salnik-tolkatelya-alum: статус imported
-  ОК salniki-shtokov-2sht: статус imported
-Партия 2: task_id=5904731400, жду обработку...
-  ОК salniki-shtokov-orig: статус imported
-  ОК salniki-tolkatelya-4sht: статус imported
-  ОК salnikprivod-l: статус imported
-  ОК salnikprivod-r: статус imported
-  ОК salnikvhod: статус imported
-  ОК salnikvihod: статус imported
-  ОК separatornaya-plastina-dq200: статус imported
-  ОК separatornaya-plastiny-solenoid-dq200: статус imported
-  ОК solenoid-02e-0b5-bolshoy: статус imported
-  ОК stalnaya-vstavka-plity: статус imported
-  ОК tolkateli-4-salniki-4: статус imported
-  ОК tolkateli-salniki-alum-komplekt: статус imported
-  ОК vtulki-shtokov-2sht: статус imported
+Партия 1: task_id=5904754041, жду обработку...
+  ОК 0am325025q: статус skipped
 
-Итого: успешно 112, с ошибками 1
+Итого: успешно 1, с ошибками 0
 
 === WB: реальная отправка ===
 Отправлять нечего: либо ни одна строка xlsx не совпала с vendorCode из wb_cards.json, либо (чаще) всё, что есть в xlsx, уже было отправлено раньше и с тех пор не менялось — это нормальный исход, не ошибка.
 
-push-photos: WB отправлен успешно, но Ozon завершился с ошибкой — проверьте вывод выше.
-[push-photos: 16 с]
+[push-photos: 5 с]
 
 === Шаг 4: push-wb-price ===
-Цена отправлена для 100 товаров:
-  01X301127C: 878.85 -> 950 ₽
-  02E 305 045: 5879 -> 5850 ₽
-  02E305051C: 1879.15 -> 1850 ₽
-  02e305045: 3879 -> 3850 ₽
-  0AM301212A: 1478.88 -> 1350 ₽
-  0AM325025B: 9479.25 -> 9350 ₽
-  0AM325120A: 999 -> 950 ₽
-  0AM325219C: 4129.95 -> 4350 ₽
-  0AM325413A: 999 -> 950 ₽
-  0AM325433E: 1479 -> 1350 ₽
-  0AM325443D: 2540.16 -> 2350 ₽
-  0AM325467J: 1990 -> 1850 ₽
-  0AM325473: 11979.4 -> 11850 ₽
-  0BH325183: 7979 -> 7850 ₽
-  0BH325183 B: 7979 -> 7850 ₽
-  0am325025: 12889.8 -> 12850 ₽
-  0am325025D: 2890.09 -> 2850 ₽
-  0am325025G: 3878.91 -> 3850 ₽
-  0am325025H: 68799.95 -> 68850 ₽
-  0am325025HX: 128800.02 -> 128850 ₽
-  0am325025P: 980 -> 950 ₽
-  0am325025ae: 6050.03 -> 6350 ₽
-  0am325025f: 3879.08 -> 3850 ₽
-  0am325025hfe: 1990.04 -> 1850 ₽
-  0am325025j: 2878.98 -> 2850 ₽
-  0am325025l: 1489.83 -> 1350 ₽
-  0am325025m: 8879 -> 8850 ₽
-  0am325025n: 8979.1 -> 8850 ₽
-  0am325025q: 1240.19 -> 1350 ₽
-  0am325025r: 1879.74 -> 1850 ₽
-  0am325025u: 4489.87 -> 4350 ₽
-  0am325025z: 4489.87 -> 4350 ₽
-  0am325025С: 980 -> 950 ₽
-  0am325066AC: 1479.23 -> 1350 ₽
-  0am325066ad: 1240.19 -> 1350 ₽
-  0am325066ae: 6989.91 -> 6850 ₽
-  0am325091e: 3620.07 -> 3850 ₽
-  0am325091f: 2879.2 -> 2850 ₽
-  0am325477: 2449.7 -> 2350 ₽
-  122390AK-AF: 980 -> 950 ₽
-  122390AKAF: 1620.21 -> 1850 ₽
-  123014‑AF: 1478.82 -> 1350 ₽
-  31705-1XF0C: 58900.24 -> 58850 ₽
-  31705-X428B: 58900.32 -> 58850 ₽
-  317053TX0C: 58900.24 -> 58850 ₽
-  55565480: 999.11 -> 950 ₽
-  WHT001922: 978.88 -> 950 ₽
-  filtr-dsg7-dq200: 979.9 -> 950 ₽
-  filtr-dsg7-dq500: 1290.07 -> 1350 ₽
-  jf011e: 12979 -> 12850 ₽
-  kryshka-mehatronika-dq200: 1949.66 -> 1850 ₽
-  plastina-solenoid-dq200: 989.74 -> 950 ₽
-  plastiny-solenoid-dq200-2sht: 1489.68 -> 1350 ₽
-  plita-filtr-orig: 7499.73 -> 7850 ₽
-  plita-filtr-pylniki-sal-orig: 9499.8 -> 9850 ₽
-  plita-pylniki-salniki: 8499.92 -> 8850 ₽
-  prokladka-kryshki-dq200: 1380.24 -> 1350 ₽
-  prokladka-vtulki-dq200: 840.24 -> 950 ₽
-  prokladka-vtulki-niz-dq200: 580.32 -> 450 ₽
-  prokladka-vtulki-verh-dq200: 580.32 -> 450 ₽
-  separatornaya-plastina-dq200: 989.74 -> 950 ₽
-  separatornaya-plastiny-solenoid-dq200: 2289.75 -> 2350 ₽
-  solenoid-02e-0b5-bolshoy: 5699.88 -> 5850 ₽
-  02E927770AL: 118000 -> 118850 ₽
-  0AM927769D-plata: 78800 -> 78850 ₽
-  0AM927769N: 3479 -> 3350 ₽
-  0am325025x: 78475 -> 78850 ₽
-  0am325477ae: 2860 -> 2850 ₽
-  0cw0am: 931 -> 950 ₽
-  0cw0am325025: 16890 -> 16850 ₽
-  0cw0amdsgdq200: 850 -> 950 ₽
-  0cw325025h: 1610 -> 1850 ₽
-  0сц: 1490 -> 1350 ₽
-  Dq200dsg7: 979 -> 950 ₽
-  Dq200dsg70am0cw: 8890 -> 8850 ₽
-  gidroakkumulyator-orig: 8890 -> 8850 ₽
-  planka-solenoid-2sht: 2890 -> 2850 ₽
-  plastiny-solenoid-orig: 1690 -> 1850 ₽
-  plita-filtr: 7500 -> 7850 ₽
-  plita-filtr-pylniki: 8500 -> 8850 ₽
-  plita-filtr-pylniki-orig: 8500 -> 8850 ₽
-  plita-filtr-pylniki-sal: 9500 -> 9850 ₽
-  plita-filtr-salniki-orig: 8500 -> 8850 ₽
-  plita-pylniki-salniki-orig: 9500 -> 9850 ₽
-  porshni-usil-pylniki-kryshki: 3990 -> 3850 ₽
-  pylniki-shtokov-orig: 2980 -> 2850 ₽
-  salnik-shtoka-orig: 1490 -> 1350 ₽
-  salnik-tolkatelya-alum: 2490 -> 2350 ₽
-  salniki-shtokov-2sht: 1690 -> 1850 ₽
-  salniki-shtokov-orig: 1890 -> 1850 ₽
-  salniki-tolkatelya-4sht: 1950 -> 1850 ₽
-  salnikprivod-l: 1490 -> 1350 ₽
-  salnikprivod-r: 1490 -> 1350 ₽
-  salnikvhod: 1490 -> 1350 ₽
-  salnikvihod: 1490 -> 1350 ₽
-  stalnaya-vstavka-plity: 2790 -> 2850 ₽
-  tolkateli-4-salniki-4: 7400 -> 7350 ₽
-  tolkateli-salniki-alum-komplekt: 8900 -> 8850 ₽
-  vtulki-shtokov-2sht: 4990 -> 4850 ₽
-  korpus-filtra-0bh325159: 3879 -> 3850 ₽
-  (WB ещё обрабатывает загрузку 224729945; итог смотрите в кабинете: Цены и скидки → История)
-
-WB обрабатывает изменение цены не мгновенно — проверьте карточку через несколько минут (следующий fetch-wb покажет уже применившуюся цену).
-[push-wb-price: 63 с]
+Цены на WB менять не нужно: ни одна цена в wb_catalog.xlsx не отличается от текущей на WB.
+[push-wb-price: 0 с]
 
 === Шаг 4б: цены Ozon = мастер (только расхождения) ===
 Пропускаю (no_price_sync в ozon_overrides.json): Ea888gen3
 0am325477ae: на Ozon 2479 / до скидки 4000 -> по файлу 2850 / 4000
 0cw0am: на Ozon 931 / до скидки 0 -> по файлу 950 / 0
 EA888: на Ozon 4741 / до скидки 6000 -> по файлу 4850 / 6000
-nakladki-pedali: на Ozon 990 / до скидки 1500 -> по файлу 950 / 1500
 
-Товаров с расхождением цены: 4 из 122
-Отправлено: 4, с ошибкой: 0
+Товаров с расхождением цены: 3 из 122
+Отправлено: 3, с ошибкой: 0
 [sync-ozon-prices: 1 с]
 
 === Шаг 5: push-stock (Ozon) ===
@@ -652,15 +420,18 @@ nakladki-pedali: на Ozon 990 / до скидки 1500 -> по файлу 950 /
   ОК plita-filtr-pylniki-sal: остаток обновлён
   ОК plita-filtr-salniki-orig: остаток обновлён
   ОК plita-filtr-v2: остаток обновлён
-  ОШИБКА plita-pylniki-salniki: [{'code': 'NOT_PASS_MODERATION', 'message': 'Product is not moderated'}]
+  ОК plita-pylniki-salniki: остаток обновлён
+  ОК plita-pylniki-salniki-orig: остаток обновлён
+  ОК plita-pylniki-salniki-orig-v2: остаток обновлён
   ОК podshipnik-vilki-6: остаток обновлён
-  ОШИБКА porshni-usil-pylniki-kryshki: [{'code': 'NOT_PASS_MODERATION', 'message': 'Product is not moderated'}]
-  ОШИБКА porshni-usil-pylniki-kryshki-v2: [{'code': 'NOT_PASS_MODERATION', 'message': 'Product is not moderated'}]
+  ОК porshni-usil-pylniki-kryshki: остаток обновлён
+  ОК porshni-usil-pylniki-kryshki-v2: остаток обновлён
   ОК prokladka-kryshki-dq200: остаток обновлён
   ОК prokladka-vtulki-dq200: остаток обновлён
   ОК pylniki-shtokov-orig: остаток обновлён
   ОК pylniki-shtokov-orig-v2: остаток обновлён
-  ОШИБКА salnik-shtoka-orig: [{'code': 'NOT_PASS_MODERATION', 'message': 'Product is not moderated'}]
+  ОК salnik-shtoka-orig: остаток обновлён
+  ОК salnik-shtoka-orig-v2: остаток обновлён
   ОК salnik-tolkatelya-alum: остаток обновлён
   ОК salniki-shtokov-2sht: остаток обновлён
   ОК salniki-shtokov-orig: остаток обновлён
@@ -675,32 +446,23 @@ nakladki-pedali: на Ozon 990 / до скидки 1500 -> по файлу 950 /
   ОК tolkateli-salniki-alum-komplekt: остаток обновлён
   ОК vtulki-shtokov-2sht: остаток обновлён
 
-Итого: успешно 105, с ошибками 4, карточка не создана на Ozon 12
-Карточки не созданы на Ozon (остаток не отправлен): plastiny-solenoid-dq200-2sht, plita-filtr, plita-filtr-pylniki-sal-orig, plita-pylniki-salniki-orig, plita-pylniki-salniki-orig-v2, prokladka-vtulki-niz-dq200, prokladka-vtulki-verh-dq200, remkomplekt-shtokov-orig, remkomplekt-shtokov-orig-v2, salnik-shtoka-orig-v2, separatornaya-plastiny-solenoid-dq200, solenoid-02e-0b5-bolshoy
+Итого: успешно 112, с ошибками 0, карточка не создана на Ozon 9
+Карточки не созданы на Ozon (остаток не отправлен): plastiny-solenoid-dq200-2sht, plita-filtr, plita-filtr-pylniki-sal-orig, prokladka-vtulki-niz-dq200, prokladka-vtulki-verh-dq200, remkomplekt-shtokov-orig, remkomplekt-shtokov-orig-v2, separatornaya-plastiny-solenoid-dq200, solenoid-02e-0b5-bolshoy
 
 Причины (статус карточек на Ozon):
 Товаров по статусам:
-  Не продается: 12
+  Не продается: 9
 
-Товары с проблемами (12):
-  remkomplekt-shtokov-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
-  plita-filtr-pylniki-sal-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-pylniki-orig - 2670095, plita-filtr-saln
-  plita-pylniki-salniki-orig-v2: статус «Не продается», Создается, moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: double_without_merger_offer: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_WARNING", "texts": {"attribute_name": "", "description": "Не удалось объединить с другими товарами. Есть товары, у которых вариативные характеристики заполнены также: pli
-  remkomplekt-shtokov-orig-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
-  salnik-shtoka-orig-v2: статус «Не продается», Создается, moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: double_without_merger_offer: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_WARNING", "texts": {"attribute_name": "", "description": "Не удалось объединить с другими товарами. Есть товары, у которых вариативные характеристики заполнены также: sal
+Товары с проблемами (9):
   plastiny-solenoid-dq200-2sht: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
-  plita-filtr: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-v2 - 2670095. Узнать", "short_descriptio
-  separatornaya-plastiny-solenoid-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать описание; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
+  remkomplekt-shtokov-orig-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
   solenoid-02e-0b5-bolshoy: статус «Не продается», Не создан, status_tooltip=Не удалось создать описание; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
-  plita-pylniki-salniki-orig: статус «Не продается», Создается, moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: double_without_merger_offer: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_WARNING", "texts": {"attribute_name": "", "description": "Не удалось объединить с другими товарами. Есть товары, у которых вариативные характеристики заполнены также: 0am
   prokladka-vtulki-niz-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать описание; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
   prokladka-vtulki-verh-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
-
-Подробности по товарам с ошибкой (статус карточки в Ozon):
-  {"id": 6290562487, "name": "Ремкомплект штоков DSG7 DQ200: 2 усиленных поршня + 2 пыльника + 2 крышки", "offer_id": "porshni-usil-pylniki-kryshki", "is_archived": false, "is_autoarchived": false, "barcodes": [], "description_category_id": 17028756, "type_id": 971100605, "created_at": "2026-09-10T14:20:03.588806Z", "images": [], "currency_code": "RUB", "min_price": "", "old_price": "6500.00", "price": "3850.00", "sources": [], "model_info": {"model_id": 0, "count": 0}, "commissions": [], "is_prepayment_allowed": false, "volume_weight": 0.5, "has_discounted_fbo_item": false, "is_discounted": false, "discounted_fbo_stocks": 0, "stocks": {"has_stock": false, "stocks": []}, "errors": [], "updated_at": "2026-10-27T03:58:26.254143Z", "vat": "0.00", "visibility_details": {"has_price": true, "has_stock": false}, "price_indexes": {"color_index": "COLOR_INDEX_WITHOUT_INDEX", "external_index_data": {"minimal_price": "", "minimal_price_currency": "", "price_index_value": 0}, "ozon_index_data": {"minimal_price": "", "minimal_price_currency": "", "price_index_value": 0}, "self_marketplaces_index_data": {"minimal_price": "", "minimal_price_currency": "", "price_index_value": 0}}, "images360": [], "is_kgt": false, "color_image": [], "primary_image": ["https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/porshni-usil-pylniki-kryshki_1.png?v=b93ad38a77"], "statuses": {"status": "variant_wait", "status_failed": "", "moderate_status": "in-moderating", "validation_status": "success", "status_name": "Не продается", "status_description": "На модерации", "is_created": false, "status_tooltip": "", "status_updated_at": "2026-10-27T03:59:24.637028Z"}, "is_super": false, "is_seasonal": false, "promotions": [], "sku": 0, "availabilities": [], "declared_price": {"amount": "0", "currency": "RUB"}}
-  {"id": 6291485580, "name": "Ремкомплект штоков DQ200 DSG7: 2 усиленных поршня + 2 пыльника + 2 крышки", "offer_id": "porshni-usil-pylniki-kryshki-v2", "is_archived": false, "is_autoarchived": false, "barcodes": [], "description_category_id": 17028756, "type_id": 971100605, "created_at": "2026-09-10T19:25:13.619180Z", "images": [], "currency_code": "RUB", "min_price": "", "old_price": "6500.00", "price": "3850.00", "sources": [], "model_info": {"model_id": 0, "count": 0}, "commissions": [], "is_prepayment_allowed": false, "volume_weight": 0.5, "has_discounted_fbo_item": false, "is_discounted": false, "discounted_fbo_stocks": 0, "stocks": {"has_stock": false, "stocks": []}, "errors": [], "updated_at": "2026-10-27T03:58:30.478396Z", "vat": "0.00", "visibility_details": {"has_price": true, "has_stock": false}, "price_indexes": {"color_index": "COLOR_INDEX_WITHOUT_INDEX", "external_index_data": {"minimal_price": "", "minimal_price_currency": "", "price_index_value": 0}, "ozon_index_data": {"minimal_price": "", "minimal_price_currency": "", "price_index_value": 0}, "self_marketplaces_index_data": {"minimal_price": "", "minimal_price_currency": "", "price_index_value": 0}}, "images360": [], "is_kgt": false, "color_image": [], "primary_image": ["https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/porshni-usil-pylniki-kryshki-v2_1.png?v=b93ad38a77"], "statuses": {"status": "variant_wait", "status_failed": "", "moderate_status": "in-moderating", "validation_status": "success", "status_name": "Не продается", "status_description": "На модерации", "is_created": false, "status_tooltip": "", "status_updated_at": "2026-10-27T03:59:31.040046Z"}, "is_super": false, "is_seasonal": false, "promotions": [], "sku": 0, "availabilities": [], "declared_price": {"amount": "0", "currency": "RUB"}}
-  {"id": 6287286087, "name": "Оригинальный сальник штока VAG, 1 шт, DSG7 DQ200", "offer_id": "salnik-shtoka-orig", "is_archived": false, "is_autoarchived": false, "barcodes": [], "description_category_id": 17028756, "type_id": 98930, "created_at": "2026-09-10T08:32:16.853176Z", "images": ["https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/salnik-shtoka-orig_2.png?v=78bf59e6bd"], "currency_code": "RUB", "min_price": "", "old_price": "2500.00", "price": "1350.00", "sources": [], "model_info": {"model_id": 0, "count": 0}, "commissions": [], "is_prepayment_allowed": false, "volume_weight": 0.1, "has_discounted_fbo_item": false, "is_discounted": false, "discounted_fbo_stocks": 0, "stocks": {"has_stock": false, "stocks": []}, "errors": [{"code": "double_without_merger_offer", "field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_WARNING", "texts": {"attribute_name": "", "description": "Не удалось объединить с другими товарами. Есть товары, у которых вариативные характеристики заполнены также: salnik-shtoka-orig-v2, 0AM325413A, salniki-shtokov-2sht, salnikvihod, salnikprivod-r. Измените хотя бы одну вариативную характеристику.", "short_description": "", "params": [{"name": "Articles", "value": "salnik-shtoka-orig-v2, 0AM325413A, salniki-shtokov-2sht, salnikvihod, salnikprivod-r"}], "message": "{\"OFFERID\":[\"salnik-shtoka-orig-v2\",\"0AM325413A\",\"salniki-shtokov-2sht\",\"salnikvihod\",\"salnikprivod-r\"]}"}}], "updated_at": "2026-10-27T03:58:26.540347Z", "vat": "0.00", "visibility_details": {"has_price": true, "has_stock": false}, "price_indexes": {"color_index": "COLOR_INDEX_WITHOUT_INDEX", "external_index_data": {"minimal_price": "", "minimal_price_currency": "", "price_index_value": 0}, "ozon_index_data": {"minimal_price": "", "minimal_price_currency": "", "price_index_value": 0}, "self_marketplaces_index_data": {"minimal_price": "", "minimal_price_currency": "", "price_index_value": 0}}, "images360": [], "is_kgt": false, "color_image": [], "primary_image": ["https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/salnik-shtoka-orig_1.png?v=197acf8189"], "statuses": {"status": "moderated", "status_failed": "", "moderate_status": "approved", "validation_status": "success", "status_name": "Не продается", "status_description": "Создается", "is_created": false, "status_tooltip": "", "status_updated_at": "2026-10-27T03:59:38.153344Z"}, "is_super": false, "is_seasonal": false, "promotions": [], "sku": 0, "availabilities": [], "declared_price": {"amount": "0", "currency": "RUB"}}
-  {"id": 6366559611, "name": "Усиленная гидроплита + 2 пыльника + 2 сальника DSG7 DQ200, комплект без фильтра", "offer_id": "plita-pylniki-salniki", "is_archived": false, "is_autoarchived": false, "barcodes": [], "description_category_id": 17028756, "type_id": 971100605, "created_at": "2026-09-17T07:11:50.100321Z", "images": [], "currency_code": "RUB", "min_price": "", "old_price": "13000.00", "price": "8850.00", "sources": [], "model_info": {"model_id": 0, "count": 0}, "commissions": [], "is_prepayment_allowed": false, "volume_weight": 1, "has_discounted_fbo_item": false, "is_discounted": false, "discounted_fbo_stocks": 0, "stocks": {"has_stock": false, "stocks": []}, "errors": [], "updated_at": "2026-10-27T03:58:29.584127Z", "vat": "0.00", "visibility_details": {"has_price": true, "has_stock": false}, "price_indexes": {"color_index": "COLOR_INDEX_WITHOUT_INDEX", "external_index_data": {"minimal_price": "", "minimal_price_currency": "", "price_index_value": 0}, "ozon_index_data": {"minimal_price": "", "minimal_price_currency": "", "price_index_value": 0}, "self_marketplaces_index_data": {"minimal_price": "", "minimal_price_currency": "", "price_index_value": 0}}, "images360": [], "is_kgt": false, "color_image": [], "primary_image": ["https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/plita-pylniki-salniki_1.png?v=fd0e412e14"], "statuses": {"status": "variant_wait", "status_failed": "", "moderate_status": "in-moderating", "validation_status": "success", "status_name": "Не продается", "status_description": "На модерации", "is_created": false, "status_tooltip": "", "status_updated_at": "2026-10-27T03:59:29.465439Z"}, "is_super": false, "is_seasonal": false, "promotions": [{"is_enabled": false, "type": "REVIEWS_PROMO"}], "sku": 0, "availabilities": [], "declared_price": {"amount": "0", "currency": "RUB"}}
+  remkomplekt-shtokov-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
+  separatornaya-plastiny-solenoid-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать описание; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
+  plita-filtr: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-v2 - 2670095. Узнать", "short_descriptio
+  plita-filtr-pylniki-sal-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-pylniki-orig - 2670095, plita-filtr-saln
 [push-stock: 2 с]
 
 === Шаг 6: push-wb-stock (WB) ===
@@ -708,7 +470,7 @@ nakladki-pedali: на Ozon 990 / до скидки 1500 -> по файлу 950 /
   ОК: партия из 108 остатков отправлена (01X301127C, 02E 305 045, 02E305051C, 02E927770AL, 02e305045, 0AM301212A, 0AM325025B, 0AM325120A, 0AM325219C, 0AM325413A, 0AM325433E, 0AM325443D, 0AM325467J, 0AM325473, 0AM325587E, 0AM927769D, 0AM927769N, 0BH325183, 0BH325183 B, 0am325025, 0am325025D, 0am325025G, 0am325025H, 0am325025HX, 0am325025P, 0am325025ae, 0am325025f, 0am325025hfe, 0am325025j, 0am325025l, 0am325025m, 0am325025n, 0am325025q, 0am325025r, 0am325025u, 0am325025x, 0am325025z, 0am325025С, 0am325066AC, 0am325066ad, 0am325066ae, 0am325091e, 0am325091e-set, 0am325091f, 0am325091f-set, 0am325477, 0am325477ae, 0cw0am, 0cw0am325025, 0cw0amdsgdq200, 0cw325025h, 0сц, 122390AK-AF, 122390AKAF, 123014‑AF, 31705-1XF0C, 31705-X428B, 317053TX0C, 55565480, DQ500, Dq200dsg7, Dq200dsg70am0cw, WHT001922, filtr-dsg7-dq200, filtr-dsg7-dq500, filtr-setka-0b5-orig, gidroakkumulyator-orig, jf011e, klipsy-shtokov-2sht, korpus-filtra-0bh325159, kryshka-mehatronika-dq200, planka-solenoid-2sht, plastina-solenoid-dq200, plastiny-solenoid-dq200-2sht, plastiny-solenoid-orig, plita-filtr, plita-filtr-orig, plita-filtr-pylniki, plita-filtr-pylniki-orig, plita-filtr-pylniki-sal, plita-filtr-pylniki-sal-orig, plita-filtr-salniki-orig, plita-pylniki-salniki, plita-pylniki-salniki-orig, porshni-usil-pylniki-kryshki, prokladka-kryshki-dq200, prokladka-vtulki-dq200, prokladka-vtulki-niz-dq200, prokladka-vtulki-verh-dq200, pylniki-shtokov-orig, remkomplekt-shtokov-orig, salnik-shtoka-orig, salnik-tolkatelya-alum, salniki-shtokov-2sht, salniki-shtokov-orig, salniki-tolkatelya-4sht, salnikprivod-l, salnikprivod-r, salnikvhod, salnikvihod, separatornaya-plastina-dq200, separatornaya-plastiny-solenoid-dq200, solenoid-02e-0b5-bolshoy, stalnaya-vstavka-plity, tolkateli-4-salniki-4, tolkateli-salniki-alum-komplekt, vtulki-shtokov-2sht, 0AM927769D (снята))
 
 Итого: успешно 108, с ошибками 0
-[push-wb-stock: 1 с]
+[push-wb-stock: 2 с]
 
 === Шаг 6б: Ozon — выход из бустинга и автоакций ===
 Акций, доступных продавцу через API: 5
@@ -769,13 +531,13 @@ nakladki-pedali: на Ozon 990 / до скидки 1500 -> по файлу 950 /
   0am325025hfe: лимит уже = цене (1850)
   0am325025l: лимит уже = цене (1350)
   0am325025D: лимит уже = цене (2850)
-  0am325025r: лимит 1479 -> 1850
+  0am325025r: лимит уже = цене (1850)
   0AM325433E: лимит уже = цене (1350)
   0am325025С: лимит уже = цене (950)
   0AM301212A: лимит уже = цене (1350)
   122390AK-AF: лимит уже = цене (950)
-  0AM325443D: лимит 1990 -> 2350
-  01X301127C: лимит 879 -> 950
+  0AM325443D: лимит уже = цене (2350)
+  01X301127C: лимит уже = цене (950)
   0AM325120A: лимит уже = цене (950)
   0AM325413A: лимит уже = цене (950)
   0am325066AC: лимит уже = цене (1350)
@@ -788,19 +550,19 @@ nakladki-pedali: на Ozon 990 / до скидки 1500 -> по файлу 950 /
   Ea888gen3: лимит уже = цене (2350)
   0сц: лимит уже = цене (1350)
   0am325477ae: лимит уже = цене (2479)
-  salniki-tolkatelya-4sht: лимит 0 -> 1850
-  vtulki-shtokov-2sht: лимит 0 -> 4850
-  salniki-shtokov-orig: лимит 0 -> 1850
-  salnik-tolkatelya-alum: лимит 0 -> 2350
-  filtr-dsg7-dq200: лимит 0 -> 950
-  kryshka-mehatronika-dq200: лимит 0 -> 1850
-  лимит выставлен: 9, с ошибкой: 0
+  salniki-tolkatelya-4sht: лимит уже = цене (1850)
+  vtulki-shtokov-2sht: лимит уже = цене (4850)
+  salniki-shtokov-orig: лимит уже = цене (1850)
+  salnik-tolkatelya-alum: лимит уже = цене (2350)
+  filtr-dsg7-dq200: лимит уже = цене (950)
+  kryshka-mehatronika-dq200: лимит уже = цене (1850)
+  лимит выставлен: 0, с ошибкой: 0
 
 Автодобавление в акции:
 
 Товаров с включённым автодобавлением: 0
 Выключено: 0, с ошибкой: 0
-[ozon-leave-boosting: 8 с]
+[ozon-leave-boosting: 7 с]
 
 === Шаг 7: Яндекс Маркет — остатки ===
   0am325025L: вариант артикула с другим регистром — отправляю остаток 95
@@ -808,11 +570,11 @@ nakladki-pedali: на Ozon 990 / до скидки 1500 -> по файлу 950 /
   0am325066ac: вариант артикула с другим регистром — отправляю остаток 24
 ВНИМАНИЕ: на Маркете есть товары, которых нет в нашем каталоге с остатком — их остаток бот НЕ меняет (6): 0am325025e, 0b5, 0BH325183B, 31705-1XF1A, jf015, 0am325025Y
 push-yandex-stock: принято Маркетом 126 из 126.
-[push-yandex-stock: 2 с]
+[push-yandex-stock: 3 с]
 
 === Шаг 7б: фото для Авито (photos_avito) ===
 Фото для Авито: товаров с актуальными ссылками — 85
-[attach-avito-photos: 23 с]
+[attach-avito-photos: 27 с]
 
 === Шаг 8: build-avito-catalog ===
 Готово: 100 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
@@ -825,7 +587,7 @@ push-yandex-stock: принято Маркетом 126 из 126.
 
 Файл также залит по постоянной ссылке: https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito_feed.xlsx
 Если ещё не настроили — вставьте эту ссылку ОДИН РАЗ в личном кабинете Avito: Автозагрузка -> Настройки -> «Автозагрузка по ссылке», отметьте побольше дней/часов опроса. Дальше Avito сам будет скачивать и обрабатывать файл — загружать вручную больше не нужно.
-[build-avito-catalog: 3 с]
+[build-avito-catalog: 4 с]
 
 === Шаг 9: Tilda (сайт), CommerceML ===
 Собрано товаров: 123 (из них с остатком 0 -> на сайте 'нет в наличии': 20).
@@ -837,7 +599,7 @@ push-yandex-stock: принято Маркетом 126 из 126.
   import import0_1.xml: success
   import offers0_1.xml: success
 push-tilda: готово. Проверьте результат на сайте и в 'Истории синхронизации' в Тильде.
-[push-tilda: 3 с]
+[push-tilda: 26 с]
 
 === Шаг 10: ревизия площадок (только чтение, на результат update-cards не влияет) ===
 === Ревизия: обновляю выгрузки с площадок ===
@@ -846,7 +608,7 @@ push-tilda: готово. Проверьте результат на сайте 
 Сохранено 122 товаров Ozon (с названиями) в /home/runner/work/marketplace-agent/marketplace-agent/data/ozon_products.json
 
 --- Ozon: остатки ---
-Ozon: остатки FBS по 105 товарам -> data/ozon_stocks.json
+Ozon: остатки FBS по 112 товарам -> data/ozon_stocks.json
 
 --- WB: карточки --- (берём файл, скачанный в начале update-cards)
 
@@ -862,10 +624,8 @@ Ozon: остатки FBS по 105 товарам -> data/ozon_stocks.json
 Авито: строк отчёта автозагрузки: 100 -> data/avito_autoload.json
 
 === Ревизия: сверка ===
-Ревизия площадок: проблем ВАЖНО 92, СРЕДНЕ 249, НИЗКО 8 (Авито: живые объявления)
-  - Авито: цена — 93
+Ревизия площадок: проблем ВАЖНО 13, СРЕДНЕ 156, НИЗКО 8 (Авито: живые объявления)
   - Авито/сайт: цены Авито и сайта разные — 93
-  - WB: цена — 79
   - Авито: объявление не из фида — 50
   - WB: нет на площадке — 7
   - Маркет: нет в мастере — 4
@@ -875,37 +635,8 @@ Ozon: остатки FBS по 105 товарам -> data/ozon_stocks.json
   - Ozon: остаток — 2
   - Авито: артикул отличается регистром — 2
   - Маркет: название — 2
-НОВЫХ важных проблем с прошлой ревизии: 81
-  + Ozon / цена / 0cw0am
-  + Ozon / цена / EA888
-  + WB / цена / 01X301127C
-  + WB / цена / 02E305051C
-  + WB / цена / 0AM301212A
-  + WB / цена / 0AM325025B
-  + WB / цена / 0AM325120A
-  + WB / цена / 0AM325219C
-  + WB / цена / 0AM325413A
-  + WB / цена / 0AM325433E
-  + WB / цена / 0AM325443D
-  + WB / цена / 0AM325467J
-  + WB / цена / 0AM325473
-  + WB / цена / 0AM927769N
-  + WB / цена / 0BH325183
-  + WB / цена / 0BH325183 B
-  + WB / цена / 0am325025D
-  + WB / цена / 0am325025P
-  + WB / цена / 0am325025ae
-  + WB / цена / 0am325025hfe
-  + WB / цена / 0am325025j
-  + WB / цена / 0am325025l
-  + WB / цена / 0am325025n
-  + WB / цена / 0am325025q
-  + WB / цена / 0am325025r
-  + WB / цена / 0am325025u
-  + WB / цена / 0am325025z
-  + WB / цена / 0am325025С
-  + WB / цена / 0am325066AC
-  + WB / цена / 0am325066ad
+  - Tilda: лишний — 1
+  - WB: цена WB ≠ цена Ozon — 1
 Подробности: data/audit_report.xlsx (после запуска сделайте Pull origin).
 
-update-cards: ошибка на шаге(ах): push-photos, push-stock — проверьте вывод выше (остальные шаги выполнены).
+update-cards: готово — всё обновлено: Ozon, WB, Avito, сайт, Яндекс Маркет (остатки).
