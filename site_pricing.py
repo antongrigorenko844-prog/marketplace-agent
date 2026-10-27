@@ -232,6 +232,33 @@ def ozon_net(offer_id: str, price: float, models: Optional[dict] = None):
     return price * (1 - pct) + fixed, src
 
 
+def pretty_price(p) -> Optional[int]:
+    """
+    «Красивая» цена по правилу пользователя (2026-10-27): цена стоит чуть ниже
+    круглого уровня, к которому идёт. До 1 000: …450 / …950 (к 500 и 1000);
+    1 000–9 999: …350 / …850 (1 350, 1 850 … 9 850); от 10 000: только …850
+    (10 850, 11 850 …), берётся ближайшая. Пример: 1 490 → 1 350, 9 500 → 9 850,
+    44 910 → 44 850, 71 310 → 70 850.
+    Меньше 450 — без изменений (округление до 10 ₽).
+    """
+    import math
+    try:
+        p = float(p)
+    except (TypeError, ValueError):
+        return None
+    if p <= 0:
+        return None
+    if p < 450:
+        return int(p / 10 + 0.5) * 10
+    if p < 10000 and p % 500 == 0:  # ровно на уровне (9 500) — идёт к следующему (9 850)
+        return int(p + 500 - (50 if p + 500 <= 1000 else 150))
+    # ближайшая из сетки 450, 950, 1 350, 1 850 … 9 850, 10 850, 11 850 …
+    grid = [450, 950] + [k * 500 - 150 for k in range(3, 21)]
+    top = int(math.ceil(p / 1000)) + 1
+    grid += [k * 1000 - 150 for k in range(11, top + 1)]
+    return min(grid, key=lambda g: (abs(g - p), -g))
+
+
 def equal_profit_price(ozon_price: float, net: float, tax: float, fee: float, step: int = 10) -> Optional[int]:
     if not ozon_price or net is None:
         return None
@@ -239,7 +266,7 @@ def equal_profit_price(ozon_price: float, net: float, tax: float, fee: float, st
     p = min(p, ozon_price)  # дороже маркетплейса не ставим
     if p <= 0:
         return None
-    return int(p / step + 0.5) * step
+    return pretty_price(p)
 
 
 def set_price_override(
@@ -279,7 +306,7 @@ def site_price(price, share: Optional[float] = None, step: int = 10,
     thr, prem_share = premium if premium is not None else get_premium()
     if p >= thr:
         share = prem_share
-    return int(p * share / step + 0.5) * step
+    return pretty_price(p * share)
 
 
 def half_price(price) -> Optional[float]:
