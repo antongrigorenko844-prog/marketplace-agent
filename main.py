@@ -1104,7 +1104,7 @@ def _cmd_update_cards_impl() -> int:
     step("Шаг 4б: цены Ozon = мастер (только расхождения)", "sync-ozon-prices", lambda: cmd_sync_ozon_prices(False))
     step("Шаг 5: push-stock (Ozon)", "push-stock", cmd_push_stock)
     step("Шаг 6: push-wb-stock (WB)", "push-wb-stock", cmd_push_wb_stock)
-    step("Шаг 6б: Ozon — выход из бустинга и автоакций", "ozon-leave-boosting", cmd_ozon_leave_boosting)
+    step("Шаг 6б: Ozon — контроль акций (цена не ниже нашей)", "ozon-leave-boosting", cmd_ozon_leave_boosting)
 
     # Яндекс Маркет: ЦЕНЫ приходят из Ozon сами (встроенная синхронизация Маркета), а ОСТАТКИ
     # она не переносит — их отправляем мы (общий остаток, тот же, что на Ozon/WB). Цены на Маркет
@@ -3476,88 +3476,65 @@ def _ozon_set_price_floor(offer_ids) -> None:
 
 def cmd_ozon_leave_boosting(dry_run: bool = False) -> int:
     """
-    Выход из «бустинга» Ozon: убирает наши товары из акций, в названии которых есть «бустинг»
-    (по умолчанию; другие слова — env OZON_LEAVE_ACTIONS, через запятую), и выключает автодобавление
-    в акции (cmd_disable_ozon_auto_actions). Остальные акции не трогает. Если акция бустинга через API
-    не видна — так и пишет (тогда убрать вручную в кабинете: Маркетинговые инструменты → Акции).
+    Контроль акций Ozon (с 27.10.2026 — без попыток выхода через API).
+    С 12–19.10.2026 у Ozon «единая предельная цена»: методы убрать товар из акции
+    (/v1 и /v2 actions/products/deactivate) заблокированы («unified price logic»).
+    Товар сам попадает в акцию, если наша цена не выше требуемой цены акции; выйти — только
+    поднять цену выше порога (в отчёте — колонка ПОРОГ) или убрать товар вручную в кабинете.
+    Что делаем: 1) показываем, в каких акциях наши товары и по какой цене;
+    2) ТРЕВОГА, если цена в акции ниже нашей (Ozon продаёт со скидкой из наших денег);
+    3) лимит акции (минимальная цена) = наша цена — чтобы Ozon не опускал цену ниже нашей;
+    4) выключаем автодобавление в акции, если где-то включилось.
     """
     import ozon_client
 
-    words = [w.strip().lower() for w in os.environ.get("OZON_LEAVE_ACTIONS", "бустинг").split(",") if w.strip()]
     try:
         actions = ozon_client.get_actions()
     except Exception as exc:  # noqa: BLE001
-        print(f"Акции через API не получены ({exc}). Убрать из бустинга вручную: Маркетинговые инструменты → Акции.")
+        print(f"Акции через API не получены ({exc}).")
         actions = []
+    try:
+        with open(_data_path("ozon_products.json"), encoding="utf-8") as _f:
+            _pj = json.load(_f)
+        _rows = _pj.get("list", []) if isinstance(_pj, dict) else _pj
+        by_pid = {int(x["product_id"]): x.get("offer_id") for x in _rows if x.get("product_id")}
+    except Exception:  # noqa: BLE001
+        by_pid = {}
     print(f"Акций, доступных продавцу через API: {len(actions)}")
-    removed_total = 0
-    bad = 0
-    found_boost = False
-    stuck_offers = []
+    in_actions, alarms = set(), []
     for a in actions:
-        title = str(a.get("title") or "")
-        aid = a.get("id")
-        match = any(w in title.lower() for w in words)
+        title, aid = str(a.get("title") or ""), a.get("id")
         try:
             prods = ozon_client.get_action_products(int(aid))
         except Exception as exc:  # noqa: BLE001
             print(f"  «{title}» (id {aid}): список товаров не получен: {exc}")
             continue
-        print(f"  «{title}» (id {aid}): наших товаров в акции {len(prods)}{' — ВЫХОДИМ' if match and prods else ''}")
-        if not match or not prods:
-            continue
-        found_boost = True
-        ids = [int(p["id"]) for p in prods if p.get("id")]
-        if dry_run:
-            continue
-        try:
-            with open(_data_path("ozon_products.json"), encoding="utf-8") as _f:
-                _pj = json.load(_f)
-            _rows = _pj.get("list", []) if isinstance(_pj, dict) else _pj
-            _by_pid = {int(x["product_id"]): x.get("offer_id") for x in _rows if x.get("product_id")}
-            print("    товары в акции: " + ", ".join(str(_by_pid.get(i, i)) for i in ids))
-            print("    артикул: наша цена | цена в акции | ПОРОГ (выйти — поставить цену выше порога) | режим")
-            for p in prods:
-                print(f"      {_by_pid.get(int(p['id']), p['id'])}: {p.get('price')} | {p.get('action_price')} | "
-                      f"{p.get('max_action_price')} | {p.get('add_mode')}")
-        except Exception:  # noqa: BLE001
-            pass
-        for i in range(0, len(ids), 100):
+        print(f"  «{title}» (id {aid}): наших товаров в акции {len(prods)}")
+        for p in prods:
+            oid = str(by_pid.get(int(p.get("id") or 0), p.get("id")))
+            in_actions.add(oid)
             try:
-                resp = ozon_client.deactivate_action_products(int(aid), ids[i : i + 100])
-            except Exception as exc:  # noqa: BLE001
-                # Ozon закрыл старый метод («unified price logic»): не валим update-cards, идём дальше.
-                print(f"    Через API убрать из акции не удалось (v2 и v1): {exc}")
-                try:
-                    stuck_offers.extend(str(_by_pid.get(i)) for i in ids if _by_pid.get(i))
-                except Exception:  # noqa: BLE001
-                    pass
-                print("    -> Убрать вручную: Маркетинговые инструменты → Акции → эта акция → выбрать товары → убрать. "
-                      "Ниже выключаем автодобавление — это может вывести товары из эластичного бустинга само.")
-                break
-            res = resp.get("result") or {}
-            rej = res.get("rejected") or []
-            removed_total += len(res.get("product_ids") or [])
-            if not res.get("product_ids") and not rej and resp.get("raw") is not None:
-                # новый v2 ответил без списка — покажем ответ как есть, чтобы было видно, что произошло
-                print(f"    ответ Ozon: {str(resp.get('raw'))[:400]}")
-            for r in rej:
-                bad += 1
-                print(f"    не убран {r.get('product_id')}: {r.get('reason')}")
-    if actions and not found_boost:
-        print("Акций с «бустинг» в названии, где у нас есть товары, через API не найдено. "
-              "Если в кабинете товары всё ещё в бустинге — убрать вручную: Маркетинговые инструменты → Акции.")
-    if not dry_run:
-        print(f"Убрано из акций: {removed_total}, не убрано: {bad}")
-    if stuck_offers and not dry_run:
+                ours, act = float(p.get("price") or 0), float(p.get("action_price") or 0)
+            except (TypeError, ValueError):
+                ours = act = 0
+            if ours and act and act < ours - 0.5:
+                alarms.append(f"{oid}: в акции «{title}» цена {act:.0f} ниже нашей {ours:.0f} "
+                              f"(выйти — поставить цену выше {p.get('max_action_price')} или убрать в кабинете)")
+    if alarms:
+        print("\nВНИМАНИЕ — Ozon продаёт ниже нашей цены:")
+        for x in alarms:
+            print("  " + x)
+    elif in_actions:
+        print("Во всех акциях цена = наша (скидки из наших денег нет) — участие бесплатное, ничего не делаем.")
+    if in_actions and not dry_run:
         print("\nЛимит акции (минимальная цена = наша цена), чтобы Ozon не опускал цену на сайте ниже нашей:")
         try:
-            _ozon_set_price_floor(sorted(set(stuck_offers)))
+            _ozon_set_price_floor(sorted(in_actions))
         except Exception as exc:  # noqa: BLE001
             print(f"  лимит акции не выставлен: {exc}")
     print("\nАвтодобавление в акции:")
     rc = cmd_disable_ozon_auto_actions(dry_run, "")
-    return 1 if (bad or rc) else 0
+    return 1 if (alarms or rc) else 0
 
 
 def cmd_disable_ozon_auto_actions(dry_run: bool, article: str = "") -> int:
