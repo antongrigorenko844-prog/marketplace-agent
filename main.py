@@ -3474,6 +3474,32 @@ def _ozon_set_price_floor(offer_ids) -> None:
     print(f"  лимит выставлен: {len(items) - bad}, с ошибкой: {bad}")
 
 
+def _notify_owner_once(key: str, text: str, items) -> None:
+    """Сообщение владельцу в Telegram (@SMMLeopartsBot), только если набор тревог НОВЫЙ —
+    чтобы не слать одно и то же каждые 3 часа. Состояние: data/owner_alerts.json."""
+    path = _data_path("owner_alerts.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            state = json.load(f)
+    except Exception:  # noqa: BLE001
+        state = {}
+    sig = sorted(str(x).split(":")[0] for x in items)
+    if state.get(key) == sig:
+        return
+    try:
+        import designer_bot
+        owner = designer_bot._owner_id()
+        if owner:
+            designer_bot._tg("sendMessage", chat_id=owner, text=text[:4000])
+            print("  -> отправлено владельцу в Telegram")
+    except Exception as exc:  # noqa: BLE001
+        print(f"  Telegram не отправлен: {exc}")
+        return
+    state[key] = sig
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(state, f, ensure_ascii=False, indent=1)
+
+
 def cmd_ozon_leave_boosting(dry_run: bool = False) -> int:
     """
     Контроль акций Ozon (с 27.10.2026 — без попыток выхода через API).
@@ -3524,6 +3550,10 @@ def cmd_ozon_leave_boosting(dry_run: bool = False) -> int:
         print("\nВНИМАНИЕ — Ozon продаёт ниже нашей цены:")
         for x in alarms:
             print("  " + x)
+        if not dry_run:
+            _notify_owner_once("ozon_promo_alarms",
+                               "⚠️ Ozon продаёт ниже нашей цены в акции:\n" + "\n".join(alarms) +
+                               "\n\nНапишите Claude — решим: поднять цену или убрать из акции.", alarms)
     elif in_actions:
         print("Во всех акциях цена = наша (скидки из наших денег нет) — участие бесплатное, ничего не делаем.")
     if in_actions and not dry_run:
@@ -4220,6 +4250,7 @@ def main() -> int:
     parser.add_argument("--align-wb-prices-dryrun", action="store_true", help="Показать, у каких товаров цена WB отличается от Ozon и какой станет (мастер не меняется)")
     parser.add_argument("--align-wb-prices", action="store_true", help="Вписать цену Ozon в колонку «Цена WB» мастера у всех расходящихся товаров (на WB пока ничего не уходит)")
     parser.add_argument("--audit-nightly", action="store_true", help="Ночная ревизия: как audit, но прогон краснеет, если появились НОВЫЕ важные расхождения (чтобы пришло письмо)")
+    parser.add_argument("--avito-dupes", action="store_true", help="Дубли объявлений Авито со статистикой -> data/avito_dupes.xlsx (только чтение)")
     parser.add_argument("--audit-offline", action="store_true", help="Ревизия только по уже лежащим в data/ файлам, без обращения к площадкам")
     parser.add_argument("--split-model-dryrun", action="store_true", help="Показать, как будет расклеена модель Ozon (характеристика 9048) у карточек из --article, БЕЗ отправки")
     parser.add_argument("--split-model", action="store_true", help="Расклеить модель Ozon у карточек из --article: меняет ТОЛЬКО 9048 на offer_id")
@@ -4298,6 +4329,9 @@ def main() -> int:
         return cmd_fix_spu(args.article, dry_run=False)
     if args.audit:
         return cmd_audit(refresh=True)
+    if args.avito_dupes:
+        import avito_dupes
+        return avito_dupes.cmd_avito_dupes()
     if args.audit_offline:
         return cmd_audit(refresh=False)
     if args.wb_create_missing_dryrun:
