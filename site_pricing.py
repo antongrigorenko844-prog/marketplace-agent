@@ -483,6 +483,8 @@ def plan_equal_profit(master_path: str, path: str = OVERRIDES_PATH, prof: Option
         else:
             if net is None:
                 a_new = site_price(p, share, premium=premium)
+                if a_new:  # 27.10: и здесь «красивая» сетка владельца, не дороже Ozon
+                    a_new = min(nice_price(a_new), int(p))
                 src = "нет данных Ozon — по доле"
             else:
                 # одна цена на Авито и сайт (считаем по Авито — у него расходы выше), по сетке владельца
