@@ -81,6 +81,13 @@ def _accruals_by_day(ozon_client, day: str) -> list:
 DEBUG_SKUS = [x for x in os.environ.get("OZON_FIN_DEBUG_SKUS", "1947309601,1974187724,2169484129").split(",") if x]
 
 
+def comm_sign_fix(cm: dict) -> int:
+    """Возврат: комиссия приходит положительной (Ozon возвращает её), а sale_amount может быть
+    положительным — тогда выручку считаем отрицательной. Продажа: комиссия отрицательная."""
+    c = _money(cm.get("sale_commission", cm.get("commission")))
+    return 1 if c <= 0 else -1
+
+
 def fetch_ozon_finance(days: int = 30) -> dict:
     import time
     import ozon_client
@@ -151,7 +158,13 @@ def fetch_ozon_finance(days: int = 30) -> dict:
             parts = []
             for pr in prods:
                 cm = pr.get("commission") or {}
-                price = _money(cm.get("seller_price"))
+                qty = int(abs(_money(pr.get("quantity"))) or 1)
+                # seller_price — цена ЗА ШТУКУ, а комиссия/итог — за всё отправление (бывает 2–8 шт).
+                # Берём sale_amount (сумма за всё); нет его — цена × кол-во. Ошибка давала «провалы до −65%».
+                price = _money(cm.get("sale_amount")) if cm.get("sale_amount") is not None else \
+                    _money(cm.get("seller_price")) * qty
+                if price and comm_sign_fix(cm) < 0 and price > 0:
+                    price = -price
                 comm = _money(cm.get("sale_commission", cm.get("commission")))
                 dl = pr.get("delivery") or {}
                 deliv = _money(dl.get("total_accrued")) if dl.get("total_accrued") is not None else \
@@ -160,7 +173,7 @@ def fetch_ozon_finance(days: int = 30) -> dict:
                     by_type[tname(s.get("type_id"))] += _money(s.get("accrued"))
                 if comm:
                     by_type["Вознаграждение за продажу"] += comm
-                parts.append((str(pr.get("sku") or ""), int(abs(_money(pr.get("quantity"))) or 1), price, comm, deliv))
+                parts.append((str(pr.get("sku") or ""), qty, price, comm, deliv))
             calc = sum(p[2] + p[3] + p[4] for p in parts)
             for sku, qty, price, comm, deliv in parts:
                 # Одно товарное отправление — берём итог Ozon как есть; несколько — по расчёту на товар.
