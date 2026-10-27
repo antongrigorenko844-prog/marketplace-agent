@@ -502,61 +502,71 @@ def get_import_status(task_id: int) -> dict:
     return _post("/v1/product/import/info", {"task_id": task_id})
 
 
+def _list_postings(path: str, since_iso: str, to_iso: str, with_fields: dict, retries: int = 3) -> List[dict]:
+    """
+    Общий постраничный обход списка отправлений Ozon (новые методы с 10.2026):
+    страница не больше 100 (limit 101 → 400), пагинация курсором
+    (ответ {postings, has_next, cursor}, иногда в обёртке result). Если курсора
+    нет, а has_next=true — запасной путь через offset. Защита от зацикливания:
+    курсор, который уже был, останавливает обход.
+    """
+    out: List[dict] = []
+    cursor = ""
+    offset = 0
+    seen = set()
+    for _ in range(500):
+        body = {"filter": {"since": since_iso, "to": to_iso}, "limit": 100, "with": with_fields}
+        if cursor:
+            body["cursor"] = cursor
+        elif offset:
+            body["offset"] = offset
+        data = _post(path, body, retries=retries)
+        res = data.get("result", data) if isinstance(data, dict) else data
+        if isinstance(res, list):
+            postings, has_next, nxt = res, len(res) >= 100, ""
+        else:
+            postings = res.get("postings") or []
+            has_next = bool(res.get("has_next"))
+            nxt = res.get("cursor") or ""
+        out.extend(postings)
+        if not has_next or not postings:
+            break
+        if nxt:
+            if nxt in seen:
+                break
+            seen.add(nxt)
+            cursor = nxt
+        else:
+            offset += len(postings)
+    return out
+
+
 def get_fbs_orders_since(since_iso: str, to_iso: str) -> List[dict]:
     """
     Заказы FBS (продавец сам хранит и отгружает товар) за период —
     используется для автоматического списания остатков при продаже (см.
     stock_sync.py). Каждый posting содержит "products": [{"offer_id",
-    "sku", "quantity", "name", "price"}, ...] — offer_id совпадает с
-    артикулом в вашем каталоге, сопоставление автоматическое.
+    "quantity", ...}] — offer_id совпадает с артикулом в каталоге.
     """
-    # ENDPOINT: POST /v3/posting/fbs/list — result.postings (подтверждено)
-    # retries=6: этот метод у Ozon часто упирается в лимит запросов, а от него зависит списание остатка
-    data = _post(
-        "/v3/posting/fbs/list",
-        {
-            "dir": "ASC",
-            "filter": {"since": since_iso, "to": to_iso},
-            "limit": 1000,
-            "offset": 0,
-            "with": {"analytics_data": False, "financial_data": False},
-        },
-        retries=6,
+    # ENDPOINT: POST /v4/posting/fbs/list — /v3 Ozon отключил (404, ~19.10.2026);
+    # страницы по 100, курсор. retries=6: метод часто упирается в лимит запросов.
+    return _list_postings(
+        "/v4/posting/fbs/list", since_iso, to_iso,
+        {"analytics_data": False, "financial_data": False}, retries=6,
     )
-    return data.get("result", {}).get("postings", [])
 
 
 def get_fbo_orders_since(since_iso: str, to_iso: str) -> List[dict]:
     """
-    Заказы FBO (товар хранится на складе Ozon) за период — тот же смысл,
-    что get_fbs_orders_since, но другой склад/схема доставки, поэтому у
-    Ozon это отдельный метод с отдельным путём. Формат posting/products —
-    такой же (products[].offer_id/quantity).
-
-    ВАЖНО: путь версионируется отдельно от FBS (v2, не v3), и, по имеющимся
-    данным, ответ отдаёт список сразу в "result" (без вложенного
-    "postings", в отличие от FBS) — если Ozon вернёт пустой список там, где
-    заказы точно есть, в первую очередь проверьте здесь форму ответа
-    (напечатайте сырой data через test-ozon-fbo или добавьте отладочный
-    print) — это НЕ проверено напрямую в живой документации, в отличие от
-    get_fbs_orders_since.
+    Заказы FBO (товар на складе Ozon) за период — тот же смысл и формат
+    products[].offer_id/quantity, что у FBS.
     """
-    # ENDPOINT: POST /v3/posting/fbo/list (старый /v2 Ozon отключил — "obsolete method cannot be used", 2026-10-20)
-    data = _post(
-        "/v3/posting/fbo/list",
-        {
-            "dir": "ASC",
-            "filter": {"since": since_iso, "to": to_iso},
-            "limit": 1000,
-            "offset": 0,
-            "translit": False,
-            "with": {"analytics_data": False, "financial_data": False, "legal_info": False},
-        },
+    # ENDPOINT: POST /v3/posting/fbo/list (v2 отключён 20.10.2026); limit ≤ 100 —
+    # с 1000 Ozon отвечает 400 "value must be inside range (0, 100]".
+    return _list_postings(
+        "/v3/posting/fbo/list", since_iso, to_iso,
+        {"analytics_data": False, "financial_data": False, "legal_info": False},
     )
-    result = data.get("result", [])
-    if isinstance(result, dict):
-        result = result.get("postings", [])
-    return result
 
 
 def test_connection() -> bool:
