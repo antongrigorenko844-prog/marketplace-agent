@@ -36,3 +36,4 @@ jobs:
     secrets: inherit
     with:
       command: ${{ needs.pick.outputs.cmd }}
+      save_log: true

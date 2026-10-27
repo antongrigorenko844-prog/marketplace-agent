@@ -23,6 +23,12 @@ on:
         required: false
         type: string
         default: ""
+      save_log:
+        # true — вывод команды сохраняется в data/last_run_log.txt (для команд проверки,
+        # которые запускает Claude: владелец логи Actions не читает, а Claude их отсюда не видит)
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   run:
@@ -67,9 +73,16 @@ jobs:
           SOCIAL_AUTOPUBLISH: ${{ secrets.SOCIAL_AUTOPUBLISH }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         run: |
-          python main.py --${{ inputs.command }} \
-            --article "${{ inputs.article }}" \
-            --seed-phrase "${{ inputs.seed_phrase }}"
+          set -o pipefail
+          if [ "${{ inputs.save_log }}" = "true" ]; then
+            python main.py --${{ inputs.command }} \
+              --article "${{ inputs.article }}" \
+              --seed-phrase "${{ inputs.seed_phrase }}" 2>&1 | tee data/last_run_log.txt
+          else
+            python main.py --${{ inputs.command }} \
+              --article "${{ inputs.article }}" \
+              --seed-phrase "${{ inputs.seed_phrase }}"
+          fi
 
       - name: Save data/ back to repo
         if: always()
