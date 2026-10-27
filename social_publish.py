@@ -322,10 +322,11 @@ def price_line(p: dict, platform: str) -> str:
     # мехатроник 0am325025H на сайте 36 500 — цену пишем, хотя на Ozon он дороже 50 000
     if max(s_ or m or [0]) >= PRICE_HIDE_FROM:
         return ""
+    tail = " — без обмена на старый" if exchange_line(p.get("arts") or []) else ""  # у мехатроников есть цена по обмену
     if s_:
-        return f"💰 Цена на нашем сайте: {('от ' if len(set(s_)) > 1 else '')}{_rub(min(s_))}"
+        return f"💰 Цена на нашем сайте: {('от ' if len(set(s_)) > 1 else '')}{_rub(min(s_))}{tail}"
     if m:
-        return f"💰 Цена: {('от ' if len(set(m)) > 1 else '')}{_rub(min(m))}"
+        return f"💰 Цена: {('от ' if len(set(m)) > 1 else '')}{_rub(min(m))}{tail}"
     return ""
 
 
