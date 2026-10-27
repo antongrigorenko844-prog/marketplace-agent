@@ -49,13 +49,14 @@ validate-master: критичных ошибок нет, предупрежде�
 
 
 === Шаг 0в: цены Авито и сайта = доля от цены маркетплейсов ===
-Правило: доля 70%; пересчитано цен Авито/сайта: 1
+Правило: доля 70%; пересчитано цен Авито/сайта: 2
   0AM927769D: 47310.0 -> 44910
+  0am325025HX: 77310.0 -> 71310
 
 === Шаг 1: sync-master-control ===
-master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 1
+master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 2
 master_control.xlsx -> ozon_new_products.xlsx: обновлено строк 0
-master_control.xlsx -> wb_catalog.xlsx: обновлено строк 1
+master_control.xlsx -> wb_catalog.xlsx: обновлено строк 2
 master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Изменённых обложек в столбце 'Фото' не найдено.
 
@@ -298,7 +299,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Нераспознанных файлов: 2 — см. лист 'Нераспознанные фото' в /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
 
 Готово: attach-photos-all завершён. Дальше — push-photos-dryrun, чтобы проверить, что уйдёт на Ozon и WB.
-[attach-photos-all: 32 с]
+[attach-photos-all: 31 с]
 
 === Шаг 3: push-photos (Ozon + WB) ===
 === Ozon: реальная отправка ===
@@ -306,10 +307,11 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   - Похоже на случайный дубль артикула (отличаются только регистром букв): DQ500, Dq500 — возможно, это одна и та же деталь, заведённая дважды.
   - Похоже на случайный дубль артикула (отличаются только регистром букв): EA888gen3, Ea888gen3 — возможно, это одна и та же деталь, заведённая дважды.
 
-Партия 1: task_id=5905025719, жду обработку...
-  ОК 0AM927769D: статус imported
+Партия 1: task_id=5905045119, жду обработку...
+  ОК 0AM927769D: статус skipped
+  ОК 0am325025HX: статус imported
 
-Итого: успешно 1, с ошибками 0
+Итого: успешно 2, с ошибками 0
 
 === WB: реальная отправка ===
 Отправлять нечего: либо ни одна строка xlsx не совпала с vendorCode из wb_cards.json, либо (чаще) всё, что есть в xlsx, уже было отправлено раньше и с тех пор не менялось — это нормальный исход, не ошибка.
@@ -317,12 +319,13 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 [push-photos: 5 с]
 
 === Шаг 4: push-wb-price ===
-Цена отправлена для 1 товаров:
+Цена отправлена для 2 товаров:
+  0am325025HX: 128849.61 -> 118850 ₽
   0AM927769D-plata: 78850 -> 74850 ₽
-  (WB ещё обрабатывает загрузку 224735145; итог смотрите в кабинете: Цены и скидки → История)
+  (WB ещё обрабатывает загрузку 224735610; итог смотрите в кабинете: Цены и скидки → История)
 
 WB обрабатывает изменение цены не мгновенно — проверьте карточку через несколько минут (следующий fetch-wb покажет уже применившуюся цену).
-[push-wb-price: 63 с]
+[push-wb-price: 62 с]
 
 === Шаг 4б: цены Ozon = мастер (только расхождения) ===
 Пропускаю (no_price_sync в ozon_overrides.json): Ea888gen3
@@ -457,16 +460,16 @@ EA888: на Ozon 4741 / до скидки 6000 -> по файлу 4850 / 6000
   Не продается: 9
 
 Товары с проблемами (9):
-  plastiny-solenoid-dq200-2sht: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
-  prokladka-vtulki-niz-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать описание; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
   prokladka-vtulki-verh-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
-  remkomplekt-shtokov-orig-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
-  plita-filtr: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-v2 - 2670095. Узнать", "short_descriptio
   separatornaya-plastiny-solenoid-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать описание; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
+  prokladka-vtulki-niz-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать описание; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
+  remkomplekt-shtokov-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
+  plita-filtr: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-v2 - 2670095. Узнать", "short_descriptio
+  plastiny-solenoid-dq200-2sht: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
+  remkomplekt-shtokov-orig-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
   solenoid-02e-0b5-bolshoy: статус «Не продается», Не создан, status_tooltip=Не удалось создать описание; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
   plita-filtr-pylniki-sal-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-pylniki-orig - 2670095, plita-filtr-saln
-  remkomplekt-shtokov-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
-[push-stock: 3 с]
+[push-stock: 2 с]
 
 === Шаг 6: push-wb-stock (WB) ===
 ВНИМАНИЕ: 16 артикул(ов) без карточки/штрихкода на WB, пропущены: 0BH325, 0ambset, 6t30, Dq500, EA888, EA888gen3, Ea888gen3, TEST001, nakladki-pedali, plita-filtr-v2, plita-pylniki-salniki-orig-v2, podshipnik-vilki-6, porshni-usil-pylniki-kryshki-v2, pylniki-shtokov-orig-v2, remkomplekt-shtokov-orig-v2, salnik-shtoka-orig-v2
@@ -477,8 +480,8 @@ EA888: на Ozon 4741 / до скидки 6000 -> по файлу 4850 / 6000
 
 === Шаг 6б: Ozon — выход из бустинга и автоакций ===
 Акций, доступных продавцу через API: 5
-  «Эластичный бустинг. Без ограничения срока действия» (id 1977747): наших товаров в акции 30 — ВЫХОДИМ
-    товары в акции: 0am325066ae, 0am325025hfe, 0am325025l, 0am325025D, 0am325025r, 0AM325433E, 0am325025С, 0AM301212A, 122390AK-AF, 0AM325443D, 01X301127C, 0AM325120A, 0AM325413A, 0am325066AC, 0AM927769N, 0am325025P, 123014‑AF, 0am325025z, 0BH325183, 0AM325467J, Ea888gen3, 0сц, 0am325477ae, 0AM927769D, salniki-tolkatelya-4sht, vtulki-shtokov-2sht, salniki-shtokov-orig, salnik-tolkatelya-alum, filtr-dsg7-dq200, kryshka-mehatronika-dq200
+  «Эластичный бустинг. Без ограничения срока действия» (id 1977747): наших товаров в акции 31 — ВЫХОДИМ
+    товары в акции: 0am325066ae, 0am325025hfe, 0am325025l, 0am325025D, 0am325025r, 0AM325433E, 0am325025С, 0AM301212A, 122390AK-AF, 0AM325443D, 01X301127C, 0AM325120A, 0AM325413A, 0am325066AC, 0AM927769N, 0am325025P, 123014‑AF, 0am325025z, 0BH325183, 0AM325467J, Ea888gen3, 0сц, 0am325477ae, 0am325025HX, 0AM927769D, salniki-tolkatelya-4sht, vtulki-shtokov-2sht, salniki-shtokov-orig, salnik-tolkatelya-alum, filtr-dsg7-dq200, kryshka-mehatronika-dq200
     артикул: наша цена | цена в акции | ПОРОГ (выйти — поставить цену выше порога) | режим
       0am325066ae: 6850 | 6850 | 8568 | MANUAL
       0am325025hfe: 1850 | 1850 | 1920 | MANUAL
@@ -503,6 +506,7 @@ EA888: на Ozon 4741 / до скидки 6000 -> по файлу 4850 / 6000
       Ea888gen3: 2350 | 2350 | 5307 | MANUAL
       0сц: 1350 | 1350 | 1394 | MANUAL
       0am325477ae: 2479 | 2479 | 2850 | MANUAL
+      0am325025HX: 118850 | 118850 | 125580 | MANUAL
       0AM927769D: 74850 | 74850 | 76830 | MANUAL
       salniki-tolkatelya-4sht: 1850 | 1850 | 1922 | MANUAL
       vtulki-shtokov-2sht: 4850 | 4850 | 4938 | MANUAL
@@ -554,6 +558,7 @@ EA888: на Ozon 4741 / до скидки 6000 -> по файлу 4850 / 6000
   Ea888gen3: лимит уже = цене (2350)
   0сц: лимит уже = цене (1350)
   0am325477ae: лимит уже = цене (2479)
+  0am325025HX: лимит 118800 -> 118850
   0AM927769D: лимит уже = цене (74850)
   salniki-tolkatelya-4sht: лимит уже = цене (1850)
   vtulki-shtokov-2sht: лимит уже = цене (4850)
@@ -561,13 +566,13 @@ EA888: на Ozon 4741 / до скидки 6000 -> по файлу 4850 / 6000
   salnik-tolkatelya-alum: лимит уже = цене (2350)
   filtr-dsg7-dq200: лимит уже = цене (950)
   kryshka-mehatronika-dq200: лимит уже = цене (1850)
-  лимит выставлен: 0, с ошибкой: 0
+  лимит выставлен: 1, с ошибкой: 0
 
 Автодобавление в акции:
 
 Товаров с включённым автодобавлением: 0
 Выключено: 0, с ошибкой: 0
-[ozon-leave-boosting: 8 с]
+[ozon-leave-boosting: 9 с]
 
 === Шаг 7: Яндекс Маркет — остатки ===
   0am325025L: вариант артикула с другим регистром — отправляю остаток 95
@@ -579,7 +584,7 @@ push-yandex-stock: принято Маркетом 126 из 126.
 
 === Шаг 7б: фото для Авито (photos_avito) ===
 Фото для Авито: товаров с актуальными ссылками — 85
-[attach-avito-photos: 26 с]
+[attach-avito-photos: 25 с]
 
 === Шаг 8: build-avito-catalog ===
 Готово: 100 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
@@ -604,7 +609,7 @@ push-yandex-stock: принято Маркетом 126 из 126.
   import import0_1.xml: success
   import offers0_1.xml: success
 push-tilda: готово. Проверьте результат на сайте и в 'Истории синхронизации' в Тильде.
-[push-tilda: 4 с]
+[push-tilda: 11 с]
 
 === Шаг 10: ревизия площадок (только чтение, на результат update-cards не влияет) ===
 === Ревизия: обновляю выгрузки с площадок ===
@@ -629,7 +634,7 @@ Ozon: остатки FBS по 112 товарам -> data/ozon_stocks.json
 Авито: строк отчёта автозагрузки: 100 -> data/avito_autoload.json
 
 === Ревизия: сверка ===
-Ревизия площадок: проблем ВАЖНО 13, СРЕДНЕ 161, НИЗКО 8 (Авито: живые объявления)
+Ревизия площадок: проблем ВАЖНО 14, СРЕДНЕ 162, НИЗКО 8 (Авито: живые объявления)
   - Авито/сайт: цены Авито и сайта разные — 93
   - Авито: объявление не из фида — 50
   - WB: нет на площадке — 7
@@ -638,10 +643,12 @@ Ozon: остатки FBS по 112 товарам -> data/ozon_stocks.json
   - Ozon: цена — 3
   - Авито: нет на площадке — 3
   - Ozon: лишний — 2
+  - Авито: цена — 2
   - Авито: артикул отличается регистром — 2
   - Маркет: название — 2
-  - Tilda: лишний — 1
-  - WB: цена WB ≠ цена Ozon — 1
+  - WB: цена — 1
+НОВЫХ важных проблем с прошлой ревизии: 1
+  + WB / цена / 0am325025HX
 Подробности: data/audit_report.xlsx (после запуска сделайте Pull origin).
 
 update-cards: готово — всё обновлено: Ozon, WB, Avito, сайт, Яндекс Маркет (остатки).
