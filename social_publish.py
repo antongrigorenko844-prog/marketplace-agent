@@ -317,9 +317,11 @@ def price_line(p: dict, platform: str) -> str:
         return ""
     mp, site = _prices()
     m = [mp[a] for a in arts if a in mp]
-    if m and max(m) >= PRICE_HIDE_FROM:
-        return ""
     s_ = [site[a] for a in arts if a in site]
+    # порог «без цены» — по цене, которую показываем (сайт), а не по цене маркетплейсов:
+    # мехатроник 0am325025H на сайте 36 500 — цену пишем, хотя на Ozon он дороже 50 000
+    if max(s_ or m or [0]) >= PRICE_HIDE_FROM:
+        return ""
     if s_:
         return f"💰 Цена на нашем сайте: {('от ' if len(set(s_)) > 1 else '')}{_rub(min(s_))}"
     if m:
