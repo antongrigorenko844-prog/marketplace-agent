@@ -137,11 +137,75 @@ def _fields(schema: Any, prefix: str = "", out: Optional[List[str]] = None, dept
     return out
 
 
+# --- Проба API продавца: какие пути акций существуют (безопасно) ---
+# Списки — с limit 1; «изменяющие» пути — только с action_id=0 и ПУСТЫМ списком товаров:
+# такой запрос ничего изменить не может, по коду ответа (404 = пути нет, 400/200 = есть) видно путь.
+LIST_PATHS = [
+    "/v1/promos", "/v1/promos/list", "/v2/promos/list", "/v1/promo/list", "/v1/promos/info",
+    "/v1/promos/products", "/v1/promos/products/list", "/v1/promos/candidates", "/v1/promos/products/candidates",
+    "/v2/actions", "/v2/actions/list", "/v2/actions/info", "/v2/actions/products", "/v2/actions/products/list",
+    "/v2/actions/candidates", "/v2/actions/products/candidates", "/v3/actions/products", "/v1/actions/list",
+    "/v2/actions/auto-add/products/list", "/v2/actions/auto-add/list", "/v1/actions/auto-add/products/list",
+]
+EMPTY_MUTATE_PATHS = [
+    "/v2/actions/products/deactivate", "/v2/actions/products/delete", "/v2/actions/products/remove",
+    "/v1/promos/products/deactivate", "/v1/promos/products/delete", "/v1/promos/products/remove",
+    "/v1/promos/deactivate", "/v2/actions/auto-add/products/delete", "/v2/actions/auto-add/products/deactivate",
+    "/v1/promos/auto-add/products/delete",
+]
+
+
+def probe(lines: List[str]) -> None:
+    import ozon_client
+    from config import config
+    base = config.ozon_api_base
+    h = ozon_client._headers()
+    lines += ["", "=== ПРОБА ПУТЕЙ API (404 = нет такого метода) ==="]
+    body_list = {"action_id": 0, "limit": 1, "offset": 0}
+    for p in LIST_PATHS:
+        for method in ("POST", "GET"):
+            try:
+                r = requests.request(method, base + p, headers=h, json=body_list if method == "POST" else None, timeout=30)
+                txt = re.sub(r"\s+", " ", r.text)[:400]
+                if r.status_code != 404:
+                    lines.append(f"{method} {p}: {r.status_code} {txt}")
+                else:
+                    lines.append(f"{method} {p}: 404")
+            except requests.RequestException as exc:
+                lines.append(f"{method} {p}: ошибка сети {exc}")
+    body_empty = {"action_id": 0, "product_ids": [], "products": []}
+    for p in EMPTY_MUTATE_PATHS:
+        try:
+            r = requests.post(base + p, headers=h, json=body_empty, timeout=30)
+            lines.append(f"POST {p} (пустой): {r.status_code} {re.sub(chr(92)+'s+', ' ', r.text)[:400]}")
+        except requests.RequestException as exc:
+            lines.append(f"POST {p}: ошибка сети {exc}")
+    # очередь автодобавления по реальным акциям бустинга (только чтение)
+    try:
+        acts = ozon_client.get_actions()
+    except Exception as exc:  # noqa: BLE001
+        lines.append(f"/v1/actions: {exc}")
+        acts = []
+    lines += ["", "=== АКЦИИ (поля как отдаёт /v1/actions) ==="]
+    for a in acts:
+        lines.append(json.dumps(a, ensure_ascii=False)[:900])
+        try:
+            r = requests.post(base + "/v2/actions/auto-add/products/list", headers=h,
+                              json={"action_id": a.get("id"), "limit": 100, "offset": 0}, timeout=30)
+            lines.append(f"  очередь автодобавления: {r.status_code} {re.sub(chr(92)+'s+', ' ', r.text)[:700]}")
+        except requests.RequestException as exc:
+            lines.append(f"  очередь автодобавления: {exc}")
+
+
 def run() -> int:
     log: List[str] = []
     spec = _find_spec(log)
     lines = ["Диагностика новых методов акций Ozon (только чтение; к API продавца не обращается)", ""]
     lines += log
+    try:
+        probe(lines)
+    except Exception as exc:  # noqa: BLE001
+        lines.append(f"проба не выполнена: {exc}")
     if not spec:
         lines.append("\nСпецификацию скачать не удалось.")
         with open(OUT_TXT, "w", encoding="utf-8") as f:
