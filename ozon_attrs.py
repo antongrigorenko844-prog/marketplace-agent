@@ -235,7 +235,8 @@ def cmd_apply() -> int:
     idx = {h: i for i, h in enumerate(rows[0])}
     plan: Dict[str, List[tuple]] = {}
     for r in rows[1:]:
-        if str(r[idx["Применить (да)"]] or "").strip().lower() != "да" or not r[idx["Предлагаю"]]:
+        # «да» — заполнить пустое; «заменить» — перезаписать уже заполненное (только по прямому решению владельца)
+        if str(r[idx["Применить (да)"]] or "").strip().lower() not in ("да", "заменить") or not r[idx["Предлагаю"]]:
             continue
         plan.setdefault(str(r[0]).strip(), []).append(r)
     if not plan:
@@ -253,7 +254,10 @@ def cmd_apply() -> int:
         attrs = []
         for r in prs:
             aid = int(r[idx["id"]])
-            if cur.get(aid):
+            replace = str(r[idx["Применить (да)"]] or "").strip().lower() == "заменить"
+            if cur.get(aid) and replace:
+                log.append(f"{art}: {r[idx['Атрибут']]} ЗАМЕНА: было «{cur[aid]}»")
+            elif cur.get(aid):
                 log.append(f"{art}: {r[idx['Атрибут']]} уже заполнено на Ozon ({cur[aid]}) — пропускаю")
                 continue
             val, did = str(r[idx["Предлагаю"]]), r[idx["dictionary_value_id"]]
