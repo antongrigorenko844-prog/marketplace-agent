@@ -148,6 +148,21 @@ def _read_old_extras():
     return out
 
 
+def _read_old_rows():
+    """{артикул: [значения строки]} из прежнего master_control.xlsx — все колонки."""
+    out = {}
+    if not os.path.exists(MASTER_PATH):
+        return out
+    try:
+        ws = openpyxl.load_workbook(MASTER_PATH, read_only=True, data_only=True)["Товары"]
+        for r in ws.iter_rows(min_row=2, values_only=True):
+            if r and r[0]:
+                out[str(r[0]).strip()] = list(r)
+    except Exception:  # noqa: BLE001
+        return {}
+    return out
+
+
 def _find_header(headers, *, must_contain, must_not_contain=()):
     for i, x in enumerate(headers):
         if not x:
@@ -616,6 +631,26 @@ def run() -> int:
 
         ws.row_dimensions[row_i].height = 78
         row_i += 1
+
+    # Новые товары, заведённые прямо в мастер (ещё нет ни на Ozon, ни на WB), раньше при пересборке
+    # пропадали — и автосоздание их уже не видело (найдено 2026-10-28 на 0AM927769F / 0am325025HXF).
+    # Теперь такие строки переносятся как есть, пока карточка не появится на площадке.
+    kept_new = []
+    for oid, vals in _read_old_rows().items():
+        if oid in known_ids:
+            continue
+        for c, v in enumerate(vals[: len(HEADERS)], start=1):
+            if c == 4 or v in (None, ""):
+                continue  # колонка 4 — миниатюра (картинка), не значение
+            ws.cell(row=row_i, column=c, value=v)
+        for c in range(1, len(HEADERS) + 1):
+            ws.cell(row=row_i, column=c).alignment = Alignment(vertical="top", wrap_text=True)
+            ws.cell(row=row_i, column=c).border = border
+        ws.row_dimensions[row_i].height = 78
+        kept_new.append(oid)
+        row_i += 1
+    if kept_new:
+        print(f"Новые строки мастера (ещё нет на площадках) сохранены: {', '.join(kept_new)}")
 
     ws.freeze_panes = "A2"
 
