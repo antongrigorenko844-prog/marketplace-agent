@@ -309,7 +309,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Нераспознанных файлов: 2 — см. лист 'Нераспознанные фото' в /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
 
 Готово: attach-photos-all завершён. Дальше — push-photos-dryrun, чтобы проверить, что уйдёт на Ozon и WB.
-[attach-photos-all: 52 с]
+[attach-photos-all: 34 с]
 
 === Шаг 3: push-photos (Ozon + WB) ===
 === Ozon: реальная отправка ===
@@ -317,19 +317,12 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   - Похоже на случайный дубль артикула (отличаются только регистром букв): DQ500, Dq500 — возможно, это одна и та же деталь, заведённая дважды.
   - Похоже на случайный дубль артикула (отличаются только регистром букв): EA888gen3, Ea888gen3 — возможно, это одна и та же деталь, заведённая дважды.
 
-Партия 1: task_id=5909606189, жду обработку...
-  ОК 0am325066AC: статус imported
-  ОК stalnaya-vstavka-plity: статус skipped
-
-Итого: успешно 2, с ошибками 0
+Отправлять нечего: либо ни одна строка xlsx не совпала с offer_id из ozon_products.json (см. предупреждения выше), либо (чаще) всё, что есть в xlsx, уже было отправлено раньше и с тех пор не менялось (см. data/ozon_push_cache.json) — это нормальный исход, не ошибка.
 
 === WB: реальная отправка ===
-Фото: 0am325066AC — 2 фото отправлено.
-Фото: stalnaya-vstavka-plity — 2 фото отправлено.
+Отправлять нечего: либо ни одна строка xlsx не совпала с vendorCode из wb_cards.json, либо (чаще) всё, что есть в xlsx, уже было отправлено раньше и с тех пор не менялось — это нормальный исход, не ошибка.
 
-Итого успешных операций: 2, с ошибками: 0
-
-[push-photos: 74 с]
+[push-photos: 0 с]
 
 === Шаг 4: push-wb-price ===
 Цены на WB менять не нужно: ни одна цена в wb_catalog.xlsx не отличается от текущей на WB.
@@ -343,7 +336,7 @@ EA888: на Ozon 4741 / до скидки 6000 -> по файлу 4850 / 6000
 
 Товаров с расхождением цены: 3 из 123
 Отправлено: 3, с ошибкой: 0
-[sync-ozon-prices: 2 с]
+[sync-ozon-prices: 3 с]
 
 === Шаг 5: push-stock (Ozon) ===
 Пропущено по мастеру «Ozon: нет»: 6
@@ -521,7 +514,7 @@ EA888: на Ozon 4741 / до скидки 6000 -> по файлу 4850 / 6000
 
 Товаров с включённым автодобавлением: 0
 Выключено: 0, с ошибкой: 0
-[ozon-leave-boosting: 6 с]
+[ozon-leave-boosting: 20 с]
 
 === Шаг 7: Яндекс Маркет — остатки ===
   0am325025L: вариант артикула с другим регистром — отправляю остаток 95
@@ -531,9 +524,28 @@ EA888: на Ozon 4741 / до скидки 6000 -> по файлу 4850 / 6000
 push-yandex-stock: принято Маркетом 127 из 127.
 [push-yandex-stock: 3 с]
 
+=== Шаг 7а: Яндекс Маркет — видео ===
+Видео к отправке на Маркет: 14
+  0AM325219C: 0AM325219C_video.mp4?v=7ceaaba450
+  0AM325433E: 0AM325433E_video.mp4?v=bde8c4c289
+  0AM325443D: 0AM325443D_video.mp4?v=6c70471405
+  0AM325467J: 0AM325467J_video.mp4?v=7b0b51498e
+  0am325025H: 0am325025H_video.mp4?v=15fc20f523
+  0am325025u: 0am325025u_video.mp4?v=4573c3be6d
+  0am325025z: 0am325025z_video.mp4?v=4573c3be6d
+  0am325066AC: 0am325066AC_video.mp4?v=4573c3be6d
+  0am325066ac: 0am325066AC_video.mp4?v=4573c3be6d
+  0am325091e: 0am325091e_video.mp4?v=4573c3be6d
+  0am325091e-set: 0am325091e-set_video.mp4?v=4573c3be6d
+  0am325091f: 0am325091f_video.mp4?v=4573c3be6d
+  0am325091f-set: 0am325091f-set_video.mp4?v=4573c3be6d
+  stalnaya-vstavka-plity: stalnaya-vstavka-plity_video.mp4?v=c4a1d424d7
+push-yandex-videos: принято Маркетом 14 из 14.
+[push-yandex-videos: 2 с]
+
 === Шаг 7б: фото для Авито (photos_avito) ===
 Фото для Авито: товаров с актуальными ссылками — 86
-[attach-avito-photos: 30 с]
+[attach-avito-photos: 25 с]
 
 === Шаг 8: build-avito-catalog ===
 Готово: 102 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
@@ -546,7 +558,7 @@ push-yandex-stock: принято Маркетом 127 из 127.
 
 Файл также залит по постоянной ссылке: https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito_feed.xlsx
 Если ещё не настроили — вставьте эту ссылку ОДИН РАЗ в личном кабинете Avito: Автозагрузка -> Настройки -> «Автозагрузка по ссылке», отметьте побольше дней/часов опроса. Дальше Avito сам будет скачивать и обрабатывать файл — загружать вручную больше не нужно.
-[build-avito-catalog: 5 с]
+[build-avito-catalog: 4 с]
 
 === Шаг 9: Tilda (сайт), CommerceML ===
 Собрано товаров: 128 (из них с остатком 0 -> на сайте 'нет в наличии': 19).
@@ -558,7 +570,7 @@ push-yandex-stock: принято Маркетом 127 из 127.
   import import0_1.xml: success
   import offers0_1.xml: success
 push-tilda: готово. Проверьте результат на сайте и в 'Истории синхронизации' в Тильде.
-[push-tilda: 4 с]
+[push-tilda: 7 с]
 
 === Шаг 10: ревизия площадок (только чтение, на результат update-cards не влияет) ===
 === Ревизия: обновляю выгрузки с площадок ===
