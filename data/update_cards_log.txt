@@ -49,7 +49,7 @@ validate-master: критичных ошибок нет, предупрежде�
 
 
 === Шаг 0в: цены Авито и сайта = доля от цены маркетплейсов ===
-Доля 70%; пересчитано цен Авито/сайта: 0
+Правило: доля 70%; пересчитано цен Авито/сайта: 0
 
 === Шаг 1: sync-master-control ===
 master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 0
@@ -297,7 +297,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Нераспознанных файлов: 2 — см. лист 'Нераспознанные фото' в /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
 
 Готово: attach-photos-all завершён. Дальше — push-photos-dryrun, чтобы проверить, что уйдёт на Ozon и WB.
-[attach-photos-all: 30 с]
+[attach-photos-all: 32 с]
 
 === Шаг 3: push-photos (Ozon + WB) ===
 === Ozon: реальная отправка ===
@@ -440,23 +440,23 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   Не продается: 16
 
 Товары с проблемами (16):
-  remkomplekt-shtokov-orig-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
-  remkomplekt-shtokov-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
   plita-pylniki-salniki: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-pylniki-sal - 2670095, plita-filtr-salni
+  plita-pylniki-salniki-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-v2 - 2670095, plita-filtr-pylniki - 2670
+  plastiny-solenoid-dq200-2sht: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
+  prokladka-vtulki-niz-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
+  porshni-usil-pylniki-kryshki-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: pylniki-shtokov-orig - 2670095, pylniki-shtokov-orig
+  remkomplekt-shtokov-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
+  solenoid-02e-0b5-bolshoy: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
+  plita-pylniki-salniki-orig-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-pylniki - 2670095, plita-filtr-pylniki-o
+  porshni-usil-pylniki-kryshki: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: pylniki-shtokov-orig - 2670095, pylniki-shtokov-orig
   separatornaya-plastiny-solenoid-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
   plita-filtr: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-v2 - 2670095. Узнать", "short_descriptio
   plita-filtr-pylniki-sal-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-salniki-orig - 2670095, plita-filtr-pyln
-  porshni-usil-pylniki-kryshki-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: pylniki-shtokov-orig - 2670095, pylniki-shtokov-orig
-  solenoid-02e-0b5-bolshoy: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
-  plita-pylniki-salniki-orig-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-pylniki - 2670095, plita-filtr-pylniki-o
-  prokladka-vtulki-niz-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
-  salnik-shtoka-orig-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0AM325413A - 2670095. Узнать", "short_description": 
-  plastiny-solenoid-dq200-2sht: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
+  remkomplekt-shtokov-orig-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
   prokladka-vtulki-verh-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
   salnik-shtoka-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0AM325413A - 2670095. Узнать", "short_description": 
-  plita-pylniki-salniki-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-v2 - 2670095, plita-filtr-pylniki - 2670
-  porshni-usil-pylniki-kryshki: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: pylniki-shtokov-orig - 2670095, pylniki-shtokov-orig
-[push-stock: 2 с]
+  salnik-shtoka-orig-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0AM325413A - 2670095. Узнать", "short_description": 
+[push-stock: 3 с]
 
 === Шаг 6: push-wb-stock (WB) ===
 ВНИМАНИЕ: 16 артикул(ов) без карточки/штрихкода на WB, пропущены: 0BH325, 0ambset, 6t30, Dq500, EA888, EA888gen3, Ea888gen3, TEST001, nakladki-pedali, plita-filtr-v2, plita-pylniki-salniki-orig-v2, podshipnik-vilki-6, porshni-usil-pylniki-kryshki-v2, pylniki-shtokov-orig-v2, remkomplekt-shtokov-orig-v2, salnik-shtoka-orig-v2
@@ -476,7 +476,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
       0AM927769N: 3479 | 3479 | 4867 | MANUAL
       0am325025z: 4490 | 4490 | 6198 | MANUAL
       0am325477ae: 2479 | 2479 | 2850 | MANUAL
-    Через API убрать из акции не удалось: Ozon /v1/actions/products/deactivate вернул 400: {"code":9,"message":"the method is blocked due to unified price logic. To resume management via promotions, please switch to the new methods https://docs.ozon.ru/api/seller/#tag/Promos"}
+    Через API убрать из акции не удалось: Ozon /v1/actions/products/deactivate вернул 400: {"code":9, "message":"the method is blocked due to unified price logic. To resume management via promotions, please switch to the new methods https://docs.ozon.ru/api/seller/#tag/Promos"}
     -> Убрать вручную: Маркетинговые инструменты → Акции → эта акция → выбрать товары → убрать. Ниже выключаем автодобавление — это может вывести товары из эластичного бустинга само.
   «Супербустинг с дополнительными баллами за скидки» (id 4420432): наших товаров в акции 0
   «Максимальный бустинг 11.11» (id 4400847): наших товаров в акции 0
@@ -497,7 +497,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 
 Товаров с включённым автодобавлением: 0
 Выключено: 0, с ошибкой: 0
-[ozon-leave-boosting: 6 с]
+[ozon-leave-boosting: 7 с]
 
 === Шаг 7: Яндекс Маркет — остатки ===
   0am325025L: вариант артикула с другим регистром — отправляю остаток 95
@@ -505,11 +505,11 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   0am325066ac: вариант артикула с другим регистром — отправляю остаток 24
 ВНИМАНИЕ: на Маркете есть товары, которых нет в нашем каталоге с остатком — их остаток бот НЕ меняет (6): 0am325025e, 0b5, 0BH325183B, 31705-1XF1A, jf015, 0am325025Y
 push-yandex-stock: принято Маркетом 126 из 126.
-[push-yandex-stock: 2 с]
+[push-yandex-stock: 3 с]
 
 === Шаг 7б: фото для Авито (photos_avito) ===
 Фото для Авито: товаров с актуальными ссылками — 85
-[attach-avito-photos: 23 с]
+[attach-avito-photos: 24 с]
 
 === Шаг 8: build-avito-catalog ===
 Готово: 100 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
@@ -522,7 +522,7 @@ push-yandex-stock: принято Маркетом 126 из 126.
 
 Файл также залит по постоянной ссылке: https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito_feed.xlsx
 Если ещё не настроили — вставьте эту ссылку ОДИН РАЗ в личном кабинете Avito: Автозагрузка -> Настройки -> «Автозагрузка по ссылке», отметьте побольше дней/часов опроса. Дальше Avito сам будет скачивать и обрабатывать файл — загружать вручную больше не нужно.
-[build-avito-catalog: 3 с]
+[build-avito-catalog: 4 с]
 
 === Шаг 9: Tilda (сайт), CommerceML ===
 Собрано товаров: 123 (из них с остатком 0 -> на сайте 'нет в наличии': 20).
@@ -534,7 +534,7 @@ push-yandex-stock: принято Маркетом 126 из 126.
   import import0_1.xml: success
   import offers0_1.xml: success
 push-tilda: готово. Проверьте результат на сайте и в 'Истории синхронизации' в Тильде.
-[push-tilda: 3 с]
+[push-tilda: 4 с]
 
 === Шаг 10: ревизия площадок (только чтение, на результат update-cards не влияет) ===
 === Ревизия: обновляю выгрузки с площадок ===
@@ -556,22 +556,22 @@ Ozon: остатки FBS по 105 товарам -> data/ozon_stocks.json
 
 --- Авито: объявления и отчёт автозагрузки ---
 Авито: 170 объявлений -> data/avito_live.json
-Авито: строк отчёта автозагрузки: 111 -> data/avito_autoload.json
+Авито: строк отчёта автозагрузки: 100 -> data/avito_autoload.json
 
 === Ревизия: сверка ===
-Ревизия площадок: проблем ВАЖНО 12, СРЕДНЕ 60, НИЗКО 7 (Авито: живые объявления)
+Ревизия площадок: проблем ВАЖНО 12, СРЕДНЕ 61, НИЗКО 8 (Авито: живые объявления)
   - Авито: объявление не из фида — 50
   - WB: нет на площадке — 7
   - Маркет: нет в мастере — 4
   - Авито: нет на площадке — 3
   - Ozon: цена — 2
   - Ozon: лишний — 2
+  - Авито: артикул отличается регистром — 2
   - Маркет: название — 2
+  - Ozon: остаток — 1
   - Tilda: лишний — 1
   - WB: лишний — 1
   - Авито: дубль объявления — 1
-  - Маркет: лишний — 1
-  - Ozon: артикул отличается регистром — 1
 Подробности: data/audit_report.xlsx (после запуска сделайте Pull origin).
 
 update-cards: готово — всё обновлено: Ozon, WB, Avito, сайт, Яндекс Маркет (остатки).
