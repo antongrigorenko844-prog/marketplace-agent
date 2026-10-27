@@ -154,6 +154,8 @@ def save_price_overrides(overrides: Dict[str, float], path: str = OVERRIDES_PATH
     st["B8"] = prof["site_fee"]
     st["A9"] = "Мин. чистая прибыль Авито/сайта, доля от закупки (1 = 100%)"
     st["B9"] = get_min_markup(path)
+    st["A10"] = "Дорогие позиции (цена Ozon от, ₽): цену Авито/сайта не пересчитывать"
+    st["B10"] = get_freeze_from(path)
     wb.active = 0
     wb.save(path)
 
@@ -357,6 +359,18 @@ AD_FROM, AD_SHARE = 0, 0.10
 # Пол цены Авито/сайта (27.10): ЧИСТАЯ прибыль (после налога, комиссии канала и рекламы) — не меньше
 # этой доли от закупки (1.0 = 100%: закупка 2 000 -> чистыми не меньше 2 000). Лист «Настройки», B9.
 DEFAULT_MIN_MARKUP = 1.0
+# Дорогие позиции (мехатроники, платы — цена Ozon от этой суммы): цену Авито/сайта НЕ пересчитываем,
+# остаётся текущая (решение владельца 27.10: «и так дорого»). Лист «Настройки», B10.
+DEFAULT_FREEZE_FROM = 20000
+
+
+def get_freeze_from(path: str = OVERRIDES_PATH) -> float:
+    try:
+        wb = openpyxl.load_workbook(path, data_only=True)
+        v = float(wb[SETTINGS_SHEET]["B10"].value)
+        return v if v > 0 else DEFAULT_FREEZE_FROM
+    except Exception:  # noqa: BLE001
+        return DEFAULT_FREEZE_FROM
 
 
 def get_min_markup(path: str = OVERRIDES_PATH) -> float:
@@ -438,6 +452,7 @@ def plan_equal_profit(master_path: str, path: str = OVERRIDES_PATH, prof: Option
     av_old, st_old = load_price_overrides(path), load_price_overrides(path, "site")
     models = _ozon_models()
     markup = get_min_markup(path)
+    freeze = get_freeze_from(path)
     wb = load_workbook(master_path, read_only=True, data_only=True)
     ws = wb["Товары"] if "Товары" in wb.sheetnames else wb.active
     rows = ws.iter_rows(values_only=True)
@@ -462,6 +477,9 @@ def plan_equal_profit(master_path: str, path: str = OVERRIDES_PATH, prof: Option
             cost = None
         if art in fixed:
             a_new, s_new, src = av_old.get(art), st_old.get(art), "фикс (вручную)"
+        elif p >= freeze and av_old.get(art):
+            a_new, s_new = av_old.get(art), st_old.get(art) or av_old.get(art)
+            src = f"дорогая позиция (Ozon от {freeze:g} ₽) — не пересчитываем"
         else:
             if net is None:
                 a_new = site_price(p, share, premium=premium)
