@@ -117,8 +117,9 @@ EXTRA_HEADERS = [
     "Ширина, см",
     "Высота, см",
     "Закупка, ₽",
+    "Отзывов нет (проверено)",  # «да» = владелец сам убедился, что отзывов нет; без этого карточку не снимаем (reviews_guard.py)
 ]
-EXTRA_WIDTHS = [9, 9, 9, 9, 9, 22, 8, 8, 8, 8, 11]
+EXTRA_WIDTHS = [9, 9, 9, 9, 9, 22, 8, 8, 8, 8, 11, 12]
 HEADERS = HEADERS + EXTRA_HEADERS
 COL_WIDTHS = COL_WIDTHS + EXTRA_WIDTHS
 EXTRA_FIRST_COL = 17

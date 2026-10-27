@@ -3037,7 +3037,15 @@ def cmd_wb_zero_stock(articles: str) -> int:
     """Остаток 0 на WB для перечисленных артикулов (снять с продажи товары, у которых в мастере остаток не ведётся)."""
     import wb_client
 
-    want = {a.strip().lower() for a in articles.split(",") if a.strip()}
+    import reviews_guard
+
+    asked = [a.strip() for a in articles.split(",") if a.strip()]
+    allowed, blocked = reviews_guard.check(asked, channels=("wb",))
+    if blocked:
+        print(f"Не трогаю (отзывы / не проверено): {', '.join(blocked)}")
+    want = {a.lower() for a in allowed}
+    if not want:
+        return 1
     bmap = {k.lower(): v for k, v in wb_client.get_offer_barcode_map().items()}
     items = [{"sku": bmap[a], "amount": 0} for a in sorted(want) if a in bmap]
     lines = [f"не найдено на WB: {a}" for a in sorted(want) if a not in bmap]
@@ -3661,6 +3669,16 @@ def cmd_archive_ozon_products(article: str, dry_run: bool) -> int:
         print("Ни один артикул не найден на Ozon — архивировать нечего.")
         return 1
 
+    import reviews_guard
+
+    allowed, blocked = reviews_guard.check(list(id_map), channels=("ozon",))
+    if blocked:
+        print(f"НЕ архивирую (отзывы / не проверено): {', '.join(blocked)}")
+    id_map = {o: p for o, p in id_map.items() if o in allowed}
+    if not id_map:
+        print("Архивировать нечего — все артикулы защищены проверкой отзывов.")
+        return 1
+
     print(f"{'[DRY RUN] ' if dry_run else ''}В архив уйдут ({len(id_map)}):")
     for offer_id, pid in id_map.items():
         print(f"  {offer_id} (product_id={pid})")
@@ -3704,6 +3722,17 @@ def cmd_remove_product(article: str, dry_run: bool) -> int:
     master_path = remove_product.MASTER_PATH
     if not os.path.exists(master_path):
         print(f"Нет файла {master_path}.")
+        return 1
+
+    # ГЛАВНОЕ ПРАВИЛО: карточку с отзывами не снимаем. Проверка — до любых изменений.
+    import reviews_guard
+
+    allowed, blocked = reviews_guard.check(offer_ids, channels=("ozon", "wb"))
+    if blocked:
+        print(f"НЕ снимаю (отзывы / не проверено): {', '.join(blocked)}")
+    offer_ids = allowed
+    if not offer_ids:
+        print("Снимать нечего — все артикулы защищены проверкой отзывов.")
         return 1
 
     found, missing = remove_product.zero_stock(offer_ids, dry_run=dry_run)
@@ -4201,6 +4230,7 @@ def main() -> int:
     parser.add_argument("--store-links", action="store_true", help="Ссылки на страницы наших магазинов на Ozon/WB/Маркете (data/store_links.json)")
     parser.add_argument("--photo-text-audit", action="store_true", help="Распознать текст на всех картинках и найти «видео/скидка/%/дешевле/оптовикам» (data/photo_text_audit.xlsx)")
     parser.add_argument("--price-audit", action="store_true", help="Ревизия цен и прибыли (data/price_audit.xlsx), с начислениями Ozon")
+    parser.add_argument("--reviews-check", action="store_true", help="Есть ли отзывы у артикулов (--article через запятую; пусто = все из мастера) на Ozon и WB -> data/reviews_guard.txt")
     parser.add_argument("--price-preview", action="store_true", help="Предпросмотр цен Авито/сайта по правилу «одинаковая прибыль» (data/price_preview.xlsx), ничего не отправляет")
     parser.add_argument("--ozon-finance", action="store_true", help="Фактические начисления Ozon за 30 дней (data/ozon_finance.json)")
     parser.add_argument("--wb-zero-stock", action="store_true", help="Обнулить остаток на WB для артикулов из --article (через запятую)")
@@ -4448,6 +4478,16 @@ def main() -> int:
     if args.price_audit:
         import price_audit
         return price_audit.cmd_price_audit()
+    if args.reviews_check:
+        import reviews_guard
+
+        arts = _parse_offer_ids_arg(args.article)
+        if not arts:
+            import openpyxl as _ox
+            _r = _ox.load_workbook(_data_path("master_control.xlsx"), read_only=True)["Товары"].iter_rows(min_row=2, values_only=True)
+            arts = [str(x[0]).strip() for x in _r if x and x[0]]
+        reviews_guard.check(arts)
+        return 0
     if args.price_preview:
         import price_audit
         price_audit.cmd_ozon_finance()
