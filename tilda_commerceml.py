@@ -106,6 +106,11 @@ def load_items(catalog_path: str, photos_dir: str, raw_base_url: str, price_over
                 "photo": photo,
             }
         )
+    try:
+        import exchange_items
+        items += exchange_items.site_items(items)  # карточки «по обмену» (только сайт)
+    except Exception as exc:  # noqa: BLE001 — обмен не должен ломать синхронизацию
+        logger.warning("Карточки по обмену не собраны: %s", exc)
     return items, problems
 
 

@@ -500,7 +500,15 @@ def build_avito_feed(
         if _AVITO_LINKS.get(str(offer_id)):
             ws.cell(row=out_row, column=COL_AVITO_ID, value=int(_AVITO_LINKS[str(offer_id)]))
         ws.cell(row=out_row, column=COL_CATEGORY, value=CATEGORY_VALUE)
-        ws.cell(row=out_row, column=COL_DESCRIPTION, value=_clean_description(description_raw))
+        _desc = _clean_description(description_raw)
+        try:
+            import exchange_items
+            _note = exchange_items.avito_note(offer_id, price)
+        except Exception:  # noqa: BLE001 — обмен не должен ломать фид
+            _note = ""
+        if _note and _note not in _desc:
+            _desc = (_note + "\n\n" + _desc)[:7500]
+        ws.cell(row=out_row, column=COL_DESCRIPTION, value=_desc)
         if images:
             ws.cell(row=out_row, column=COL_IMAGE_URLS, value="\n".join(images))
         if video_url:
