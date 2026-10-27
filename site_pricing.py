@@ -152,6 +152,10 @@ def save_price_overrides(overrides: Dict[str, float], path: str = OVERRIDES_PATH
     st["B7"] = prof["avito_fee"]
     st["A8"] = "Эквайринг сайта, доля"
     st["B8"] = prof["site_fee"]
+    st["A9"] = "Мин. чистая прибыль Авито/сайта, доля от закупки (1 = 100%)"
+    st["B9"] = get_min_markup(path)
+    st["A10"] = "Дорогие позиции (цена Ozon от, ₽): цену Авито/сайта не пересчитывать"
+    st["B10"] = get_freeze_from(path)
     wb.active = 0
     wb.save(path)
 
@@ -349,8 +353,33 @@ def nice_price(p: float) -> int:
     return int(lvl - 50 if lvl in (500, 1000) else lvl - 150)
 
 
-MIN_PROFIT = 300  # минимальная прибыль с продажи на Авито/сайте, ₽
-AD_FROM, AD_SHARE = 30000, 0.10  # реклама Авито/сайта: +10% цены только для товаров от 30 000 ₽ (решение 27.10)
+MIN_PROFIT = 300  # минимальная прибыль с продажи на Авито/сайте, ₽ (если закупка не указана)
+# Реклама Авито/сайта: +10% цены на ВЕСЬ каталог (27.10: сначала было только от 30 000 ₽, затем — на всё).
+AD_FROM, AD_SHARE = 0, 0.10
+# Пол цены Авито/сайта (27.10): ЧИСТАЯ прибыль (после налога, комиссии канала и рекламы) — не меньше
+# этой доли от закупки (1.0 = 100%: закупка 2 000 -> чистыми не меньше 2 000). Лист «Настройки», B9.
+DEFAULT_MIN_MARKUP = 1.0
+# Дорогие позиции (мехатроники, платы — цена Ozon от этой суммы): цену Авито/сайта НЕ пересчитываем,
+# остаётся текущая (решение владельца 27.10: «и так дорого»). Лист «Настройки», B10.
+DEFAULT_FREEZE_FROM = 20000
+
+
+def get_freeze_from(path: str = OVERRIDES_PATH) -> float:
+    try:
+        wb = openpyxl.load_workbook(path, data_only=True)
+        v = float(wb[SETTINGS_SHEET]["B10"].value)
+        return v if v > 0 else DEFAULT_FREEZE_FROM
+    except Exception:  # noqa: BLE001
+        return DEFAULT_FREEZE_FROM
+
+
+def get_min_markup(path: str = OVERRIDES_PATH) -> float:
+    try:
+        wb = openpyxl.load_workbook(path, data_only=True)
+        v = float(wb[SETTINGS_SHEET]["B9"].value)
+        return v if 0 <= v <= 10 else DEFAULT_MIN_MARKUP
+    except Exception:  # noqa: BLE001 — нет листа/ячейки -> значение по умолчанию
+        return DEFAULT_MIN_MARKUP
 
 
 def equal_profit_nice(ozon_price: float, net: float, tax: float, fee: float) -> Optional[int]:
@@ -364,6 +393,55 @@ def equal_profit_nice(ozon_price: float, net: float, tax: float, fee: float) -> 
     return min(nice_price(target), int(ozon_price))
 
 
+def price_floor(ozon_price: float, cost: Optional[float], prof: dict, markup: float, raw: bool = False):
+    """Минимальная цена Авито/сайта: чистыми (после налога, комиссии, рекламы) не меньше
+    markup·закупки и не меньше MIN_PROFIT ₽. raw=True — без округления по сетке."""
+    ad = AD_SHARE if ozon_price >= AD_FROM else 0.0
+    keep = 1 - prof["tax"] - prof["avito_fee"] - ad
+    c = cost or 0.0
+    need = (c + max(c * markup, MIN_PROFIT)) / keep
+    return need if raw else nice_price(need)
+
+
+def _below(total: float) -> int:
+    """Цена чуть дешевле суммы частей: по сетке, если это не дешевле 85% суммы, иначе сумма −10% до 50 ₽."""
+    import math
+    grid = [nice_price(x) for x in range(50, int(total), 50)]
+    under = [g for g in grid if g < total]
+    best = max(under) if under else 0
+    if best >= 0.85 * total:
+        return best
+    return max(50, int(math.floor(total * 0.9 / 50) * 50))
+
+
+def _cap_kits(plan: list, prof: dict, markup: float) -> None:
+    """Правило владельца: комплект дешевле суммы своих частей (состав — data/kits.xlsx).
+    Фиксированные цены не трогаем. Если пол прибыли выше суммы частей — оставляем пол и пишем почему."""
+    try:
+        import kits
+
+        bom = kits.load_bom()
+    except Exception:  # noqa: BLE001
+        return
+    by = {x["art"].lower(): x for x in plan}
+    for kit, parts in bom.items():
+        x = by.get(kit.lower())
+        if not x or x["fixed"] or not x["avito_new"] or len(parts) == 1 and parts[0][1] == 1:
+            continue  # 1 деталь ×1 — это тот же товар под другим артикулом, не комплект
+        if any(p.lower() not in by or not by[p.lower()]["avito_new"] for p, _ in parts):
+            continue
+        total = sum(by[p.lower()]["avito_new"] * q for p, q in parts)
+        if x["avito_new"] < total:
+            continue
+        cap = _below(total)
+        floor = price_floor(x["ozon_price"], x.get("cost"), prof, markup, raw=True)
+        if cap < floor:
+            x["src"] += f"; комплект не дешевле частей ({total:g}) — мешает мин. прибыль, проверьте закупку"
+            continue
+        x["avito_new"] = x["site_new"] = cap
+        x["src"] += f"; комплект дешевле частей ({total:g})"
+
+
 def plan_equal_profit(master_path: str, path: str = OVERRIDES_PATH, prof: Optional[dict] = None) -> list:
     """Расчёт без записи: [{art, name, ozon_price, net, src, avito_old, avito_new, site_old, site_new, fixed}]."""
     from openpyxl import load_workbook
@@ -373,6 +451,8 @@ def plan_equal_profit(master_path: str, path: str = OVERRIDES_PATH, prof: Option
     premium = get_premium(path)
     av_old, st_old = load_price_overrides(path), load_price_overrides(path, "site")
     models = _ozon_models()
+    markup = get_min_markup(path)
+    freeze = get_freeze_from(path)
     wb = load_workbook(master_path, read_only=True, data_only=True)
     ws = wb["Товары"] if "Товары" in wb.sheetnames else wb.active
     rows = ws.iter_rows(values_only=True)
@@ -391,28 +471,38 @@ def plan_equal_profit(master_path: str, path: str = OVERRIDES_PATH, prof: Option
         if p <= 0:
             continue
         net, src = ozon_net(art, p, models)
+        try:
+            cost = float(r[c_cost]) if c_cost is not None and r[c_cost] not in (None, "") else None
+        except (TypeError, ValueError):
+            cost = None
         if art in fixed:
             a_new, s_new, src = av_old.get(art), st_old.get(art), "фикс (вручную)"
-        elif net is None:
-            a_new = s_new = site_price(p, share, premium=premium)
-            src = "нет данных Ozon — по доле"
+        elif p >= freeze and av_old.get(art):
+            a_new, s_new = av_old.get(art), st_old.get(art) or av_old.get(art)
+            src = f"дорогая позиция (Ozon от {freeze:g} ₽) — не пересчитываем"
         else:
-            # одна цена на Авито и сайт (считаем по Авито — у него расходы выше), по сетке владельца
-            a_new = s_new = equal_profit_nice(p, net, prof["tax"], prof["avito_fee"])
-            # пол: на Авито/сайте не меньше MIN_PROFIT ₽ прибыли с продажи (если у Ozon прибыль слабая —
-            # не тянем сайт за ним в ноль); дороже Ozon всё равно не ставим
-            try:
-                cost = float(r[c_cost]) if c_cost is not None and r[c_cost] not in (None, "") else None
-            except (TypeError, ValueError):
-                cost = None
-            if cost is not None and a_new:
-                floor = nice_price((cost + MIN_PROFIT) / (1 - prof["tax"] - prof["avito_fee"]))
+            if net is None:
+                a_new = site_price(p, share, premium=premium)
+                src = "нет данных Ozon — по доле"
+            else:
+                # одна цена на Авито и сайт (считаем по Авито — у него расходы выше), по сетке владельца
+                a_new = equal_profit_nice(p, net, prof["tax"], prof["avito_fee"])
+            if a_new:
+                # пол: чистая прибыль (после налога, комиссии и рекламы) не меньше markup·закупки;
+                # без закупки — не меньше MIN_PROFIT ₽. Дороже Ozon всё равно не ставим.
+                floor = price_floor(p, cost, prof, markup)
                 if a_new < floor:
-                    a_new = s_new = min(floor, int(p))
-                    src += "; поднято до мин. прибыли"
+                    why = (f"; поднято до чистой прибыли {markup:.0%} от закупки"
+                           if cost and cost * markup >= MIN_PROFIT else f"; поднято до мин. прибыли {MIN_PROFIT} ₽")
+                    if floor > p:
+                        why += " (упёрлось в цену Ozon — Ozon дешевле правила)"
+                    a_new = min(floor, int(p))
+                    src += why
+            s_new = a_new
         out.append({"art": art, "name": r[c_name] or "", "ozon_price": p, "net": net, "src": src,
-                    "avito_old": av_old.get(art), "avito_new": a_new,
+                    "cost": cost, "avito_old": av_old.get(art), "avito_new": a_new,
                     "site_old": st_old.get(art), "site_new": s_new, "fixed": art in fixed})
+    _cap_kits(out, prof, markup)
     return out
 
 
