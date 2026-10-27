@@ -1,0 +1,53 @@
+Проверка 2026-10-27T04:26:03.195Z
+FBS за 30 дн.: ОШИБКА Ozon /v3/posting/fbs/list вернул 404: 404 page not found
+
+Traceback (most recent call last):
+  File "/home/runner/work/marketplace-agent/marketplace-agent/main.py", line 3316, in cmd_diag_ozon_orders
+    posts = fn(fmt(since), fmt(now))
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/marketplace-agent/marketplace-agent/ozon_client.py", line 515, in get_fbs_orders_since
+    data = _post(
+           ^^^^^^
+  File "/home/runner/work/marketplace-agent/marketplace-agent/ozon_client.py", line 69, in _post
+    raise OzonApiError(f"Ozon {path} вернул {resp.status_code}: {resp.text[:500]}")
+ozon_client.OzonApiError: Ozon /v3/posting/fbs/list вернул 404: 404 page not found
+
+
+FBO за 30 дн.: ОШИБКА Ozon /v3/posting/fbo/list вернул 400: {"code":3, "message":"Request validation error: invalid PostingFboListRequest.Limit: value must be inside range (0, 100]"}
+Traceback (most recent call last):
+  File "/home/runner/work/marketplace-agent/marketplace-agent/main.py", line 3316, in cmd_diag_ozon_orders
+    posts = fn(fmt(since), fmt(now))
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/marketplace-agent/marketplace-agent/ozon_client.py", line 545, in get_fbo_orders_since
+    data = _post(
+           ^^^^^^
+  File "/home/runner/work/marketplace-agent/marketplace-agent/ozon_client.py", line 69, in _post
+    raise OzonApiError(f"Ozon {path} вернул {resp.status_code}: {resp.text[:500]}")
+ozon_client.OzonApiError: Ozon /v3/posting/fbo/list вернул 400: {"code":3, "message":"Request validation error: invalid PostingFboListRequest.Limit: value must be inside range (0, 100]"}
+
+FBS за 10 дн.: ОШИБКА Ozon /v3/posting/fbs/list вернул 404: 404 page not found
+
+Traceback (most recent call last):
+  File "/home/runner/work/marketplace-agent/marketplace-agent/main.py", line 3316, in cmd_diag_ozon_orders
+    posts = fn(fmt(since), fmt(now))
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/marketplace-agent/marketplace-agent/ozon_client.py", line 515, in get_fbs_orders_since
+    data = _post(
+           ^^^^^^
+  File "/home/runner/work/marketplace-agent/marketplace-agent/ozon_client.py", line 69, in _post
+    raise OzonApiError(f"Ozon {path} вернул {resp.status_code}: {resp.text[:500]}")
+ozon_client.OzonApiError: Ozon /v3/posting/fbs/list вернул 404: 404 page not found
+
+
+FBO за 10 дн.: ОШИБКА Ozon /v3/posting/fbo/list вернул 400: {"code":3, "message":"Request validation error: invalid PostingFboListRequest.Limit: value must be inside range (0, 100]"}
+Traceback (most recent call last):
+  File "/home/runner/work/marketplace-agent/marketplace-agent/main.py", line 3316, in cmd_diag_ozon_orders
+    posts = fn(fmt(since), fmt(now))
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/marketplace-agent/marketplace-agent/ozon_client.py", line 545, in get_fbo_orders_since
+    data = _post(
+           ^^^^^^
+  File "/home/runner/work/marketplace-agent/marketplace-agent/ozon_client.py", line 69, in _post
+    raise OzonApiError(f"Ozon {path} вернул {resp.status_code}: {resp.text[:500]}")
+ozon_client.OzonApiError: Ozon /v3/posting/fbo/list вернул 400: {"code":3, "message":"Request validation error: invalid PostingFboListRequest.Limit: value must be inside range (0, 100]"}
+
