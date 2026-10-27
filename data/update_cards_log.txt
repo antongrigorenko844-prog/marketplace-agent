@@ -309,7 +309,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Нераспознанных файлов: 2 — см. лист 'Нераспознанные фото' в /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
 
 Готово: attach-photos-all завершён. Дальше — push-photos-dryrun, чтобы проверить, что уйдёт на Ozon и WB.
-[attach-photos-all: 44 с]
+[attach-photos-all: 30 с]
 
 === Шаг 3: push-photos (Ozon + WB) ===
 === Ozon: реальная отправка ===
@@ -317,19 +317,12 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   - Похоже на случайный дубль артикула (отличаются только регистром букв): DQ500, Dq500 — возможно, это одна и та же деталь, заведённая дважды.
   - Похоже на случайный дубль артикула (отличаются только регистром букв): EA888gen3, Ea888gen3 — возможно, это одна и та же деталь, заведённая дважды.
 
-Партия 1: task_id=5909982588, жду обработку...
-  ОК 0am325025HX: статус imported
-  ОК 0am325025HXF: статус imported
-
-Итого: успешно 2, с ошибками 0
+Отправлять нечего: либо ни одна строка xlsx не совпала с offer_id из ozon_products.json (см. предупреждения выше), либо (чаще) всё, что есть в xlsx, уже было отправлено раньше и с тех пор не менялось (см. data/ozon_push_cache.json) — это нормальный исход, не ошибка.
 
 === WB: реальная отправка ===
-Фото: 0am325025HX — 4 фото отправлено.
-Фото: 0am325025HXF — 4 фото отправлено.
+Отправлять нечего: либо ни одна строка xlsx не совпала с vendorCode из wb_cards.json, либо (чаще) всё, что есть в xlsx, уже было отправлено раньше и с тех пор не менялось — это нормальный исход, не ошибка.
 
-Итого успешных операций: 2, с ошибками: 0
-
-[push-photos: 163 с]
+[push-photos: 0 с]
 
 === Шаг 4: push-wb-price ===
 Цены на WB менять не нужно: ни одна цена в wb_catalog.xlsx не отличается от текущей на WB.
@@ -481,7 +474,7 @@ EA888: на Ozon 4741 / до скидки 6000 -> по файлу 4850 / 6000
   ОК: партия из 110 остатков отправлена (01X301127C, 02E 305 045, 02E305051C, 02E927770AL, 02e305045, 0AM301212A, 0AM325025B, 0AM325120A, 0AM325219C, 0AM325413A, 0AM325433E, 0AM325443D, 0AM325467J, 0AM325473, 0AM325587E, 0AM927769D, 0AM927769F, 0AM927769N, 0BH325183, 0BH325183 B, 0am325025, 0am325025D, 0am325025G, 0am325025H, 0am325025HX, 0am325025HXF, 0am325025P, 0am325025ae, 0am325025f, 0am325025hfe, 0am325025j, 0am325025l, 0am325025m, 0am325025n, 0am325025q, 0am325025r, 0am325025u, 0am325025x, 0am325025z, 0am325025С, 0am325066AC, 0am325066ad, 0am325066ae, 0am325091e, 0am325091e-set, 0am325091f, 0am325091f-set, 0am325477, 0am325477ae, 0cw0am, 0cw0am325025, 0cw0amdsgdq200, 0cw325025h, 0сц, 122390AK-AF, 122390AKAF, 123014‑AF, 31705-1XF0C, 31705-X428B, 317053TX0C, 55565480, DQ500, Dq200dsg7, Dq200dsg70am0cw, WHT001922, filtr-dsg7-dq200, filtr-dsg7-dq500, filtr-setka-0b5-orig, gidroakkumulyator-orig, jf011e, klipsy-shtokov-2sht, korpus-filtra-0bh325159, kryshka-mehatronika-dq200, planka-solenoid-2sht, plastina-solenoid-dq200, plastiny-solenoid-dq200-2sht, plastiny-solenoid-orig, plita-filtr, plita-filtr-orig, plita-filtr-pylniki, plita-filtr-pylniki-orig, plita-filtr-pylniki-sal, plita-filtr-pylniki-sal-orig, plita-filtr-salniki-orig, plita-pylniki-salniki, plita-pylniki-salniki-orig, porshni-usil-pylniki-kryshki, prokladka-kryshki-dq200, prokladka-vtulki-dq200, prokladka-vtulki-niz-dq200, prokladka-vtulki-verh-dq200, pylniki-shtokov-orig, remkomplekt-shtokov-orig, salnik-shtoka-orig, salnik-tolkatelya-alum, salniki-shtokov-2sht, salniki-shtokov-orig, salniki-tolkatelya-4sht, salnikprivod-l, salnikprivod-r, salnikvhod, salnikvihod, separatornaya-plastina-dq200, separatornaya-plastiny-solenoid-dq200, solenoid-02e-0b5-bolshoy, stalnaya-vstavka-plity, tolkateli-4-salniki-4, tolkateli-salniki-alum-komplekt, vtulki-shtokov-2sht, 0AM927769D (снята))
 
 Итого: успешно 110, с ошибками 0
-[push-wb-stock: 2 с]
+[push-wb-stock: 1 с]
 
 === Шаг 6б: Ozon — контроль акций (цена не ниже нашей) ===
 Акций, доступных продавцу через API: 5
@@ -533,14 +526,12 @@ push-yandex-stock: принято Маркетом 127 из 127.
 
 === Шаг 7а: Яндекс Маркет — видео ===
 Нет на Маркете (видео не отправляется): 0am325025hxf
-Видео к отправке на Маркет: 1
-  0am325025HX: 0am325025HX_video.mp4?v=15fc20f523
-push-yandex-videos: принято Маркетом 1 из 1.
-[push-yandex-videos: 2 с]
+Видео на Маркете актуальны (17 товаров) — отправлять нечего.
+[push-yandex-videos: 0 с]
 
 === Шаг 7б: фото для Авито (photos_avito) ===
 Фото для Авито: товаров с актуальными ссылками — 86
-[attach-avito-photos: 29 с]
+[attach-avito-photos: 25 с]
 
 === Шаг 8: build-avito-catalog ===
 Готово: 102 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
@@ -553,19 +544,23 @@ push-yandex-videos: принято Маркетом 1 из 1.
 
 Файл также залит по постоянной ссылке: https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito_feed.xlsx
 Если ещё не настроили — вставьте эту ссылку ОДИН РАЗ в личном кабинете Avito: Автозагрузка -> Настройки -> «Автозагрузка по ссылке», отметьте побольше дней/часов опроса. Дальше Avito сам будет скачивать и обрабатывать файл — загружать вручную больше не нужно.
-[build-avito-catalog: 4 с]
+[build-avito-catalog: 3 с]
 
 === Шаг 9: Tilda (сайт), CommerceML ===
 Собрано товаров: 128 (из них с остатком 0 -> на сайте 'нет в наличии': 19).
 Без фото: 0ambset, 122390AK-AF, solenoid-02e-0b5-bolshoy
+Фото уйдут новым товарам (14 файлов): 0AM927769F, 0am325025H-obmen, 0am325025HX-obmen, 0am325025HXF, 0am325025HXF-obmen, 0am325025x-obmen
   checkauth: success
   init: zip=no | file_limit=3145728
+  фото: отправлено файлов 14
   file import0_1.xml: success
   file offers0_1.xml: success
   import import0_1.xml: success
   import offers0_1.xml: success
+Фото отправлены (повторно не шлём): 0AM927769F, 0am325025H-obmen, 0am325025HX-obmen, 0am325025HXF, 0am325025HXF-obmen, 0am325025x-obmen
+Если на сайте их нет — включите в Тильде «Принимать изображения» (Синхронизация через CommerceML -> Дополнительные настройки) и удалите эти артикулы из data/tilda_images_sent.json.
 push-tilda: готово. Проверьте результат на сайте и в 'Истории синхронизации' в Тильде.
-[push-tilda: 7 с]
+[push-tilda: 15 с]
 
 === Шаг 10: ревизия площадок (только чтение, на результат update-cards не влияет) ===
 === Ревизия: обновляю выгрузки с площадок ===
