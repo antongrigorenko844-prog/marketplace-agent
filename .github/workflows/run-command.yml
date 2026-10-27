@@ -77,6 +77,8 @@ jobs:
           IG_TOKEN_KEY: ${{ secrets.IG_TOKEN_KEY }}
           SOCIAL_AUTOPUBLISH: ${{ secrets.SOCIAL_AUTOPUBLISH }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
         run: |
           set -o pipefail
           if [ "${{ inputs.save_log }}" = "true" ]; then

@@ -1,0 +1,22 @@
+# Яндекс Директ: проверка файла кампании САМА после push в data/direct/ (см. data/direct/README.md).
+# Ошибки (фраза из одного слова вроде «китайский», чужие коробки, ремонтный трафик, конфликт фразы
+# с минус-словом, длины заголовков) приходят владельцу в Telegram; в Директ ничего не отправляется.
+
+name: direct-lint
+
+on:
+  push:
+    paths:
+      - "data/direct/**"
+
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+
+jobs:
+  lint:
+    uses: ./.github/workflows/run-command.yml
+    secrets: inherit
+    with:
+      command: direct-lint
+      save_log: true

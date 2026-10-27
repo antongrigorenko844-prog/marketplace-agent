@@ -4402,6 +4402,9 @@ def main() -> int:
     parser.add_argument("--fix-partnumbers", action="store_true", help="Исправить «номер детали» на 7 карточках Ozon/WB (fix_partnumbers.py)")
     parser.add_argument("--fix-partnumbers-dryrun", action="store_true", help="То же без отправки")
     parser.add_argument("--site-links", action="store_true", help="Собрать ссылки на товары сайта (data/site_links.json) для постов")
+    parser.add_argument("--direct-lint", action="store_true", help="Яндекс Директ: проверить data/direct/*.tsv (мусорные фразы, конфликты минус-слов, длины)")
+    parser.add_argument("--direct-check-links", action="store_true", help="Яндекс Директ: проверить страницы активной кампании (200, заглушки, якоря)")
+    parser.add_argument("--direct-report", action="store_true", help="Яндекс Директ: сводка за вчера/7 дней в Telegram (YANDEX_DIRECT_TOKEN)")
     parser.add_argument("--social-vk-feed", action="store_true", help="Пересобрать ленту RSS для импорта во VK (data/vk_feed.xml)")
     parser.add_argument("--social-autopublish", action="store_true", help="То же по расписанию; работает только при секрете SOCIAL_AUTOPUBLISH=1")
     parser.add_argument("--designer-link", action="store_true", help="Запомнить Telegram-чат дизайнера (после Start у бота); с --article owner — запомнить ВАШ чат (для пересылки макетов и команд «стоп N»)")
@@ -4688,6 +4691,15 @@ def main() -> int:
     if args.fix_partnumbers or args.fix_partnumbers_dryrun:
         import fix_partnumbers
         return fix_partnumbers.cmd_fix_partnumbers(args.fix_partnumbers_dryrun)
+    if args.direct_lint:
+        import direct_tools
+        return direct_tools.cmd_direct_lint()
+    if args.direct_check_links:
+        import direct_tools
+        return direct_tools.cmd_direct_check_links()
+    if args.direct_report:
+        import direct_tools
+        return direct_tools.cmd_direct_report()
     if args.site_links:
         import site_links
         return site_links.cmd_site_links()

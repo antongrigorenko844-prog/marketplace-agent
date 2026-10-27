@@ -134,10 +134,14 @@ jobs:
           YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
           YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
           TILDA_ORDER_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
         run: |
           if [ "${{ github.event_name }}" = "schedule" ] && [ "${{ github.event.schedule }}" = "40 1 * * *" ]; then
             echo "Ночная ревизия площадок (только чтение)"
+            python main.py --direct-check-links || true   # страницы рекламы Директа: 200, без заглушек, якоря
+            python main.py --direct-report || true        # сводка Директа в Telegram (если задан YANDEX_DIRECT_TOKEN)
             python main.py --audit-nightly
           elif [ "${{ github.event_name }}" = "schedule" ]; then
             echo "Автозапуск по расписанию: общий учёт остатков (Ozon+WB)"
