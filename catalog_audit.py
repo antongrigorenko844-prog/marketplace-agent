@@ -56,8 +56,10 @@ def load_master():
     h = [str(c or "") for c in rows[0]]
     ix = {k: h.index(k) for k in h if k}
     out = []
+    import audit as _audit
+    ignored = _audit.load_ignore()  # data/audit_ignore.json — не показывать в отчёте
     for r in rows[1:]:
-        if not r[0]:
+        if not r[0] or _audit.loose(str(r[0])) in ignored:
             continue
         g = lambda k: r[ix[k]] if k in ix else None  # noqa: E731
         out.append({

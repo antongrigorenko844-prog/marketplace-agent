@@ -1004,8 +1004,18 @@ def _load_overrides() -> Dict[str, dict]:
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
     except (FileNotFoundError, json.JSONDecodeError, OSError):
-        return {}
-    return {k: v for k, v in data.items() if isinstance(v, dict)}
+        data = {}
+    out = {k: dict(v) for k, v in data.items() if isinstance(v, dict)}
+    # Вес и габариты из master_control.xlsx (колонки «Вес, кг», «Длина/Ширина/Высота, см»)
+    # главнее записей в ozon_overrides.json — один файл для Ozon и WB.
+    try:
+        import master_dims
+
+        for art, md in master_dims.load().items():
+            out.setdefault(art, {}).update(md)
+    except Exception as exc:  # мастер недоступен — работаем по ozon_overrides.json
+        logger.warning("Габариты из master_control не прочитаны: %s", exc)
+    return out
 
 
 def _load_push_cache() -> Dict[str, str]:

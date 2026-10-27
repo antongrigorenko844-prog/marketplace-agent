@@ -18,6 +18,9 @@
 перестанет считать это пропуском. Мастер пересобирается при каждом запуске, но
 значения этих колонок build-master-control переносит по артикулу.
 
+Исключения: data/audit_ignore.json — артикулы, которые ревизия не проверяет
+(«артикул»: «причина»); на сами карточки это не влияет.
+
 Результат: data/audit_report.xlsx (листы «Сводка», «Проблемы», «Матрица») и
 data/audit_summary.md (короткий текст для лога/уведомления).
 """
@@ -294,6 +297,12 @@ def channel_flags(master: "OrderedDict[str, dict]") -> Dict[str, dict]:
 # Сравнение
 # ----------------------------------------------------------------------------
 
+def load_ignore() -> set:
+    """data/audit_ignore.json — артикулы, которые ревизия пропускает (ключи без «_»)."""
+    data = _json("audit_ignore.json") or {}
+    return {loose(k) for k in data if not str(k).startswith("_")}
+
+
 def compute() -> dict:
     master = load_master()
     flags = channel_flags(master)
@@ -396,6 +405,11 @@ def compute() -> dict:
             add("СРЕДНЕ", k, "Авито", "дубль объявления", f"кроме объявления из фида активно ещё id {rec.get('id')}, цена {rec.get('price') or 0:g}", "снять старое с публикации (или привязать к фиду через AvitoId)")
     for it in unmatched_live[:50]:
         add("СРЕДНЕ", it.get("title", "?"), "Авито", "объявление не из фида", f"id {it.get('id')} статус {it.get('status')}", "закрыть, если старое/дубль")
+
+    ignored = load_ignore()
+    if ignored:
+        problems = [p for p in problems if loose(str(p["art"])) not in ignored]
+        matrix = [r for r in matrix if loose(str(r["art"])) not in ignored]
 
     return {
         "master": master, "problems": problems, "matrix": matrix,

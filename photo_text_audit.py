@@ -36,9 +36,11 @@ def cmd_photo_text_audit() -> int:
         base = os.path.join(_ROOT, top)
         if not os.path.isdir(base):
             continue
+        import audit as _audit
+        ignored = _audit.load_ignore()  # data/audit_ignore.json — не проверять
         for folder in sorted(os.listdir(base)):
             full = os.path.join(base, folder)
-            if not os.path.isdir(full):
+            if not os.path.isdir(full) or _audit.loose(folder) in ignored:
                 continue
             for f in sorted(os.listdir(full)):
                 if not f.lower().endswith((".png", ".jpg", ".jpeg", ".webp")):

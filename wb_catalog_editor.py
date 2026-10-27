@@ -403,8 +403,9 @@ def attach_wb_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") ->
 
 def build_wb_update_items(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
     """
-    Собирает items для /content/v2/cards/update — правит ТОЛЬКО title и
-    description, всё остальное (brand, dimensions, characteristics, sizes,
+    Собирает items для /content/v2/cards/update — правит title, description и
+    (с 27.10.2026) габариты/вес из master_control, если они там заполнены;
+    всё остальное (brand, characteristics, sizes,
     kizMarked) копирует из уже выгруженной карточки без изменений. Фото
     сюда не входят — для них build_wb_media_updates.
 
@@ -420,6 +421,13 @@ def build_wb_update_items(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
     """
     cards = _cards_by_vendor(wb_data)
     text_cache = _load_media_push_cache()
+    try:
+        import master_dims
+
+        dims_master = master_dims.load()
+    except Exception as exc:
+        logger.warning("Габариты из master_control не прочитаны: %s", exc)
+        dims_master = {}
     items: List[dict] = []
     skipped = 0
     for vendor_code, edit in edits.items():
@@ -430,13 +438,16 @@ def build_wb_update_items(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
         description = clean_wb_description(edit.get("description") or _card_description(card))
         current_title = (_card_title(card) or "").strip()[:TITLE_MAX_LEN]
         current_description = _card_description(card) or ""
-        if title == current_title and description in (current_description, clean_wb_description(current_description)):
-            skipped += 1
-            continue
+        dimensions, dims_changed = _master_dimensions(vendor_code, card, dims_master)
+        if dims_changed and text_cache.get("dims:" + vendor_code) == _dims_fingerprint(dimensions):
+            dims_changed = False  # уже отправляли, ждём fetch-wb
+        text_same = title == current_title and description in (current_description, clean_wb_description(current_description))
         # WB мог принять текст, но в wb_cards.json (последний fetch-wb) пока
         # лежит старое значение — не слать то же самое повторно, пока не
         # сделают fetch-wb: смотрим, что именно мы сами отправляли в прошлый раз.
-        if text_cache.get("text:" + vendor_code) == _text_fingerprint(title, description):
+        if not text_same and text_cache.get("text:" + vendor_code) == _text_fingerprint(title, description):
+            text_same = True
+        if text_same and not dims_changed:
             skipped += 1
             continue
         items.append(
@@ -447,7 +458,7 @@ def build_wb_update_items(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
                 "brand": card.get("brand", ""),
                 "title": title,
                 "description": description,
-                "dimensions": card.get("dimensions") or {},
+                "dimensions": dimensions,
                 "characteristics": card.get("characteristics") or [],
                 "sizes": card.get("sizes") or [],
             }
@@ -554,12 +565,48 @@ def _text_fingerprint(title: str, description: str) -> str:
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
 
 
+def _master_dimensions(vendor_code: str, card: dict, dims_master: dict):
+    """Габариты для отправки: из master_control (см. master_dims.py), если там
+    заполнены все четыре колонки, иначе — как сейчас на WB. Возвращает
+    (dimensions, изменились_ли)."""
+    current = dict(card.get("dimensions") or {})
+    md = dims_master.get(vendor_code)
+    if md is None:
+        low = vendor_code.lower()
+        md = next((v for k, v in dims_master.items() if k.lower() == low), None)
+    if not md:
+        return current, False
+    l_mm, w_mm, h_mm = md["dims_mm"]
+    target = {
+        "length": max(1, int(round(l_mm / 10))),
+        "width": max(1, int(round(w_mm / 10))),
+        "height": max(1, int(round(h_mm / 10))),
+        "weightBrutto": round(md["weight_g"] / 1000, 3),
+    }
+    changed = any(
+        abs(float(current.get(k) or 0) - float(v)) > 1e-6 for k, v in target.items()
+    )
+    if not changed:
+        return current, False
+    out = {k: v for k, v in current.items() if k != "isValid"}
+    out.update(target)
+    return out, True
+
+
+def _dims_fingerprint(dimensions: dict) -> str:
+    keys = ("length", "width", "height", "weightBrutto")
+    raw = json.dumps([dimensions.get(k) for k in keys])
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
+
+
 def mark_text_pushed(items: List[dict]) -> None:
-    """Запомнить, что название/описание этих items успешно отправлены в WB
-    (хранится в том же data/wb_media_push_cache.json, ключ "text:<vendorCode>")."""
+    """Запомнить, что название/описание (и габариты) этих items успешно отправлены в WB
+    (хранится в том же data/wb_media_push_cache.json, ключи "text:<vendorCode>", "dims:<vendorCode>")."""
     cache = _load_media_push_cache()
     for it in items:
         cache["text:" + it["vendorCode"]] = _text_fingerprint(it["title"], it["description"])
+        if it.get("dimensions"):
+            cache["dims:" + it["vendorCode"]] = _dims_fingerprint(it["dimensions"])
     _save_media_push_cache(cache)
 
 

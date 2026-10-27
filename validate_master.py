@@ -140,7 +140,40 @@ def validate(path: str = MASTER_PATH) -> Tuple[List[str], List[str]]:
 
     if checked == 0:
         errors.append("В master_control.xlsx не найдено ни одной строки с артикулом")
+    _check_dims(path, warns)
     return errors, warns
+
+
+def _check_dims(path: str, warns: List[str]) -> None:
+    """Вес/габариты: заполнять все четыре колонки сразу и только в мастере
+    (не в data/ozon_overrides.json) — иначе Ozon и WB разойдутся."""
+    import json
+
+    try:
+        import master_dims
+
+        rows = master_dims.read_rows(path)
+        full = master_dims.load(path)
+    except Exception:
+        return
+    for art, vals in rows.items():
+        if art not in full:
+            warns.append(
+                f"{art}: вес/габариты заполнены не полностью (нужны все четыре: «Вес, кг», «Длина, см», "
+                f"«Ширина, см», «Высота, см», больше нуля) — пока не заполнены, на Ozon/WB не уйдут"
+            )
+    try:
+        with open(os.path.join(ROOT, "data", "ozon_overrides.json"), encoding="utf-8") as f:
+            overrides = json.load(f)
+    except (OSError, ValueError):
+        return
+    full_low = {a.lower() for a in full}
+    for art, ov in overrides.items():
+        if isinstance(ov, dict) and ov.get("dims_mm") and art.lower() not in full_low:
+            warns.append(
+                f"{art}: габариты заданы только в data/ozon_overrides.json — уйдут на Ozon, но не на WB; "
+                f"перенесите их в колонки «Вес, кг», «Длина/Ширина/Высота, см» мастера"
+            )
 
 
 def run(path: str = MASTER_PATH, quiet_ok: bool = False) -> int:
