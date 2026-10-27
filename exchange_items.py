@@ -54,6 +54,7 @@ def site_items(items: List[Dict], path: str = PATH) -> List[Dict]:
                 "price": int(p["price"]) - disc,
                 "qty": p.get("qty"),
                 "photo": p.get("photo") or "",
+                "photo_files": list(p.get("photo_files") or []),
             }
         )
     return out

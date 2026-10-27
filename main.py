@@ -643,7 +643,22 @@ def _build_tilda_commerceml_files():
     raw_base_url = f"https://raw.githubusercontent.com/{repo}/{branch}/photos"
 
     items, problems = tilda_commerceml.load_items(catalog_path, photos_dir, raw_base_url)
-    import_xml = tilda_commerceml.build_import_xml(items)
+    # Фото — только новым товарам и один раз (см. tilda_commerceml.plan_images)
+    image_plan = tilda_commerceml.plan_images(items)
+    image_files = []  # [(имя в import_files/..., байты)]
+    image_names = {}  # {артикул: [имена для <Картинка>]}
+    for oid, files in image_plan.items():
+        for path, name in files:
+            try:
+                data, new_ext = tilda_commerceml._image_bytes(path, 3 * 1024 * 1024)
+            except Exception as exc:  # noqa: BLE001 — битое фото не должно ломать синхронизацию
+                print(f"Фото для Тильды пропущено ({oid}): {exc}")
+                continue
+            if new_ext:
+                name = os.path.splitext(name)[0] + new_ext
+            image_files.append((name, data))
+            image_names.setdefault(oid, []).append(name)
+    import_xml = tilda_commerceml.build_import_xml(items, image_names)
     offers_xml = tilda_commerceml.build_offers_xml(items)
     with open(_data_path("tilda_import0_1.xml"), "w", encoding="utf-8") as f:
         f.write(import_xml)
@@ -656,7 +671,9 @@ def _build_tilda_commerceml_files():
         print(f"Без цены (карточка не создаётся/не обновляется, остаток передаётся): {', '.join(problems['no_price'])}")
     if problems["no_photo"]:
         print(f"Без фото: {', '.join(problems['no_photo'])}")
-    return import_xml, offers_xml
+    if image_names:
+        print(f"Фото уйдут новым товарам ({len(image_files)} файлов): {', '.join(sorted(image_names))}")
+    return import_xml, offers_xml, image_files, sorted(image_names)
 
 
 def cmd_yandex_market_export() -> int:
@@ -936,9 +953,9 @@ def cmd_push_tilda() -> int:
     built = _build_tilda_commerceml_files()
     if not built:
         return 1
-    import_xml, offers_xml = built
+    import_xml, offers_xml, image_files, image_ids = built
     try:
-        log = tilda_commerceml.push(url, user, password, import_xml, offers_xml)
+        log = tilda_commerceml.push(url, user, password, import_xml, offers_xml, image_files=image_files)
     except Exception as exc:  # noqa: BLE001
         # В тексте ошибки не печатаем URL/пароль — только ответ сервера.
         print(f"push-tilda: ОШИБКА — {exc}")
@@ -946,6 +963,11 @@ def cmd_push_tilda() -> int:
         return 1
     for line in log:
         print("  " + line)
+    if image_ids:
+        tilda_commerceml.mark_images_sent(image_ids)
+        print("Фото отправлены (повторно не шлём): " + ", ".join(image_ids))
+        print("Если на сайте их нет — включите в Тильде «Принимать изображения» (Синхронизация через CommerceML -> "
+              "Дополнительные настройки) и удалите эти артикулы из data/tilda_images_sent.json.")
     print("push-tilda: готово. Проверьте результат на сайте и в 'Истории синхронизации' в Тильде.")
     return 0
 

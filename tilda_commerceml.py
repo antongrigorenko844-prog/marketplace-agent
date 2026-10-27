@@ -97,6 +97,7 @@ def load_items(catalog_path: str, photos_dir: str, raw_base_url: str, price_over
         photo = tilda_feed._cover_photo_raw_url(photos_dir, offer_id, raw_base_url) if photos_dir else ""
         if not photo:
             problems["no_photo"].append(offer_id)
+        photo_files = _local_photo_files(photos_dir, offer_id) if photos_dir else []
         items.append(
             {
                 "id": offer_id,
@@ -105,6 +106,7 @@ def load_items(catalog_path: str, photos_dir: str, raw_base_url: str, price_over
                 "price": int(price),
                 "qty": qty,
                 "photo": photo,
+                "photo_files": photo_files,
             }
         )
     try:
@@ -115,7 +117,108 @@ def load_items(catalog_path: str, photos_dir: str, raw_base_url: str, price_over
     return items, problems
 
 
-def build_import_xml(items: List[Dict]) -> str:
+# ---------------------------------------------------------------------------
+# ФОТО НА ТИЛЬДУ (добавлено 2026-10-28).
+# Раньше в <Картинка> уходила ссылка raw.githubusercontent — Тильда её не берёт:
+# новые товары (HXF, плата F, карточки «по обмену») появились на сайте без фото.
+# По протоколу CommerceML картинка — это ФАЙЛ, загруженный в той же сессии
+# (mode=file, filename=import_files/...), а в <Картинка> — его относительный путь.
+# В Тильде должна быть включена галочка «Принимать изображения»
+# (Синхронизация через CommerceML -> Дополнительные настройки).
+#
+# Фото шлём ТОЛЬКО новым товарам, и только ОДИН РАЗ:
+#   - товар уже виден на сайте (data/site_links.json) -> фото не трогаем
+#     (там фото, загруженные вручную/дизайнером);
+#   - товар уже получал фото от нас (data/tilda_images_sent.json) -> не шлём повторно
+#     (иначе Тильда может задублировать картинки).
+# Чтобы отправить фото товару заново — удалите его артикул из tilda_images_sent.json.
+# Остальным товарам <Картинка> не передаётся вовсе (МойСклад делает так же —
+# шлёт только ещё не отправленные изображения; уже загруженные на сайте остаются).
+# ---------------------------------------------------------------------------
+IMAGES_SENT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "tilda_images_sent.json")
+SITE_LINKS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "site_links.json")
+MAX_PHOTOS = 5
+
+
+def _local_photo_files(photos_dir: str, offer_id: str) -> List[str]:
+    import catalog_editor
+
+    files = catalog_editor.own_media_files(photos_dir, offer_id, catalog_editor.IMAGE_EXTS)
+    return [catalog_editor.media_path(photos_dir, offer_id, f) for f in files][:MAX_PHOTOS]
+
+
+def _load_json(path: str, default):
+    import json
+
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return default
+
+
+def plan_images(items: List[Dict], sent_path: str = IMAGES_SENT_PATH, site_links_path: str = SITE_LINKS_PATH) -> Dict[str, List[Tuple[str, str]]]:
+    """
+    {offer_id: [(путь на диске, имя в import_files/...), ...]} — кому в этом запуске шлём фото.
+    Если site_links.json не прочитался — фото не шлём никому (не знаем, что уже на сайте).
+    """
+    import hashlib
+
+    site = _load_json(site_links_path, None)
+    if not isinstance(site, dict) or not site:
+        logger.warning("site_links.json пуст/не читается — фото на Тильду в этом запуске не шлём")
+        return {}
+    sent = set(_load_json(sent_path, []))
+    plan: Dict[str, List[Tuple[str, str]]] = {}
+    for it in items:
+        oid = it["id"]
+        files = it.get("photo_files") or []
+        if it.get("price") is None or not files or oid in sent or oid.lower() in site:
+            continue
+        uid = hashlib.md5(oid.encode("utf-8")).hexdigest()[:12]
+        plan[oid] = [
+            (path, f"import_files/{uid}_{n}{os.path.splitext(path)[1].lower()}") for n, path in enumerate(files, 1)
+        ]
+    return plan
+
+
+def mark_images_sent(ids: List[str], sent_path: str = IMAGES_SENT_PATH) -> None:
+    import json
+
+    sent = set(_load_json(sent_path, [])) | set(ids)
+    with open(sent_path, "w", encoding="utf-8") as f:
+        json.dump(sorted(sent), f, ensure_ascii=False, indent=1)
+
+
+def _image_bytes(path: str, limit: int) -> Tuple[bytes, str]:
+    """Байты файла; если больше лимита Тильды — пережимаем в JPEG (белый фон вместо прозрачности)."""
+    with open(path, "rb") as f:
+        data = f.read()
+    if len(data) <= limit:
+        return data, ""
+    import io
+
+    from PIL import Image
+
+    im = Image.open(io.BytesIO(data))
+    if im.mode in ("RGBA", "LA", "P"):
+        im = im.convert("RGBA")
+        bg = Image.new("RGB", im.size, (255, 255, 255))
+        bg.paste(im, mask=im.split()[-1])
+        im = bg
+    else:
+        im = im.convert("RGB")
+    for side, q in ((2000, 88), (1600, 85), (1200, 80)):
+        im2 = im.copy()
+        im2.thumbnail((side, side))
+        buf = io.BytesIO()
+        im2.save(buf, "JPEG", quality=q, optimize=True)
+        if buf.tell() <= limit:
+            return buf.getvalue(), ".jpg"
+    return buf.getvalue(), ".jpg"
+
+
+def build_import_xml(items: List[Dict], images: Optional[Dict[str, List[str]]] = None) -> str:
     """import0_1.xml — состав каталога (товары, названия, описания, картинки)."""
     now = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
     parts = [
@@ -140,8 +243,8 @@ def build_import_xml(items: List[Dict]) -> str:
         parts.append(f"<Группы><Ид>{GROUP_ID}</Ид></Группы>")
         if it["description"]:
             parts.append(f"<Описание>{_x(it['description'])}</Описание>")
-        if it["photo"]:
-            parts.append(f"<Картинка>{_x(it['photo'])}</Картинка>")
+        for name in (images or {}).get(it["id"], []):
+            parts.append(f"<Картинка>{_x(name)}</Картинка>")
         parts.append("</Товар>")
     parts += ["</Товары>", "</Каталог>", "</КоммерческаяИнформация>"]
     return "\n".join(parts)
@@ -177,6 +280,17 @@ def build_offers_xml(items: List[Dict]) -> str:
     return "\n".join(parts)
 
 
+def file_limit_from_init(text: str, default: int = 3 * 1024 * 1024) -> int:
+    for part in text.replace("\n", "|").split("|"):
+        part = part.strip()
+        if part.startswith("file_limit="):
+            try:
+                return int(part.split("=", 1)[1])
+            except ValueError:
+                pass
+    return default
+
+
 def _url(base: str, **params) -> str:
     sep = "&" if "?" in base else "?"
     q = "&".join(f"{k}={v}" for k, v in params.items())
@@ -194,7 +308,15 @@ def _check(resp: requests.Response, step: str) -> str:
     return text
 
 
-def push(base_url: str, user: str, password: str, import_xml: str, offers_xml: str, timeout: int = 120) -> List[str]:
+def push(
+    base_url: str,
+    user: str,
+    password: str,
+    import_xml: str,
+    offers_xml: str,
+    timeout: int = 120,
+    image_files: Optional[List[Tuple[str, bytes]]] = None,
+) -> List[str]:
     """
     Отправляет два файла по протоколу CommerceML (см. docstring модуля).
     Возвращает короткий журнал по шагам; при ошибке на любом шаге — исключение
@@ -214,6 +336,18 @@ def push(base_url: str, user: str, password: str, import_xml: str, offers_xml: s
 
     r = s.get(_url(base_url, type="catalog", mode="init"), timeout=timeout)
     log.append(f"init: {_check(r, 'init').replace(chr(10), ' | ')}")
+
+    # Картинки — до XML (как 1С): import_files/... в той же сессии
+    for name, data in image_files or []:
+        r = s.post(
+            _url(base_url, type="catalog", mode="file", filename=name),
+            data=data,
+            headers={"Content-Type": "application/octet-stream"},
+            timeout=timeout,
+        )
+        _check(r, "file " + name)
+    if image_files:
+        log.append(f"фото: отправлено файлов {len(image_files)}")
 
     for name, body in (("import0_1.xml", import_xml), ("offers0_1.xml", offers_xml)):
         r = s.post(
