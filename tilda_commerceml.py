@@ -138,6 +138,9 @@ def load_items(catalog_path: str, photos_dir: str, raw_base_url: str, price_over
 IMAGES_SENT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "tilda_images_sent.json")
 SITE_LINKS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "site_links.json")
 MAX_PHOTOS = 5
+# Выключатель: фото шлём, только если этот файл есть (его создают после того, как в Тильде
+# включена галочка «Принимать изображения»; иначе фото ушли бы впустую и пометились как отправленные).
+IMAGES_ON_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "tilda_images_on.txt")
 
 
 def _local_photo_files(photos_dir: str, offer_id: str) -> List[str]:
@@ -164,6 +167,8 @@ def plan_images(items: List[Dict], sent_path: str = IMAGES_SENT_PATH, site_links
     """
     import hashlib
 
+    if not os.path.exists(IMAGES_ON_PATH):
+        return {}
     site = _load_json(site_links_path, None)
     if not isinstance(site, dict) or not site:
         logger.warning("site_links.json пуст/не читается — фото на Тильду в этом запуске не шлём")
