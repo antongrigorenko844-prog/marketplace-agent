@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v4
       - id: p
         run: |
-          ALLOWED="catalog-audit diag-ozon-promos diag-ozon-analytics diag-ozon-orders diag-ozon-prices diag-ozon-product ozon-status price-audit price-preview reviews-check ozon-finance audit-offline avito-dupes"
+          ALLOWED="catalog-audit diag-ozon-promos diag-ozon-analytics diag-ozon-orders diag-ozon-prices diag-ozon-product ozon-status price-audit price-preview reviews-check ozon-finance audit-offline avito-dupes ozon-content-rating"
           CMD=$(head -n1 data/run_request.txt | tr -d '[:space:]')
           for a in $ALLOWED; do [ "$a" = "$CMD" ] && echo "cmd=$CMD" >> "$GITHUB_OUTPUT" && exit 0; done
           echo "Команда '$CMD' не из списка разрешённых (только чтение): $ALLOWED"; exit 1
