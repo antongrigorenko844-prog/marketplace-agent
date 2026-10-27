@@ -948,6 +948,8 @@ def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:
     # при каждой отправке, чтобы повторный fetch-ozon их не затирал.
     override = _load_overrides().get(str(name_entry.get("offer_id", "")), {})
     weight_override = override.get("weight_g")
+    # габариты упаковки, мм: [длина, ширина, высота] — только по данным владельца
+    dims = override.get("dims_mm") if isinstance(override.get("dims_mm"), list) and len(override.get("dims_mm")) == 3 else None
     if weight_override:
         attributes = _with_overridden_attr(attributes, 4497, str(int(weight_override)))
     if override.get("no_brand"):
@@ -986,10 +988,10 @@ def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:
         "price": price,
         "old_price": old_price,
         "vat": str(vat),
-        "depth": name_entry.get("depth", 0),
-        "width": name_entry.get("width", 0),
-        "height": name_entry.get("height", 0),
-        "dimension_unit": name_entry.get("dimension_unit") or "mm",
+        "depth": int(dims[0]) if dims else name_entry.get("depth", 0),
+        "width": int(dims[1]) if dims else name_entry.get("width", 0),
+        "height": int(dims[2]) if dims else name_entry.get("height", 0),
+        "dimension_unit": "mm" if dims else (name_entry.get("dimension_unit") or "mm"),
         "weight": int(weight_override) if weight_override else name_entry.get("weight", 0),
         "weight_unit": name_entry.get("weight_unit") or "g",
     }
@@ -1032,7 +1034,7 @@ def _save_push_cache(cache: Dict[str, str]) -> None:
         logger.warning("Не удалось сохранить %s: %s", _PUSH_CACHE_PATH, exc)
 
 
-def _edit_fingerprint(edit: dict) -> str:
+def _edit_fingerprint(edit: dict, offer_id: str = "") -> str:
     """Хэш тех полей edit, которые реально уходят в Ozon — см. _build_one_item."""
     payload = {
         "name": (edit.get("name") or "").strip() if isinstance(edit.get("name"), str) else (edit.get("name") or ""),
@@ -1044,6 +1046,9 @@ def _edit_fingerprint(edit: dict) -> str:
         "tnved": edit.get("tnved") or "",
         "hashtags": edit.get("hashtags") or "",
     }
+    ov = _load_overrides().get(str(offer_id), {}) if offer_id else {}
+    if ov.get("dims_mm"):
+        payload["override"] = {"dims_mm": ov.get("dims_mm"), "weight_g": ov.get("weight_g")}
     if payload["video_url"]:
         payload["video_mode"] = "complex-v1"  # способ передачи видео изменился — переотправить один раз
     raw = json.dumps(payload, ensure_ascii=False, sort_keys=True)
@@ -1059,7 +1064,7 @@ def mark_pushed(offer_id: str, edit: dict) -> None:
     что не менялось, при следующем push-ozon-cards.
     """
     cache = _load_push_cache()
-    cache[offer_id] = _edit_fingerprint(edit)
+    cache[offer_id] = _edit_fingerprint(edit, offer_id)
     _save_push_cache(cache)
 
 
@@ -1095,7 +1100,7 @@ def build_import_items(data: dict, edits: Dict[str, dict], force: bool = False) 
                 offer_id,
             )
             continue
-        if not force and push_cache.get(offer_id) == _edit_fingerprint(edit):
+        if not force and push_cache.get(offer_id) == _edit_fingerprint(edit, offer_id):
             skipped += 1
             continue
         detail = details_by_offer.get(offer_id, {})
