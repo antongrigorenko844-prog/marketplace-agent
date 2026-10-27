@@ -16,6 +16,7 @@ on:
       - "photos_avito/**"
       - "data/avito_site_price_overrides.xlsx"   # правила/фиксы цен Авито и сайта
       - "site_pricing.py"
+      - "data/tilda_images_on.txt"   # включение фото на Тильду: сразу синхронизировать
 
 concurrency:
   group: marketplace-agent
