@@ -307,7 +307,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   - Похоже на случайный дубль артикула (отличаются только регистром букв): DQ500, Dq500 — возможно, это одна и та же деталь, заведённая дважды.
   - Похоже на случайный дубль артикула (отличаются только регистром букв): EA888gen3, Ea888gen3 — возможно, это одна и та же деталь, заведённая дважды.
 
-Партия 1: task_id=5904754041, жду обработку...
+Партия 1: task_id=5904768010, жду обработку...
   ОК 0am325025q: статус skipped
 
 Итого: успешно 1, с ошибками 0
@@ -329,7 +329,7 @@ EA888: на Ozon 4741 / до скидки 6000 -> по файлу 4850 / 6000
 
 Товаров с расхождением цены: 3 из 122
 Отправлено: 3, с ошибкой: 0
-[sync-ozon-prices: 1 с]
+[sync-ozon-prices: 2 с]
 
 === Шаг 5: push-stock (Ozon) ===
 Пропущено по мастеру «Ozon: нет»: 2
@@ -454,16 +454,16 @@ EA888: на Ozon 4741 / до скидки 6000 -> по файлу 4850 / 6000
   Не продается: 9
 
 Товары с проблемами (9):
-  plastiny-solenoid-dq200-2sht: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
-  remkomplekt-shtokov-orig-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
-  solenoid-02e-0b5-bolshoy: статус «Не продается», Не создан, status_tooltip=Не удалось создать описание; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
   prokladka-vtulki-niz-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать описание; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
   prokladka-vtulki-verh-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
   remkomplekt-shtokov-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
-  separatornaya-plastiny-solenoid-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать описание; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
   plita-filtr: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-v2 - 2670095. Узнать", "short_descriptio
+  solenoid-02e-0b5-bolshoy: статус «Не продается», Не создан, status_tooltip=Не удалось создать описание; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
+  plastiny-solenoid-dq200-2sht: статус «Не продается», Не создан, status_tooltip=Не удалось создать товар. Опубликуйте карточку заново: нажмите на три точки → Редактировать товар → Отправить.; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
   plita-filtr-pylniki-sal-orig: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: plita-filtr-pylniki-orig - 2670095, plita-filtr-saln
-[push-stock: 2 с]
+  remkomplekt-shtokov-orig-v2: статус «Не продается», Не создан, status_tooltip=Не удалось создать карточку товара; status_failed=moderated; moderate_status=approved; visibility=has_price:True,has_stock:False, создан: False, ошибки: SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT: {"field": "spu", "attribute_id": 0, "state": "moderated", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Такой же товар дублируется в следующих карточках и кабинетах: 0am325025G - 2670095. Узнать", "short_description": 
+  separatornaya-plastiny-solenoid-dq200: статус «Не продается», Не создан, status_tooltip=Не удалось создать описание; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
+[push-stock: 3 с]
 
 === Шаг 6: push-wb-stock (WB) ===
 ВНИМАНИЕ: 16 артикул(ов) без карточки/штрихкода на WB, пропущены: 0BH325, 0ambset, 6t30, Dq500, EA888, EA888gen3, Ea888gen3, TEST001, nakladki-pedali, plita-filtr-v2, plita-pylniki-salniki-orig-v2, podshipnik-vilki-6, porshni-usil-pylniki-kryshki-v2, pylniki-shtokov-orig-v2, remkomplekt-shtokov-orig-v2, salnik-shtoka-orig-v2
