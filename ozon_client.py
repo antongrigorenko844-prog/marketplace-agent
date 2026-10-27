@@ -387,9 +387,23 @@ def get_action_products(action_id: int) -> List[dict]:
 
 
 def deactivate_action_products(action_id: int, product_ids: List[int]) -> dict:
-    """Убрать товары из акции."""
-    # ENDPOINT: POST /v1/actions/products/deactivate
-    return _post("/v1/actions/products/deactivate", {"action_id": action_id, "product_ids": product_ids})
+    """
+    Убрать товары из акции. С 19.10.2026 (единая предельная цена) Ozon закрыл
+    /v1/actions/products/deactivate («blocked due to unified price logic») — основной путь
+    теперь /v2/actions/products/deactivate (проверено пробой diag-ozon-promos 27.10.2026).
+    v1 оставлен запасным на случай, если v2 у аккаунта ещё не включён (404).
+    Ответ нормализуем к старому виду: {"result": {"product_ids": [...], "rejected": [...]}}.
+    """
+    payload = {"action_id": action_id, "product_ids": product_ids}
+    try:
+        resp = _post("/v2/actions/products/deactivate", payload)
+    except OzonApiError as exc:
+        if " 404" not in str(exc):
+            raise
+        return _post("/v1/actions/products/deactivate", payload)
+    res = resp.get("result") if isinstance(resp.get("result"), dict) else resp
+    return {"result": {"product_ids": res.get("product_ids") or [], "rejected": res.get("rejected") or []},
+            "raw": resp}
 
 
 def get_category_tree(language: str = "RU") -> List[dict]:

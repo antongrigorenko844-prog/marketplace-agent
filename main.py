@@ -3527,7 +3527,7 @@ def cmd_ozon_leave_boosting(dry_run: bool = False) -> int:
                 resp = ozon_client.deactivate_action_products(int(aid), ids[i : i + 100])
             except Exception as exc:  # noqa: BLE001
                 # Ozon закрыл старый метод («unified price logic»): не валим update-cards, идём дальше.
-                print(f"    Через API убрать из акции не удалось: {exc}")
+                print(f"    Через API убрать из акции не удалось (v2 и v1): {exc}")
                 try:
                     stuck_offers.extend(str(_by_pid.get(i)) for i in ids if _by_pid.get(i))
                 except Exception:  # noqa: BLE001
@@ -3538,6 +3538,9 @@ def cmd_ozon_leave_boosting(dry_run: bool = False) -> int:
             res = resp.get("result") or {}
             rej = res.get("rejected") or []
             removed_total += len(res.get("product_ids") or [])
+            if not res.get("product_ids") and not rej and resp.get("raw") is not None:
+                # новый v2 ответил без списка — покажем ответ как есть, чтобы было видно, что произошло
+                print(f"    ответ Ozon: {str(resp.get('raw'))[:400]}")
             for r in rej:
                 bad += 1
                 print(f"    не убран {r.get('product_id')}: {r.get('reason')}")
