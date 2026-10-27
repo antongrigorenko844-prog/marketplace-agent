@@ -3,4 +3,70 @@
 страница https://docs.ozon.ru/api/seller/: не открылась
 страница https://docs.ozon.ru/api/seller/?__rr=1: не открылась
 
+=== ПРОБА ПУТЕЙ API (404 = нет такого метода) ===
+POST /v1/promos: 404
+GET /v1/promos: 404
+POST /v1/promos/list: 404
+GET /v1/promos/list: 404
+POST /v2/promos/list: 404
+GET /v2/promos/list: 404
+POST /v1/promo/list: 404
+GET /v1/promo/list: 404
+POST /v1/promos/info: 404
+GET /v1/promos/info: 404
+POST /v1/promos/products: 404
+GET /v1/promos/products: 404
+POST /v1/promos/products/list: 404
+GET /v1/promos/products/list: 404
+POST /v1/promos/candidates: 404
+GET /v1/promos/candidates: 404
+POST /v1/promos/products/candidates: 404
+GET /v1/promos/products/candidates: 404
+POST /v2/actions: 404
+GET /v2/actions: 404
+POST /v2/actions/list: 404
+GET /v2/actions/list: 404
+POST /v2/actions/info: 404
+GET /v2/actions/info: 404
+POST /v2/actions/products: 400 {"code":3, "message":"Request validation error: invalid ActionsProductsRequest.ActionId: value must be greater than 0"}
+GET /v2/actions/products: 405 
+POST /v2/actions/products/list: 404
+GET /v2/actions/products/list: 404
+POST /v2/actions/candidates: 400 {"code":3, "message":"Request validation error: invalid ActionsCandidatesRequest.ActionId: value must be greater than 0"}
+GET /v2/actions/candidates: 405 
+POST /v2/actions/products/candidates: 404
+GET /v2/actions/products/candidates: 404
+POST /v3/actions/products: 404
+GET /v3/actions/products: 404
+POST /v1/actions/list: 404
+GET /v1/actions/list: 404
+POST /v2/actions/auto-add/products/list: 400 {"code":3, "message":"Request validation error: invalid ActionsAutoAddProductsListRequest.ActionId: value must be greater than 0"}
+GET /v2/actions/auto-add/products/list: 405 
+POST /v2/actions/auto-add/list: 404
+GET /v2/actions/auto-add/list: 404
+POST /v1/actions/auto-add/products/list: 404
+GET /v1/actions/auto-add/products/list: 404
+POST /v2/actions/products/deactivate (пустой): 400 {"code":3, "message":"Request validation error: invalid ActionsProductsDeactivateRequest.ActionId: value must be greater than 0"}
+POST /v2/actions/products/delete (пустой): 404 404 page not found 
+POST /v2/actions/products/remove (пустой): 404 404 page not found 
+POST /v1/promos/products/deactivate (пустой): 404 404 page not found 
+POST /v1/promos/products/delete (пустой): 404 404 page not found 
+POST /v1/promos/products/remove (пустой): 404 404 page not found 
+POST /v1/promos/deactivate (пустой): 404 404 page not found 
+POST /v2/actions/auto-add/products/delete (пустой): 400 {"code":3, "message":"Request validation error: invalid ActionsAutoAddProductsDeleteRequest.ActionId: value must be greater than 0"}
+POST /v2/actions/auto-add/products/deactivate (пустой): 404 404 page not found 
+POST /v1/promos/auto-add/products/delete (пустой): 404 404 page not found 
+
+=== АКЦИИ (поля как отдаёт /v1/actions) ===
+{"id": 1977747, "title": "Эластичный бустинг. Без ограничения срока действия", "date_start": "2025-03-19T21:00:44Z", "date_end": "2026-12-31T20:59:59Z", "potential_products_count": 80, "is_participating": true, "participating_products_count": 24, "description": "<b>Эластичный бустинг. Без ограничения срока действия</b>\n\n<b>Даты:</b> 20 марта 2025 – 31 декабря 2026 г.\n\nНовая акция! За каждый дополнительный процент скидки вы получаете увеличение акционного бустинга.\n\n<b>Механика:</b>\n\nДля каждого товара рассчитали диапазон акционных цен с разными скидками.\n\nРазмер скидки в акции зависит от категории товара. Рассчитаем размер скидки от медианной цены за последние 30 дней.\n\nПри расчете медианной цены не будем учитывать цену товара, по которой он предлагался в акциях с механикой «Хочу скидку» и «Промокоды».\n\nЕсли за последние 30 дней товар участвовал в акции «Эластичный бустинг»
+  очередь автодобавления: 400 {"code":3, "message":"Request validation error: invalid ActionsAutoAddProductsListRequest.AutoAddDate: value is required"}
+{"id": 4420432, "title": "Супербустинг с дополнительными баллами за скидки", "date_start": "2026-10-29T21:00:00Z", "date_end": "2026-10-30T21:00:59Z", "potential_products_count": 94, "is_participating": false, "participating_products_count": 0, "description": "<b>Супербустинг с дополнительными баллами за скидки</b>\n\n<b>Даты:</b> 30.10.2026, 00:00 – 31.10.2026, 00:00 мск\n\nНовая специальная акция на ограниченный ассортимент товаров <b>с дополнительными баллами за скидки 3%</b>. После продажи начислим вам эту сумму <a href=\"https://seller-edu.ozon.ru/libra/finances-documents/additional-information/bally-za-skidki\">баллами</a>, которыми оплачивается тариф за продажу и другие услуги Ozon.\n\nСкидка сделает товар и выгоднее, и заметнее — будем показывать ваши предложения в поиске, каталоге и на странице распродажи.\n\n<b>За участие в акции:</b>\n•\tполучите дополнительные баллы за скидки
+  очередь автодобавления: 400 {"code":3, "message":"Request validation error: invalid ActionsAutoAddProductsListRequest.AutoAddDate: value is required"}
+{"id": 4400847, "title": "Максимальный бустинг 11.11", "date_start": "2026-10-21T21:00:00Z", "date_end": "2026-11-12T20:59:59Z", "potential_products_count": 71, "is_participating": false, "participating_products_count": 2, "description": "<b>Максимальный бустинг 11.11</b>\n\n<b>Даты:</b> 22 октября – 12 ноября 2026 г.\n\nСпециальная акция с максимальным бустингом в поиске и категории. \n\nСкидка выделит ваш товар — будем показывать его в поиске, каталоге и на странице распродажи. \n\n<b>За участие в акции:</b>\n•\tдадим акционный бустинг в поиске и категории — <b>55%</b>;\n•\t<b>в период проведения распродажи</b> покажем товары в акционной подборке «Вау-цены», куда покупатели переходят <b>с главной страницы Ozon</b>;\n•\tдадим уникальный бейдж «Вау-цены» на карточке товаров <b>во время распродажи</b>;\n•\tпокажем счётчик остатков, если остаток акционных товаров будет менее 5 000 штук и в
+  очередь автодобавления: 400 {"code":3, "message":"Request validation error: invalid ActionsAutoAddProductsListRequest.AutoAddDate: value is required"}
+{"id": 4410985, "title": "Максимальный бустинг: усиление 11.11", "date_start": "2026-10-27T21:00:00Z", "date_end": "2026-11-12T20:59:59Z", "potential_products_count": 73, "is_participating": false, "participating_products_count": 0, "description": "<b>Максимальный бустинг: усиление 11.11</b>\n\n<b>Даты:</b> 28 октября – 12 ноября 2026 г.\n\nСпециальная акция с максимальным бустингом в поиске и категории. \n\nСкидка выделит ваш товар — будем показывать его в поиске, каталоге и на странице распродажи. \n\n<b>За участие в акции:</b>\n•\tдадим акционный бустинг в поиске и категории — <b>55%</b>;\n•\t<b>в период проведения распродажи</b> покажем товары в акционной подборке «Вау-цены», куда покупатели переходят <b>с главной страницы Ozon</b>;\n•\tдадим уникальный бейдж «Вау-цены» на карточке товаров <b>во время распродажи</b>;\n•\tпокажем счётчик остатков, если остаток акционных товаров будет 
+  очередь автодобавления: 400 {"code":3, "message":"Request validation error: invalid ActionsAutoAddProductsListRequest.AutoAddDate: value is required"}
+{"id": 4375943, "title": "Максимальный бустинг: усиление.", "date_start": "2026-10-11T21:00:00Z", "date_end": "2026-10-27T20:59:59Z", "potential_products_count": 69, "is_participating": false, "participating_products_count": 1, "description": "<b>Максимальный бустинг: усиление</b>\n\n<b>Даты:</b> 12 – 27 октября 2026 г.\n\nСпециальная акция с самым большим бустингом в поиске и категории. \n\nСкидка выделит ваш товар — будем показывать его в поиске, каталоге и на странице распродажи. \n\n<b>За участие в акции:</b>\n•\tдадим акционный бустинг в поиске и категории — <b>55%</b>;\n•\t<b>в период проведения распродажи</b> покажем товары в акционной подборке «Вау-цены», куда покупатели переходят <b>с главной страницы Ozon</b>;\n•\tдадим уникальный бейдж «Вау-цены» на карточке товаров <b>во время распродажи</b>;\n•\tпокажем счётчик остатков, если остаток акционных товаров будет менее 5 000 штук 
+  очередь автодобавления: 400 {"code":3, "message":"Request validation error: invalid ActionsAutoAddProductsListRequest.AutoAddDate: value is required"}
+
 Спецификацию скачать не удалось.
