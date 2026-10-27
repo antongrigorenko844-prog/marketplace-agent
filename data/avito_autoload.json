@@ -6,13 +6,18 @@
    "successor": "/autoload/v4/uploads/last_successful"
   },
   "events": [],
-  "feed_url": "https://api.avito.ru/autoload/v2/feed/content/6ae0ca83bd7cd9e1bc6147f2/e715b6be-2107-4274-8ae5-9b1c30fe7e10",
-  "finished_at": "2026-10-27T17:00:03Z",
+  "feed_url": "https://api.avito.ru/autoload/v2/feed/content/6ae0d892282333943a8e1e98/e715b6be-2107-4274-8ae5-9b1c30fe7e10",
+  "finished_at": "2026-10-27T18:00:04Z",
   "listing_fees": {
    "single": {},
-   "packages": []
+   "packages": [
+    {
+     "package_id": 68988251,
+     "count": 2
+    }
+   ]
   },
-  "report_id": 623229585,
+  "report_id": 623255916,
   "section_stats": {
    "title": "Обработано объявлений",
    "slug": "sections_stats",
@@ -36,19 +41,64 @@
       {
        "title": "Без изменений",
        "slug": "success_skipped",
-       "count": 99
+       "count": 88
+      },
+      {
+       "title": "Добавлено",
+       "slug": "success_added",
+       "count": 2
+      },
+      {
+       "title": "Изменено",
+       "slug": "success_updated",
+       "count": 11
       }
      ],
-     "count": 99
+     "count": 101
     }
    ],
-   "count": 100
+   "count": 102
   },
   "source": "Url",
-  "started_at": "2026-10-27T16:00:04Z",
+  "started_at": "2026-10-27T17:00:03Z",
   "status": "success_warning"
  },
  "items": [
+  {
+   "section": {
+    "slug": "problem_params_critical",
+    "title": "Критические ошибки описания"
+   },
+   "ad_id": "0am325025m",
+   "avito_id": 8374524447,
+   "feed_name": "",
+   "url": "https://www.avito.ru/items/8374524447",
+   "messages": [
+    {
+     "code": 1012,
+     "title": "Объявление уже связано с номером 8374524447 на Авито.",
+     "description": "Изменить привязку объявления к номеру объявления на Авито невозможно. Удалите элемент <a href=\"https://autoload.avito.ru/format/\">AvitoId</a> из описания объявления в своем XML-файле.",
+     "type": "error",
+     "updated_at": "2026-10-27T17:00:03Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:02:03Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T07:04:17Z"
+    }
+   ],
+   "avito_date_end": "2026-11-12T19:03:23.080000+03:00",
+   "avito_status": "active"
+  },
   {
    "section": {
     "slug": "success_skipped",
@@ -60,18 +110,18 @@
    "url": "https://www.avito.ru/items/8446880709",
    "messages": [
     {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T13:00:36Z"
-    },
-    {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
      "type": "info",
      "updated_at": "2026-10-13T16:02:04Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T13:00:36Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:03:22.670000+03:00",
@@ -116,18 +166,18 @@
    "url": "https://www.avito.ru/items/8341096851",
    "messages": [
     {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T12:00:20Z"
-    },
-    {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
      "type": "info",
      "updated_at": "2026-10-13T16:02:03Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T12:00:20Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:03:18.035000+03:00",
@@ -144,18 +194,18 @@
    "url": "https://www.avito.ru/items/8276437673",
    "messages": [
     {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T07:03:22Z"
-    },
-    {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
      "type": "info",
      "updated_at": "2026-10-13T16:02:04Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T07:03:22Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:03:26.531000+03:00",
@@ -172,13 +222,6 @@
    "url": "https://www.avito.ru/items/8416684544",
    "messages": [
     {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T07:03:17Z"
-    },
-    {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
@@ -190,7 +233,14 @@
      "title": "В параметре «SparePartType / Вид запчасти» значение «Трансмиссия и привод» заменено на «Трансмиссия и привод",
      "description": "Оно было определено автоматически по названию объявления: «Корпус масляного фильтра мехатроника DSG6 DQ250». Если мы ошиблись, укажите нужное значение в файле вручную.",
      "type": "warning",
-     "updated_at": "2026-10-27T16:00:04Z"
+     "updated_at": "2026-10-27T17:00:03Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T07:03:17Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:03:18.950000+03:00",
@@ -291,18 +341,18 @@
    "url": "https://www.avito.ru/items/8374903791",
    "messages": [
     {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:01:41Z"
-    },
-    {
      "code": 2303,
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-27T07:03:36Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:01:41Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:02:57.202000+03:00",
@@ -431,18 +481,18 @@
    "url": "https://www.avito.ru/items/8460910607",
    "messages": [
     {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:02:03Z"
-    },
-    {
      "code": 2303,
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-27T13:00:35Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:02:03Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:03:18.937000+03:00",
@@ -649,62 +699,6 @@
     "slug": "success_skipped",
     "title": "Без изменений"
    },
-   "ad_id": "0am325025H",
-   "avito_id": 8312205273,
-   "feed_name": "",
-   "url": "https://www.avito.ru/items/8312205273",
-   "messages": [
-    {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:02:02Z"
-    },
-    {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T17:00:17Z"
-    }
-   ],
-   "avito_date_end": "2026-11-12T19:03:18.794000+03:00",
-   "avito_status": "active"
-  },
-  {
-   "section": {
-    "slug": "success_skipped",
-    "title": "Без изменений"
-   },
-   "ad_id": "0am325025HX",
-   "avito_id": 8294158112,
-   "feed_name": "",
-   "url": "https://www.avito.ru/items/8294158112",
-   "messages": [
-    {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:02:02Z"
-    },
-    {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T17:00:11Z"
-    }
-   ],
-   "avito_date_end": "2026-11-12T19:03:19.231000+03:00",
-   "avito_status": "active"
-  },
-  {
-   "section": {
-    "slug": "success_skipped",
-    "title": "Без изменений"
-   },
    "ad_id": "0am325025P",
    "avito_id": 8274232784,
    "feed_name": "",
@@ -739,18 +733,18 @@
    "url": "https://www.avito.ru/items/8231885696",
    "messages": [
     {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:01:42Z"
-    },
-    {
      "code": 2303,
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-27T13:00:34Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:01:42Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:02:57.367000+03:00",
@@ -862,14 +856,14 @@
      "title": "В параметре «SparePartType / Вид запчасти» значение «Трансмиссия и привод» заменено на «Двигатель",
      "description": "Оно было определено автоматически по названию объявления: «Поршень (толкатель) вилки мехатроника DSG7 DQ200». Если мы ошиблись, укажите нужное значение в файле вручную.",
      "type": "warning",
-     "updated_at": "2026-10-27T16:00:04Z"
+     "updated_at": "2026-10-27T17:00:03Z"
     },
     {
      "code": 1503,
      "title": "В параметре «EngineSparePartType» указано значение «Блок цилиндров, головка, картер»",
      "description": "Оно было определено автоматически по названию объявления: «Поршень (толкатель) вилки мехатроника DSG7 DQ200». Если мы ошиблись, укажите нужное значение в файле вручную.",
      "type": "warning",
-     "updated_at": "2026-10-27T16:00:04Z"
+     "updated_at": "2026-10-27T17:00:03Z"
     },
     {
      "code": 2303,
@@ -893,18 +887,18 @@
    "url": "https://www.avito.ru/items/8448885311",
    "messages": [
     {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:01:41Z"
-    },
-    {
      "code": 2303,
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-27T13:00:32Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:01:41Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:02:55.031000+03:00",
@@ -921,18 +915,18 @@
    "url": "https://www.avito.ru/items/8345773338",
    "messages": [
     {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T13:00:32Z"
-    },
-    {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
      "type": "info",
      "updated_at": "2026-10-13T16:02:02Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T13:00:32Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:03:18.664000+03:00",
@@ -999,39 +993,18 @@
     "slug": "success_skipped",
     "title": "Без изменений"
    },
-   "ad_id": "0am325025x",
-   "avito_id": 8252041186,
-   "feed_name": "",
-   "url": "https://www.avito.ru/items/8252041186",
-   "messages": [
-    {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:01:44Z"
-    },
-    {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T17:00:11Z"
-    }
-   ],
-   "avito_date_end": "2026-11-12T19:02:59.469000+03:00",
-   "avito_status": "active"
-  },
-  {
-   "section": {
-    "slug": "success_skipped",
-    "title": "Без изменений"
-   },
    "ad_id": "0am325025z",
    "avito_id": 8424998901,
    "feed_name": "",
    "url": "https://www.avito.ru/items/8424998901",
    "messages": [
+    {
+     "code": 1502,
+     "title": "В параметре «SparePartType / Вид запчасти» значение «Трансмиссия и привод» заменено на «Трансмиссия и привод",
+     "description": "Оно было определено автоматически по названию объявления: «Ремкомплект: Усиленный короткий шток 0AM325091F». Если мы ошиблись, укажите нужное значение в файле вручную.",
+     "type": "warning",
+     "updated_at": "2026-10-27T17:00:03Z"
+    },
     {
      "code": 3002,
      "title": "",
@@ -1045,13 +1018,6 @@
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-27T14:00:39Z"
-    },
-    {
-     "code": 1502,
-     "title": "В параметре «SparePartType / Вид запчасти» значение «Трансмиссия и привод» заменено на «Трансмиссия и привод",
-     "description": "Оно было определено автоматически по названию объявления: «Ремкомплект: Усиленный короткий шток 0AM325091F». Если мы ошиблись, укажите нужное значение в файле вручную.",
-     "type": "warning",
-     "updated_at": "2026-10-27T16:00:04Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:02:56.348000+03:00",
@@ -1068,18 +1034,18 @@
    "url": "https://www.avito.ru/items/8449731691",
    "messages": [
     {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T13:00:34Z"
-    },
-    {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
      "type": "info",
      "updated_at": "2026-10-22T11:49:13Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T13:00:34Z"
     }
    ],
    "avito_date_end": "2026-11-21T14:49:13.329000+03:00",
@@ -1096,18 +1062,18 @@
    "url": "https://www.avito.ru/items/8312281929",
    "messages": [
     {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T18:00:15Z"
+    },
+    {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
      "type": "info",
      "updated_at": "2026-10-13T16:02:02Z"
-    },
-    {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T07:04:27Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:03:19.299000+03:00",
@@ -1124,49 +1090,21 @@
    "url": "https://www.avito.ru/items/8314644270",
    "messages": [
     {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T07:04:37Z"
-    },
-    {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
      "type": "info",
      "updated_at": "2026-10-13T16:02:02Z"
-    }
-   ],
-   "avito_date_end": "2026-11-12T19:03:19.044000+03:00",
-   "avito_status": "active"
-  },
-  {
-   "section": {
-    "slug": "success_skipped",
-    "title": "Без изменений"
-   },
-   "ad_id": "0am325066ae",
-   "avito_id": 8385926244,
-   "feed_name": "",
-   "url": "https://www.avito.ru/items/8385926244",
-   "messages": [
-    {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:01:41Z"
     },
     {
      "code": 2303,
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
-     "updated_at": "2026-10-27T17:00:13Z"
+     "updated_at": "2026-10-27T07:04:37Z"
     }
    ],
-   "avito_date_end": "2026-11-12T19:02:58.023000+03:00",
+   "avito_date_end": "2026-11-12T19:03:19.044000+03:00",
    "avito_status": "active"
   },
   {
@@ -1180,11 +1118,18 @@
    "url": "https://www.avito.ru/items/8314723845",
    "messages": [
     {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:02:04Z"
+    },
+    {
      "code": 1502,
      "title": "В параметре «SparePartType / Вид запчасти» значение «Трансмиссия и привод» заменено на «Трансмиссия и привод",
      "description": "Оно было определено автоматически по названию объявления: «Усиленный шток мехатроника DSG7 DQ200 101мм». Если мы ошиблись, укажите нужное значение в файле вручную.",
      "type": "warning",
-     "updated_at": "2026-10-27T16:00:04Z"
+     "updated_at": "2026-10-27T17:00:03Z"
     },
     {
      "code": 2303,
@@ -1192,13 +1137,6 @@
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-27T13:00:36Z"
-    },
-    {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:02:04Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:03:19.345000+03:00",
@@ -1243,13 +1181,6 @@
    "url": "https://www.avito.ru/items/8394946839",
    "messages": [
     {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T12:00:18Z"
-    },
-    {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
@@ -1261,7 +1192,14 @@
      "title": "В параметре «SparePartType / Вид запчасти» значение «Трансмиссия и привод» заменено на «Трансмиссия и привод",
      "description": "Оно было определено автоматически по названию объявления: «Усиленный шток мехатроника DSG7 DQ200 99мм». Если мы ошиблись, укажите нужное значение в файле вручную.",
      "type": "warning",
-     "updated_at": "2026-10-27T16:00:04Z"
+     "updated_at": "2026-10-27T17:00:03Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T12:00:18Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:03:05.936000+03:00",
@@ -1362,18 +1300,18 @@
    "url": "https://www.avito.ru/items/8386987927",
    "messages": [
     {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:02:03Z"
-    },
-    {
      "code": 2303,
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-27T07:03:45Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:02:03Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:03:18.944000+03:00",
@@ -1446,18 +1384,11 @@
    "url": "https://www.avito.ru/items/8324416978",
    "messages": [
     {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:01:41Z"
-    },
-    {
      "code": 1502,
      "title": "В параметре «SparePartType / Вид запчасти» значение «Трансмиссия и привод» заменено на «Трансмиссия и привод",
      "description": "Оно было определено автоматически по названию объявления: «Оригинальный сальник штока мехатроника DSG7 DQ200». Если мы ошиблись, укажите нужное значение в файле вручную.",
      "type": "warning",
-     "updated_at": "2026-10-27T16:00:04Z"
+     "updated_at": "2026-10-27T17:00:03Z"
     },
     {
      "code": 2303,
@@ -1465,37 +1396,16 @@
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-27T07:03:21Z"
-    }
-   ],
-   "avito_date_end": "2026-11-12T19:02:56.091000+03:00",
-   "avito_status": "active"
-  },
-  {
-   "section": {
-    "slug": "success_skipped",
-    "title": "Без изменений"
-   },
-   "ad_id": "122390AK-AF",
-   "avito_id": 8461500993,
-   "feed_name": "",
-   "url": "https://www.avito.ru/items/8461500993",
-   "messages": [
+    },
     {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
      "type": "info",
-     "updated_at": "2026-10-13T16:02:04Z"
-    },
-    {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T17:00:27Z"
+     "updated_at": "2026-10-13T16:01:41Z"
     }
    ],
-   "avito_date_end": "2026-11-12T19:03:22.586000+03:00",
+   "avito_date_end": "2026-11-12T19:02:56.091000+03:00",
    "avito_status": "active"
   },
   {
@@ -1565,18 +1475,18 @@
    "url": "https://www.avito.ru/items/8461145133",
    "messages": [
     {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T07:04:22Z"
-    },
-    {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
      "type": "info",
      "updated_at": "2026-10-13T16:01:41Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T07:04:22Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:02:58.448000+03:00",
@@ -1593,18 +1503,18 @@
    "url": "https://www.avito.ru/items/8387244563",
    "messages": [
     {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:01:42Z"
-    },
-    {
      "code": 2303,
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-27T14:00:44Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:01:42Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:02:59.554000+03:00",
@@ -1649,18 +1559,18 @@
    "url": "https://www.avito.ru/items/8344886348",
    "messages": [
     {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:01:41Z"
-    },
-    {
      "code": 2303,
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-27T07:03:35Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:01:41Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:02:55.454000+03:00",
@@ -1817,18 +1727,18 @@
    "url": "https://www.avito.ru/items/8403438057",
    "messages": [
     {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:01:41Z"
-    },
-    {
      "code": 2303,
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-27T13:00:35Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:01:41Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:02:55.033000+03:00",
@@ -2007,195 +1917,27 @@
     "slug": "success_skipped",
     "title": "Без изменений"
    },
-   "ad_id": "plita-filtr",
-   "avito_id": 8367630972,
-   "feed_name": "",
-   "url": "https://www.avito.ru/items/8367630972",
-   "messages": [
-    {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-22T11:47:11Z"
-    },
-    {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T17:00:10Z"
-    }
-   ],
-   "avito_date_end": "2026-11-21T14:47:11.508000+03:00",
-   "avito_status": "active"
-  },
-  {
-   "section": {
-    "slug": "success_skipped",
-    "title": "Без изменений"
-   },
-   "ad_id": "plita-filtr-orig",
-   "avito_id": 8304712062,
-   "feed_name": "",
-   "url": "https://www.avito.ru/items/8304712062",
-   "messages": [
-    {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-22T11:45:04Z"
-    },
-    {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T17:00:10Z"
-    }
-   ],
-   "avito_date_end": "2026-11-21T14:46:23.317000+03:00",
-   "avito_status": "active"
-  },
-  {
-   "section": {
-    "slug": "success_skipped",
-    "title": "Без изменений"
-   },
-   "ad_id": "plita-filtr-pylniki",
-   "avito_id": 8236475560,
-   "feed_name": "",
-   "url": "https://www.avito.ru/items/8236475560",
-   "messages": [
-    {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T17:00:14Z"
-    },
-    {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-25T08:43:55Z"
-    }
-   ],
-   "avito_date_end": "2026-11-24T11:43:55.031000+03:00",
-   "avito_status": "active"
-  },
-  {
-   "section": {
-    "slug": "success_skipped",
-    "title": "Без изменений"
-   },
-   "ad_id": "plita-filtr-pylniki-sal",
-   "avito_id": 8447149597,
-   "feed_name": "",
-   "url": "https://www.avito.ru/items/8447149597",
-   "messages": [
-    {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:01:42Z"
-    },
-    {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T17:00:13Z"
-    }
-   ],
-   "avito_date_end": "2026-11-12T19:34:41.628000+03:00",
-   "avito_status": "active"
-  },
-  {
-   "section": {
-    "slug": "success_skipped",
-    "title": "Без изменений"
-   },
-   "ad_id": "plita-filtr-salniki-orig",
-   "avito_id": 8276249624,
-   "feed_name": "",
-   "url": "https://www.avito.ru/items/8276249624",
-   "messages": [
-    {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-22T11:46:41Z"
-    },
-    {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T17:00:12Z"
-    }
-   ],
-   "avito_date_end": "2026-11-21T14:46:41.791000+03:00",
-   "avito_status": "active"
-  },
-  {
-   "section": {
-    "slug": "success_skipped",
-    "title": "Без изменений"
-   },
    "ad_id": "plita-filtr-v2",
    "avito_id": 8395076491,
    "feed_name": "",
    "url": "https://www.avito.ru/items/8395076491",
    "messages": [
     {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-22T12:23:26Z"
-    },
-    {
      "code": 2303,
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-22T11:45:05Z"
-    }
-   ],
-   "avito_date_end": "2026-11-21T15:23:26.615000+03:00",
-   "avito_status": "active"
-  },
-  {
-   "section": {
-    "slug": "success_skipped",
-    "title": "Без изменений"
-   },
-   "ad_id": "plita-pylniki-salniki",
-   "avito_id": 8394895937,
-   "feed_name": "",
-   "url": "https://www.avito.ru/items/8394895937",
-   "messages": [
+    },
     {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
      "type": "info",
-     "updated_at": "2026-10-22T11:45:19Z"
-    },
-    {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T17:00:15Z"
+     "updated_at": "2026-10-22T12:23:26Z"
     }
    ],
-   "avito_date_end": "2026-11-21T14:51:12.706000+03:00",
+   "avito_date_end": "2026-11-21T15:23:26.615000+03:00",
    "avito_status": "active"
   },
   {
@@ -2209,18 +1951,18 @@
    "url": "https://www.avito.ru/items/8416146322",
    "messages": [
     {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-22T11:46:41Z"
-    },
-    {
      "code": 2303,
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-27T07:03:44Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-22T11:46:41Z"
     }
    ],
    "avito_date_end": "2026-11-21T14:46:41.493000+03:00",
@@ -2265,18 +2007,18 @@
    "url": "https://www.avito.ru/items/8375503223",
    "messages": [
     {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T13:00:38Z"
-    },
-    {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
      "type": "info",
      "updated_at": "2026-10-13T16:01:42Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T13:00:38Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:02:54.821000+03:00",
@@ -2405,18 +2147,18 @@
    "url": "https://www.avito.ru/items/8448911884",
    "messages": [
     {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:01:42Z"
-    },
-    {
      "code": 2303,
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-27T07:04:39Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:01:42Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:02:56.623000+03:00",
@@ -2489,18 +2231,18 @@
    "url": "https://www.avito.ru/items/8387549709",
    "messages": [
     {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-22T11:46:41Z"
-    },
-    {
      "code": 2303,
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-27T07:03:35Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-22T11:46:41Z"
     }
    ],
    "avito_date_end": "2026-11-21T14:46:41.395000+03:00",
@@ -2591,7 +2333,7 @@
      "title": "В параметре «SparePartType / Вид запчасти» значение «Трансмиссия и привод» заменено на «Трансмиссия и привод",
      "description": "Оно было определено автоматически по названию объявления: «Сальник привода левый DSG7 DQ200». Если мы ошиблись, укажите нужное значение в файле вручную.",
      "type": "warning",
-     "updated_at": "2026-10-27T16:00:04Z"
+     "updated_at": "2026-10-27T17:00:03Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:02:57.884000+03:00",
@@ -2608,6 +2350,13 @@
    "url": "https://www.avito.ru/items/8324282677",
    "messages": [
     {
+     "code": 1502,
+     "title": "В параметре «SparePartType / Вид запчасти» значение «Трансмиссия и привод» заменено на «Трансмиссия и привод",
+     "description": "Оно было определено автоматически по названию объявления: «Сальник привода правый DSG7 DQ200». Если мы ошиблись, укажите нужное значение в файле вручную.",
+     "type": "warning",
+     "updated_at": "2026-10-27T17:00:03Z"
+    },
+    {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
@@ -2620,13 +2369,6 @@
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-27T07:04:24Z"
-    },
-    {
-     "code": 1502,
-     "title": "В параметре «SparePartType / Вид запчасти» значение «Трансмиссия и привод» заменено на «Трансмиссия и привод",
-     "description": "Оно было определено автоматически по названию объявления: «Сальник привода правый DSG7 DQ200». Если мы ошиблись, укажите нужное значение в файле вручную.",
-     "type": "warning",
-     "updated_at": "2026-10-27T16:00:04Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:02:57.816000+03:00",
@@ -2643,13 +2385,6 @@
    "url": "https://www.avito.ru/items/8349114796",
    "messages": [
     {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:01:41Z"
-    },
-    {
      "code": 2303,
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
@@ -2661,7 +2396,14 @@
      "title": "В параметре «SparePartType / Вид запчасти» значение «Трансмиссия и привод» заменено на «Трансмиссия и привод",
      "description": "Оно было определено автоматически по названию объявления: «Сальник входного вала DSG7 DQ200». Если мы ошиблись, укажите нужное значение в файле вручную.",
      "type": "warning",
-     "updated_at": "2026-10-27T16:00:04Z"
+     "updated_at": "2026-10-27T17:00:03Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:01:41Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:02:57.460000+03:00",
@@ -2696,7 +2438,7 @@
      "title": "В параметре «SparePartType / Вид запчасти» значение «Трансмиссия и привод» заменено на «Трансмиссия и привод",
      "description": "Оно было определено автоматически по названию объявления: «Сальник выходного вала DSG7 DQ200». Если мы ошиблись, укажите нужное значение в файле вручную.",
      "type": "warning",
-     "updated_at": "2026-10-27T16:00:04Z"
+     "updated_at": "2026-10-27T17:00:03Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:02:55.478000+03:00",
@@ -2713,18 +2455,18 @@
    "url": "https://www.avito.ru/items/8513008373",
    "messages": [
     {
-     "code": 2303,
-     "title": "Произведена автоподстановка номера телефона",
-     "description": "",
-     "type": "warning",
-     "updated_at": "2026-10-27T13:00:32Z"
-    },
-    {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
      "type": "info",
      "updated_at": "2026-10-24T17:42:32Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T13:00:32Z"
     }
    ],
    "avito_date_end": "2026-11-23T20:44:03.526000+03:00",
@@ -2808,7 +2550,7 @@
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
-     "updated_at": "2026-10-27T13:00:35Z"
+     "updated_at": "2026-10-27T18:00:16Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:02:56.126000+03:00",
@@ -2853,18 +2595,18 @@
    "url": "https://www.avito.ru/items/8304174872",
    "messages": [
     {
-     "code": 3002,
-     "title": "",
-     "description": "Объявление активировалось",
-     "type": "info",
-     "updated_at": "2026-10-13T16:01:42Z"
-    },
-    {
      "code": 2303,
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
      "updated_at": "2026-10-27T13:00:33Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:01:42Z"
     }
    ],
    "avito_date_end": "2026-11-12T19:02:55.083000+03:00",
@@ -2881,6 +2623,174 @@
    "url": "https://www.avito.ru/items/8349295933",
    "messages": [
     {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T13:00:40Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:01:41Z"
+    }
+   ],
+   "avito_date_end": "2026-11-12T19:02:57.704000+03:00",
+   "avito_status": "active"
+  },
+  {
+   "section": {
+    "slug": "success_added",
+    "title": "Добавлено"
+   },
+   "ad_id": "0AM927769F",
+   "avito_id": 8575177586,
+   "feed_name": "",
+   "url": "https://www.avito.ru/items/8575177586",
+   "messages": [
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-27T17:00:26Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T17:00:30Z"
+    }
+   ],
+   "avito_date_end": "2026-11-26T20:01:41.717000+03:00",
+   "avito_status": "active"
+  },
+  {
+   "section": {
+    "slug": "success_added",
+    "title": "Добавлено"
+   },
+   "ad_id": "0am325025HXF",
+   "avito_id": 8347440081,
+   "feed_name": "",
+   "url": "https://www.avito.ru/items/8347440081",
+   "messages": [
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-27T17:00:26Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T17:00:25Z"
+    }
+   ],
+   "avito_date_end": "2026-11-26T20:01:42.245000+03:00",
+   "avito_status": "active"
+  },
+  {
+   "section": {
+    "slug": "success_updated",
+    "title": "Изменено"
+   },
+   "ad_id": "0am325025H",
+   "avito_id": 8312205273,
+   "feed_name": "",
+   "url": "https://www.avito.ru/items/8312205273",
+   "messages": [
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:02:02Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T17:00:17Z"
+    }
+   ],
+   "avito_date_end": "2026-11-12T19:03:18.794000+03:00",
+   "avito_status": "active"
+  },
+  {
+   "section": {
+    "slug": "success_updated",
+    "title": "Изменено"
+   },
+   "ad_id": "0am325025HX",
+   "avito_id": 8294158112,
+   "feed_name": "",
+   "url": "https://www.avito.ru/items/8294158112",
+   "messages": [
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:02:02Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T17:00:11Z"
+    }
+   ],
+   "avito_date_end": "2026-11-12T19:03:19.231000+03:00",
+   "avito_status": "active"
+  },
+  {
+   "section": {
+    "slug": "success_updated",
+    "title": "Изменено"
+   },
+   "ad_id": "0am325025x",
+   "avito_id": 8252041186,
+   "feed_name": "",
+   "url": "https://www.avito.ru/items/8252041186",
+   "messages": [
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:01:44Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T17:00:11Z"
+    }
+   ],
+   "avito_date_end": "2026-11-12T19:02:59.469000+03:00",
+   "avito_status": "active"
+  },
+  {
+   "section": {
+    "slug": "success_updated",
+    "title": "Изменено"
+   },
+   "ad_id": "0am325066ae",
+   "avito_id": 8385926244,
+   "feed_name": "",
+   "url": "https://www.avito.ru/items/8385926244",
+   "messages": [
+    {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
@@ -2892,45 +2802,206 @@
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
-     "updated_at": "2026-10-27T13:00:40Z"
+     "updated_at": "2026-10-27T17:00:13Z"
     }
    ],
-   "avito_date_end": "2026-11-12T19:02:57.704000+03:00",
+   "avito_date_end": "2026-11-12T19:02:58.023000+03:00",
    "avito_status": "active"
   },
   {
    "section": {
-    "slug": "problem_params_critical",
-    "title": "Критические ошибки описания"
+    "slug": "success_updated",
+    "title": "Изменено"
    },
-   "ad_id": "0am325025m",
-   "avito_id": 8374524447,
+   "ad_id": "122390AK-AF",
+   "avito_id": 8461500993,
    "feed_name": "",
-   "url": "https://www.avito.ru/items/8374524447",
+   "url": "https://www.avito.ru/items/8461500993",
    "messages": [
-    {
-     "code": 1012,
-     "title": "Объявление уже связано с номером 8374524447 на Авито.",
-     "description": "Изменить привязку объявления к номеру объявления на Авито невозможно. Удалите элемент <a href=\"https://autoload.avito.ru/format/\">AvitoId</a> из описания объявления в своем XML-файле.",
-     "type": "error",
-     "updated_at": "2026-10-27T16:00:04Z"
-    },
     {
      "code": 3002,
      "title": "",
      "description": "Объявление активировалось",
      "type": "info",
-     "updated_at": "2026-10-13T16:02:03Z"
+     "updated_at": "2026-10-13T16:02:04Z"
     },
     {
      "code": 2303,
      "title": "Произведена автоподстановка номера телефона",
      "description": "",
      "type": "warning",
-     "updated_at": "2026-10-27T07:04:17Z"
+     "updated_at": "2026-10-27T17:00:27Z"
     }
    ],
-   "avito_date_end": "2026-11-12T19:03:23.080000+03:00",
+   "avito_date_end": "2026-11-12T19:03:22.586000+03:00",
+   "avito_status": "active"
+  },
+  {
+   "section": {
+    "slug": "success_updated",
+    "title": "Изменено"
+   },
+   "ad_id": "plita-filtr",
+   "avito_id": 8367630972,
+   "feed_name": "",
+   "url": "https://www.avito.ru/items/8367630972",
+   "messages": [
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T17:00:10Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-22T11:47:11Z"
+    }
+   ],
+   "avito_date_end": "2026-11-21T14:47:11.508000+03:00",
+   "avito_status": "active"
+  },
+  {
+   "section": {
+    "slug": "success_updated",
+    "title": "Изменено"
+   },
+   "ad_id": "plita-filtr-orig",
+   "avito_id": 8304712062,
+   "feed_name": "",
+   "url": "https://www.avito.ru/items/8304712062",
+   "messages": [
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T17:00:10Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-22T11:45:04Z"
+    }
+   ],
+   "avito_date_end": "2026-11-21T14:46:23.317000+03:00",
+   "avito_status": "active"
+  },
+  {
+   "section": {
+    "slug": "success_updated",
+    "title": "Изменено"
+   },
+   "ad_id": "plita-filtr-pylniki",
+   "avito_id": 8236475560,
+   "feed_name": "",
+   "url": "https://www.avito.ru/items/8236475560",
+   "messages": [
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T17:00:14Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-25T08:43:55Z"
+    }
+   ],
+   "avito_date_end": "2026-11-24T11:43:55.031000+03:00",
+   "avito_status": "active"
+  },
+  {
+   "section": {
+    "slug": "success_updated",
+    "title": "Изменено"
+   },
+   "ad_id": "plita-filtr-pylniki-sal",
+   "avito_id": 8447149597,
+   "feed_name": "",
+   "url": "https://www.avito.ru/items/8447149597",
+   "messages": [
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-13T16:01:42Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T17:00:13Z"
+    }
+   ],
+   "avito_date_end": "2026-11-12T19:34:41.628000+03:00",
+   "avito_status": "active"
+  },
+  {
+   "section": {
+    "slug": "success_updated",
+    "title": "Изменено"
+   },
+   "ad_id": "plita-filtr-salniki-orig",
+   "avito_id": 8276249624,
+   "feed_name": "",
+   "url": "https://www.avito.ru/items/8276249624",
+   "messages": [
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-22T11:46:41Z"
+    },
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T17:00:12Z"
+    }
+   ],
+   "avito_date_end": "2026-11-21T14:46:41.791000+03:00",
+   "avito_status": "active"
+  },
+  {
+   "section": {
+    "slug": "success_updated",
+    "title": "Изменено"
+   },
+   "ad_id": "plita-pylniki-salniki",
+   "avito_id": 8394895937,
+   "feed_name": "",
+   "url": "https://www.avito.ru/items/8394895937",
+   "messages": [
+    {
+     "code": 2303,
+     "title": "Произведена автоподстановка номера телефона",
+     "description": "",
+     "type": "warning",
+     "updated_at": "2026-10-27T17:00:15Z"
+    },
+    {
+     "code": 3002,
+     "title": "",
+     "description": "Объявление активировалось",
+     "type": "info",
+     "updated_at": "2026-10-22T11:45:19Z"
+    }
+   ],
+   "avito_date_end": "2026-11-21T14:51:12.706000+03:00",
    "avito_status": "active"
   }
  ]
