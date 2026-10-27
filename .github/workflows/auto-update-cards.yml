@@ -1,5 +1,6 @@
 # update-cards САМ после Commit+Push изменений в мастере или фото:
-#   data/master_control.xlsx, photos/**, photos_avito/**.
+#   data/master_control.xlsx, photos/**, photos_avito/**, а также правил цен Авито/сайта
+#   (data/avito_site_price_overrides.xlsx, site_pricing.py).
 # Уходит только изменившееся (кэши в data/). Перед отправкой проверяется master_control:
 # при серьёзных ошибках (validate-master) на площадки ничего не отправляется.
 # Коммиты самого бота (data/ [skip ci]) этот запуск не вызывают.
@@ -13,6 +14,8 @@ on:
       - "data/master_control.xlsx"
       - "photos/**"
       - "photos_avito/**"
+      - "data/avito_site_price_overrides.xlsx"   # правила/фиксы цен Авито и сайта
+      - "site_pricing.py"
 
 concurrency:
   group: marketplace-agent
