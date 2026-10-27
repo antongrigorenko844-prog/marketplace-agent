@@ -4251,6 +4251,8 @@ def main() -> int:
     parser.add_argument("--align-wb-prices", action="store_true", help="Вписать цену Ozon в колонку «Цена WB» мастера у всех расходящихся товаров (на WB пока ничего не уходит)")
     parser.add_argument("--audit-nightly", action="store_true", help="Ночная ревизия: как audit, но прогон краснеет, если появились НОВЫЕ важные расхождения (чтобы пришло письмо)")
     parser.add_argument("--ozon-content-rating", action="store_true", help="Контент-рейтинг карточек Ozon и чего не хватает -> data/ozon_content_rating.xlsx (только чтение)")
+    parser.add_argument("--ozon-attr-plan", action="store_true", help="План заполнения характеристик Ozon для артикулов из data/ozon_attr_articles.txt -> data/ozon_attr_plan.xlsx (только чтение)")
+    parser.add_argument("--ozon-attr-apply", action="store_true", help="Отправить на Ozon ТОЛЬКО строки плана с «да» (меняет только эти характеристики)")
     parser.add_argument("--avito-dupes", action="store_true", help="Дубли объявлений Авито со статистикой -> data/avito_dupes.xlsx (только чтение)")
     parser.add_argument("--audit-offline", action="store_true", help="Ревизия только по уже лежащим в data/ файлам, без обращения к площадкам")
     parser.add_argument("--split-model-dryrun", action="store_true", help="Показать, как будет расклеена модель Ozon (характеристика 9048) у карточек из --article, БЕЗ отправки")
@@ -4333,6 +4335,12 @@ def main() -> int:
     if args.ozon_content_rating:
         import ozon_content_rating
         return ozon_content_rating.cmd_ozon_content_rating()
+    if args.ozon_attr_plan:
+        import ozon_attrs
+        return ozon_attrs.cmd_plan()
+    if args.ozon_attr_apply:
+        import ozon_attrs
+        return ozon_attrs.cmd_apply()
     if args.avito_dupes:
         import avito_dupes
         return avito_dupes.cmd_avito_dupes()
