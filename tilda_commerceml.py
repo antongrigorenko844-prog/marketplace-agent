@@ -36,6 +36,7 @@
 import datetime
 import logging
 import os
+import time
 from typing import Dict, List, Optional, Tuple
 from xml.sax.saxutils import escape
 
@@ -225,14 +226,19 @@ def push(base_url: str, user: str, password: str, import_xml: str, offers_xml: s
 
     for name in ("import0_1.xml", "offers0_1.xml"):
         # импорт может идти порциями: пока ответ "progress" — повторяем (стандарт 1С-протокола)
-        for _ in range(60):
+        # Раньше опрашивали 60 раз подряд без паузы (~1 мин) — на большом каталоге Тильда не успевала
+        # (сбой 27.10). Теперь с паузой: 3 с, растёт до 10 с, всего до ~6 минут.
+        deadline = time.monotonic() + 360
+        pause = 3.0
+        while True:
             r = s.get(_url(base_url, type="catalog", mode="import", filename=name), timeout=timeout)
             text = _check(r, "import " + name)
             first = text.splitlines()[0].strip().lower()
-            if first == "progress":
-                continue
-            log.append(f"import {name}: {text.splitlines()[0]}")
-            break
-        else:
-            raise RuntimeError(f"import {name}: Тильда всё ещё отвечает 'progress' после 60 попыток")
+            if first != "progress":
+                log.append(f"import {name}: {text.splitlines()[0]}")
+                break
+            if time.monotonic() > deadline:
+                raise RuntimeError(f"import {name}: Тильда всё ещё отвечает 'progress' спустя 6 минут")
+            time.sleep(pause)
+            pause = min(pause * 1.5, 10.0)
     return log
