@@ -752,6 +752,11 @@ def _product_link(p: dict) -> str:
     return "https://vk.ru/leopartsakpp"
 
 
+def _linkify(html_line: str) -> str:
+    """https://… в строке -> кликабельная ссылка (вынесено из f-string: на GitHub Python 3.11, там \\ в f-string — ошибка)."""
+    return re.sub(r"(https://[^ <]+)", lambda m: '<a href="' + m.group(1) + '">' + m.group(1) + "</a>", html_line)
+
+
 def build_vk_feed(verbose: bool = True) -> int:
     """Лента RSS для импорта во VK: посты с наступившей датой (не на паузе; поставленные на паузу — только
     после публикации в Instagram), последние VK_FEED_ITEMS. Картинки — публичные ссылки (photo_host)."""
@@ -787,7 +792,7 @@ def build_vk_feed(verbose: bool = True) -> int:
             except Exception as exc:  # noqa
                 print(f"VK RSS: пост №{p['n']}, картинка {k} не загружена: {exc}")
         text = full_text(p, 15000, "vk")
-        body = "".join(f"<p>{re.sub(r'(https://[^ <]+)', lambda m: '<a href=\"' + m.group(1) + '\">' + m.group(1) + '</a>', escape(line))}</p>"
+        body = "".join("<p>" + _linkify(escape(line)) + "</p>"
                        if line.strip() else "" for line in text.split("\n"))  # ссылки кликабельные
         figs = "".join(f'<figure><img src="{escape(u)}"/></figure>' for u in urls)
         enclosure = f'<enclosure url="{escape(urls[0])}" type="image/jpeg" length="0"/>' if urls else ""
