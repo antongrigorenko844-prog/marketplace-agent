@@ -209,11 +209,15 @@ def _ozon_models() -> dict:
             out[x["offer_id"].lower()] = (pct + acq_pct, -logi, "тарифы Ozon")
     except Exception:  # noqa: BLE001
         pass
+    # Факт начислений пока НЕ используем (27.10): по товарам из бустинга он даёт провалы до −65%
+    # (видимо, захватывает скидки акций) — включить OZON_FACT_PRICING=1 после проверки разбора.
+    if os.environ.get("OZON_FACT_PRICING") != "1":
+        return out
     try:
         f = json.load(open(os.path.join(_DATA, "ozon_finance.json"), encoding="utf-8"))
         for k, v in (f.get("items") or {}).items():
             sold, rev = int(v.get("sold") or 0), float(v.get("revenue") or 0)
-            if sold >= 1 and rev > 0:
+            if sold >= 5 and rev > 0:  # по 1–4 продажам факт шумный (возврат, акция) — тогда тарифы
                 pct = -float(v.get("commission") or 0) / rev
                 fixed = (float(v.get("logistics") or 0) + float(v.get("services") or 0)) / sold
                 # эквайринг в факте сидит в services (фикс на шт) — для другой цены это почти не важно
@@ -325,6 +329,41 @@ def recalc_from_master(master_path: str, path: str = OVERRIDES_PATH, dry_run: bo
     return changes
 
 
+def nice_price(p: float) -> int:
+    """
+    Сетка владельца: цена стоит чуть ниже круглого уровня, К КОТОРОМУ ИДЁТ (следующего выше):
+    к 500 -> 450, к 1000 -> 950, к 1500/2000/... -> 1350/1850/... (9500 -> 9850, 1490 -> 1350);
+    от 10 000 — только ...850 к следующей тысяче (12890 -> 12850); от 30 000 — ...500 чуть ниже
+    следующей тысячи, а рядом с круглой десяткой тысяч — под ней (~71 000 -> 69 500).
+    """
+    import math
+    if p >= 30000:
+        c = math.ceil(p / 1000) * 1000 - 500
+        ten = int(p // 10000) * 10000
+        if p - ten < 1500 and c >= ten:
+            c = ten - 500
+        return int(c)
+    if p >= 10000:
+        return int(math.floor(p / 1000) * 1000 + 1000 - 150)
+    lvl = int(p // 500) * 500 + 500
+    return int(lvl - 50 if lvl in (500, 1000) else lvl - 150)
+
+
+MIN_PROFIT = 300  # минимальная прибыль с продажи на Авито/сайте, ₽
+AD_FROM, AD_SHARE = 30000, 0.10  # реклама Авито/сайта: +10% цены только для товаров от 30 000 ₽ (решение 27.10)
+
+
+def equal_profit_nice(ozon_price: float, net: float, tax: float, fee: float) -> Optional[int]:
+    """Равная прибыль с Ozon (для дорогих — с запасом на рекламу) по «красивой» сетке, не дороже Ozon."""
+    if not ozon_price or net is None:
+        return None
+    ad = AD_SHARE if ozon_price >= AD_FROM else 0.0
+    target = (net - tax * ozon_price) / (1 - tax - fee - ad)
+    if target <= 0:
+        return None
+    return min(nice_price(target), int(ozon_price))
+
+
 def plan_equal_profit(master_path: str, path: str = OVERRIDES_PATH, prof: Optional[dict] = None) -> list:
     """Расчёт без записи: [{art, name, ozon_price, net, src, avito_old, avito_new, site_old, site_new, fixed}]."""
     from openpyxl import load_workbook
@@ -339,6 +378,7 @@ def plan_equal_profit(master_path: str, path: str = OVERRIDES_PATH, prof: Option
     rows = ws.iter_rows(values_only=True)
     head = [str(c or "") for c in next(rows)]
     c_price, c_name = head.index("Цена, ₽"), head.index("Название товара")
+    c_cost = head.index("Закупка, ₽") if "Закупка, ₽" in head else None
     out = []
     for r in rows:
         if not r[0]:
@@ -357,8 +397,19 @@ def plan_equal_profit(master_path: str, path: str = OVERRIDES_PATH, prof: Option
             a_new = s_new = site_price(p, share, premium=premium)
             src = "нет данных Ozon — по доле"
         else:
-            a_new = equal_profit_price(p, net, prof["tax"], prof["avito_fee"])
-            s_new = equal_profit_price(p, net, prof["tax"], prof["site_fee"])
+            # одна цена на Авито и сайт (считаем по Авито — у него расходы выше), по сетке владельца
+            a_new = s_new = equal_profit_nice(p, net, prof["tax"], prof["avito_fee"])
+            # пол: на Авито/сайте не меньше MIN_PROFIT ₽ прибыли с продажи (если у Ozon прибыль слабая —
+            # не тянем сайт за ним в ноль); дороже Ozon всё равно не ставим
+            try:
+                cost = float(r[c_cost]) if c_cost is not None and r[c_cost] not in (None, "") else None
+            except (TypeError, ValueError):
+                cost = None
+            if cost is not None and a_new:
+                floor = nice_price((cost + MIN_PROFIT) / (1 - prof["tax"] - prof["avito_fee"]))
+                if a_new < floor:
+                    a_new = s_new = min(floor, int(p))
+                    src += "; поднято до мин. прибыли"
         out.append({"art": art, "name": r[c_name] or "", "ozon_price": p, "net": net, "src": src,
                     "avito_old": av_old.get(art), "avito_new": a_new,
                     "site_old": st_old.get(art), "site_new": s_new, "fixed": art in fixed})
