@@ -1,53 +1,82 @@
-Проверка 2026-10-27T04:26:03.195Z
-FBS за 30 дн.: ОШИБКА Ozon /v3/posting/fbs/list вернул 404: 404 page not found
-
-Traceback (most recent call last):
-  File "/home/runner/work/marketplace-agent/marketplace-agent/main.py", line 3316, in cmd_diag_ozon_orders
-    posts = fn(fmt(since), fmt(now))
-            ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/marketplace-agent/marketplace-agent/ozon_client.py", line 515, in get_fbs_orders_since
-    data = _post(
-           ^^^^^^
-  File "/home/runner/work/marketplace-agent/marketplace-agent/ozon_client.py", line 69, in _post
-    raise OzonApiError(f"Ozon {path} вернул {resp.status_code}: {resp.text[:500]}")
-ozon_client.OzonApiError: Ozon /v3/posting/fbs/list вернул 404: 404 page not found
-
-
-FBO за 30 дн.: ОШИБКА Ozon /v3/posting/fbo/list вернул 400: {"code":3, "message":"Request validation error: invalid PostingFboListRequest.Limit: value must be inside range (0, 100]"}
-Traceback (most recent call last):
-  File "/home/runner/work/marketplace-agent/marketplace-agent/main.py", line 3316, in cmd_diag_ozon_orders
-    posts = fn(fmt(since), fmt(now))
-            ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/marketplace-agent/marketplace-agent/ozon_client.py", line 545, in get_fbo_orders_since
-    data = _post(
-           ^^^^^^
-  File "/home/runner/work/marketplace-agent/marketplace-agent/ozon_client.py", line 69, in _post
-    raise OzonApiError(f"Ozon {path} вернул {resp.status_code}: {resp.text[:500]}")
-ozon_client.OzonApiError: Ozon /v3/posting/fbo/list вернул 400: {"code":3, "message":"Request validation error: invalid PostingFboListRequest.Limit: value must be inside range (0, 100]"}
-
-FBS за 10 дн.: ОШИБКА Ozon /v3/posting/fbs/list вернул 404: 404 page not found
-
-Traceback (most recent call last):
-  File "/home/runner/work/marketplace-agent/marketplace-agent/main.py", line 3316, in cmd_diag_ozon_orders
-    posts = fn(fmt(since), fmt(now))
-            ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/marketplace-agent/marketplace-agent/ozon_client.py", line 515, in get_fbs_orders_since
-    data = _post(
-           ^^^^^^
-  File "/home/runner/work/marketplace-agent/marketplace-agent/ozon_client.py", line 69, in _post
-    raise OzonApiError(f"Ozon {path} вернул {resp.status_code}: {resp.text[:500]}")
-ozon_client.OzonApiError: Ozon /v3/posting/fbs/list вернул 404: 404 page not found
-
-
-FBO за 10 дн.: ОШИБКА Ozon /v3/posting/fbo/list вернул 400: {"code":3, "message":"Request validation error: invalid PostingFboListRequest.Limit: value must be inside range (0, 100]"}
-Traceback (most recent call last):
-  File "/home/runner/work/marketplace-agent/marketplace-agent/main.py", line 3316, in cmd_diag_ozon_orders
-    posts = fn(fmt(since), fmt(now))
-            ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/marketplace-agent/marketplace-agent/ozon_client.py", line 545, in get_fbo_orders_since
-    data = _post(
-           ^^^^^^
-  File "/home/runner/work/marketplace-agent/marketplace-agent/ozon_client.py", line 69, in _post
-    raise OzonApiError(f"Ozon {path} вернул {resp.status_code}: {resp.text[:500]}")
-ozon_client.OzonApiError: Ozon /v3/posting/fbo/list вернул 400: {"code":3, "message":"Request validation error: invalid PostingFboListRequest.Limit: value must be inside range (0, 100]"}
-
+Проверка 2026-10-27T04:27:50.172Z
+FBS за 30 дн.: 310 отправлений; статусы {'delivered': 204, 'cancelled': 52, 'delivering': 52, 'awaiting_packaging': 2}
+   2026-09-27: 6
+   2026-09-28: 8
+   2026-09-29: 14
+   2026-09-30: 6
+   2026-10-01: 19
+   2026-10-02: 18
+   2026-10-03: 15
+   2026-10-04: 5
+   2026-10-05: 13
+   2026-10-06: 13
+   2026-10-07: 17
+   2026-10-08: 16
+   2026-10-09: 9
+   2026-10-10: 10
+   2026-10-11: 5
+   2026-10-12: 9
+   2026-10-13: 7
+   2026-10-14: 10
+   2026-10-15: 9
+   2026-10-16: 12
+   2026-10-17: 9
+   2026-10-18: 6
+   2026-10-19: 13
+   2026-10-20: 9
+   2026-10-21: 13
+   2026-10-22: 6
+   2026-10-23: 8
+   2026-10-24: 5
+   2026-10-25: 13
+   2026-10-26: 6
+   2026-10-27: 1
+FBO за 30 дн.: 91 отправлений; статусы {'delivered': 61, 'cancelled': 18, 'delivering': 9, 'awaiting_deliver': 2, 'awaiting_packaging': 1}
+   2026-09-28: 1
+   2026-09-29: 6
+   2026-09-30: 5
+   2026-10-01: 4
+   2026-10-02: 1
+   2026-10-03: 4
+   2026-10-04: 2
+   2026-10-05: 4
+   2026-10-06: 1
+   2026-10-07: 2
+   2026-10-08: 6
+   2026-10-09: 5
+   2026-10-10: 2
+   2026-10-11: 4
+   2026-10-12: 3
+   2026-10-13: 3
+   2026-10-14: 5
+   2026-10-15: 1
+   2026-10-16: 5
+   2026-10-17: 1
+   2026-10-19: 1
+   2026-10-20: 5
+   2026-10-21: 4
+   2026-10-22: 6
+   2026-10-23: 4
+   2026-10-25: 2
+   2026-10-26: 4
+FBS за 10 дн.: 89 отправлений; статусы {'delivered': 30, 'cancelled': 8, 'delivering': 49, 'awaiting_packaging': 2}
+   2026-10-17: 9
+   2026-10-18: 6
+   2026-10-19: 13
+   2026-10-20: 9
+   2026-10-21: 13
+   2026-10-22: 6
+   2026-10-23: 8
+   2026-10-24: 5
+   2026-10-25: 13
+   2026-10-26: 6
+   2026-10-27: 1
+FBO за 10 дн.: 27 отправлений; статусы {'delivered': 11, 'cancelled': 4, 'delivering': 9, 'awaiting_deliver': 2, 'awaiting_packaging': 1}
+   2026-10-17: 1
+   2026-10-19: 1
+   2026-10-20: 5
+   2026-10-21: 4
+   2026-10-22: 6
+   2026-10-23: 4
+   2026-10-25: 2
+   2026-10-26: 4
