@@ -1,0 +1,15 @@
+Проверка аналитики Ozon 2026-10-27 04:35 UTC, период 2026-08-04 … 2026-10-27
+Товаров с sku в ozon_products.json: 112
+[OK] бесплатные метрики revenue,ordered_units: 1133 строк, ненулевых 424
+[НЕТ] премиальные метрики (все сразу): Ozon /v1/analytics/data вернул 400: {"code":3, "message":"deprecated metrics used"}
+[НЕТ] метрика hits_view_search: Ozon /v1/analytics/data вернул 400: {"code":3, "message":"deprecated metrics used"}
+[НЕТ] метрика hits_view_pdp: Ozon /v1/analytics/data вернул 400: {"code":3, "message":"deprecated metrics used"}
+[НЕТ] метрика hits_tocart: Ozon /v1/analytics/data вернул 400: {"code":3, "message":"deprecated metrics used"}
+[НЕТ] метрика session_view_search: Ozon /v1/analytics/data вернул 400: {"code":3, "message":"deprecated metrics used"}
+[НЕТ] метрика position_category: Ozon /v1/analytics/data вернул 400: {"code":3, "message":"deprecated metrics used"}
+[OK] ordered_units по дням (40 дн.): 3991 строк
+[НЕТ] /v1/analytics/product-queries: Ozon /v1/analytics/product-queries вернул 403: {"code":7, "message":"ProductQueries error: rpc error: code = PermissionDenied desc = Analytics for the specified period is available starting from the premium subscription"}
+[НЕТ] /v1/analytics/product-queries/details: Ozon /v1/analytics/product-queries/details вернул 403: {"code":7, "message":"ProductQueriesDetails error: rpc error: code = PermissionDenied desc = Analytics for the specified period is available starting from the premium subscription"}
+[OK] /v1/product/rating-by-sku: {"products": [{"sku": 1945722947, "rating": 24.5, "groups": [{"key": "media", "name": "Медиа", "rating": 10, "weight": 45, "conditions": [{"key": "media_video_or_video_cover", "description": "Добавлена видео или видеообложка", "fulfilled": false, "cost": 40}, {"key": "media_images_1_2", "description": "Добавлено от 1 до 2 изображений", "fulfilled": true, "cost": 10}, {"key": "media_images_3_4", "description": "Добавлено от 3 до 4 изображений", "fulfilled": false, "cost": 30}, {"key": "media_images_5_7", "description": "Добавлено от 5 до 7 изображений", "fulfilled": false, "cost": 50}, {"key": 
+Таблица: data/ozon_analytics_weekly.xlsx (1133 строк товар×неделя)
+ИТОГ: доступны метрики revenue, ordered_units
