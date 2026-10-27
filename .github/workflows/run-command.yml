@@ -89,6 +89,23 @@ jobs:
               --seed-phrase "${{ inputs.seed_phrase }}"
           fi
 
+      - name: Сообщить владельцу в Telegram о сбое (раз в день на команду)
+        # владелец логи Actions не читает — любой упавший запуск должен дойти до него через бота
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CMD: ${{ inputs.command }}
+        run: |
+          MARK="data/alert_state/$CMD.txt"; TODAY=$(TZ=Europe/Moscow date +%F)
+          mkdir -p data/alert_state
+          [ "$(cat "$MARK" 2>/dev/null)" = "$TODAY" ] && exit 0
+          CHAT=$(python -c "import json;print(json.load(open('data/owner_chat.json')).get('chat_id',''))" 2>/dev/null || true)
+          [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$CHAT" ] && exit 0
+          curl -sS -m 30 "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage" \
+            --data-urlencode "chat_id=$CHAT" \
+            --data-urlencode "text=⚠️ Не сработала автоматическая задача «$CMD» ($TODAY). Напишите Claude — он посмотрит и починит. Следующие сбои этой задачи сегодня сообщать не буду." >/dev/null || true
+          echo "$TODAY" > "$MARK"
+
       - name: Save data/ back to repo
         if: always()
         # правки людей, запушенные пока шла команда, не затираются (см. скрипт)
