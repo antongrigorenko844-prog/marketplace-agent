@@ -485,6 +485,7 @@ def run() -> int:
     os.makedirs(os.path.dirname(MASTER_PATH), exist_ok=True)
 
     old_extras = _read_old_extras()
+    old_rows = _read_old_rows()
     existing = _read_existing()
     draft = _read_draft()
     wb_existing = _apply_wb_alias(_read_wb_existing())
@@ -595,6 +596,18 @@ def run() -> int:
                 if url else "(нет фото ни локально, ни на карточке)"
             )
 
+        # Если площадки ещё не отдали значение (новая карточка: Ozon-каталог не успел обновиться и т.п.) —
+        # оставляем то, что было в мастере, а не стираем цену/остаток/текст (найдено 2026-10-28).
+        _old = old_rows.get(oid) or []
+
+        def _keep(v, col):
+            if v not in (None, "") or col - 1 >= len(_old):
+                return v
+            return _old[col - 1] if _old[col - 1] not in (None, "") else v
+
+        name, name_wb, price, old_price = _keep(name, 6), _keep(name_wb, 7), _keep(price, 8), _keep(old_price, 9)
+        quantity, price_wb, desc, hashtags = _keep(quantity, 10), _keep(price_wb, 11), _keep(desc, 12), _keep(hashtags, 13)
+
         ws.cell(row=row_i, column=1, value=oid)
         ws.cell(row=row_i, column=2, value=status_ozon)
         ws.cell(row=row_i, column=3, value=status_wb)
@@ -636,7 +649,7 @@ def run() -> int:
     # пропадали — и автосоздание их уже не видело (найдено 2026-10-28 на 0AM927769F / 0am325025HXF).
     # Теперь такие строки переносятся как есть, пока карточка не появится на площадке.
     kept_new = []
-    for oid, vals in _read_old_rows().items():
+    for oid, vals in old_rows.items():
         if oid in known_ids:
             continue
         for c, v in enumerate(vals[: len(HEADERS)], start=1):
