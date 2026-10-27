@@ -109,6 +109,18 @@ def _dict_pick(oc, dcid, tid, attr_id, wanted: str) -> Optional[dict]:
     return vals[0] if len(vals) == 1 else None
 
 
+def _dict_options(oc, dcid, tid, attr_id, limit: int = 50) -> List[dict]:
+    """Значения справочника характеристики (первые limit) — чтобы выбрать точное, а не угадывать."""
+    try:
+        data = oc._post("/v1/description-category/attribute/values", {
+            "attribute_id": attr_id, "description_category_id": dcid, "type_id": tid,
+            "language": "DEFAULT", "last_value_id": 0, "limit": limit})
+    except Exception as exc:  # noqa: BLE001
+        print(f"  справочник {attr_id}: {exc}")
+        return []
+    return data.get("result") or []
+
+
 def cmd_plan() -> int:
     import openpyxl
     from openpyxl.styles import Alignment, Font, PatternFill
@@ -152,9 +164,12 @@ def cmd_plan() -> int:
                 if alt:
                     prop, src = ", ".join(alt[:5]), "другие коды из названия/описания"
             elif an == "Вид техники":
-                v = _dict_pick(oc, dcid, tid, aid, "Легковой автомобиль")
+                opts = _dict_options(oc, dcid, tid, aid)
+                v = next((o for o in opts if "легков" in str(o.get("value", "")).lower()), None)
                 if v:
                     prop, dict_id, src = v.get("value"), v.get("id"), "справочник Ozon"
+                else:
+                    src = "варианты: " + "; ".join(f"{o.get('value')} [{o.get('id')}]" for o in opts[:20])
             elif an in ("Количество в упаковке, шт", "Количество, штук", "Единиц в одном товаре"):
                 q = _qty(name)
                 if q:
@@ -168,6 +183,10 @@ def cmd_plan() -> int:
                 base = re.split(r"\s+(мехатроник|DSG|DQ\d)", name, maxsplit=1)[0].strip()
                 if q and base:
                     prop, src = f"{base} — {q} шт.", "из названия — проверьте"
+            if not now and not prop and a.get("dictionary_id") and an != "Вид техники":
+                opts = _dict_options(oc, dcid, tid, aid)
+                if opts:
+                    src = "выберите: " + "; ".join(f"{o.get('value')} [{o.get('id')}]" for o in opts[:25])
             rows.append([art, name, an, aid, typ, now, prop, dict_id, src, ""])
 
     wb = openpyxl.Workbook()
