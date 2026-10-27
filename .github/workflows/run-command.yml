@@ -29,6 +29,11 @@ on:
         required: false
         type: boolean
         default: false
+      log_file:
+        # куда сохранять вывод при save_log (соцпостинг пишет в свой файл, чтобы не затирать проверки)
+        required: false
+        type: string
+        default: "data/last_run_log.txt"
 
 jobs:
   run:
@@ -77,7 +82,7 @@ jobs:
           if [ "${{ inputs.save_log }}" = "true" ]; then
             python main.py --${{ inputs.command }} \
               --article "${{ inputs.article }}" \
-              --seed-phrase "${{ inputs.seed_phrase }}" 2>&1 | tee data/last_run_log.txt
+              --seed-phrase "${{ inputs.seed_phrase }}" 2>&1 | tee "${{ inputs.log_file }}"
           else
             python main.py --${{ inputs.command }} \
               --article "${{ inputs.article }}" \

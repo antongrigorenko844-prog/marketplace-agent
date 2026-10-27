@@ -4588,10 +4588,10 @@ def main() -> int:
         return social_publish.cmd_publish(True, article=args.article)
     if args.social_publish:
         import social_publish
-        return social_publish.cmd_publish(False, article=args.article)
+        return social_publish.cmd_publish_guarded(False, article=args.article)
     if args.social_autopublish:
         import social_publish
-        return social_publish.cmd_publish(False, auto=True)
+        return social_publish.cmd_publish_guarded(False, auto=True)
 
     parser.print_help()
     return 0

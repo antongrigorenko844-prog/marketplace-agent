@@ -23,6 +23,7 @@ import json
 import logging
 import mimetypes
 import os
+import sys
 import re
 import tempfile
 import time
@@ -940,3 +941,41 @@ def cmd_status() -> int:
     if missing:
         print("Нет картинок у постов на ближайшую неделю:", ", ".join(map(str, missing)))
     return 0
+
+
+def cmd_publish_guarded(dry_run: bool, auto: bool = False, article: str = "") -> int:
+    """cmd_publish + сообщение владельцу в Telegram, если публикация упала (не чаще раза в день):
+    владелец логи Actions не читает, а без этого сбой молча повторяется каждые 15 минут."""
+    import io
+    import traceback
+    buf = io.StringIO()
+
+    class _Tee:
+        def write(self, x):
+            sys.__stdout__.write(x)
+            buf.write(x)
+            return len(x)
+
+        def flush(self):
+            sys.__stdout__.flush()
+
+    old = sys.stdout
+    sys.stdout = _Tee()
+    try:
+        try:
+            rc = cmd_publish(dry_run, auto=auto, article=article)
+        except Exception:  # noqa
+            traceback.print_exc(file=sys.stdout)
+            rc = 1
+    finally:
+        sys.stdout = old
+    if rc and not dry_run:
+        st = load_state()
+        today = _today().isoformat()
+        if st.get("last_alert") != today:
+            errs = [ln for ln in buf.getvalue().splitlines() if "ОШИБКА" in ln or "Error" in ln or "Instagram" in ln][-6:]
+            _notify_owner("⚠️ Пост в соцсети сегодня не вышел. Причина из лога:\n" + ("\n".join(errs) or buf.getvalue()[-800:])
+                          + "\n\nНапишите Claude — он посмотрит data/social_last_run.txt и починит.")
+            st["last_alert"] = today
+            save_state(st)
+    return rc

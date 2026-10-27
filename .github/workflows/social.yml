@@ -49,3 +49,5 @@ jobs:
     with:
       command: ${{ github.event.inputs.command || (github.event.schedule == '0 13 24 10 *' && 'social-publish' || 'social-autopublish') }}
       article: ${{ github.event.inputs.article || (github.event.schedule == '0 13 24 10 *' && '1@2026-10-24' || '') }}
+      save_log: true
+      log_file: data/social_last_run.txt   # вывод последнего запуска — Claude читает его, логи Actions ему недоступны
