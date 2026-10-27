@@ -1067,7 +1067,10 @@ def _cmd_update_cards_impl() -> int:
         import site_pricing
 
         changed = site_pricing.recalc_from_master(_data_path("master_control.xlsx"))
-        print(f"Доля {site_pricing.get_share():.0%}; пересчитано цен Авито/сайта: {len(changed)}")
+        _pm = site_pricing.get_profit_settings()
+        _rule = (f"равная прибыль (налог {_pm['tax']:.0%}, Авито {_pm['avito_fee']:.0%}, эквайринг сайта {_pm['site_fee']:.1%})"
+                 if _pm["mode"] == "прибыль" else f"доля {site_pricing.get_share():.0%}")
+        print(f"Правило: {_rule}; пересчитано цен Авито/сайта: {len(changed)}")
         for a_, o_, n_ in changed[:15]:
             print(f"  {a_}: {o_ if o_ is not None else '—'} -> {n_:g}")
         if len(changed) > 15:
@@ -4198,6 +4201,7 @@ def main() -> int:
     parser.add_argument("--store-links", action="store_true", help="Ссылки на страницы наших магазинов на Ozon/WB/Маркете (data/store_links.json)")
     parser.add_argument("--photo-text-audit", action="store_true", help="Распознать текст на всех картинках и найти «видео/скидка/%/дешевле/оптовикам» (data/photo_text_audit.xlsx)")
     parser.add_argument("--price-audit", action="store_true", help="Ревизия цен и прибыли (data/price_audit.xlsx), с начислениями Ozon")
+    parser.add_argument("--price-preview", action="store_true", help="Предпросмотр цен Авито/сайта по правилу «одинаковая прибыль» (data/price_preview.xlsx), ничего не отправляет")
     parser.add_argument("--ozon-finance", action="store_true", help="Фактические начисления Ozon за 30 дней (data/ozon_finance.json)")
     parser.add_argument("--wb-zero-stock", action="store_true", help="Обнулить остаток на WB для артикулов из --article (через запятую)")
     parser.add_argument("--fix-partnumbers", action="store_true", help="Исправить «номер детали» на 7 карточках Ozon/WB (fix_partnumbers.py)")
@@ -4444,6 +4448,10 @@ def main() -> int:
     if args.price_audit:
         import price_audit
         return price_audit.cmd_price_audit()
+    if args.price_preview:
+        import price_audit
+        price_audit.cmd_ozon_finance()
+        return price_audit.cmd_price_preview()
     if args.ozon_finance:
         import price_audit
         return price_audit.cmd_ozon_finance()

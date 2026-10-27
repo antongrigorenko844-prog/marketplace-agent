@@ -74,7 +74,7 @@ def load_items(catalog_path: str, photos_dir: str, raw_base_url: str, price_over
     import site_pricing
     import tilda_feed
 
-    overrides = site_pricing.load_price_overrides(price_overrides_path or site_pricing.OVERRIDES_PATH)
+    overrides = site_pricing.load_price_overrides(price_overrides_path or site_pricing.OVERRIDES_PATH, "site")
     ws = openpyxl.load_workbook(catalog_path, data_only=True).active
 
     items: List[Dict] = []

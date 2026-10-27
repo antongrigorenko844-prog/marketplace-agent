@@ -36,22 +36,29 @@ OVERRIDES_PATH = os.path.join(os.path.dirname(__file__), "data", "avito_site_pri
 _HEADER = ["offer_id", "avito_site_price"]
 
 
-def load_price_overrides(path: str = OVERRIDES_PATH) -> Dict[str, float]:
+def load_price_overrides(path: str = OVERRIDES_PATH, channel: str = "avito") -> Dict[str, float]:
+    """Цены без комиссии маркетплейса: колонка B — Авито, колонка D — сайт (пусто → как на Авито).
+    channel="site" — для Тильды (фид, CommerceML), иначе — Авито."""
     if not os.path.exists(path):
         return {}
     wb = openpyxl.load_workbook(path, data_only=True)
-    ws = wb.active
+    ws = wb.worksheets[0]
     out: Dict[str, float] = {}
     for row in ws.iter_rows(min_row=2, values_only=True):
         if not row or not row[0]:
             continue
         offer_id = str(row[0]).strip()
-        try:
-            price = float(row[1])
-        except (TypeError, ValueError):
-            continue
-        if price > 0:
-            out[offer_id] = price
+        vals = [row[1]]
+        if channel == "site" and len(row) > 3:
+            vals.insert(0, row[3])
+        for v in vals:
+            try:
+                price = float(v)
+            except (TypeError, ValueError):
+                continue
+            if price > 0:
+                out[offer_id] = price
+                break
     return out
 
 
@@ -110,18 +117,24 @@ def get_premium(path: str = OVERRIDES_PATH):
 
 
 def save_price_overrides(overrides: Dict[str, float], path: str = OVERRIDES_PATH,
-                         share: Optional[float] = None, fixed: Optional[set] = None) -> None:
+                         share: Optional[float] = None, fixed: Optional[set] = None,
+                         site: Optional[Dict[str, float]] = None) -> None:
     os.makedirs(os.path.dirname(path), exist_ok=True)
     old_share, old_fixed = _read_meta(path)
     prem_thr, prem_share = get_premium(path)
+    prof = get_profit_settings(path)
     share = old_share if share is None else share
     fixed = old_fixed if fixed is None else fixed
+    if site is None:
+        site = {k: v for k, v in load_price_overrides(path, "site").items() if overrides.get(k) != v}
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = "Цены Avito и сайт"
-    ws.append(_HEADER + ["фикс (да = цену не пересчитывать)"])
+    ws.append(_HEADER + ["фикс (да = цену не пересчитывать)", "site_price (пусто = как Авито)"])
     for offer_id, price in sorted(overrides.items()):
-        ws.append([offer_id, price, "да" if offer_id in fixed else None])
+        sp = site.get(offer_id)
+        ws.append([offer_id, price, "да" if offer_id in fixed else None,
+                   sp if sp is not None and abs(sp - price) > 0.5 else None])
     st = wb.create_sheet(SETTINGS_SHEET)
     st["A1"] = "Доля от цены маркетплейсов (0.7 = 70%)"
     st["B1"] = share
@@ -131,8 +144,102 @@ def save_price_overrides(overrides: Dict[str, float], path: str = OVERRIDES_PATH
     st["B3"] = prem_thr
     st["A4"] = "Доля для дорогих товаров (0.6 = 60%)"
     st["B4"] = prem_share
+    st["A5"] = "Режим: «доля» (B1/B4 от цены маркетплейса) или «прибыль» (одинаковая прибыль с Ozon)"
+    st["B5"] = prof["mode"]
+    st["A6"] = "Налог (УСН доходы), доля"
+    st["B6"] = prof["tax"]
+    st["A7"] = "Комиссия Авито, доля"
+    st["B7"] = prof["avito_fee"]
+    st["A8"] = "Эквайринг сайта, доля"
+    st["B8"] = prof["site_fee"]
     wb.active = 0
     wb.save(path)
+
+
+DEFAULT_PROFIT = {"mode": "доля", "tax": 0.06, "avito_fee": 0.05, "site_fee": 0.03}
+
+
+def get_profit_settings(path: str = OVERRIDES_PATH) -> dict:
+    """Лист «Настройки»: B5 режим («доля»/«прибыль»), B6 налог, B7 комиссия Авито, B8 эквайринг сайта."""
+    out = dict(DEFAULT_PROFIT)
+    if not os.path.exists(path):
+        return out
+    wb = openpyxl.load_workbook(path, data_only=True)
+    if SETTINGS_SHEET not in wb.sheetnames:
+        return out
+    ws = wb[SETTINGS_SHEET]
+    m = str(ws["B5"].value or "").strip().lower()
+    if m.startswith("приб"):
+        out["mode"] = "прибыль"
+    for cell, key in (("B6", "tax"), ("B7", "avito_fee"), ("B8", "site_fee")):
+        try:
+            v = float(ws[cell].value)
+            if 0 <= v < 0.5:
+                out[key] = v
+        except (TypeError, ValueError):
+            pass
+    return out
+
+
+# ------------------------------------------------ «одинаковая прибыль на всех каналах»
+# Прибыль Ozon с 1 шт = на_руки_Ozon(P) − налог·P − закупка.
+# Прибыль Авито/сайта = Ц·(1 − налог − комиссия канала) − закупка.
+# Приравниваем: Ц = (на_руки_Ozon(P) − налог·P) / (1 − налог − комиссия канала). Закупка сокращается —
+# цена не зависит от неё (закупка нужна только чтобы увидеть, есть ли прибыль вообще).
+_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+
+
+def _ozon_models() -> dict:
+    """{offer_id.lower(): (доля_комиссии, фикс_удержания_на_шт (<=0), источник)} — факт из начислений,
+    иначе тарифы Ozon из API (логистика — середина между мин. и макс. тарифом)."""
+    import json
+
+    out = {}
+    try:
+        d = json.load(open(os.path.join(_DATA, "ozon_products.json"), encoding="utf-8"))
+        for x in d.get("details", []):
+            c = x.get("commissions") or {}
+            pct = float(c.get("sales_percent_fbs") or 0) / 100
+            price = float((x.get("price") or {}).get("price") or 0)
+            if pct <= 0 or price <= 0:
+                continue
+            acq_pct = float(x.get("acquiring") or 0) / price
+            logi = (float(c.get("fbs_direct_flow_trans_min_amount") or 0) + float(c.get("fbs_direct_flow_trans_max_amount") or 0)) / 2 \
+                + float(c.get("fbs_deliv_to_customer_amount") or 0) + float(c.get("fbs_first_mile_max_amount") or 0)
+            out[x["offer_id"].lower()] = (pct + acq_pct, -logi, "тарифы Ozon")
+    except Exception:  # noqa: BLE001
+        pass
+    try:
+        f = json.load(open(os.path.join(_DATA, "ozon_finance.json"), encoding="utf-8"))
+        for k, v in (f.get("items") or {}).items():
+            sold, rev = int(v.get("sold") or 0), float(v.get("revenue") or 0)
+            if sold >= 1 and rev > 0:
+                pct = -float(v.get("commission") or 0) / rev
+                fixed = (float(v.get("logistics") or 0) + float(v.get("services") or 0)) / sold
+                # эквайринг в факте сидит в services (фикс на шт) — для другой цены это почти не важно
+                out[k.lower()] = (pct, fixed, f"факт Ozon: {sold} продаж")
+    except Exception:  # noqa: BLE001
+        pass
+    return out
+
+
+def ozon_net(offer_id: str, price: float, models: Optional[dict] = None):
+    """(на руки с Ozon за 1 шт при цене price, источник) или (None, "")."""
+    m = (models if models is not None else _ozon_models()).get(str(offer_id).lower())
+    if not m or not price:
+        return None, ""
+    pct, fixed, src = m
+    return price * (1 - pct) + fixed, src
+
+
+def equal_profit_price(ozon_price: float, net: float, tax: float, fee: float, step: int = 10) -> Optional[int]:
+    if not ozon_price or net is None:
+        return None
+    p = (net - tax * ozon_price) / (1 - tax - fee)
+    p = min(p, ozon_price)  # дороже маркетплейса не ставим
+    if p <= 0:
+        return None
+    return int(p / step + 0.5) * step
 
 
 def set_price_override(
@@ -189,6 +296,9 @@ def recalc_from_master(master_path: str, path: str = OVERRIDES_PATH, dry_run: bo
 
     share, fixed = _read_meta(path)
     premium = get_premium(path)
+    prof = get_profit_settings(path)
+    if prof["mode"] == "прибыль":
+        return _recalc_equal_profit(master_path, path, prof, fixed, dry_run)
     ov = load_price_overrides(path)
     wb = load_workbook(master_path, read_only=True, data_only=True)
     ws = wb["Товары"] if "Товары" in wb.sheetnames else wb.active
@@ -212,4 +322,64 @@ def recalc_from_master(master_path: str, path: str = OVERRIDES_PATH, dry_run: bo
             ov[art] = new
     if changes and not dry_run:
         save_price_overrides(ov, path, share=share, fixed=fixed)
+    return changes
+
+
+def plan_equal_profit(master_path: str, path: str = OVERRIDES_PATH, prof: Optional[dict] = None) -> list:
+    """Расчёт без записи: [{art, name, ozon_price, net, src, avito_old, avito_new, site_old, site_new, fixed}]."""
+    from openpyxl import load_workbook
+
+    prof = prof or get_profit_settings(path)
+    share, fixed = _read_meta(path)
+    premium = get_premium(path)
+    av_old, st_old = load_price_overrides(path), load_price_overrides(path, "site")
+    models = _ozon_models()
+    wb = load_workbook(master_path, read_only=True, data_only=True)
+    ws = wb["Товары"] if "Товары" in wb.sheetnames else wb.active
+    rows = ws.iter_rows(values_only=True)
+    head = [str(c or "") for c in next(rows)]
+    c_price, c_name = head.index("Цена, ₽"), head.index("Название товара")
+    out = []
+    for r in rows:
+        if not r[0]:
+            continue
+        art = str(r[0]).strip()
+        try:
+            p = float(r[c_price])
+        except (TypeError, ValueError):
+            continue
+        if p <= 0:
+            continue
+        net, src = ozon_net(art, p, models)
+        if art in fixed:
+            a_new, s_new, src = av_old.get(art), st_old.get(art), "фикс (вручную)"
+        elif net is None:
+            a_new = s_new = site_price(p, share, premium=premium)
+            src = "нет данных Ozon — по доле"
+        else:
+            a_new = equal_profit_price(p, net, prof["tax"], prof["avito_fee"])
+            s_new = equal_profit_price(p, net, prof["tax"], prof["site_fee"])
+        out.append({"art": art, "name": r[c_name] or "", "ozon_price": p, "net": net, "src": src,
+                    "avito_old": av_old.get(art), "avito_new": a_new,
+                    "site_old": st_old.get(art), "site_new": s_new, "fixed": art in fixed})
+    return out
+
+
+def _recalc_equal_profit(master_path, path, prof, fixed, dry_run):
+    plan = plan_equal_profit(master_path, path, prof)
+    ov = load_price_overrides(path)
+    site = load_price_overrides(path, "site")
+    changes = []
+    for x in plan:
+        if x["fixed"] or not x["avito_new"]:
+            continue
+        a = x["art"]
+        if x["avito_old"] is None or abs(x["avito_old"] - x["avito_new"]) > 0.5:
+            changes.append((a, x["avito_old"], x["avito_new"]))
+        if x["site_old"] is None or abs(x["site_old"] - (x["site_new"] or 0)) > 0.5:
+            changes.append((a + " (сайт)", x["site_old"], x["site_new"]))
+        ov[a] = x["avito_new"]
+        site[a] = x["site_new"] or x["avito_new"]
+    if changes and not dry_run:
+        save_price_overrides(ov, path, fixed=fixed, site=site)
     return changes

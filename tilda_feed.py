@@ -181,7 +181,7 @@ def build_tilda_catalog(
     """
     import site_pricing
 
-    price_overrides = site_pricing.load_price_overrides(price_overrides_path or site_pricing.OVERRIDES_PATH)
+    price_overrides = site_pricing.load_price_overrides(price_overrides_path or site_pricing.OVERRIDES_PATH, "site")
 
     wb = openpyxl.load_workbook(catalog_path)
     ws = wb.active
