@@ -298,3 +298,18 @@ def update_names(names: Dict[str, str]) -> Tuple[int, Dict[str, str]]:
         return _request("POST", f"/v2/businesses/{business_id}/offer-mappings/update", json_body={"offerMappings": elems})
 
     return _send_isolating("названия", send, entries)
+
+
+def update_videos(videos: Dict[str, List[str]]) -> Tuple[int, Dict[str, str]]:
+    """
+    videos: {offer_id: [ссылки на видео, до 6]}. POST /v2/businesses/{businessId}/offer-mappings/update —
+    передаём только offerId + videos, остальные поля карточки не меняются.
+    ВАЖНО: вызывать только для SKU, которые уже есть на Маркете (иначе метод создаст новый товар).
+    """
+    business_id = get_business_id()
+    entries = [(offer, {"offer": {"offerId": offer, "videos": urls[:6]}}) for offer, urls in videos.items() if urls]
+
+    def send(elems):
+        return _request("POST", f"/v2/businesses/{business_id}/offer-mappings/update", json_body={"offerMappings": elems})
+
+    return _send_isolating("видео", send, entries)

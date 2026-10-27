@@ -957,6 +957,75 @@ def cmd_validate_master() -> int:
     return validate_master.run()
 
 
+
+def cmd_push_yandex_videos(dry_run: bool = False) -> int:
+    """
+    Видео -> Яндекс Маркет: те же ссылки, что уходят на Ozon (колонка «Видео» в data/ozon_catalog.xlsx,
+    её заполняет attach-ozon-photos из photos/<АРТИКУЛ>/*_video.*). Отправляем только товарам,
+    которые УЖЕ есть на Маркете (список из data/yandex_market_offers.xlsx; новые товары метод
+    не создаёт). SKU сопоставляются без учёта регистра — видео уходит на все варианты артикула.
+    Уходит только новое/изменившееся (кэш data/market_video_cache.json; удалить файл = отправить всё заново).
+    """
+    import openpyxl
+    import yandex_market_client
+
+    if not yandex_market_client.is_configured():
+        print("Яндекс Маркет не подключён — пропуск.")
+        return 0
+    cat = _data_path("ozon_catalog.xlsx")
+    offers_path = _data_path("yandex_market_offers.xlsx")
+    if not os.path.exists(cat) or not os.path.exists(offers_path):
+        print("Нет data/ozon_catalog.xlsx или data/yandex_market_offers.xlsx — пропуск.")
+        return 0
+    ws = openpyxl.load_workbook(cat, read_only=True, data_only=True).worksheets[0]
+    rows = list(ws.iter_rows(values_only=True))
+    vcol = next((i for i, h in enumerate(rows[0]) if h and "идео" in str(h)), None)
+    if vcol is None:
+        print("В ozon_catalog.xlsx нет колонки видео — пропуск.")
+        return 0
+    ours = {}
+    for r in rows[1:]:
+        if r and r[0] and vcol < len(r) and r[vcol]:
+            urls = [u.strip() for u in str(r[vcol]).split("|") if u.strip().startswith("http")]
+            if urls:
+                ours[str(r[0]).strip().lower()] = urls
+    ws_m = openpyxl.load_workbook(offers_path, read_only=True, data_only=True).worksheets[0]
+    market_skus = [str(r[0]).strip() for r in list(ws_m.iter_rows(values_only=True))[1:] if r and r[0]]
+    want = {sku: ours[sku.lower()] for sku in market_skus if sku.lower() in ours}
+    missing = sorted(k for k in ours if k not in {s.lower() for s in market_skus})
+    if missing:
+        print(f"Нет на Маркете (видео не отправляется): {', '.join(missing)}")
+
+    cache_path = _data_path("market_video_cache.json")
+    try:
+        cache = json.load(open(cache_path, encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        cache = {}
+    todo = {sku: urls for sku, urls in want.items() if cache.get(sku) != urls}
+    if not todo:
+        print(f"Видео на Маркете актуальны ({len(want)} товаров) — отправлять нечего.")
+        return 0
+    print(f"Видео к отправке на Маркет: {len(todo)}")
+    for sku in sorted(todo):
+        print(f"  {sku}: {todo[sku][0].split('/')[-1]}")
+    if dry_run:
+        print("ПРОБНЫЙ ПРОГОН — на Маркет ничего не уходит.")
+        return 0
+    try:
+        ok, failed = yandex_market_client.update_videos(todo)
+    except Exception as exc:  # noqa: BLE001
+        print(f"push-yandex-videos: ОШИБКА — {exc}")
+        return 1
+    for sku, urls in todo.items():
+        if sku not in failed:
+            cache[sku] = urls
+    with open(cache_path, "w", encoding="utf-8") as fh:
+        json.dump(cache, fh, ensure_ascii=False, indent=1, sort_keys=True)
+    for sku, why in failed.items():
+        print(f"  НЕ принято {sku}: {why}")
+    print(f"push-yandex-videos: принято Маркетом {ok} из {len(todo)}.")
+    return 1 if failed else 0
+
 def cmd_update_cards() -> int:
     """Обёртка: весь вывод update-cards дублируется в data/update_cards_log.txt (логи Actions нам недоступны)."""
     import io
@@ -1132,6 +1201,7 @@ def _cmd_update_cards_impl() -> int:
 
     if yandex_market_client.is_configured():
         step("Шаг 7: Яндекс Маркет — остатки", "push-yandex-stock", cmd_push_yandex_stock)
+        step("Шаг 7а: Яндекс Маркет — видео", "push-yandex-videos", cmd_push_yandex_videos)
     else:
         print("\n(Яндекс Маркет не подключён — шаг пропущен)")
 
