@@ -4223,6 +4223,7 @@ def main() -> int:
     parser.add_argument("--diag-tnved", action="store_true", help="Диагностика (только чтение): ищет код ТН ВЭД (--seed-phrase, по умолчанию 8708409909) в справочнике Ozon для категории товара --article")
     parser.add_argument("--diag-ozon-analytics", action="store_true", help="Диагностика (только чтение): какие метрики аналитики Ozon доступны без Premium; итог data/ozon_analytics_diag.txt + ozon_analytics_weekly.xlsx")
     parser.add_argument("--diag-ozon-orders", action="store_true", help="Диагностика (только чтение): отдаёт ли Ozon заказы FBS/FBO, итог в data/ozon_orders_diag.txt")
+    parser.add_argument("--diag-ozon-promos", action="store_true", help="Диагностика (только чтение): новые методы акций Ozon из docs.ozon.ru -> data/ozon_promos_diag.txt")
     parser.add_argument("--diag-ozon-prices", action="store_true", help="Диагностика (только чтение): цены и предельная цена Ozon по --article (через запятую) или по всем товарам")
     parser.add_argument("--diag-ozon-product", action="store_true", help="Диагностика: показать сырой ответ Ozon (статус/ошибки/фото) по одному offer_id из --article")
     parser.add_argument("--diag-wb-new-cards", action="store_true", help="Диагностика: почему созданные через push-wb-new-cards/push-new-product-all карточки не появились на WB (причины ошибок)")
@@ -4475,6 +4476,9 @@ def main() -> int:
         return ozon_analytics.run()
     if args.diag_ozon_orders:
         return cmd_diag_ozon_orders()
+    if args.diag_ozon_promos:
+        import ozon_promos_diag
+        return ozon_promos_diag.run()
     if args.diag_ozon_prices:
         return cmd_diag_ozon_prices(args.article)
     if args.diag_ozon_product:
