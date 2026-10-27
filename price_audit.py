@@ -77,6 +77,10 @@ def _accruals_by_day(ozon_client, day: str) -> list:
     return out
 
 
+# SKU для сверки разбора (0am325025l, 122390AK-AF, 0am325066AC): выручка/шт ниже цены в 2–3 раза
+DEBUG_SKUS = [x for x in os.environ.get("OZON_FIN_DEBUG_SKUS", "1947309601,1974187724,2169484129").split(",") if x]
+
+
 def fetch_ozon_finance(days: int = 30) -> dict:
     import time
     import ozon_client
@@ -85,12 +89,16 @@ def fetch_ozon_finance(days: int = 30) -> dict:
     frm = to - timedelta(days=days)
     types = _accrual_types(ozon_client)
     tname = lambda i: types.get(str(i)) or f"вид {i}"  # noqa: E731
-    accruals, samples = [], {}
+    accruals, samples, debug = [], {}, []
     d = frm.date()
     while d <= to.date():
         lst = _accruals_by_day(ozon_client, d.isoformat())
         for a in lst:
             samples.setdefault(a.get("accrued_category") or "?", a)
+            # полные записи по контрольным SKU — сверка разбора выручки (провалы «до −65%»)
+            raw = json.dumps(a, ensure_ascii=False)
+            if len(debug) < 60 and any(k in raw for k in DEBUG_SKUS):
+                debug.append(a)
         accruals += lst
         d += timedelta(days=1)
         time.sleep(0.25)
@@ -184,7 +192,8 @@ def fetch_ozon_finance(days: int = 30) -> dict:
                      for k, v in out.items()},
            "unassigned": {k: round(v, 2) for k, v in unassigned.items()},
            "by_type": {k: round(v, 2) for k, v in sorted(by_type.items(), key=lambda x: x[1])},
-           "samples": {k: v for k, v in samples.items()}}
+           "samples": {k: v for k, v in samples.items()},
+           "debug_skus": DEBUG_SKUS, "debug_records": debug}
     with open(FIN_PATH, "w", encoding="utf-8") as fh:
         json.dump(res, fh, ensure_ascii=False, indent=1)
     return res
