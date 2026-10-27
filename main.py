@@ -4221,6 +4221,7 @@ def main() -> int:
     parser.add_argument("--disable-ozon-auto-actions-dryrun", action="store_true", help="Показать товары с включённым автодобавлением в акции Ozon (ничего не меняет)")
     parser.add_argument("--disable-ozon-auto-actions", action="store_true", help="Выключить автодобавление в акции Ozon (цены не меняются; --article ограничивает список)")
     parser.add_argument("--diag-tnved", action="store_true", help="Диагностика (только чтение): ищет код ТН ВЭД (--seed-phrase, по умолчанию 8708409909) в справочнике Ozon для категории товара --article")
+    parser.add_argument("--diag-ozon-analytics", action="store_true", help="Диагностика (только чтение): какие метрики аналитики Ozon доступны без Premium; итог data/ozon_analytics_diag.txt + ozon_analytics_weekly.xlsx")
     parser.add_argument("--diag-ozon-orders", action="store_true", help="Диагностика (только чтение): отдаёт ли Ozon заказы FBS/FBO, итог в data/ozon_orders_diag.txt")
     parser.add_argument("--diag-ozon-prices", action="store_true", help="Диагностика (только чтение): цены и предельная цена Ozon по --article (через запятую) или по всем товарам")
     parser.add_argument("--diag-ozon-product", action="store_true", help="Диагностика: показать сырой ответ Ozon (статус/ошибки/фото) по одному offer_id из --article")
@@ -4469,6 +4470,9 @@ def main() -> int:
         return cmd_disable_ozon_auto_actions(False, args.article)
     if args.diag_tnved:
         return cmd_diag_tnved(args.article, getattr(args, "seed_phrase", ""))
+    if args.diag_ozon_analytics:
+        import ozon_analytics
+        return ozon_analytics.run()
     if args.diag_ozon_orders:
         return cmd_diag_ozon_orders()
     if args.diag_ozon_prices:

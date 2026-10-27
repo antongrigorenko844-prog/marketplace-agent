@@ -1,0 +1,36 @@
+# Запуск ДИАГНОСТИКИ без нажатия "Run workflow": Claude (или вы) пишет имя
+# команды в data/run_request.txt и пушит — команда запускается сама, итог
+# коммитится обратно в data/. Разрешены ТОЛЬКО команды чтения из списка
+# ALLOWED ниже — ничего на площадках они не меняют (цены, остатки, карточки
+# не трогают). Всё остальное по-прежнему только вручную через Actions.
+
+name: claude-run-readonly
+
+on:
+  push:
+    paths:
+      - "data/run_request.txt"
+
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+
+jobs:
+  pick:
+    runs-on: ubuntu-latest
+    outputs:
+      cmd: ${{ steps.p.outputs.cmd }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: p
+        run: |
+          ALLOWED="diag-ozon-analytics diag-ozon-orders diag-ozon-prices diag-ozon-product ozon-status price-audit price-preview reviews-check ozon-finance audit-offline"
+          CMD=$(head -n1 data/run_request.txt | tr -d '[:space:]')
+          for a in $ALLOWED; do [ "$a" = "$CMD" ] && echo "cmd=$CMD" >> "$GITHUB_OUTPUT" && exit 0; done
+          echo "Команда '$CMD' не из списка разрешённых (только чтение): $ALLOWED"; exit 1
+  run:
+    needs: pick
+    uses: ./.github/workflows/run-command.yml
+    secrets: inherit
+    with:
+      command: ${{ needs.pick.outputs.cmd }}
