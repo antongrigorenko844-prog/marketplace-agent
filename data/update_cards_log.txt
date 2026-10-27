@@ -305,11 +305,11 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Новые строки мастера (ещё нет на площадках) сохранены: nakladki-pedali
 Готово: /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
 Известных артикулов: 134 (Ozon существующих 124, Ozon черновиков 1, только-WB существующих 10, только-WB черновиков 0)
-Медиафайлов: 183, сопоставлено 181 в 123 товарах
+Медиафайлов: 185, сопоставлено 183 в 123 товарах
 Нераспознанных файлов: 2 — см. лист 'Нераспознанные фото' в /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
 
 Готово: attach-photos-all завершён. Дальше — push-photos-dryrun, чтобы проверить, что уйдёт на Ozon и WB.
-[attach-photos-all: 37 с]
+[attach-photos-all: 44 с]
 
 === Шаг 3: push-photos (Ozon + WB) ===
 === Ozon: реальная отправка ===
@@ -317,19 +317,19 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   - Похоже на случайный дубль артикула (отличаются только регистром букв): DQ500, Dq500 — возможно, это одна и та же деталь, заведённая дважды.
   - Похоже на случайный дубль артикула (отличаются только регистром букв): EA888gen3, Ea888gen3 — возможно, это одна и та же деталь, заведённая дважды.
 
-Партия 1: task_id=5909678376, жду обработку...
-  ОК salnik-tolkatelya-alum: статус imported
-  ОК tolkateli-salniki-alum-komplekt: статус imported
+Партия 1: task_id=5909982588, жду обработку...
+  ОК 0am325025HX: статус imported
+  ОК 0am325025HXF: статус imported
 
 Итого: успешно 2, с ошибками 0
 
 === WB: реальная отправка ===
-Фото: salnik-tolkatelya-alum — 3 фото отправлено.
-Фото: tolkateli-salniki-alum-komplekt — 2 фото отправлено.
+Фото: 0am325025HX — 4 фото отправлено.
+Фото: 0am325025HXF — 4 фото отправлено.
 
 Итого успешных операций: 2, с ошибками: 0
 
-[push-photos: 88 с]
+[push-photos: 163 с]
 
 === Шаг 4: push-wb-price ===
 Цены на WB менять не нужно: ни одна цена в wb_catalog.xlsx не отличается от текущей на WB.
@@ -532,15 +532,15 @@ push-yandex-stock: принято Маркетом 127 из 127.
 [push-yandex-stock: 2 с]
 
 === Шаг 7а: Яндекс Маркет — видео ===
-Видео к отправке на Маркет: 2
-  salnik-tolkatelya-alum: salnik-tolkatelya-alum_video.mp4?v=bbf75624cd
-  tolkateli-salniki-alum-komplekt: tolkateli-salniki-alum-komplekt_video.mp4?v=bbf75624cd
-push-yandex-videos: принято Маркетом 2 из 2.
-[push-yandex-videos: 3 с]
+Нет на Маркете (видео не отправляется): 0am325025hxf
+Видео к отправке на Маркет: 1
+  0am325025HX: 0am325025HX_video.mp4?v=15fc20f523
+push-yandex-videos: принято Маркетом 1 из 1.
+[push-yandex-videos: 2 с]
 
 === Шаг 7б: фото для Авито (photos_avito) ===
 Фото для Авито: товаров с актуальными ссылками — 86
-[attach-avito-photos: 25 с]
+[attach-avito-photos: 29 с]
 
 === Шаг 8: build-avito-catalog ===
 Готово: 102 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
@@ -553,7 +553,7 @@ push-yandex-videos: принято Маркетом 2 из 2.
 
 Файл также залит по постоянной ссылке: https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito_feed.xlsx
 Если ещё не настроили — вставьте эту ссылку ОДИН РАЗ в личном кабинете Avito: Автозагрузка -> Настройки -> «Автозагрузка по ссылке», отметьте побольше дней/часов опроса. Дальше Avito сам будет скачивать и обрабатывать файл — загружать вручную больше не нужно.
-[build-avito-catalog: 3 с]
+[build-avito-catalog: 4 с]
 
 === Шаг 9: Tilda (сайт), CommerceML ===
 Собрано товаров: 128 (из них с остатком 0 -> на сайте 'нет в наличии': 19).
@@ -565,7 +565,7 @@ push-yandex-videos: принято Маркетом 2 из 2.
   import import0_1.xml: success
   import offers0_1.xml: success
 push-tilda: готово. Проверьте результат на сайте и в 'Истории синхронизации' в Тильде.
-[push-tilda: 6 с]
+[push-tilda: 7 с]
 
 === Шаг 10: ревизия площадок (только чтение, на результат update-cards не влияет) ===
 === Ревизия: обновляю выгрузки с площадок ===
@@ -590,16 +590,16 @@ Ozon: остатки FBS по 118 товарам -> data/ozon_stocks.json
 Авито: строк отчёта автозагрузки: 102 -> data/avito_autoload.json
 
 === Ревизия: сверка ===
-Ревизия площадок: проблем ВАЖНО 17, СРЕДНЕ 74, НИЗКО 11 (Авито: живые объявления)
+Ревизия площадок: проблем ВАЖНО 17, СРЕДНЕ 75, НИЗКО 11 (Авито: живые объявления)
   - Авито: объявление не из фида — 50
   - WB: нет на площадке — 7
   - Ozon: лишний — 6
   - Маркет: название — 6
+  - Ozon: остаток — 4
   - Tilda: нет в мастере — 4
   - Маркет: нет в мастере — 4
   - Ozon: цена — 3
   - Авито: нет на площадке — 3
-  - Ozon: остаток — 3
   - Маркет: нет на площадке — 2
   - Авито: артикул отличается регистром — 2
   - WB: цена — 1
