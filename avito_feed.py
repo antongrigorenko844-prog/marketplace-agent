@@ -65,6 +65,8 @@ FIRST_DATA_ROW = 5
 # Индексы колонок (1-based) в официальном шаблоне (id 103807, лист "Объявления").
 COL_ADDRESS = 1
 COL_ID = 4
+COL_AVITO_ID = 9  # «Номер объявления на Авито» (AvitoId): фид берёт под управление УЖЕ существующее
+#                   объявление (старое ручное, с просмотрами) вместо создания нового. Привязки — data/avito_links.json
 COL_CATEGORY = 16
 COL_DESCRIPTION = 17
 COL_IMAGE_URLS = 19
@@ -366,6 +368,20 @@ def _clean_description(html_desc: str) -> str:
     return text.strip()
 
 
+def _load_avito_links() -> Dict[str, int]:
+    """{артикул: номер объявления на Авито} — какое старое объявление ведёт фид (см. avito_dupes.py)."""
+    import json as _json
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "avito_links.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            return {k: v for k, v in _json.load(f).items() if not k.startswith("_")}
+    except (FileNotFoundError, ValueError):
+        return {}
+
+
+_AVITO_LINKS = _load_avito_links()
+
+
 def build_avito_feed(
     catalog_path: str,
     template_path: str,
@@ -481,6 +497,8 @@ def build_avito_feed(
 
         ws.cell(row=out_row, column=COL_ADDRESS, value=seller_address)
         ws.cell(row=out_row, column=COL_ID, value=offer_id)
+        if _AVITO_LINKS.get(str(offer_id)):
+            ws.cell(row=out_row, column=COL_AVITO_ID, value=int(_AVITO_LINKS[str(offer_id)]))
         ws.cell(row=out_row, column=COL_CATEGORY, value=CATEGORY_VALUE)
         ws.cell(row=out_row, column=COL_DESCRIPTION, value=_clean_description(description_raw))
         if images:
