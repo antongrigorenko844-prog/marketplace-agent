@@ -514,6 +514,25 @@ def tsv_to_xlsx(tsv_path: str, out_path: str) -> Tuple[int, int]:
         for c in ws[r]:
             c.value = None
 
+    # Директ при загрузке ищет колонки в ОДНОЙ строке шапки (ошибка 29.10: «Не удалось найти колонку
+    # 'Заголовок 1' / 'Текст'»), а в шаблоне шапка двухэтажная (строки 10–11, «Комбинаторика» объединена).
+    # Делаем шапку плоской: всё в строку 10, «Текст 1» → «Текст», строку 11 убираем.
+    for rng in list(ws.merged_cells.ranges):
+        if rng.min_row in (10, 11):
+            ws.unmerge_cells(str(rng))
+    for c in ws[11]:
+        if isinstance(c.value, str) and c.value.strip():
+            ws.cell(10, c.column, "Текст" if c.value.strip() == "Текст 1" else c.value.strip())
+    ws.delete_rows(11)
+    col = {}
+    for c in ws[10]:
+        if isinstance(c.value, str) and c.value.strip():
+            col.setdefault(c.value.strip(), c.column)
+    col["Текст 1"] = col["Текст"]
+    for r in range(11, ws.max_row + 1):
+        for c in ws[r]:
+            c.value = None
+
     camp_minus = next((x.get("Минус-фразы на кампанию", "") for x in rows if x.get("Минус-фразы на кампанию")), "")
     ws["E7"] = XLSX_CAMPAIGN_TYPE
     ws["E8"] = None           # № заказа — Директ присвоит сам
@@ -529,7 +548,7 @@ def tsv_to_xlsx(tsv_path: str, out_path: str) -> Tuple[int, int]:
         raise RuntimeError(f"В шаблоне Директа нет колонок: {missing}")
     groups = set()
     for i, src in enumerate(rows):
-        r = 12 + i
+        r = 11 + i
         for k in copy_cols:
             v = (src.get(k) or "").strip()
             if k == "Номер группы":
