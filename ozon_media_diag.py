@@ -39,6 +39,8 @@ def cmd_ozon_media_diag() -> int:
     lines = [f"Карточек к проверке: {len(arts)}"]
     attrs = {str(i.get("offer_id")): i for i in oc.get_product_names(arts)}
     infos = {str(i.get("offer_id")): i for i in oc.get_product_info_list(arts)}
+    with open(os.path.join(DATA, "ozon_media_diag_raw.json"), "w", encoding="utf-8") as f:
+        json.dump({"attributes": attrs, "info": infos}, f, ensure_ascii=False, indent=1)
     for a in arts:
         at = attrs.get(a) or {}
         inf = infos.get(a) or {}
