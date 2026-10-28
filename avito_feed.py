@@ -180,6 +180,10 @@ def _truncate_title(title: str, max_len: int = AVITO_TITLE_MAX_LEN) -> str:
     last_space = cut.rfind(" ")
     if last_space > 0:
         cut = cut[:last_space]
+    # не оставлять обрывок после двоеточия («…DQ200: 2» — покупатель видит «2» как часть цены)
+    colon = cut.rfind(":")
+    if colon > 0 and len(cut[colon + 1:].strip()) < 12:
+        cut = cut[:colon]
     return cut.rstrip(" ,.;:-—")
 
 # Avito требует, чтобы "Номер детали OEM" состоял ТОЛЬКО из латинских букв и
