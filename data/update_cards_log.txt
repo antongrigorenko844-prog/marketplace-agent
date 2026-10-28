@@ -49,14 +49,12 @@ validate-master: критичных ошибок нет, предупрежде�
 Готово: колонка «Цена WB» в мастере обновлена. Дальше: Pull, push-wb-price-dryrun (проверить), затем update-cards.
 
 === Шаг 0в: цены Авито и сайта = доля от цены маркетплейсов ===
-Правило: равная прибыль (налог 6%, Авито 5%, эквайринг сайта 3.0%); пересчитано цен Авито/сайта: 2
-  0am325025hfe: 950.0 -> 2350
-  0am325025hfe (сайт): 950.0 -> 2350
+Правило: равная прибыль (налог 6%, Авито 5%, эквайринг сайта 3.0%); пересчитано цен Авито/сайта: 0
 
 === Шаг 1: sync-master-control ===
-master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 17
+master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 0
 master_control.xlsx -> ozon_new_products.xlsx: обновлено строк 0
-master_control.xlsx -> wb_catalog.xlsx: обновлено строк 3
+master_control.xlsx -> wb_catalog.xlsx: обновлено строк 0
 master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Изменённых обложек в столбце 'Фото' не найдено.
 
@@ -80,8 +78,8 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   0AM325467J: 1 фото
   0AM325473: 2 фото
   0AM325587E: 5 фото
-  0AM927769D: 1 фото
-  0AM927769F: 1 фото
+  0AM927769D: 3 фото
+  0AM927769F: 3 фото
   0AM927769N: 3 фото
   0BH325: 4 фото
   0BH325183: 2 фото
@@ -260,7 +258,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   separatornaya-plastina-dq200: 1 фото
   separatornaya-plastiny-solenoid-dq200: 1 фото
   02E927770AL: 1 фото
-  0AM927769D-plata: 1 фото
+  0AM927769D-plata: 3 фото
   0AM927769N: 3 фото
   0am325025x: 1 фото
   0am325091e-set: 1 фото
@@ -301,18 +299,18 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   tolkateli-salniki-alum-komplekt: 1 фото
   vtulki-shtokov-2sht: 1 фото
   korpus-filtra-0bh325159: 2 фото
-  0AM927769F: 1 фото
+  0AM927769F: 3 фото
   0am325025HXF: 3 фото
 
 === Шаг 3/3: build-master-control ===
 Новые строки мастера (ещё нет на площадках) сохранены: nakladki-pedali
 Готово: /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
 Известных артикулов: 134 (Ozon существующих 124, Ozon черновиков 1, только-WB существующих 10, только-WB черновиков 0)
-Медиафайлов: 216, сопоставлено 214 в 124 товарах
+Медиафайлов: 220, сопоставлено 218 в 124 товарах
 Нераспознанных файлов: 2 — см. лист 'Нераспознанные фото' в /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
 
 Готово: attach-photos-all завершён. Дальше — push-photos-dryrun, чтобы проверить, что уйдёт на Ozon и WB.
-[attach-photos-all: 40 с]
+[attach-photos-all: 52 с]
 
 === Шаг 3: push-photos (Ozon + WB) ===
 === Ozon: реальная отправка ===
@@ -320,32 +318,53 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   - Похоже на случайный дубль артикула (отличаются только регистром букв): DQ500, Dq500 — возможно, это одна и та же деталь, заведённая дважды.
   - Похоже на случайный дубль артикула (отличаются только регистром букв): EA888gen3, Ea888gen3 — возможно, это одна и та же деталь, заведённая дважды.
 
-Партия 1: task_id=5917138014, жду обработку...
-  ОК 0am325025hfe: статус imported
+Партия 1: task_id=5917224508, жду обработку...
+  ОК 0AM325473: статус imported
+  ОК 0AM927769D: статус imported
+  ОК 0AM927769F: статус imported
+  ОК 0am325066ad: статус skipped
+  ОК DQ500: статус imported
 
-Итого: успешно 1, с ошибками 0
+Итого: успешно 5, с ошибками 0
 
 === WB: реальная отправка ===
-Название/описание: партия 1 (2 шт.) отправлена.
+Фото: 0AM325473 — 2 фото отправлено.
+Фото: 0am325066ad — 2 фото отправлено.
+Фото: DQ500 — 4 фото отправлено.
+Фото: 0AM927769D-plata — 4 фото отправлено.
+Фото: 0AM927769F — 4 фото отправлено.
 
-Итого успешных операций: 2, с ошибками: 0
+Итого успешных операций: 5, с ошибками: 0
 
-[push-photos: 7 с]
+[push-photos: 202 с]
+
+=== Шаг 3б: Ozon rich-контент (data/ozon_rich, только изменённое) ===
+0AM927769D: rich готов (3202 знаков, фото на Ozon: 3)
+0AM927769F: rich готов (3202 знаков, фото на Ozon: 3)
+0am325025H: rich готов (4096 знаков, фото на Ozon: 4)
+0am325025HX: rich готов (4623 знаков, фото на Ozon: 3)
+0am325025HXF: rich готов (4623 знаков, фото на Ozon: 3)
+Отправлено rich: 5; task_id=5917241454
+  Ozon: 0AM927769D imported 
+  Ozon: 0AM927769F imported 
+  Ozon: 0am325025H imported 
+  Ozon: 0am325025HX imported 
+  Ozon: 0am325025HXF imported 
+[ozon-rich: 14 с]
 
 === Шаг 4: push-wb-price ===
-Цена отправлена для 5 товаров:
+Цена отправлена для 4 товаров:
   02E 305 045: 5350 -> 3350 ₽
   02e305045: 3850 -> 2350 ₽
   0BH325183: 7850 -> 4350 ₽
   0BH325183 B: 7850 -> 4350 ₽
-  0am325025hfe: 1850.16 -> 3850 ₽
   WB НЕ ПРИМЕНИЛ 02e305045: New price is several times lower than the current price. Item has been moved to Price Quarantine
   WB НЕ ПРИМЕНИЛ 0BH325183 B: New price is several times lower than the current price. Item has been moved to Price Quarantine
   WB НЕ ПРИМЕНИЛ 0BH325183: New price is several times lower than the current price. Item has been moved to Price Quarantine
   WB НЕ ПРИМЕНИЛ 02E 305 045: New price is several times lower than the current price. Item has been moved to Price Quarantine
 
 WB обрабатывает изменение цены не мгновенно — проверьте карточку через несколько минут (следующий fetch-wb покажет уже применившуюся цену).
-[push-wb-price: 11 с]
+[push-wb-price: 14 с]
 
 === Шаг 4б: цены Ozon = мастер (только расхождения) ===
 Пропускаю (no_price_sync в ozon_overrides.json): Ea888gen3
@@ -534,7 +553,7 @@ EA888: на Ozon 4741 / до скидки 6000 -> по файлу 4850 / 6000
 
 Товаров с включённым автодобавлением: 0
 Выключено: 0, с ошибкой: 0
-[ozon-leave-boosting: 5 с]
+[ozon-leave-boosting: 6 с]
 
 === Шаг 7: Яндекс Маркет — остатки ===
   0am325025L: вариант артикула с другим регистром — отправляю остаток 95
@@ -550,7 +569,7 @@ push-yandex-stock: принято Маркетом 127 из 127.
 
 === Шаг 7б: фото для Авито (photos_avito) ===
 Фото для Авито: товаров с актуальными ссылками — 86
-[attach-avito-photos: 31 с]
+[attach-avito-photos: 28 с]
 
 === Шаг 8: build-avito-catalog ===
 Готово: 102 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
@@ -600,21 +619,19 @@ Ozon: остатки FBS по 118 товарам -> data/ozon_stocks.json
 Авито: строк отчёта автозагрузки: 102 -> data/avito_autoload.json
 
 === Ревизия: сверка ===
-Ревизия площадок: проблем ВАЖНО 19, СРЕДНЕ 73, НИЗКО 17 (Авито: живые объявления)
+Ревизия площадок: проблем ВАЖНО 18, СРЕДНЕ 70, НИЗКО 17 (Авито: живые объявления)
   - Авито: объявление не из фида — 50
   - Маркет: название — 12
   - WB: нет на площадке — 7
-  - WB: цена — 6
   - Ozon: лишний — 6
+  - WB: цена — 5
   - Tilda: нет в мастере — 4
   - Маркет: нет в мастере — 4
   - Ozon: цена — 3
   - Авито: нет на площадке — 3
-  - WB: название — 2
   - Авито: артикул отличается регистром — 2
   - Tilda: лишний — 1
-НОВЫХ важных проблем с прошлой ревизии: 1
-  + WB / цена / 0am325025hfe
+  - WB: цена WB ≠ цена Ozon — 1
 Подробности: data/audit_report.xlsx (после запуска сделайте Pull origin).
 
 update-cards: готово — всё обновлено: Ozon, WB, Avito, сайт, Яндекс Маркет (остатки).
