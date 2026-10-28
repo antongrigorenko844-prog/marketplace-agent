@@ -188,6 +188,8 @@ def lint_file(path: str) -> Tuple[List[str], List[str]]:
             if g.lower().find("модел") < 0 or "мехатрон" not in low:
                 warns.append(f"{where}: нет признака DQ200/DSG7/мехатроника — проверьте, не слишком ли широко")
         for bad in OFF_TARGET:
+            if bad.startswith("замен") and "замена" in g.lower():
+                continue   # отдельная группа «Замена платы»: замена = покупка новой платы
             if (" " + bad) in low:
                 errors.append(f"{where}: нецелевое «{bad}» (чужая коробка или ремонт/услуга)")
                 break
@@ -201,6 +203,16 @@ def lint_file(path: str) -> Tuple[List[str], List[str]]:
         for m in own_minus:
             if _minus_hits(m, toks):
                 errors.append(f"{where}: своё минус-слово «{m}» совпадает с фразой")
+
+    for i, r in enumerate(rows, start=2):
+        b = (r.get("Ставка") or "").replace(",", ".").strip()
+        if b:
+            try:
+                v = float(b)
+                if not 0.3 <= v <= 60:
+                    errors.append(f"стр.{i} [{r['Название группы']}] ставка {b} ₽ вне 0,3–60 ₽")
+            except ValueError:
+                errors.append(f"стр.{i} [{r['Название группы']}] ставка «{b}» — не число")
 
     # объявления (первая строка каждой группы несёт текст объявления)
     done = set()

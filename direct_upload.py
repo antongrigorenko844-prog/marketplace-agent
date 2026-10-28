@@ -88,7 +88,10 @@ def read_groups(path: str):
     for r in rows:
         if r.get("Минус-фразы на кампанию"):
             camp_minus += _split(r["Минус-фразы на кампанию"], ",")
-        g = groups.setdefault(r["Номер группы"], {"name": r["Название группы"], "minus": [], "phrases": [], "ads": []})
+        g = groups.setdefault(r["Номер группы"], {"name": r["Название группы"], "minus": [], "phrases": [], "ads": [], "bid": 0.0})
+        b = (r.get("Ставка") or "").replace(",", ".").strip()
+        if b and not g["bid"]:
+            g["bid"] = min(float(b), BID_RUB)   # колонка «Ставка»: своя ставка группы, не выше потолка
         for m in _split(r.get("Минус-фразы на группу", ""), ","):
             if m not in g["minus"]:
                 g["minus"].append(m)
@@ -177,7 +180,8 @@ def _run() -> int:
             "Name": g["name"], "CampaignId": cid, "RegionIds": REGIONS,
             **({"NegativeKeywords": {"Items": g["minus"]}} if g["minus"] else {}),
         }]}), "AddResults", f"группа «{g['name']}»")[0]
-        kws = [{"Keyword": p, "AdGroupId": gid, "Bid": bid} for p in g["phrases"]]
+        gbid = int((g.get("bid") or BID_RUB) * 1_000_000)
+        kws = [{"Keyword": p, "AdGroupId": gid, "Bid": gbid} for p in g["phrases"]]
         kw_ids = _results(call("keywords", "add", {"Keywords": kws}), "AddResults", f"фразы группы «{g['name']}»")
         n_kw += len(kw_ids)
         ad_ids = []
@@ -203,7 +207,7 @@ def _run() -> int:
         json.dump(st, open(STATE, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
     say(f"Готово: кампания №{cid}, групп {len(groups)}, фраз {n_kw}, объявлений {n_ads}. "
-        f"Ставка {BID_RUB} ₽ на фразу, регион Россия без Чечни, только поиск, счётчик {COUNTER_ID}.")
+        f"Ставка {BID_RUB} ₽ на фразу (группы с колонкой «Ставка» — по ней), регион Россия без Чечни, только поиск, счётчик {COUNTER_ID}.")
     say("На модерацию НЕ отправлено и не запущено. В день запуска: проверить в кабинете, пополнить счёт, "
         "«Отправить на модерацию».")
     return 0
