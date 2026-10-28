@@ -4399,6 +4399,8 @@ def main() -> int:
     parser.add_argument("--price-audit", action="store_true", help="Ревизия цен и прибыли (data/price_audit.xlsx), с начислениями Ozon")
     parser.add_argument("--reviews-check", action="store_true", help="Есть ли отзывы у артикулов (--article через запятую; пусто = все из мастера) на Ozon и WB -> data/reviews_guard.txt")
     parser.add_argument("--price-preview", action="store_true", help="Предпросмотр цен Авито/сайта по правилу «одинаковая прибыль» (data/price_preview.xlsx), ничего не отправляет")
+    parser.add_argument("--ozon-returns", action="store_true", help="Возвраты Ozon за 90 дней с причинами (data/ozon_returns.json)")
+    parser.add_argument("--ozon-unit-weekly", action="store_true", help="Юнит-экономика Ozon за 30 дней по товарам + алерт в Telegram (data/ozon_unit_report.xlsx)")
     parser.add_argument("--ozon-finance", action="store_true", help="Фактические начисления Ozon за 30 дней (data/ozon_finance.json)")
     parser.add_argument("--wb-zero-stock", action="store_true", help="Обнулить остаток на WB для артикулов из --article (через запятую)")
     parser.add_argument("--fix-partnumbers", action="store_true", help="Исправить «номер детали» на 7 карточках Ozon/WB (fix_partnumbers.py)")
@@ -4695,6 +4697,12 @@ def main() -> int:
     if args.ozon_finance:
         import price_audit
         return price_audit.cmd_ozon_finance()
+    if args.ozon_returns:
+        import ozon_unit
+        return ozon_unit.cmd_ozon_returns()
+    if args.ozon_unit_weekly:
+        import ozon_unit
+        return ozon_unit.cmd_ozon_unit_weekly()
     if args.wb_zero_stock:
         return cmd_wb_zero_stock(args.article or "")
     if args.fix_partnumbers or args.fix_partnumbers_dryrun:

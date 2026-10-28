@@ -124,6 +124,7 @@ def fetch_ozon_finance(days: int = 30) -> dict:
     except Exception:  # noqa: BLE001
         pass
 
+    fees_by = defaultdict(lambda: defaultdict(float))   # sku -> вид удержания -> ₽ (разбивка «услуг» по товару)
     per = defaultdict(lambda: {"sold": 0, "returned": 0, "revenue": 0.0, "commission": 0.0,
                                "logistics": 0.0, "services": 0.0, "net": 0.0})
     unassigned = defaultdict(float)
@@ -152,6 +153,7 @@ def fetch_ozon_finance(days: int = 30) -> dict:
                     p["commission"] += v
                 else:
                     p["services"] += v
+                    fees_by[sku][name] += v
                 p["net"] += v
         prods = (a.get("posting") or {}).get("products") or []
         if cat == "POSTING" and prods:
@@ -203,12 +205,23 @@ def fetch_ozon_finance(days: int = 30) -> dict:
            "operations": len(accruals), "payout_total": round(total_payout, 2),
            "items": {k: {kk: (round(vv, 2) if isinstance(vv, float) else vv) for kk, vv in v.items()}
                      for k, v in out.items()},
+           "fees_by_type": _fees_by_offer(fees_by, sku2offer),
            "unassigned": {k: round(v, 2) for k, v in unassigned.items()},
            "by_type": {k: round(v, 2) for k, v in sorted(by_type.items(), key=lambda x: x[1])},
            "samples": {k: v for k, v in samples.items()},
            "debug_skus": DEBUG_SKUS, "debug_records": debug}
     with open(FIN_PATH, "w", encoding="utf-8") as fh:
         json.dump(res, fh, ensure_ascii=False, indent=1)
+    return res
+
+
+def _fees_by_offer(fees_by, sku2offer) -> dict:
+    """offer_id -> {вид услуги: ₽} — что именно съело деньги по товару (Звёздные товары, сбор отзывов …)."""
+    res: dict = {}
+    for sku, d in fees_by.items():
+        o = res.setdefault(sku2offer.get(sku, f"sku:{sku}"), {})
+        for k, v in d.items():
+            o[k] = round(o.get(k, 0.0) + v, 2)
     return res
 
 

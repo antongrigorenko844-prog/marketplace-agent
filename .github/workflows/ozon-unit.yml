@@ -1,0 +1,22 @@
+# Юнит-экономика Ozon: раз в неделю (понедельник 09:13 МСК) — начисления за 30 дней по товарам, причины возвратов,
+# платные программы на дешёвых товарах → сообщение владельцу в Telegram + data/ozon_unit_report.xlsx.
+# Только чтение: на Ozon ничего не меняется (см. ozon_unit.py). Решение владельца 28.10.2026.
+
+name: ozon-unit-weekly
+
+on:
+  schedule:
+    - cron: "13 6 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+
+jobs:
+  unit:
+    uses: ./.github/workflows/run-command.yml
+    secrets: inherit
+    with:
+      command: ozon-unit-weekly
+      save_log: true
