@@ -52,9 +52,9 @@ validate-master: критичных ошибок нет, предупрежде�
 Правило: равная прибыль (налог 6%, Авито 5%, эквайринг сайта 3.0%); пересчитано цен Авито/сайта: 0
 
 === Шаг 1: sync-master-control ===
-master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 1
+master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 4
 master_control.xlsx -> ozon_new_products.xlsx: обновлено строк 0
-master_control.xlsx -> wb_catalog.xlsx: обновлено строк 1
+master_control.xlsx -> wb_catalog.xlsx: обновлено строк 4
 master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Изменённых обложек в столбце 'Фото' не найдено.
 
@@ -310,7 +310,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Нераспознанных файлов: 2 — см. лист 'Нераспознанные фото' в /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
 
 Готово: attach-photos-all завершён. Дальше — push-photos-dryrun, чтобы проверить, что уйдёт на Ozon и WB.
-[attach-photos-all: 33 с]
+[attach-photos-all: 39 с]
 
 === Шаг 3: push-photos (Ozon + WB) ===
 === Ozon: реальная отправка ===
@@ -318,18 +318,28 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   - Похоже на случайный дубль артикула (отличаются только регистром букв): DQ500, Dq500 — возможно, это одна и та же деталь, заведённая дважды.
   - Похоже на случайный дубль артикула (отличаются только регистром букв): EA888gen3, Ea888gen3 — возможно, это одна и та же деталь, заведённая дважды.
 
-Партия 1: task_id=5915117020, жду обработку...
+Партия 1: task_id=5915134094, жду обработку...
+  ОК 0AM325473: статус imported
   ОК 0AM325587E: статус imported
+  ОК 0am325025: статус imported
+  ОК 0am325025H: статус imported
+  ОК 0am325066ad: статус skipped
+  ОК 0am325066ae: статус imported
+  ОК DQ500: статус imported
 
-Итого: успешно 1, с ошибками 0
+Итого: успешно 7, с ошибками 0
 
 === WB: реальная отправка ===
-Название/описание: партия 1 (1 шт.) отправлена.
+Название/описание: партия 1 (2 шт.) отправлена.
+Фото: 0AM325473 — 2 фото отправлено.
 Фото: 0AM325587E — 5 фото отправлено.
+Фото: 0am325025 — 6 фото отправлено.
+Фото: 0am325066ad — 2 фото отправлено.
+Фото: DQ500 — 4 фото отправлено.
 
-Итого успешных операций: 2, с ошибками: 0
+Итого успешных операций: 7, с ошибками: 0
 
-[push-photos: 10 с]
+[push-photos: 20 с]
 
 === Шаг 4: push-wb-price ===
 Цена отправлена для 4 товаров:
@@ -343,7 +353,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   WB НЕ ПРИМЕНИЛ 02E 305 045: New price is several times lower than the current price. Item has been moved to Price Quarantine
 
 WB обрабатывает изменение цены не мгновенно — проверьте карточку через несколько минут (следующий fetch-wb покажет уже применившуюся цену).
-[push-wb-price: 10 с]
+[push-wb-price: 11 с]
 
 === Шаг 4б: цены Ozon = мастер (только расхождения) ===
 Пропускаю (no_price_sync в ozon_overrides.json): Ea888gen3
@@ -549,7 +559,7 @@ push-yandex-stock: принято Маркетом 127 из 127.
 
 === Шаг 7б: фото для Авито (photos_avito) ===
 Фото для Авито: товаров с актуальными ссылками — 86
-[attach-avito-photos: 21 с]
+[attach-avito-photos: 24 с]
 
 === Шаг 8: build-avito-catalog ===
 Готово: 102 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
@@ -574,7 +584,7 @@ push-yandex-stock: принято Маркетом 127 из 127.
   import import0_1.xml: success
   import offers0_1.xml: success
 push-tilda: готово. Проверьте результат на сайте и в 'Истории синхронизации' в Тильде.
-[push-tilda: 6 с]
+[push-tilda: 7 с]
 
 === Шаг 10: ревизия площадок (только чтение, на результат update-cards не влияет) ===
 === Ревизия: обновляю выгрузки с площадок ===
