@@ -584,6 +584,7 @@ HASHTAG_MAX_COUNT = 30
 HASHTAG_MARKETING_WORDS = {
     "оригинал", "оригинальный", "оригинальная", "лучший", "лучшая", "лучшие", "скидка", "скидки",
     "акция", "распродажа", "хит", "топ", "дешево", "дёшево", "новинка", "выгодно", "бесплатно",
+    "новый", "новая", "новое", "новые",  # BR_hashtag_marketing 2026-10-28: #новый_мехатроник_dq200
 }
 
 
@@ -606,7 +607,7 @@ def normalize_hashtags(value) -> str:
         tok = re.sub(r"[^\w]+", "_", tok, flags=re.UNICODE).strip("_")
         if not tok:
             continue
-        if tok.lower() in HASHTAG_MARKETING_WORDS:
+        if tok.lower() in HASHTAG_MARKETING_WORDS or any(w in HASHTAG_MARKETING_WORDS for w in tok.lower().split("_")):
             continue  # Ozon: BR_hashtag_marketing — «уберите рекламные выражения»
         tag = "#" + tok
         if len(tag) > HASHTAG_MAX_LEN:
