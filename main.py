@@ -1209,6 +1209,14 @@ def _cmd_update_cards_impl() -> int:
 
     step("Шаг 2: attach-photos-all", "attach-photos-all", cmd_attach_photos_all)
     step("Шаг 3: push-photos (Ozon + WB)", "push-photos", cmd_push_photos)
+
+    def _ozon_rich_step() -> int:
+        import ozon_rich
+
+        return ozon_rich.run(dry_run=False)
+
+    # После фото: rich ссылается на фото карточки на Ozon (метки {{img:N}} в data/ozon_rich/*.json).
+    step("Шаг 3б: Ozon rich-контент (data/ozon_rich, только изменённое)", "ozon-rich", _ozon_rich_step)
     step("Шаг 4: push-wb-price", "push-wb-price", cmd_push_wb_price)
     # Цены Ozon после перехода на «предельную цену» (окт. 2026) не всегда доезжают через карточку — добиваем напрямую (только расхождения).
     step("Шаг 4б: цены Ozon = мастер (только расхождения)", "sync-ozon-prices", lambda: cmd_sync_ozon_prices(False))
@@ -4362,6 +4370,7 @@ def main() -> int:
     parser.add_argument("--align-wb-prices", action="store_true", help="Вписать цену Ozon в колонку «Цена WB» мастера у всех расходящихся товаров (на WB пока ничего не уходит)")
     parser.add_argument("--audit-nightly", action="store_true", help="Ночная ревизия: как audit, но прогон краснеет, если появились НОВЫЕ важные расхождения (чтобы пришло письмо)")
     parser.add_argument("--direct-upload-draft", action="store_true", help="Загрузить кампанию data/direct/*.tsv в Директ ЧЕРНОВИКОМ (без модерации и запуска)")
+    parser.add_argument("--ozon-rich-dryrun", action="store_true", help="Rich-контент Ozon из data/ozon_rich/*.json: проверка и итоговый JSON -> data/ozon_rich_preview.txt (ничего не меняет)")
     parser.add_argument("--ozon-media-diag", action="store_true", help="Что Ozon хранит по видео/фото/rich-контенту карточек с видео в photos/ -> data/ozon_media_diag.txt (только чтение)")
     parser.add_argument("--ozon-content-rating", action="store_true", help="Контент-рейтинг карточек Ozon и чего не хватает -> data/ozon_content_rating.xlsx (только чтение)")
     parser.add_argument("--ozon-attr-plan", action="store_true", help="План заполнения характеристик Ozon для артикулов из data/ozon_attr_articles.txt -> data/ozon_attr_plan.xlsx (только чтение)")
@@ -4453,6 +4462,9 @@ def main() -> int:
     if args.direct_upload_draft:
         import direct_upload
         return direct_upload.cmd_direct_upload_draft()
+    if args.ozon_rich_dryrun:
+        import ozon_rich
+        return ozon_rich.cmd_ozon_rich_dryrun()
     if args.ozon_media_diag:
         import ozon_media_diag
         return ozon_media_diag.cmd_ozon_media_diag()

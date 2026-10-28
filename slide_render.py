@@ -1,6 +1,6 @@
 """Слайды карточек в оранжевом стиле (1200x1600, Inter, белые плашки) — как 0am325025l_2/_3.
 
-Запуск: python slide_render.py <папка-превью>. Блок __main__ — пример (01X301127C, 0am325025f, 0cw325025h, 28.10).
+Запуск: python slide_render.py <папка-превью> [boards]. Блок __main__ — пример (01X301127C, 0am325025f, 0cw325025h, 28.10).
 Правило владельца: на карточке одиночной детали — только сама деталь и «1 шт.», комплект не показываем."""
 import os, sys
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageChops
@@ -98,9 +98,9 @@ def slide_main(out, title, sub, part, p1, p2, o1, o2, scale=0.8):
     im.save(out)
 
 
-def slide_fits(out, part, name, scale=0.8):
+def slide_fits(out, part, name, scale=0.8, sub="Коробки DSG7 DQ200 (0AM, 0CW)"):
     im = bg(); dr = ImageDraw.Draw(im)
-    header(im, dr, "ПОДХОДИТ", "Коробки DSG7 DQ200 (0AM, 0CW)")
+    header(im, dr, "ПОДХОДИТ", sub)
     photo_frame(im, (55, 315, 510, 1025), part, scale)
     dr = ImageDraw.Draw(im)
     for i, b in enumerate(("Volkswagen", "Skoda", "Audi", "Seat")):
@@ -114,8 +114,73 @@ def slide_fits(out, part, name, scale=0.8):
     im.save(out)
 
 
+def board_cutout(art):
+    """Плата с фото _1 (одинаковая раскладка у 0AM927769D/F): без вставки с номером и стрелки."""
+    src = f"{REPO}/{art}/{art}_1.png"
+    im = Image.open(src).convert("RGB")
+    a = np.asarray(im).astype(int)
+    r, g, b = a[..., 0], a[..., 1], a[..., 2]
+    orange = (r > 195) & (r - b > 80) & (g > 60) & (g < 225) & (r - g > 25)   # фон _1 светлее к центру
+    white = (r > 225) & (g > 225) & (b > 225)
+    keep = ~(orange | white)
+    keep[:610, :420] = False          # вставка-лупа с номером
+    keep[:380, :] = False             # шапка и стрелка
+    keep[1205:, :] = False            # подписи внизу
+    m = Image.fromarray((keep * 255).astype("uint8"))
+    m = m.filter(ImageFilter.MinFilter(7)).filter(ImageFilter.MaxFilter(7)).filter(ImageFilter.GaussianBlur(1.2))
+    m = m.point(lambda v: 0 if v < 90 else v)
+    im.putalpha(m)
+    return im.crop(m.point(lambda v: 255 if v > 128 else 0).getbbox())
+
+
+def slide_board_install(out, art, code):
+    """Слайд «перед установкой»: номер на родной плате + клонирование + адаптация (сверено с источниками 28.10)."""
+    im = bg(); dr = ImageDraw.Draw(im)
+    header(im, dr, "ПЕРЕД УСТАНОВКОЙ", f"Электронная плата DSG7 DQ200 {code}")
+    # лупа с номером — кусок реального фото _1
+    lab = Image.open(f"{REPO}/{art}/{art}_1.png").convert("RGB").crop((104, 304, 398, 586))
+    fx0, fy0, fx1, fy1 = 60, 290, 585, 810
+    k = max((fx1 - fx0) / lab.width, (fy1 - fy0) / lab.height)
+    lab = lab.resize((int(lab.width * k), int(lab.height * k)), Image.LANCZOS)
+    lab = lab.crop(((lab.width - (fx1 - fx0)) // 2, (lab.height - (fy1 - fy0)) // 2,
+                    (lab.width - (fx1 - fx0)) // 2 + fx1 - fx0, (lab.height - (fy1 - fy0)) // 2 + fy1 - fy0))
+    m = Image.new("L", lab.size, 0); ImageDraw.Draw(m).rounded_rectangle((0, 0, lab.width - 1, lab.height - 1), 34, fill=255)
+    im.paste(lab, (fx0, fy0), m)
+    dr = ImageDraw.Draw(im)
+    dr.rounded_rectangle((fx0, fy0, fx1, fy1), 34, outline=WHITE, width=6)
+    plate(dr, (615, 290, 1140, 810))
+    for y, t, w, sz, col in ((345, "Сверьте номер", "b", 50, BLACK), (425, "на вашей родной", "r", 38, GREY),
+                             (475, "плате должен быть:", "r", 38, GREY), (580, code, "b", 64, BLACK),
+                             (680, " ".join((code[:3], code[3:6], code[6:9], code[9:])), "r", 40, GREY)):
+        text_c(dr, 877, y, t, fit(dr, t, w, sz, 460), col)
+    steps = (("1", "Клонирование данных", "со старой платы на новую"),
+             ("2", "Установка платы", "на гидравлическую часть мехатроника"),
+             ("3", "Адаптация коробки", "обязательна после установки"))
+    for i, (n, t1, t2) in enumerate(steps):
+        y = 850 + i * 180
+        plate(dr, (60, y, 1140, y + 155))
+        dr.ellipse((90, y + 30, 185, y + 125), fill=(255, 102, 0))
+        text_c(dr, 137.5, y + 45, n, font("b", 52), WHITE)
+        dr.text((215, y + 28), t1, font=fit(dr, t1, "b", 46, 890), fill=BLACK)
+        dr.text((215, y + 88), t2, font=fit(dr, t2, "r", 36, 890), fill=GREY)
+    plate(dr, (60, 1400, 1140, 1545), fill=None, outline=WHITE, width=4)
+    text_c(dr, W / 2, 1425, "Не уверены, какая плата нужна?", font("s", 42), WHITE)
+    text_c(dr, W / 2, 1483, "Пришлите VIN в вопросах — подберём", font("s", 42), WHITE)
+    im.save(out)
+
+
+def boards(out):
+    for art in ("0AM927769D", "0AM927769F"):
+        code = art
+        slide_board_install(f"{out}/{art}_2.png", art, code)
+        slide_fits(f"{out}/{art}_3.png", board_cutout(art), f"Если на родной плате номер {code}", 0.9,
+                   sub=f"DSG7 DQ200 · плата {code}")
+
+
 if __name__ == "__main__":
     out = sys.argv[1]; os.makedirs(out, exist_ok=True)
+    if len(sys.argv) > 2 and sys.argv[2] == "boards":   # платы 0AM927769D/F, 28.10
+        boards(out); print("ok"); sys.exit(0)
     bolt = cutout(f"{REPO}/01X301127C/01X301127C_1.png", (150, 600, 950, 1250))
     bolt = bolt.rotate(0, expand=True)
     slide_main(f"{out}/01X301127C_2.png", "БОЛТ МЕХАТРОНИКА", "Короткий · DSG7 DQ200 (0AM, 0CW)", bolt,
