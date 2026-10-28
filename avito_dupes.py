@@ -132,7 +132,7 @@ def cmd_avito_dupes() -> int:
     feed_avito = {}  # avito_id -> ad_id фида
     for r in rep:
         if r.get("avito_id") and r.get("ad_id"):
-            feed_avito[int(r["avito_id"])] = str(r["ad_id"])
+            feed_avito[int(r["avito_id"])] = re.sub(r"-av$", "", str(r["ad_id"]))
     items = avito_client.list_all_items(statuses=["active", "old", "rejected", "blocked", "removed"])
     print(f"Объявлений на Авито: {len(items)}; строк фида: {len(feed)}; привязок фида из отчёта: {len(feed_avito)}")
     stats = _stats([int(x["id"]) for x in items if x.get("id")])

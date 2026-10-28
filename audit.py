@@ -219,7 +219,7 @@ def load_avito_live(feed: Dict[str, dict]) -> Optional[Dict[str, dict]]:
     by_id = {}
     for r in (_json("avito_autoload.json") or {}).get("items", []):
         if r.get("avito_id") and r.get("ad_id"):
-            by_id[int(r["avito_id"])] = key(r["ad_id"])
+            by_id[int(r["avito_id"])] = key(re.sub(r"-av$", "", str(r["ad_id"])))
     out: Dict[str, dict] = {}
     unmatched = []
     duplicates = []  # второе (обычно старое ручное) объявление того же товара
@@ -250,7 +250,7 @@ def load_avito_autoload() -> Dict[str, List[str]]:
         # автоматически» — это предупреждения Авито, объявление при них публикуется
         msgs = [m for m in it.get("messages", []) if str(m.get("type", "")).lower() == "error"]
         if msgs:
-            out[key(it.get("ad_id"))] = [re.sub(r"<[^>]+>", " ", f"{m.get('title') or ''} {m.get('description') or ''}") for m in msgs]
+            out[key(re.sub(r"-av$", "", str(it.get("ad_id") or "")))] = [re.sub(r"<[^>]+>", " ", f"{m.get('title') or ''} {m.get('description') or ''}") for m in msgs]
     return out
 
 

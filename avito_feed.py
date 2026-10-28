@@ -380,6 +380,7 @@ def _load_avito_links() -> Dict[str, int]:
 
 
 _AVITO_LINKS = _load_avito_links()
+AVITO_LINK_SUFFIX = "-av"
 
 
 def build_avito_feed(
@@ -496,9 +497,14 @@ def build_avito_feed(
             continue
 
         ws.cell(row=out_row, column=COL_ADDRESS, value=seller_address)
-        ws.cell(row=out_row, column=COL_ID, value=offer_id)
         if _AVITO_LINKS.get(str(offer_id)):
+            # Авито не даёт перепривязать уже связанный Id строки (ошибка 1012) — поэтому у привязанного
+            # товара НОВЫЙ Id строки «артикул-av» + номер старого объявления. Старая фидовая строка исчезает
+            # из файла, и её объявление-дубль Авито закрывает. Ревизия/avito-dupes срезают «-av».
+            ws.cell(row=out_row, column=COL_ID, value=f"{offer_id}{AVITO_LINK_SUFFIX}")
             ws.cell(row=out_row, column=COL_AVITO_ID, value=int(_AVITO_LINKS[str(offer_id)]))
+        else:
+            ws.cell(row=out_row, column=COL_ID, value=offer_id)
         ws.cell(row=out_row, column=COL_CATEGORY, value=CATEGORY_VALUE)
         _desc = _clean_description(description_raw)
         try:
