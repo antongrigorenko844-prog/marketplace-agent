@@ -288,10 +288,14 @@ def build_price_audit() -> dict:
     if filled:
         wb.save(MASTER)
 
+    try:  # data/audit_ignore.json — «не продаём, не напоминать»: в ревизию цен не попадают
+        ign = {k.lower() for k in json.load(open(os.path.join(DATA, "audit_ignore.json"), encoding="utf-8")) if not k.startswith("_")}
+    except Exception:  # noqa: BLE001
+        ign = set()
     out = []
     for it in items:
         a, p, cost = it["art"].lower(), it["price"], it["cost"]
-        if not p:
+        if not p or a in ign:
             continue
         e, f = det.get(a), fin.get(a)
         # Ozon: на руки с одной продажи
