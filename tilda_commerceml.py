@@ -111,7 +111,11 @@ def load_items(catalog_path: str, photos_dir: str, raw_base_url: str, price_over
         )
     try:
         import exchange_items
-        items += exchange_items.site_items(items)  # карточки «по обмену» (только сайт)
+        for it in items:  # 29.10: обмен = возврат денег — пояснение в начале описания основной карточки
+            pre = exchange_items.site_prefix(it["id"])
+            if pre and pre not in (it.get("description") or ""):
+                it["description"] = pre + "<br/><br/>" + (it.get("description") or "")
+        items += exchange_items.site_items(items)  # карточки «по обмену» (выключены, site_card: false)
     except Exception as exc:  # noqa: BLE001 — обмен не должен ломать синхронизацию
         logger.warning("Карточки по обмену не собраны: %s", exc)
     return items, problems

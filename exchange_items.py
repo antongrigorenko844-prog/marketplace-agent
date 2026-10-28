@@ -76,3 +76,14 @@ def avito_note(offer_id: str, avito_price, path: str = PATH) -> str:
                 "Напишите «обмен» в сообщения."
             )
     return ""
+
+
+def site_prefix(offer_id: str, path: str = PATH) -> str:
+    """Строка в начало описания основной карточки на сайте: цена — без обмена, при обмене возвращаем деньги."""
+    for x in load(path):
+        if x["parent"] == offer_id:
+            disc = int(x.get("discount") or 0)
+            what = "с платой" if x.get("with_board") else "без платы"
+            return (f"💰 Цена указана без обмена.<br/>🔄 Пришлите свой старый мехатроник ({what}) — вернём {_fmt(disc)} ₽. "
+                    "Доставку старого оплачиваем мы. Принимаем, если он не ржавый, не был в воде и подлежит восстановлению.")
+    return ""
