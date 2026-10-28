@@ -4416,6 +4416,7 @@ def main() -> int:
     parser.add_argument("--fix-partnumbers", action="store_true", help="Исправить «номер детали» на 7 карточках Ozon/WB (fix_partnumbers.py)")
     parser.add_argument("--fix-partnumbers-dryrun", action="store_true", help="То же без отправки")
     parser.add_argument("--site-links", action="store_true", help="Собрать ссылки на товары сайта (data/site_links.json) для постов")
+    parser.add_argument("--direct-template-dump", action="store_true", help="Яндекс Директ: скачать Excel-шаблон Директа и вывести его структуру (только чтение)")
     parser.add_argument("--direct-lint", action="store_true", help="Яндекс Директ: проверить data/direct/*.tsv (мусорные фразы, конфликты минус-слов, длины)")
     parser.add_argument("--direct-check-links", action="store_true", help="Яндекс Директ: проверить страницы активной кампании (200, заглушки, якоря)")
     parser.add_argument("--direct-report", action="store_true", help="Яндекс Директ: сводка за вчера/7 дней в Telegram (YANDEX_DIRECT_TOKEN)")
@@ -4724,6 +4725,9 @@ def main() -> int:
     if args.fix_partnumbers or args.fix_partnumbers_dryrun:
         import fix_partnumbers
         return fix_partnumbers.cmd_fix_partnumbers(args.fix_partnumbers_dryrun)
+    if args.direct_template_dump:
+        import direct_tools
+        return direct_tools.cmd_direct_template_dump()
     if args.direct_lint:
         import direct_tools
         return direct_tools.cmd_direct_lint()

@@ -446,3 +446,37 @@ def cmd_direct_report() -> int:
     _tg_owner("\n".join(lines))
     print("\n".join(lines))
     return 0
+
+
+# ---------------------------------------------------------------------------
+# Excel-импорт кампаний (Инструменты → «Управление с помощью Excel»), пока нет доступа к API.
+TEMPLATE_URL = "https://doc-static.yandex.net/src/support/direct/ru/files/direct_example.xlsx"
+TEMPLATE_PATH = os.path.join("data", "direct", "direct_example.xlsx")
+
+
+def _ensure_template() -> str:
+    """Скачать официальный шаблон Директа один раз (из облака Яндекс недоступен — качаем в Actions)."""
+    if not os.path.exists(TEMPLATE_PATH):
+        r = requests.get(TEMPLATE_URL, timeout=60)
+        r.raise_for_status()
+        with open(TEMPLATE_PATH, "wb") as f:
+            f.write(r.content)
+        print(f"Шаблон скачан: {TEMPLATE_PATH} ({len(r.content)} байт)")
+    return TEMPLATE_PATH
+
+
+def cmd_direct_template_dump() -> int:
+    """Скачать шаблон и вывести его структуру (листы, первые строки) в лог — чтобы собрать файлы точно по нему."""
+    import openpyxl
+
+    path = _ensure_template()
+    wb = openpyxl.load_workbook(path)
+    for ws in wb.worksheets:
+        print(f"\n### Лист «{ws.title}»: {ws.max_row} строк × {ws.max_column} колонок; объединения: {list(ws.merged_cells.ranges)[:20]}")
+        for i, row in enumerate(ws.iter_rows(max_row=min(ws.max_row, 40), values_only=True), 1):
+            vals = ["" if v is None else str(v) for v in row]
+            while vals and vals[-1] == "":
+                vals.pop()
+            if vals:
+                print(f"{i:>3}: " + " | ".join(vals))
+    return 0
