@@ -4369,6 +4369,7 @@ def main() -> int:
     parser.add_argument("--align-wb-prices-dryrun", action="store_true", help="Показать, у каких товаров цена WB отличается от Ozon и какой станет (мастер не меняется)")
     parser.add_argument("--align-wb-prices", action="store_true", help="Вписать цену Ozon в колонку «Цена WB» мастера у всех расходящихся товаров (на WB пока ничего не уходит)")
     parser.add_argument("--audit-nightly", action="store_true", help="Ночная ревизия: как audit, но прогон краснеет, если появились НОВЫЕ важные расхождения (чтобы пришло письмо)")
+    parser.add_argument("--direct-access-check", action="store_true", help="Яндекс Директ: одобрен ли доступ к API (только чтение)")
     parser.add_argument("--direct-upload-draft", action="store_true", help="Загрузить кампанию data/direct/*.tsv в Директ ЧЕРНОВИКОМ (без модерации и запуска)")
     parser.add_argument("--ozon-rich-dryrun", action="store_true", help="Rich-контент Ozon из data/ozon_rich/*.json: проверка и итоговый JSON -> data/ozon_rich_preview.txt (ничего не меняет)")
     parser.add_argument("--ozon-media-diag", action="store_true", help="Что Ozon хранит по видео/фото/rich-контенту карточек с видео в photos/ -> data/ozon_media_diag.txt (только чтение)")
@@ -4459,6 +4460,9 @@ def main() -> int:
         return cmd_fix_spu(args.article, dry_run=False)
     if args.audit:
         return cmd_audit(refresh=True)
+    if args.direct_access_check:
+        import direct_upload
+        return direct_upload.cmd_direct_access_check()
     if args.direct_upload_draft:
         import direct_upload
         return direct_upload.cmd_direct_upload_draft()

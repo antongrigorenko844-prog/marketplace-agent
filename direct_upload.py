@@ -12,7 +12,8 @@ direct-upload-draft: загрузить кампанию из data/direct/<фа�
   - Если кампания с таким названием уже есть в аккаунте — стоп (дубль не создаётся).
   - Итог и номера созданного -> data/direct_upload_result.txt и data/direct_state.json («draft»).
 
-Файл берётся из data/direct/upload.txt (первая строка), по умолчанию dq200_landing.tsv.
+Файлы — из data/direct/upload.txt (по одному в строке), по умолчанию dq200_landing.tsv и dq200_errors.tsv.
+direct-access-check — только проверка, одобрен ли доступ к API (ничего не создаёт).
 """
 import csv
 import json
@@ -112,9 +113,30 @@ def _state() -> dict:
         return {}
 
 
+def cmd_direct_access_check() -> int:
+    """Только чтение: одобрен ли доступ к API Директа и какие кампании уже есть в аккаунте."""
+    try:
+        if not os.getenv("YANDEX_DIRECT_TOKEN"):
+            say("Нет секрета YANDEX_DIRECT_TOKEN.")
+            return 1
+        camps = call("campaigns", "get", {"SelectionCriteria": {}, "FieldNames": ["Id", "Name", "State", "Status"]}).get("Campaigns") or []
+        say(f"{date.today()}: доступ к API Директа ЕСТЬ. Кампаний в аккаунте: {len(camps)}" +
+            "".join(f"\n  - {c['Name']} (№{c['Id']}, {c.get('State')}/{c.get('Status')})" for c in camps))
+        return 0
+    except DirectError as exc:
+        say(f"{date.today()}: доступа к API Директа НЕТ: {exc}")
+        return 0
+    finally:
+        os.makedirs(DATA, exist_ok=True)
+        open(RESULT, "w", encoding="utf-8").write("\n".join(_log) + "\n")
+
+
 def cmd_direct_upload_draft() -> int:
     try:
-        return _run()
+        rc = 0
+        for fn in _upload_files():
+            rc = max(rc, _run(fn))
+        return rc
     except DirectError as exc:
         say(f"ОСТАНОВЛЕНО: {exc}")
         if ": 58 " in str(exc):   # заявка на доступ к API ещё не одобрена — это ожидание, а не сбой
@@ -126,15 +148,19 @@ def cmd_direct_upload_draft() -> int:
         open(RESULT, "w", encoding="utf-8").write("\n".join(_log) + "\n")
 
 
-def _run() -> int:
+def _upload_files() -> List[str]:
+    """Файлы из data/direct/upload.txt (по одному в строке); по умолчанию обе кампании посадочной."""
+    up = os.path.join(DIRECT_DIR, "upload.txt")
+    files = []
+    if os.path.exists(up):
+        files = [l.strip() for l in open(up, encoding="utf-8") if l.strip() and not l.startswith("#")]
+    return files or ["dq200_landing.tsv", "dq200_errors.tsv"]
+
+
+def _run(fn: str) -> int:
     if not os.getenv("YANDEX_DIRECT_TOKEN"):
         say("Нет секрета YANDEX_DIRECT_TOKEN — загрузить нечем.")
         return 1
-    fn = "dq200_landing.tsv"
-    up = os.path.join(DIRECT_DIR, "upload.txt")
-    if os.path.exists(up):
-        first = next((l.strip() for l in open(up, encoding="utf-8") if l.strip() and not l.startswith("#")), "")
-        fn = first or fn
     path = os.path.join(DIRECT_DIR, fn)
     name = CAMPAIGN_NAMES.get(fn, "Мехатроники DQ200 — " + fn)
     camp_minus, groups = read_groups(path)
@@ -171,7 +197,8 @@ def _run() -> int:
     cid = _results(call("campaigns", "add", {"Campaigns": [camp]}), "AddResults", "кампания")[0]
     say(f"Создана кампания «{name}» №{cid} (черновик)")
     st = _state()
-    st["draft"] = {"file": fn, "campaign_id": cid, "name": name, "groups": {}}
+    st.setdefault("drafts", {})[fn] = {"campaign_id": cid, "name": name, "groups": {}}
+    st["draft"] = st["drafts"][fn]
 
     bid = BID_RUB * 1_000_000
     n_kw = n_ads = 0
