@@ -293,12 +293,22 @@ def campaign_urls(paths: Optional[List[str]] = None) -> Dict[str, List[str]]:
 
 def check_page(url: str, anchors: List[str]) -> List[str]:
     probs = []
-    try:
-        r = requests.get(url, headers=UA, timeout=30, allow_redirects=True)
-    except requests.RequestException as exc:
-        return [f"не открывается: {exc.__class__.__name__}"]
+    # Тильда иногда отдаёт роботам (запросы с серверов GitHub) разовый 402/5xx, хотя подписка оплачена
+    # и в браузере страница открывается. Поэтому повторяем 3 раза с паузой и ругаемся, только если не прошло.
+    r = None
+    for i in range(3):
+        try:
+            r = requests.get(url, headers=UA, timeout=30, allow_redirects=True)
+        except requests.RequestException as exc:
+            if i == 2:
+                return [f"не открывается: {exc.__class__.__name__}"]
+            time.sleep(20)
+            continue
+        if r.status_code == 200 or r.status_code == 404:
+            break
+        time.sleep(20)
     if r.status_code != 200:
-        return [f"ответ {r.status_code}" + (" (подписка Тильды не оплачена?)" if r.status_code == 402 else "")]
+        return [f"ответ {r.status_code}" + (" (Тильда 3 раза подряд не отдала страницу — проверьте её в браузере)" if r.status_code == 402 else "")]
     html = r.text
     low = html.lower()
     for ph in PLACEHOLDERS:
