@@ -1,9 +1,33 @@
 {
-  "_comment": "Карточки «по обмену» — ТОЛЬКО на сайте (Тильда). Цена = цена сайта основного товара минус скидка; остаток, фото, описание — как у основного товара. На Авито отдельных объявлений НЕ делаем (риск блокировки за дубли) — там условия обмена дописываются в текст основного объявления (avito_feed.py). Чтобы добавить/убрать обменную карточку — добавьте/удалите строку здесь.",
-  "items": [
-    {"id": "0am325025H-obmen",   "parent": "0am325025H",   "discount": 4000, "with_board": false},
-    {"id": "0am325025x-obmen",   "parent": "0am325025x",   "discount": 4000, "with_board": false},
-    {"id": "0am325025HX-obmen",  "parent": "0am325025HX",  "discount": 6000, "with_board": true},
-    {"id": "0am325025HXF-obmen", "parent": "0am325025HXF", "discount": 6000, "with_board": true}
-  ]
+ "_comment": "Обмен мехатроников. 29.10.2026 (решение владельца): одна карточка по обычной цене, обмен = возврат 4 000 / 6 000 ₽ после получения старого. site_card: false — отдельная карточка «по обмену» на сайт НЕ выгружается (true — вернуть). На Авито — абзац про обмен в тексте основного объявления.",
+ "items": [
+  {
+   "id": "0am325025H-obmen",
+   "parent": "0am325025H",
+   "discount": 4000,
+   "with_board": false,
+   "site_card": false
+  },
+  {
+   "id": "0am325025x-obmen",
+   "parent": "0am325025x",
+   "discount": 4000,
+   "with_board": false,
+   "site_card": false
+  },
+  {
+   "id": "0am325025HX-obmen",
+   "parent": "0am325025HX",
+   "discount": 6000,
+   "with_board": true,
+   "site_card": false
+  },
+  {
+   "id": "0am325025HXF-obmen",
+   "parent": "0am325025HXF",
+   "discount": 6000,
+   "with_board": true,
+   "site_card": false
+  }
+ ]
 }
