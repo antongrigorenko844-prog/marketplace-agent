@@ -501,9 +501,8 @@ def tsv_to_xlsx(tsv_path: str, out_path: str) -> Tuple[int, int]:
 
     rows = read_tsv(tsv_path)
     wb = openpyxl.load_workbook(_ensure_template())
-    for name in wb.sheetnames:
-        if name != "Тексты":
-            del wb[name]          # справочные листы Директу не нужны, файл в 50 раз меньше
+    # Справочные листы НЕ удалять: без них Директ пишет «Файл содержит слишком мало вкладок»
+    # и не находит колонки «Заголовок 1»/«Текст» (проверено загрузкой 29.10).
     ws = wb["Тексты"]
     col = {}
     for r in (10, 11):
