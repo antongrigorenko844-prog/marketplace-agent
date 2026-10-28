@@ -4457,6 +4457,7 @@ def main() -> int:
         return ozon_attrs.cmd_apply()
     if args.avito_dupes:
         import avito_dupes
+        _audit_fetch_avito()  # свежий отчёт автозагрузки + список объявлений (только чтение)
         return avito_dupes.cmd_avito_dupes()
     if args.audit_offline:
         return cmd_audit(refresh=False)
