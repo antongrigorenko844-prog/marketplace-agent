@@ -46,12 +46,13 @@ def cmd_ozon_media_diag() -> int:
         inf = infos.get(a) or {}
         vids = []
         for ca in at.get("complex_attributes") or []:
-            for x in ca.get("attributes") or []:
+            # в /v4/product/info/attributes complex-атрибуты плоские: {id, complex_id, values}
+            for x in [ca] + list(ca.get("attributes") or []):
                 if int(x.get("id", 0)) == VIDEO_URL_ID:
                     vids += [str(v.get("value")) for v in x.get("values") or []]
         rich = next((x for x in at.get("attributes") or [] if int(x.get("id", 0)) == RICH_ID), None)
         rich_len = len(json.dumps(rich.get("values"), ensure_ascii=False)) if rich else 0
-        imgs = at.get("images") or inf.get("images") or []
+        imgs = list(at.get("images") or []) + ([at["primary_image"]] if at.get("primary_image") else [])
         lines.append("")
         lines.append(f"== {a}: найден на Ozon: {'да' if at else 'НЕТ'}")
         lines.append(f"   фото у Ozon: {len(imgs)}; видео (21841): {len(vids)} {'; '.join(v.split('/')[-1] for v in vids)[:200]}")
