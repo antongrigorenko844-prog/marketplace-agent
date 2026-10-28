@@ -180,7 +180,8 @@ def lint_file(path: str) -> Tuple[List[str], List[str]]:
             warns.append(f"{where}: дубль фразы «{seen[key]}»")
         seen[key] = core
         content = [t for t in toks if t.lstrip("+!") not in STOPWORDS]
-        is_code = len(content) == 1 and re.search(r"\d", content[0]) and re.search(r"[a-zа-я]", content[0])
+        is_code = len(content) == 1 and re.search(r"\d", content[0]) and (
+            re.search(r"[a-zа-я]", content[0]) or re.fullmatch(r"\d{5,6}", content[0].lstrip("+!")))  # 01315, 006079
         if len(content) <= 1 and not is_code:
             errors.append(f"{where}: фраза из одного слова — соберёт весь интернет (так «китайский» дал 9 млн показов в прогнозе)")
         elif not any(a in low for a in ANCHORS):
