@@ -113,6 +113,9 @@ def cmd_direct_upload_draft() -> int:
         return _run()
     except DirectError as exc:
         say(f"ОСТАНОВЛЕНО: {exc}")
+        if ": 58 " in str(exc):   # заявка на доступ к API ещё не одобрена — это ожидание, а не сбой
+            say("Ждём одобрения заявки на доступ к API Директа — повторю позже.")
+            return 0
         return 1
     finally:
         os.makedirs(DATA, exist_ok=True)
