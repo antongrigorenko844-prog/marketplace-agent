@@ -273,6 +273,12 @@ def cmd_direct_lint(paths: Optional[List[str]] = None) -> int:
                           + (f"\n… и ещё {len(errs) - 15}" if len(errs) > 15 else ""))
     if report and os.getenv("GITHUB_ACTIONS"):
         _tg_owner("Директ: файл импорта не прошёл проверку — не загружайте его, пока не поправим.\n\n" + "\n\n".join(report))
+    if not bad:
+        # .xlsx для загрузки через Excel всегда собирается из .tsv заново — правим только .tsv
+        try:
+            cmd_direct_xlsx([p for p in paths if os.path.exists(TEMPLATE_PATH) or os.getenv("GITHUB_ACTIONS")])
+        except Exception as exc:  # noqa: BLE001
+            print(f"direct-xlsx: не собрал — {exc}")
     return 1 if bad else 0
 
 
@@ -479,4 +485,76 @@ def cmd_direct_template_dump() -> int:
                 vals.pop()
             if vals:
                 print(f"{i:>3}: " + " | ".join(vals))
+    return 0
+
+
+# Решение владельца 28.10: показы по России без Чечни; ставка по умолчанию — потолок 60 ₽.
+XLSX_REGION_EXCLUDE = ["Чеченская Республика"]
+XLSX_DEFAULT_BID = 60
+XLSX_CAMPAIGN_TYPE = "Единая перфоманс-кампания"   # единственный тип текстовых кампаний в шаблоне Excel
+
+
+def tsv_to_xlsx(tsv_path: str, out_path: str) -> Tuple[int, int]:
+    """Собрать файл для «Управление с помощью Excel → Создать новую кампанию» из data/direct/*.tsv
+    строго по официальному шаблону (лист «Тексты», шапка строк 10–11, данные с 12-й строки)."""
+    import openpyxl
+
+    rows = read_tsv(tsv_path)
+    wb = openpyxl.load_workbook(_ensure_template())
+    for name in wb.sheetnames:
+        if name != "Тексты":
+            del wb[name]          # справочные листы Директу не нужны, файл в 50 раз меньше
+    ws = wb["Тексты"]
+    col = {}
+    for r in (10, 11):
+        for c in ws[r]:
+            if isinstance(c.value, str) and c.value.strip():
+                col.setdefault(c.value.strip(), c.column)
+    # чистим пример (строки 12+)
+    for r in range(12, ws.max_row + 1):
+        for c in ws[r]:
+            c.value = None
+
+    camp_minus = next((x.get("Минус-фразы на кампанию", "") for x in rows if x.get("Минус-фразы на кампанию")), "")
+    ws["E7"] = XLSX_CAMPAIGN_TYPE
+    ws["E8"] = None           # № заказа — Директ присвоит сам
+    ws["H8"] = "RUB"
+    ws["E9"] = camp_minus
+
+    copy_cols = ["Доп. объявление группы", "Название группы", "Номер группы", "Фраза (с минус-словами)",
+                 "Минус-фразы на группу", "Заголовок 1", "Заголовок 2", "Текст 1", "Ссылка",
+                 "Отображаемая ссылка", "Заголовки быстрых ссылок", "Описания быстрых ссылок",
+                 "Адреса быстрых ссылок"]
+    missing = [k for k in copy_cols + ["Тип объявления", "Регион", "Ставка"] if k not in col]
+    if missing:
+        raise RuntimeError(f"В шаблоне Директа нет колонок: {missing}")
+    groups = set()
+    for i, src in enumerate(rows):
+        r = 12 + i
+        for k in copy_cols:
+            v = (src.get(k) or "").strip()
+            if k == "Номер группы":
+                v = int(v)
+            ws.cell(r, col[k], v if v != "" else None)
+        ws.cell(r, col["Тип объявления"], "Комбинаторное")
+        if src.get("Доп. объявление группы", "-").strip() == "-":
+            reg = (src.get("Регион") or "Россия").strip()
+            for ex in XLSX_REGION_EXCLUDE:
+                if ex not in reg:
+                    reg += f", -{ex}"
+            ws.cell(r, col["Регион"], reg)
+            bid = (src.get("Ставка") or "").strip()
+            ws.cell(r, col["Ставка"], int(bid) if bid else XLSX_DEFAULT_BID)
+        groups.add(src.get("Номер группы"))
+    wb.save(out_path)
+    return len(rows), len(groups)
+
+
+def cmd_direct_xlsx(paths: Optional[List[str]] = None) -> int:
+    """data/direct/<имя>.tsv → data/direct/<имя>.xlsx (для ручной загрузки в кабинет, пока нет API)."""
+    paths = paths or [os.path.join("data", "direct", n) for n in ("dq200_landing.tsv", "dq200_errors.tsv")]
+    for p in paths:
+        out = p[:-4] + ".xlsx"
+        n, g = tsv_to_xlsx(p, out)
+        print(f"{out}: {n} фраз, {g} групп")
     return 0
