@@ -115,8 +115,9 @@ def build(fin: dict, rets: dict) -> list:
                if not k.startswith("_")}
     except Exception:  # noqa: BLE001
         ign = set()
-    fees = {k.lower(): v for k, v in (fin.get("fees_by_type") or {}).items()}
-    reasons = {k.lower(): v for k, v in (rets.get("by_offer") or {}).items()}
+    # ключи точные: EA888gen3 и Ea888gen3 — разные товары, отличаются только регистром
+    fees = fin.get("fees_by_type") or {}
+    reasons = rets.get("by_offer") or {}
     rows = []
     for oid, it in (fin.get("items") or {}).items():
         k = oid.lower()
@@ -128,14 +129,14 @@ def build(fin: dict, rets: dict) -> list:
         rev = max(float(it.get("revenue") or 0), 0.0)
         tax = rev * price_audit.TAX
         profit = float(it.get("net") or 0) - tax - (cost or 0) * units
-        f = fees.get(k, {})
+        f = fees.get(oid, {})
         paid = sum(v for n, v in f.items() if n in PAID_PROGRAMS)
         rows.append({"offer_id": oid, "name": m.get("name", ""), "price": m.get("price"), "cost": cost,
                      "sold": it.get("sold", 0), "returned": it.get("returned", 0), "revenue": rev,
                      "commission": it.get("commission", 0), "logistics": it.get("logistics", 0),
                      "services": it.get("services", 0), "paid_programs": round(paid, 2),
                      "tax": round(tax, 2), "profit": round(profit, 2), "no_cost": cost is None,
-                     "fees": f, "reasons": reasons.get(k, {})})
+                     "fees": f, "reasons": reasons.get(oid, {})})
     rows.sort(key=lambda r: r["profit"])
     return rows
 
