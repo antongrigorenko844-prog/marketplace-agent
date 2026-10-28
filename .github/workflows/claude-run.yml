@@ -26,7 +26,7 @@ jobs:
       # data/ozon_attr_plan.xlsx, где владелец/Claude по его «да» поставили «да»; не больше 10 карточек.
       - id: p
         run: |
-          ALLOWED="catalog-audit diag-ozon-promos diag-ozon-analytics diag-ozon-orders diag-ozon-prices diag-ozon-product ozon-status price-audit price-preview reviews-check ozon-finance audit-offline avito-dupes ozon-content-rating ozon-attr-plan ozon-attr-apply direct-lint direct-check-links direct-report"
+          ALLOWED="catalog-audit diag-ozon-promos diag-ozon-analytics diag-ozon-orders diag-ozon-prices diag-ozon-product ozon-status price-audit price-preview reviews-check ozon-finance audit-offline avito-dupes ozon-content-rating ozon-media-diag ozon-attr-plan ozon-attr-apply direct-lint direct-check-links direct-report"
           CMD=$(head -n1 data/run_request.txt | tr -d '[:space:]')
           for a in $ALLOWED; do [ "$a" = "$CMD" ] && echo "cmd=$CMD" >> "$GITHUB_OUTPUT" && exit 0; done
           echo "Команда '$CMD' не из списка разрешённых (только чтение): $ALLOWED"; exit 1

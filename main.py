@@ -4361,6 +4361,7 @@ def main() -> int:
     parser.add_argument("--align-wb-prices-dryrun", action="store_true", help="Показать, у каких товаров цена WB отличается от Ozon и какой станет (мастер не меняется)")
     parser.add_argument("--align-wb-prices", action="store_true", help="Вписать цену Ozon в колонку «Цена WB» мастера у всех расходящихся товаров (на WB пока ничего не уходит)")
     parser.add_argument("--audit-nightly", action="store_true", help="Ночная ревизия: как audit, но прогон краснеет, если появились НОВЫЕ важные расхождения (чтобы пришло письмо)")
+    parser.add_argument("--ozon-media-diag", action="store_true", help="Что Ozon хранит по видео/фото/rich-контенту карточек с видео в photos/ -> data/ozon_media_diag.txt (только чтение)")
     parser.add_argument("--ozon-content-rating", action="store_true", help="Контент-рейтинг карточек Ozon и чего не хватает -> data/ozon_content_rating.xlsx (только чтение)")
     parser.add_argument("--ozon-attr-plan", action="store_true", help="План заполнения характеристик Ozon для артикулов из data/ozon_attr_articles.txt -> data/ozon_attr_plan.xlsx (только чтение)")
     parser.add_argument("--ozon-attr-apply", action="store_true", help="Отправить на Ozon ТОЛЬКО строки плана с «да» (меняет только эти характеристики)")
@@ -4446,6 +4447,9 @@ def main() -> int:
         return cmd_fix_spu(args.article, dry_run=False)
     if args.audit:
         return cmd_audit(refresh=True)
+    if args.ozon_media_diag:
+        import ozon_media_diag
+        return ozon_media_diag.cmd_ozon_media_diag()
     if args.ozon_content_rating:
         import ozon_content_rating
         return ozon_content_rating.cmd_ozon_content_rating()
