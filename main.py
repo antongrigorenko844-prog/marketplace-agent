@@ -1673,6 +1673,11 @@ def cmd_push_new_product_all() -> int:
         with open(wb_src_path, "r", encoding="utf-8") as f:
             wb_data = json.load(f)
         wb_edits = new_product.to_wb_edits(edits)
+        # Повторный запуск (например, после ошибки Ozon) не должен создавать на WB дубль карточки.
+        _wb_have = {str(c.get("vendorCode", "")).strip().lower() for c in wb_data.get("cards", [])}
+        for _vc in [k for k in wb_edits if k.strip().lower() in _wb_have]:
+            print(f"  WB: {_vc} уже есть на WB — пропускаю создание.")
+            wb_edits.pop(_vc)
         barcodes = wb_client.generate_barcodes(max(len(wb_edits), 1))
         groups = wb_new_products.build_new_card_groups(wb_data, wb_edits, barcodes)
         if not groups:
