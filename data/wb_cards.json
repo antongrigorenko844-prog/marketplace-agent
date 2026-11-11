@@ -1,6 +1,55 @@
 {
   "cards": [
     {
+      "nmID": 2239283169,
+      "imtID": 4492482705,
+      "nmUUID": "01a1cbd3-d6fb-79e6-b04e-2d884372f0fc",
+      "subjectID": 7845,
+      "subjectName": "Коробки передач",
+      "vendorCode": "chip-02e927770",
+      "brand": "",
+      "title": "Чип электронной платы мехатроника 02E927770AL/AM/AT",
+      "description": "Новый чип электронной платы мехатроника DSG6 DQ250 02E927770AL / 02E927770AM / 02E927770AT для автомобилей концерна VAG: Volkswagen, Audi, Skoda, Seat с роботизированной коробкой передач DSG 6 (DQ250, 02E).<br/><br/>Заводское производство, промышленный выпуск — серийная плата, не кустарная сборка.<br/><br/>Комплектация: чип (плата) — 1 шт.<br/><br/>Перед покупкой сверьте номер на вашей родной плате: 02E927770AL, 02E927770AM или 02E927770AT.<br/><br/>Не уверены, какой чип нужен? Напишите VIN в вопросах — подберём.",
+      "needKiz": false,
+      "kizMarked": false,
+      "dimensions": {
+        "width": 30,
+        "height": 30,
+        "length": 32,
+        "weightBrutto": 10,
+        "isValid": true
+      },
+      "sizes": [
+        {
+          "chrtID": 3995594186,
+          "techSize": "0",
+          "wbSize": "",
+          "skus": [
+            "2061688959378"
+          ]
+        }
+      ],
+      "createdAt": "2026-11-11T18:17:01.089345Z",
+      "updatedAt": "2026-11-11T18:17:02.089345Z",
+      "documents": {
+        "overallVerdict": {
+          "isFullyChecked": true,
+          "status": 2,
+          "reason": "documents_missing",
+          "createdAt": "2026-11-11T21:17:03.591188+03:00"
+        },
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false
+      }
+    },
+    {
       "nmID": 2238877298,
       "imtID": 4492091442,
       "nmUUID": "01a1cb91-1594-797f-8a50-031283ec75bc",
@@ -1342,6 +1391,11 @@
       },
       "characteristics": [
         {
+          "id": 90673,
+          "name": "Ширина предмета",
+          "value": 30
+        },
+        {
           "id": 5522881,
           "name": "Артикул производителя",
           "value": [
@@ -1352,11 +1406,6 @@
           "id": 90630,
           "name": "Высота предмета",
           "value": 5
-        },
-        {
-          "id": 90673,
-          "name": "Ширина предмета",
-          "value": 30
         }
       ],
       "sizes": [
@@ -1882,6 +1931,16 @@
       },
       "characteristics": [
         {
+          "id": 16532,
+          "name": "Марка автомобиля",
+          "value": [
+            "volkswagen",
+            "audi",
+            "skoda",
+            "seat"
+          ]
+        },
+        {
           "id": 5522881,
           "name": "Артикул производителя",
           "value": [
@@ -1892,16 +1951,6 @@
           "id": 89008,
           "name": "Вес товара без упаковки (г)",
           "value": 40
-        },
-        {
-          "id": 16532,
-          "name": "Марка автомобиля",
-          "value": [
-            "volkswagen",
-            "audi",
-            "skoda",
-            "seat"
-          ]
         }
       ],
       "sizes": [
@@ -2005,6 +2054,11 @@
       },
       "characteristics": [
         {
+          "id": 90630,
+          "name": "Высота предмета",
+          "value": 40
+        },
+        {
           "id": 90673,
           "name": "Ширина предмета",
           "value": 120
@@ -2015,11 +2069,6 @@
           "value": [
             "0AM325025"
           ]
-        },
-        {
-          "id": 90630,
-          "name": "Высота предмета",
-          "value": 40
         }
       ],
       "sizes": [
@@ -2191,6 +2240,11 @@
       },
       "characteristics": [
         {
+          "id": 90673,
+          "name": "Ширина предмета",
+          "value": 80
+        },
+        {
           "id": 5522881,
           "name": "Артикул производителя",
           "value": [
@@ -2201,11 +2255,6 @@
           "id": 90630,
           "name": "Высота предмета",
           "value": 20
-        },
-        {
-          "id": 90673,
-          "name": "Ширина предмета",
-          "value": 80
         }
       ],
       "sizes": [
@@ -2397,11 +2446,6 @@
       },
       "characteristics": [
         {
-          "id": 90673,
-          "name": "Ширина предмета",
-          "value": 25
-        },
-        {
           "id": 5522881,
           "name": "Артикул производителя",
           "value": [
@@ -2417,6 +2461,11 @@
           "id": 90630,
           "name": "Высота предмета",
           "value": 30
+        },
+        {
+          "id": 90673,
+          "name": "Ширина предмета",
+          "value": 25
         }
       ],
       "sizes": [
@@ -3651,17 +3700,17 @@
       },
       "characteristics": [
         {
-          "id": 5522881,
-          "name": "Артикул производителя",
-          "value": [
-            "0BH325183B"
-          ]
-        },
-        {
           "id": 378533,
           "name": "Комплектация",
           "value": [
             "Серебристый Корпус фильтра + кольцо"
+          ]
+        },
+        {
+          "id": 5522881,
+          "name": "Артикул производителя",
+          "value": [
+            "0BH325183B"
           ]
         }
       ],
@@ -5548,74 +5597,6 @@
       }
     },
     {
-      "nmID": 1949668977,
-      "imtID": 4328758088,
-      "nmUUID": "01a15f2a-7386-7896-8315-b502f01385ca",
-      "subjectID": 5823,
-      "subjectName": "Сальники штока сцепления",
-      "vendorCode": "remkomplekt-shtokov-orig",
-      "brand": "Нет бренда",
-      "title": "Оригинальный ремкомплект 2 штоков VAG пыльники DSG7 DQ200",
-      "description": "Оригинальный (VAG) ремкомплект на оба штока мехатроника DSG7 DQ200: 2 пыльника + 2 сальника + 2 крышки. 0AM/0CW, Volkswagen/Škoda/Audi/Seat. Комплект на 2 штока полностью, оригинал. Оригинал VAG вместо аналога — для тех, кто хочет исключить повторный ремонт.",
-      "needKiz": false,
-      "kizMarked": false,
-      "photos": [
-        {
-          "big": "https://basket-53.wbbasket.ru/vol19496/part1949668/1949668977/images/big/1.webp",
-          "c246x328": "https://basket-53.wbbasket.ru/vol19496/part1949668/1949668977/images/c246x328/1.webp",
-          "c516x688": "https://basket-53.wbbasket.ru/vol19496/part1949668/1949668977/images/c516x688/1.webp",
-          "hq": "https://basket-53.wbbasket.ru/vol19496/part1949668/1949668977/images/hq/1.webp",
-          "square": "https://basket-53.wbbasket.ru/vol19496/part1949668/1949668977/images/square/1.webp",
-          "tm": "https://basket-53.wbbasket.ru/vol19496/part1949668/1949668977/images/tm/1.webp"
-        }
-      ],
-      "dimensions": {
-        "width": 5,
-        "height": 4,
-        "length": 5,
-        "weightBrutto": 0.5,
-        "isValid": true
-      },
-      "characteristics": [
-        {
-          "id": 5522881,
-          "name": "Артикул производителя",
-          "value": [
-            "remkomplekt-shtokov-orig"
-          ]
-        }
-      ],
-      "sizes": [
-        {
-          "chrtID": 3423010789,
-          "techSize": "0",
-          "wbSize": "",
-          "skus": [
-            "2059305375151"
-          ]
-        }
-      ],
-      "createdAt": "2026-10-21T15:53:04.499504Z",
-      "updatedAt": "2026-10-21T16:50:02.932469Z",
-      "documents": {
-        "overallVerdict": {
-          "isFullyChecked": true,
-          "status": 2,
-          "reason": "documents_missing",
-          "createdAt": "2026-10-21T18:53:06.546649+03:00"
-        },
-        "issues": [
-          {
-            "code": "document_missing",
-            "documentTypes": [
-              1
-            ]
-          }
-        ],
-        "excludeDocuments": false
-      }
-    },
-    {
       "nmID": 1949859036,
       "imtID": 4328832757,
       "nmUUID": "01a15f35-9f8a-7717-ac2b-62809bf458b7",
@@ -5671,6 +5652,74 @@
           "status": 2,
           "reason": "documents_missing",
           "createdAt": "2026-10-21T19:05:19.848936+03:00"
+        },
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false
+      }
+    },
+    {
+      "nmID": 1949668977,
+      "imtID": 4328758088,
+      "nmUUID": "01a15f2a-7386-7896-8315-b502f01385ca",
+      "subjectID": 5823,
+      "subjectName": "Сальники штока сцепления",
+      "vendorCode": "remkomplekt-shtokov-orig",
+      "brand": "Нет бренда",
+      "title": "Оригинальный ремкомплект 2 штоков VAG пыльники DSG7 DQ200",
+      "description": "Оригинальный (VAG) ремкомплект на оба штока мехатроника DSG7 DQ200: 2 пыльника + 2 сальника + 2 крышки. 0AM/0CW, Volkswagen/Škoda/Audi/Seat. Комплект на 2 штока полностью, оригинал. Оригинал VAG вместо аналога — для тех, кто хочет исключить повторный ремонт.",
+      "needKiz": false,
+      "kizMarked": false,
+      "photos": [
+        {
+          "big": "https://basket-53.wbbasket.ru/vol19496/part1949668/1949668977/images/big/1.webp",
+          "c246x328": "https://basket-53.wbbasket.ru/vol19496/part1949668/1949668977/images/c246x328/1.webp",
+          "c516x688": "https://basket-53.wbbasket.ru/vol19496/part1949668/1949668977/images/c516x688/1.webp",
+          "hq": "https://basket-53.wbbasket.ru/vol19496/part1949668/1949668977/images/hq/1.webp",
+          "square": "https://basket-53.wbbasket.ru/vol19496/part1949668/1949668977/images/square/1.webp",
+          "tm": "https://basket-53.wbbasket.ru/vol19496/part1949668/1949668977/images/tm/1.webp"
+        }
+      ],
+      "dimensions": {
+        "width": 5,
+        "height": 4,
+        "length": 5,
+        "weightBrutto": 0.5,
+        "isValid": true
+      },
+      "characteristics": [
+        {
+          "id": 5522881,
+          "name": "Артикул производителя",
+          "value": [
+            "remkomplekt-shtokov-orig"
+          ]
+        }
+      ],
+      "sizes": [
+        {
+          "chrtID": 3423010789,
+          "techSize": "0",
+          "wbSize": "",
+          "skus": [
+            "2059305375151"
+          ]
+        }
+      ],
+      "createdAt": "2026-10-21T15:53:04.499504Z",
+      "updatedAt": "2026-10-21T16:50:02.932469Z",
+      "documents": {
+        "overallVerdict": {
+          "isFullyChecked": true,
+          "status": 2,
+          "reason": "documents_missing",
+          "createdAt": "2026-10-21T18:53:06.546649+03:00"
         },
         "issues": [
           {
@@ -5912,6 +5961,11 @@
       },
       "characteristics": [
         {
+          "id": 90673,
+          "name": "Ширина предмета",
+          "value": 30
+        },
+        {
           "id": 5522881,
           "name": "Артикул производителя",
           "value": [
@@ -5922,11 +5976,6 @@
           "id": 90630,
           "name": "Высота предмета",
           "value": 5
-        },
-        {
-          "id": 90673,
-          "name": "Ширина предмета",
-          "value": 30
         }
       ],
       "sizes": [
@@ -6279,13 +6328,6 @@
       },
       "characteristics": [
         {
-          "id": 14177451,
-          "name": "Страна производства",
-          "value": [
-            "Германия"
-          ]
-        },
-        {
           "id": 16532,
           "name": "Марка автомобиля",
           "value": [
@@ -6293,6 +6335,13 @@
             "audi",
             "skoda",
             "seat"
+          ]
+        },
+        {
+          "id": 14177451,
+          "name": "Страна производства",
+          "value": [
+            "Германия"
           ]
         }
       ],
@@ -6919,6 +6968,13 @@
       },
       "characteristics": [
         {
+          "id": 5522881,
+          "name": "Артикул производителя",
+          "value": [
+            "122390AK-AF"
+          ]
+        },
+        {
           "id": 16532,
           "name": "Марка автомобиля",
           "value": [
@@ -6926,13 +6982,6 @@
             "audi",
             "skoda",
             "seat"
-          ]
-        },
-        {
-          "id": 5522881,
-          "name": "Артикул производителя",
-          "value": [
-            "122390AK-AF"
           ]
         }
       ],
@@ -6997,19 +7046,19 @@
       },
       "characteristics": [
         {
+          "id": 5522881,
+          "name": "Артикул производителя",
+          "value": [
+            "0amdq200"
+          ]
+        },
+        {
           "id": 16532,
           "name": "Марка автомобиля",
           "value": [
             "audi",
             "skoda",
             "seat"
-          ]
-        },
-        {
-          "id": 5522881,
-          "name": "Артикул производителя",
-          "value": [
-            "0amdq200"
           ]
         }
       ],
@@ -7152,19 +7201,19 @@
       },
       "characteristics": [
         {
-          "id": 5522881,
-          "name": "Артикул производителя",
-          "value": [
-            "317053TX0C"
-          ]
-        },
-        {
           "id": 16532,
           "name": "Марка автомобиля",
           "value": [
             "nissan",
             "renault",
             "mitsubishi"
+          ]
+        },
+        {
+          "id": 5522881,
+          "name": "Артикул производителя",
+          "value": [
+            "317053TX0C"
           ]
         }
       ],
@@ -8058,11 +8107,6 @@
       },
       "characteristics": [
         {
-          "id": 89008,
-          "name": "Вес товара без упаковки (г)",
-          "value": 40
-        },
-        {
           "id": 16532,
           "name": "Марка автомобиля",
           "value": [
@@ -8078,6 +8122,11 @@
           "value": [
             "0AM325443D"
           ]
+        },
+        {
+          "id": 89008,
+          "name": "Вес товара без упаковки (г)",
+          "value": 40
         }
       ],
       "sizes": [
@@ -9215,6 +9264,23 @@
       ],
       "currencyIsoCode4217": "RUB",
       "discount": 62,
+      "clubDiscount": 0,
+      "editableSizePrice": false
+    },
+    {
+      "nmID": 2239283169,
+      "vendorCode": "chip-02e927770",
+      "sizes": [
+        {
+          "sizeID": 3995594186,
+          "price": 24800,
+          "discountedPrice": 24800,
+          "clubDiscountedPrice": 24800,
+          "techSizeName": "0"
+        }
+      ],
+      "currencyIsoCode4217": "RUB",
+      "discount": 0,
       "clubDiscount": 0,
       "editableSizePrice": false
     },
