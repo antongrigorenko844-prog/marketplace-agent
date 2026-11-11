@@ -43,11 +43,8 @@ validate-master: критичных ошибок нет, предупрежде�
 Все карточки Ozon уже в каталоге.
 
 === Шаг 0б: цена WB = цена Ozon ===
-Расхождений цены WB и Ozon: 4
+Расхождений цены WB и Ozon: 1
   0AM927769D: WB 78800.1 -> 74850 ₽ (-5%)
-  02e305045: WB 3850 -> 2350 ₽ (-39%)
-  0BH325183: WB 7850 -> 4350 ₽ (-45%)
-  0BH325183 B: WB 7850 -> 4350 ₽ (-45%)
 
 Готово: колонка «Цена WB» в мастере обновлена. Дальше: Pull, push-wb-price-dryrun (проверить), затем update-cards.
 
@@ -55,9 +52,9 @@ validate-master: критичных ошибок нет, предупрежде�
 Правило: равная прибыль (налог 6%, Авито 5%, эквайринг сайта 3.0%); пересчитано цен Авито/сайта: 0
 
 === Шаг 1: sync-master-control ===
-master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 5
+master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 0
 master_control.xlsx -> ozon_new_products.xlsx: обновлено строк 0
-master_control.xlsx -> wb_catalog.xlsx: обновлено строк 105
+master_control.xlsx -> wb_catalog.xlsx: обновлено строк 4
 master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Изменённых обложек в столбце 'Фото' не найдено.
 
@@ -328,7 +325,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Нераспознанных файлов: 2 — см. лист 'Нераспознанные фото' в /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
 
 Готово: attach-photos-all завершён. Дальше — push-photos-dryrun, чтобы проверить, что уйдёт на Ozon и WB.
-[attach-photos-all: 7 с]
+[attach-photos-all: 81 с]
 
 === Шаг 3: push-photos (Ozon + WB) ===
 === Ozon: реальная отправка ===
@@ -336,33 +333,16 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   - Похоже на случайный дубль артикула (отличаются только регистром букв): DQ500, Dq500 — возможно, это одна и та же деталь, заведённая дважды.
   - Похоже на случайный дубль артикула (отличаются только регистром букв): EA888gen3, Ea888gen3 — возможно, это одна и та же деталь, заведённая дважды.
 
-Партия 1: task_id=6018088209, жду обработку...
-  ОК datchik-peredach-dq200: статус imported
-  ОК datchik-scepleniya-dq200: статус imported
-  ОК derzhatel-datchikov-dq200: статус imported
-  ОК osnovanie-platy-dq200: статус imported
-  ОК shleif-platy-dq200: статус imported
-
-Итого: успешно 5, с ошибками 0
+Отправлять нечего: либо ни одна строка xlsx не совпала с offer_id из ozon_products.json (см. предупреждения выше), либо (чаще) всё, что есть в xlsx, уже было отправлено раньше и с тех пор не менялось (см. data/ozon_push_cache.json) — это нормальный исход, не ошибка.
 
 === WB: реальная отправка ===
 Отправлять нечего: либо ни одна строка xlsx не совпала с vendorCode из wb_cards.json, либо (чаще) всё, что есть в xlsx, уже было отправлено раньше и с тех пор не менялось — это нормальный исход, не ошибка.
 
-[push-photos: 5 с]
+[push-photos: 0 с]
 
 === Шаг 3б: Ozon rich-контент (data/ozon_rich, только изменённое) ===
-0AM927769D: rich готов (3202 знаков, фото на Ozon: 3)
-0AM927769F: rich готов (3202 знаков, фото на Ozon: 3)
-0am325025H: rich готов (4096 знаков, фото на Ozon: 4)
-0am325025HX: rich готов (4623 знаков, фото на Ozon: 3)
-0am325025HXF: rich готов (4623 знаков, фото на Ozon: 3)
-Отправлено rich: 5; task_id=6018088418
-  Ozon: 0AM927769D imported 
-  Ozon: 0AM927769F imported 
-  Ozon: 0am325025H imported 
-  Ozon: 0am325025HX imported 
-  Ozon: 0am325025HXF imported 
-[ozon-rich: 12 с]
+Rich-контент: изменений нет.
+[ozon-rich: 1 с]
 
 === Шаг 4: push-wb-price ===
 Цена отправлена для 3 товаров:
@@ -374,7 +354,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   WB НЕ ПРИМЕНИЛ 0BH325183: New price is several times lower than the current price. Item has been moved to Price Quarantine
 
 WB обрабатывает изменение цены не мгновенно — проверьте карточку через несколько минут (следующий fetch-wb покажет уже применившуюся цену).
-[push-wb-price: 12 с]
+[push-wb-price: 13 с]
 
 === Шаг 4б: цены Ozon = мастер (только расхождения) ===
 Пропускаю (no_price_sync в ozon_overrides.json): Ea888gen3
@@ -526,7 +506,7 @@ WB обрабатывает изменение цены не мгновенно 
   ОК: партия из 117 остатков отправлена (01X301127C, 02E 305 045, 02E305051C, 02E927770AL, 02e305045, 0AM301212A, 0AM325025B, 0AM325120A, 0AM325219C, 0AM325413A, 0AM325433E, 0AM325443D, 0AM325467J, 0AM325473, 0AM325587E, 0AM927769D, 0AM927769F, 0AM927769N, 0BH325183, 0BH325183 B, 0am325025, 0am325025D, 0am325025G, 0am325025H, 0am325025HX, 0am325025HXF, 0am325025P, 0am325025ae, 0am325025f, 0am325025hfe, 0am325025j, 0am325025l, 0am325025m, 0am325025n, 0am325025q, 0am325025r, 0am325025u, 0am325025x, 0am325025z, 0am325025С, 0am325066AC, 0am325066ad, 0am325066ae, 0am325091e, 0am325091e-set, 0am325091f, 0am325091f-set, 0am325477, 0am325477ae, 0cw0am, 0cw0am325025, 0cw0amdsgdq200, 0cw325025h, 0сц, 122390AK-AF, 122390AKAF, 123014‑AF, 31705-1XF0C, 31705-X428B, 317053TX0C, 55565480, DQ500, Dq200dsg7, Dq200dsg70am0cw, WHT001922, chip-02e927770, chip-0am927769d, datchik-peredach-dq200, datchik-scepleniya-dq200, derzhatel-datchikov-dq200, filtr-dsg7-dq200, filtr-dsg7-dq500, filtr-setka-0b5-orig, gidroakkumulyator-orig, jf011e, klipsy-shtokov-2sht, korpus-filtra-0bh325159, kryshka-mehatronika-dq200, osnovanie-platy-dq200, planka-solenoid-2sht, plastina-solenoid-dq200, plastiny-solenoid-dq200-2sht, plastiny-solenoid-orig, plita-filtr, plita-filtr-orig, plita-filtr-pylniki, plita-filtr-pylniki-orig, plita-filtr-pylniki-sal, plita-filtr-pylniki-sal-orig, plita-filtr-salniki-orig, plita-pylniki-salniki, plita-pylniki-salniki-orig, porshni-usil-pylniki-kryshki, prokladka-kryshki-dq200, prokladka-vtulki-dq200, prokladka-vtulki-niz-dq200, prokladka-vtulki-verh-dq200, pylniki-shtokov-orig, remkomplekt-shtokov-orig, salnik-shtoka-orig, salnik-tolkatelya-alum, salniki-shtokov-2sht, salniki-shtokov-orig, salniki-tolkatelya-4sht, salnikprivod-l, salnikprivod-r, salnikvhod, salnikvihod, separatornaya-plastina-dq200, separatornaya-plastiny-solenoid-dq200, shleif-platy-dq200, solenoid-02e-0b5-bolshoy, stalnaya-vstavka-plity, tolkateli-4-salniki-4, tolkateli-salniki-alum-komplekt, vtulki-shtokov-2sht, 0AM927769D (снята))
 
 Итого: успешно 117, с ошибками 0
-[push-wb-stock: 1 с]
+[push-wb-stock: 2 с]
 
 === Шаг 6б: Ozon — контроль акций (цена не ниже нашей) ===
 Акций, доступных продавцу через API: 6
@@ -570,15 +550,10 @@ WB обрабатывает изменение цены не мгновенно 
   лимит выставлен: 0, с ошибкой: 0
 
 Автодобавление в акции:
-derzhatel-datchikov-dq200: автодобавление в акции ВКЛ (цена 1350)
-datchik-peredach-dq200: автодобавление в акции ВКЛ (цена 8850)
-osnovanie-platy-dq200: автодобавление в акции ВКЛ (цена 4850)
-datchik-scepleniya-dq200: автодобавление в акции ВКЛ (цена 8850)
-shleif-platy-dq200: автодобавление в акции ВКЛ (цена 6850)
 
-Товаров с включённым автодобавлением: 5
-Выключено: 5, с ошибкой: 0
-[ozon-leave-boosting: 6 с]
+Товаров с включённым автодобавлением: 0
+Выключено: 0, с ошибкой: 0
+[ozon-leave-boosting: 7 с]
 
 === Шаг 7: Яндекс Маркет — остатки ===
   0am325025L: вариант артикула с другим регистром — отправляю остаток 95
@@ -593,8 +568,8 @@ push-yandex-stock: принято Маркетом 134 из 134.
 [push-yandex-videos: 0 с]
 
 === Шаг 7б: фото для Авито (photos_avito) ===
-Фото для Авито: товаров с актуальными ссылками — 95
-[attach-avito-photos: 45 с]
+Фото для Авито: товаров с актуальными ссылками — 96
+[attach-avito-photos: 65 с]
 
 === Шаг 8: build-avito-catalog ===
 Готово: 107 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
@@ -609,23 +584,19 @@ push-yandex-stock: принято Маркетом 134 из 134.
 
 Файл также залит по постоянной ссылке: https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito_feed.xlsx
 Если ещё не настроили — вставьте эту ссылку ОДИН РАЗ в личном кабинете Avito: Автозагрузка -> Настройки -> «Автозагрузка по ссылке», отметьте побольше дней/часов опроса. Дальше Avito сам будет скачивать и обрабатывать файл — загружать вручную больше не нужно.
-[build-avito-catalog: 3 с]
+[build-avito-catalog: 4 с]
 
 === Шаг 9: Tilda (сайт), CommerceML ===
 Собрано товаров: 131 (из них с остатком 0 -> на сайте 'нет в наличии': 19).
 Без фото: solenoid-02e-0b5-bolshoy
-Фото уйдут новым товарам (15 файлов): datchik-peredach-dq200, datchik-scepleniya-dq200, derzhatel-datchikov-dq200, osnovanie-platy-dq200, shleif-platy-dq200
   checkauth: success
   init: zip=no | file_limit=3145728
-  фото: отправлено файлов 15
   file import0_1.xml: success
   file offers0_1.xml: success
   import import0_1.xml: success
   import offers0_1.xml: success
-Фото отправлены (повторно не шлём): datchik-peredach-dq200, datchik-scepleniya-dq200, derzhatel-datchikov-dq200, osnovanie-platy-dq200, shleif-platy-dq200
-Если на сайте их нет — включите в Тильде «Принимать изображения» (Синхронизация через CommerceML -> Дополнительные настройки) и удалите эти артикулы из data/tilda_images_sent.json.
 push-tilda: готово. Проверьте результат на сайте и в 'Истории синхронизации' в Тильде.
-[push-tilda: 14 с]
+[push-tilda: 6 с]
 
 === Шаг 10: ревизия площадок (только чтение, на результат update-cards не влияет) ===
 === Ревизия: обновляю выгрузки с площадок ===
@@ -663,17 +634,6 @@ Ozon: остатки FBS по 125 товарам -> data/ozon_stocks.json
   - Авито: артикул отличается регистром — 2
   - Маркет: название — 2
   - Tilda: лишний — 1
-НОВЫХ важных проблем с прошлой ревизии: 10
-  + Авито / нет на площадке / datchik-peredach-dq200
-  + Авито / нет на площадке / datchik-scepleniya-dq200
-  + Авито / нет на площадке / derzhatel-datchikov-dq200
-  + Авито / нет на площадке / osnovanie-platy-dq200
-  + Авито / нет на площадке / shleif-platy-dq200
-  + Маркет / нет на площадке / datchik-peredach-dq200
-  + Маркет / нет на площадке / datchik-scepleniya-dq200
-  + Маркет / нет на площадке / derzhatel-datchikov-dq200
-  + Маркет / нет на площадке / osnovanie-platy-dq200
-  + Маркет / нет на площадке / shleif-platy-dq200
 Подробности: data/audit_report.xlsx (после запуска сделайте Pull origin).
 
 update-cards: готово — всё обновлено: Ozon, WB, Avito, сайт, Яндекс Маркет (остатки).
