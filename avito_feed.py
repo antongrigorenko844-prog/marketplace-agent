@@ -209,6 +209,11 @@ OEM_OVERRIDES = {
     "chip-0am927769d": "0AM927769D",  # чип платы — номер платы, под которую он идёт (12.11.2026)
     "nabor-chip-0am927769d": "0AM927769D",
     "chip-02e927770": "02E927770AL",
+    "datchik-scepleniya-dq200": "0AM927769D",
+    "datchik-peredach-dq200": "0AM927769D",
+    "derzhatel-datchikov-dq200": "0AM927769D",
+    "osnovanie-platy-dq200": "0AM927769D",
+    "shleif-platy-dq200": "0AM927769E",
     "nabor-chip-02e927770": "02E927770AL",
 }
 
