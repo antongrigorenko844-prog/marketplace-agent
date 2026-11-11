@@ -214,6 +214,7 @@ OEM_OVERRIDES = {
     "derzhatel-datchikov-dq200": "0AM927769D",
     "osnovanie-platy-dq200": "0AM927769D",
     "shleif-platy-dq200": "0AM927769E",
+    "kolodka-solenoidov-dq200": "0AM927769D",
     "nabor-chip-02e927770": "02E927770AL",
 }
 
