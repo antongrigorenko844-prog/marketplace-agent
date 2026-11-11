@@ -204,8 +204,15 @@ _OEM_HOMOGLYPHS = str.maketrans({
 _OEM_STRIP_RE = re.compile(r"[^A-Za-z0-9]")
 
 
+# Артикулы-описания (не OEM-номер VAG): какой настоящий номер писать в «Номер детали OEM».
+OEM_OVERRIDES = {
+    "chip-0am927769d": "0AM927769D",  # чип платы — номер платы, под которую он идёт (12.11.2026)
+}
+
+
 def _clean_oem(offer_id: str) -> str:
     """Приводит артикул к формату, который принимает Avito для Номера OEM."""
+    offer_id = OEM_OVERRIDES.get(offer_id, offer_id)
     normalized = offer_id.translate(_OEM_HOMOGLYPHS)
     return _OEM_STRIP_RE.sub("", normalized)
 
