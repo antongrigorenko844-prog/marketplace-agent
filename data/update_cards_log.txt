@@ -315,7 +315,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Нераспознанных файлов: 2 — см. лист 'Нераспознанные фото' в /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
 
 Готово: attach-photos-all завершён. Дальше — push-photos-dryrun, чтобы проверить, что уйдёт на Ozon и WB.
-[attach-photos-all: 44 с]
+[attach-photos-all: 46 с]
 
 === Шаг 3: push-photos (Ozon + WB) ===
 === Ozon: реальная отправка ===
@@ -331,18 +331,18 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 [push-photos: 0 с]
 
 === Шаг 3б: Ozon rich-контент (data/ozon_rich, только изменённое) ===
-0AM927769D: rich готов (3184 знаков, фото на Ozon: 3)
-0AM927769F: rich готов (3184 знаков, фото на Ozon: 3)
-0am325025H: rich готов (4078 знаков, фото на Ozon: 4)
-0am325025HX: rich готов (4605 знаков, фото на Ozon: 3)
-0am325025HXF: rich готов (4605 знаков, фото на Ozon: 3)
-Отправлено rich: 5; task_id=6017999804
+0AM927769D: rich готов (3202 знаков, фото на Ozon: 3)
+0AM927769F: rich готов (3202 знаков, фото на Ozon: 3)
+0am325025H: rich готов (4096 знаков, фото на Ozon: 4)
+0am325025HX: rich готов (4623 знаков, фото на Ozon: 3)
+0am325025HXF: rich готов (4623 знаков, фото на Ozon: 3)
+Отправлено rich: 5; task_id=6018014123
   Ozon: 0AM927769D imported 
   Ozon: 0AM927769F imported 
   Ozon: 0am325025H imported 
   Ozon: 0am325025HX imported 
   Ozon: 0am325025HXF imported 
-[ozon-rich: 12 с]
+[ozon-rich: 13 с]
 
 === Шаг 4: push-wb-price ===
 Цена отправлена для 3 товаров:
@@ -354,7 +354,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   WB НЕ ПРИМЕНИЛ 0BH325183: New price is several times lower than the current price. Item has been moved to Price Quarantine
 
 WB обрабатывает изменение цены не мгновенно — проверьте карточку через несколько минут (следующий fetch-wb покажет уже применившуюся цену).
-[push-wb-price: 13 с]
+[push-wb-price: 12 с]
 
 === Шаг 4б: цены Ozon = мастер (только расхождения) ===
 Пропускаю (no_price_sync в ozon_overrides.json): Ea888gen3
@@ -548,7 +548,7 @@ WB обрабатывает изменение цены не мгновенно 
 
 Товаров с включённым автодобавлением: 0
 Выключено: 0, с ошибкой: 0
-[ozon-leave-boosting: 5 с]
+[ozon-leave-boosting: 7 с]
 
 === Шаг 7: Яндекс Маркет — остатки ===
   0am325025L: вариант артикула с другим регистром — отправляю остаток 95
@@ -563,8 +563,8 @@ push-yandex-stock: принято Маркетом 129 из 129.
 [push-yandex-videos: 0 с]
 
 === Шаг 7б: фото для Авито (photos_avito) ===
-Фото для Авито: товаров с актуальными ссылками — 94
-[attach-avito-photos: 52 с]
+Фото для Авито: товаров с актуальными ссылками — 95
+[attach-avito-photos: 57 с]
 
 === Шаг 8: build-avito-catalog ===
 Готово: 104 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
@@ -589,7 +589,7 @@ push-yandex-stock: принято Маркетом 129 из 129.
   import import0_1.xml: success
   import offers0_1.xml: success
 push-tilda: готово. Проверьте результат на сайте и в 'Истории синхронизации' в Тильде.
-[push-tilda: 6 с]
+[push-tilda: 7 с]
 
 === Шаг 10: ревизия площадок (только чтение, на результат update-cards не влияет) ===
 === Ревизия: обновляю выгрузки с площадок ===
@@ -610,18 +610,18 @@ Ozon: остатки FBS по 120 товарам -> data/ozon_stocks.json
 Полный список сохранён в data/yandex_market_offers.xlsx (после запуска сделайте Pull origin).
 
 --- Авито: объявления и отчёт автозагрузки ---
-Авито: 173 объявлений -> data/avito_live.json
+Авито: 174 объявлений -> data/avito_live.json
 Авито: строк отчёта автозагрузки: 103 -> data/avito_autoload.json
 
 === Ревизия: сверка ===
-Ревизия площадок: проблем ВАЖНО 22, СРЕДНЕ 68, НИЗКО 7 (Авито: живые объявления)
+Ревизия площадок: проблем ВАЖНО 21, СРЕДНЕ 68, НИЗКО 7 (Авито: живые объявления)
   - Авито: объявление не из фида — 50
   - WB: нет на площадке — 7
   - Ozon: лишний — 6
   - Авито: ошибка автозагрузки — 5
   - WB: цена — 4
-  - Авито: нет на площадке — 4
   - Маркет: нет в мастере — 4
+  - Авито: нет на площадке — 3
   - Маркет: нет на площадке — 2
   - Авито/сайт: нет цены без комиссии — 2
   - Авито: артикул отличается регистром — 2
