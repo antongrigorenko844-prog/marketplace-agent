@@ -111,4 +111,4 @@ jobs:
       - name: Save data/ back to repo
         if: always()
         # правки людей, запушенные пока шла команда, не затираются (см. скрипт)
-        run: bash .github/scripts/save_data.sh data/ photos/ social/
+        run: bash .github/scripts/save_data.sh data/ photos/ photos_avito/ social/

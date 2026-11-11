@@ -212,8 +212,25 @@ def build_review_brief(r: dict) -> str:
             f"СРОК: до 10:00 {date:%d.%m.%Y}.")
 
 
-def _send_images(chat, paths: List[str]) -> None:
-    """Готовые картинки поста: превью фото (если Telegram не примет — файлами)."""
+def _send_images(chat, paths: List[str], as_files: bool = False) -> None:
+    """Готовые картинки поста: превью фото (если Telegram не примет — файлами). as_files — сразу файлами, без сжатия."""
+    if as_files:
+        for i in range(0, len(paths), 10):
+            part = paths[i:i + 10]
+            if len(part) == 1:
+                with open(part[0], "rb") as f:
+                    _tg("sendDocument", chat_id=chat, files={"document": (os.path.basename(part[0]), f)})
+                continue
+            media, fh = [], {}
+            try:
+                for k, p in enumerate(part):
+                    fh[f"f{k}"] = (os.path.basename(p), open(p, "rb"))
+                    media.append({"type": "document", "media": f"attach://f{k}"})
+                _tg("sendMediaGroup", files=fh, chat_id=chat, media=json.dumps(media))
+            finally:
+                for _, (_, h) in fh.items():
+                    h.close()
+        return
     if len(paths) == 1:
         with open(paths[0], "rb") as f:
             _tg("sendPhoto", chat_id=chat, files={"photo": (os.path.basename(paths[0]), f)})
@@ -540,6 +557,38 @@ OUTBOX_DIR = "data/outbox"
 OUTBOX_DONE = "data/outbox_done.json"
 
 
+CARD_RE = re.compile(r"^\s*(?:карточк\w*|card)\s*[:\-–—]?\s*([A-Za-z0-9][A-Za-z0-9 _.\-]*?)\s*(авито|avito)?\s*$", re.I)
+AVITO_DIR = os.path.join(_ROOT, "photos_avito")
+
+
+def _card_target(art_raw: str, avito: bool):
+    """Папка карточки по артикулу из подписи дизайнера: photos/<арт>/ или photos_avito/<арт>/.
+    Артикул должен уже существовать в photos/ (папку создаёт Claude, когда шлёт задание) — иначе None."""
+    if not os.path.isdir(PHOTOS_DIR):
+        return None, None
+    folders = {d.lower(): d for d in os.listdir(PHOTOS_DIR) if os.path.isdir(os.path.join(PHOTOS_DIR, d))}
+    art = folders.get(art_raw.strip().lower())
+    if not art:
+        return None, None
+    return art, os.path.join(AVITO_DIR if avito else PHOTOS_DIR, art)
+
+
+def _save_card(art: str, folder: str, files: List[tuple]) -> List[str]:
+    """Заменяет картинки карточки на присланные дизайнером: <арт>_1.., порядок = порядок в альбоме. Видео не трогаем."""
+    os.makedirs(folder, exist_ok=True)
+    for f in os.listdir(folder):
+        if re.fullmatch(re.escape(art) + r"_\d+\.(png|jpe?g|webp)", f, re.I):
+            os.remove(os.path.join(folder, f))
+    out = []
+    for i, (data, ext) in enumerate(files, start=1):
+        ext = ext if ext in (".png", ".jpg", ".jpeg", ".webp") else ".png"
+        path = os.path.join(folder, f"{art}_{i}{ext}")
+        with open(path, "wb") as fh:
+            fh.write(data)
+        out.append(path)
+    return out
+
+
 def _process_outbox(designer, owner) -> int:
     """Сообщения от Claude: файлы data/outbox/*.json вида {"to": "designer"|"owner", "text": "...", "images": ["social/5/1.png"]}.
     Каждый отправляется один раз (список отправленных — data/outbox_done.json)."""
@@ -559,7 +608,7 @@ def _process_outbox(designer, owner) -> int:
             _tg("sendMessage", chat_id=chat, text=msg["text"][:4000])
         imgs = [x for x in msg.get("images", []) if os.path.exists(x)]
         if imgs:
-            _send_images(chat, imgs)
+            _send_images(chat, imgs, as_files=bool(msg.get("as_files")))
         for extra in msg.get("texts", []):
             _tg("sendMessage", chat_id=chat, text=str(extra)[:4000])
         if msg.get("mark_sent"):  # посты, задание по которым уже ушло этим сообщением (чтобы 09:15 не отправило повторно)
@@ -601,6 +650,7 @@ def cmd_collect() -> int:
     last_number = None  # номер, присланный отдельным сообщением в этой же пачке
     texts_new = []
     group_cap = {}      # gid -> (номер, добавить?)
+    group_card = {}     # gid -> (артикул, авито?) — подпись «Карточка <артикул> [авито]»
     fwd_groups = set()  # альбомы владельца, которые надо переслать дизайнеру
     items = []          # (sender_chat, message_id, gid, file_id, ext)
     for u in ups:
@@ -694,9 +744,38 @@ def cmd_collect() -> int:
         if not fid:
             continue
         cap = m.get("caption") or ""
-        if cap and re.search(r"\d+", cap):
+        mc = CARD_RE.match(cap) if cap else None
+        if mc:
+            group_card[gid] = (mc.group(1), bool(mc.group(2)))
+        elif cap and re.search(r"\d+", cap):
             group_cap[gid] = (int(re.findall(r"\d+", cap)[0]), bool(re.search(r"(\+|добав)", cap, re.I)))
         items.append((mchat, m["message_id"], gid, fid, ext))
+    cards = {}
+    rest = []
+    for it in items:
+        if it[2] in group_card:
+            cards.setdefault((it[2], it[0]), []).append(it)
+        else:
+            rest.append(it)
+    items = rest
+    for (gid, mchat), lst in cards.items():
+        art_raw, avito = group_card[gid]
+        art, folder = _card_target(art_raw, avito)
+        if not art:
+            _tg("sendMessage", chat_id=mchat, text=f"Не нашёл товар с артикулом «{art_raw}». Скопируйте подпись из задания (например: Карточка chip-0am927769d) и пришлите ещё раз.")
+            continue
+        lst.sort(key=lambda x: x[1])
+        files = [(_download(fid), ext) for _, _, _, fid, ext in lst[:10]]
+        saved = _save_card(art, folder, files)
+        where = "Авито" if avito else "маркетплейсы и сайт"
+        _tg("sendMessage", chat_id=mchat, text=f"✅ Принял карточку {art} ({where}): файлов {len(saved)}. Спасибо!")
+        print(f"Карточка {art} ({where}): сохранено {len(saved)} в {os.path.relpath(folder, _ROOT)}/")
+        if owner and mchat != owner:
+            try:
+                _tg("sendMessage", chat_id=owner, text=f"🖼 Дизайнер сдал карточку {art} ({where}, {len(saved)} файл.). Сохранил в репозиторий; на площадки уйдёт после вашего «да» Claude.")
+                _send_images(owner, saved)
+            except Exception as exc:  # noqa
+                print(f"Не удалось уведомить владельца о карточке {art}: {exc}")
     by_post = {}
     for mchat, mid, gid, fid, ext in items:
         n, app = group_cap.get(gid, (None, False))
