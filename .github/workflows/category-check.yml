@@ -1,0 +1,39 @@
+name: Inspect two transmission categories
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python - <<'PY'
+          import json
+          import wb_client as wb
+          import yandex_market_client as ym
+          for card in wb.list_cards():
+              if card.get("vendorCode","").lower() in {"0am325025h","0am325025x","0am325025hx"}:
+                  print("WB", json.dumps({k:card.get(k) for k in ("nmID","imtID","vendorCode","title","subjectID","subjectName")},ensure_ascii=False))
+          for q in ("мехатрон","гидроблок","ремкомплекты кпп"):
+              print("WB subjects", q, wb.get_subjects(name=q))
+          biz = ym.get_business_id()
+          ids = ["0am325025x","0am325025H","0am325025","0am325025HX"]
+          print("Market offers",json.dumps(ym._request("POST",f"/v2/businesses/{biz}/offer-mappings",json_body={"offerIds":ids}),ensure_ascii=False)[:19000])
+          _, campaign = ym._creds()
+          print("Market statuses", ym._request("POST",f"/v2/campaigns/{campaign}/offers",json_body={"offerIds":ids}))
+          code, body = ym._request("POST","/v2/categories/tree",json_body={"language":"RU"})
+          print("tree",code)
+          def scan(node,path):
+              name=node.get("name","")
+              path=path+[name]
+              if any(term in name.lower() for term in ("кпп","коробк","трансмисси","мехатрон","гидроблок")):
+                  print("YM category",node.get("id")," / ".join(path),len(node.get("children",[])))
+              for child in node.get("children",[]): scan(child,path)
+          scan(body.get("result",{}),[])
+          PY
