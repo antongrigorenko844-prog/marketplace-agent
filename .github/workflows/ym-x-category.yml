@@ -1,23 +1,58 @@
-name: Audit live Ozon content scores
+name: Correct Market DQ200 category
 on: workflow_dispatch
 permissions:
-  contents: write
+  contents: read
 jobs:
-  market:
+  update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: pip install -r requirements.txt
       - env:
-          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
-          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
         run: |
           python - <<'PY'
-          import json
-          import ozon_client as oz
-          ids=["0am325025H","0am325025","0am325025x","0AM325587E"]
-          p=oz.get_product_names(ids)
-          print("SCORE",json.dumps(oz._post("/v1/product/rating-by-sku",{"skus":[x["sku"] for x in p]}),ensure_ascii=False),flush=True)
-          for x in p:
-              print("CARD",json.dumps({k:x.get(k) for k in ("offer_id","sku","name","primary_image","images","type_id","description_category_id","attributes","complex_attributes")},ensure_ascii=False),flush=True)
+          import time
+          import yandex_market_client as ym
+          biz = ym.get_business_id()
+          _, campaign = ym._creds()
+          pairs = {"0AM325473":"6t30","31705-X428B":"31705-1XF0C","317053TX0C":"31705-1XF0C"}
+          def post(path,data):
+              code, result = ym._request("POST",path,json_body=data)
+              assert code == 200 and result.get("status") == "OK", (code,result)
+              return result
+          def mappings(ids):
+              result=post(f"/v2/businesses/{biz}/offer-mappings",{"offerIds":ids})["result"]
+              return {r["offer"]["offerId"]:r for r in result["offerMappings"]}
+          def statuses(ids):
+              result=post(f"/v2/campaigns/{campaign}/offers",{"offerIds":ids})["result"]
+              return {r["offerId"]:r for r in result["offers"]}
+          before = mappings(list(set(pairs)|set(pairs.values())))
+          old = statuses(list(pairs))
+          updates = []
+          for sku, anchor in pairs.items():
+              target = before[anchor]["mapping"]
+              current = before[sku]["mapping"]
+              print("PAIR",sku,before[sku]["offer"]["name"],anchor,before[anchor]["offer"]["name"],current["marketCategoryName"],target["marketCategoryName"],flush=True)
+              assert target["marketCategoryName"] == "Запчасти для трансмиссии автомобиля"
+              assert current["marketCategoryName"] in ("Двигатели автомобильные","Сцепление и компоненты","Запчасти для трансмиссии автомобиля")
+              if current["marketCategoryId"] != target["marketCategoryId"]:
+                  updates.append({"offerId":sku,"categoryId":target["marketCategoryId"]})
+          if updates:
+              response=post(f"/v2/businesses/{biz}/offer-cards/update",{"offersContent":updates})
+              print("UPDATE",response,flush=True)
+              assert not any(r.get("errors") for r in response.get("results",[]))
+          for attempt in range(4):
+              after=mappings(list(pairs))
+              live=statuses(list(pairs))
+              complete=True
+              for sku, anchor in pairs.items():
+                  category=after[sku].get("mapping",{}).get("marketCategoryId")
+                  status=live.get(sku,{})
+                  assert status.get("basicPrice") == old.get(sku,{}).get("basicPrice"),sku
+                  print("VERIFY",sku,category,status.get("status"),flush=True)
+                  complete &= category == before[anchor]["mapping"]["marketCategoryId"]
+              if complete: break
+              time.sleep(15)
           PY
