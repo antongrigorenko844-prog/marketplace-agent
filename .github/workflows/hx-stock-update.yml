@@ -35,7 +35,7 @@ jobs:
               book=load_workbook(path)
               sheet=book.worksheets[0]
               rows=list(sheet.values)
-              header_row,col=next((i,j) for i,row in enumerate(rows[:10]) for j,val in enumerate(row,1) if isinstance(val,str) and val.strip()==header)
+              header_row,col=next((i,j) for i,row in enumerate(rows[:10]) for j,val in enumerate(row,1) if isinstance(val,str) and val.strip().startswith(header))
               for sku,count in qty.items():
                   matches=[i for i,row in enumerate(rows,1) if i>header_row+1 and sku in row[:3]]
                   assert len(matches)==1,(path,sku,matches)
