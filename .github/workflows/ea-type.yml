@@ -25,5 +25,5 @@ jobs:
                   if n.get('type_id') == 970863591 or re.search(r'болт|винт|креп[её]ж|коллектор', name, re.I):
                       print(' / '.join((*path,name)),cat,n.get('type_id'),n.get('disabled'))
                   walk(n.get('children') or [], (*path,name), cat)
-          walk(oz.get_category_tree())
+          walk(oz._post('/v1/description-category/tree', {'language': 'RU'}).get('result', []))
           PY
