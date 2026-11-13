@@ -1,7 +1,10 @@
-name: Add pressure regulator photo to Bosch mechatronic
+name: Add regulator image across channels and inspect WB
 on: workflow_dispatch
 permissions:
-  contents: read
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -9,35 +12,69 @@ jobs:
       - uses: actions/checkout@v4
       - run: pip install -r requirements.txt
       - env:
-          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
-          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
         run: |
           python - <<'PY'
-          import time
-          import ozon_client as oz
-          source="0AM325025B"
+          import json, os, subprocess
+          import requests
+          from openpyxl import load_workbook
+          import avito_feed as av
+          import wb_client as wb
+          import yandex_market_client as ym
+          import tilda_commerceml as tc
+
           sku="0am325025x"
-          def items(ids):
-              return {p["offer_id"]:p for p in oz.get_product_info_list(ids)}
-          data=items([source,sku])
-          photo,=data[source]["primary_image"]
-          target=data[sku]
-          primary,=target["primary_image"]
-          assert target["sku"]==3260518430 and photo!=primary
-          before=target.get("images") or []
-          desired=[photo]+[url for url in before if url!=photo]
-          print("BEFORE",primary,before,"SOURCE",photo,flush=True)
-          if desired!=before:
-              payload={"offer_id":sku,"primary_image":primary,"images":desired}
-              for key in ("images360","color_image"):
-                  if target.get(key): payload[key]=target[key]
-              response=oz._post("/v2/product/pictures/import",{"items":[payload]})
-              print("IMPORT",response,flush=True)
-              assert response.get("task_id")
-          for _ in range(10):
-              time.sleep(5)
-              current=items([sku])[sku]
-              print("VERIFY",current["primary_image"],current.get("images"),flush=True)
-              if current["primary_image"]==[primary] and current.get("images")==desired: break
-          else: raise RuntimeError("Gallery order not confirmed")
+          photo="https://ir.ozone.ru/s3/multimedia-1-k/14848101956.jpg"
+          def ordered(urls):
+              assert urls
+              return [urls[0],photo,*[u for u in urls[1:] if u!=photo]]
+          cards=wb.list_cards()
+          for c in cards:
+              if c["vendorCode"] in {sku,"0AM927769D","0AM927769F","0AM927769G","0AM927769K","0AM927769E","0am325025HX","0am325025HXF","0am325025HXG","0am325025HXK","0am325025HXE"}:
+                  print("WB CARD",c["vendorCode"],{k:v for k,v in c.items() if k in ("nmID","subjectName","needKiz","kizMarked","isBlocked","dimensions")},flush=True)
+          try: print("WB ERRORS",wb.get_upload_errors(),flush=True)
+          except Exception as e: print("WB DIAG ERROR",e,flush=True)
+          try:
+              c,=[c for c in cards if c["vendorCode"]==sku]
+              old=[p["big"] for p in c["photos"]]
+              if len(old)==1:
+                  out=wb.update_media(c["nmID"],ordered(old)+([c["video"]] if c.get("video") else []))
+                  print("WB UPDATE",out,flush=True)
+              else: print("WB EXISTING",old,flush=True)
+          except Exception as e: print("WB ERROR",e,flush=True)
+          try:
+              biz=ym.get_business_id()
+              path=f"/v2/businesses/{biz}/offer-mappings"
+              code,d=ym._request("POST",path,json_body={"offerIds":[sku]})
+              p,=d["result"]["offerMappings"]
+              assert code==200 and p["offer"]["offerId"]==sku
+              previous=p["offer"]["pictures"]
+              pics=ordered(previous)
+              if pics!=previous:
+                  print("YM UPDATE",ym._request("POST",path+"/update",json_body={"offerMappings":[{"offer":{"offerId":sku,"pictures":pics}}]}),flush=True)
+              print("YM CHECK",ym._request("POST",path,json_body={"offerIds":[sku]})[1]["result"]["offerMappings"][0]["offer"]["pictures"],flush=True)
+          except Exception as e: print("YM ERROR",e,flush=True)
+          try:
+              subprocess.run(["gh","release","download","product-photos","-p","avito_feed.xlsx","-D","/tmp"],check=True)
+              for path,sheet,col,start in (("data/ozon_catalog.xlsx",None,6,2),("/tmp/avito_feed.xlsx",av.SHEET_ADS,19,av.FIRST_DATA_ROW)):
+                  book=load_workbook(path)
+                  ws=book[sheet] if sheet else book.active
+                  rows=[row for row in ws.iter_rows(min_row=start) if str(row[(av.COL_ID if sheet else 1)-1].value).removesuffix(getattr(av,"AVITO_LINK_SUFFIX",""))==sku]
+                  row,=rows
+                  cell=row[col-1]
+                  sep=" | " if not sheet else " | "
+                  urls=[u.strip() for u in str(cell.value).split("|") if u.strip()]
+                  assert all(u.startswith("https://") for u in urls) and len(urls)==1,urls
+                  cell.value=sep.join(ordered(urls))
+                  book.save(path)
+                  print("AVITO FILE",path,cell.value,flush=True)
+              subprocess.run(["gh","release","upload","product-photos","/tmp/avito_feed.xlsx","--clobber"],check=True)
+              subprocess.run(["bash",".github/scripts/save_data.sh","data/ozon_catalog.xlsx"],check=True)
+          except Exception as e: print("AVITO ERROR",e,flush=True)
           PY
