@@ -16,38 +16,19 @@ jobs:
         run: |
           python - <<'PY'
           import yandex_market_client as ym
-          import time
-          sku="0am325025x"
-          biz=ym.get_business_id()
-          _,camp=ym._creds()
-          def call(path,body):
-              code,data=ym._request("POST",path,json_body=body,timeout=20)
-              assert code==200 and data.get("status")=="OK",data
-              return data
-          def mapping():
-              row,=call(f"/v2/businesses/{biz}/offer-mappings",{"offerIds":[sku]})["result"]["offerMappings"]
-              assert row["offer"]["offerId"]==sku
-              return row
-          def offer():
-              row,=call(f"/v2/campaigns/{camp}/offers",{"offerIds":[sku]})["result"]["offers"]
-              assert row["offerId"]==sku
-              return row
-          before=mapping()["offer"]
-          old=offer()
-          dims={**before["weightDimensions"],"length":40,"width":30,"height":30}
-          print("BEFORE",before["weightDimensions"],old,flush=True)
-          if before["weightDimensions"]!=dims:
-              result=call(f"/v2/businesses/{biz}/offer-mappings/update",{"offerMappings":[{"offer":{"offerId":sku,"weightDimensions":dims}}]})
-              print("UPDATE",result,flush=True)
-              assert not any(x.get("errors") for x in result.get("results",[])),result
-          for i in range(10):
+          from datetime import date,timedelta
+          _,c=ym._creds()
+          root=f"/v2/campaigns/{c}"
+          for method,path,data in [
+              ("PUT",root+"/first-mile/shipments",{"dateFrom":str(date.today()-timedelta(days=7)),"dateTo":str(date.today()+timedelta(days=5))}),
+              ("POST",root+"/offers",{"offerIds":["0am325025x","0am325025H","0am325025HX"]}),
+              ("POST",root+"/offers/stocks",{"offerIds":["0am325025x"]}),
+          ]:
               try:
-                  current=mapping()
-                  status=offer()
-                  print("VERIFY",current["offer"].get("weightDimensions"),status,current.get("showcaseUrls"),flush=True)
-                  assert status["basicPrice"]==old["basicPrice"]
-                  if current["offer"].get("weightDimensions")==dims and status["status"]=="PUBLISHED" and not any("отгружать" in w["message"].lower() for w in status.get("warnings",[])): break
-              except ym.YandexMarketError as error: print("RETRY",error,flush=True)
-              if i<9: time.sleep(20)
-          else: raise RuntimeError("Waiting for shipping restriction to clear")
+                  code,out=ym._request(method,path,json_body=data,timeout=12)
+                  if "first-mile" in path and code==200:
+                      rows=out.get("result",{}).get("shipments",[])
+                      out=[{k:v for k,v in row.items() if "order" not in k.lower()} for row in rows[:4]]
+                  print("CHECK",code,out,flush=True)
+              except Exception as e: print("ERROR",e,flush=True)
           PY
