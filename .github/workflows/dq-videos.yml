@@ -1,0 +1,92 @@
+name: Attach DQ200 videos to G K E
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python - <<'PY'
+          import json, time
+          import requests
+          import ozon_client as oz
+          import wb_client as wb
+          import yandex_market_client as ym
+
+          groups = {"0AM927769D":["0AM927769"+s for s in "GKE"],"0am325025HX":["0am325025HX"+s for s in "GKE"]}
+          cache = json.load(open("data/market_video_cache.json"))
+          urls = {sku:cache[source][0] for source, targets in groups.items() for sku in targets}
+          for url in set(urls.values()):
+              r=requests.get(url,stream=True,timeout=20)
+              r.raise_for_status()
+              assert "ftyp" in next(r.iter_content(64)).decode("latin-1")
+              r.close()
+          try:
+              data={p["offer_id"]:p for p in oz.get_product_names(list(groups)+list(urls))}
+              batch=[]
+              for source, targets in groups.items():
+                  attrs=[a for a in data[source]["complex_attributes"] if a.get("complex_id")==100001 and a.get("id") in {21837,21841}]
+                  assert {a["id"] for a in attrs}=={21837,21841}
+                  for sku in targets:
+                      if not any(a.get("id")==21841 for a in data[sku].get("complex_attributes",[])):
+                          batch.append({"offer_id":sku,"attributes":attrs})
+              if batch:
+                  out=oz.update_attributes(batch)
+                  print("OZ UPDATE",out,flush=True)
+                  task=out.get("task_id") or out.get("result",{}).get("task_id")
+              else: task=None
+          except Exception as e:
+              print("OZ ERROR",e,flush=True)
+              task=None
+          try:
+              biz=ym.get_business_id()
+              code,body=ym._request("POST",f"/v2/businesses/{biz}/offer-mappings",json_body={"offerIds":list(urls)})
+              assert code==200,body
+              offers={x["offer"]["offerId"]:x["offer"] for x in body["result"]["offerMappings"]}
+              todo={sku:[*offer.get("videos",[]),url] for sku,url in urls.items() if (offer:=offers.get(sku)) and url not in offer.get("videos",[]) and len(offer.get("videos",[]))<6}
+              if todo: print("YM UPDATE",ym.update_videos(todo),flush=True)
+              print("YM BEFORE",{s:offers.get(s,{}).get("videos") for s in urls},flush=True)
+          except Exception as e: print("YM ERROR",e,flush=True)
+          try:
+              cards={c["vendorCode"]:c for c in wb.list_cards()}
+              prior={}
+              for sku,url in urls.items():
+                  if sku not in cards: continue
+                  c=cards[sku]
+                  photos=[p["big"] for p in c["photos"]]
+                  assert photos and len(photos)<=30
+                  prior[sku]=photos
+                  if not c.get("video"):
+                      try: print("WB UPDATE",sku,wb.update_media(c["nmID"],photos+[url.split("?")[0]]),flush=True)
+                      except Exception as e: print("WB ERROR",sku,e,flush=True)
+          except Exception as e: print("WB ERROR",e,flush=True)
+          if task:
+              for _ in range(5):
+                  status=oz.get_import_status(task)
+                  print("OZ TASK",status,flush=True)
+                  rows=status.get("result",{}).get("items",[])
+                  if rows and all(x.get("status") in {"imported","failed","skipped"} for x in rows): break
+                  time.sleep(10)
+          for p in oz.get_product_names(list(urls)):
+              print("OZ VERIFY",p["offer_id"],[a["values"] for a in p.get("complex_attributes",[]) if a.get("id")==21841],flush=True)
+          try:
+              code,body=ym._request("POST",f"/v2/businesses/{biz}/offer-mappings",json_body={"offerIds":list(urls)})
+              for x in body.get("result",{}).get("offerMappings",[]):
+                  o=x["offer"]
+                  print("YM VERIFY",o["offerId"],o.get("mediaFiles",{}).get("videos",[]),flush=True)
+          except Exception as e: print("YM ERROR",e,flush=True)
+          for c in wb.list_cards():
+              s=c["vendorCode"]
+              if s in prior:
+                  photos=[p["big"] for p in c.get("photos",[])]
+                  print("WB VERIFY",s,c.get("video"),len(photos),len(prior[s]),flush=True)
+          PY
