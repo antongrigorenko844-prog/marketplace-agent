@@ -1,0 +1,45 @@
+name: Correct Market DQ200 category
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python - <<'PY'
+          import time
+          import yandex_market_client as ym
+          sku="0am325025x"
+          category=71380208
+          biz=ym.get_business_id()
+          _, campaign=ym._creds()
+          def get(path):
+              code, body=ym._request("POST",path,json_body={"offerIds":[sku]})
+              assert code==200,body
+              return body["result"]
+          def status(): return get(f"/v2/campaigns/{campaign}/offers")["offers"][0]
+          def mapping(): return get(f"/v2/businesses/{biz}/offer-mappings")["offerMappings"][0]
+          before=status()
+          prior=mapping()
+          print("BEFORE",before,prior.get("mapping"),flush=True)
+          assert before["offerId"]==sku and before["status"]=="PUBLISHED"
+          assert "без электронной платы" in prior["offer"]["description"].lower()
+          if prior.get("mapping",{}).get("marketCategoryId")!=category:
+              code, body=ym._request("POST",f"/v2/businesses/{biz}/offer-mappings/update",json_body={"offerMappings":[{"offer":{"offerId":sku,"marketCategoryId":category}}]})
+              print("UPDATE",code,body,flush=True)
+              assert code==200 and body.get("status")=="OK" and not any(r.get("errors") for r in (body.get("results") or [])),body
+          for _ in range(25):
+              current=mapping()
+              after=status()
+              print("VERIFY",current["offer"].get("marketCategoryId"),current["offer"].get("cardStatus"),current.get("mapping"),after,current.get("showcaseUrls"),flush=True)
+              assert after["basicPrice"]==before["basicPrice"],after
+              if after["status"]=="PUBLISHED" and current.get("mapping",{}).get("marketCategoryId")==category: break
+              time.sleep(15)
+          else: raise RuntimeError("Market category has not propagated yet")
+          PY
