@@ -54,9 +54,9 @@ validate-master: критичных ошибок нет, предупрежде�
 Правило: равная прибыль (налог 6%, Авито 5%, эквайринг сайта 3.0%); пересчитано цен Авито/сайта: 0
 
 === Шаг 1: sync-master-control ===
-master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 0
+master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 4
 master_control.xlsx -> ozon_new_products.xlsx: обновлено строк 0
-master_control.xlsx -> wb_catalog.xlsx: обновлено строк 1
+master_control.xlsx -> wb_catalog.xlsx: обновлено строк 0
 master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Изменённых обложек в столбце 'Фото' не найдено.
 
@@ -349,7 +349,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Нераспознанных файлов: 2 — см. лист 'Нераспознанные фото' в /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
 
 Готово: attach-photos-all завершён. Дальше — push-photos-dryrun, чтобы проверить, что уйдёт на Ozon и WB.
-[attach-photos-all: 94 с]
+[attach-photos-all: 88 с]
 
 === Шаг 3: push-photos (Ozon + WB) ===
 === Ozon: реальная отправка ===
@@ -357,17 +357,12 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   - Похоже на случайный дубль артикула (отличаются только регистром букв): DQ500, Dq500 — возможно, это одна и та же деталь, заведённая дважды.
   - Похоже на случайный дубль артикула (отличаются только регистром букв): EA888gen3, Ea888gen3 — возможно, это одна и та же деталь, заведённая дважды.
 
-Партия 1: task_id=6032125423, жду обработку...
-  ОК 0AM325473: статус imported
-
-Итого: успешно 1, с ошибками 0
+Отправлять нечего: либо ни одна строка xlsx не совпала с offer_id из ozon_products.json (см. предупреждения выше), либо (чаще) всё, что есть в xlsx, уже было отправлено раньше и с тех пор не менялось (см. data/ozon_push_cache.json) — это нормальный исход, не ошибка.
 
 === WB: реальная отправка ===
-Фото: 0AM325473 — 1 фото отправлено.
+Отправлять нечего: либо ни одна строка xlsx не совпала с vendorCode из wb_cards.json, либо (чаще) всё, что есть в xlsx, уже было отправлено раньше и с тех пор не менялось — это нормальный исход, не ошибка.
 
-Итого успешных операций: 1, с ошибками: 0
-
-[push-photos: 7 с]
+[push-photos: 0 с]
 
 === Шаг 3б: Ozon rich-контент (data/ozon_rich, только изменённое) ===
 Rich-контент: изменений нет.
@@ -383,7 +378,7 @@ Rich-контент: изменений нет.
   WB НЕ ПРИМЕНИЛ 0BH325183: New price is several times lower than the current price. Item has been moved to Price Quarantine
 
 WB обрабатывает изменение цены не мгновенно — проверьте карточку через несколько минут (следующий fetch-wb покажет уже применившуюся цену).
-[push-wb-price: 16 с]
+[push-wb-price: 13 с]
 
 === Шаг 4б: цены Ozon = мастер (только расхождения) ===
 Пропускаю (no_price_sync в ozon_overrides.json): Ea888gen3
@@ -596,7 +591,7 @@ WB обрабатывает изменение цены не мгновенно 
 
 Товаров с включённым автодобавлением: 0
 Выключено: 0, с ошибкой: 0
-[ozon-leave-boosting: 7 с]
+[ozon-leave-boosting: 6 с]
 
 === Шаг 7: Яндекс Маркет — остатки ===
   0am325025L: вариант артикула с другим регистром — отправляю остаток 95
@@ -604,7 +599,7 @@ WB обрабатывает изменение цены не мгновенно 
   0am325066ac: вариант артикула с другим регистром — отправляю остаток 24
 ВНИМАНИЕ: на Маркете есть товары, которых нет в нашем каталоге с остатком — их остаток бот НЕ меняет (7): 0am325025e, 0b5, 0BH325183B, 31705-1XF1A, jf015, nakladki-pedali, 0am325025Y
 push-yandex-stock: принято Маркетом 145 из 145.
-[push-yandex-stock: 2 с]
+[push-yandex-stock: 3 с]
 
 === Шаг 7а: Яндекс Маркет — видео ===
 Видео на Маркете актуальны (20 товаров) — отправлять нечего.
@@ -612,11 +607,11 @@ push-yandex-stock: принято Маркетом 145 из 145.
 
 === Шаг 7б: фото для Авито (photos_avito) ===
 Фото для Авито: товаров с актуальными ссылками — 100
-[attach-avito-photos: 83 с]
+[attach-avito-photos: 84 с]
 
 === Шаг 8: build-avito-catalog ===
-Готово: 123 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
-Пропущено (остаток 0 в master_control.xlsx — сняты с продажи): 0BH325, 0ambset, 0cw0am325025, 122390AKAF, 31705-1XF0C, 31705-X428B, TEST001, jf011e, plita-filtr-pylniki-orig, plita-filtr-pylniki-sal-orig, plita-pylniki-salniki-orig, pylniki-shtokov-orig, pylniki-shtokov-orig-v2, remkomplekt-shtokov-orig, remkomplekt-shtokov-orig-v2
+Готово: 127 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
+Пропущено (остаток 0 в master_control.xlsx — сняты с продажи): 0BH325, 0ambset, 0cw0am325025, 31705-1XF0C, 31705-X428B, TEST001, jf011e, plita-filtr-pylniki-sal-orig, pylniki-shtokov-orig-v2, remkomplekt-shtokov-orig, remkomplekt-shtokov-orig-v2
 
 ВНИМАНИЕ: не удалось автоматически определить 'Тип детали трансмиссии' для 4 товаров — они НЕ включены в файл (это обязательное поле, пустым Avito бы всё равно отклонил). Если это ошибка классификации — допишите ключевое слово в avito_feed.py. Если товар не по теме этого шаблона (не запчасть трансмиссии) — для него нужен другой шаблон категории Avito:
   EA888: Алюминиевый корпус масляного фильтра EA888 Gen3 (крышка, колба, корпус обратного клапана) 06L115401S для 1.8 2.0 TSI
@@ -629,7 +624,7 @@ push-yandex-stock: принято Маркетом 145 из 145.
 [build-avito-catalog: 4 с]
 
 === Шаг 9: Tilda (сайт), CommerceML ===
-Собрано товаров: 142 (из них с остатком 0 -> на сайте 'нет в наличии': 15).
+Собрано товаров: 142 (из них с остатком 0 -> на сайте 'нет в наличии': 11).
 Без фото: solenoid-02e-0b5-bolshoy
   checkauth: success
   init: zip=no | file_limit=3145728
@@ -663,19 +658,22 @@ Ozon: остатки FBS по 135 товарам -> data/ozon_stocks.json
 Авито: строк отчёта автозагрузки: 117 -> data/avito_autoload.json
 
 === Ревизия: сверка ===
-Ревизия площадок: проблем ВАЖНО 30, СРЕДНЕ 79, НИЗКО 7 (Авито: живые объявления)
+Ревизия площадок: проблем ВАЖНО 32, СРЕДНЕ 81, НИЗКО 6 (Авито: живые объявления)
   - Авито: объявление не из фида — 50
   - WB: нет на площадке — 9
+  - Авито: нет на площадке — 8
   - Ozon: остаток — 7
-  - Авито: нет на площадке — 6
   - Маркет: нет на площадке — 6
   - Ozon: лишний — 6
+  - Авито: цена — 6
   - Авито: ошибка автозагрузки — 5
   - WB: цена — 4
-  - Авито: цена — 4
   - Маркет: нет в мастере — 4
   - Авито: дубль объявления — 2
   - Авито/сайт: нет цены без комиссии — 2
+НОВЫХ важных проблем с прошлой ревизии: 2
+  + Авито / нет на площадке / plita-filtr-pylniki-orig
+  + Авито / нет на площадке / plita-pylniki-salniki-orig
 Подробности: data/audit_report.xlsx (после запуска сделайте Pull origin).
 
 update-cards: ошибка на шаге(ах): push-stock — проверьте вывод выше (остальные шаги выполнены).
