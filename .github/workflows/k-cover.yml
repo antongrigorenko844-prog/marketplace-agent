@@ -26,7 +26,7 @@ jobs:
           old=p.get("primary_image") or []
           if isinstance(old,str): old=[old]
           images=[url]+[x for x in p.get("images",[]) if x not in old and x!=url]
-          payload={"product_id":p["id"],"images":images}
+          payload={"offer_id":sku,"images":images}
           for key in ("images360","color_image"):
               if p.get(key): payload[key]=p[key]
           print("IMPORT",oz._post("/v2/product/pictures/import",{"items":[payload]}),flush=True)
