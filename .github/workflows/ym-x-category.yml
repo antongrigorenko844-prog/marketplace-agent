@@ -31,10 +31,10 @@ jobs:
           assert before["offerId"]==sku and before["status"]=="PUBLISHED"
           assert "без электронной платы" in prior["offer"]["description"].lower()
           if prior.get("mapping",{}).get("marketCategoryId")!=category:
-              code, body=ym._request("POST",f"/v2/businesses/{biz}/offer-mappings/update",json_body={"offerMappings":[{"offer":{"offerId":sku,"marketCategoryId":category}}]})
+              code, body=ym._request("POST",f"/v2/businesses/{biz}/offer-cards/update",json_body={"offerCards":[{"offerId":sku,"categoryId":category}]})
               print("UPDATE",code,body,flush=True)
               assert code==200 and body.get("status")=="OK" and not any(r.get("errors") for r in (body.get("results") or [])),body
-          for _ in range(25):
+          for _ in range(5):
               current=mapping()
               after=status()
               print("VERIFY",current["offer"].get("marketCategoryId"),current["offer"].get("cardStatus"),current.get("mapping"),after,current.get("showcaseUrls"),flush=True)
