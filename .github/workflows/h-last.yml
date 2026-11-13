@@ -1,4 +1,4 @@
-name: Add regulator image across channels and inspect WB
+name: Add photo only to Tilda gallery
 on: workflow_dispatch
 permissions:
   contents: write
@@ -21,34 +21,40 @@ jobs:
           TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
         run: |
           python - <<'PY'
-          import json, os, subprocess
+          import json,os,time
+          import xml.etree.ElementTree as ET
           import requests
-          from openpyxl import load_workbook
-          import avito_feed as av
-          import wb_client as wb
-          import yandex_market_client as ym
           import tilda_commerceml as tc
-
           sku="0am325025x"
-          photo="https://ir.ozone.ru/s3/multimedia-1-k/14848101956.jpg"
-          def ordered(urls):
-              assert urls
-              return [urls[0],photo,*[u for u in urls[1:] if u!=photo]]
-          c,=[c for c in wb.list_cards() if c["vendorCode"]==sku]
-          print("WB GALLERY",c["photos"],flush=True)
-          biz=ym.get_business_id()
-          _,d=ym._request("POST",f"/v2/businesses/{biz}/offer-mappings",json_body={"offerIds":[sku]})
-          print("YM GALLERY",d["result"]["offerMappings"][0]["offer"]["pictures"],flush=True)
-          subprocess.run(["gh","release","download","product-photos","-p","avito_feed.xlsx","-D","/tmp"],check=True)
-          path="/tmp/avito_feed.xlsx"
-          book=load_workbook(path)
-          row,=[r for r in book[av.SHEET_ADS].iter_rows(min_row=av.FIRST_DATA_ROW) if str(r[av.COL_ID-1].value).removesuffix(getattr(av,"AVITO_LINK_SUFFIX",""))==sku]
-          cell=row[av.COL_IMAGE_URLS-1]
-          urls=[u.strip() for u in cell.value.replace("|","\n").splitlines() if u.strip()]
-          value="\n".join(ordered(urls))
-          if value!=cell.value:
-              cell.value=value
-              book.save(path)
-              subprocess.run(["gh","release","upload","product-photos",path,"--clobber"],check=True)
-          print("AVITO GALLERY",value.splitlines(),flush=True)
+          def product():
+              r=requests.get("https://store.tildaapi.com/api/getproductslist/",params={"storepartuid":"419144347374","recid":"1928468643","size":100,"c":int(time.time()*1000)},timeout=15)
+              r.raise_for_status()
+              p,=[p for p in r.json()["products"] if p["sku"]==sku]
+              return p
+          before=product()
+          pics=json.loads(before["gallery"])
+          assert before["externalid"]==sku and len(pics)==1
+          urls=[pics[0]["img"],"https://ir.ozone.ru/s3/multimedia-1-k/14848101956.jpg"]
+          files=[]
+          for i,u in enumerate(urls):
+              r=requests.get(u,timeout=15)
+              r.raise_for_status()
+              assert r.headers["Content-Type"].startswith("image/")
+              files.append((f"import_files/dq200x-gallery-{i}."+("png" if "png" in r.headers["Content-Type"] else "jpg"),r.content))
+          root=ET.fromstring(tc.build_import_xml([]))
+          catalog=root.find("Каталог")
+          catalog.set("СодержитТолькоИзменения","true")
+          item=ET.SubElement(catalog.find("Товары"),"Товар")
+          ET.SubElement(item,"Ид").text=sku
+          for filename,_ in files: ET.SubElement(item,"Картинка").text=filename
+          assert [c.tag for c in item]==["Ид","Картинка","Картинка"]
+          offers=tc.build_offers_xml([]).replace('СодержитТолькоИзменения="false"','СодержитТолькоИзменения="true"')
+          print("TILDA IMPORT",tc.push(os.environ["TILDA_COMMERCEML_URL"],os.environ["TILDA_COMMERCEML_USER"],os.environ["TILDA_COMMERCEML_PASSWORD"],ET.tostring(root,encoding="unicode"),offers,image_files=files),flush=True)
+          for _ in range(6):
+              after=product()
+              assert all(after.get(k)==before.get(k) for k in ("price","priceold","quantity","title","descr","text"))
+              print("TILDA VERIFY",after["gallery"],flush=True)
+              if len(json.loads(after["gallery"]))==2: break
+              time.sleep(5)
+          else: raise RuntimeError("Second photo not confirmed")
           PY
