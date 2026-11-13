@@ -38,9 +38,9 @@ jobs:
               assert target["marketCategoryName"] == "Запчасти для трансмиссии автомобиля"
               assert current["marketCategoryName"] in ("Двигатели автомобильные","Сцепление и компоненты","Запчасти для трансмиссии автомобиля")
               if current["marketCategoryId"] != target["marketCategoryId"]:
-                  updates.append({"offerId":sku,"categoryId":target["marketCategoryId"],"parameterValues":[{"parameterId":60134505,"value":sku}]})
+                  updates.append({"offerId":sku,"marketCategoryId":target["marketCategoryId"],"parameterValues":[{"parameterId":60134505,"value":sku}]})
           if updates:
-              response=post(f"/v2/businesses/{biz}/offer-cards/update",{"offersContent":updates})
+              response=post(f"/v2/businesses/{biz}/offer-mappings/update",{"offerMappings":[{"offer":item} for item in updates]})
               print("UPDATE",response,flush=True)
               assert not any(r.get("errors") for r in response.get("results",[]))
           for attempt in range(4):
