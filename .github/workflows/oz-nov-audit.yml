@@ -1,97 +1,37 @@
-name: Ozon deep business audit (read only)
+name: Ozon search queries audit (read only)
 on: workflow_dispatch
 permissions:
   contents: read
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - run: pip install -r requirements.txt
-      - name: Export read only evidence
-        env:
+      - env:
           OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
           OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
         run: |
           python - <<'PY'
-          import os,json,time,datetime,concurrent.futures,traceback
+          import json,time,os
           from pathlib import Path
           import ozon_client as oz
-          import price_audit as pa
-          import openpyxl
-          D=Path('ozon-deep-audit');D.mkdir(exist_ok=True)
-          def save(n,v):
-           (D/(n+'.json')).write_text(json.dumps(v,ensure_ascii=False,default=str),encoding='utf8')
-           print('SAVED',n, len(v) if isinstance(v,(list,dict)) else '',flush=True)
-          def safe(n,fn):
-           try: v=fn();save(n,v);return v
-           except Exception as e: save(n,{'error':str(e)[:1800]});return None
-          def post(path,p): return oz._post(path,p)
-          def analytics():
-           windows=[('2026-06-01','2026-06-30'),('2026-07-01','2026-07-31'),('2026-08-01','2026-08-31'),('2026-09-01','2026-09-30'),('2026-10-01','2026-10-31'),('2026-11-01','2026-11-12'),('2026-11-02','2026-11-05'),('2026-11-09','2026-11-12')]
-           for i,(a,b) in enumerate(windows):
-            if i: time.sleep(63)
-            safe('analytics_'+a+'_'+b,lambda a=a,b=b:post('/v1/analytics/data',{'date_from':a,'date_to':b,'dimension':['sku'],'metrics':['revenue','ordered_units'],'limit':1000,'offset':0,'filters':[],'sort':[]}))
-          def finance():
-           safe('accrual_types',lambda:pa._accrual_types(oz))
-           a=datetime.date(2026,8,1);b=datetime.date(2026,11,12)
-           while a<=b:
-            safe('finance_'+a.isoformat(),lambda a=a:pa._accruals_by_day(oz,a.isoformat()))
-            a+=datetime.timedelta(days=1);time.sleep(.25)
-          def catalog():
-           products=[];cursor=''
-           for page in range(20):
-            r=post('/v3/product/list',{'filter':{'visibility':'ALL'},'last_id':cursor,'limit':1000}).get('result',{})
-            p=r.get('items',[]);products+=p;nc=r.get('last_id','')
-            if not p or nc==cursor or not nc:break
-            cursor=nc
-           save('product_list',products)
-           offers=[p['offer_id'] for p in products]
-           infos=[];attrs=[];stocks=[];prices=[]
-           for i in range(0,len(offers),100):
-            batch=offers[i:i+100]
-            r=safe('infos_batch_'+str(i),lambda:post('/v3/product/info/list',{'offer_id':batch}))
-            if r:infos+=r.get('items',r.get('result',{}).get('items',[]) if isinstance(r.get('result'),dict) else [])
-            safe('attributes_batch_'+str(i),lambda:post('/v4/product/info/attributes',{'filter':{'offer_id':batch,'visibility':'ALL'},'last_id':'','limit':1000,'sort_dir':'ASC'}))
-            safe('stocks_batch_'+str(i),lambda:post('/v4/product/info/stocks',{'filter':{'offer_id':batch,'visibility':'ALL'},'last_id':'','limit':1000}))
-            safe('prices_batch_'+str(i),lambda:post('/v5/product/info/prices',{'filter':{'offer_id':batch,'visibility':'ALL'},'cursor':'','limit':1000}))
-           skus=list({int(p['sku']) for p in infos if p.get('sku')})
-           for i in range(0,len(skus),100):safe('rating_batch_'+str(i),lambda i=i:post('/v1/product/rating-by-sku',{'skus':skus[i:i+100]}))
-           if skus:safe('queries_probe',lambda:post('/v1/analytics/product-queries',{'date_from':'2026-11-01T00:00:00Z','date_to':'2026-11-12T23:59:59Z','skus':[str(x) for x in skus[:100]],'page':0,'page_size':100,'sort_by':'BY_SEARCHES','sort_dir':'DESCENDING'}))
-           safe('category_tree',lambda:post('/v1/description-category/tree',{'language':'RU'}))
-          def returns():
-           out=[];cursor=0
-           for i in range(30):
-            r=post('/v1/returns/list',{'filter':{'logistic_return_date':{'time_from':'2026-08-01T00:00:00Z','time_to':'2026-11-12T23:59:59Z'}},'limit':500,'last_id':cursor})
-            rows=r.get('returns',[])
-            for x in rows:
-             out.append({k:x.get(k) for k in ['id','product','return_reason_name','type','schema','visual','logistic','posting_number','created_at']})
-            if not rows or not r.get('has_next'):break
-            nc=rows[-1]['id']
-            if nc==cursor:break
-            cursor=nc
-           return out
-          def workbooks():
-           for fn in ['master_control.xlsx','kits.xlsx']:
-            p=Path('data')/fn
-            if p.exists():
-             wb=openpyxl.load_workbook(p,read_only=True,data_only=True)
-             save(fn.replace('.xlsx',''),{s.title:list(s.values) for s in wb})
-          safe('source_meta',lambda:{'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'commit':os.environ.get('GITHUB_SHA'),'mode':'read_only','finance_from':'2026-08-01','to':'2026-11-12'})
-          with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
-           fs=[pool.submit(analytics),pool.submit(finance),pool.submit(catalog)]
-           safe('workbooks_result',workbooks)
-           safe('returns',returns)
-           for f in fs:
-            try:f.result()
-            except Exception as e:save('task_error_'+str(time.time()),{'error':str(e)})
+          D=Path('ozon-search-audit');D.mkdir(exist_ok=True)
+          offers=['0am325025H','0am325025','0am325025x','0AM325587E','0AM927769D','0am325025HX','02E927770AL','0am325091e-set','0am325091f-set','0AM325025B']
+          infos=oz.get_product_info_list(offers)
+          for p in infos:
+           body={'date_from':'2026-10-16T00:00:00Z','date_to':'2026-11-12T23:59:59Z','skus':[str(p['sku'])],'limit_by_sku':15,'page':0,'page_size':100,'sort_by':'BY_SEARCHES','sort_dir':'DESCENDING'}
+           try:r=oz._post('/v1/analytics/product-queries/details',body)
+           except Exception as e:r={'error':str(e)[:1800]}
+           (D/(p['offer_id']+'.json')).write_text(json.dumps(r,ensure_ascii=False),encoding='utf8')
+           print(p['offer_id'],'done',flush=True);time.sleep(2)
           
           PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: ozon-deep-audit
-          path: ozon-deep-audit/
+          name: ozon-search-audit
+          path: ozon-search-audit/
           retention-days: 7
 
