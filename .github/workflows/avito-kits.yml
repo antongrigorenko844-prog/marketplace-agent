@@ -1,4 +1,4 @@
-name: Inspect repair kits on Avito
+name: Update two Avito rod kit prices
 on: workflow_dispatch
 permissions:
   contents: read
@@ -18,10 +18,14 @@ jobs:
           python - <<'PY'
           import avito_client as av
           owner = av._request("GET", "/core/v1/accounts/self")["id"]
-          for item in (8415982473,8394946839,8345137262,4220729305,4445230063,4285108577,4445119215,4189437762,4125283125,3965565847,8460936701):
-              try:
-                  info = av._request("GET", f"/core/v1/accounts/{owner}/items/{item}/")
-                  print(item, sorted(info), {k:info[k] for k in ("title","price","description","images","photos") if k in info})
-              except av.AvitoApiError as e:
-                  print(item, str(e))
+          targets = {8415982473:"0am325091f-set", 8345137262:"0am325091e-set"}
+          for item, sku in targets.items():
+              info = av._request("GET", f"/core/v1/accounts/{owner}/items/{item}/")
+              assert str(info.get("autoload_item_id","")).lower() == sku, (item,info.get("autoload_item_id"))
+          for item in targets:
+              result = av._request("POST",f"/core/v1/items/{item}/update_price",json={"price":5800})
+              print(item,result)
+              assert result.get("result",{}).get("success"), result
+          prices = {i["id"]:i.get("price") for i in av.list_all_items() if i.get("id") in targets}
+          print("Verified prices",prices)
           PY
