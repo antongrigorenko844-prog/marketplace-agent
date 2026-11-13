@@ -32,7 +32,7 @@ jobs:
           put(4384, "Винт крепления впускного коллектора M6 × 65 — 1 шт.")
           put(9048, "EA888 M6 × 65")
           for aid, value in ((7202,"1"), (85,"Нет бренда")):
-              hits = oz.search_attribute_values(category, kind, aid, value)
+              hits = oz._post("/v1/description-category/attribute/values", {"description_category_id":category,"type_id":kind,"attribute_id":aid,"language":"RU","limit":500}).get("result", []) if aid == 7202 else oz.search_attribute_values(category, kind, aid, value)
               hit = next((h for h in hits if str(h["value"]).strip() == value), None)
               assert hit, (aid, hits[:4])
               put(aid, value, hit["id"])
