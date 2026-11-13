@@ -1,32 +1,28 @@
-name: Align two Avito bolt kit prices
+name: Verify Avito DQ200 video feed
 on: workflow_dispatch
-permissions:
-  contents: read
 jobs:
-  update:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
       - run: pip install -r requirements.txt
       - env:
           AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
           AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
         run: |
           python - <<'PY'
+          import re,json
           import avito_client as av
-          targets = {8232271969: 2350, 4284998704: 1890}
-          def prices():
-              return {i["id"]: i.get("price") for i in av.list_all_items() if i.get("id") in targets}
-          before = prices()
-          assert set(before) == set(targets) and all(before[i] in (targets[i],2350) for i in targets), before
-          for item in targets:
-              if before[item] != 2350:
-                  result = av._request("POST",f"/core/v1/items/{item}/update_price",json={"price":2350})
-                  assert result.get("result",{}).get("success"), (item,result)
-          after = prices()
-          print("Verified prices", after)
-          assert after == dict.fromkeys(targets,2350)
+          for suffix in ("current","last_successful"):
+              try:
+                  state=av._request("GET",f"/autoload/v4/uploads/{suffix}")
+                  print("AV V4",suffix,{k:v for k,v in state.items() if "url" not in k and k not in ("events","section_stats")},flush=True)
+              except Exception as e: print("AV V4 ERROR",suffix,e,flush=True)
+          report=av.get_autoload_report_items()
+          print("AV REPORT",report["report"],flush=True)
+          pattern=re.compile(r"0am325025x|новыми соленоидами",re.I)
+          for row in report["items"]:
+              if pattern.search(json.dumps(row,ensure_ascii=False)): print("AV ROW",row,flush=True)
+          for row in av.list_all_items():
+              if pattern.search(str(row.get("title",""))): print("AV LIST",{k:row.get(k) for k in ("id","title","status","url","video","videos")},flush=True)
           PY
