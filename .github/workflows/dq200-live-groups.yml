@@ -1,0 +1,26 @@
+name: Verify DQ200 variant groups
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python - <<'PY'
+          import json
+          import ozon_client as oz
+          import wb_client as wb
+          ids=["0AM927769"+s for s in "DFGKE"]+["0am325025HX"+s for s in ("","F","G","K","E")]
+          for p in oz.get_product_info_list(ids):
+              print("OZON",json.dumps([p["offer_id"],p.get("sku"),p.get("model_info"),p.get("statuses",{}).get("status_name")],ensure_ascii=False),flush=True)
+          for c in wb.list_cards():
+              if c["vendorCode"] in ids:
+                  print("WB",json.dumps([c["vendorCode"],c["nmID"],c["imtID"]]),flush=True)
+          PY
