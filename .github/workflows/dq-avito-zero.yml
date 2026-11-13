@@ -13,6 +13,11 @@ jobs:
           python - <<'PY'
           import re,json
           import avito_client as av
+          for suffix in ("current","last_successful"):
+              try:
+                  state=av._request("GET",f"/autoload/v4/uploads/{suffix}")
+                  print("AV V4",suffix,{k:v for k,v in state.items() if "url" not in k and k not in ("events","section_stats")},flush=True)
+              except Exception as e: print("AV V4 ERROR",suffix,e,flush=True)
           report=av.get_autoload_report_items()
           print("AV REPORT",report["report"],flush=True)
           pattern=re.compile(r"0AM927769[GKE]|0am325025HX[GKE]",re.I)
