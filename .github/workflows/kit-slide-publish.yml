@@ -1,0 +1,77 @@
+name: Publish designer slide for Ozon 0am325025
+on:
+  schedule:
+    - cron: '19,49 5-17 * * 1-5'
+  workflow_dispatch:
+concurrency:
+  group: ozon-0am325025-slide-2
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find returned slide
+        id: slide
+        run: |
+          file=$(find data/designer_returns -maxdepth 1 -type f \( -name 'ozon-0am325025-slide-2-*.png' -o -name 'ozon-0am325025-slide-2-*.jpg' \) 2>/dev/null | sort -V | tail -1)
+          if [ -n "$file" ] && [ ! -f data/designer_returns/ozon-0am325025-slide-2.published ]; then
+            echo "file=$file" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.slide.outputs.file != ''
+        run: pip install -r requirements.txt
+      - if: steps.slide.outputs.file != ''
+        env:
+          FILE: ${{ steps.slide.outputs.file }}
+          GH_TOKEN: ${{ github.token }}
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python - <<'PY'
+          import hashlib, os, subprocess, time
+          from pathlib import Path
+          import requests
+          import ozon_client as oz
+
+          sku = "0am325025"
+          path = Path(os.environ["FILE"])
+          asset = path.name
+          url = f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/releases/download/product-photos/{asset}"
+          def info():
+              p, = oz.get_product_info_list([sku])
+              assert p["offer_id"] == sku and p["sku"] == 1945722947
+              return p
+          def image_token(url):
+              return url.split("?")[0].rsplit("/", 1)[-1]
+          item = info()
+          primary, = item["primary_image"]
+          gallery = item["images"]
+          assert gallery and image_token(primary) == "20366115949.jpg"
+          if gallery[0] != url:
+              assert image_token(gallery[0]) == "20762013368.jpg", "Slide 2 has changed since the brief"
+              if not requests.get(url, timeout=20).ok:
+                  subprocess.run(["gh","release","upload","product-photos",str(path)],check=True)
+              response = requests.get(url, timeout=20)
+              response.raise_for_status()
+              assert hashlib.sha256(response.content).digest() == hashlib.sha256(path.read_bytes()).digest()
+              payload = {"offer_id": sku, "primary_image": primary, "images": [url, *gallery[1:]]}
+              for key in ("images360","color_image"):
+                  if item.get(key): payload[key] = item[key]
+              print(oz._post("/v2/product/pictures/import",{"items":[payload]}),flush=True)
+          for _ in range(12):
+              current = info()
+              if current["primary_image"] == [primary] and current["images"] == [url, *gallery[1:]]:
+                  break
+              time.sleep(5)
+          else:
+              raise RuntimeError("Could not verify gallery order")
+          Path("data/designer_returns/ozon-0am325025-slide-2.published").write_text(asset+"\n")
+          PY
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git config user.name 'github-actions[bot]'
+          git add data/designer_returns/ozon-0am325025-slide-2.published
+          git commit -m 'Record verified Ozon 0am325025 slide publication'
+          git pull --rebase origin main
+          git push origin HEAD:main
