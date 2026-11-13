@@ -18,7 +18,6 @@ jobs:
           python - <<'PY'
           import avito_client as av
           ids = [8374830282, 8387624443, 8386890410]
-          print("Before", av.get_stock_info(ids))
           print("Update", av.update_stocks([{"itemId": i, "quantity": 0} for i in ids]))
           print("After", av.get_stock_info(ids))
           print("Listings", [(i.get("id"), i.get("status")) for i in av.list_all_items() if i.get("id") in ids])
