@@ -1,0 +1,70 @@
+name: WB deep sales audit read only
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - name: Read WB analytics cards and stock
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: |
+          python - <<'PY'
+          import json, os, time, pathlib
+          from collections import Counter
+          import requests
+          import wb_client as wb
+          from config import config
+          
+          out=pathlib.Path('wb-audit-output');out.mkdir(exist_ok=True)
+          session=requests.Session()
+          session.headers.update({'Authorization':os.environ['WB_API_TOKEN']})
+          def save(name,data):
+              (out/(name+'.json')).write_text(json.dumps(data,ensure_ascii=False,indent=2))
+          def api(name,method,base,path,body=None):
+              for attempt in range(3):
+                  r=session.request(method,base+path,json=body,timeout=70)
+                  if r.status_code!=429: break
+                  time.sleep(min(60,int(r.headers.get('X-Ratelimit-Retry','25'))+1))
+              try: data=r.json()
+              except ValueError: data={'text':r.text[:1500]}
+              if not r.ok:
+                  save(name,{'status':r.status_code,'error':data}); print(name,'ERROR',r.status_code,str(data)[:400],flush=True);return None
+              save(name,data)
+              print(name,'OK',('rows='+str(len(data))) if isinstance(data,list) else 'keys='+','.join(data.keys()),flush=True)
+              return data
+          
+          cards=wb.list_cards();save('cards',cards);print('CARDS',len(cards),flush=True)
+          barcodes=[s for c in cards for z in c.get('sizes',[]) for s in z.get('skus',[])]
+          warehouses=wb.get_warehouses();save('warehouses',warehouses)
+          for wh in warehouses:
+              api('fbs-stocks-'+str(wh['id']),'POST',config.wb_marketplace_base,'/api/v3/stocks/'+str(wh['id']),{'skus':barcodes})
+          
+          for kind in ('orders','sales'):
+              raw=api('temp-'+kind,'GET',config.wb_statistics_base,'/api/v1/supplier/'+kind+'?dateFrom=2026-08-16')
+              if isinstance(raw,list):
+                  keys=('date','lastChangeDate','supplierArticle','nmId','isCancel','cancelDate','totalPrice','discountPercent','finishedPrice','priceWithDisc','paymentSaleAmount','forPay','saleID','srid','warehouseName','warehouseType','orderType')
+                  clean=[{k:r.get(k) for k in keys if k in r} for r in raw]
+                  save(kind,clean);(out/('temp-'+kind+'.json')).unlink()
+                  dates=Counter(str(r.get('date',''))[:10] for r in clean)
+                  print(kind,'DATES',json.dumps(dates,ensure_ascii=False),flush=True)
+          
+          base='https://seller-analytics-api.wildberries.ru'
+          for label,a,b,c,d in [('funnel28','2026-10-16','2026-11-12','2026-09-18','2026-10-15'),('funnel7','2026-11-06','2026-11-12','2026-10-30','2026-11-05')]:
+              res=api(label,'POST',base,'/api/analytics/v3/sales-funnel/products',{'selectedPeriod':{'start':a,'end':b},'pastPeriod':{'start':c,'end':d},'nmIds':[],'skipDeletedNm':False,'limit':1000,'offset':0})
+              time.sleep(22)
+          api('wb-stocks','POST',base,'/api/analytics/v1/stocks-report/wb-warehouses',{'limit':250000,'offset':0})
+          api('draft-errors','POST',config.wb_content_base,'/content/v2/cards/error/list',{'cursor':{'limit':100},'order':{'ascending':False}})
+          print('AUDIT_COMPLETE_READ_ONLY',flush=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wb-deep-audit
+          path: wb-audit-output/
+          retention-days: 7
+
