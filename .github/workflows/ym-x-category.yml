@@ -16,20 +16,38 @@ jobs:
         run: |
           python - <<'PY'
           import yandex_market_client as ym
-          from openpyxl import load_workbook
+          import time
           sku="0am325025x"
           biz=ym.get_business_id()
           _,camp=ym._creds()
-          for f in ("master_control","ozon_catalog","wb_catalog"):
-              s=load_workbook("data/"+f+".xlsx",read_only=True,data_only=True).active
-              rows=s.values
-              headers=next(rows)
-              for row in rows:
-                  if row[0]==sku:
-                      print("DIM",f,[(k,v) for k,v in zip(headers,row) if any(term in str(k).lower() for term in ("габар","вес","длин","ширин","высот"))],flush=True)
-          for method,path,body in [("GET",f"/v2/campaigns/{camp}",None),("GET",f"/v2/businesses/{biz}/warehouses",None),("GET",f"/v2/campaigns/{camp}/shipments",None),("POST",f"/v2/campaigns/{camp}/offers",{"offerIds":[sku]})]:
+          def call(path,body):
+              code,data=ym._request("POST",path,json_body=body,timeout=20)
+              assert code==200 and data.get("status")=="OK",data
+              return data
+          def mapping():
+              row,=call(f"/v2/businesses/{biz}/offer-mappings",{"offerIds":[sku]})["result"]["offerMappings"]
+              assert row["offer"]["offerId"]==sku
+              return row
+          def offer():
+              row,=call(f"/v2/campaigns/{camp}/offers",{"offerIds":[sku]})["result"]["offers"]
+              assert row["offerId"]==sku
+              return row
+          before=mapping()["offer"]
+          old=offer()
+          dims={**before["weightDimensions"],"length":40,"width":30,"height":30}
+          print("BEFORE",before["weightDimensions"],old,flush=True)
+          if before["weightDimensions"]!=dims:
+              result=call(f"/v2/businesses/{biz}/offer-mappings/update",{"offerMappings":[{"offer":{"offerId":sku,"weightDimensions":dims}}]})
+              print("UPDATE",result,flush=True)
+              assert not any(x.get("errors") for x in result.get("results",[])),result
+          for i in range(10):
               try:
-                  code,data=ym._request(method,path,json_body=body,timeout=15)
-                  print("SHIP",path,code,str(data)[:5000],flush=True)
-              except Exception as e: print("SHIP ERROR",str(e),flush=True)
+                  current=mapping()
+                  status=offer()
+                  print("VERIFY",current["offer"].get("weightDimensions"),status,current.get("showcaseUrls"),flush=True)
+                  assert status["basicPrice"]==old["basicPrice"]
+                  if current["offer"].get("weightDimensions")==dims and status["status"]=="PUBLISHED" and not any("отгружать" in w["message"].lower() for w in status.get("warnings",[])): break
+              except ym.YandexMarketError as error: print("RETRY",error,flush=True)
+              if i<9: time.sleep(20)
+          else: raise RuntimeError("Waiting for shipping restriction to clear")
           PY
