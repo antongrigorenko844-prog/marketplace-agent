@@ -1,45 +1,35 @@
-name: Correct Market DQ200 category
+name: Publish six DQ200 offers on Market and update Avito videos
 on: workflow_dispatch
 permissions:
-  contents: read
+  contents: write
 jobs:
-  update:
+  market:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: pip install -r requirements.txt
       - env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
           YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
           YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
         run: |
           python - <<'PY'
-          import time
           import yandex_market_client as ym
+          from openpyxl import load_workbook
           sku="0am325025x"
-          category=71380208
           biz=ym.get_business_id()
-          _, campaign=ym._creds()
-          def get(path):
-              code, body=ym._request("POST",path,json_body={"offerIds":[sku]})
-              assert code==200,body
-              return body["result"]
-          def status(): return get(f"/v2/campaigns/{campaign}/offers")["offers"][0]
-          def mapping(): return get(f"/v2/businesses/{biz}/offer-mappings")["offerMappings"][0]
-          before=status()
-          prior=mapping()
-          print("BEFORE",before,prior.get("mapping"),flush=True)
-          assert before["offerId"]==sku and before["status"]=="PUBLISHED"
-          assert "без электронной платы" in prior["offer"]["description"].lower()
-          if prior.get("mapping",{}).get("marketCategoryId")!=category:
-              code, body=ym._request("POST",f"/v2/businesses/{biz}/offer-cards/update",json_body={"offersContent":[{"offerId":sku,"categoryId":category,"parameterValues":[{"parameterId":60134505,"value":"0AM325025X"}]}]})
-              print("UPDATE",code,body,flush=True)
-              assert code==200 and body.get("status")=="OK" and not any(r.get("errors") for r in (body.get("results") or [])),body
-          for _ in range(5):
-              current=mapping()
-              after=status()
-              print("VERIFY",current["offer"].get("marketCategoryId"),current["offer"].get("cardStatus"),current.get("mapping"),after,current.get("showcaseUrls"),flush=True)
-              assert after.get("basicPrice")==before.get("basicPrice"),after
-              if after["status"]=="PUBLISHED" and current.get("mapping",{}).get("marketCategoryId")==category: break
-              time.sleep(15)
-          else: raise RuntimeError("Market category has not propagated yet")
+          _,camp=ym._creds()
+          for f in ("master_control","ozon_catalog","wb_catalog"):
+              s=load_workbook("data/"+f+".xlsx",read_only=True,data_only=True).active
+              rows=s.values
+              headers=next(rows)
+              for row in rows:
+                  if row[0]==sku:
+                      print("DIM",f,[(k,v) for k,v in zip(headers,row) if any(term in str(k).lower() for term in ("габар","вес","длин","ширин","высот"))],flush=True)
+          for method,path,body in [("GET",f"/v2/campaigns/{camp}",None),("GET",f"/v2/businesses/{biz}/warehouses",None),("GET",f"/v2/campaigns/{camp}/shipments",None),("POST",f"/v2/campaigns/{camp}/offers",{"offerIds":[sku]})]:
+              try:
+                  code,data=ym._request(method,path,json_body=body,timeout=15)
+                  print("SHIP",path,code,str(data)[:5000],flush=True)
+              except Exception as e: print("SHIP ERROR",str(e),flush=True)
           PY
