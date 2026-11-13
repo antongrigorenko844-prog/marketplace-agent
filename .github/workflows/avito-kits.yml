@@ -1,4 +1,4 @@
-name: Update two Avito rod kit prices
+name: Update two Avito mechatronic kit prices
 on: workflow_dispatch
 permissions:
   contents: read
@@ -17,15 +17,16 @@ jobs:
         run: |
           python - <<'PY'
           import avito_client as av
-          owner = av._request("GET", "/core/v1/accounts/self")["id"]
-          targets = {8415982473:"0am325091f-set", 8345137262:"0am325091e-set"}
-          for item, sku in targets.items():
-              info = av._request("GET", f"/core/v1/accounts/{owner}/items/{item}/")
-              assert str(info.get("autoload_item_id","")).lower() == sku, (item,info.get("autoload_item_id"))
+          targets = {4445119215: 9850, 3965565847: 11890}
+          def prices():
+              return {i["id"]: i.get("price") for i in av.list_all_items() if i.get("id") in targets}
+          before = prices()
+          assert set(before) == set(targets) and all(before[i] in (targets[i],9800) for i in targets), before
           for item in targets:
-              result = av._request("POST",f"/core/v1/items/{item}/update_price",json={"price":5800})
-              print(item,result)
-              assert result.get("result",{}).get("success"), result
-          prices = {i["id"]:i.get("price") for i in av.list_all_items() if i.get("id") in targets}
-          print("Verified prices",prices)
+              if before[item] != 9800:
+                  result = av._request("POST",f"/core/v1/items/{item}/update_price",json={"price":9800})
+                  assert result.get("result",{}).get("success"), (item,result)
+          after = prices()
+          print("Verified prices", after)
+          assert after == dict.fromkeys(targets,9800)
           PY
