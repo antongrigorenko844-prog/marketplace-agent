@@ -1,9 +1,9 @@
-name: Audit marketplace categories and WB orders
+name: Correct Ozon solenoid product types
 on: workflow_dispatch
 permissions:
   contents: read
 jobs:
-  inspect:
+  market:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -11,54 +11,27 @@ jobs:
       - env:
           OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
           OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
-          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
-          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
-          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
         run: |
           python - <<'PY'
-          import json
-          from collections import Counter
           import ozon_client as oz
-          import wb_client as wb
-          import yandex_market_client as ym
-          def emit(label, data):
-              print(label,json.dumps(data,ensure_ascii=False),flush=True)
-          try:
-              rows = wb.get_orders_since("2026-10-26")
-              periods = [("2026-10-26","2026-11-01"),("2026-11-02","2026-11-08"),("2026-11-02","2026-11-05"),("2026-11-09","2026-11-12")]
-              for a,b in periods:
-                  by_sku = Counter(row.get("supplierArticle") for row in rows if a <= row["date"][:10] <= b and not row.get("isCancel"))
-                  emit("WB_ORDERS",[a,b,sum(by_sku.values()),by_sku])
-          except Exception as exc:
-              emit("WB_ERROR",str(exc))
-          try:
-              for row in ym.get_all_offers():
-                  emit("YM_CARD",row)
-          except Exception as exc:
-              emit("YM_ERROR",str(exc))
-          try:
-              ids = []
-              cursor = ""
-              while True:
-                  result = oz._post("/v3/product/list",{"filter":{"visibility":"ALL"},"limit":100,"last_id":cursor}).get("result",{})
-                  ids.extend(x["offer_id"] for x in result.get("items",[]) if not x.get("archived"))
-                  next_cursor = result.get("last_id")
-                  if not result.get("items") or not next_cursor or next_cursor == cursor:
-                      break
-                  cursor = next_cursor
-              tree = oz._post("/v1/description-category/tree",{"language":"RU"}).get("result",[])
-              names = {}
-              def walk(nodes,path=()):
-                  for node in nodes:
-                      new = path + tuple(v for v in (node.get("category_name"),node.get("type_name")) if v)
-                      if node.get("type_id"):
-                          names[node["type_id"]] = " / ".join(new)
-                      walk(node.get("children",[]),new)
-              walk(tree)
-              for i in range(0,len(ids),100):
-                  for row in oz.get_product_names(ids[i:i+100]):
-                      keys = ("offer_id","name","type_id","description_category_id")
-                      emit("OZ_CARD",{**{k:row.get(k) for k in keys},"category":names.get(row.get("type_id"))})
-          except Exception as exc:
-              emit("OZ_ERROR",str(exc))
+          import catalog_editor as ce
+          ids = ["6t30","0AM325473","0am325025n"]
+          category, target = 17028756, 970984897
+          schemas = {}
+          for kind in (target,971100605):
+              schemas[kind] = {a["id"]:a for a in oz.get_category_attributes(category,kind)}
+          wanted = schemas[target]
+          cards = {x["offer_id"]:x for x in oz.get_product_names(ids)}
+          prices = {x["offer_id"]:x for x in oz.get_prices_and_stocks(ids)}
+          for sku in ids:
+              card = cards[sku]
+              assert card["description_category_id"] == category
+              if card["type_id"] == target:
+                  print("ALREADY",sku)
+                  continue
+              assert card["type_id"] == 971100605
+              item = ce._build_one_item(card,prices[sku],{})
+              fields = {a["id"]:a for a in item["attributes"]}
+              missing = [(i,a["name"]) for i,a in wanted.items() if a.get("is_required") and (i not in fields or not fields[i].get("values")) and i != 8229]
+              print("PREFLIGHT",sku,"missing",missing,"required",[(i,a["name"]) for i,a in wanted.items() if a.get("is_required")],"removed",[(i,schemas[971100605].get(i,{}).get("name")) for i in fields if i not in wanted],flush=True)
           PY
