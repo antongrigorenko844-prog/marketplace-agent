@@ -25,17 +25,30 @@ validate-master: критичных ошибок нет, предупрежде�
 Сохранено 136 карточек WB в /home/runner/work/marketplace-agent/marketplace-agent/data/wb_cards.json
 
 === Шаг 0а-2: создать недостающие карточки WB ===
-К созданию на WB: 0 товаров.
+К созданию на WB: 1 товаров.
+  6t30: «Соленоиды АКПП 6T30/6T40/6T45/6T50» | образец 0AM325473 (раздел «Корзины сцепления для авто», сходство 0.33) | цена 19850 | 0.5 кг 10.0x7.0x6.0 см   <-- образец подобран неуверенно, проверьте раздел
 
-Пропущено (8):
+Пропущено (9):
   - EA888: двигательная/тестовая позиция — впишите «Образец для WB» в мастер
   - EA888gen3: двигательная/тестовая позиция — впишите «Образец для WB» в мастер
   - Ea888gen3: двигательная/тестовая позиция — впишите «Образец для WB» в мастер
   - plita-filtr-v2: двойник -v2: на WB такой же товар уже создаётся под базовым артикулом (или впишите «да» в колонку WB мастера и образец)
+  - plita-pylniki-salniki-orig-v2: двойник -v2: на WB такой же товар уже создаётся под базовым артикулом (или впишите «да» в колонку WB мастера и образец)
   - podshipnik-vilki-6: не нашёл похожий образец на WB — впишите «Образец для WB» в мастер
   - porshni-usil-pylniki-kryshki-v2: двойник -v2: на WB такой же товар уже создаётся под базовым артикулом (или впишите «да» в колонку WB мастера и образец)
   - salnik-shtoka-orig-v2: двойник -v2: на WB такой же товар уже создаётся под базовым артикулом (или впишите «да» в колонку WB мастера и образец)
   - vint-kollektora-ea888: не нашёл похожий образец на WB — впишите «Образец для WB» в мастер
+ОК: 6t30 отправлен на создание (раздел 9027).
+
+Итого: отправлено 1, с ошибками 0.
+Проверяю результат каждые 30 с (до 5 минут), пока WB обрабатывает карточки...
+
+РЕЗУЛЬТАТ: создано на WB 1 из 1.
+  ОК: 6t30
+Дальше: update-cards добавит фото и остатки новым карточкам.
+Создано на WB: 6t30 — перечитываю карточки WB.
+Сохранено 137 карточек WB в /home/runner/work/marketplace-agent/marketplace-agent/data/wb_cards.json
+В wb_catalog.xlsx добавлено строк для новых карточек WB: 1
 
 === Шаг 0а-3: создать недостающие карточки Ozon ===
 К созданию на Ozon: 0 товаров.
@@ -44,11 +57,8 @@ validate-master: критичных ошибок нет, предупрежде�
 Все карточки Ozon уже в каталоге.
 
 === Шаг 0б: цена WB = цена Ozon ===
-Расхождений цены WB и Ozon: 4
+Расхождений цены WB и Ozon: 1
   0AM927769D: WB 78800.1 -> 74850 ₽ (-5%)
-  02e305045: WB 3850 -> 2350 ₽ (-39%)
-  0BH325183: WB 7850 -> 4350 ₽ (-45%)
-  0BH325183 B: WB 7850 -> 4350 ₽ (-45%)
 
 Готово: колонка «Цена WB» в мастере обновлена. Дальше: Pull, push-wb-price-dryrun (проверить), затем update-cards.
 
@@ -56,9 +66,9 @@ validate-master: критичных ошибок нет, предупрежде�
 Правило: равная прибыль (налог 6%, Авито 5%, эквайринг сайта 3.0%); пересчитано цен Авито/сайта: 0
 
 === Шаг 1: sync-master-control ===
-master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 2
+master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 4
 master_control.xlsx -> ozon_new_products.xlsx: обновлено строк 0
-master_control.xlsx -> wb_catalog.xlsx: обновлено строк 108
+master_control.xlsx -> wb_catalog.xlsx: обновлено строк 0
 master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Изменённых обложек в столбце 'Фото' не найдено.
 
@@ -212,7 +222,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Скачайте ozon_catalog.xlsx из data/, проверьте и переходите к push-ozon-cards-dryrun.
 
 === Шаг 2/3: attach-wb-photos ===
-Ссылки на фото подставлены в /home/runner/work/marketplace-agent/marketplace-agent/data/wb_catalog.xlsx для 128 товаров:
+Ссылки на фото подставлены в /home/runner/work/marketplace-agent/marketplace-agent/data/wb_catalog.xlsx для 129 товаров:
   01X301127C: 1 фото
   02E 305 045: 1 фото
   02E305051C: 1 фото
@@ -341,6 +351,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   tolkateli-4-salniki-4: 1 фото
   tolkateli-salniki-alum-komplekt: 1 фото
   vtulki-shtokov-2sht: 1 фото
+  6t30: 1 фото
 
 === Шаг 3/3: build-master-control ===
 Новые строки мастера (ещё нет на площадках) сохранены: nakladki-pedali
@@ -350,7 +361,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Нераспознанных файлов: 2 — см. лист 'Нераспознанные фото' в /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
 
 Готово: attach-photos-all завершён. Дальше — push-photos-dryrun, чтобы проверить, что уйдёт на Ozon и WB.
-[attach-photos-all: 6 с]
+[attach-photos-all: 90 с]
 
 === Шаг 3: push-photos (Ozon + WB) ===
 === Ozon: реальная отправка ===
@@ -358,20 +369,28 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   - Похоже на случайный дубль артикула (отличаются только регистром букв): DQ500, Dq500 — возможно, это одна и та же деталь, заведённая дважды.
   - Похоже на случайный дубль артикула (отличаются только регистром букв): EA888gen3, Ea888gen3 — возможно, это одна и та же деталь, заведённая дважды.
 
-Партия 1: task_id=6032008597, жду обработку...
-  ОК 0AM927769G: статус imported
-  ОК 0am325025HXG: статус imported
-
-Итого: успешно 2, с ошибками 0
+Отправлять нечего: либо ни одна строка xlsx не совпала с offer_id из ozon_products.json (см. предупреждения выше), либо (чаще) всё, что есть в xlsx, уже было отправлено раньше и с тех пор не менялось (см. data/ozon_push_cache.json) — это нормальный исход, не ошибка.
 
 === WB: реальная отправка ===
-Отправлять нечего: либо ни одна строка xlsx не совпала с vendorCode из wb_cards.json, либо (чаще) всё, что есть в xlsx, уже было отправлено раньше и с тех пор не менялось — это нормальный исход, не ошибка.
+Фото: 6t30 — 1 фото отправлено.
 
-[push-photos: 6 с]
+Итого успешных операций: 1, с ошибками: 0
+
+[push-photos: 3 с]
 
 === Шаг 3б: Ozon rich-контент (data/ozon_rich, только изменённое) ===
-Rich-контент: изменений нет.
-[ozon-rich: 1 с]
+0AM927769D: rich готов (3202 знаков, фото на Ozon: 3)
+0AM927769F: rich готов (3202 знаков, фото на Ozon: 3)
+0am325025H: rich готов (4096 знаков, фото на Ozon: 4)
+0am325025HX: rich готов (4623 знаков, фото на Ozon: 3)
+0am325025HXF: rich готов (4623 знаков, фото на Ozon: 3)
+Отправлено rich: 5; task_id=6032081092
+  Ozon: 0AM927769D imported 
+  Ozon: 0AM927769F imported 
+  Ozon: 0am325025H imported 
+  Ozon: 0am325025HX imported 
+  Ozon: 0am325025HXF imported 
+[ozon-rich: 13 с]
 
 === Шаг 4: push-wb-price ===
 Цена отправлена для 3 товаров:
@@ -383,7 +402,7 @@ Rich-контент: изменений нет.
   WB НЕ ПРИМЕНИЛ 0BH325183: New price is several times lower than the current price. Item has been moved to Price Quarantine
 
 WB обрабатывает изменение цены не мгновенно — проверьте карточку через несколько минут (следующий fetch-wb покажет уже применившуюся цену).
-[push-wb-price: 11 с]
+[push-wb-price: 12 с]
 
 === Шаг 4б: цены Ozon = мастер (только расхождения) ===
 Пропускаю (no_price_sync в ozon_overrides.json): Ea888gen3
@@ -545,11 +564,11 @@ WB обрабатывает изменение цены не мгновенно 
 [push-stock: 3 с]
 
 === Шаг 6: push-wb-stock (WB) ===
-ВНИМАНИЕ: 16 артикул(ов) без карточки/штрихкода на WB, пропущены: 0BH325, 0ambset, 6t30, Dq500, EA888, EA888gen3, Ea888gen3, TEST001, plita-filtr-v2, plita-pylniki-salniki-orig-v2, podshipnik-vilki-6, porshni-usil-pylniki-kryshki-v2, pylniki-shtokov-orig-v2, remkomplekt-shtokov-orig-v2, salnik-shtoka-orig-v2, vint-kollektora-ea888
-  ОК: партия из 127 остатков отправлена (01X301127C, 02E 305 045, 02E305051C, 02E927770AL, 02e305045, 0AM301212A, 0AM325025B, 0AM325120A, 0AM325219C, 0AM325413A, 0AM325433E, 0AM325443D, 0AM325467J, 0AM325473, 0AM325587E, 0AM927769D, 0AM927769E, 0AM927769F, 0AM927769G, 0AM927769K, 0AM927769N, 0BH325183, 0BH325183 B, 0am325025, 0am325025D, 0am325025G, 0am325025H, 0am325025HX, 0am325025HXE, 0am325025HXF, 0am325025HXG, 0am325025HXK, 0am325025P, 0am325025ae, 0am325025f, 0am325025hfe, 0am325025j, 0am325025l, 0am325025m, 0am325025n, 0am325025q, 0am325025r, 0am325025u, 0am325025x, 0am325025z, 0am325025С, 0am325066AC, 0am325066ad, 0am325066ae, 0am325091e, 0am325091e-set, 0am325091f, 0am325091f-set, 0am325477, 0am325477ae, 0cw0am, 0cw0am325025, 0cw0amdsgdq200, 0cw325025h, 0сц, 122390AK-AF, 122390AKAF, 123014‑AF, 31705-1XF0C, 31705-X428B, 317053TX0C, 55565480, DQ500, Dq200dsg7, Dq200dsg70am0cw, WHT001922, chip-02e927770, chip-0am927769d, datchik-peredach-dq200, datchik-scepleniya-dq200, derzhatel-datchikov-dq200, filtr-dsg7-dq200, filtr-dsg7-dq500, filtr-setka-0b5-orig, fpc-shleif-dq200, gidroakkumulyator-orig, jf011e, klipsa-datchika-peredach-dq200, klipsy-shtokov-2sht, kolodka-solenoidov-dq200, korpus-filtra-0bh325159, kryshka-mehatronika-dq200, kryshka-platy-dq200, osnovanie-platy-dq200, planka-solenoid-2sht, plastina-solenoid-dq200, plastiny-solenoid-dq200-2sht, plastiny-solenoid-orig, plita-filtr, plita-filtr-orig, plita-filtr-pylniki, plita-filtr-pylniki-orig, plita-filtr-pylniki-sal, plita-filtr-pylniki-sal-orig, plita-filtr-salniki-orig, plita-pylniki-salniki, plita-pylniki-salniki-orig, porshni-usil-pylniki-kryshki, prokladka-kryshki-dq200, prokladka-vtulki-dq200, prokladka-vtulki-niz-dq200, prokladka-vtulki-verh-dq200, pylniki-shtokov-orig, remkomplekt-shtokov-orig, salnik-shtoka-orig, salnik-tolkatelya-alum, salniki-shtokov-2sht, salniki-shtokov-orig, salniki-tolkatelya-4sht, salnikprivod-l, salnikprivod-r, salnikvhod, salnikvihod, separatornaya-plastina-dq200, separatornaya-plastiny-solenoid-dq200, shleif-platy-dq200, solenoid-02e-0b5-bolshoy, stalnaya-vstavka-plity, tolkateli-4-salniki-4, tolkateli-salniki-alum-komplekt, vtulki-shtokov-2sht, 0AM927769D (снята))
+ВНИМАНИЕ: 15 артикул(ов) без карточки/штрихкода на WB, пропущены: 0BH325, 0ambset, Dq500, EA888, EA888gen3, Ea888gen3, TEST001, plita-filtr-v2, plita-pylniki-salniki-orig-v2, podshipnik-vilki-6, porshni-usil-pylniki-kryshki-v2, pylniki-shtokov-orig-v2, remkomplekt-shtokov-orig-v2, salnik-shtoka-orig-v2, vint-kollektora-ea888
+  ОК: партия из 128 остатков отправлена (01X301127C, 02E 305 045, 02E305051C, 02E927770AL, 02e305045, 0AM301212A, 0AM325025B, 0AM325120A, 0AM325219C, 0AM325413A, 0AM325433E, 0AM325443D, 0AM325467J, 0AM325473, 0AM325587E, 0AM927769D, 0AM927769E, 0AM927769F, 0AM927769G, 0AM927769K, 0AM927769N, 0BH325183, 0BH325183 B, 0am325025, 0am325025D, 0am325025G, 0am325025H, 0am325025HX, 0am325025HXE, 0am325025HXF, 0am325025HXG, 0am325025HXK, 0am325025P, 0am325025ae, 0am325025f, 0am325025hfe, 0am325025j, 0am325025l, 0am325025m, 0am325025n, 0am325025q, 0am325025r, 0am325025u, 0am325025x, 0am325025z, 0am325025С, 0am325066AC, 0am325066ad, 0am325066ae, 0am325091e, 0am325091e-set, 0am325091f, 0am325091f-set, 0am325477, 0am325477ae, 0cw0am, 0cw0am325025, 0cw0amdsgdq200, 0cw325025h, 0сц, 122390AK-AF, 122390AKAF, 123014‑AF, 31705-1XF0C, 31705-X428B, 317053TX0C, 55565480, 6t30, DQ500, Dq200dsg7, Dq200dsg70am0cw, WHT001922, chip-02e927770, chip-0am927769d, datchik-peredach-dq200, datchik-scepleniya-dq200, derzhatel-datchikov-dq200, filtr-dsg7-dq200, filtr-dsg7-dq500, filtr-setka-0b5-orig, fpc-shleif-dq200, gidroakkumulyator-orig, jf011e, klipsa-datchika-peredach-dq200, klipsy-shtokov-2sht, kolodka-solenoidov-dq200, korpus-filtra-0bh325159, kryshka-mehatronika-dq200, kryshka-platy-dq200, osnovanie-platy-dq200, planka-solenoid-2sht, plastina-solenoid-dq200, plastiny-solenoid-dq200-2sht, plastiny-solenoid-orig, plita-filtr, plita-filtr-orig, plita-filtr-pylniki, plita-filtr-pylniki-orig, plita-filtr-pylniki-sal, plita-filtr-pylniki-sal-orig, plita-filtr-salniki-orig, plita-pylniki-salniki, plita-pylniki-salniki-orig, porshni-usil-pylniki-kryshki, prokladka-kryshki-dq200, prokladka-vtulki-dq200, prokladka-vtulki-niz-dq200, prokladka-vtulki-verh-dq200, pylniki-shtokov-orig, remkomplekt-shtokov-orig, salnik-shtoka-orig, salnik-tolkatelya-alum, salniki-shtokov-2sht, salniki-shtokov-orig, salniki-tolkatelya-4sht, salnikprivod-l, salnikprivod-r, salnikvhod, salnikvihod, separatornaya-plastina-dq200, separatornaya-plastiny-solenoid-dq200, shleif-platy-dq200, solenoid-02e-0b5-bolshoy, stalnaya-vstavka-plity, tolkateli-4-salniki-4, tolkateli-salniki-alum-komplekt, vtulki-shtokov-2sht, 0AM927769D (снята))
 
-Итого: успешно 127, с ошибками 0
-[push-wb-stock: 2 с]
+Итого: успешно 128, с ошибками 0
+[push-wb-stock: 1 с]
 
 === Шаг 6б: Ozon — контроль акций (цена не ниже нашей) ===
 Акций, доступных продавцу через API: 6
@@ -558,7 +577,7 @@ WB обрабатывает изменение цены не мгновенно 
   «Супербустинг 11.11» (id 4465756): наших товаров в акции 1
   «Максимальный бустинг 11.11 и Чёрная пятница» (id 4400847): наших товаров в акции 7
   «Максимальный бустинг: усиление 11.11 и Чёрная пятница» (id 4410985): наших товаров в акции 4
-  «Лайт бустинг 11.11 и Чёрная пятница» (id 4470585): наших товаров в акции 0
+  «Лайт бустинг 11.11 и Чёрная пятница» (id 4470585): наших товаров в акции 1
 Во всех акциях цена = наша (скидки из наших денег нет) — участие бесплатное, ничего не делаем.
 
 Лимит акции (минимальная цена = наша цена), чтобы Ozon не опускал цену на сайте ниже нашей:
@@ -593,12 +612,10 @@ WB обрабатывает изменение цены не мгновенно 
   лимит выставлен: 0, с ошибкой: 0
 
 Автодобавление в акции:
-0AM927769G: автодобавление в акции ВКЛ (цена 74850)
-0am325025HXG: автодобавление в акции ВКЛ (цена 118850)
 
-Товаров с включённым автодобавлением: 2
-Выключено: 2, с ошибкой: 0
-[ozon-leave-boosting: 8 с]
+Товаров с включённым автодобавлением: 0
+Выключено: 0, с ошибкой: 0
+[ozon-leave-boosting: 7 с]
 
 === Шаг 7: Яндекс Маркет — остатки ===
   0am325025L: вариант артикула с другим регистром — отправляю остаток 95
@@ -606,7 +623,7 @@ WB обрабатывает изменение цены не мгновенно 
   0am325066ac: вариант артикула с другим регистром — отправляю остаток 24
 ВНИМАНИЕ: на Маркете есть товары, которых нет в нашем каталоге с остатком — их остаток бот НЕ меняет (7): 0am325025e, 0b5, 0BH325183B, 31705-1XF1A, jf015, nakladki-pedali, 0am325025Y
 push-yandex-stock: принято Маркетом 145 из 145.
-[push-yandex-stock: 2 с]
+[push-yandex-stock: 3 с]
 
 === Шаг 7а: Яндекс Маркет — видео ===
 Видео на Маркете актуальны (20 товаров) — отправлять нечего.
@@ -617,8 +634,8 @@ push-yandex-stock: принято Маркетом 145 из 145.
 [attach-avito-photos: 80 с]
 
 === Шаг 8: build-avito-catalog ===
-Готово: 119 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
-Пропущено (остаток 0 в master_control.xlsx — сняты с продажи): 0AM325473, 0BH325, 0ambset, 0cw0am325025, 122390AKAF, 31705-1XF0C, 31705-X428B, 6t30, Dq200dsg70am0cw, TEST001, jf011e, plita-filtr-pylniki-orig, plita-filtr-pylniki-sal-orig, plita-pylniki-salniki-orig, plita-pylniki-salniki-orig-v2, pylniki-shtokov-orig, pylniki-shtokov-orig-v2, remkomplekt-shtokov-orig, remkomplekt-shtokov-orig-v2
+Готово: 123 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
+Пропущено (остаток 0 в master_control.xlsx — сняты с продажи): 0BH325, 0ambset, 0cw0am325025, 122390AKAF, 31705-1XF0C, 31705-X428B, TEST001, jf011e, plita-filtr-pylniki-orig, plita-filtr-pylniki-sal-orig, plita-pylniki-salniki-orig, pylniki-shtokov-orig, pylniki-shtokov-orig-v2, remkomplekt-shtokov-orig, remkomplekt-shtokov-orig-v2
 
 ВНИМАНИЕ: не удалось автоматически определить 'Тип детали трансмиссии' для 4 товаров — они НЕ включены в файл (это обязательное поле, пустым Avito бы всё равно отклонил). Если это ошибка классификации — допишите ключевое слово в avito_feed.py. Если товар не по теме этого шаблона (не запчасть трансмиссии) — для него нужен другой шаблон категории Avito:
   EA888: Алюминиевый корпус масляного фильтра EA888 Gen3 (крышка, колба, корпус обратного клапана) 06L115401S для 1.8 2.0 TSI
@@ -631,20 +648,16 @@ push-yandex-stock: принято Маркетом 145 из 145.
 [build-avito-catalog: 4 с]
 
 === Шаг 9: Tilda (сайт), CommerceML ===
-Собрано товаров: 142 (из них с остатком 0 -> на сайте 'нет в наличии': 19).
+Собрано товаров: 142 (из них с остатком 0 -> на сайте 'нет в наличии': 15).
 Без фото: solenoid-02e-0b5-bolshoy
-Фото уйдут новым товарам (6 файлов): 0AM927769G, 0am325025HXG
   checkauth: success
   init: zip=no | file_limit=3145728
-  фото: отправлено файлов 6
   file import0_1.xml: success
   file offers0_1.xml: success
   import import0_1.xml: success
   import offers0_1.xml: success
-Фото отправлены (повторно не шлём): 0AM927769G, 0am325025HXG
-Если на сайте их нет — включите в Тильде «Принимать изображения» (Синхронизация через CommerceML -> Дополнительные настройки) и удалите эти артикулы из data/tilda_images_sent.json.
 push-tilda: готово. Проверьте результат на сайте и в 'Истории синхронизации' в Тильде.
-[push-tilda: 8 с]
+[push-tilda: 7 с]
 
 === Шаг 10: ревизия площадок (только чтение, на результат update-cards не влияет) ===
 === Ревизия: обновляю выгрузки с площадок ===
@@ -669,23 +682,22 @@ Ozon: остатки FBS по 135 товарам -> data/ozon_stocks.json
 Авито: строк отчёта автозагрузки: 117 -> data/avito_autoload.json
 
 === Ревизия: сверка ===
-Ревизия площадок: проблем ВАЖНО 28, СРЕДНЕ 75, НИЗКО 7 (Авито: живые объявления)
+Ревизия площадок: проблем ВАЖНО 30, СРЕДНЕ 78, НИЗКО 7 (Авито: живые объявления)
   - Авито: объявление не из фида — 50
-  - WB: нет на площадке — 8
+  - WB: нет на площадке — 9
+  - Авито: нет на площадке — 6
   - Маркет: нет на площадке — 6
   - Ozon: остаток — 6
   - Ozon: лишний — 6
   - Авито: ошибка автозагрузки — 5
-  - Авито: нет на площадке — 5
   - WB: цена — 4
+  - Авито: цена — 4
   - Маркет: нет в мастере — 4
   - Авито: дубль объявления — 2
   - Авито/сайт: нет цены без комиссии — 2
-  - Авито: артикул отличается регистром — 2
-НОВЫХ важных проблем с прошлой ревизии: 3
-  + Авито / нет на площадке / 0AM927769G
-  + Маркет / нет на площадке / 0AM927769G
-  + Маркет / нет на площадке / 0am325025HXG
+НОВЫХ важных проблем с прошлой ревизии: 2
+  + WB / нет на площадке / plita-pylniki-salniki-orig-v2
+  + Авито / нет на площадке / 0AM325473
 Подробности: data/audit_report.xlsx (после запуска сделайте Pull origin).
 
 update-cards: ошибка на шаге(ах): push-stock — проверьте вывод выше (остальные шаги выполнены).
