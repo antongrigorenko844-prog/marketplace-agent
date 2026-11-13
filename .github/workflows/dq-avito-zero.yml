@@ -1,0 +1,25 @@
+name: Zero three DQ500 Avito offers
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: |
+          python - <<'PY'
+          import avito_client as av
+          ids = [8374830282, 8387624443, 8386890410]
+          print("Before", av.get_stock_info(ids))
+          print("Update", av.update_stocks([{"itemId": i, "quantity": 0} for i in ids]))
+          print("After", av.get_stock_info(ids))
+          print("Listings", [(i.get("id"), i.get("status")) for i in av.list_all_items() if i.get("id") in ids])
+          PY
