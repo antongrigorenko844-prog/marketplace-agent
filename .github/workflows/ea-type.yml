@@ -1,0 +1,29 @@
+name: Inspect EA888 Ozon product types
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python - <<'PY'
+          import re
+          import ozon_client as oz
+          def walk(nodes, path=(), category=None):
+              for n in nodes:
+                  name = n.get('category_name') or n.get('type_name') or ''
+                  cat = n.get('description_category_id') or category
+                  if n.get('type_id') == 970863591 or re.search(r'болт|винт|креп[её]ж|коллектор', name, re.I):
+                      print(' / '.join((*path,name)),cat,n.get('type_id'),n.get('disabled'))
+                  walk(n.get('children') or [], (*path,name), cat)
+          walk(oz.get_category_tree())
+          PY
