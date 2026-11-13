@@ -1,0 +1,41 @@
+name: Inspect WB DQ200 plate categories
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: |
+          python - <<'PY'
+          import wb_client as wb
+          import json
+          from urllib.parse import urlencode
+          cards = wb.list_cards()
+          codes = {"0am927769"+c for c in "dfgke"} | {"0am325025hx"+c for c in ("","f","g","k","e")} | {"0am325025x","0am325025h"}
+          subjects = {}
+          for card in cards:
+              if card.get("vendorCode","").lower() in codes:
+                  keys = ("vendorCode","nmID","subjectID","subjectName","imtID","needKiz")
+                  print("PLATE",json.dumps({k:card.get(k) for k in keys},ensure_ascii=False))
+                  print("CUSTOMS", [c for c in card.get("characteristics",[]) if any(k in str(c.get("name","")).lower() for k in ("тн вэд","окпд"))])
+                  subjects[card["subjectID"]] = card["subjectName"]
+          for query in ():
+              res = wb.get_subjects(name=query)
+              print("CATEGORY",query,res)
+              for x in res:
+                  if "subjectID" in x: subjects[x["subjectID"]] = x.get("subjectName")
+          for sid, name in subjects.items():
+              print("SCHEMA",sid,[c for c in wb.get_subject_characteristics(sid) if "вэд" in c.get("name","").lower()])
+
+              path = "/content/v2/directory/tnved?" + urlencode({"subjectID":sid,"search":"8708409909"})
+              try:
+                  from config import config
+                  print("TN",sid,name,wb._request("GET",config.wb_content_base,path))
+              except Exception as e:
+                  print("TN_ERR",sid,str(e))
+          PY
