@@ -1,0 +1,40 @@
+name: Compare Ozon November traffic and orders
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python - <<'PY'
+          import json
+          import ozon_client as oz
+          offers = ["0am325025H","0am325025","0am325025x","0AM325587E"]
+          def emit(label,value): print("AUDIT",label,json.dumps(value,ensure_ascii=False),flush=True)
+          items = oz.get_product_info_list(offers)
+          skus = {}
+          for p in items:
+              emit("product", {k:p.get(k) for k in ("id","offer_id","sku","sources","visibility_details","statuses")})
+              for sku in [p.get("sku"), *(s.get("sku") for s in p.get("sources",[]))]:
+                  if sku: skus[str(sku)] = p["offer_id"]
+          emit("stocks",oz.get_stocks(offers))
+          for start,end in [("2026-11-02","2026-11-05"),("2026-11-09","2026-11-12")]:
+              for metrics in [["ordered_units","revenue"],["hits_view","hits_view_search","hits_view_pdp"],["adv_sum_all"]]:
+                  try:
+                      payload={"date_from":start,"date_to":end,"dimension":["sku","day"],"metrics":metrics,"limit":1000,"offset":0,"filters":[],"sort":[]}
+                      data=[]
+                      for page in range(10):
+                          payload["offset"]=page*1000
+                          rows=oz._post("/v1/analytics/data",payload).get("result",{}).get("data",[])
+                          data += [r for r in rows if str(r["dimensions"][0]["id"]) in skus]
+                          if len(rows)<1000: break
+                      emit("analytics",{"from":start,"metrics":metrics,"rows":[[skus[str(r["dimensions"][0]["id"])], r["dimensions"][1]["id"],r["metrics"]] for r in data]})
+                  except Exception as e:
+                      emit("error",[start,metrics,str(e)])
+          PY
