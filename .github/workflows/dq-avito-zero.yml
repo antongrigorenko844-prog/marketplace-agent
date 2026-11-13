@@ -1,5 +1,7 @@
-name: Verify Avito DQ200 video feed
+name: Check Avito DQ200 bolt prices
 on: workflow_dispatch
+permissions:
+  contents: read
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -11,18 +13,26 @@ jobs:
           AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
         run: |
           python - <<'PY'
-          import re,json
+          import re,json,time
           import avito_client as av
-          for suffix in ("current","last_successful"):
-              try:
-                  state=av._request("GET",f"/autoload/v4/uploads/{suffix}")
-                  print("AV V4",suffix,{k:v for k,v in state.items() if "url" not in k and k not in ("events","section_stats")},flush=True)
-              except Exception as e: print("AV V4 ERROR",suffix,e,flush=True)
-          report=av.get_autoload_report_items()
-          print("AV REPORT",report["report"],flush=True)
-          pattern=re.compile(r"0AM927769[GKE]|0am325025HX[GKE]",re.I)
-          for row in report["items"]:
-              if pattern.search(json.dumps(row,ensure_ascii=False)): print("AV ROW",row,flush=True)
+          from openpyxl import load_workbook
+          pattern=re.compile(r'болт|wht001922|01x301127c',re.I)
+          def hit(v): return bool(pattern.search(str(v)))
           for row in av.list_all_items():
-              if pattern.search(str(row.get("title",""))): print("AV LIST",{k:row.get(k) for k in ("id","title","status","url","video","videos")},flush=True)
+              if hit(row.get("title")):
+                  print("LIST", {k:row.get(k) for k in ("id","title","price","status","url")},flush=True)
+          for o in av.get_orders(date_from=int(time.time())-21*86400):
+              for p in o.get("items",[]):
+                  if hit(p.get("title") or p.get("name")) or str(p.get("price")) in {"2233","1685"}:
+                      print("ORDER", {k:p.get(k) for k in ("id","itemId","title","name","price","quantity","count")}, {k:o.get(k) for k in ("status","createdAt","price","total","prices")},flush=True)
+          for filename in ("master_control","avito_site_price_overrides","avito_feed"):
+              book=load_workbook(f"data/{filename}.xlsx",read_only=True,data_only=True)
+              sheet=book["Объявления"] if filename=="avito_feed" else book.active
+              for row in sheet.values:
+                  if not any(hit(v) for v in row[:12]): continue
+                  if filename=="master_control":
+                      print("MASTER",row[:10],str(row[11])[:1800],flush=True)
+                  elif filename=="avito_feed":
+                      print("FEED",[(i+1,str(v)[:1100]) for i,v in enumerate(row[:28]) if v is not None],flush=True)
+                  else: print("OVERRIDE",row[:5],flush=True)
           PY
