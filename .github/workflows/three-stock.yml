@@ -1,0 +1,51 @@
+name: Inspect stock for three DSG listings
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python - <<'PY'
+          import os
+          from openpyxl import load_workbook
+          import main
+          import wb_client as wb
+          import yandex_market_client as ym
+          from config import config
+          def match(s):
+              return isinstance(s,str) and (s.lower().startswith(("remkomplekt-shtokov-orig","pylniki-shtokov-orig")) or s.lower()=="0cw0am325025")
+          for f in ("master_control","kits","yandex_market_offers"):
+              w=load_workbook("data/"+f+".xlsx",read_only=True,data_only=True)
+              for sheet in w:
+                  rows=list(sheet.values)
+                  print("SOURCE",f,sheet.title,rows[0],flush=True)
+                  for row in rows:
+                      if any(match(x) for x in row[:3]): print("ROW",f,row[:17],flush=True)
+          print("STOCK SOURCE",[x for x in main._load_stock_items() if match(x["offer_id"])],flush=True)
+          cards=[c for c in wb.list_cards() if match(c.get("vendorCode"))]
+          for c in cards: print("WB CARD",c["vendorCode"],c["nmID"],c["sizes"],flush=True)
+          try:
+              rows,_=main._wb_stock_rows()
+              print("WB SYNC",[x for x in rows if match(x["offer_id"]) or match(x["vendor_code"])],flush=True)
+          except Exception as e: print("WB SYNC ERROR",e,flush=True)
+          w=os.environ["WB_WAREHOUSE_ID"]
+          skus=[s for c in cards for size in c["sizes"] for s in size["skus"]]
+          chrt=[size["chrtID"] for c in cards for size in c["sizes"]]
+          for query in ({"chrtIds":chrt},{"skus":skus}):
+              try: print("WB STOCK",wb._request("POST",config.wb_marketplace_base,f"/api/v3/stocks/{w}",query),flush=True)
+              except Exception as e: print("WB STOCK ERROR",e,flush=True)
+          _, campaign=ym._creds()
+          ids=["remkomplekt-shtokov-orig","remkomplekt-shtokov-orig-v2","pylniki-shtokov-orig","pylniki-shtokov-orig-v2","0cw0am325025","0cw0am325025".replace("0","O",2)]
+          for endpoint,key in (("offers/stocks","offerIds"),("offers","offerIds")):
+              try: print("YM",endpoint,ym._request("POST",f"/v2/campaigns/{campaign}/{endpoint}",json_body={key:ids}),flush=True)
+              except Exception as e: print("YM ERROR",endpoint,e,flush=True)
+          PY
