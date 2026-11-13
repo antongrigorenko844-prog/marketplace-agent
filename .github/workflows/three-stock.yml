@@ -22,7 +22,7 @@ jobs:
           import yandex_market_client as ym
           from config import config
           def match(s):
-              return isinstance(s,str) and (s.lower().startswith(("remkomplekt-shtokov-orig","pylniki-shtokov-orig")) or s.lower() in {"0cw0am325025","122390akaf","0сц","0am325025q"})
+              return isinstance(s,str) and (s.lower().startswith(("remkomplekt-shtokov-orig","pylniki-shtokov-orig")) or s.lower() in {"0am325025","0am325066ae","0am325066ac","0am325443d","0am325219c","0am325433e","dq200dsg70am0cw","0cw0am325025","122390akaf","0сц","0am325025q"})
           for f in ("master_control","kits","yandex_market_offers"):
               w=load_workbook("data/"+f+".xlsx",read_only=True,data_only=True)
               for sheet in w:
@@ -33,6 +33,16 @@ jobs:
           print("STOCK SOURCE",[x for x in main._load_stock_items() if match(x["offer_id"])],flush=True)
           _, campaign=ym._creds()
           biz=ym.get_business_id()
-          code, data=ym._request("POST",f"/v2/category/71380208/parameters",json_body={})
-          print("PARAM",code,[(p.get("id"),p.get("name"),p.get("type"),p.get("required"),p.get("values",[])[:4]) for p in data.get("result",{}).get("parameters",[]) if p.get("required") or any(x in p.get("name","").lower() for x in ("артикул","номер","количество","комплектация"))],flush=True)
+          ids=["0cw0am325025","0am325025x"]
+          for endpoint in (f"/v2/businesses/{biz}/offer-mappings",f"/v2/campaigns/{campaign}/offers",f"/v2/campaigns/{campaign}/offers/stocks"):
+              try:
+                  code,d=ym._request("POST",endpoint,json_body={"offerIds":ids})
+                  result=d.get("result",{})
+                  for row in result.get("offerMappings",[]):
+                      o=row["offer"]
+                      print("YM CONTENT",o["offerId"],o.get("pictures"),o.get("weightDimensions"),row.get("mapping"),row.get("showcaseUrls"),flush=True)
+                  print("YM",code,result.get("offers"),result.get("warehouses"),flush=True)
+              except Exception as e: print("YM ERROR",e,flush=True)
+          for c in wb.list_cards():
+              if c["vendorCode"]=="0cw0am325025": print("WB CONTENT",c["title"],c.get("description"),c.get("photos"),flush=True)
           PY
