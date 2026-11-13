@@ -1,38 +1,32 @@
-name: Check Avito DQ200 bolt prices
+name: Align two Avito bolt kit prices
 on: workflow_dispatch
 permissions:
   contents: read
 jobs:
-  check:
+  update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - run: pip install -r requirements.txt
       - env:
           AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
           AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
         run: |
           python - <<'PY'
-          import re,json,time
           import avito_client as av
-          from openpyxl import load_workbook
-          pattern=re.compile(r'болт|wht001922|01x301127c',re.I)
-          def hit(v): return bool(pattern.search(str(v)))
-          for row in av.list_all_items():
-              if hit(row.get("title")):
-                  print("LIST", {k:row.get(k) for k in ("id","title","price","status","url")},flush=True)
-          for o in av.get_orders(date_from=int(time.time())-21*86400):
-              for p in o.get("items",[]):
-                  if hit(p.get("title") or p.get("name")) or str(p.get("price")) in {"2233","1685"}:
-                      print("ORDER", {k:p.get(k) for k in ("id","itemId","title","name","price","quantity","count")}, {k:o.get(k) for k in ("status","createdAt","price","total","prices")},flush=True)
-          for filename in ("master_control","avito_site_price_overrides","avito_feed"):
-              book=load_workbook(f"data/{filename}.xlsx",read_only=True,data_only=True)
-              sheet=book["Объявления"] if filename=="avito_feed" else book.active
-              for row in sheet.values:
-                  if not any(hit(v) for v in row[:12]): continue
-                  if filename=="master_control":
-                      print("MASTER",row[:10],str(row[11])[:1800],flush=True)
-                  elif filename=="avito_feed":
-                      print("FEED",[(i+1,str(v)[:1100]) for i,v in enumerate(row[:28]) if v is not None],flush=True)
-                  else: print("OVERRIDE",row[:5],flush=True)
+          targets = {8232271969: 2350, 4284998704: 1890}
+          def prices():
+              return {i["id"]: i.get("price") for i in av.list_all_items() if i.get("id") in targets}
+          before = prices()
+          assert set(before) == set(targets) and all(before[i] in (targets[i],2350) for i in targets), before
+          for item in targets:
+              if before[item] != 2350:
+                  result = av._request("POST",f"/core/v1/items/{item}/update_price",json={"price":2350})
+                  assert result.get("result",{}).get("success"), (item,result)
+          after = prices()
+          print("Verified prices", after)
+          assert after == dict.fromkeys(targets,2350)
           PY
