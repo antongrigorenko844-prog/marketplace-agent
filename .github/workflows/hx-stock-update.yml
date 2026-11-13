@@ -1,0 +1,82 @@
+name: Update two mechatronic stocks
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          OZON_WAREHOUSE_ID: ${{ secrets.OZON_WAREHOUSE_ID }}
+        run: |
+          python - <<'PY'
+          import os, time, subprocess
+          from openpyxl import load_workbook
+          import ozon_client as oz
+          targets = {"0am325025HX": 9, "02E927770AL": 4}
+          def stock():
+              return {p["offer_id"]:p["stocks"] for p in oz.get_stocks(list(targets))}
+          def free(s):
+              return max(0,s["present"]-s["reserved"])
+          before = stock()
+          print("BEFORE",before,flush=True)
+          qty = {}
+          for sku,target in targets.items():
+              qty[sku] = target-sum(free(s) for s in before[sku] if s["type"]=="fbo")
+              assert qty[sku]>=0 and all(s["type"] in ("fbs","fbo") for s in before[sku])
+              assert sum(s["type"]=="fbs" for s in before[sku])==1
+              assert not any(s["reserved"] for s in before[sku] if s["type"]=="fbs"), "FBS reserves require a fresh check"
+          paths = ["data/master_control.xlsx","data/ozon_catalog.xlsx"]
+          for path,header in zip(paths,["Остаток, шт.","Кол-во к продаже"]):
+              book=load_workbook(path)
+              sheet=book.worksheets[0]
+              rows=list(sheet.values)
+              header_row,col=next((i,j) for i,row in enumerate(rows[:10]) for j,val in enumerate(row,1) if isinstance(val,str) and val.strip()==header)
+              for sku,count in qty.items():
+                  matches=[i for i,row in enumerate(rows,1) if i>header_row+1 and sku in row[:3]]
+                  assert len(matches)==1,(path,sku,matches)
+                  cell=sheet.cell(matches[0],col)
+                  print(path,sku,cell.value,"->",count,flush=True)
+                  cell.value=count
+              book.save(path)
+          warehouse=int(os.environ["OZON_WAREHOUSE_ID"])
+          subprocess.run(["git","config","user.email","41898282+github-actions[bot]@users.noreply.github.com"],check=True)
+          subprocess.run(["git","config","user.name","github-actions[bot]"],check=True)
+          subprocess.run(["git","add",*paths],check=True)
+          if subprocess.run(["git","diff","--cached","--quiet"]).returncode:
+              subprocess.run(["git","commit","-m","Update stock for DQ200 D and DQ250 AL mechatronics"],check=True)
+              subprocess.run(["git","push","origin","HEAD:main"],check=True)
+          response=oz.update_stocks([{"offer_id":sku,"stock":count,"warehouse_id":warehouse} for sku,count in qty.items()])
+          print("UPDATE",response,flush=True)
+          assert {x["offer_id"] for x in response["result"] if x.get("updated") and not x.get("errors")}==set(targets)
+          for _ in range(8):
+              after=stock()
+              totals={sku:sum(free(s) for s in ss) for sku,ss in after.items()}
+              print("VERIFY",totals,after,flush=True)
+              if totals==targets: break
+              time.sleep(5)
+          else: raise RuntimeError("Ozon stocks not verified")
+          PY
+      - name: Check remaining DQ500 offer
+        if: always()
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python - <<'PY'
+          import ozon_client as oz
+          sku="0BH325183"
+          print("DQ500 stock",oz.get_stocks([sku]),flush=True)
+          p=next(p for p in oz.get_product_info_list([sku]) if p["offer_id"]==sku)
+          try:
+              if not p.get("is_archived") and p.get("statuses",{}).get("status_name")=="Продается":
+                  print("DQ500 archive",oz._post("/v1/product/archive",{"product_id":[p["id"]]}),flush=True)
+          except oz.OzonApiError as e:
+              print("DQ500 archive rejected",str(e),flush=True)
+          p=next(p for p in oz.get_product_info_list([sku]) if p["offer_id"]==sku)
+          print("DQ500 after",p.get("is_archived"),p.get("statuses",{}).get("status_name"),flush=True)
+          PY
