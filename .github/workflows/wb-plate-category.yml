@@ -19,10 +19,10 @@ jobs:
           codes = {"0am927769"+c for c in "dfgke"} | {"0am325025hx"+c for c in ("","f","g","k","e")} | {"0am325025x","0am325025h"}
           subjects = {}
           for card in cards:
-              if card.get("vendorCode","").lower() in codes:
-                  keys = ("vendorCode","nmID","subjectID","subjectName","imtID","needKiz")
+              if True:
+                  keys = ("vendorCode","nmID","subjectID","subjectName","imtID","needKiz","title")
                   print("PLATE",json.dumps({k:card.get(k) for k in keys},ensure_ascii=False))
-                  print("CUSTOMS", [c for c in card.get("characteristics",[]) if any(k in str(c.get("name","")).lower() for k in ("тн вэд","окпд"))])
+                  print("CUSTOMS", [c for c in card.get("characteristics",[]) if any(k in str(c.get("name","")).lower() for k in ("тн вэд","тнвэд","окпд"))])
                   subjects[card["subjectID"]] = card["subjectName"]
           for query in ():
               res = wb.get_subjects(name=query)
@@ -30,7 +30,6 @@ jobs:
               for x in res:
                   if "subjectID" in x: subjects[x["subjectID"]] = x.get("subjectName")
           for sid, name in subjects.items():
-              print("SCHEMA",sid,[c for c in wb.get_subject_characteristics(sid) if "вэд" in c.get("name","").lower()])
 
               path = "/content/v2/directory/tnved?" + urlencode({"subjectID":sid,"search":"8708409909"})
               try:
