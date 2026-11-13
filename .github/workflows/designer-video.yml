@@ -1,0 +1,25 @@
+name: Send ready videos to designer
+on:
+  schedule:
+    - cron: '25 7 * * 1,4'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent-designer-video
+  cancel-in-progress: false
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - run: python designer_video.py
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      - if: always()
+        run: bash .github/scripts/save_data.sh data/designer_video_sent.json
