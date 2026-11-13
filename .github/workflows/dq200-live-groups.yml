@@ -52,6 +52,7 @@ jobs:
               code,body=ym._request("POST",f"/v2/businesses/{biz}/offer-mappings",json_body={"offerIds":list(urls)})
               assert code==200,body
               offers={x["offer"]["offerId"]:x["offer"] for x in body["result"]["offerMappings"]}
+              print("YM MATCHES",[o for o in ym.get_all_offers() if o["sku"].lower() in {s.lower() for s in urls}],flush=True)
               todo={sku:[*offer.get("videos",[]),url] for sku,url in urls.items() if (offer:=offers.get(sku)) and url not in offer.get("videos",[]) and len(offer.get("videos",[]))<6}
               if todo: print("YM UPDATE",ym.update_videos(todo),flush=True)
               print("YM BEFORE",{s:offers.get(s,{}).get("videos") for s in urls},flush=True)
@@ -66,7 +67,7 @@ jobs:
                   assert photos and len(photos)<=30
                   prior[sku]=photos
                   if not c.get("video"):
-                      try: print("WB UPDATE",sku,wb.update_media(c["nmID"],photos+[url.split("?")[0]]),flush=True)
+                      try: print("WB UPDATE",sku,wb.update_media(c["nmID"],photos+[("https://v-1.ozone.ru/vod/video-73/01M60SXZSN6C0R9Z6AMCJW40BN/asset_3_h264.mp4" if sku.startswith("0AM927") else "https://v-1.ozone.ru/vod/video-71/01M54NXGKTMXAD0Q7MSB330K7Z/asset_2_h264.mp4")]),flush=True)
                       except Exception as e: print("WB ERROR",sku,e,flush=True)
           except Exception as e: print("WB ERROR",e,flush=True)
           if task:
