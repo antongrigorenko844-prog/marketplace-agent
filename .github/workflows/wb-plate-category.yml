@@ -1,4 +1,4 @@
-name: Inspect WB DQ200 plate categories
+name: Audit marketplace categories and WB orders
 on: workflow_dispatch
 permissions:
   contents: read
@@ -9,32 +9,56 @@ jobs:
       - uses: actions/checkout@v4
       - run: pip install -r requirements.txt
       - env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
           WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
         run: |
           python - <<'PY'
-          import wb_client as wb
           import json
-          from urllib.parse import urlencode
-          cards = wb.list_cards()
-          codes = {"0am927769"+c for c in "dfgke"} | {"0am325025hx"+c for c in ("","f","g","k","e")} | {"0am325025x","0am325025h"}
-          subjects = {}
-          for card in cards:
-              if True:
-                  keys = ("vendorCode","nmID","subjectID","subjectName","imtID","needKiz","title")
-                  print("PLATE",json.dumps({k:card.get(k) for k in keys},ensure_ascii=False))
-                  print("CUSTOMS", [c for c in card.get("characteristics",[]) if any(k in str(c.get("name","")).lower() for k in ("тн вэд","тнвэд","окпд"))])
-                  subjects[card["subjectID"]] = card["subjectName"]
-          for query in ():
-              res = wb.get_subjects(name=query)
-              print("CATEGORY",query,res)
-              for x in res:
-                  if "subjectID" in x: subjects[x["subjectID"]] = x.get("subjectName")
-          for sid, name in subjects.items():
-
-              path = "/content/v2/directory/tnved?" + urlencode({"subjectID":sid,"search":"8708409909"})
-              try:
-                  from config import config
-                  print("TN",sid,name,wb._request("GET",config.wb_content_base,path))
-              except Exception as e:
-                  print("TN_ERR",sid,str(e))
+          from collections import Counter
+          import ozon_client as oz
+          import wb_client as wb
+          import yandex_market_client as ym
+          def emit(label, data):
+              print(label,json.dumps(data,ensure_ascii=False),flush=True)
+          try:
+              rows = wb.get_orders_since("2026-10-26")
+              periods = [("2026-10-26","2026-11-01"),("2026-11-02","2026-11-08"),("2026-11-02","2026-11-05"),("2026-11-09","2026-11-12")]
+              for a,b in periods:
+                  by_sku = Counter(row.get("supplierArticle") for row in rows if a <= row["date"][:10] <= b and not row.get("isCancel"))
+                  emit("WB_ORDERS",[a,b,sum(by_sku.values()),by_sku])
+          except Exception as exc:
+              emit("WB_ERROR",str(exc))
+          try:
+              for row in ym.get_all_offers():
+                  emit("YM_CARD",row)
+          except Exception as exc:
+              emit("YM_ERROR",str(exc))
+          try:
+              ids = []
+              cursor = ""
+              while True:
+                  result = oz._post("/v3/product/list",{"filter":{"visibility":"ALL"},"limit":100,"last_id":cursor}).get("result",{})
+                  ids.extend(x["offer_id"] for x in result.get("items",[]) if not x.get("archived"))
+                  next_cursor = result.get("last_id")
+                  if not result.get("items") or not next_cursor or next_cursor == cursor:
+                      break
+                  cursor = next_cursor
+              tree = oz._post("/v1/description-category/tree",{"language":"RU"}).get("result",[])
+              names = {}
+              def walk(nodes,path=()):
+                  for node in nodes:
+                      new = path + tuple(v for v in (node.get("category_name"),node.get("type_name")) if v)
+                      if node.get("type_id"):
+                          names[node["type_id"]] = " / ".join(new)
+                      walk(node.get("children",[]),new)
+              walk(tree)
+              for i in range(0,len(ids),100):
+                  for row in oz.get_product_names(ids[i:i+100]):
+                      keys = ("offer_id","name","type_id","description_category_id")
+                      emit("OZ_CARD",{**{k:row.get(k) for k in keys},"category":names.get(row.get("type_id"))})
+          except Exception as exc:
+              emit("OZ_ERROR",str(exc))
           PY
