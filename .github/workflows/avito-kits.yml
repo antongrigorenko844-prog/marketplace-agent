@@ -18,7 +18,7 @@ jobs:
           python - <<'PY'
           import avito_client as av
           owner = av._request("GET", "/core/v1/accounts/self")["id"]
-          for item in (4220729305,4445230063,4285108577,4445119215,4189437762,4125283125,3965565847,8460936701):
+          for item in (8415982473,8394946839,8345137262,4220729305,4445230063,4285108577,4445119215,4189437762,4125283125,3965565847,8460936701):
               try:
                   info = av._request("GET", f"/core/v1/accounts/{owner}/items/{item}/")
                   print(item, sorted(info), {k:info[k] for k in ("title","price","description","images","photos") if k in info})
