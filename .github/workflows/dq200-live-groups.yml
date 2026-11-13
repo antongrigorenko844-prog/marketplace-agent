@@ -18,6 +18,12 @@ jobs:
           import yandex_market_client as ym
           ids=["0AM927769"+s for s in "GKE"]+["0am325025HX"+s for s in "GKE"]
           _,campaign=ym._creds()
+          biz=ym.get_business_id()
+          code, before=ym._request("POST",f"/v2/businesses/{biz}/offer-mappings",json_body={"offerIds":ids})
+          assert code==200 and {p["offer"]["offerId"] for p in before["result"]["offerMappings"]}==set(ids)
+          code,out=ym._request("POST",f"/v2/businesses/{biz}/offer-mappings/update",json_body={"offerMappings":[{"offer":{"offerId":sku,"commodityCodes":[{"type":"CUSTOMS_COMMODITY_CODE","code":"8708409909"}]}} for sku in ids]})
+          print("TN UPDATE",code,out,flush=True)
+          assert code==200 and out.get("status")=="OK" and not any(x.get("errors") for x in out.get("results",[])),out
           for path in (f"/v2/campaigns/{campaign}/offers",f"/v2/businesses/{ym.get_business_id()}/offer-mappings"):
               code,data=ym._request("POST",path,json_body={"offerIds":ids})
               assert code==200,data
