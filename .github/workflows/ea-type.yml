@@ -16,14 +16,8 @@ jobs:
           OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
         run: |
           python - <<'PY'
-          import re
           import ozon_client as oz
-          def walk(nodes, path=(), category=None):
-              for n in nodes:
-                  name = n.get('category_name') or n.get('type_name') or ''
-                  cat = n.get('description_category_id') or category
-                  if n.get('type_id') == 970863591 or re.search(r'болт|винт|креп[её]ж|коллектор', name, re.I):
-                      print(' / '.join((*path,name)),cat,n.get('type_id'),n.get('disabled'))
-                  walk(n.get('children') or [], (*path,name), cat)
-          walk(oz._post('/v1/description-category/tree', {'language': 'RU'}).get('result', []))
+          for a in oz.get_category_attributes(74606916,970840917):
+              if a.get("is_required") or a["id"] in (4384, 7324, 11031, 22232, 9048):
+                  print(a["id"], a["name"], a.get("dictionary_id"), a.get("is_required"))
           PY
