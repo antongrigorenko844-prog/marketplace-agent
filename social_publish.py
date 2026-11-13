@@ -791,67 +791,7 @@ def _linkify(html_line: str) -> str:
 
 
 def build_vk_feed(verbose: bool = True) -> int:
-    """Лента RSS для импорта во VK: посты с наступившей датой (не на паузе; поставленные на паузу — только
-    после публикации в Instagram), последние VK_FEED_ITEMS. Картинки — публичные ссылки (photo_host)."""
-    from email.utils import format_datetime
-    from xml.sax.saxutils import escape
-    import photo_host
-    plan = load_plan()
-    posts_state = load_state().get("posts", {})
-    try:
-        with open(HOLD_PATH, "r", encoding="utf-8") as f:
-            hold = {int(x) for x in re.findall(r"\d+", f.read())}
-    except FileNotFoundError:
-        hold = set()
-    today = _today()
-    items = []
-    for p in plan:
-        st = posts_state.get(str(p["n"]), {})
-        ig_at = (st.get("ig") or {}).get("at")
-        if not ig_at and (p["date"] is None or p["date"] > today or p["n"] in hold):
-            continue
-        imgs = post_images(p["n"], p.get("arts"))
-        if not imgs:
-            continue
-        when = dt.datetime.fromisoformat(ig_at) if ig_at else dt.datetime.combine(p["date"], dt.time(10, 0), MSK)
-        items.append((when, p, imgs))
-    items = sorted(items, key=lambda x: x[0])[-VK_FEED_ITEMS:]
-    out = []
-    for when, p, imgs in reversed(items):
-        urls = []
-        for k, path in enumerate(imgs[:10], start=1):
-            try:
-                urls.append(photo_host.upload_file(path, f"vk_{p['n']}_{k}{os.path.splitext(path)[1].lower()}"))
-            except Exception as exc:  # noqa
-                print(f"VK RSS: пост №{p['n']}, картинка {k} не загружена: {exc}")
-        text = full_text(p, 15000, "vk")
-        body = "".join("<p>" + _linkify(escape(line)) + "</p>"
-                       if line.strip() else "" for line in text.split("\n"))  # ссылки кликабельные
-        figs = "".join(f'<figure><img src="{escape(u)}"/></figure>' for u in urls)
-        enclosure = f'<enclosure url="{escape(urls[0])}" type="image/jpeg" length="0"/>' if urls else ""
-        title = p.get("title") or f"Пост {p['n']}"
-        out.append(
-            "<item>"
-            f"<title>{escape(title)}</title>"
-            f"<link>{escape(_product_link(p))}</link>"
-            f'<guid isPermaLink="false">leoparts-post-{p["n"]}</guid>'
-            f"<pubDate>{format_datetime(when)}</pubDate>"
-            f"<description><![CDATA[{escape(text)}]]></description>"
-            f"<content:encoded><![CDATA[{figs}{body}]]></content:encoded>"
-            f"{enclosure}"
-            "</item>")
-    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
-           '<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">'
-           "<channel><title>LeoParts — запчасти для DSG</title>"
-           "<link>https://vk.ru/leopartsakpp</link>"
-           "<description>Посты LeoParts</description>"
-           f"<lastBuildDate>{format_datetime(dt.datetime.now(MSK))}</lastBuildDate>"
-           + "".join(out) + "</channel></rss>\n")
-    os.makedirs(os.path.dirname(VK_FEED_PATH), exist_ok=True)
-    with open(VK_FEED_PATH, "w", encoding="utf-8") as f:
-        f.write(xml)
-    if verbose:
-        print(f"VK RSS: в ленте {len(out)} пост(ов): " + ", ".join(f"№{p['n']}" for _, p, _ in reversed(items)) + f" → {VK_FEED_URL}")
+    print("RSS-публикация VK отключена. Посты публикует дизайнер.")
     return 0
 
 
@@ -869,6 +809,9 @@ def cmd_publish(dry_run: bool, auto: bool = False, article: str = "") -> int:
     auto=True — режим расписания: работает только если SOCIAL_AUTOPUBLISH=1.
     article — номера постов через запятую (принудительно, независимо от даты).
     """
+    if not dry_run:
+        print("Публикация в VK и Instagram отключена. Посты публикует дизайнер.")
+        return 0
     if auto and os.getenv("SOCIAL_AUTOPUBLISH", "").strip() not in ("1", "true", "yes", "on"):
         print("Автопубликация выключена (секрет SOCIAL_AUTOPUBLISH != 1) — ничего не делаем.")
         return 0

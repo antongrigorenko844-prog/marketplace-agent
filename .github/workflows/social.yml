@@ -1,20 +1,8 @@
-# Публикация постов в VK и Instagram (см. social_publish.py).
-#
-# По расписанию (каждый день в 07:00 UTC = 10:00 МСК) запускается автопубликация:
-# один самый ранний пост на площадку, у которого уже наступила дата в
-# data/content_plan.xlsx и есть готовые картинки в social/<№>/. Работает ТОЛЬКО
-# если в Secrets задан SOCIAL_AUTOPUBLISH = 1 — иначе ничего не публикуется.
-# Вручную: Actions -> marketplace-agent-social -> Run workflow.
+# Ручные проверки контент-плана и ссылок. Посты публикует дизайнер.
 
 name: marketplace-agent-social
 
 on:
-  schedule:
-    - cron: "0 7 * * *"          # 10:00 МСК — публикация поста дня
-    - cron: "7,22,37,52 7-14 * * *"  # повторные попытки каждые 15 мин до 17:52 МСК: GitHub часто задерживает или
-                                     # пропускает запуски по расписанию; пост уходит при первом сработавшем,
-                                     # остальные видят, что он уже опубликован, и сразу завершаются
-    - cron: "0 13 24 10 *"   # РАЗОВО: пост №1 в сб 24.10.2026 в 16:00 МСК (в другие годы код пропустит)
   workflow_dispatch:
     inputs:
       command:
@@ -25,11 +13,8 @@ on:
         options:
           - social-status
           - social-test
-          - social-vk-feed
           - site-links
           - store-links
-          - social-publish-dryrun
-          - social-publish
           - plan-reorder-dryrun
           - plan-reorder
       article:
@@ -47,7 +32,7 @@ jobs:
     uses: ./.github/workflows/run-command.yml
     secrets: inherit
     with:
-      command: ${{ github.event.inputs.command || (github.event.schedule == '0 13 24 10 *' && 'social-publish' || 'social-autopublish') }}
-      article: ${{ github.event.inputs.article || (github.event.schedule == '0 13 24 10 *' && '1@2026-10-24' || '') }}
+      command: ${{ github.event.inputs.command }}
+      article: ${{ github.event.inputs.article }}
       save_log: true
       log_file: data/social_last_run.txt   # вывод последнего запуска — Claude читает его, логи Actions ему недоступны
