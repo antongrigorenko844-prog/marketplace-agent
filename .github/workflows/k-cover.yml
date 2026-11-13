@@ -1,0 +1,39 @@
+name: Correct Ozon K board cover
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python - <<'PY'
+          import time,requests,hashlib
+          import ozon_client as oz
+          sku="0AM927769K"
+          url="https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0AM927769K-cover-single-v1.png"
+          r=requests.get(url,timeout=20)
+          r.raise_for_status()
+          assert hashlib.sha256(r.content).hexdigest()=="99f6f4eba61c5e4ea82ab60fb5912baa0cf85da68939c2c0e26be359659811e1"
+          def info(): return next(p for p in oz.get_product_info_list([sku]) if p["offer_id"]==sku)
+          p=info()
+          print("BEFORE",p["id"],p.get("primary_image"),p.get("images"),flush=True)
+          old=p.get("primary_image") or []
+          if isinstance(old,str): old=[old]
+          images=[url]+[x for x in p.get("images",[]) if x not in old and x!=url]
+          payload={"product_id":p["id"],"images":images}
+          for key in ("images360","color_image"):
+              if p.get(key): payload[key]=p[key]
+          print("IMPORT",oz._post("/v1/product/pictures/import",payload),flush=True)
+          for _ in range(12):
+              time.sleep(5)
+              after=info()
+              print("AFTER",after.get("primary_image"),after.get("images"),flush=True)
+              if after.get("primary_image") and after.get("primary_image")!=p.get("primary_image"): break
+          else: raise RuntimeError("Cover has not changed yet")
+          PY
