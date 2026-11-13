@@ -1,0 +1,59 @@
+name: Group DQ200 variants
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  group:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python - <<'PY'
+          import wb_client as wb
+          import ozon_client as oz
+
+          groups = {
+              "DQ200 electronic boards": ["0AM927769" + s for s in "DFGKE"],
+              "DQ200 mechatronic assemblies": ["0am325025HX" + s for s in ("", "F", "G", "K", "E")],
+          }
+          cards = {c["vendorCode"]: c for c in wb.list_cards()}
+          ids = [sku for group in groups.values() for sku in group]
+          items = {c["offer_id"]: c for c in oz.get_product_names(ids)}
+          for name, group in groups.items():
+              assert all(s in cards and s in items for s in group), name
+              assert len({cards[s]["subjectID"] for s in group}) == 1, name
+              assert len({(items[s]["description_category_id"], items[s]["type_id"]) for s in group}) == 1, name
+          for name, group in groups.items():
+              target = cards[group[0]]["imtID"]
+              moves = [cards[s]["nmID"] for s in group if cards[s]["imtID"] != target]
+              if moves:
+                  result = wb._request("POST", "https://content-api.wildberries.ru", "/content/v2/cards/moveNm", {"targetIMT": target, "nmIDs": moves})
+                  assert not result.get("error"), result
+              print("WB", name, target, moves)
+          payload = [
+              {"offer_id": sku, "attributes": [{"id": 9048, "complex_id": 0, "values": [{"value": name}]}]}
+              for name, group in groups.items() for sku in group
+          ]
+          response = oz.update_attributes(payload)
+          task = response.get("task_id") or (response.get("result") or {}).get("task_id")
+          assert task, response
+          print("Ozon task", task)
+          import time
+          for _ in range(12):
+              time.sleep(10)
+              result = oz.get_import_status(task).get("result", {}).get("items", [])
+              if len(result) == len(ids) and all(i.get("status") in {"imported", "failed", "skipped"} for i in result):
+                  print(result)
+                  assert all(i["status"] == "imported" for i in result)
+                  break
+          else:
+              raise RuntimeError("Ozon import pending")
+          PY
