@@ -15,20 +15,24 @@ jobs:
           YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
         run: |
           python - <<'PY'
+          import time
           import yandex_market_client as ym
           ids=["0AM927769"+s for s in "GKE"]+["0am325025HX"+s for s in "GKE"]
           _,campaign=ym._creds()
           biz=ym.get_business_id()
-          code, before=ym._request("POST",f"/v2/businesses/{biz}/offer-mappings",json_body={"offerIds":ids})
-          assert code==200 and {p["offer"]["offerId"] for p in before["result"]["offerMappings"]}==set(ids)
-          code,out=ym._request("POST",f"/v2/businesses/{biz}/offer-mappings/update",json_body={"offerMappings":[{"offer":{"offerId":sku,"commodityCodes":[{"type":"CUSTOMS_COMMODITY_CODE","code":"8708409909"}]}} for sku in ids]})
-          print("TN UPDATE",code,out,flush=True)
-          assert code==200 and out.get("status")=="OK" and not any(x.get("errors") for x in out.get("results",[])),out
-          for path in (f"/v2/campaigns/{campaign}/offers",f"/v2/businesses/{ym.get_business_id()}/offer-mappings"):
-              code,data=ym._request("POST",path,json_body={"offerIds":ids})
+          def get(path):
+              code,data=ym._request("POST",path,json_body={"offerIds":ids},timeout=20)
               assert code==200,data
-              for p in data["result"].get("offers",[]): print("LIVE",p,flush=True)
-              for row in data["result"].get("offerMappings",[]):
-                  p=row["offer"]
-                  print("VIDEO",p["offerId"],p.get("cardStatus"),p.get("mediaFiles",{}).get("videos"),row.get("showcaseUrls"),flush=True)
+              return data["result"]
+          for i in range(12):
+              try:
+                  statuses={p["offerId"]:(p["status"],p.get("errors"),p.get("basicPrice",{}).get("value")) for p in get(f"/v2/campaigns/{campaign}/offers")["offers"]}
+                  media={r["offer"]["offerId"]:(r["offer"].get("commodityCodes"),r["offer"].get("mediaFiles",{}).get("videos"),r.get("showcaseUrls")) for r in get(f"/v2/businesses/{biz}/offer-mappings")["offerMappings"]}
+                  stocks={r["offerId"]:sum(s["count"] for s in r["stocks"] if s["type"]=="AVAILABLE") for w in get(f"/v2/campaigns/{campaign}/offers/stocks")["warehouses"] for r in w["offers"]}
+                  print("RESULT",statuses,media,stocks,flush=True)
+                  if set(statuses)==set(ids) and all(statuses[s][0]=="PUBLISHED" and media[s][1] and all(v["uploadState"]=="UPLOADED" for v in media[s][1]) and stocks.get(s)==5 for s in ids): break
+              except Exception as e:
+                  print("RETRY",str(e),flush=True)
+              if i<11: time.sleep(30)
+          else: raise RuntimeError("Waiting for all six published offers with processed video and stock")
           PY
