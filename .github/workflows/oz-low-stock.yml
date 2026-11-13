@@ -1,0 +1,44 @@
+name: Check low stock on Ozon
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python - <<'PY'
+          import json
+          from collections import defaultdict
+          import ozon_client as oz
+          catalog = oz.get_product_names()
+          ids = [p["offer_id"] for p in catalog if not p.get("is_archived") and not p.get("archived")]
+          stocks = oz.get_stocks(ids)
+          low = {}
+          print("COVERAGE",len(ids),len(stocks),flush=True)
+          for p in stocks:
+              ss = p.get("stocks",[])
+              qty = sum(max(0,s.get("present",0)-s.get("reserved",0)) for s in ss)
+              if qty <= 5:
+                  low[p["offer_id"]] = [qty,ss]
+          info = oz.get_product_info_list(list(low))
+          sales = defaultdict(float)
+          try:
+              result = oz._post("/v1/analytics/data",{"date_from":"2026-10-30","date_to":"2026-11-12","dimension":["sku"],"metrics":["ordered_units"],"limit":1000,"offset":0,"filters":[],"sort":[]})
+              for row in result["result"]["data"]: sales[str(row["dimensions"][0]["id"])] += row["metrics"][0]
+              print("SALES_ROWS",len(result["result"]["data"]),flush=True)
+          except Exception as error:
+              print("SALES_ERROR",error,flush=True)
+              sales = None
+          for p in info:
+              a=p["offer_id"]
+              qty,ss=low[a]
+              skus={str(s["sku"]) for s in p.get("sources",[]) if s.get("sku")}
+              if p.get("sku"): skus.add(str(p["sku"]))
+              print("LOW",json.dumps([a,p.get("name"),p.get("statuses",{}).get("status_name"),p.get("is_archived"),qty,[[s.get("type"),s.get("present"),s.get("reserved")] for s in ss],sum(sales[s] for s in skus) if sales is not None else None],ensure_ascii=False),flush=True)
+          PY
