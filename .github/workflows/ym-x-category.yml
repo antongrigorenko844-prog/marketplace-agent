@@ -1,4 +1,4 @@
-name: Publish six DQ200 offers on Market and update Avito videos
+name: Audit live Ozon content scores
 on: workflow_dispatch
 permissions:
   contents: write
@@ -11,15 +11,15 @@ jobs:
       - env:
           OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
           OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
-          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
-          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
         run: |
           python - <<'PY'
-          import yandex_market_client as ym
-          sku="0am325025x"
-          orders=ym.get_orders_since(days_back=29)
-          found=[(o.get("creationDate"),o.get("status"),i.get("count")) for o in orders for i in o.get("items",[]) if str(i.get("offerId","")).lower()==sku]
-          print("MATCH",len(orders),found,flush=True)
-          _,c=ym._creds()
-          print("OFFER",ym._request("POST",f"/v2/campaigns/{c}/offers",json_body={"offerIds":[sku]}),flush=True)
+          import json
+          import ozon_client as oz
+          ids=["0am325025H","0am325025","0am325025x","0AM325587E"]
+          p=oz.get_product_names(ids)
+          print("SCORE",json.dumps(oz._post("/v1/product/rating-by-sku",{"skus":[x["sku"] for x in p]}),ensure_ascii=False),flush=True)
+          for x in p:
+              print("CARD",json.dumps({k:x.get(k) for k in ("offer_id","sku","name","primary_image","images","type_id","description_category_id","attributes","complex_attributes")},ensure_ascii=False),flush=True)
           PY
