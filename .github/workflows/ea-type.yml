@@ -16,8 +16,27 @@ jobs:
           OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
         run: |
           python - <<'PY'
+          import json, time
           import ozon_client as oz
-          for a in oz.get_category_attributes(74606916,970840917):
-              if a.get("is_required") or a["id"] in (4384, 7324, 11031, 22232, 9048):
-                  print(a["id"], a["name"], a.get("dictionary_id"), a.get("is_required"))
+          import catalog_editor as ce
+          sku = "vint-kollektora-ea888"
+          category, kind = 74606916, 970840917
+          card, = oz.get_product_names([sku])
+          detail, = oz.get_prices_and_stocks([sku])
+          assert card["offer_id"] == detail["offer_id"] == sku
+          payload = ce._build_one_item(card, detail, {})
+          allowed = {a["id"]: a for a in oz.get_category_attributes(category, kind)}
+          fields = {a["id"]: a for a in payload["attributes"] if a["id"] in allowed and a["id"] not in (7324, 11031, 22232, 8229)}
+          def put(aid, value, dictionary_id=0):
+              fields[aid] = {"id":aid,"complex_id":0,"values":[{"value":value,"dictionary_value_id":dictionary_id}]}
+          put(4384, "Винт крепления впускного коллектора M6 × 65 — 1 шт.")
+          put(9048, "EA888 M6 × 65")
+          for aid, value in ((7202,"1"), (85,"Нет бренда")):
+              hits = oz.search_attribute_values(category, kind, aid, value)
+              hit = next((h for h in hits if str(h["value"]).strip() == value), None)
+              assert hit, (aid, hits[:4])
+              put(aid, value, hit["id"])
+          hits = oz.search_attribute_values(category, kind, 22232, "731815")
+          print("Fastener classification candidates:", [(h["id"],h["value"]) for h in hits])
+          print("Missing mandatory attributes:", [(i,a["name"]) for i,a in allowed.items() if a.get("is_required") and i not in fields and i != 8229])
           PY
