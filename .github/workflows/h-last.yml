@@ -1,4 +1,4 @@
-name: Replace last DQ200 H gallery photo
+name: Add pressure regulator photo to Bosch mechatronic
 on: workflow_dispatch
 permissions:
   contents: read
@@ -13,30 +13,31 @@ jobs:
           OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
         run: |
           python - <<'PY'
-          import time,requests,hashlib
+          import time
           import ozon_client as oz
-          sku="0am325025H"
-          url="https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0am325025H-last-without-board-v1.png"
-          r=requests.get(url,timeout=20)
-          r.raise_for_status()
-          assert hashlib.sha256(r.content).hexdigest()=="186ae2820acf41727ada4da9e4f9bfb4fd9a04060383a954e30228c4602706f4"
-          def info(): return next(p for p in oz.get_product_info_list([sku]) if p["offer_id"]==sku)
-          p=info()
-          print("BEFORE",p["id"],p.get("primary_image"),p.get("images"),flush=True)
-          primary=p["primary_image"]
-          assert p["id"]==3171023605 and len(primary)==1
-          original=p["images"]
-          assert original and ("8458091220" in original[-1] or original[-1]==url), original
-          desired=original[:-1]+[url]
-          if original != desired:
-              payload={"offer_id":sku,"primary_image":primary[0],"images":desired}
+          source="0AM325025B"
+          sku="0am325025x"
+          def items(ids):
+              return {p["offer_id"]:p for p in oz.get_product_info_list(ids)}
+          data=items([source,sku])
+          photo,=data[source]["primary_image"]
+          target=data[sku]
+          primary,=target["primary_image"]
+          assert target["sku"]==3260518430 and photo!=primary
+          before=target.get("images") or []
+          desired=[photo]+[url for url in before if url!=photo]
+          print("BEFORE",primary,before,"SOURCE",photo,flush=True)
+          if desired!=before:
+              payload={"offer_id":sku,"primary_image":primary,"images":desired}
               for key in ("images360","color_image"):
-                  if p.get(key): payload[key]=p[key]
-              print("IMPORT",oz._post("/v2/product/pictures/import",{"items":[payload]}),flush=True)
-          for _ in range(12):
+                  if target.get(key): payload[key]=target[key]
+              response=oz._post("/v2/product/pictures/import",{"items":[payload]})
+              print("IMPORT",response,flush=True)
+              assert response.get("task_id")
+          for _ in range(10):
               time.sleep(5)
-              after=info()
-              print("AFTER",after.get("primary_image"),after.get("images"),flush=True)
-              if after["primary_image"]==primary and after["images"]==desired: break
-          else: raise RuntimeError("Gallery order not verified")
+              current=items([sku])[sku]
+              print("VERIFY",current["primary_image"],current.get("images"),flush=True)
+              if current["primary_image"]==[primary] and current.get("images")==desired: break
+          else: raise RuntimeError("Gallery order not confirmed")
           PY
