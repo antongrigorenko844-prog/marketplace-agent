@@ -1,0 +1,42 @@
+name: Replace last DQ200 H gallery photo
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python - <<'PY'
+          import time,requests,hashlib
+          import ozon_client as oz
+          sku="0am325025H"
+          url="https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0am325025H-last-without-board-v1.png"
+          r=requests.get(url,timeout=20)
+          r.raise_for_status()
+          assert hashlib.sha256(r.content).hexdigest()=="186ae2820acf41727ada4da9e4f9bfb4fd9a04060383a954e30228c4602706f4"
+          def info(): return next(p for p in oz.get_product_info_list([sku]) if p["offer_id"]==sku)
+          p=info()
+          print("BEFORE",p["id"],p.get("primary_image"),p.get("images"),flush=True)
+          primary=p["primary_image"]
+          assert p["id"]==3171023605 and len(primary)==1
+          original=p["images"]
+          assert original and ("8458091220" in original[-1] or original[-1]==url), original
+          desired=original[:-1]+[url]
+          if original != desired:
+              payload={"offer_id":sku,"primary_image":primary[0],"images":desired}
+              for key in ("images360","color_image"):
+                  if p.get(key): payload[key]=p[key]
+              print("IMPORT",oz._post("/v2/product/pictures/import",{"items":[payload]}),flush=True)
+          for _ in range(12):
+              time.sleep(5)
+              after=info()
+              print("AFTER",after.get("primary_image"),after.get("images"),flush=True)
+              if after["primary_image"]==primary and after["images"]==desired: break
+          else: raise RuntimeError("Gallery order not verified")
+          PY
