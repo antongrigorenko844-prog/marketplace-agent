@@ -22,7 +22,7 @@
 validate-master: критичных ошибок нет, предупреждений 20.
 
 === Шаг 0а: свежие карточки WB ===
-Сохранено 130 карточек WB в /home/runner/work/marketplace-agent/marketplace-agent/data/wb_cards.json
+Сохранено 134 карточек WB в /home/runner/work/marketplace-agent/marketplace-agent/data/wb_cards.json
 
 === Шаг 0а-2: создать недостающие карточки WB ===
 К созданию на WB: 0 товаров.
@@ -58,7 +58,7 @@ validate-master: критичных ошибок нет, предупрежде�
 === Шаг 1: sync-master-control ===
 master_control.xlsx -> ozon_catalog.xlsx: обновлено строк 4
 master_control.xlsx -> ozon_new_products.xlsx: обновлено строк 0
-master_control.xlsx -> wb_catalog.xlsx: обновлено строк 105
+master_control.xlsx -> wb_catalog.xlsx: обновлено строк 107
 master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Изменённых обложек в столбце 'Фото' не найдено.
 
@@ -66,7 +66,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 
 === Шаг 2: attach-photos-all ===
 === Шаг 1/3: attach-ozon-photos ===
-Ссылки на фото подставлены в /home/runner/work/marketplace-agent/marketplace-agent/data/ozon_catalog.xlsx для 135 товаров:
+Ссылки на фото подставлены в /home/runner/work/marketplace-agent/marketplace-agent/data/ozon_catalog.xlsx для 139 товаров:
   01X301127C: 1 фото
   02E 305 045: 1 фото
   02E305051C: 1 фото
@@ -83,7 +83,9 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   0AM325473: 2 фото
   0AM325587E: 5 фото
   0AM927769D: 3 фото
+  0AM927769E: 3 фото
   0AM927769F: 3 фото
+  0AM927769K: 3 фото
   0AM927769N: 3 фото
   0BH325: 4 фото
   0BH325183: 2 фото
@@ -93,7 +95,9 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   0am325025G: 3 фото
   0am325025H: 4 фото
   0am325025HX: 3 фото
+  0am325025HXE: 3 фото
   0am325025HXF: 3 фото
+  0am325025HXK: 3 фото
   0am325025P: 1 фото
   0am325025ae: 1 фото
   0am325025f: 1 фото
@@ -206,7 +210,7 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 Скачайте ozon_catalog.xlsx из data/, проверьте и переходите к push-ozon-cards-dryrun.
 
 === Шаг 2/3: attach-wb-photos ===
-Ссылки на фото подставлены в /home/runner/work/marketplace-agent/marketplace-agent/data/wb_catalog.xlsx для 122 товаров:
+Ссылки на фото подставлены в /home/runner/work/marketplace-agent/marketplace-agent/data/wb_catalog.xlsx для 126 товаров:
   01X301127C: 1 фото
   02E 305 045: 1 фото
   02E305051C: 1 фото
@@ -224,7 +228,9 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   0AM325587E: 5 фото
   0AM927769D: 3 фото
   0AM927769D-plata: 3 фото
+  0AM927769E: 3 фото
   0AM927769F: 3 фото
+  0AM927769K: 3 фото
   0AM927769N: 3 фото
   0BH325183: 2 фото
   0BH325183 B: 2 фото
@@ -234,7 +240,9 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   0am325025G: 3 фото
   0am325025H: 4 фото
   0am325025HX: 3 фото
+  0am325025HXE: 3 фото
   0am325025HXF: 3 фото
+  0am325025HXK: 3 фото
   0am325025P: 1 фото
   0am325025ae: 1 фото
   0am325025f: 1 фото
@@ -333,12 +341,12 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
 === Шаг 3/3: build-master-control ===
 Новые строки мастера (ещё нет на площадках) сохранены: nakladki-pedali
 Готово: /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
-Известных артикулов: 146 (Ozon существующих 136, Ozon черновиков 1, только-WB существующих 10, только-WB черновиков 0)
-Медиафайлов: 258, сопоставлено 256 в 137 товарах
+Известных артикулов: 150 (Ozon существующих 140, Ozon черновиков 1, только-WB существующих 10, только-WB черновиков 0)
+Медиафайлов: 270, сопоставлено 268 в 141 товарах
 Нераспознанных файлов: 2 — см. лист 'Нераспознанные фото' в /home/runner/work/marketplace-agent/marketplace-agent/data/master_control.xlsx
 
 Готово: attach-photos-all завершён. Дальше — push-photos-dryrun, чтобы проверить, что уйдёт на Ozon и WB.
-[attach-photos-all: 7 с]
+[attach-photos-all: 6 с]
 
 === Шаг 3: push-photos (Ozon + WB) ===
 === Ozon: реальная отправка ===
@@ -346,19 +354,18 @@ master_control.xlsx -> wb_new_products.xlsx: обновлено строк 0
   - Похоже на случайный дубль артикула (отличаются только регистром букв): DQ500, Dq500 — возможно, это одна и та же деталь, заведённая дважды.
   - Похоже на случайный дубль артикула (отличаются только регистром букв): EA888gen3, Ea888gen3 — возможно, это одна и та же деталь, заведённая дважды.
 
-Партия 1: task_id=6018342223, жду обработку...
-  ОК 0BH325: статус imported
-  ОК fpc-shleif-dq200: статус imported
-  ОК klipsa-datchika-peredach-dq200: статус imported
-  ОК kryshka-platy-dq200: статус imported
-  ОК vint-kollektora-ea888: статус imported
+Партия 1: task_id=6031715784, жду обработку...
+  ОК 0AM927769E: статус imported
+  ОК 0AM927769K: статус imported
+  ОК 0am325025HXE: статус imported
+  ОК 0am325025HXK: статус imported
 
-Итого: успешно 5, с ошибками 0
+Итого: успешно 4, с ошибками 0
 
 === WB: реальная отправка ===
 Отправлять нечего: либо ни одна строка xlsx не совпала с vendorCode из wb_cards.json, либо (чаще) всё, что есть в xlsx, уже было отправлено раньше и с тех пор не менялось — это нормальный исход, не ошибка.
 
-[push-photos: 6 с]
+[push-photos: 5 с]
 
 === Шаг 3б: Ozon rich-контент (data/ozon_rich, только изменённое) ===
 Rich-контент: изменений нет.
@@ -379,7 +386,7 @@ WB обрабатывает изменение цены не мгновенно 
 === Шаг 4б: цены Ozon = мастер (только расхождения) ===
 Пропускаю (no_price_sync в ozon_overrides.json): Ea888gen3
 
-Товаров с расхождением цены: 0 из 135
+Товаров с расхождением цены: 0 из 139
 Отправлено: 0, с ошибкой: 0
 [sync-ozon-prices: 1 с]
 
@@ -401,7 +408,9 @@ WB обрабатывает изменение цены не мгновенно 
   ОК 0AM325473: остаток обновлён
   ОК 0AM325587E: остаток обновлён
   ОК 0AM927769D: остаток обновлён
+  ОК 0AM927769E: остаток обновлён
   ОК 0AM927769F: остаток обновлён
+  ОК 0AM927769K: остаток обновлён
   ОК 0AM927769N: остаток обновлён
   ОК 0BH325183: остаток обновлён
   ОК 0BH325183 B: остаток обновлён
@@ -410,7 +419,9 @@ WB обрабатывает изменение цены не мгновенно 
   ОК 0am325025G: остаток обновлён
   ОК 0am325025H: остаток обновлён
   ОК 0am325025HX: остаток обновлён
+  ОК 0am325025HXE: остаток обновлён
   ОК 0am325025HXF: остаток обновлён
+  ОК 0am325025HXK: остаток обновлён
   ОК 0am325025P: остаток обновлён
   ОК 0am325025ae: остаток обновлён
   ОК 0am325025f: остаток обновлён
@@ -512,25 +523,28 @@ WB обрабатывает изменение цены не мгновенно 
   ОК stalnaya-vstavka-plity: остаток обновлён
   ОК tolkateli-4-salniki-4: остаток обновлён
   ОК tolkateli-salniki-alum-komplekt: остаток обновлён
+  ОШИБКА vint-kollektora-ea888: [{'code': 'NOT_PASS_MODERATION', 'message': 'Product is not moderated'}]
   ОК vtulki-shtokov-2sht: остаток обновлён
 
-Итого: успешно 128, с ошибками 0, карточка не создана на Ozon 2
-Карточки не созданы на Ozon (остаток не отправлен): solenoid-02e-0b5-bolshoy, vint-kollektora-ea888
+Итого: успешно 132, с ошибками 1, карточка не создана на Ozon 1
+Карточки не созданы на Ozon (остаток не отправлен): solenoid-02e-0b5-bolshoy
 
 Причины (статус карточек на Ozon):
 Товаров по статусам:
-  Не продается: 2
+  Не продается: 1
 
-Товары с проблемами (2):
+Товары с проблемами (1):
   solenoid-02e-0b5-bolshoy: статус «Не продается», Не создан, status_tooltip=Не удалось создать описание; status_failed=pics_delivered; visibility=has_price:True,has_stock:False, создан: False, ошибки: image_absent: {"field": "pictures", "attribute_id": 0, "state": "pics_delivered", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "", "description": "Мы не нашли фотографии товара. Загрузите картинки в карточку товара", "short_description": "", "params":
-  vint-kollektora-ea888: статус «Не продается», Создается, visibility=has_price:True,has_stock:False, создан: False
+
+Подробности по товарам с ошибкой (статус карточки в Ozon):
+  {"id": 6950936854, "name": "Винт впускного коллектора EA888 M6 65, цена за 1 шт.", "offer_id": "vint-kollektora-ea888", "is_archived": false, "is_autoarchived": false, "barcodes": [], "description_category_id": 17028751, "type_id": 970863591, "created_at": "2026-11-11T21:09:25.170980Z", "images": ["https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/vint-kollektora-ea888_2.png?v=6a3000e227", "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/vint-kollektora-ea888_3.png?v=f919c3562a"], "currency_code": "RUB", "min_price": "", "old_price": "", "price": "950.00", "sources": [], "model_info": {"model_id": 0, "count": 0}, "commissions": [], "is_prepayment_allowed": false, "volume_weight": 0.5, "has_discounted_fbo_item": false, "is_discounted": false, "discounted_fbo_stocks": 0, "stocks": {"has_stock": false, "stocks": []}, "errors": [{"code": "DESCRIPTION_DECLINE", "field": "description", "attribute_id": 8229, "state": "declined", "level": "ERROR_LEVEL_ERROR", "texts": {"attribute_name": "Тип", "description": "Необходимо изменить тип на тот, который больше всего подходит товару. Проверьте, чтобы тип товара соответствовал указанному типу в название (Неверный тип)", "short_description": "", "params": [{"name": "attribute_id", "value": "8229"}, {"name": "attribute_name", "value": "Тип"}], "message": "Необходимо изменить тип на тот, который больше всего подходит товару. Проверьте, чтобы тип товара соответствовал указанному типу в название (Неверный тип)"}}], "updated_at": "2026-11-11T21:16:32.834631Z", "vat": "0.00", "visibility_details": {"has_price": true, "has_stock": false}, "price_indexes": {"color_index": "COLOR_INDEX_WITHOUT_INDEX", "external_index_data": {"minimal_price": "", "minimal_price_currency": "", "price_index_value": 0}, "ozon_index_data": {"minimal_price": "", "minimal_price_currency": "", "price_index_value": 0}, "self_marketplaces_index_data": {"minimal_price": "", "minimal_price_currency": "", "price_index_value": 0}}, "images360": [], "is_kgt": false, "color_image": [], "primary_image": ["https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/vint-kollektora-ea888_1.png?v=220999eeb3"], "statuses": {"status": "variant_wait", "status_failed": "declined", "moderate_status": "declined", "validation_status": "success", "status_name": "Не продается", "status_description": "Не создан", "is_created": false, "status_tooltip": "Не удалось создать описание", "status_updated_at": "2026-11-11T21:17:42.269176Z"}, "is_super": false, "is_seasonal": false, "promotions": [{"is_enabled": false, "type": "REVIEWS_PROMO"}], "sku": 0, "availabilities": [], "declared_price": {"amount": "0", "currency": "RUB"}}
 [push-stock: 2 с]
 
 === Шаг 6: push-wb-stock (WB) ===
 ВНИМАНИЕ: 16 артикул(ов) без карточки/штрихкода на WB, пропущены: 0BH325, 0ambset, 6t30, Dq500, EA888, EA888gen3, Ea888gen3, TEST001, plita-filtr-v2, plita-pylniki-salniki-orig-v2, podshipnik-vilki-6, porshni-usil-pylniki-kryshki-v2, pylniki-shtokov-orig-v2, remkomplekt-shtokov-orig-v2, salnik-shtoka-orig-v2, vint-kollektora-ea888
-  ОК: партия из 121 остатков отправлена (01X301127C, 02E 305 045, 02E305051C, 02E927770AL, 02e305045, 0AM301212A, 0AM325025B, 0AM325120A, 0AM325219C, 0AM325413A, 0AM325433E, 0AM325443D, 0AM325467J, 0AM325473, 0AM325587E, 0AM927769D, 0AM927769F, 0AM927769N, 0BH325183, 0BH325183 B, 0am325025, 0am325025D, 0am325025G, 0am325025H, 0am325025HX, 0am325025HXF, 0am325025P, 0am325025ae, 0am325025f, 0am325025hfe, 0am325025j, 0am325025l, 0am325025m, 0am325025n, 0am325025q, 0am325025r, 0am325025u, 0am325025x, 0am325025z, 0am325025С, 0am325066AC, 0am325066ad, 0am325066ae, 0am325091e, 0am325091e-set, 0am325091f, 0am325091f-set, 0am325477, 0am325477ae, 0cw0am, 0cw0am325025, 0cw0amdsgdq200, 0cw325025h, 0сц, 122390AK-AF, 122390AKAF, 123014‑AF, 31705-1XF0C, 31705-X428B, 317053TX0C, 55565480, DQ500, Dq200dsg7, Dq200dsg70am0cw, WHT001922, chip-02e927770, chip-0am927769d, datchik-peredach-dq200, datchik-scepleniya-dq200, derzhatel-datchikov-dq200, filtr-dsg7-dq200, filtr-dsg7-dq500, filtr-setka-0b5-orig, fpc-shleif-dq200, gidroakkumulyator-orig, jf011e, klipsa-datchika-peredach-dq200, klipsy-shtokov-2sht, kolodka-solenoidov-dq200, korpus-filtra-0bh325159, kryshka-mehatronika-dq200, kryshka-platy-dq200, osnovanie-platy-dq200, planka-solenoid-2sht, plastina-solenoid-dq200, plastiny-solenoid-dq200-2sht, plastiny-solenoid-orig, plita-filtr, plita-filtr-orig, plita-filtr-pylniki, plita-filtr-pylniki-orig, plita-filtr-pylniki-sal, plita-filtr-pylniki-sal-orig, plita-filtr-salniki-orig, plita-pylniki-salniki, plita-pylniki-salniki-orig, porshni-usil-pylniki-kryshki, prokladka-kryshki-dq200, prokladka-vtulki-dq200, prokladka-vtulki-niz-dq200, prokladka-vtulki-verh-dq200, pylniki-shtokov-orig, remkomplekt-shtokov-orig, salnik-shtoka-orig, salnik-tolkatelya-alum, salniki-shtokov-2sht, salniki-shtokov-orig, salniki-tolkatelya-4sht, salnikprivod-l, salnikprivod-r, salnikvhod, salnikvihod, separatornaya-plastina-dq200, separatornaya-plastiny-solenoid-dq200, shleif-platy-dq200, solenoid-02e-0b5-bolshoy, stalnaya-vstavka-plity, tolkateli-4-salniki-4, tolkateli-salniki-alum-komplekt, vtulki-shtokov-2sht, 0AM927769D (снята))
+  ОК: партия из 125 остатков отправлена (01X301127C, 02E 305 045, 02E305051C, 02E927770AL, 02e305045, 0AM301212A, 0AM325025B, 0AM325120A, 0AM325219C, 0AM325413A, 0AM325433E, 0AM325443D, 0AM325467J, 0AM325473, 0AM325587E, 0AM927769D, 0AM927769E, 0AM927769F, 0AM927769K, 0AM927769N, 0BH325183, 0BH325183 B, 0am325025, 0am325025D, 0am325025G, 0am325025H, 0am325025HX, 0am325025HXE, 0am325025HXF, 0am325025HXK, 0am325025P, 0am325025ae, 0am325025f, 0am325025hfe, 0am325025j, 0am325025l, 0am325025m, 0am325025n, 0am325025q, 0am325025r, 0am325025u, 0am325025x, 0am325025z, 0am325025С, 0am325066AC, 0am325066ad, 0am325066ae, 0am325091e, 0am325091e-set, 0am325091f, 0am325091f-set, 0am325477, 0am325477ae, 0cw0am, 0cw0am325025, 0cw0amdsgdq200, 0cw325025h, 0сц, 122390AK-AF, 122390AKAF, 123014‑AF, 31705-1XF0C, 31705-X428B, 317053TX0C, 55565480, DQ500, Dq200dsg7, Dq200dsg70am0cw, WHT001922, chip-02e927770, chip-0am927769d, datchik-peredach-dq200, datchik-scepleniya-dq200, derzhatel-datchikov-dq200, filtr-dsg7-dq200, filtr-dsg7-dq500, filtr-setka-0b5-orig, fpc-shleif-dq200, gidroakkumulyator-orig, jf011e, klipsa-datchika-peredach-dq200, klipsy-shtokov-2sht, kolodka-solenoidov-dq200, korpus-filtra-0bh325159, kryshka-mehatronika-dq200, kryshka-platy-dq200, osnovanie-platy-dq200, planka-solenoid-2sht, plastina-solenoid-dq200, plastiny-solenoid-dq200-2sht, plastiny-solenoid-orig, plita-filtr, plita-filtr-orig, plita-filtr-pylniki, plita-filtr-pylniki-orig, plita-filtr-pylniki-sal, plita-filtr-pylniki-sal-orig, plita-filtr-salniki-orig, plita-pylniki-salniki, plita-pylniki-salniki-orig, porshni-usil-pylniki-kryshki, prokladka-kryshki-dq200, prokladka-vtulki-dq200, prokladka-vtulki-niz-dq200, prokladka-vtulki-verh-dq200, pylniki-shtokov-orig, remkomplekt-shtokov-orig, salnik-shtoka-orig, salnik-tolkatelya-alum, salniki-shtokov-2sht, salniki-shtokov-orig, salniki-tolkatelya-4sht, salnikprivod-l, salnikprivod-r, salnikvhod, salnikvihod, separatornaya-plastina-dq200, separatornaya-plastiny-solenoid-dq200, shleif-platy-dq200, solenoid-02e-0b5-bolshoy, stalnaya-vstavka-plity, tolkateli-4-salniki-4, tolkateli-salniki-alum-komplekt, vtulki-shtokov-2sht, 0AM927769D (снята))
 
-Итого: успешно 121, с ошибками 0
+Итого: успешно 125, с ошибками 0
 [push-wb-stock: 1 с]
 
 === Шаг 6б: Ozon — контроль акций (цена не ниже нашей) ===
@@ -575,10 +589,10 @@ WB обрабатывает изменение цены не мгновенно 
   лимит выставлен: 0, с ошибкой: 0
 
 Автодобавление в акции:
-klipsa-datchika-peredach-dq200: автодобавление в акции ВКЛ (цена 1350)
-vint-kollektora-ea888: автодобавление в акции ВКЛ (цена 950)
-fpc-shleif-dq200: автодобавление в акции ВКЛ (цена 3350)
-kryshka-platy-dq200: автодобавление в акции ВКЛ (цена 1850)
+0am325025HXK: автодобавление в акции ВКЛ (цена 118850)
+0am325025HXE: автодобавление в акции ВКЛ (цена 118850)
+0AM927769K: автодобавление в акции ВКЛ (цена 74850)
+0AM927769E: автодобавление в акции ВКЛ (цена 74850)
 
 Товаров с включённым автодобавлением: 4
 Выключено: 4, с ошибкой: 0
@@ -589,7 +603,7 @@ kryshka-platy-dq200: автодобавление в акции ВКЛ (цена
   0am325025p: вариант артикула с другим регистром — отправляю остаток 80
   0am325066ac: вариант артикула с другим регистром — отправляю остаток 24
 ВНИМАНИЕ: на Маркете есть товары, которых нет в нашем каталоге с остатком — их остаток бот НЕ меняет (7): 0am325025e, 0b5, 0BH325183B, 31705-1XF1A, jf015, nakladki-pedali, 0am325025Y
-push-yandex-stock: принято Маркетом 139 из 139.
+push-yandex-stock: принято Маркетом 143 из 143.
 [push-yandex-stock: 2 с]
 
 === Шаг 7а: Яндекс Маркет — видео ===
@@ -598,10 +612,10 @@ push-yandex-stock: принято Маркетом 139 из 139.
 
 === Шаг 7б: фото для Авито (photos_avito) ===
 Фото для Авито: товаров с актуальными ссылками — 100
-[attach-avito-photos: 59 с]
+[attach-avito-photos: 82 с]
 
 === Шаг 8: build-avito-catalog ===
-Готово: 113 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
+Готово: 117 товаров -> /home/runner/work/marketplace-agent/marketplace-agent/data/avito_feed.xlsx
 Пропущено (остаток 0 в master_control.xlsx — сняты с продажи): 0AM325473, 0BH325, 0ambset, 0cw0am325025, 122390AKAF, 31705-1XF0C, 31705-X428B, 6t30, Dq200dsg70am0cw, TEST001, jf011e, plita-filtr-pylniki-orig, plita-filtr-pylniki-sal-orig, plita-pylniki-salniki-orig, plita-pylniki-salniki-orig-v2, pylniki-shtokov-orig, pylniki-shtokov-orig-v2, remkomplekt-shtokov-orig, remkomplekt-shtokov-orig-v2
 
 ВНИМАНИЕ: не удалось автоматически определить 'Тип детали трансмиссии' для 4 товаров — они НЕ включены в файл (это обязательное поле, пустым Avito бы всё равно отклонил). Если это ошибка классификации — допишите ключевое слово в avito_feed.py. Если товар не по теме этого шаблона (не запчасть трансмиссии) — для него нужен другой шаблон категории Avito:
@@ -615,9 +629,9 @@ push-yandex-stock: принято Маркетом 139 из 139.
 [build-avito-catalog: 3 с]
 
 === Шаг 9: Tilda (сайт), CommerceML ===
-Собрано товаров: 136 (из них с остатком 0 -> на сайте 'нет в наличии': 19).
+Собрано товаров: 140 (из них с остатком 0 -> на сайте 'нет в наличии': 19).
 Без фото: solenoid-02e-0b5-bolshoy
-Фото уйдут новым товарам (12 файлов): fpc-shleif-dq200, klipsa-datchika-peredach-dq200, kryshka-platy-dq200, vint-kollektora-ea888
+Фото уйдут новым товарам (12 файлов): 0AM927769E, 0AM927769K, 0am325025HXE, 0am325025HXK
   checkauth: success
   init: zip=no | file_limit=3145728
   фото: отправлено файлов 12
@@ -625,57 +639,53 @@ push-yandex-stock: принято Маркетом 139 из 139.
   file offers0_1.xml: success
   import import0_1.xml: success
   import offers0_1.xml: success
-Фото отправлены (повторно не шлём): fpc-shleif-dq200, klipsa-datchika-peredach-dq200, kryshka-platy-dq200, vint-kollektora-ea888
+Фото отправлены (повторно не шлём): 0AM927769E, 0AM927769K, 0am325025HXE, 0am325025HXK
 Если на сайте их нет — включите в Тильде «Принимать изображения» (Синхронизация через CommerceML -> Дополнительные настройки) и удалите эти артикулы из data/tilda_images_sent.json.
 push-tilda: готово. Проверьте результат на сайте и в 'Истории синхронизации' в Тильде.
-[push-tilda: 14 с]
+[push-tilda: 8 с]
 
 === Шаг 10: ревизия площадок (только чтение, на результат update-cards не влияет) ===
 === Ревизия: обновляю выгрузки с площадок ===
 
 --- Ozon: товары ---
-Сохранено 136 товаров Ozon (с названиями) в /home/runner/work/marketplace-agent/marketplace-agent/data/ozon_products.json
+Сохранено 140 товаров Ozon (с названиями) в /home/runner/work/marketplace-agent/marketplace-agent/data/ozon_products.json
 
 --- Ozon: остатки ---
-Ozon: остатки FBS по 129 товарам -> data/ozon_stocks.json
+Ozon: остатки FBS по 133 товарам -> data/ozon_stocks.json
 
 --- WB: карточки --- (берём файл, скачанный в начале update-cards)
 
 --- Яндекс Маркет ---
-Товаров на Маркете (не в архиве): 134; в нашем каталоге: 136.
+Товаров на Маркете (не в архиве): 146; в нашем каталоге: 140.
 Есть на Маркете, но нет в каталоге (10): 0BH325183B, 0am325025L, 0am325025Y, 0am325025e, 0am325025p, 0am325066ac, 0b5, 31705-1XF1A, jf015, nakladki-pedali
-Есть в каталоге, но нет на Маркете (12): chip-02e927770, chip-0am927769d, datchik-peredach-dq200, datchik-scepleniya-dq200, derzhatel-datchikov-dq200, fpc-shleif-dq200, klipsa-datchika-peredach-dq200, kolodka-solenoidov-dq200, kryshka-platy-dq200, osnovanie-platy-dq200, shleif-platy-dq200, vint-kollektora-ea888
+Есть в каталоге, но нет на Маркете (4): 0AM927769E, 0AM927769K, 0am325025HXE, 0am325025HXK
 
 Полный список сохранён в data/yandex_market_offers.xlsx (после запуска сделайте Pull origin).
 
 --- Авито: объявления и отчёт автозагрузки ---
-Авито: 180 объявлений -> data/avito_live.json
-Авито: строк отчёта автозагрузки: 107 -> data/avito_autoload.json
+Авито: 187 объявлений -> data/avito_live.json
+Авито: строк отчёта автозагрузки: 113 -> data/avito_autoload.json
 
 === Ревизия: сверка ===
-Ревизия площадок: проблем ВАЖНО 36, СРЕДНЕ 68, НИЗКО 7 (Авито: живые объявления)
+Ревизия площадок: проблем ВАЖНО 26, СРЕДНЕ 75, НИЗКО 7 (Авито: живые объявления)
   - Авито: объявление не из фида — 50
-  - Маркет: нет на площадке — 12
   - WB: нет на площадке — 8
-  - Авито: нет на площадке — 7
+  - Ozon: остаток — 6
   - Ozon: лишний — 6
   - Авито: ошибка автозагрузки — 5
+  - Авито: нет на площадке — 5
   - WB: цена — 4
+  - Маркет: нет на площадке — 4
   - Маркет: нет в мастере — 4
+  - Авито: дубль объявления — 2
   - Авито/сайт: нет цены без комиссии — 2
   - Авито: артикул отличается регистром — 2
-  - Маркет: название — 2
-  - Tilda: лишний — 1
-НОВЫХ важных проблем с прошлой ревизии: 9
-  + WB / нет на площадке / vint-kollektora-ea888
-  + Авито / нет на площадке / fpc-shleif-dq200
-  + Авито / нет на площадке / klipsa-datchika-peredach-dq200
-  + Авито / нет на площадке / kryshka-platy-dq200
-  + Авито / нет на площадке / vint-kollektora-ea888
-  + Маркет / нет на площадке / fpc-shleif-dq200
-  + Маркет / нет на площадке / klipsa-datchika-peredach-dq200
-  + Маркет / нет на площадке / kryshka-platy-dq200
-  + Маркет / нет на площадке / vint-kollektora-ea888
+НОВЫХ важных проблем с прошлой ревизии: 5
+  + Авито / нет на площадке / 0AM927769E
+  + Маркет / нет на площадке / 0AM927769E
+  + Маркет / нет на площадке / 0AM927769K
+  + Маркет / нет на площадке / 0am325025HXE
+  + Маркет / нет на площадке / 0am325025HXK
 Подробности: data/audit_report.xlsx (после запуска сделайте Pull origin).
 
-update-cards: готово — всё обновлено: Ozon, WB, Avito, сайт, Яндекс Маркет (остатки).
+update-cards: ошибка на шаге(ах): push-stock — проверьте вывод выше (остальные шаги выполнены).
