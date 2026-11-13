@@ -744,6 +744,33 @@ def cmd_collect() -> int:
         if not fid:
             continue
         cap = m.get("caption") or ""
+        if mchat == designer and cap.strip().casefold() == "ozon 0am325025 слайд 2":
+            from io import BytesIO
+            from PIL import Image
+
+            if not m.get("document") or m.get("media_group_id"):
+                _tg("sendMessage", chat_id=mchat, text="Пришлите один PNG или JPEG как файл с подписью Ozon 0am325025 слайд 2.")
+                continue
+            data = _download(fid)
+            try:
+                with Image.open(BytesIO(data)) as img:
+                    fmt = img.format
+                    width, height = img.size
+                    img.verify()
+                if fmt not in ("PNG", "JPEG") or width * 4 != height * 3 or width < 900:
+                    raise ValueError("Expected PNG/JPEG 3:4")
+            except (OSError, ValueError):
+                _tg("sendMessage", chat_id=mchat, text="Нужен PNG или JPEG 3:4 шириной от 900 px.")
+                continue
+            folder = os.path.join(_ROOT, "data", "designer_returns")
+            os.makedirs(folder, exist_ok=True)
+            ext = "png" if fmt == "PNG" else "jpg"
+            path = os.path.join(folder, f"ozon-0am325025-slide-2-{m['message_id']}.{ext}")
+            with open(path, "wb") as fh:
+                fh.write(data)
+            _tg("sendMessage", chat_id=mchat, text="Принял слайд 2 для ремкомплекта 0am325025 на Ozon.")
+            print(f"Принят отдельный слайд: {path}")
+            continue
         mc = CARD_RE.match(cap) if cap else None
         if mc:
             group_card[gid] = (mc.group(1), bool(mc.group(2)))
