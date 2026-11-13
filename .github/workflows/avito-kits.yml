@@ -1,0 +1,27 @@
+name: Inspect repair kits on Avito
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: |
+          python - <<'PY'
+          import avito_client as av
+          owner = av._request("GET", "/core/v1/accounts/self")["id"]
+          for item in (4220729305,4445230063,4285108577,4445119215,4189437762,4125283125,3965565847,8460936701):
+              try:
+                  info = av._request("GET", f"/core/v1/accounts/{owner}/items/{item}/")
+                  print(item, sorted(info), {k:info[k] for k in ("title","price","description","images","photos") if k in info})
+              except av.AvitoApiError as e:
+                  print(item, str(e))
+          PY
