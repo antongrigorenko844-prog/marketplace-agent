@@ -16,7 +16,7 @@ jobs:
           import json
           from collections import defaultdict
           import ozon_client as oz
-          catalog = oz.get_product_names()
+          catalog = oz.list_products()
           ids = [p["offer_id"] for p in catalog if not p.get("is_archived") and not p.get("archived")]
           stocks = oz.get_stocks(ids)
           low = {}
@@ -27,6 +27,7 @@ jobs:
               if qty <= 5:
                   low[p["offer_id"]] = [qty,ss]
           info = oz.get_product_info_list(list(low))
+          names = {p["offer_id"]:p.get("name") for p in oz.get_product_names(list(low),limit=100)}
           sales = defaultdict(float)
           try:
               result = oz._post("/v1/analytics/data",{"date_from":"2026-10-30","date_to":"2026-11-12","dimension":["sku"],"metrics":["ordered_units"],"limit":1000,"offset":0,"filters":[],"sort":[]})
@@ -40,5 +41,5 @@ jobs:
               qty,ss=low[a]
               skus={str(s["sku"]) for s in p.get("sources",[]) if s.get("sku")}
               if p.get("sku"): skus.add(str(p["sku"]))
-              print("LOW",json.dumps([a,p.get("name"),p.get("statuses",{}).get("status_name"),p.get("is_archived"),qty,[[s.get("type"),s.get("present"),s.get("reserved")] for s in ss],sum(sales[s] for s in skus) if sales is not None else None],ensure_ascii=False),flush=True)
+              print("LOW",json.dumps([a,names.get(a),p.get("statuses",{}).get("status_name"),p.get("is_archived"),qty,[[s.get("type"),s.get("present"),s.get("reserved")] for s in ss],sum(sales[s] for s in skus) if sales is not None else None],ensure_ascii=False),flush=True)
           PY
