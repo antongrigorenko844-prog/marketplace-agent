@@ -38,7 +38,7 @@ jobs:
               assert target["marketCategoryName"] == "Запчасти для трансмиссии автомобиля"
               assert current["marketCategoryName"] in ("Двигатели автомобильные","Сцепление и компоненты","Запчасти для трансмиссии автомобиля")
               if current["marketCategoryId"] != target["marketCategoryId"]:
-                  updates.append({"offerId":sku,"categoryId":target["marketCategoryId"]})
+                  updates.append({"offerId":sku,"categoryId":target["marketCategoryId"],"parameterValues":[{"parameterId":60134505,"value":sku}]})
           if updates:
               response=post(f"/v2/businesses/{biz}/offer-cards/update",{"offersContent":updates})
               print("UPDATE",response,flush=True)
