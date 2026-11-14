@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 import json
+import math
 import os
 from collections import Counter, defaultdict
 from datetime import datetime, timedelta, timezone
@@ -24,7 +25,8 @@ DATA = "data"
 RETURNS_PATH = os.path.join(DATA, "ozon_returns.json")
 REPORT_PATH = os.path.join(DATA, "ozon_unit_report.xlsx")
 STATE_PATH = os.path.join(DATA, "ozon_unit_state.json")
-PAID_PROGRAMS = ("Звёздные товары", "Сбор первых отзывов", "Ускоренный сбор отзывов", "Продвижение бренда")
+PAID_PROGRAMS = ("Звёздные товары", "Сбор первых отзывов", "Ускоренный сбор отзывов", "Продвижение бренда",
+                 "Подписка Управление отзывами")
 PAID_SHARE_ALERT = 0.20      # платные программы съедают больше 20% выручки товара — сказать владельцу
 CHEAP_PRICE = 5000           # «дешёвый» товар — цена на Ozon ниже этой
 
@@ -101,17 +103,25 @@ def _master() -> dict:
     for r in rows[1:]:
         if not r[0]:
             continue
-        out[str(r[0]).strip().lower()] = {"art": str(r[0]).strip(), "name": r[iname] or "",
+        out[str(r[0]).strip()] = {"art": str(r[0]).strip(), "name": r[iname] or "",
                                           "price": price_audit._num(r[ip]),
                                           "cost": price_audit._num(r[ic]) if ic is not None else None}
     return out
+
+
+def _master_item(master: dict, offer_id: str) -> dict:
+    """Exact SKU first; case-insensitive lookup is safe only for a unique match."""
+    if offer_id in master:
+        return master[offer_id]
+    matches = [value for key, value in master.items() if key.casefold() == offer_id.casefold()]
+    return matches[0] if len(matches) == 1 else {}
 
 
 def build(fin: dict, rets: dict) -> list:
     import price_audit
     master = _master()
     try:
-        ign = {k.lower() for k in json.load(open(os.path.join(DATA, "audit_ignore.json"), encoding="utf-8"))
+        ign = {k for k in json.load(open(os.path.join(DATA, "audit_ignore.json"), encoding="utf-8"))
                if not k.startswith("_")}
     except Exception:  # noqa: BLE001
         ign = set()
@@ -120,24 +130,27 @@ def build(fin: dict, rets: dict) -> list:
     reasons = rets.get("by_offer") or {}
     rows = []
     for oid, it in (fin.get("items") or {}).items():
-        k = oid.lower()
-        if k in ign or k.startswith("sku:"):
+        if oid in ign or oid.lower().startswith("sku:"):
             continue
-        m = master.get(k, {})
+        m = _master_item(master, oid)
         cost = m.get("cost")
+        no_cost = not isinstance(cost, (int, float)) or not math.isfinite(cost) or cost <= 0
         units = max(int(it.get("sold", 0)) - int(it.get("returned", 0)), 0)
         rev = max(float(it.get("revenue") or 0), 0.0)
         tax = rev * price_audit.TAX
-        profit = float(it.get("net") or 0) - tax - (cost or 0) * units
+        before_purchase = float(it.get("net") or 0) - tax
+        profit = None if no_cost else round(before_purchase - cost * units, 2)
         f = fees.get(oid, {})
         paid = sum(v for n, v in f.items() if n in PAID_PROGRAMS)
-        rows.append({"offer_id": oid, "name": m.get("name", ""), "price": m.get("price"), "cost": cost,
+        rows.append({"offer_id": oid, "name": m.get("name", ""), "price": m.get("price"),
+                     "cost": None if no_cost else cost,
                      "sold": it.get("sold", 0), "returned": it.get("returned", 0), "revenue": rev,
                      "commission": it.get("commission", 0), "logistics": it.get("logistics", 0),
                      "services": it.get("services", 0), "paid_programs": round(paid, 2),
-                     "tax": round(tax, 2), "profit": round(profit, 2), "no_cost": cost is None,
+                     "tax": round(tax, 2), "profit": profit, "no_cost": no_cost,
+                     "before_purchase": round(before_purchase, 2),
                      "fees": f, "reasons": reasons.get(oid, {})})
-    rows.sort(key=lambda r: r["profit"])
+    rows.sort(key=lambda r: (r["profit"] is None, r["profit"] or 0))
     return rows
 
 
@@ -158,8 +171,8 @@ def _write_xlsx(rows: list, period: str) -> None:
         why = "; ".join(f"{n} ×{v}" for n, v in r["reasons"].items())
         ws.append([r["offer_id"], r["name"], r["price"], r["cost"] if not r["no_cost"] else "нет закупки", r["sold"],
                    r["returned"], r["revenue"], r["commission"], r["logistics"], r["services"], r["paid_programs"],
-                   r["tax"], r["profit"], top, why])
-        if r["profit"] < 0:
+                   r["tax"], r["profit"] if r["profit"] is not None else "не рассчитана: нет закупки", top, why])
+        if r["profit"] is not None and r["profit"] < 0:
             for c in ws[ws.max_row]:
                 c.fill = red
     for col, w in zip("ABCDEFGHIJKLMNO", (18, 46, 10, 10, 8, 8, 10, 10, 10, 10, 12, 9, 12, 60, 50)):
@@ -171,7 +184,7 @@ def _write_xlsx(rows: list, period: str) -> None:
                  "− закупка × (продано − возвращено).",
                  "Почему месяц, а не неделя: расходы Ozon списывает сразу, а выручку — при выкупе, поэтому недельный минус почти всегда ложный.",
                  "Платные программы: " + ", ".join(PAID_PROGRAMS) + ".",
-                 "Закупка — колонка «Закупка, ₽» в data/master_control.xlsx; где её нет, прибыль без закупки (завышена)."):
+                 "Закупка — колонка «Закупка, ₽» в data/master_control.xlsx; без положительной закупки прибыль не рассчитывается."):
         ws2.append([line])
     ws2.column_dimensions["A"].width = 140
     wb.save(REPORT_PATH)
@@ -182,12 +195,13 @@ def _fmt(v) -> str:
 
 
 def message(rows: list, period: str) -> str:
-    loss = [r for r in rows if r["profit"] < 0 and (r["sold"] or r["returned"])]
+    loss = [r for r in rows if r["profit"] is not None and r["profit"] < 0 and (r["sold"] or r["returned"])]
+    unknown = [r for r in rows if r["no_cost"]]
     paid = [r for r in rows if r["revenue"] > 0 and (r["price"] or 0) < CHEAP_PRICE
             and -r["paid_programs"] > PAID_SHARE_ALERT * r["revenue"]]
     lines = [f"📉 Ozon: юнит-экономика за 30 дней ({period})"]
     if not loss:
-        lines.append("Убыточных товаров за месяц нет ✅")
+        lines.append("Среди товаров с известной закупкой убытков по расчёту не выявлено.")
     else:
         lines.append(f"В минусе за месяц: {len(loss)}")
         for r in loss[:12]:
@@ -209,7 +223,13 @@ def message(rows: list, period: str) -> str:
         for r in paid[:10]:
             lines.append(f"• {r['offer_id']}: {_fmt(-r['paid_programs'])} ₽ из {_fmt(r['revenue'])} ₽ выручки")
         lines.append("Их можно отключить для этих товаров в кабинете Ozon (Продвижение).")
-    lines.append("\nПолная таблица: data/ozon_unit_report.xlsx. Напишите Claude, если что-то разобрать.")
+    if unknown:
+        lines.append(f"\n⚠️ Прибыль не рассчитана у {len(unknown)} товаров: закупка отсутствует или некорректна.")
+        lines.append(", ".join(r["offer_id"] for r in unknown[:15]))
+        if len(unknown) > 15:
+            lines.append(f"И ещё {len(unknown) - 15} — в полной таблице.")
+        lines.append("Не используйте эти товары для расчёта допустимых скидок и рекламного бюджета до сверки закупки.")
+    lines.append("\nРасчёт до общих расходов бизнеса; это не чистая прибыль. Полная таблица: data/ozon_unit_report.xlsx.")
     return "\n".join(lines)
 
 
@@ -235,5 +255,7 @@ def cmd_ozon_unit_weekly(send: bool = True) -> int:
         direct_tools._tg_owner(text)
     with open(STATE_PATH, "w", encoding="utf-8") as fh:
         json.dump({"sent": datetime.now(timezone.utc).isoformat(),
-                   "loss": [r["offer_id"] for r in rows if r["profit"] < 0]}, fh, ensure_ascii=False)
+                   "loss": [r["offer_id"] for r in rows if r["profit"] is not None and r["profit"] < 0],
+                   "unknown_cost": [r["offer_id"] for r in rows if r["no_cost"]]}, fh, ensure_ascii=False)
     return 0
+
