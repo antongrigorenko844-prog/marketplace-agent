@@ -8,7 +8,28 @@ import ozon_client as oz
 from market_content import read_rows,preserve_typed_parameters,grouped
 OUT=Path('/tmp/content-media-finish');OUT.mkdir(exist_ok=True)
 def save(n,d):(OUT/(n+'.json')).write_text(json.dumps(d,ensure_ascii=False,indent=2))
-b=ym.get_business_id();save('case-sensitive-seal',read_rows(b,'offer-mappings',['0am325066ac']))
+b=ym.get_business_id()
+seal_before=read_rows(b,'offer-mappings',['0am325066ac']);save('case-sensitive-seal-before',seal_before)
+seal_cards=read_rows(b,'offer-cards',['0am325066ac']);save('case-sensitive-seal-card-before',seal_cards)
+if seal_before[0]['offer'].get('videos'):
+ # Official deleteParameters removes only video links; preserve typed attributes.
+ payload=preserve_typed_parameters(b,[{'offer':{'offerId':'0am325066ac','deleteParameters':['VIDEOS']}}])
+ save('case-sensitive-seal-request',payload)
+ status,data=ym._request('POST',f'/v2/businesses/{b}/offer-mappings/update',json_body={'offerMappings':payload})
+ save('case-sensitive-seal-response',{'http':status,'body':data})
+ assert status==200 and data.get('status')=='OK',(status,data)
+ for _ in range(24):
+  seal_after=read_rows(b,'offer-mappings',['0am325066ac'])
+  if not seal_after[0]['offer'].get('videos'):break
+  time.sleep(5)
+ save('case-sensitive-seal-after',seal_after)
+ before=seal_before[0]['offer'];after=seal_after[0]['offer']
+ assert not after.get('videos'),'Wrong seal video still attached'
+ for k in ['name','description','pictures','vendor','basicPrice','purchasePrice','weightDimensions','barcodes','params']:
+  assert before.get(k)==after.get(k),('seal unexpected change',k)
+ ac=read_rows(b,'offer-cards',['0am325066ac']);save('case-sensitive-seal-card-after',ac)
+ assert grouped(seal_cards[0].get('parameterValues',[]))==grouped(ac[0].get('parameterValues',[])),'seal attributes changed'
+ save('seal-removal-result',{'removed_wrong_video':True,'other_fields_preserved':True})
 ids=list(json.load(open('data/market_content_repair_20261115.json')));cards=read_rows(b,'offer-cards',ids);save('market-ratings',cards)
 video_ids=['0am325025HX','0am325025HXF','0am325025u','0am325025z','0am325066AC','0am325091e','0am325091e-set','0am325091f','0AM325467J','0AM927769G','0AM927769K','0AM927769E']
 mr=read_rows(b,'offer-mappings',video_ids);save('market-videos',mr)

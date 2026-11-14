@@ -40,6 +40,7 @@ for _ in range(24):
 save('wb-after',wa);wpa=wb.get_prices();save('wb-prices-after',wpa)
 for s in P:
  assert am[s].get('video'),('WB video pending',s)
- for k in ['title','description','photos','characteristics','brand','dimensions','sizes','subjectID']:assert wm[s].get(k)==am[s].get(k),(s,k)
+ for k in ['title','description','photos','brand','dimensions','sizes','subjectID']:assert wm[s].get(k)==am[s].get(k),(s,k)
+ assert {x['id']:x for x in wm[s]['characteristics']}=={x['id']:x for x in am[s]['characteristics']},(s,'characteristics')
 ppb={r['offer_id']:r['price']for r in pb};ppa={r['offer_id']:r['price']for r in pa}
 res={'ozon':{s:videos(om[s])for s in P},'wb':{s:am[s].get('video')for s in P},'prices_unchanged':ppb==ppa and sorted(wpb,key=lambda r:r['nmID'])==sorted(wpa,key=lambda r:r['nmID']),'ozon_stocks_unchanged':sb==sa,'non_media_fields_preserved':True,'at':datetime.datetime.now(datetime.timezone.utc).isoformat()};save('result',res);print(json.dumps(res,ensure_ascii=False))
