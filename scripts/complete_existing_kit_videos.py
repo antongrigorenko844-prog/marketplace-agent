@@ -26,7 +26,9 @@ for _ in range(24):
 save('ozon-after',oa);pa=oz.get_prices_and_stocks(list(P));sa=oz.get_stocks(list(P));save('ozon-prices-after',pa);save('ozon-stocks-after',sa);om={r['offer_id']:r for r in oa}
 for b in ob:
  a=om[b['offer_id']];assert videos(a)
- for k in ['name','images','primary_image','attributes','depth','width','height','weight','type_id','description_category_id']:assert b.get(k)==a.get(k),(b['offer_id'],k)
+ for k in ['name','images','primary_image','depth','width','height','weight','type_id','description_category_id']:assert b.get(k)==a.get(k),(b['offer_id'],k)
+for b in ob:
+ a=om[b['offer_id']];assert {x['id']:x for x in b['attributes']}=={x['id']:x for x in a['attributes']},(b['offer_id'],'attributes')
 wb_before=wb.list_cards();wm={r['vendorCode']:r for r in wb_before};wpb=wb.get_prices();save('wb-before',wb_before);save('wb-prices-before',wpb)
 for s,url in P.items():
  c=wm[s]

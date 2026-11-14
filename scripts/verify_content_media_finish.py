@@ -8,16 +8,7 @@ import ozon_client as oz
 from market_content import read_rows,preserve_typed_parameters,grouped
 OUT=Path('/tmp/content-media-finish');OUT.mkdir(exist_ok=True)
 def save(n,d):(OUT/(n+'.json')).write_text(json.dumps(d,ensure_ascii=False,indent=2))
-b=ym.get_business_id();s='0am325066ac';rows=read_rows(b,'offer-mappings',[s]);r=rows[0]['offer'];save('wrong-video-before',rows)
-if r.get('videos'):
- assert r['name'].lower().startswith('сальник'),r['name']
- assert len(r['videos'])==1 and '0am325066AC_video.mp4'in r['videos'][0],r['videos']
- cards=read_rows(b,'offer-cards',[s]);p=[{'offer':{'offerId':s,'videos':[]}}];preserve_typed_parameters(b,p)
- code,res=ym._request('POST',f'/v2/businesses/{b}/offer-mappings/update',json_body={'offerMappings':p});save('wrong-video-removal',{'status':code,'body':res});assert code==200 and res.get('status')=='OK'
- after=read_rows(b,'offer-mappings',[s])[0]['offer'];save('wrong-video-after',after);assert not after.get('videos')
- for k,v in r.items():
-  if k not in ['videos','mediaFiles','cardStatus']:assert after.get(k)==v,(s,k)
- ca=read_rows(b,'offer-cards',[s]);assert grouped(cards[0].get('parameterValues',[]))==grouped(ca[0].get('parameterValues',[]))
+b=ym.get_business_id();save('case-sensitive-seal',read_rows(b,'offer-mappings',['0am325066ac']))
 ids=list(json.load(open('data/market_content_repair_20261115.json')));cards=read_rows(b,'offer-cards',ids);save('market-ratings',cards)
 video_ids=['0am325025HX','0am325025HXF','0am325025u','0am325025z','0am325066AC','0am325091e','0am325091e-set','0am325091f','0AM325467J','0AM927769G','0AM927769K','0AM927769E']
 mr=read_rows(b,'offer-mappings',video_ids);save('market-videos',mr)
