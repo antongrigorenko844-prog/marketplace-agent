@@ -5,7 +5,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import ozon_client as oz
 import wb_client as wb
 OUT=Path('/tmp/kit-videos');OUT.mkdir(exist_ok=True)
-P={'0am325025':'https://cdnvideo.v.ozone.ru/vod/video-68/01JVWWQC04GNGFDWSX7GBA3R37/asset_2_h264.mp4','0am325025m':'https://cdnvideo.v.ozone.ru/vod/video-67/01JWE2YHZXN25D0WEFQ5CJM8MN/asset_2_h264.mp4'}
+P={'0am325025':'https://v-1.ozone.ru/vod/video-68/01JVWWQC04GNGFDWSX7GBA3R37/asset_2_h264.mp4','0am325025m':'https://v-1.ozone.ru/vod/video-67/01JWE2YHZXN25D0WEFQ5CJM8MN/asset_2_h264.mp4'}
 def save(n,d):(OUT/(n+'.json')).write_text(json.dumps(d,ensure_ascii=False,indent=2))
 def videos(c):return [v['value']for a in c.get('complex_attributes',[])if a.get('id')==21841 for v in a.get('values',[])]
 ob=oz.get_product_names(list(P));pb=oz.get_prices_and_stocks(list(P));sb=oz.get_stocks(list(P));save('ozon-before',ob);save('ozon-prices-before',pb);save('ozon-stocks-before',sb)
