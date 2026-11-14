@@ -295,6 +295,8 @@ def update_names(names: Dict[str, str]) -> Tuple[int, Dict[str, str]]:
     entries = [(offer, {"offer": {"offerId": offer, "name": name[:NAME_MAX]}}) for offer, name in names.items()]
 
     def send(elems):
+        from market_content import preserve_typed_parameters
+        preserve_typed_parameters(business_id, elems)
         return _request("POST", f"/v2/businesses/{business_id}/offer-mappings/update", json_body={"offerMappings": elems})
 
     return _send_isolating("названия", send, entries)
