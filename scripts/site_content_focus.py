@@ -1,4 +1,4 @@
-"""Update only two site descriptions and inspect the corresponding Avito ads."""
+"""Read current site descriptions and the corresponding Avito ads."""
 import json, os, sys, time, xml.etree.ElementTree as ET
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
@@ -19,36 +19,10 @@ def products():
     return rows
 
 def site():
-    before=products();save('tilda-before',before)
+    # The descriptions were verified after saving in the Tilda UI. Keep this
+    # workflow read-only: an accepted CommerceML import did not update text.
+    after=products();save('tilda-current',after)
     rules=content_updates.load()
-    expected={sku:exchange_items.site_prefix(sku)+('<br/><br/>' if exchange_items.site_prefix(sku) else '')+rules[sku]['description'] for sku in IDS}
-    root=ET.fromstring(tc.build_import_xml([]))
-    root.remove(root.find('Классификатор'))
-    cat=root.find('Каталог');cat.set('СодержитТолькоИзменения','true')
-    for p in before:
-        sku=p['sku'];assert p['externalid']==sku
-        if p.get('text')==expected[sku]:continue
-        item=ET.SubElement(cat.find('Товары'),'Товар')
-        ET.SubElement(item,'Ид').text=sku
-        ET.SubElement(item,'Описание').text=expected[sku]
-        assert [c.tag for c in item]==['Ид','Описание']
-    if len(cat.find('Товары')):
-        body=ET.tostring(root,encoding='unicode')
-        (OUT/'import.xml').write_text(body)
-        # Tilda requires both CommerceML stages; the offers file contains no products,
-        # no prices and no stocks, and is explicitly an incremental update.
-        offers=tc.build_offers_xml([]).replace('СодержитТолькоИзменения="false"','СодержитТолькоИзменения="true"')
-        assert not ET.fromstring(offers).find('.//Предложения').findall('Предложение')
-        log=tc.push(os.environ['TILDA_COMMERCEML_URL'],os.environ['TILDA_COMMERCEML_USER'],os.environ['TILDA_COMMERCEML_PASSWORD'],body,offers)
-        save('tilda-response',{'log':log})
-    for _ in range(12):
-        after=products();save('tilda-after',after)
-        for old in before:
-            new=next(p for p in after if p['sku']==old['sku'])
-            for key in ['price','priceold','quantity','title','gallery','uid','externalid','partuids']:
-                assert old.get(key)==new.get(key),(old['sku'],key,'unexpected change')
-        if all(rules[p['sku']]['description'] in p.get('text','') for p in after):break
-        time.sleep(10)
     return {p['sku']:rules[p['sku']]['description'] in p.get('text','') for p in after}
 
 def avito():
@@ -64,3 +38,6 @@ for name,fn in [('tilda',site),('avito',avito)]:
     except Exception as e:result[name]={'error':str(e)[:500]}
     save('result',result)
 print(json.dumps(result,ensure_ascii=False))
+
+if any(isinstance(v,dict) and (v.get("error") or any(x is False for x in v.values())) for v in result.values()):
+    raise SystemExit(1)
