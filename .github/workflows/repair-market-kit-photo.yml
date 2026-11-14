@@ -1,0 +1,23 @@
+name: Repair rejected Market kit photo only
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_BUSINESS_ID: ${{ secrets.YANDEX_MARKET_BUSINESS_ID }}
+        run: python scripts/repair_market_kit_photo.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: market-kit-photo
+          path: /tmp/market-kit-photo/
