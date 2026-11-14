@@ -24,8 +24,9 @@ def ozon():
     assert {r['offer_id'] for r in before}==set(ids)
     for r in before:assert desc(r) in [PLAN[r['offer_id']]['ozon_description'],RULES[r['offer_id']]['description']],('changed since review',r['offer_id'])
     save('ozon-prices-before',oz.get_prices_and_stocks(ids));save('ozon-stocks-before',oz.get_stocks(ids))
-    payload=[{'offer_id':sku,'attributes':[{'id':4191,'complex_id':0,'values':[{'value':RULES[sku]['description']}]}]} for sku in ids]
-    save('ozon-payload',payload);save('ozon-response',oz.update_attributes(payload))
+    payload=[{'offer_id':r['offer_id'],'attributes':[{'id':4191,'complex_id':0,'values':[{'value':RULES[r['offer_id']]['description']}]}]} for r in before if desc(r)!=RULES[r['offer_id']]['description']]
+    save('ozon-payload',payload)
+    if payload:save('ozon-response',oz.update_attributes(payload))
     for _ in range(18):
         after=attrs(ids)
         if all(desc(r)==RULES[r['offer_id']]['description'] for r in after):break
@@ -36,7 +37,11 @@ def ozon():
     for old in before:
         new=next(r for r in after if r['offer_id']==old['offer_id'])
         for key in ['name','height','width','depth','weight','primary_image','images','complex_attributes','type_id','description_category_id']:
-            assert old.get(key)==new.get(key),(old['offer_id'],'unrelated field changed',key)
+            oldv,newv=old.get(key),new.get(key)
+            if key=='complex_attributes':
+                oldv=sorted(oldv or [],key=lambda a:(a.get('complex_id',0),a.get('id',0)))
+                newv=sorted(newv or [],key=lambda a:(a.get('complex_id',0),a.get('id',0)))
+            assert oldv==newv,(old['offer_id'],'unrelated field changed',key)
     return {r['offer_id']:desc(r)==RULES[r['offer_id']]['description'] for r in after}
 def wildberries():
     ids=[k for k,v in PLAN.items() if 'wb_description' in v]
@@ -45,8 +50,11 @@ def wildberries():
     payload=[]
     for r in before:
         sku=r['vendorCode'];assert r.get('description','') in [PLAN[sku]['wb_description'],RULES[sku]['description']],('changed since review',sku)
-        q={k:copy.deepcopy(r[k]) for k in ['nmID','vendorCode','brand','title','dimensions','characteristics','sizes']};q['kizMarked']=r.get('kizMarked',False);q['description']=RULES[sku]['description'];payload.append(q)
-    save('wb-payload',payload);res=wb.update_cards(payload);save('wb-response',res);assert not res.get('error'),res
+        if r.get('description')==RULES[sku]['description']:continue
+        q={k:copy.deepcopy(r[k]) for k in ['nmID','vendorCode','brand','title','dimensions','sizes']};q['characteristics']=copy.deepcopy(r.get('characteristics',[]));q['kizMarked']=r.get('kizMarked',False);q['description']=RULES[sku]['description'];payload.append(q)
+    save('wb-payload',payload)
+    if payload:
+        res=wb.update_cards(payload);save('wb-response',res);assert not res.get('error'),res
     for _ in range(18):
         after=[r for r in wb.list_cards() if r['vendorCode'] in ids]
         if all(r.get('description')==RULES[r['vendorCode']]['description'] for r in after):break
