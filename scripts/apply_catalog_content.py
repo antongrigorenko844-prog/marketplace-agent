@@ -75,17 +75,19 @@ def market():
     rows=before['result']['offerMappings'];assert {r['offer']['offerId'] for r in rows}==set(ids)
     payload=[]
     for r in rows:
-        o=r['offer'];sku=o['offerId'];assert o.get('description','') in [PLAN[sku]['market_description'],RULES[sku]['description']],('changed since review',sku)
-        new={'offerId':sku,'description':RULES[sku]['description']}
+        o=r['offer'];sku=o['offerId'];assert o.get('description','') in [PLAN[sku]['market_description'],content_updates.description_for(sku,o.get('description',''),platform='market')],('changed since review',sku)
+        new={'offerId':sku,'description':content_updates.description_for(sku,o.get('description',''),platform='market')}
         params=copy.deepcopy(o.get('params',[]));changed=False
         for p in params:
-            if p.get('name')=='Аннотация':p['value']=RULES[sku]['description'];changed=True
+            if p.get('name')=='Аннотация':p['value']=content_updates.description_for(sku,o.get('description',''),platform='market');changed=True
         if changed:new['params']=params
         payload.append({'offer':new})
+    from market_content import preserve_typed_parameters
+    preserve_typed_parameters(biz,payload)
     save('market-payload',payload);status,res=ym._request('POST',path+'/update',json_body={'offerMappings':payload});save('market-response',{'http_status':status,'body':res});assert status==200 and res.get('status')=='OK',res
     for _ in range(18):
         status,after=ym._request('POST',path,json_body={'offerIds':ids});assert status==200
-        if all(r['offer'].get('description')==RULES[r['offer']['offerId']]['description'] for r in after['result']['offerMappings']):break
+        if all(r['offer'].get('description')==content_updates.description_for(r['offer']['offerId'],'',platform='market') for r in after['result']['offerMappings']):break
         time.sleep(10)
     save('market-after',after)
     for old in rows:
@@ -93,7 +95,7 @@ def market():
         for k in ['name','pictures','videos','weightDimensions','basicPrice','vendor','vendorCode','barcodes']:
             assert o.get(k)==new.get(k),(o['offerId'],'unrelated field changed',k)
     status,ratings=ym._request('POST',f'/v2/businesses/{biz}/offer-cards',json_body={'offerIds':ids,'withRecommendations':True});save('market-ratings-after',ratings)
-    return {r['offer']['offerId']:r['offer'].get('description')==RULES[r['offer']['offerId']]['description'] for r in after['result']['offerMappings']}
+    return {r['offer']['offerId']:r['offer'].get('description')==content_updates.description_for(r['offer']['offerId'],'',platform='market') for r in after['result']['offerMappings']}
 def safe(name,fn):
     try:return name,fn()
     except Exception as e:return name,{'error':str(e)[:1500]}

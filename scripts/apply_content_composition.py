@@ -89,8 +89,10 @@ def market():
         assert current in[P[sku]['market_before'],target],('conflict',sku)
         params=[copy.deepcopy(p)for p in o.get('params',[])if p['name']!='Комплектация']+target
         for p in params:
-            if p['name']=='Аннотация'and R[sku].get('description'):p['value']=R[sku]['description']
+            if p['name']=='Аннотация'and R[sku].get('description'):p['value']=R[sku].get('market_description',o.get('description',p['value']))
         if params!=o.get('params',[]):payload.append({'offer':{'offerId':sku,'params':params}})
+    from market_content import preserve_typed_parameters
+    if payload:preserve_typed_parameters(biz,payload)
     save('market-payload',payload)
     if payload:
         status,response=ym._request('POST',path+'/update',json_body={'offerMappings':payload});save('market-response',response);assert status==200 and response.get('status')=='OK',response

@@ -72,14 +72,16 @@ def market_apply(rules):
     assert status==200
     rows=before['result']['offerMappings'];save('market-before',before)
     assert {r['offer']['offerId'] for r in rows}==set(IDS)
-    payload={'offerMappings':[{'offer':{'offerId':sku,'description':rules[sku]['description']}} for sku in IDS]}
+    payload={'offerMappings':[{'offer':{'offerId':sku,'description':content_updates.description_for(sku,'',platform='market')}} for sku in IDS]}
+    from market_content import preserve_typed_parameters
+    preserve_typed_parameters(biz,payload['offerMappings'])
     save('market-payload',payload)
     status,response=ym._request('POST',path+'/update',json_body=payload)
     save('market-response',{'http_status':status,'body':response})
     assert status==200 and response.get('status')=='OK',response
     status,after=ym._request('POST',path,json_body={'offerIds':IDS})
     save('market-after',after)
-    return {r['offer']['offerId']:r['offer'].get('description')==rules[r['offer']['offerId']]['description'] for r in after.get('result',{}).get('offerMappings',[])}
+    return {r['offer']['offerId']:r['offer'].get('description')==content_updates.description_for(r['offer']['offerId'],'',platform='market') for r in after.get('result',{}).get('offerMappings',[])}
 
 def main():
     rules=content_updates.load()
