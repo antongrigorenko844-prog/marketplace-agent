@@ -45,8 +45,11 @@ def clean_wb_description(text, max_len: int = WB_DESC_MAX) -> str:
     import unicodedata
     if not text:
         return ""
+    import html
+    text = re.sub(r"<(?:br\s*/?|/p|/div|/li)>", "\n", str(text), flags=re.I)
+    text = html.unescape(re.sub(r"<[^>]+>", "", text))
     out = []
-    for ch in str(text):
+    for ch in text:
         cat = unicodedata.category(ch)
         if ch in _KEEP_SYMBOLS:
             out.append(ch)
@@ -316,12 +319,11 @@ def load_wb_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
 
 # Для некоторых карточек WB фото лежат в папке ДРУГОГО артикула:
 # vendorCode на WB -> артикул (папка photos/<артикул>/), откуда брать фото/видео.
-# 0AM927769D на WB — это ПРОКЛАДКИ платы (фото берём у Ozon-артикула
-# 0AM927769N), а не электронная плата, чьё фото лежит в photos/0AM927769D/
+# Проверено 15.11.2026: 0AM927769D — карточка электронной платы.
+# Прокладки теперь имеют отдельный артикул 0AM927769N; не подменять фото платы.
 # (иначе на карточке прокладок показывалось фото платы — исправлено 2026-10-17).
 # 0AM927769D-plata — новая отдельная WB-карточка электронной платы.
 WB_PHOTO_SOURCE = {
-    "0AM927769D": "0AM927769N",
     "0AM927769D-plata": "0AM927769D",
 }
 

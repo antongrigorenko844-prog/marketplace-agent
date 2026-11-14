@@ -1,0 +1,28 @@
+name: Improve remaining catalog content without commercial changes
+on: workflow_dispatch
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_BUSINESS_ID: ${{ secrets.YANDEX_MARKET_BUSINESS_ID }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: python scripts/apply_content_round2.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: content-round2
+          path: /tmp/content-round2/
