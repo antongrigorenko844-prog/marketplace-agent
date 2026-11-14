@@ -17,20 +17,29 @@ def load():
     for sku, row in rows.items():
         if sku.startswith('_'):
             continue
-        assert set(row) <= {'description', 'composition', 'source', 'avito_condition'}, sku
+        assert set(row) <= {'description', 'composition', 'source', 'avito_condition', 'wb_composition'}, sku
         assert row.get('description') or row.get('composition'), sku
         if 'description' in row:
             assert isinstance(row['description'], str) and 100 < len(row['description']) <= 500, sku
         if 'composition' in row:
             assert isinstance(row['composition'], str) and 0 < len(row['composition']) <= 2000, sku
+        if 'wb_composition' in row:
+            assert isinstance(row['wb_composition'], str) and 0 < len(row['wb_composition']) <= 100, sku
         assert row.get('avito_condition', 'Новое') in {'Новое', 'Б/у'}, sku
     return {k:v for k,v in rows.items() if not k.startswith('_')}
 
 def description_for(sku, fallback):
     return load().get(sku, {}).get('description', fallback)
 
-def composition_for(sku):
-    return load().get(sku, {}).get('composition')
+def composition_for(sku, platform=None):
+    row = load().get(sku, {})
+    return row.get('wb_composition', row.get('composition')) if platform == 'wb' else row.get('composition')
 
 def avito_condition_for(sku, fallback):
     return load().get(sku, {}).get('avito_condition', fallback)
+
+
+def normalize_wb_composition(value):
+    if value is None:
+        return None
+    return [' '.join(part.replace('ё', 'е').split()) for item in value for part in item.split(';') if part.strip()]

@@ -67,7 +67,7 @@ def clean_wb_description(text, max_len: int = WB_DESC_MAX) -> str:
         t = cut.rstrip()
     return t
 
-from content_updates import description_for, composition_for
+from content_updates import description_for, composition_for, normalize_wb_composition
 
 logger = logging.getLogger("marketplace-agent.wb_catalog_editor")
 
@@ -450,11 +450,11 @@ def build_wb_update_items(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
         if not text_same and text_cache.get("text:" + vendor_code) == _text_fingerprint(title, description):
             text_same = True
         characteristics = list(card.get("characteristics") or [])
-        composition = composition_for(vendor_code)
+        composition = composition_for(vendor_code, "wb")
         composition_changed = False
         if composition:
             current_composition = next((a.get("value") for a in characteristics if a.get("id") == 378533), None)
-            composition_changed = current_composition != [composition]
+            composition_changed = normalize_wb_composition(current_composition) != normalize_wb_composition([composition])
             if composition_changed:
                 characteristics = [a for a in characteristics if a.get("id") != 378533]
                 characteristics.append({"id": 378533, "value": [composition]})
