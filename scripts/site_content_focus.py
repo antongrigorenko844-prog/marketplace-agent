@@ -35,20 +35,12 @@ def site():
     if len(cat.find('Товары')):
         body=ET.tostring(root,encoding='unicode')
         (OUT/'import.xml').write_text(body)
-        base=os.environ['TILDA_COMMERCEML_URL']
-        s=requests.Session();s.auth=(os.environ['TILDA_COMMERCEML_USER'],os.environ['TILDA_COMMERCEML_PASSWORD'])
-        r=s.get(tc._url(base,type='catalog',mode='checkauth'),timeout=60);tc._check(r,'checkauth')
-        lines=r.text.strip().splitlines()
-        if len(lines)>=3 and lines[1].strip() not in s.cookies:s.cookies.set(lines[1].strip(),lines[2].strip())
-        tc._check(s.get(tc._url(base,type='catalog',mode='init'),timeout=60),'init')
-        name='import0_1.xml'
-        tc._check(s.post(tc._url(base,type='catalog',mode='file',filename=name),data=body.encode(),headers={'Content-Type':'application/octet-stream'},timeout=60),'file')
-        for _ in range(30):
-            msg=tc._check(s.get(tc._url(base,type='catalog',mode='import',filename=name),timeout=60),'import')
-            if msg.splitlines()[0].strip().lower()!='progress':break
-            time.sleep(5)
-        else:raise RuntimeError('Tilda import still in progress')
-        save('tilda-response',{'message':msg})
+        # Tilda requires both CommerceML stages; the offers file contains no products,
+        # no prices and no stocks, and is explicitly an incremental update.
+        offers=tc.build_offers_xml([]).replace('СодержитТолькоИзменения="false"','СодержитТолькоИзменения="true"')
+        assert not ET.fromstring(offers).find('.//Предложения').findall('Предложение')
+        log=tc.push(os.environ['TILDA_COMMERCEML_URL'],os.environ['TILDA_COMMERCEML_USER'],os.environ['TILDA_COMMERCEML_PASSWORD'],body,offers)
+        save('tilda-response',{'log':log})
     for _ in range(12):
         after=products();save('tilda-after',after)
         for old in before:
