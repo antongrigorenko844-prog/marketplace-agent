@@ -1,0 +1,22 @@
+name: Add neutral background kit photo on WB
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  media:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: python scripts/add_wb_neutral_photo.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wb-neutral-photo
+          path: /tmp/wb-neutral-photo/
