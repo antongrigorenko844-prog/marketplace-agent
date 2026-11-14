@@ -672,6 +672,8 @@ def build_wb_media_updates(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
         video_url = wb_video_for(vendor_code, video_url)
         if not images and video_url:
             images = _extract_photo_urls(card)
+        from video_sources import wb_images_for
+        images = wb_images_for(vendor_code, images)
         urls = images + ([video_url] if video_url else [])
         if cache.get(vendor_code) == _urls_fingerprint(urls):
             skipped += 1

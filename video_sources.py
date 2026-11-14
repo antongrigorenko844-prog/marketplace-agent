@@ -9,3 +9,21 @@ def market_videos_for(videos):
 def wb_video_for(sku, original):
     data=json.loads((Path(__file__).resolve().parent/"data/market_video_sources.json").read_text())
     return data.get("wb_overrides",{}).get(sku, original)
+
+
+def wb_images_for(sku, images):
+    """Keep reviewed additional images when a one-photo source is re-exported.
+
+    An already expanded or manually replaced gallery is left untouched.
+    """
+    path = Path(__file__).resolve().parent / "data/wb_media_additions_20261115.json"
+    if not path.exists():
+        return list(images)
+    extra = json.loads(path.read_text()).get(sku, [])
+    result = list(images)
+    if len(result) != 1 or not extra:
+        return result
+    for row in extra:
+        if row["url"] not in result:
+            result.append(row["url"])
+    return result
