@@ -878,6 +878,23 @@ def _with_video_complex(complex_attributes: List[dict], video_url: str, video_na
     return result
 
 
+def _complex_attributes_for_import(attributes: list) -> list:
+    """Read API returns flat complex attributes; import requires groups.
+
+    Passing the flat response directly silently clears existing video values.
+    Already grouped import data is kept unchanged.
+    """
+    groups = {}
+    result = []
+    for attr in attributes or []:
+        if "attributes" in attr:
+            result.append(attr)
+        else:
+            groups.setdefault(attr.get("complex_id", 0), []).append(attr)
+    result.extend({"attributes": values} for values in groups.values())
+    return result
+
+
 def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:
     price_block = _price_block(detail)
 
@@ -893,7 +910,7 @@ def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:
     # Видео у Ozon — это КОМПЛЕКСНЫЙ атрибут (complex_attributes, complex_id 100001):
     # 21841 = ссылка на видео, 21837 = название видео. В обычных характеристиках
     # категории его нет, поэтому поиск по названию (_get_video_attr_id) не работал.
-    complex_attributes = list(name_entry.get("complex_attributes") or [])
+    complex_attributes = _complex_attributes_for_import(name_entry.get("complex_attributes") or [])
     video_url = (edit.get("video_url") or "").strip()
     if video_url:
         complex_attributes = _with_video_complex(
@@ -1150,3 +1167,4 @@ def validate_catalog(data: dict) -> List[str]:
                 + " — возможно, это одна и та же деталь, заведённая дважды."
             )
     return warnings
+
