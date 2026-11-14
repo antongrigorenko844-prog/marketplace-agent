@@ -67,6 +67,8 @@ def clean_wb_description(text, max_len: int = WB_DESC_MAX) -> str:
         t = cut.rstrip()
     return t
 
+from content_updates import description_for
+
 logger = logging.getLogger("marketplace-agent.wb_catalog_editor")
 
 # Кэш "какие фото/видео уже успешно отправлены на WB" — data/wb_media_push_cache.json,
@@ -302,7 +304,7 @@ def load_wb_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
         video_val = raw.get("video_url")
         edits[vendor_code] = {
             "title": title_val.strip() if isinstance(title_val, str) else title_val,
-            "description": raw.get("description") or "",
+            "description": description_for(vendor_code, raw.get("description") or ""),
             "images": images,
             "video_url": video_val.strip() if isinstance(video_val, str) else (video_val or ""),
             "price": raw.get("price"),
@@ -666,4 +668,5 @@ def build_wb_media_updates(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
             skipped,
         )
     return out
+
 

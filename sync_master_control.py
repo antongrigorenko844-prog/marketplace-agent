@@ -63,6 +63,8 @@ from openpyxl import load_workbook
 
 import catalog_editor
 
+from content_updates import description_for
+
 logger = logging.getLogger("marketplace-agent.sync_master_control")
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -128,7 +130,7 @@ def _read_master():
             "old_price": row[COL_OLD_PRICE - 1].value,
             "quantity": row[COL_QUANTITY - 1].value,
             "price_wb": row[COL_PRICE_WB - 1].value,
-            "description": row[COL_DESCRIPTION - 1].value,
+            "description": description_for(offer_id, row[COL_DESCRIPTION - 1].value),
             "hashtags": row[COL_HASHTAGS - 1].value,
             "notes": row[COL_NOTES - 1].value,
             "tnved": row[COL_TNVED - 1].value if len(row) >= COL_TNVED else None,
@@ -504,3 +506,4 @@ def run() -> int:
 if __name__ == "__main__":
     import sys
     sys.exit(run())
+

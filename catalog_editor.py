@@ -42,6 +42,8 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill
 from openpyxl.utils import get_column_letter
 
+from content_updates import description_for, composition_for
+
 logger = logging.getLogger("marketplace-agent.catalog_editor")
 
 # Кэш "что из xlsx уже успешно отправлено в Ozon" — data/ozon_push_cache.json,
@@ -648,7 +650,7 @@ def load_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
         hashtags_val = raw.get("hashtags")
         edits[offer_id] = {
             "name": name_val.strip() if isinstance(name_val, str) else name_val,
-            "description": raw.get("description") or "",
+            "description": description_for(offer_id, raw.get("description") or ""),
             "price": raw.get("price"),
             "old_price": raw.get("old_price"),
             "images": images,
@@ -904,6 +906,9 @@ def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:
     )
 
     attributes = name_entry.get("attributes") or []
+    composition = composition_for(name_entry.get("offer_id"))
+    if composition:
+        attributes = _with_overridden_attr(attributes, 4384, composition)
     attributes = _with_overridden_attr(attributes, ATTR_ID_NAME_MIRROR, new_name)
     attributes = _with_overridden_attr(attributes, ATTR_ID_DESCRIPTION, new_description)
 
@@ -1167,4 +1172,5 @@ def validate_catalog(data: dict) -> List[str]:
                 + " — возможно, это одна и та же деталь, заведённая дважды."
             )
     return warnings
+
 

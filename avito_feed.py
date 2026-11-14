@@ -57,6 +57,8 @@ from typing import Dict, List, Optional, Tuple
 import openpyxl
 from openpyxl.utils import get_column_letter
 
+from content_updates import description_for
+
 logger = logging.getLogger("marketplace-agent.avito_feed")
 
 SHEET_ADS = "Объявления"
@@ -485,7 +487,7 @@ def build_avito_feed(
             continue
         offer_id = str(offer_id).strip()
         title = (row[1].value or "").strip()
-        description_raw = row[2].value or ""
+        description_raw = description_for(offer_id, row[2].value or "")
         # Цена для Avito: если для товара есть оверрайд (новые товары,
         # см. site_pricing.py) — берём его, иначе как раньше, общая цена.
         price = price_overrides.get(offer_id, row[3].value)
@@ -566,3 +568,4 @@ def build_avito_feed(
         "skipped_no_stock": skipped_no_stock,
         "unclassified": unclassified,
     }
+

@@ -43,6 +43,8 @@ from xml.sax.saxutils import escape
 import openpyxl
 import requests
 
+from content_updates import description_for
+
 logger = logging.getLogger("marketplace-agent.tilda_commerceml")
 
 CLASSIFIER_ID = "leoparts-classifier"
@@ -102,7 +104,7 @@ def load_items(catalog_path: str, photos_dir: str, raw_base_url: str, price_over
             {
                 "id": offer_id,
                 "title": str(row[1] or "").strip() or offer_id,
-                "description": tilda_feed._clean_description(row[2] or ""),
+                "description": tilda_feed._clean_description(description_for(offer_id, row[2] or "")),
                 "price": int(price),
                 "qty": qty,
                 "photo": photo,
@@ -385,3 +387,4 @@ def push(
             time.sleep(pause)
             pause = min(pause * 1.5, 10.0)
     return log
+
