@@ -1,0 +1,25 @@
+name: Clarify four WB rod kit titles
+on: workflow_dispatch
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: python scripts/fix_wb_rod_titles.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wb-rod-titles
+          path: /tmp/wb-rod-titles/
