@@ -20,7 +20,7 @@ jobs:
           YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
           YANDEX_MARKET_BUSINESS_ID: ${{ secrets.YANDEX_MARKET_BUSINESS_ID }}
           YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
-        run: python scripts/apply_media_round3.py
+        run: python scripts/repair_wb_board_media.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
