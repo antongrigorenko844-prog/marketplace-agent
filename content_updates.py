@@ -18,7 +18,11 @@ def load():
         if sku.startswith('_'):
             continue
         assert set(row) <= {'description', 'composition', 'source', 'avito_condition'}, sku
-        assert isinstance(row.get('description'), str) and 100 < len(row['description']) <= 500, sku
+        assert row.get('description') or row.get('composition'), sku
+        if 'description' in row:
+            assert isinstance(row['description'], str) and 100 < len(row['description']) <= 500, sku
+        if 'composition' in row:
+            assert isinstance(row['composition'], str) and 0 < len(row['composition']) <= 2000, sku
         assert row.get('avito_condition', 'Новое') in {'Новое', 'Б/у'}, sku
     return {k:v for k,v in rows.items() if not k.startswith('_')}
 

@@ -67,7 +67,7 @@ def clean_wb_description(text, max_len: int = WB_DESC_MAX) -> str:
         t = cut.rstrip()
     return t
 
-from content_updates import description_for
+from content_updates import description_for, composition_for
 
 logger = logging.getLogger("marketplace-agent.wb_catalog_editor")
 
@@ -449,7 +449,16 @@ def build_wb_update_items(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
         # сделают fetch-wb: смотрим, что именно мы сами отправляли в прошлый раз.
         if not text_same and text_cache.get("text:" + vendor_code) == _text_fingerprint(title, description):
             text_same = True
-        if text_same and not dims_changed:
+        characteristics = list(card.get("characteristics") or [])
+        composition = composition_for(vendor_code)
+        composition_changed = False
+        if composition:
+            current_composition = next((a.get("value") for a in characteristics if a.get("id") == 378533), None)
+            composition_changed = current_composition != [composition]
+            if composition_changed:
+                characteristics = [a for a in characteristics if a.get("id") != 378533]
+                characteristics.append({"id": 378533, "value": [composition]})
+        if text_same and not dims_changed and not composition_changed:
             skipped += 1
             continue
         items.append(
@@ -461,7 +470,7 @@ def build_wb_update_items(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
                 "title": title,
                 "description": description,
                 "dimensions": dimensions,
-                "characteristics": card.get("characteristics") or [],
+                "characteristics": characteristics,
                 "sizes": card.get("sizes") or [],
             }
         )
