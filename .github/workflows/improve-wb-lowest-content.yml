@@ -1,0 +1,22 @@
+name: Improve two incomplete WB listings only
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: python scripts/improve_wb_lowest_content.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wb-lowest-content
+          path: /tmp/wb-lowest-content/
