@@ -11,6 +11,11 @@ def save(n,x):
     (OUT/(n+'.json')).write_text(json.dumps(x,ensure_ascii=False,indent=2,default=str))
 def oval(r):return next((x['values'][0]['value']for x in r.get('attributes',[])if x['id']==4384 and x.get('values')),None)
 def wval(r):return next((x['value']for x in r.get('characteristics',[])if x['id']==378533),None)
+def normalized_composition(value):
+    if value is None:return None
+    return [' '.join(part.replace('ё','е').split()) for item in value for part in item.split(';') if part.strip()]
+def wb_composition_matches(row, target):
+    return normalized_composition(wval(row)) == normalized_composition(target)
 def canonical_attributes(values):
     result=copy.deepcopy(values)
     for v in result:
@@ -54,8 +59,8 @@ def wildberries():
     assert {r['vendorCode']for r in before}==set(ids)
     save('wb-prices-before',wb.get_prices());payload=[]
     for r in before:
-        sku=r['vendorCode'];target=[P[sku]['composition']];assert wval(r)in[P[sku]['wb_before'],target],('conflict',sku)
-        if wval(r)==target:continue
+        sku=r['vendorCode'];target=[P[sku]['composition']];assert wb_composition_matches(r,P[sku]['wb_before'])or wb_composition_matches(r,target),('conflict',sku)
+        if wb_composition_matches(r,target):continue
         q={k:copy.deepcopy(r.get(k))for k in ['nmID','vendorCode','brand','title','description','dimensions','sizes']}
         q['kizMarked']=r.get('kizMarked',False);q['characteristics']=[copy.deepcopy(x)for x in r.get('characteristics',[])if x['id']!=378533]+[{'id':378533,'value':target}];payload.append(q)
     save('wb-payload',payload)
@@ -63,7 +68,7 @@ def wildberries():
         res=wb.update_cards(payload);save('wb-response',res);assert not res.get('error'),res
     for _ in range(24):
         after=[r for r in wb_cards()if r['vendorCode']in ids]
-        if {r['vendorCode']for r in after}==set(ids)and all(wval(r)==[P[r['vendorCode']]['composition']]for r in after):break
+        if {r['vendorCode']for r in after}==set(ids)and all(wb_composition_matches(r,[P[r['vendorCode']]['composition']])for r in after):break
         time.sleep(10)
     save('wb-after',after);save('wb-prices-after',wb.get_prices());save('wb-upload-errors',wb.get_upload_errors())
     for old in before:
@@ -72,7 +77,7 @@ def wildberries():
         for k in ['title','description','brand','subjectID','dimensions','sizes','photos','video']:
             assert old.get(k)==new.get(k),(old['vendorCode'],k)
         assert sorted([x for x in old.get('characteristics',[])if x['id']!=378533],key=lambda x:x['id'])==sorted([x for x in new.get('characteristics',[])if x['id']!=378533],key=lambda x:x['id']),(old['vendorCode'],'other characteristics')
-    return {sku:any(r['vendorCode']==sku and wval(r)==[P[sku]['composition']]for r in after)for sku in ids}
+    return {sku:any(r['vendorCode']==sku and wb_composition_matches(r,[P[sku]['composition']])for r in after)for sku in ids}
 def market():
     ids=[k for k,v in P.items()if 'market_before'in v];biz=ym.get_business_id();path=f'/v2/businesses/{biz}/offer-mappings'
     status,before=ym._request('POST',path,json_body={'offerIds':ids});assert status==200;save('market-before',before)
