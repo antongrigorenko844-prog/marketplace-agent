@@ -16,7 +16,12 @@ def save(name,value):
     (OUT/(name+'.json')).write_text(json.dumps(value,ensure_ascii=False,indent=2,default=str))
     print(name+': saved',flush=True)
 def ozon():
-    attrs=oz.get_product_names(); save('ozon-attributes',attrs)
+    products=oz.list_products();save('ozon-products',products)
+    all_ids=[r['offer_id'] for r in products];attrs=[]
+    for i in range(0,len(all_ids),100):
+        b=oz._post('/v4/product/info/attributes',{'filter':{'offer_id':all_ids[i:i+100],'visibility':'ALL'},'limit':1000,'sort_dir':'ASC'})
+        attrs+=b.get('result',[])
+    save('ozon-attributes',attrs)
     ids=[r['offer_id'] for r in attrs]
     info=oz.get_product_info_list(ids);save('ozon-info',info)
     save('ozon-prices',oz.get_prices_and_stocks(ids));save('ozon-stocks',oz.get_stocks(ids))
