@@ -17,7 +17,7 @@ def load():
     for sku, row in rows.items():
         if sku.startswith('_'):
             continue
-        assert set(row) <= {'description', 'composition', 'source', 'avito_condition', 'wb_composition', 'market_description', 'wb_title'}, sku
+        assert set(row) <= {'description', 'composition', 'source', 'avito_condition', 'wb_composition', 'market_description', 'wb_title', 'wb_description'}, sku
         assert row.get('description') or row.get('composition'), sku
         if 'description' in row:
             assert isinstance(row['description'], str) and 100 < len(row['description']) <= 500, sku
@@ -29,6 +29,8 @@ def load():
             assert isinstance(row['market_description'], str) and 500 <= len(row['market_description']) <= 6000, sku
         if 'wb_title' in row:
             assert isinstance(row['wb_title'], str) and 0 < len(row['wb_title']) <= 60, sku
+        if 'wb_description' in row:
+            assert isinstance(row['wb_description'], str) and 100 < len(row['wb_description']) <= 2000, sku
         assert row.get('avito_condition', 'Новое') in {'Новое', 'Б/у'}, sku
     return {k:v for k,v in rows.items() if not k.startswith('_')}
 
@@ -36,6 +38,8 @@ def description_for(sku, fallback, platform=None):
     row = load().get(sku, {})
     if platform == 'market':
         return row.get('market_description', fallback)
+    if platform == 'wb':
+        return row.get('wb_description', row.get('description', fallback))
     return row.get('description', fallback)
 
 def composition_for(sku, platform=None):

@@ -307,7 +307,7 @@ def load_wb_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
         video_val = raw.get("video_url")
         edits[vendor_code] = {
             "title": wb_title_for(vendor_code, title_val.strip() if isinstance(title_val, str) else title_val),
-            "description": description_for(vendor_code, raw.get("description") or ""),
+            "description": description_for(vendor_code, raw.get("description") or "", platform="wb"),
             "images": images,
             "video_url": video_val.strip() if isinstance(video_val, str) else (video_val or ""),
             "price": raw.get("price"),
