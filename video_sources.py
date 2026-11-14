@@ -5,3 +5,7 @@ def market_videos_for(videos):
     data=json.loads((Path(__file__).resolve().parent/'data/market_video_sources.json').read_text())
     excluded=set(data.get('excluded',[]))
     return {sku:data.get('overrides',{}).get(sku,urls) for sku,urls in videos.items() if sku not in excluded}
+
+def wb_video_for(sku, original):
+    data=json.loads((Path(__file__).resolve().parent/"data/market_video_sources.json").read_text())
+    return data.get("wb_overrides",{}).get(sku, original)

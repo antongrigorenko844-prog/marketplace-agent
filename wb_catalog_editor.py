@@ -668,6 +668,10 @@ def build_wb_media_updates(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
         card = cards.get(vendor_code)
         if not card or not card.get("nmID"):
             continue
+        from video_sources import wb_video_for
+        video_url = wb_video_for(vendor_code, video_url)
+        if not images and video_url:
+            images = _extract_photo_urls(card)
         urls = images + ([video_url] if video_url else [])
         if cache.get(vendor_code) == _urls_fingerprint(urls):
             skipped += 1
