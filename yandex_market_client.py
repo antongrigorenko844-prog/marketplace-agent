@@ -306,10 +306,14 @@ def update_videos(videos: Dict[str, List[str]]) -> Tuple[int, Dict[str, str]]:
     передаём только offerId + videos, остальные поля карточки не меняются.
     ВАЖНО: вызывать только для SKU, которые уже есть на Маркете (иначе метод создаст новый товар).
     """
+    from video_sources import market_videos_for
+    videos = market_videos_for(videos)
     business_id = get_business_id()
     entries = [(offer, {"offer": {"offerId": offer, "videos": urls[:6]}}) for offer, urls in videos.items() if urls]
 
     def send(elems):
+        from market_content import preserve_typed_parameters
+        preserve_typed_parameters(business_id, elems)
         return _request("POST", f"/v2/businesses/{business_id}/offer-mappings/update", json_body={"offerMappings": elems})
 
     return _send_isolating("видео", send, entries)

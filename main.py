@@ -985,7 +985,7 @@ def cmd_push_yandex_videos(dry_run: bool = False) -> int:
     Видео -> Яндекс Маркет: те же ссылки, что уходят на Ozon (колонка «Видео» в data/ozon_catalog.xlsx,
     её заполняет attach-ozon-photos из photos/<АРТИКУЛ>/*_video.*). Отправляем только товарам,
     которые УЖЕ есть на Маркете (список из data/yandex_market_offers.xlsx; новые товары метод
-    не создаёт). SKU сопоставляются без учёта регистра — видео уходит на все варианты артикула.
+    не создаёт). SKU сопоставляются точно: регистр может обозначать другой товар.
     Уходит только новое/изменившееся (кэш data/market_video_cache.json; удалить файл = отправить всё заново).
     """
     import openpyxl
@@ -1010,11 +1010,12 @@ def cmd_push_yandex_videos(dry_run: bool = False) -> int:
         if r and r[0] and vcol < len(r) and r[vcol]:
             urls = [u.strip() for u in str(r[vcol]).split("|") if u.strip().startswith("http")]
             if urls:
-                ours[str(r[0]).strip().lower()] = urls
+                ours[str(r[0]).strip()] = urls
     ws_m = openpyxl.load_workbook(offers_path, read_only=True, data_only=True).worksheets[0]
     market_skus = [str(r[0]).strip() for r in list(ws_m.iter_rows(values_only=True))[1:] if r and r[0]]
-    want = {sku: ours[sku.lower()] for sku in market_skus if sku.lower() in ours}
-    missing = sorted(k for k in ours if k not in {s.lower() for s in market_skus})
+    from video_sources import market_videos_for
+    want = market_videos_for({sku: ours[sku] for sku in market_skus if sku in ours})
+    missing = sorted(k for k in ours if k not in set(market_skus))
     if missing:
         print(f"Нет на Маркете (видео не отправляется): {', '.join(missing)}")
 
