@@ -1,5 +1,5 @@
 """Only gallery mutations, with content and price guards and read-back evidence."""
-import sys,json,time,copy,datetime
+import sys,json,time,copy,datetime,requests,os
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import wb_client as wb
@@ -27,7 +27,11 @@ def main():
  wb_before=wb.list_cards();prices=wb.get_prices();save('wb-before',wb_before);save('wb-prices-before',prices);wm={r['vendorCode']:r for r in wb_before}
  for sku,p in P['wb'].items():
   r=wm[sku];assert r['nmID']==p['nmID'];assert r['photos']==p['before'],('live WB media changed',sku)
-  response=wb.update_media(r['nmID'],p['images']+[p['video']]);save('wb-response',response);assert not response.get('error')
+  response=wb.update_media(r['nmID'],p['images']);save('wb-photo-response',response);assert not response.get('error')
+  time.sleep(3)
+  with open('photos/0AM927769D/0AM927769D_video.mp4','rb')as video:
+   vr=requests.post('https://content-api.wildberries.ru/content/v3/media/file',headers={'Authorization':os.environ['WB_API_TOKEN'],'X-Nm-Id':str(r['nmID']),'X-Photo-Number':'1'},files={'uploadfile':('board-d.mp4',video,'video/mp4')},timeout=180)
+  save('wb-video-response',{'status':vr.status_code,'body':vr.json()});assert vr.ok and not vr.json().get('error')
  for _ in range(24):
   wa=wb.list_cards();wm2={r['vendorCode']:r for r in wa};r=wm2['0AM927769D'];old=wm['0AM927769D']
   if r.get('video') and r['photos']!=old['photos'] and len(r['photos'])==3:break
