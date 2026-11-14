@@ -553,7 +553,8 @@ def build_avito_feed(
         ws.cell(row=out_row, column=COL_PART_KIND, value=PART_KIND_VALUE)
         if part_type:
             ws.cell(row=out_row, column=COL_TRANSMISSION_PART_TYPE, value=part_type)
-        ws.cell(row=out_row, column=COL_CONDITION, value=condition)
+        from content_updates import avito_condition_for
+        ws.cell(row=out_row, column=COL_CONDITION, value=avito_condition_for(offer_id, condition))
         ws.cell(row=out_row, column=COL_BRAND, value=brand)
         ws.cell(row=out_row, column=COL_OEM, value=_clean_oem(offer_id))
 
