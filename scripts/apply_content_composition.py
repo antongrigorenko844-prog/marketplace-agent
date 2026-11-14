@@ -11,6 +11,17 @@ def save(n,x):
     (OUT/(n+'.json')).write_text(json.dumps(x,ensure_ascii=False,indent=2,default=str))
 def oval(r):return next((x['values'][0]['value']for x in r.get('attributes',[])if x['id']==4384 and x.get('values')),None)
 def wval(r):return next((x['value']for x in r.get('characteristics',[])if x['id']==378533),None)
+def canonical_attributes(values):
+    result=copy.deepcopy(values)
+    for v in result:
+        if isinstance(v.get('values'),list):v['values']=sorted(v['values'],key=lambda x:json.dumps(x,sort_keys=True))
+    return sorted(result,key=lambda x:x['id'])
+def wb_cards():
+    for attempt in range(4):
+        try:return wb.list_cards()
+        except Exception as e:
+            if attempt==3 or not any(s in str(e)for s in ['503','502','504','429']):raise
+            time.sleep(10*(attempt+1))
 def oa(ids):
     out=[]
     for i in range(0,len(ids),100):out+=oz._post('/v4/product/info/attributes',{'filter':{'offer_id':ids[i:i+100],'visibility':'ALL'},'limit':1000})['result']
@@ -34,12 +45,12 @@ def ozon():
         new=next(r for r in after if r['offer_id']==old['offer_id'])
         for key in ['name','height','width','depth','weight','primary_image','images','type_id','description_category_id']:
             assert old.get(key)==new.get(key),(old['offer_id'],key)
-        assert sorted([x for x in old['attributes']if x['id']!=4384],key=lambda x:x['id'])==sorted([x for x in new['attributes']if x['id']!=4384],key=lambda x:x['id']),(old['offer_id'],'other attributes')
+        assert canonical_attributes([x for x in old['attributes']if x['id']!=4384])==canonical_attributes([x for x in new['attributes']if x['id']!=4384]),(old['offer_id'],'other attributes')
     info=oz.get_product_info_list(ids);save('ozon-info-after',info)
     save('ozon-ratings-after',oz._post('/v1/product/rating-by-sku',{'skus':[int(r['sku'])for r in info if r.get('sku')]}))
     return {sku:any(r['offer_id']==sku and oval(r)==P[sku]['composition']for r in after)for sku in ids}
 def wildberries():
-    ids=[k for k,v in P.items()if 'wb_before'in v];before=[r for r in wb.list_cards()if r['vendorCode']in ids];save('wb-before',before)
+    ids=[k for k,v in P.items()if 'wb_before'in v];before=[r for r in wb_cards()if r['vendorCode']in ids];save('wb-before',before)
     assert {r['vendorCode']for r in before}==set(ids)
     save('wb-prices-before',wb.get_prices());payload=[]
     for r in before:
@@ -51,7 +62,7 @@ def wildberries():
     if payload:
         res=wb.update_cards(payload);save('wb-response',res);assert not res.get('error'),res
     for _ in range(24):
-        after=[r for r in wb.list_cards()if r['vendorCode']in ids]
+        after=[r for r in wb_cards()if r['vendorCode']in ids]
         if {r['vendorCode']for r in after}==set(ids)and all(wval(r)==[P[r['vendorCode']]['composition']]for r in after):break
         time.sleep(10)
     save('wb-after',after);save('wb-prices-after',wb.get_prices());save('wb-upload-errors',wb.get_upload_errors())
