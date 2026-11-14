@@ -1,0 +1,23 @@
+name: Restore existing H video after package correction
+on: workflow_dispatch
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: python scripts/restore_h_video.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: restored-h-video-verification
+          path: /tmp/package-dimensions-result/

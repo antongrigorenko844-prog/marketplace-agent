@@ -38,6 +38,20 @@ def ypost(path, body):
 def dims(row):
     return [row.get(k) for k in ("depth", "width", "height")]
 
+def import_complex_attributes(attrs):
+    # The read API returns flat attributes; import expects grouped objects.
+    groups = {}
+    nested = []
+    for attr in attrs or []:
+        if "attributes" in attr:
+            nested.append(copy.deepcopy(attr))
+        else:
+            groups.setdefault(attr.get("complex_id", 0), []).append(copy.deepcopy(attr))
+    return nested + [{"attributes": group} for group in groups.values()]
+
+def semantic_attrs(attrs):
+    return sorted(json.dumps(a, sort_keys=True, ensure_ascii=False) for a in attrs or [])
+
 def price_signature(rows):
     return {s: {k: v.get("price", {}).get(k) for k in ("price", "old_price", "min_price", "currency_code", "vat")} for s, v in rows.items()}
 
@@ -61,6 +75,7 @@ def ozon():
             if key in card:
                 item[key] = copy.deepcopy(card[key])
         item.update(depth=400, width=300, height=300, dimension_unit="mm")
+        item["complex_attributes"] = import_complex_attributes(card.get("complex_attributes"))
         assert float(item["price"]) == float(prices[sku]["price"]["price"])
         assert float(item["old_price"]) == float(prices[sku]["price"]["old_price"])
         assert item["attributes"] == card["attributes"]
@@ -96,6 +111,10 @@ def ozon():
             assert dims(after[sku]) == [400, 300, 300], (sku, dims(after[sku]))
             for key in ("name", "weight", "description_category_id", "type_id"):
                 assert before[sku].get(key) == after[sku].get(key), (sku, key)
+            for key in ("attributes", "complex_attributes"):
+                assert semantic_attrs(before[sku].get(key)) == semantic_attrs(after[sku].get(key)), (sku, key, "Content changed")
+            for key in ("images", "primary_image"):
+                assert before[sku].get(key) == after[sku].get(key), (sku, key, "Images changed")
 
 def wildberries():
     before = by(wb.list_cards(), "vendorCode")
