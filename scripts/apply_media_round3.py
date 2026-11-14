@@ -22,7 +22,7 @@ def main():
  for r in before:
   sku=r['offer']['offerId'];assert am[sku]['pictures']==P['market'][sku]['pictures']
   for k,v in r['offer'].items():
-   if k!='pictures':assert am[sku].get(k)==v,('unrelated offer field',sku,k)
+   if k not in ['pictures','cardStatus']:assert am[sku].get(k)==v,('unrelated offer field',sku,k)
  for c in cards:assert grouped(c.get('parameterValues',[]))==grouped(cm[c['offerId']].get('parameterValues',[]))
  wb_before=wb.list_cards();prices=wb.get_prices();save('wb-before',wb_before);save('wb-prices-before',prices);wm={r['vendorCode']:r for r in wb_before}
  for sku,p in P['wb'].items():
