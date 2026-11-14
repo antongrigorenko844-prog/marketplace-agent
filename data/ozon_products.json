@@ -123,7 +123,7 @@
     {
       "product_id": 1508689345,
       "offer_id": "0AM325587E",
-      "has_fbo_stocks": false,
+      "has_fbo_stocks": true,
       "has_fbs_stocks": true,
       "archived": false,
       "is_discounted": false,
@@ -218,7 +218,7 @@
     {
       "product_id": 1570312812,
       "offer_id": "0am325025ae",
-      "has_fbo_stocks": true,
+      "has_fbo_stocks": false,
       "has_fbs_stocks": true,
       "archived": false,
       "is_discounted": false,
@@ -1555,11 +1555,11 @@
           "min_price_in_seller_currency": "RUB"
         },
         "ozon_index_data": {
-          "min_price": 3163,
+          "min_price": 3186,
           "min_price_currency": "RUB",
           "price_index_value": 1.61,
           "price_index_color": "RED",
-          "min_price_in_seller": 3163,
+          "min_price_in_seller": 3186,
           "min_price_in_seller_currency": "RUB"
         },
         "color_index": "RED",
@@ -1743,7 +1743,7 @@
         "external_index_data": {
           "min_price": 4921,
           "min_price_currency": "RUB",
-          "price_index_value": 1.16,
+          "price_index_value": 1.17,
           "price_index_color": "RED",
           "min_price_in_seller": 4921,
           "min_price_in_seller_currency": "RUB"
@@ -1952,12 +1952,12 @@
         },
         "color_index": "SUPER",
         "self_marketplaces_index_data": {
-          "min_price": 0,
-          "min_price_currency": "",
-          "price_index_value": 0,
-          "price_index_color": "WITHOUT_INDEX",
-          "min_price_in_seller": 0,
-          "min_price_in_seller_currency": ""
+          "min_price": 6395,
+          "min_price_currency": "RUB",
+          "price_index_value": 0.83,
+          "price_index_color": "SUPER",
+          "min_price_in_seller": 6395,
+          "min_price_in_seller_currency": "RUB"
         },
         "competitor_index_data": null
       }
@@ -2234,7 +2234,7 @@
         "external_index_data": {
           "min_price": 2781,
           "min_price_currency": "RUB",
-          "price_index_value": 0.76,
+          "price_index_value": 0.77,
           "price_index_color": "SUPER",
           "min_price_in_seller": 2781,
           "min_price_in_seller_currency": "RUB"
@@ -2251,7 +2251,7 @@
         "self_marketplaces_index_data": {
           "min_price": 2781,
           "min_price_currency": "RUB",
-          "price_index_value": 0.76,
+          "price_index_value": 0.77,
           "price_index_color": "SUPER",
           "min_price_in_seller": 2781,
           "min_price_in_seller_currency": "RUB"
@@ -2572,7 +2572,7 @@
         "self_marketplaces_index_data": {
           "min_price": 1973,
           "min_price_currency": "RUB",
-          "price_index_value": 0.86,
+          "price_index_value": 0.87,
           "price_index_color": "SUPER",
           "min_price_in_seller": 1973,
           "min_price_in_seller_currency": "RUB"
@@ -2658,24 +2658,24 @@
         "external_index_data": {
           "min_price": 1134,
           "min_price_currency": "RUB",
-          "price_index_value": 1.2,
+          "price_index_value": 1.21,
           "price_index_color": "RED",
           "min_price_in_seller": 1134,
           "min_price_in_seller_currency": "RUB"
         },
         "ozon_index_data": {
-          "min_price": 1386,
+          "min_price": 1395,
           "min_price_currency": "RUB",
-          "price_index_value": 1.02,
+          "price_index_value": 1.03,
           "price_index_color": "YELLOW",
-          "min_price_in_seller": 1386,
+          "min_price_in_seller": 1395,
           "min_price_in_seller_currency": "RUB"
         },
         "color_index": "RED",
         "self_marketplaces_index_data": {
           "min_price": 1134,
           "min_price_currency": "RUB",
-          "price_index_value": 1.2,
+          "price_index_value": 1.21,
           "price_index_color": "RED",
           "min_price_in_seller": 1134,
           "min_price_in_seller_currency": "RUB"
@@ -2708,6 +2708,24 @@
         "current_period_from": null,
         "current_period_to": null,
         "actions": [
+          {
+            "title": "РК. Рассрочка 0-0-4",
+            "value": 4,
+            "date_from": "2026-09-03T11:00:00Z",
+            "date_to": "2027-01-27T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-12 до 31.12.2026",
+            "value": 12,
+            "date_from": "2026-09-10T08:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-6 до 20.01.2027",
+            "value": 6,
+            "date_from": "2026-09-10T21:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
           {
             "title": "Призоловля в Узбекистане // Моментальные призы (лутбоксы) // 2-21.11 скидка 15%",
             "value": 15,
@@ -2919,12 +2937,6 @@
             "value": 15,
             "date_from": "2026-11-01T21:00:00Z",
             "date_to": "2026-12-31T20:59:00Z"
-          },
-          {
-            "title": "Супербустинг с дополнительными баллами за скидки.",
-            "value": 1350,
-            "date_from": "2026-11-10T21:00:00Z",
-            "date_to": "2026-11-13T20:59:59Z"
           }
         ],
         "ozon_actions_exist": false
@@ -3438,12 +3450,12 @@
       },
       "price_indexes": {
         "external_index_data": {
-          "min_price": 0,
-          "min_price_currency": "",
-          "price_index_value": 0,
-          "price_index_color": "WITHOUT_INDEX",
-          "min_price_in_seller": 0,
-          "min_price_in_seller_currency": ""
+          "min_price": 1336,
+          "min_price_currency": "RUB",
+          "price_index_value": 0.6,
+          "price_index_color": "SUPER",
+          "min_price_in_seller": 1336,
+          "min_price_in_seller_currency": "RUB"
         },
         "ozon_index_data": {
           "min_price": 0,
@@ -3453,14 +3465,14 @@
           "min_price_in_seller": 0,
           "min_price_in_seller_currency": ""
         },
-        "color_index": "WITHOUT_INDEX",
+        "color_index": "SUPER",
         "self_marketplaces_index_data": {
-          "min_price": 0,
-          "min_price_currency": "",
-          "price_index_value": 0,
-          "price_index_color": "WITHOUT_INDEX",
-          "min_price_in_seller": 0,
-          "min_price_in_seller_currency": ""
+          "min_price": 1336,
+          "min_price_currency": "RUB",
+          "price_index_value": 0.6,
+          "price_index_color": "SUPER",
+          "min_price_in_seller": 1336,
+          "min_price_in_seller_currency": "RUB"
         },
         "competitor_index_data": null
       }
@@ -3640,7 +3652,7 @@
         "external_index_data": {
           "min_price": 2781,
           "min_price_currency": "RUB",
-          "price_index_value": 0.76,
+          "price_index_value": 0.77,
           "price_index_color": "SUPER",
           "min_price_in_seller": 2781,
           "min_price_in_seller_currency": "RUB"
@@ -3657,7 +3669,7 @@
         "self_marketplaces_index_data": {
           "min_price": 2781,
           "min_price_currency": "RUB",
-          "price_index_value": 0.76,
+          "price_index_value": 0.77,
           "price_index_color": "SUPER",
           "min_price_in_seller": 2781,
           "min_price_in_seller_currency": "RUB"
@@ -4937,7 +4949,7 @@
         "external_index_data": {
           "min_price": 1134,
           "min_price_currency": "RUB",
-          "price_index_value": 1.66,
+          "price_index_value": 1.39,
           "price_index_color": "RED",
           "min_price_in_seller": 1134,
           "min_price_in_seller_currency": "RUB"
@@ -4954,7 +4966,7 @@
         "self_marketplaces_index_data": {
           "min_price": 1134,
           "min_price_currency": "RUB",
-          "price_index_value": 1.66,
+          "price_index_value": 1.39,
           "price_index_color": "RED",
           "min_price_in_seller": 1134,
           "min_price_in_seller_currency": "RUB"
@@ -5662,7 +5674,7 @@
         "external_index_data": {
           "min_price": 907,
           "min_price_currency": "RUB",
-          "price_index_value": 1.62,
+          "price_index_value": 1.63,
           "price_index_color": "RED",
           "min_price_in_seller": 907,
           "min_price_in_seller_currency": "RUB"
@@ -5763,12 +5775,12 @@
       },
       "price_indexes": {
         "external_index_data": {
-          "min_price": 907,
-          "min_price_currency": "RUB",
-          "price_index_value": 1.62,
-          "price_index_color": "RED",
-          "min_price_in_seller": 907,
-          "min_price_in_seller_currency": "RUB"
+          "min_price": 0,
+          "min_price_currency": "",
+          "price_index_value": 0,
+          "price_index_color": "WITHOUT_INDEX",
+          "min_price_in_seller": 0,
+          "min_price_in_seller_currency": ""
         },
         "ozon_index_data": {
           "min_price": 0,
@@ -5778,7 +5790,7 @@
           "min_price_in_seller": 0,
           "min_price_in_seller_currency": ""
         },
-        "color_index": "RED",
+        "color_index": "WITHOUT_INDEX",
         "self_marketplaces_index_data": {
           "min_price": 0,
           "min_price_currency": "",
@@ -5844,12 +5856,6 @@
             "value": 15,
             "date_from": "2026-11-01T21:00:00Z",
             "date_to": "2026-12-31T20:59:00Z"
-          },
-          {
-            "title": "Супербустинг с дополнительными баллами за скидки.",
-            "value": 1850,
-            "date_from": "2026-11-10T21:00:00Z",
-            "date_to": "2026-11-13T20:59:59Z"
           }
         ],
         "ozon_actions_exist": false
@@ -5903,18 +5909,18 @@
       "acquiring": 688.5,
       "offer_id": "0am325025H",
       "product_id": 3171023605,
-      "volume_weight": 28.8,
+      "volume_weight": 9.5,
       "commissions": {
         "fbo_deliv_to_customer_amount": 25,
-        "fbo_direct_flow_trans_max_amount": 4778,
-        "fbo_direct_flow_trans_min_amount": 208,
-        "fbo_return_flow_amount": 652,
+        "fbo_direct_flow_trans_max_amount": 1518,
+        "fbo_direct_flow_trans_min_amount": 93,
+        "fbo_return_flow_amount": 243,
         "fbs_deliv_to_customer_amount": 25,
-        "fbs_direct_flow_trans_min_amount": 208,
-        "fbs_direct_flow_trans_max_amount": 4778,
+        "fbs_direct_flow_trans_min_amount": 93,
+        "fbs_direct_flow_trans_max_amount": 1518,
         "fbs_first_mile_max_amount": 10,
         "fbs_first_mile_min_amount": 0,
-        "fbs_return_flow_amount": 4778,
+        "fbs_return_flow_amount": 1518,
         "sales_percent_fbo": 47,
         "sales_percent_fbs": 47,
         "sales_percent_rfbs": 47,
@@ -5977,7 +5983,7 @@
         "external_index_data": {
           "min_price": 48418,
           "min_price_currency": "RUB",
-          "price_index_value": 0.81,
+          "price_index_value": 0.82,
           "price_index_color": "SUPER",
           "min_price_in_seller": 48418,
           "min_price_in_seller_currency": "RUB"
@@ -5994,7 +6000,7 @@
         "self_marketplaces_index_data": {
           "min_price": 48418,
           "min_price_currency": "RUB",
-          "price_index_value": 0.81,
+          "price_index_value": 0.82,
           "price_index_color": "SUPER",
           "min_price_in_seller": 48418,
           "min_price_in_seller_currency": "RUB"
@@ -6738,12 +6744,12 @@
       },
       "price_indexes": {
         "external_index_data": {
-          "min_price": 0,
-          "min_price_currency": "",
-          "price_index_value": 0,
-          "price_index_color": "WITHOUT_INDEX",
-          "min_price_in_seller": 0,
-          "min_price_in_seller_currency": ""
+          "min_price": 6395,
+          "min_price_currency": "RUB",
+          "price_index_value": 0.82,
+          "price_index_color": "SUPER",
+          "min_price_in_seller": 6395,
+          "min_price_in_seller_currency": "RUB"
         },
         "ozon_index_data": {
           "min_price": 0,
@@ -6753,14 +6759,14 @@
           "min_price_in_seller": 0,
           "min_price_in_seller_currency": ""
         },
-        "color_index": "WITHOUT_INDEX",
+        "color_index": "SUPER",
         "self_marketplaces_index_data": {
-          "min_price": 0,
-          "min_price_currency": "",
-          "price_index_value": 0,
-          "price_index_color": "WITHOUT_INDEX",
-          "min_price_in_seller": 0,
-          "min_price_in_seller_currency": ""
+          "min_price": 6395,
+          "min_price_currency": "RUB",
+          "price_index_value": 0.82,
+          "price_index_color": "SUPER",
+          "min_price_in_seller": 6395,
+          "min_price_in_seller_currency": "RUB"
         },
         "competitor_index_data": null
       }
@@ -6903,7 +6909,7 @@
         "external_index_data": {
           "min_price": 41386,
           "min_price_currency": "RUB",
-          "price_index_value": 0.81,
+          "price_index_value": 0.82,
           "price_index_color": "SUPER",
           "min_price_in_seller": 41386,
           "min_price_in_seller_currency": "RUB"
@@ -6920,7 +6926,7 @@
         "self_marketplaces_index_data": {
           "min_price": 41386,
           "min_price_currency": "RUB",
-          "price_index_value": 0.81,
+          "price_index_value": 0.82,
           "price_index_color": "SUPER",
           "min_price_in_seller": 41386,
           "min_price_in_seller_currency": "RUB"
@@ -7301,18 +7307,18 @@
       "acquiring": 788.5,
       "offer_id": "0am325025x",
       "product_id": 3262840663,
-      "volume_weight": 28,
+      "volume_weight": 8,
       "commissions": {
         "fbo_deliv_to_customer_amount": 25,
-        "fbo_direct_flow_trans_max_amount": 4778,
-        "fbo_direct_flow_trans_min_amount": 208,
-        "fbo_return_flow_amount": 652,
+        "fbo_direct_flow_trans_max_amount": 1518,
+        "fbo_direct_flow_trans_min_amount": 93,
+        "fbo_return_flow_amount": 243,
         "fbs_deliv_to_customer_amount": 25,
-        "fbs_direct_flow_trans_min_amount": 208,
-        "fbs_direct_flow_trans_max_amount": 4778,
+        "fbs_direct_flow_trans_min_amount": 93,
+        "fbs_direct_flow_trans_max_amount": 1518,
         "fbs_first_mile_max_amount": 10,
         "fbs_first_mile_min_amount": 0,
-        "fbs_return_flow_amount": 4778,
+        "fbs_return_flow_amount": 1518,
         "sales_percent_fbo": 47,
         "sales_percent_fbs": 47,
         "sales_percent_rfbs": 47,
@@ -7339,6 +7345,12 @@
             "value": 15,
             "date_from": "2026-11-01T21:00:00Z",
             "date_to": "2026-12-31T20:59:00Z"
+          },
+          {
+            "title": "Лайт бустинг 11.11 и Чёрная пятница",
+            "value": 78850,
+            "date_from": "2026-11-11T21:00:00Z",
+            "date_to": "2026-12-02T20:59:59Z"
           }
         ],
         "ozon_actions_exist": false
@@ -7363,7 +7375,7 @@
         "external_index_data": {
           "min_price": 55450,
           "min_price_currency": "RUB",
-          "price_index_value": 0.81,
+          "price_index_value": 0.82,
           "price_index_color": "SUPER",
           "min_price_in_seller": 55450,
           "min_price_in_seller_currency": "RUB"
@@ -7380,7 +7392,7 @@
         "self_marketplaces_index_data": {
           "min_price": 55450,
           "min_price_currency": "RUB",
-          "price_index_value": 0.81,
+          "price_index_value": 0.82,
           "price_index_color": "SUPER",
           "min_price_in_seller": 55450,
           "min_price_in_seller_currency": "RUB"
@@ -7466,7 +7478,7 @@
         "external_index_data": {
           "min_price": 83581,
           "min_price_currency": "RUB",
-          "price_index_value": 0.8,
+          "price_index_value": 0.81,
           "price_index_color": "SUPER",
           "min_price_in_seller": 83581,
           "min_price_in_seller_currency": "RUB"
@@ -7483,7 +7495,7 @@
         "self_marketplaces_index_data": {
           "min_price": 83581,
           "min_price_currency": "RUB",
-          "price_index_value": 0.8,
+          "price_index_value": 0.81,
           "price_index_color": "SUPER",
           "min_price_in_seller": 83581,
           "min_price_in_seller_currency": "RUB"
@@ -7660,7 +7672,7 @@
         "external_index_data": {
           "min_price": 52638,
           "min_price_currency": "RUB",
-          "price_index_value": 0.81,
+          "price_index_value": 0.82,
           "price_index_color": "SUPER",
           "min_price_in_seller": 52638,
           "min_price_in_seller_currency": "RUB"
@@ -7677,7 +7689,7 @@
         "self_marketplaces_index_data": {
           "min_price": 52638,
           "min_price_currency": "RUB",
-          "price_index_value": 0.81,
+          "price_index_value": 0.82,
           "price_index_color": "SUPER",
           "min_price_in_seller": 52638,
           "min_price_in_seller_currency": "RUB"
@@ -7829,7 +7841,7 @@
         "external_index_data": {
           "min_price": 2781,
           "min_price_currency": "RUB",
-          "price_index_value": 0.76,
+          "price_index_value": 0.77,
           "price_index_color": "SUPER",
           "min_price_in_seller": 2781,
           "min_price_in_seller_currency": "RUB"
@@ -7846,7 +7858,7 @@
         "self_marketplaces_index_data": {
           "min_price": 2781,
           "min_price_currency": "RUB",
-          "price_index_value": 0.76,
+          "price_index_value": 0.77,
           "price_index_color": "SUPER",
           "min_price_in_seller": 2781,
           "min_price_in_seller_currency": "RUB"
@@ -8301,7 +8313,7 @@
         "external_index_data": {
           "min_price": 83581,
           "min_price_currency": "RUB",
-          "price_index_value": 0.8,
+          "price_index_value": 0.81,
           "price_index_color": "SUPER",
           "min_price_in_seller": 83581,
           "min_price_in_seller_currency": "RUB"
@@ -8318,7 +8330,7 @@
         "self_marketplaces_index_data": {
           "min_price": 83581,
           "min_price_currency": "RUB",
-          "price_index_value": 0.8,
+          "price_index_value": 0.81,
           "price_index_color": "SUPER",
           "min_price_in_seller": 83581,
           "min_price_in_seller_currency": "RUB"
@@ -8565,12 +8577,12 @@
       },
       "price_indexes": {
         "external_index_data": {
-          "min_price": 0,
-          "min_price_currency": "",
-          "price_index_value": 0,
-          "price_index_color": "WITHOUT_INDEX",
-          "min_price_in_seller": 0,
-          "min_price_in_seller_currency": ""
+          "min_price": 7840,
+          "min_price_currency": "RUB",
+          "price_index_value": 0.82,
+          "price_index_color": "SUPER",
+          "min_price_in_seller": 7840,
+          "min_price_in_seller_currency": "RUB"
         },
         "ozon_index_data": {
           "min_price": 0,
@@ -8580,14 +8592,14 @@
           "min_price_in_seller": 0,
           "min_price_in_seller_currency": ""
         },
-        "color_index": "WITHOUT_INDEX",
+        "color_index": "SUPER",
         "self_marketplaces_index_data": {
-          "min_price": 0,
-          "min_price_currency": "",
-          "price_index_value": 0,
-          "price_index_color": "WITHOUT_INDEX",
-          "min_price_in_seller": 0,
-          "min_price_in_seller_currency": ""
+          "min_price": 7840,
+          "min_price_currency": "RUB",
+          "price_index_value": 0.82,
+          "price_index_color": "SUPER",
+          "min_price_in_seller": 7840,
+          "min_price_in_seller_currency": "RUB"
         },
         "competitor_index_data": null
       }
@@ -9621,7 +9633,7 @@
         "external_index_data": {
           "min_price": 2059,
           "min_price_currency": "RUB",
-          "price_index_value": 0.75,
+          "price_index_value": 0.76,
           "price_index_color": "SUPER",
           "min_price_in_seller": 2059,
           "min_price_in_seller_currency": "RUB"
@@ -9638,7 +9650,7 @@
         "self_marketplaces_index_data": {
           "min_price": 2059,
           "min_price_currency": "RUB",
-          "price_index_value": 0.75,
+          "price_index_value": 0.76,
           "price_index_color": "SUPER",
           "min_price_in_seller": 2059,
           "min_price_in_seller_currency": "RUB"
@@ -10623,7 +10635,7 @@
         "external_index_data": {
           "min_price": 2339,
           "min_price_currency": "RUB",
-          "price_index_value": 0.91,
+          "price_index_value": 0.92,
           "price_index_color": "SUPER",
           "min_price_in_seller": 2339,
           "min_price_in_seller_currency": "RUB"
@@ -10769,7 +10781,26 @@
       "marketing_actions": {
         "current_period_from": null,
         "current_period_to": null,
-        "actions": [],
+        "actions": [
+          {
+            "title": "РК. Рассрочка 0-0-4",
+            "value": 4,
+            "date_from": "2026-09-03T11:00:00Z",
+            "date_to": "2027-01-27T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-12 до 31.12.2026",
+            "value": 12,
+            "date_from": "2026-09-10T08:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-6 до 20.01.2027",
+            "value": 6,
+            "date_from": "2026-09-10T21:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          }
+        ],
         "ozon_actions_exist": false
       },
       "price": {
@@ -11486,7 +11517,7 @@
         "external_index_data": {
           "min_price": 7840,
           "min_price_currency": "RUB",
-          "price_index_value": 0.81,
+          "price_index_value": 0.82,
           "price_index_color": "SUPER",
           "min_price_in_seller": 7840,
           "min_price_in_seller_currency": "RUB"
@@ -11503,7 +11534,7 @@
         "self_marketplaces_index_data": {
           "min_price": 7840,
           "min_price_currency": "RUB",
-          "price_index_value": 0.81,
+          "price_index_value": 0.82,
           "price_index_color": "SUPER",
           "min_price_in_seller": 7840,
           "min_price_in_seller_currency": "RUB"
@@ -11583,7 +11614,7 @@
         "external_index_data": {
           "min_price": 7840,
           "min_price_currency": "RUB",
-          "price_index_value": 0.81,
+          "price_index_value": 0.82,
           "price_index_color": "SUPER",
           "min_price_in_seller": 7840,
           "min_price_in_seller_currency": "RUB"
@@ -11600,7 +11631,7 @@
         "self_marketplaces_index_data": {
           "min_price": 7840,
           "min_price_currency": "RUB",
-          "price_index_value": 0.81,
+          "price_index_value": 0.82,
           "price_index_color": "SUPER",
           "min_price_in_seller": 7840,
           "min_price_in_seller_currency": "RUB"
@@ -11680,7 +11711,7 @@
         "external_index_data": {
           "min_price": 1697,
           "min_price_currency": "RUB",
-          "price_index_value": 0.82,
+          "price_index_value": 0.83,
           "price_index_color": "SUPER",
           "min_price_in_seller": 1697,
           "min_price_in_seller_currency": "RUB"
@@ -11697,7 +11728,7 @@
         "self_marketplaces_index_data": {
           "min_price": 1697,
           "min_price_currency": "RUB",
-          "price_index_value": 0.82,
+          "price_index_value": 0.83,
           "price_index_color": "SUPER",
           "min_price_in_seller": 1697,
           "min_price_in_seller_currency": "RUB"
@@ -11971,7 +12002,7 @@
         "external_index_data": {
           "min_price": 1448,
           "min_price_currency": "RUB",
-          "price_index_value": 0.98,
+          "price_index_value": 0.99,
           "price_index_color": "GREEN",
           "min_price_in_seller": 1448,
           "min_price_in_seller_currency": "RUB"
@@ -12402,11 +12433,11 @@
       },
       "price_indexes": {
         "external_index_data": {
-          "min_price": 2254,
+          "min_price": 2218,
           "min_price_currency": "RUB",
-          "price_index_value": 0.49,
+          "price_index_value": 0.5,
           "price_index_color": "SUPER",
-          "min_price_in_seller": 2254,
+          "min_price_in_seller": 2218,
           "min_price_in_seller_currency": "RUB"
         },
         "ozon_index_data": {
@@ -12883,7 +12914,7 @@
         "external_index_data": {
           "min_price": 52638,
           "min_price_currency": "RUB",
-          "price_index_value": 0.81,
+          "price_index_value": 0.82,
           "price_index_color": "SUPER",
           "min_price_in_seller": 52638,
           "min_price_in_seller_currency": "RUB"
@@ -12900,7 +12931,7 @@
         "self_marketplaces_index_data": {
           "min_price": 52638,
           "min_price_currency": "RUB",
-          "price_index_value": 0.81,
+          "price_index_value": 0.82,
           "price_index_color": "SUPER",
           "min_price_in_seller": 52638,
           "min_price_in_seller_currency": "RUB"
@@ -12974,7 +13005,7 @@
         "external_index_data": {
           "min_price": 83581,
           "min_price_currency": "RUB",
-          "price_index_value": 0.8,
+          "price_index_value": 0.81,
           "price_index_color": "SUPER",
           "min_price_in_seller": 83581,
           "min_price_in_seller_currency": "RUB"
@@ -12991,7 +13022,7 @@
         "self_marketplaces_index_data": {
           "min_price": 83581,
           "min_price_currency": "RUB",
-          "price_index_value": 0.8,
+          "price_index_value": 0.81,
           "price_index_color": "SUPER",
           "min_price_in_seller": 83581,
           "min_price_in_seller_currency": "RUB"
@@ -13023,7 +13054,20 @@
       "marketing_actions": {
         "current_period_from": null,
         "current_period_to": null,
-        "actions": [],
+        "actions": [
+          {
+            "title": "РК. Рассрочка 0-0-12 до 31.12.2026",
+            "value": 12,
+            "date_from": "2026-09-10T08:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-6 до 20.01.2027",
+            "value": 6,
+            "date_from": "2026-09-10T21:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          }
+        ],
         "ozon_actions_exist": false
       },
       "price": {
@@ -13095,7 +13139,20 @@
       "marketing_actions": {
         "current_period_from": null,
         "current_period_to": null,
-        "actions": [],
+        "actions": [
+          {
+            "title": "РК. Рассрочка 0-0-12 до 31.12.2026",
+            "value": 12,
+            "date_from": "2026-09-10T08:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-6 до 20.01.2027",
+            "value": 6,
+            "date_from": "2026-09-10T21:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          }
+        ],
         "ozon_actions_exist": false
       },
       "price": {
@@ -13383,7 +13440,20 @@
       "marketing_actions": {
         "current_period_from": null,
         "current_period_to": null,
-        "actions": [],
+        "actions": [
+          {
+            "title": "РК. Рассрочка 0-0-12 до 31.12.2026",
+            "value": 12,
+            "date_from": "2026-09-10T08:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-6 до 20.01.2027",
+            "value": 6,
+            "date_from": "2026-09-10T21:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          }
+        ],
         "ozon_actions_exist": false
       },
       "price": {
@@ -13527,7 +13597,26 @@
       "marketing_actions": {
         "current_period_from": null,
         "current_period_to": null,
-        "actions": [],
+        "actions": [
+          {
+            "title": "РК. Рассрочка 0-0-4",
+            "value": 4,
+            "date_from": "2026-09-03T11:00:00Z",
+            "date_to": "2027-01-27T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-12 до 31.12.2026",
+            "value": 12,
+            "date_from": "2026-09-10T08:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-6 до 20.01.2027",
+            "value": 6,
+            "date_from": "2026-09-10T21:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          }
+        ],
         "ozon_actions_exist": false
       },
       "price": {
@@ -16345,22 +16434,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21841,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "https://v-1.ozone.ru/vod/video-71/01M53XCB3WZVR969RQQ6C0G641/asset_1_h264.mp4"
-            }
-          ]
-        },
-        {
           "id": 21837,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "Видео плитка товара от 17.10.2026 06:09"
+            }
+          ]
+        },
+        {
+          "id": 21841,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "https://v-1.ozone.ru/vod/video-71/01M53XCB3WZVR969RQQ6C0G641/asset_1_h264.mp4"
             }
           ]
         }
@@ -19364,22 +19453,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21837,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "Видео плитка товара от 17.10.2026 06:09"
-            }
-          ]
-        },
-        {
           "id": 21841,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "https://v-1.ozone.ru/vod/video-71/01M53XCB3WZVR969RQQ6C0G641/asset_1_h264.mp4"
+            }
+          ]
+        },
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "Видео плитка товара от 17.10.2026 06:09"
             }
           ]
         }
@@ -19632,22 +19721,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21837,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "0AM325443D"
-            }
-          ]
-        },
-        {
           "id": 21841,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "https://v-1.ozone.ru/vod/video-71/01M53Y16BXFKV8CVWYXMQSR90W/asset_2_h264.mp4"
+            }
+          ]
+        },
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0AM325443D"
             }
           ]
         }
@@ -23474,22 +23563,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21841,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "https://v-1.ozone.ru/vod/video-73/01M5YTFJ8WWY6HXW4E0NW27ER8/asset_2_h264.mp4"
-            }
-          ]
-        },
-        {
           "id": 21837,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "0am325025z"
+            }
+          ]
+        },
+        {
+          "id": 21841,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "https://v-1.ozone.ru/vod/video-73/01M5YTFJ8WWY6HXW4E0NW27ER8/asset_2_h264.mp4"
             }
           ]
         }
@@ -23537,7 +23626,7 @@
       "weight": 350,
       "weight_unit": "g",
       "description_category_id": 17028756,
-      "type_id": 971100605,
+      "type_id": 970984897,
       "primary_image": "https://ir-20.ozone.ru/s3/multimedia-1-g/7768630888.jpg",
       "model_info": {
         "model_id": 6653250188,
@@ -23701,7 +23790,7 @@
       "weight": 500,
       "weight_unit": "g",
       "description_category_id": 17028756,
-      "type_id": 971100605,
+      "type_id": 970984897,
       "primary_image": "https://ir-20.ozone.ru/s3/multimedia-1-h/21312079469.jpg",
       "model_info": {
         "model_id": 3651869562,
@@ -23726,7 +23815,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "соленоиды дсг7_0am325025p_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473"
+              "value": "соленоиды дсг7_0am325025p_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473_0AM325473"
             }
           ]
         },
@@ -24544,9 +24633,9 @@
       "barcode": "",
       "name": "Мехатроник DSG7 DQ200 0AM/0CW ПРОВЕРЕН НА АВТО",
       "offer_id": "0am325025H",
-      "height": 800,
-      "depth": 300,
-      "width": 600,
+      "height": 300,
+      "depth": 400,
+      "width": 300,
       "dimension_unit": "mm",
       "weight": 9500,
       "weight_unit": "g",
@@ -24560,7 +24649,7 @@
       "images": [
         "https://ir-20.ozone.ru/s3/multimedia-1-1/14848105789.jpg",
         "https://ir-20.ozone.ru/s3/multimedia-1-0/14848100064.jpg",
-        "https://ir-20.ozone.ru/s3/multimedia-1-c/8458091220.jpg"
+        "https://ir-20.ozone.ru/s3/multimedia-1-h/21314625029.jpg"
       ],
       "pdf_list": [],
       "attributes": [
@@ -24580,7 +24669,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "мехатроникdq200_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H"
+              "value": "мехатроникdq200_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H_0am325025H"
             }
           ]
         },
@@ -24755,22 +24844,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21837,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "0am325025H"
-            }
-          ]
-        },
-        {
           "id": 21841,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "https://v-1.ozone.ru/vod/video-71/01M54NXGKTMXAD0Q7MSB330K7Z/asset_2_h264.mp4"
+            }
+          ]
+        },
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325025H"
             }
           ]
         }
@@ -27732,9 +27821,9 @@
       "barcode": "",
       "name": "Мехатроник DSG7 DQ200 0AM с новыми соленоидами Bosch",
       "offer_id": "0am325025x",
-      "height": 700,
+      "height": 300,
       "depth": 400,
-      "width": 500,
+      "width": 300,
       "dimension_unit": "mm",
       "weight": 8000,
       "weight_unit": "g",
@@ -27745,7 +27834,9 @@
         "model_id": 4192285848,
         "count": 1
       },
-      "images": [],
+      "images": [
+        "https://ir-20.ozone.ru/s3/multimedia-1-k/14848101956.jpg"
+      ],
       "pdf_list": [],
       "attributes": [
         {
@@ -28596,22 +28687,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21837,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "0AM927769D"
-            }
-          ]
-        },
-        {
           "id": 21841,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "https://v-1.ozone.ru/vod/video-73/01M60SXZSN6C0R9Z6AMCJW40BN/asset_3_h264.mp4"
+            }
+          ]
+        },
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0AM927769D"
             }
           ]
         }
@@ -29601,22 +29692,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21841,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "https://v-1.ozone.ru/vod/video-71/01M53XCB3WZVR969RQQ6C0G641/asset_1_h264.mp4"
-            }
-          ]
-        },
-        {
           "id": 21837,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "Видео плитка товара от 17.10.2026 06:09"
+            }
+          ]
+        },
+        {
+          "id": 21841,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "https://v-1.ozone.ru/vod/video-71/01M53XCB3WZVR969RQQ6C0G641/asset_1_h264.mp4"
             }
           ]
         }
@@ -31022,7 +31113,7 @@
       "weight": 500,
       "weight_unit": "g",
       "description_category_id": 17028756,
-      "type_id": 971100605,
+      "type_id": 970984897,
       "primary_image": "https://ir-20.ozone.ru/s3/multimedia-1-k/14879274896.jpg",
       "model_info": {
         "model_id": 3651869562,
@@ -31047,7 +31138,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "соленоиды дсг7_0am325025p_0AM325473_0AM325473_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30"
+              "value": "соленоиды дсг7_0am325025p_0AM325473_0AM325473_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30"
             }
           ]
         },
@@ -34042,22 +34133,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21837,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "salnik-tolkatelya-alum"
-            }
-          ]
-        },
-        {
           "id": 21841,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "https://v-1.ozone.ru/vod/video-73/01M5Z8R9SKF1YKH5NXKA09BDPX/asset_2_h264.mp4"
+            }
+          ]
+        },
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "salnik-tolkatelya-alum"
             }
           ]
         }
@@ -35307,22 +35398,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21837,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "salnik-tolkatelya-alum"
-            }
-          ]
-        },
-        {
           "id": 21841,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "https://v-1.ozone.ru/vod/video-73/01M5Z8R9SKF1YKH5NXKA09BDPX/asset_2_h264.mp4"
+            }
+          ]
+        },
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "salnik-tolkatelya-alum"
             }
           ]
         }
@@ -41453,22 +41544,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21837,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "0am325025H"
-            }
-          ]
-        },
-        {
           "id": 21841,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "https://v-1.ozone.ru/vod/video-71/01M54NXGKTMXAD0Q7MSB330K7Z/asset_2_h264.mp4"
+            }
+          ]
+        },
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325025H"
             }
           ]
         }
@@ -44584,7 +44675,28 @@
           ]
         }
       ],
-      "complex_attributes": [],
+      "complex_attributes": [
+        {
+          "id": 21841,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "https://v-1.ozone.ru/vod/video-71/01M54NXGKTMXAD0Q7MSB330K7Z/asset_2_h264.mp4"
+            }
+          ]
+        },
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325025H"
+            }
+          ]
+        }
+      ],
       "color_image": "",
       "sku": 6344655964,
       "barcodes": [],
@@ -44819,7 +44931,28 @@
           ]
         }
       ],
-      "complex_attributes": [],
+      "complex_attributes": [
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325025H"
+            }
+          ]
+        },
+        {
+          "id": 21841,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "https://v-1.ozone.ru/vod/video-71/01M54NXGKTMXAD0Q7MSB330K7Z/asset_2_h264.mp4"
+            }
+          ]
+        }
+      ],
       "color_image": "",
       "sku": 6344655716,
       "barcodes": [],
@@ -44864,7 +44997,7 @@
       "weight_unit": "g",
       "description_category_id": 17028756,
       "type_id": 971100605,
-      "primary_image": "https://ir-20.ozone.ru/s3/multimedia-1-q/21309490214.jpg",
+      "primary_image": "https://ir-20.ozone.ru/s3/multimedia-1-2/21314548874.jpg",
       "model_info": {
         "model_id": 6792914755,
         "count": 1
@@ -45064,7 +45197,28 @@
           ]
         }
       ],
-      "complex_attributes": [],
+      "complex_attributes": [
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0AM927769D"
+            }
+          ]
+        },
+        {
+          "id": 21841,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "https://v-1.ozone.ru/vod/video-73/01M60SXZSN6C0R9Z6AMCJW40BN/asset_3_h264.mp4"
+            }
+          ]
+        }
+      ],
       "color_image": "",
       "sku": 6344654802,
       "barcodes": [],
@@ -45309,7 +45463,28 @@
           ]
         }
       ],
-      "complex_attributes": [],
+      "complex_attributes": [
+        {
+          "id": 21841,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "https://v-1.ozone.ru/vod/video-73/01M60SXZSN6C0R9Z6AMCJW40BN/asset_3_h264.mp4"
+            }
+          ]
+        },
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0AM927769D"
+            }
+          ]
+        }
+      ],
       "color_image": "",
       "sku": 6344654983,
       "barcodes": [],
@@ -45554,7 +45729,28 @@
           ]
         }
       ],
-      "complex_attributes": [],
+      "complex_attributes": [
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0AM927769D"
+            }
+          ]
+        },
+        {
+          "id": 21841,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "https://v-1.ozone.ru/vod/video-73/01M60SXZSN6C0R9Z6AMCJW40BN/asset_3_h264.mp4"
+            }
+          ]
+        }
+      ],
       "color_image": "",
       "sku": 6345036432,
       "barcodes": [],
@@ -45789,7 +45985,28 @@
           ]
         }
       ],
-      "complex_attributes": [],
+      "complex_attributes": [
+        {
+          "id": 21841,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "https://v-1.ozone.ru/vod/video-71/01M54NXGKTMXAD0Q7MSB330K7Z/asset_2_h264.mp4"
+            }
+          ]
+        },
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325025H"
+            }
+          ]
+        }
+      ],
       "color_image": "",
       "sku": 6345035202,
       "barcodes": [],
