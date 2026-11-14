@@ -54,6 +54,9 @@ def market():
             assert token not in seen,'Repeated pagination token'
             seen.add(token)
         save('market-'+kind,rows);counts[kind]=len(rows)
+    for cid in sorted({r.get('mapping',{}).get('marketCategoryId') for r in rows if r.get('mapping',{}).get('marketCategoryId')}):
+        status,data=ym._request('POST',f'/v2/category/{cid}/parameters',params={'businessId':biz},json_body={})
+        save(f'market-defs-{cid}',{'status':status,**data})
     return counts
 def avito():
     rows=av.list_all_items();save('avito-items',rows)
