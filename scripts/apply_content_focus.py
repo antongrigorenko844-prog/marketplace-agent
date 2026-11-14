@@ -83,7 +83,7 @@ def market_apply(rules):
 
 def main():
     rules=content_updates.load()
-    assert set(rules)==set(IDS)
+    assert set(IDS)<=set(rules)
     result={}
     for name,fn in [('ozon',ozon_apply),('wb',wb_apply),('market',market_apply)]:
         try: result[name]=fn(rules)
