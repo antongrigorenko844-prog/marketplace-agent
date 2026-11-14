@@ -581,8 +581,9 @@ def _master_dimensions(vendor_code: str, card: dict, dims_master: dict):
         "length": max(1, int(round(l_mm / 10))),
         "width": max(1, int(round(w_mm / 10))),
         "height": max(1, int(round(h_mm / 10))),
-        "weightBrutto": round(md["weight_g"] / 1000, 3),
     }
+    if md.get("weight_g") is not None:
+        target["weightBrutto"] = round(md["weight_g"] / 1000, 3)
     changed = any(
         abs(float(current.get(k) or 0) - float(v)) > 1e-6 for k, v in target.items()
     )
@@ -665,3 +666,4 @@ def build_wb_media_updates(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
             skipped,
         )
     return out
+

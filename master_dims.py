@@ -13,12 +13,14 @@
 работают, но мастер, если в нём заполнено, главнее.
 """
 import os
+import json
 from typing import Dict, List, Optional
 
 from openpyxl import load_workbook
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 MASTER_PATH = os.path.join(ROOT, "data", "master_control.xlsx")
+PACKAGE_DIMS_PATH = os.path.join(ROOT, "data", "package_dimensions.json")
 
 DIM_COLUMNS = ["Вес, кг", "Длина, см", "Ширина, см", "Высота, см"]
 
@@ -62,12 +64,23 @@ def load(path: str = MASTER_PATH) -> Dict[str, dict]:
     """{артикул: {"weight_g": int, "dims_mm": [L, W, H]}} — только полностью заполненные строки.
     Результат кэшируется по времени изменения файла (вызывается на каждую карточку)."""
     try:
-        stamp = (path, os.path.getmtime(path))
+        stamp = (path, os.path.getmtime(path), os.path.getmtime(PACKAGE_DIMS_PATH) if os.path.exists(PACKAGE_DIMS_PATH) else None)
     except OSError:
         return {}
     if stamp in _CACHE:
         return _CACHE[stamp]
     out: Dict[str, dict] = {}
+    # Dimensions can be confirmed independently of weight. Do not infer or
+    # change weight when only the three package measurements are supplied.
+    if path == MASTER_PATH and os.path.exists(PACKAGE_DIMS_PATH):
+        with open(PACKAGE_DIMS_PATH, encoding="utf-8") as f:
+            package_dims = json.load(f)
+        for art, dims in package_dims.items():
+            if art.startswith("_"):
+                continue
+            if not isinstance(dims, list) or len(dims) != 3 or any(not isinstance(v, (int, float)) or v <= 0 for v in dims):
+                raise ValueError("Invalid confirmed package dimensions: " + art)
+            out[art] = {"dims_mm": [int(round(v * 10)) for v in dims]}
     for art, (w, l, wd, h) in read_rows(path).items():
         if None in (w, l, wd, h) or min(w, l, wd, h) <= 0:
             continue
@@ -90,3 +103,4 @@ def for_article(article: str, cache: Optional[Dict[str, dict]] = None) -> Option
         if k.lower() == low:
             return v
     return None
+
