@@ -11,8 +11,13 @@ OUT=Path('/tmp/market-content-repair');OUT.mkdir(exist_ok=True)
 def save(n,x):
     (OUT/(n+'.json')).write_text(json.dumps(x,ensure_ascii=False,indent=2,default=str))
     print(n+': saved',flush=True)
-def canonical(values):
-    return sorted([json.dumps({k:v for k,v in x.items()if k in {'parameterId','unitId','valueId','value'}},sort_keys=True,ensure_ascii=False)for x in values])
+def canonical(values,omit_unit=False):
+    keys={'parameterId','valueId','value'} if omit_unit else {'parameterId','unitId','valueId','value'}
+    return sorted([json.dumps({k:v for k,v in x.items()if k in keys},sort_keys=True,ensure_ascii=False)for x in values])
+def matches(expected,actual):
+    # Market returns the category's default unit even when it was omitted on input.
+    omit_unit=all('unitId'not in x for x in expected)
+    return canonical(expected,omit_unit)==canonical(actual,omit_unit)
 def main():
     biz=ym.get_business_id();ids=list(PLAN)
     rows=read_rows(biz,'offer-mappings',ids);cards=read_rows(biz,'offer-cards',ids)
@@ -41,10 +46,11 @@ def main():
             if changed:update['params']=params
         payload.append({'offer':update})
     save('payload',payload)
-    status,res=ym._request('POST',f'/v2/businesses/{biz}/offer-mappings/update',json_body={'offerMappings':payload})
-    save('response',{'http_status':status,'body':res})
-    assert status==200 and res.get('status')=='OK',(status,res)
-    assert not any(r.get('errors')for r in res.get('results',[])),res
+    if '--verify-only' not in sys.argv:
+        status,res=ym._request('POST',f'/v2/businesses/{biz}/offer-mappings/update',json_body={'offerMappings':payload})
+        save('response',{'http_status':status,'body':res})
+        assert status==200 and res.get('status')=='OK',(status,res)
+        assert not any(r.get('errors')for r in res.get('results',[])),res
     final={}
     for attempt in range(30):
         after=read_rows(biz,'offer-mappings',ids);ca=read_rows(biz,'offer-cards',ids)
@@ -56,14 +62,14 @@ def main():
             for key in ['name','pictures','videos','weightDimensions','basicPrice','vendor','vendorCode','barcodes']:
                 assert old.get(key)==new.get(key),('Unrelated field changed',sku,key)
             desired=grouped(targets[sku]);actual=grouped(cards_after[sku].get('parameterValues',[]))
-            attrs_ok=all(canonical(actual.get(pid,[]))==canonical(v)for pid,v in desired.items())
+            attrs_ok=all(matches(v,actual.get(pid,[]))for pid,v in desired.items())
             final[sku]={'description_verified':sku not in desc_targets or new.get('description')==desc_targets[sku],
-                        'parameters_verified':attrs_ok,'missing_or_different_parameters':[pid for pid,v in desired.items()if canonical(actual.get(pid,[]))!=canonical(v)],
+                        'parameters_verified':attrs_ok,'missing_or_different_parameters':[pid for pid,v in desired.items()if not matches(v,actual.get(pid,[]))],
                         'rating_before':PLAN[sku]['baseline_rating'],'rating_after':cards_after[sku].get('contentRating'),
-                        'rating_status':cards_after[sku].get('cardStatus')}
+                        'rating_status':cards_after[sku].get('contentRatingStatus')}
         save('mappings-after',after);save('cards-after',ca);save('result',{'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'cards':final})
         verified=sum(v['description_verified']and v['parameters_verified']for v in final.values())
-        regressions=[k for k,v in final.items()if (v['rating_after']or 0)<v['rating_before']]
+        regressions=[k for k,v in final.items()if (v['rating_after']or 0)<v['rating_before']or v['rating_status']!='ACTUAL']
         print(json.dumps({'attempt':attempt,'verified':verified,'total':len(ids),'rating_below_baseline':regressions},ensure_ascii=False),flush=True)
         if verified==len(ids)and not regressions:break
         time.sleep(15)

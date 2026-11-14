@@ -1,5 +1,11 @@
 name: Restore Market content and verify ratings
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Apply the approved repair before verification
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
@@ -18,7 +24,7 @@ jobs:
       - env:
           YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
           YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
-        run: python scripts/apply_market_content_repair.py
+        run: python scripts/apply_market_content_repair.py ${{ inputs.apply && '' || '--verify-only' }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
