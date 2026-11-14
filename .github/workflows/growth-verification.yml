@@ -1,0 +1,23 @@
+name: Sales improvement verification (read only)
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -p 'test_ozon_unit_costs.py' -v
+      - run: python -m unittest discover -s tests -p 'test_fbs_dispatch_audit.py' -v
+      - name: Current FBS deadlines in Moscow time
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: python fbs_dispatch_audit.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dispatch-verification
+          path: /tmp/fbs-dispatch-audit/
