@@ -48,6 +48,17 @@ def rich_value(doc):
     assert len(vals) == 1, 'Unexpected rich-content structure'
     return json.loads(vals[0])
 
+def comparable_rich(doc):
+    # Ozon rewrites this observed CDN hostname after moderation; preserve the asset path.
+    if isinstance(doc, dict):
+        return {k: (v.replace('https://ir-20.ozone.ru/', 'https://ir.ozone.ru/', 1)
+                    if k in ('src', 'srcMobile') and isinstance(v, str)
+                    and v.startswith('https://ir-20.ozone.ru/') else comparable_rich(v))
+                for k, v in doc.items()}
+    if isinstance(doc, list):
+        return [comparable_rich(x) for x in doc]
+    return doc
+
 def main():
     import ozon_client as oc
 
@@ -84,7 +95,7 @@ def main():
         assert doc['version'] == 0.3 and len(doc['content']) == 6
         existing = rich_value(before['cards'][sku])
         # Never overwrite a pre-existing or concurrently added rich description.
-        assert existing is None or existing == doc, 'Existing rich content differs: ' + sku
+        assert existing is None or comparable_rich(existing) == comparable_rich(doc), 'Existing rich content differs: ' + sku
         photos = [before['cards'][sku].get('primary_image')] + before['cards'][sku].get('images', [])
         for block in doc['content']:
             for b in block.get('blocks', []):
@@ -110,10 +121,10 @@ def main():
         assert all(r.get('status') == 'imported' and not r.get('errors') for r in rows), 'Import not completed cleanly'
         for _ in range(24):
             check = {c['offer_id']: c for c in oc.get_product_names(list(TARGETS))}
-            if all(rich_value(check[s]) == docs[s] for s in TARGETS):
+            if all(comparable_rich(rich_value(check[s])) == comparable_rich(docs[s]) for s in TARGETS):
                 break
             time.sleep(5)
-        assert all(rich_value(check[s]) == docs[s] for s in TARGETS), 'Rich content has not appeared in API'
+        assert all(comparable_rich(rich_value(check[s])) == comparable_rich(docs[s]) for s in TARGETS), 'Rich content has not appeared in API'
 
     after = snapshot()
     result['after'] = after
@@ -130,7 +141,7 @@ def main():
         if sku in PROTECTED:
             assert attr(b, RICH_ID) == attr(a, RICH_ID), 'Protected rich content changed: ' + sku
         elif APPLY:
-            assert rich_value(a) == docs[sku], 'Wrong final rich content: ' + sku
+            assert comparable_rich(rich_value(a)) == comparable_rich(docs[sku]), 'Wrong final rich content: ' + sku
         result['checks'][sku] = {'other_content_preserved': True, 'rich_blocks': len((rich_value(a) or {}).get('content', []))}
     bp = {r['offer_id']: r.get('price') for r in before['prices']}
     ap = {r['offer_id']: r.get('price') for r in after['prices']}
