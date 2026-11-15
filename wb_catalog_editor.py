@@ -230,7 +230,7 @@ def build_wb_catalog(wb_data: dict, xlsx_path: str) -> int:
         card = cards[vendor_code]
         title = _card_title(card)
         description = _card_description(card)
-        images_str = "|".join(_extract_photo_urls(card))
+        images_str = "|".join(__import__("content_manifest").gallery_for(vendor_code, _extract_photo_urls(card), "wb"))
         video_str = _extract_video_url(card)
         price_info = current_wb_price(card, prices_by_nm)
 
@@ -279,7 +279,7 @@ def append_missing_wb_catalog_rows(wb_data: dict, xlsx_path: str) -> int:
         price_info = current_wb_price(card, prices_by_nm)
         row_values = [
             vendor_code, _card_title(card), _card_description(card),
-            "|".join(_extract_photo_urls(card)), _extract_video_url(card),
+            "|".join(__import__("content_manifest").gallery_for(vendor_code, _extract_photo_urls(card), "wb")), _extract_video_url(card),
             price_info["price"], price_info["discount"], "",
         ]
         for col_idx, value in enumerate(row_values, start=1):

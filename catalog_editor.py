@@ -536,7 +536,7 @@ def build_ozon_catalog(data: dict, xlsx_path: str) -> int:
         description = _find_attr_value(n.get("attributes"), ATTR_ID_DESCRIPTION)
         price = price_block.get("price", "")
         old_price = price_block.get("old_price", "")
-        images_str = "|".join(_extract_images(n))
+        images_str = "|".join(__import__("content_manifest").gallery_for(offer_id, _extract_images(n), "ozon"))
 
         prev = existing_by_offer.get(offer_id, {})
         prev_qty = prev.get("quantity_to_sell")

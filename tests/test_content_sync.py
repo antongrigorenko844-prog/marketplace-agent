@@ -12,6 +12,19 @@ import content_transport as ct
 
 
 class ContentBoundaryTests(unittest.TestCase):
+    def test_rebuilding_both_catalogs_from_stale_api_preserves_approved_slides(self):
+        import catalog_editor as oz,wb_catalog_editor as wb
+        urls=['https://images.test/cover.png','https://images.test/approved.png']
+        rules={'PART':{'sources':{'ozon':urls,'wb':urls}}}
+        with tempfile.TemporaryDirectory() as tmp,patch.object(cm,'load',return_value=rules),patch.object(oz,'_get_tnved_attr_id',return_value=None),patch.object(oz,'_get_hashtags_attr_id',return_value=None):
+            op=Path(tmp)/'oz.xlsx';wp=Path(tmp)/'wb.xlsx'
+            oz.build_ozon_catalog({'names':[{'offer_id':'PART','name':'Existing','primary_image':urls[0],'images':[],'attributes':[]}],'details':[]},str(op))
+            wb.build_wb_catalog({'cards':[{'vendorCode':'PART','nmID':1,'title':'Existing','description':'Text','photos':[{'big':urls[0]}]}],'prices':[]},str(wp))
+            for path,column in [(op,6),(wp,4)]:
+                book=openpyxl.load_workbook(path,read_only=True)
+                self.assertEqual(book.active.cell(2,column).value,'|'.join(urls))
+                book.close()
+
     def test_market_comparison_uses_returned_public_cdn_without_rewriting_offer(self):
         import content_sync as cs
         offer={'pictures':['https://datacamp.market.yandex.ru/pictures/abc'], 'mediaFiles':{'pictures':[{'url':'https://datacamp.market.yandex.ru/pictures/abc','marketUrl':'https://avatars.mds.yandex.net/photo/orig'}]}}
