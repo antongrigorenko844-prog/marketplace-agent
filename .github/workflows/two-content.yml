@@ -1,0 +1,46 @@
+name: Two approved products — gallery and rich
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        type: boolean
+        default: false
+        description: Append media and missing rich for 0AM325025B and 0am325025m
+      targets:
+        type: string
+        default: ozon,wb,market
+        description: Exact subset of platforms to apply; other platforms read only
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  cover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt cryptography
+      - env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          APPLY_CONTENT: ${{ inputs.apply }}
+          CONTENT_TARGETS: ${{ inputs.targets }}
+        run: |
+          if [ "$APPLY_CONTENT" = "true" ]; then
+            python scripts/two_content.py --apply
+          else
+            python scripts/two_content.py
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: two-content-encrypted
+          path: reports/two-content-private.enc
