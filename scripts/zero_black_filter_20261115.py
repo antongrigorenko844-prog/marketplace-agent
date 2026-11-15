@@ -39,6 +39,14 @@ def market_stock():
     return data
 
 
+def market_offer():
+    code, data = ym._request("POST", f"/v2/businesses/{ym.get_business_id()}/offer-mappings", json_body={"offerIds": [SKU]})
+    assert code == 200, (code, data)
+    rows = data.get("result", {}).get("offerMappings", [])
+    assert len(rows) == 1 and rows[0]["offer"]["offerId"] == SKU
+    return rows
+
+
 def main():
     cards = wb.list_cards()
     target = [c for c in cards if c["vendorCode"] == SKU]
@@ -51,7 +59,7 @@ def main():
     save("market-before", market_stock())
     prices_before = [p for p in wb.get_prices() if p.get("nmID") == 670925512]
     save("wb-price-before", prices_before)
-    offers_before = [o for o in ym.get_all_offers() if o["offer"]["offerId"] == SKU]
+    offers_before = market_offer()
     save("market-offers-before", offers_before)
 
     # Persist only the requested cell using the repository's existing stock command.
@@ -78,16 +86,24 @@ def main():
     for attempt in range(12):
         values = [{"warehouse": w["id"], "stocks": wb_stock(w["id"], barcodes)} for w in warehouses]
         save("wb-after", values)
-        if all({r.get("sku"): r.get("amount") for r in v["stocks"].get("stocks", [])} == {b: 0 for b in barcodes} for v in values):
+        if all("stocks" in v["stocks"] and not any(r.get("amount", 0) for r in v["stocks"]["stocks"]) for v in values):
             break
         time.sleep(5)
     else:
         raise RuntimeError("WB zero stock not yet confirmed")
-    save("market-after", market_stock())
+    for attempt in range(12):
+        current = market_stock()
+        save("market-after", current)
+        rows = [o for w in current.get("result", {}).get("warehouses", []) for o in w.get("offers", []) if o.get("offerId") == SKU]
+        if rows and all(not s.get("count", 0) for o in rows for s in o.get("stocks", []) if s.get("type") in ("FIT", "AVAILABLE")):
+            break
+        time.sleep(5)
+    else:
+        raise RuntimeError("Market zero stock not yet confirmed")
     prices_after = [p for p in wb.get_prices() if p.get("nmID") == 670925512]
     assert prices_before == prices_after, "WB price changed concurrently"
     save("wb-price-unchanged", True)
-    offers_after = [o for o in ym.get_all_offers() if o["offer"]["offerId"] == SKU]
+    offers_after = market_offer()
     save("market-offers-after", offers_after)
     assert {o["offer"]["offerId"]: o["offer"].get("basicPrice") for o in offers_before} == {o["offer"]["offerId"]: o["offer"].get("basicPrice") for o in offers_after}, "Market price changed concurrently"
     save("market-price-unchanged", True)
