@@ -1,0 +1,27 @@
+name: Market recovery — reviewed component metadata
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt cryptography
+      - env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: python scripts/market_recovery_apply.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: market-recovery-encrypted
+          path: reports/market-recovery.enc
