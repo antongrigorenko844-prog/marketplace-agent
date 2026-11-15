@@ -13,6 +13,9 @@ log = io.StringIO()
 failed = False
 with contextlib.redirect_stdout(log), contextlib.redirect_stderr(log):
     try:
+        if '--apply-attributes' in sys.argv:
+            from finish_market_eight_attributes import run
+            result['attribute_update'] = run()
         import yandex_market_client as ym
         biz = ym.get_business_id()
         for kind in ['offer-cards', 'offer-mappings']:
