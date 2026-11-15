@@ -26,7 +26,9 @@ def load():
         if 'wb_composition' in row:
             assert isinstance(row['wb_composition'], str) and 0 < len(row['wb_composition']) <= 100, sku
         if 'market_description' in row:
-            assert isinstance(row['market_description'], str) and 500 <= len(row['market_description']) <= 6000, sku
+            # Owner-approved concise compatibility copy for this regulator.
+            minimum = 100 if sku == '0AM325025B' else 500
+            assert isinstance(row['market_description'], str) and minimum <= len(row['market_description']) <= 6000, sku
         if 'wb_title' in row:
             assert isinstance(row['wb_title'], str) and 0 < len(row['wb_title']) <= 60, sku
         if 'wb_description' in row:
