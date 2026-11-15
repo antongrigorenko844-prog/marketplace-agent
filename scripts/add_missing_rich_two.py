@@ -118,13 +118,15 @@ def main():
     after = snapshot()
     result['after'] = after
     core = ('id', 'name', 'barcode', 'height', 'depth', 'width', 'dimension_unit', 'weight', 'weight_unit',
-            'description_category_id', 'type_id', 'primary_image', 'images', 'pdf_list', 'complex_attributes',
+            'description_category_id', 'type_id', 'primary_image', 'images', 'pdf_list',
             'color_image', 'sku', 'barcodes')
     result['checks'] = {}
     for sku in TARGETS + PROTECTED:
         b, a = before['cards'][sku], after['cards'][sku]
         assert all(b.get(k) == a.get(k) for k in core), 'Non-rich field changed: ' + sku
         assert nonrich(b) == nonrich(a), 'Non-rich attributes changed: ' + sku
+        # Ozon can reorder the video attributes even between two read-only calls.
+        assert sorted(b.get('complex_attributes', []), key=lambda x: (x.get('complex_id', 0), x['id'])) == sorted(a.get('complex_attributes', []), key=lambda x: (x.get('complex_id', 0), x['id'])), 'Video attributes changed: ' + sku
         if sku in PROTECTED:
             assert attr(b, RICH_ID) == attr(a, RICH_ID), 'Protected rich content changed: ' + sku
         elif APPLY:
