@@ -1,0 +1,44 @@
+name: Regulator and gasket kit — characteristics and media
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        type: boolean
+        default: false
+      targets:
+        type: string
+        default: ozon,wb,market
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  content:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt cryptography
+      - env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          APPLY_CONTENT: ${{ inputs.apply }}
+          CONTENT_TARGETS: ${{ inputs.targets }}
+        run: |
+          if [ "$APPLY_CONTENT" = "true" ]; then
+            python scripts/regulator_kit_details.py --apply
+          else
+            python scripts/regulator_kit_details.py
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: regulator-kit-details-encrypted
+          path: reports/regulator-kit-details.enc
