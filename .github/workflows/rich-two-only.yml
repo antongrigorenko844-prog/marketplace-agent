@@ -1,0 +1,38 @@
+name: Add missing rich content to two approved Ozon offers
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        type: boolean
+        default: false
+        description: Add only missing rich content for 0am325025 and 0am325025x
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  rich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt cryptography
+      - env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          APPLY_RICH: ${{ inputs.apply }}
+        run: |
+          if [ "$APPLY_RICH" = "true" ]; then
+            python scripts/add_missing_rich_two.py --apply
+          else
+            python scripts/add_missing_rich_two.py
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rich-two-encrypted
+          path: reports/rich-two-private.enc
