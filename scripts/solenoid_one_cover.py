@@ -70,6 +70,12 @@ with contextlib.redirect_stdout(log),contextlib.redirect_stderr(log):
  for name,fn in [('ozon',ozon),('wb',wb_run),('market',market)]:
   try:fn()
   except Exception:result.setdefault(name,{})['error']=traceback.format_exc()
+ try:
+  import ozon_client as oz
+  rich_rows=oz.get_product_names(['0am325025','0am325025H','0am325025x'])
+  result['rich_cards']=rich_rows
+  result['rich_audit']={r['offer_id']:{'present':any(a.get('id')==11254 and a.get('values')for a in r.get('attributes',[])),'rich_values':[a for a in r.get('attributes',[])if a.get('id')==11254]}for r in rich_rows}
+ except Exception:result['rich_error']=traceback.format_exc()
 result['log']=log.getvalue();result['checked_at']=datetime.datetime.now(datetime.timezone.utc).isoformat()
 key=AESGCM.generate_key(bit_length=256);nonce=os.urandom(12);pub=serialization.load_pem_public_key((ROOT/'scripts/black_filter_result_public.pem').read_bytes())
 wrapped=pub.encrypt(key,padding.OAEP(mgf=padding.MGF1(algorithm=hashes.SHA256()),algorithm=hashes.SHA256(),label=None));data=AESGCM(key).encrypt(nonce,json.dumps(result,ensure_ascii=False).encode(),None)
