@@ -1,0 +1,46 @@
+name: Approved kit second slide only
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        type: boolean
+        default: false
+        description: Apply approved second slide to exact SKU plita-filtr-pylniki-sal-orig
+      targets:
+        type: string
+        default: ozon,wb,market
+        description: Exact subset of platforms to apply; other platforms read only
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  cover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt cryptography
+      - env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          APPLY_COVER: ${{ inputs.apply }}
+          SLIDE_TARGETS: ${{ inputs.targets }}
+        run: |
+          if [ "$APPLY_COVER" = "true" ]; then
+            python scripts/kit_second_slide.py --apply
+          else
+            python scripts/kit_second_slide.py
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kit-second-slide-encrypted
+          path: reports/kit-second-slide-private.enc
