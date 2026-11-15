@@ -75,8 +75,11 @@ def market():
  same(b,a,['name','description','basicPrice','purchasePrice','vendor','vendorCode','barcodes','params','videos','weightDimensions'])
  assert grouped(c.get('parameterValues',[]))==grouped(ca.get('parameterValues',[]));assert b.get('mediaFiles',{}).get('videos')==a.get('mediaFiles',{}).get('videos')
  d['cover_and_other_fields_preserved']=True;d['photo_count']=len(a['pictures']);save()
+def avito_read():
+ import avito_client as a
+ R['avito']={'items':a.list_all_items(),'autoload':a.get_autoload_report_items()};save()
 with contextlib.redirect_stdout(LOG),contextlib.redirect_stderr(LOG):
- for name,fn in [('ozon',ozon),('wb',wb),('market',market)]:
+ for name,fn in [('ozon',ozon),('wb',wb),('market',market),('avito',avito_read)]:
   try:fn()
   except Exception:R.setdefault(name,{})['error']=traceback.format_exc();save()
 R['log']=LOG.getvalue();R['checked_at']=datetime.datetime.now(datetime.timezone.utc).isoformat();save()
