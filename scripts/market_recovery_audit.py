@@ -14,7 +14,8 @@ with contextlib.redirect_stdout(log),contextlib.redirect_stderr(log):
   from market_content import read_rows
   biz=y.get_business_id();R['mappings']=read_rows(biz,'offer-mappings',IDS);R['cards']=read_rows(biz,'offer-cards',IDS);save()
   R['campaign']=y._request('POST','/v2/campaigns/141377963/offers',json_body={'offerIds':IDS});save()
-  cats={x['mapping']['marketCategoryId']for x in R['cards']};R['schema']={}
-  for cat in cats:R['schema'][str(cat)]=y._request('POST',f'/v2/category/{cat}/parameters',params={'businessId':biz},json_body={});save()
+  if os.environ.get('MARKET_AUDIT_SCHEMA','0')=='1':
+   cats={x['mapping']['marketCategoryId']for x in R['cards']};R['schema']={}
+   for cat in cats:R['schema'][str(cat)]=y._request('POST',f'/v2/category/{cat}/parameters',params={'businessId':biz},json_body={});save()
  except Exception:R['error']=traceback.format_exc()
 R['log']=log.getvalue();save();print('Read-only recovery audit completed; encrypted result.')
