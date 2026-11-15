@@ -32,7 +32,9 @@ def ozon():
    assert not any(r.get('errors')for r in items),d['import_status']
   time.sleep(10)
  after=one(oz.get_product_names([SKU]),'offer_id');d['after']=after;d['info_after']=one(oz.get_product_info_list([SKU]),'offer_id');d['prices_after']=oz.get_prices_and_stocks([SKU]);d['stocks_after']=oz.get_stocks([SKU])
- same(before,after,['name','attributes','complex_attributes','type_id','description_category_id','depth','width','height','weight'])
+ same(before,after,['name','complex_attributes','type_id','description_category_id','depth','width','height','weight'])
+ # Ozon reorders attributes after a media import; compare every value by ID.
+ assert sorted(before.get('attributes',[]),key=lambda x:(x['id'],x.get('complex_id',0)))==sorted(after.get('attributes',[]),key=lambda x:(x['id'],x.get('complex_id',0))),'Ozon attribute values changed'
  assert [r.get('price')for r in prices]==[r.get('price')for r in d['prices_after']],'Ozon prices changed'
  d['non_media_preserved']=True
 def wb_run():
