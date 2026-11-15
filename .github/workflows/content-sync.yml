@@ -1,0 +1,64 @@
+name: Content only — verified media and text
+on:
+  workflow_call:
+  workflow_dispatch:
+    inputs:
+      mode:
+        type: choice
+        default: inspect
+        options: [inspect, apply, verify]
+        description: Content only; inspect and verify cannot write to marketplaces
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  content:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Test the content boundary before accessing seller accounts
+        run: python -m unittest discover -s tests -v
+      - name: Read, plan or apply only approved content
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          CONTENT_MODE: ${{ inputs.mode }}
+        run: |
+          if [ -n "$CONTENT_MODE" ]; then
+            python content_sync.py --mode "$CONTENT_MODE"
+          else
+            python content_sync.py
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: content-sync-${{ github.run_id }}
+          path: reports/content-sync/
+          retention-days: 30
+      - name: Save only verification evidence, never working stock or price tables
+        if: always()
+        env:
+          TARGET_BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          if [ ! -f reports/content-sync/summary.json ]; then exit 0; fi
+          git config user.name marketplace-agent-bot
+          git config user.email actions@users.noreply.github.com
+          git add -- reports/content-sync/summary.json reports/content-sync/evidence.enc
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "chore: content verification evidence [skip ci]"
+          git push origin "HEAD:$TARGET_BRANCH"

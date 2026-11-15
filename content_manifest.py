@@ -1,0 +1,89 @@
+"""Approved content sources. Exact SKUs; no prices, stock or order processing."""
+import copy
+import json
+from pathlib import Path
+from urllib.parse import urlsplit, urlunsplit
+
+ROOT = Path(__file__).resolve().parent
+PATH = ROOT / 'data/content_manifest.json'
+CHANNELS = {'ozon', 'wb', 'market', 'avito', 'tilda'}
+
+
+def load(path=None):
+    path = Path(path or PATH)
+    if not path.exists():
+        return {}
+    data = json.loads(path.read_text())
+    if data.get('version') != 1 or not isinstance(data.get('products'), dict):
+        raise ValueError('Invalid content manifest')
+    for sku, row in data['products'].items():
+        if not sku or sku != sku.strip():
+            raise ValueError('Exact nonempty SKU required')
+        if set(row) - {'sources', 'second_slide', 'ids', 'text', 'note'}:
+            raise ValueError('Unapproved content fields: ' + sku)
+        for channel, urls in row.get('sources', {}).items():
+            if channel not in CHANNELS or not isinstance(urls, list) or not urls:
+                raise ValueError('Invalid gallery source: ' + sku)
+            for url in urls:
+                if not isinstance(url, str) or not url.startswith('https://'):
+                    raise ValueError('HTTPS media required')
+            if len(urls) != len(set(map(normalize_url, urls))):
+                raise ValueError('Duplicate gallery source: ' + sku)
+        if set(row.get('text', {})) - CHANNELS:
+            raise ValueError('Invalid text channel')
+        for channel, fields in row.get('text', {}).items():
+            if set(fields) - {'description', 'title', 'composition'}:
+                raise ValueError('Only explicitly approved text fields allowed')
+            if channel == 'ozon' and 'title' in fields:
+                raise ValueError('Ozon title needs a separately reviewed content-only endpoint')
+    return data['products']
+
+
+def normalize_url(url):
+    p = urlsplit(str(url))
+    host = p.netloc.replace('ir-20.ozone.ru', 'ir.ozone.ru')
+    # A version query is a cache key, not a second photo.
+    return urlunsplit((p.scheme, host, p.path, '', ''))
+
+
+def gallery_for(sku, existing, channel, manifest=None):
+    """An explicitly reviewed complete source wins over filename inference."""
+    rows = load() if manifest is None else manifest
+    source = rows.get(sku, {}).get('sources', {}).get(channel)
+    return list(source if source is not None else existing)
+
+
+def insert_second(current, slide, same=None):
+    """Preserve the cover and all other media; a retry never duplicates a slide."""
+    same = same or (lambda a, b: normalize_url(a) == normalize_url(b))
+    current = list(current)
+    if not current or not current[0]:
+        raise ValueError('A verified existing cover is required')
+    matches = [i for i, value in enumerate(current) if same(value, slide)]
+    if 0 in matches:
+        raise ValueError('Approved additional slide is already the cover; review required')
+    if len(matches) > 1:
+        raise ValueError('Duplicate live slides; review required')
+    value = current[matches[0]] if matches else slide
+    return current[:1] + [value] + [v for i, v in enumerate(current[1:], 1) if i not in matches]
+
+
+def unchanged_fields(before, after, fields):
+    changes = [key for key in fields if before.get(key) != after.get(key)]
+    if changes:
+        raise ValueError('Unrelated fields changed: ' + ', '.join(changes))
+
+
+def market_offer_payload(offer, card, pictures=None, text=None):
+    out = {'offerId': offer['offerId']}
+    if pictures is not None:
+        out['pictures'] = list(pictures)
+    for key, value in (text or {}).items():
+        if key not in {'title', 'description'}:
+            raise ValueError('Unsupported Market content field')
+        out['name' if key == 'title' else key] = value
+    # The API otherwise drops typed characteristics in this seller account.
+    if card.get('parameterValues'):
+        out['parameterValues'] = copy.deepcopy(card['parameterValues'])
+        out['marketCategoryId'] = card['mapping']['marketCategoryId']
+    return {'offer': out}

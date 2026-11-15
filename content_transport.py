@@ -1,0 +1,95 @@
+"""Fail-closed HTTP boundary for the content job, independent of caller names."""
+import contextlib
+import re
+from urllib.parse import urlsplit
+from unittest.mock import patch
+import requests
+
+FORBIDDEN = {'price', 'old_price', 'min_price', 'priceold', 'basicprice',
+             'purchaseprice', 'discount', 'discounts', 'stock', 'stocks',
+             'quantity', 'amount', 'warehouse_id', 'warehouseid'}
+
+
+def no_commercial_fields(obj):
+    if isinstance(obj, dict):
+        for key, value in obj.items():
+            if key.lower() in FORBIDDEN:
+                raise ValueError('Commercial field forbidden in content write: ' + key)
+            no_commercial_fields(value)
+    elif isinstance(obj, list):
+        for value in obj:
+            no_commercial_fields(value)
+
+
+def classify(method, url, body=None):
+    """Return read/content/auth. Unknown POST/PUT/PATCH/DELETE is rejected."""
+    p = urlsplit(url); host = p.hostname; path = p.path; method = method.upper()
+    if method in {'GET', 'HEAD'}:
+        return 'read'
+    if host == 'api-seller.ozon.ru':
+        if method == 'POST' and path in {
+            '/v4/product/info/attributes', '/v3/product/info/list',
+            '/v5/product/info/prices', '/v4/product/info/stocks',
+            '/v3/product/info/stocks', '/v1/product/rating-by-sku',
+            '/v1/product/import/info', '/v3/product/list',
+        }:
+            return 'read'
+        if method == 'POST' and path == '/v2/product/pictures/import':
+            if not isinstance(body, dict) or set(body) != {'items'}:
+                raise ValueError('Invalid Ozon media request')
+            for item in body['items']:
+                if set(item) - {'offer_id','primary_image','images','color_image'}:
+                    raise ValueError('Unexpected Ozon picture fields')
+            no_commercial_fields(body)
+            return 'content'
+        if method == 'POST' and path == '/v1/product/attributes/update':
+            if not isinstance(body, dict) or set(body) != {'items'}:
+                raise ValueError('Invalid Ozon attributes request')
+            for item in body['items']:
+                if set(item) != {'offer_id','attributes'}:
+                    raise ValueError('Unexpected Ozon attribute fields')
+                for attr in item['attributes']:
+                    if attr['id'] not in {4191,4384,11254}:
+                        raise ValueError('Ozon attribute not approved for this content job')
+            no_commercial_fields(body)
+            return 'content'
+    if host == 'content-api.wildberries.ru':
+        if method == 'POST' and path in {'/content/v2/get/cards/list','/content/v2/cards/error/list'}:
+            return 'read'
+        if method == 'POST' and path == '/content/v3/media/save':
+            if not isinstance(body,dict) or set(body) != {'nmId','data'}:
+                raise ValueError('Invalid WB media request')
+            no_commercial_fields(body); return 'content'
+        if method == 'POST' and path == '/content/v2/cards/update':
+            if not isinstance(body,list):raise ValueError('Invalid WB cards request')
+            allowed={'nmID','vendorCode','brand','title','description','dimensions','characteristics','sizes','kizMarked'}
+            if any(set(row)-allowed for row in body):raise ValueError('Invalid WB content fields')
+            no_commercial_fields(body); return 'content'
+    if host == 'api.partner.market.yandex.ru':
+        if method == 'POST' and re.fullmatch(r'/v2/businesses/\d+/(offer-mappings|offer-cards)',path):
+            return 'read'
+        if method == 'POST' and re.fullmatch(r'/v2/businesses/\d+/offer-mappings/update',path):
+            if not isinstance(body,dict) or set(body) != {'offerMappings'}:
+                raise ValueError('Invalid Market content request')
+            allowed={'offerId','pictures','name','description','parameterValues','marketCategoryId'}
+            for row in body['offerMappings']:
+                if set(row) != {'offer'} or set(row['offer']) - allowed:
+                    raise ValueError('Unexpected Market content fields')
+            no_commercial_fields(body); return 'content'
+    if host == 'api.avito.ru' and path == '/token' and method == 'POST':
+        return 'auth'
+    raise ValueError(f'Endpoint not allowed in content job: {method} {host}{path}')
+
+
+@contextlib.contextmanager
+def guard(audit, allow_write=False):
+    original = requests.sessions.Session.request
+    def checked(session, method, url, **kwargs):
+        kind = classify(method, url, kwargs.get('json'))
+        if kind == 'content':
+            if not allow_write:
+                raise ValueError('Read-only content inspection cannot write')
+            audit.append({'method':method, 'url':url, 'payload':kwargs.get('json')})
+        return original(session, method, url, **kwargs)
+    with patch.object(requests.sessions.Session, 'request', checked):
+        yield

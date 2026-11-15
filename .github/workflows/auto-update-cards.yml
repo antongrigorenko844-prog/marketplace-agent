@@ -1,31 +1,24 @@
-# update-cards САМ после Commit+Push изменений в мастере или фото:
-#   data/master_control.xlsx, photos/**, photos_avito/**, а также правил цен Авито/сайта
-#   (data/avito_site_price_overrides.xlsx, site_pricing.py).
-# Уходит только изменившееся (кэши в data/). Перед отправкой проверяется master_control:
-# при серьёзных ошибках (validate-master) на площадки ничего не отправляется.
-# Коммиты самого бота (data/ [skip ci]) этот запуск не вызывают.
-# Отключить: удалить этот файл. Вручную по-прежнему: Actions -> marketplace-agent -> update-cards.
-
-name: marketplace-agent-auto-update
-
+# Content commits never run prices, stocks, creation or archives.
+name: marketplace-agent-auto-content
+permissions:
+  contents: write
 on:
   push:
+    branches: [main]
     paths:
-      - "data/master_control.xlsx"
-      - "photos/**"
-      - "photos_avito/**"
-      - "data/ozon_rich/**"   # rich-контент Ozon (атрибут 11254)
-      - "data/avito_site_price_overrides.xlsx"   # правила/фиксы цен Авито и сайта
-      - "site_pricing.py"
-      - "data/tilda_images_on.txt"   # включение фото на Тильду: сразу синхронизировать
-
-concurrency:
-  group: marketplace-agent
-  cancel-in-progress: false
-
+      - data/master_control.xlsx
+      - data/content_updates.json
+      - data/content_manifest.json
+      - data/content_sync_request.json
+      - data/market_video_sources.json
+      - data/package_dimensions.json
+      - photos/**
+      - photos_avito/**
+      - data/ozon_rich/**
+      - content_sync.py
+      - content_manifest.py
+      - content_transport.py
 jobs:
-  update:
-    uses: ./.github/workflows/run-command.yml
+  content:
+    uses: ./.github/workflows/content-sync.yml
     secrets: inherit
-    with:
-      command: update-cards

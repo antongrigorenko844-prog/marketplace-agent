@@ -308,7 +308,7 @@ def load_wb_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
         edits[vendor_code] = {
             "title": wb_title_for(vendor_code, title_val.strip() if isinstance(title_val, str) else title_val),
             "description": description_for(vendor_code, raw.get("description") or "", platform="wb"),
-            "images": images,
+            "images": __import__("content_manifest").gallery_for(vendor_code, images, "wb"),
             "video_url": video_val.strip() if isinstance(video_val, str) else (video_val or ""),
             "price": raw.get("price"),
             "discount": raw.get("discount"),
@@ -365,7 +365,11 @@ def attach_wb_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") ->
         vendor_code = str(vendor_cell.value).strip()
 
         src = WB_PHOTO_SOURCE.get(vendor_code, vendor_code)
-        own_files = catalog_editor.own_media_files(photos_dir, src, IMAGE_EXTS)
+        pinned = __import__("content_manifest").load().get(vendor_code, {}).get("sources", {}).get("wb")
+        own_files = [] if pinned is not None else catalog_editor.own_media_files(photos_dir, src, IMAGE_EXTS)
+        if pinned is not None:
+            row[images_col_idx - 1].value = "|".join(pinned)
+            matched[vendor_code] = list(pinned)
         if own_files:
             urls = []
             for f in own_files:
@@ -375,10 +379,12 @@ def attach_wb_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "") ->
                         filename=catalog_editor.asset_filename_for(src, f),
                     )
                 except Exception as exc:
-                    logger.warning("%s: не удалось загрузить фото %s: %s", vendor_code, f, exc)
-                    continue
+                    raise RuntimeError(f"{vendor_code}: photo upload failed; complete gallery retained: {f}") from exc
                 urls.append(url)
             if urls:
+                previous = [u for u in str(row[images_col_idx - 1].value or "").split("|") if u]
+                if len(urls) < len(previous):
+                    raise ValueError("Unapproved gallery shrink; save the complete approved gallery in content_manifest.json")
                 row[images_col_idx - 1].value = "|".join(urls)
                 matched[vendor_code] = urls
 

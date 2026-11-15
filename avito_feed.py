@@ -292,9 +292,14 @@ def attach_avito_photos(
         return {}
 
     matched: Dict[str, List[str]] = {}
+    pinned_sources = __import__("content_manifest").load()
     for offer_id in sorted(os.listdir(photos_dir)):
         offer_dir = os.path.join(photos_dir, offer_id)
         if not os.path.isdir(offer_dir):
+            continue
+        pinned = pinned_sources.get(offer_id, {}).get("sources", {}).get("avito")
+        if pinned is not None:
+            matched[offer_id] = list(pinned)
             continue
         # Сортировка по номеру, а не как текст: иначе _10.._14 встают перед _2,
         # а Авито берёт только первые AVITO_MAX_PHOTOS фото.
@@ -308,13 +313,15 @@ def attach_avito_photos(
             try:
                 url = photo_host.upload_file(os.path.join(offer_dir, fname), filename=fname)
             except Exception as exc:  # noqa: BLE001
-                logger.warning("%s: не удалось загрузить фото для Avito %s: %s", offer_id, fname, exc)
-                continue
+                raise RuntimeError(f"{offer_id}: Avito photo upload failed; existing mapping retained") from exc
             urls.append(url)
         if urls:
             matched[offer_id] = urls
 
     if matched:
+        existing = _load_avito_photo_overrides(map_path)
+        existing.update(matched)
+        matched = existing
         os.makedirs(os.path.dirname(map_path), exist_ok=True)
         wb = openpyxl.Workbook()
         ws = wb.active
@@ -340,6 +347,9 @@ def _load_avito_photo_overrides(map_path: str) -> Dict[str, List[str]]:
         urls = [u.strip() for u in str(row[1] or "").split("|") if u.strip()]
         if urls:
             overrides[offer_id] = urls
+    for sku, row in __import__("content_manifest").load().items():
+        if row.get("sources", {}).get("avito"):
+            overrides[sku] = list(row["sources"]["avito"])
     return overrides
 
 

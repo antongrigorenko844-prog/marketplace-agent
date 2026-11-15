@@ -179,7 +179,7 @@ def own_media_files(photos_dir: str, offer_id: str, exts) -> List[str]:
             and _owns(f, offer_id)
         ]
         if files:
-            files.sort(key=lambda f: _photo_index(f, offer_id))
+            files.sort(key=lambda f: (_photo_index(f, offer_id), f))
             return files
     return []
 
@@ -334,7 +334,11 @@ def attach_local_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "")
             continue
         offer_id = str(offer_id_cell.value).strip()
 
-        own_files = own_media_files(photos_dir, offer_id, IMAGE_EXTS)
+        pinned = __import__("content_manifest").load().get(offer_id, {}).get("sources", {}).get("ozon")
+        own_files = [] if pinned is not None else own_media_files(photos_dir, offer_id, IMAGE_EXTS)
+        if pinned is not None:
+            row[images_col_idx - 1].value = "|".join(pinned)
+            matched[offer_id] = list(pinned)
         if own_files:
             urls = []
             for f in own_files:
@@ -344,10 +348,12 @@ def attach_local_photos(xlsx_path: str, photos_dir: str, raw_base_url: str = "")
                         filename=asset_filename_for(offer_id, f),
                     )
                 except Exception as exc:
-                    logger.warning("%s: не удалось загрузить фото %s: %s", offer_id, f, exc)
-                    continue
+                    raise RuntimeError(f"{offer_id}: photo upload failed; complete gallery retained: {f}") from exc
                 urls.append(url)
             if urls:
+                previous = [u for u in str(row[images_col_idx - 1].value or "").split("|") if u]
+                if len(urls) < len(previous):
+                    raise ValueError("Unapproved gallery shrink; save the complete approved gallery in content_manifest.json")
                 # ЗАМЕНЯЕМ содержимое колонки "Фото" целиком новым набором —
                 # старые (уже висящие на маркетплейсе) фото этого товара не
                 # нужны и должны уйти, если для него нашёлся новый комплект.
@@ -653,7 +659,7 @@ def load_catalog_edits(xlsx_path: str) -> Dict[str, dict]:
             "description": description_for(offer_id, raw.get("description") or ""),
             "price": raw.get("price"),
             "old_price": raw.get("old_price"),
-            "images": images,
+            "images": __import__("content_manifest").gallery_for(offer_id, images, "ozon"),
             "video_url": video_val.strip() if isinstance(video_val, str) else (video_val or ""),
             "quantity_to_sell": raw.get("quantity_to_sell"),
             "notes": raw.get("notes"),

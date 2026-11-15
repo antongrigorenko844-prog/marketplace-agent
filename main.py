@@ -563,67 +563,18 @@ def cmd_push_photos_dryrun() -> int:
     return 0
 
 
-def cmd_push_photos() -> int:
-    """
-    Composite: реально отправить правки карточек (включая фото) сразу в
-    Ozon И WB одной командой — вместо push-ozon-cards + push-wb-cards по
-    отдельности. Сначала ВСЕГДА делайте push-photos-dryrun!
-    Ошибка на одной площадке не останавливает вторую — в конце выводится
-    итог по каждой отдельно.
-    """
-    print("=== Ozon: реальная отправка ===")
-    rc_ozon = cmd_push_ozon_cards()
-
-    print("\n=== WB: реальная отправка ===")
-    rc_wb = cmd_push_wb_cards()
-
-    print()
-    if rc_ozon != 0 and rc_wb != 0:
-        print("push-photos: ошибка на ОБЕИХ площадках — см. вывод выше.")
-        return 1
-    if rc_ozon != 0:
-        print("push-photos: WB отправлен успешно, но Ozon завершился с ошибкой — проверьте вывод выше.")
-    elif rc_wb != 0:
-        print("push-photos: Ozon отправлен успешно, но WB завершился с ошибкой — проверьте вывод выше.")
-    # Раньше функция здесь ничего не возвращала (None), а вызывающие
-    # (update-photos, update-cards) проверяют "rc != 0" — None считалось
-    # ошибкой, и общая команда красилась в красный даже когда всё
-    # отправилось успешно. Ошибка только если упала хотя бы одна площадка.
-    return 0 if (rc_ozon == 0 and rc_wb == 0) else 1
+def cmd_push_photos(article: str = "") -> int:
+    """Content only. Commercial sync is never a side effect of a card/photo update."""
+    from content_sync import run
+    return run(mode="apply", only=[a.strip() for a in article.split(",") if a.strip()] or None)
 
 
-def cmd_update_photos() -> int:
-    """
-    Composite "всё в одном" для смены фото: attach-photos-all (подставить
-    новые ссылки в ozon_catalog.xlsx/wb_catalog.xlsx/master_control.xlsx) +
-    push-photos (реально отправить карточки с фото на Ozon И WB) +
-    build-avito-catalog (пересобрать и перезалить фид для Avito — он сам
-    подхватит по "Автозагрузке по ссылке"). Без отдельного dry-run — для
-    простой смены фото у уже существующего товара это лишний шаг, карточка
-    и так уже создана и прошла модерацию, тут меняются только ссылки на
-    картинки.
-    Ошибка на одном из трёх шагов не останавливает остальные — в конце
-    выводится итог по каждому отдельно.
-    """
-    print("=== Шаг 1/3: attach-photos-all ===")
-    rc_attach = cmd_attach_photos_all()
 
-    print("\n=== Шаг 2/3: push-photos ===")
-    rc_push = cmd_push_photos()
+def cmd_update_photos(article: str = "") -> int:
+    """Content only. Commercial sync is never a side effect of a card/photo update."""
+    from content_sync import run
+    return run(mode="apply", only=[a.strip() for a in article.split(",") if a.strip()] or None)
 
-    print("\n=== Шаг 3/3: build-avito-catalog ===")
-    rc_avito = cmd_build_avito_catalog()
-
-    print()
-    failed = [
-        name for name, rc in (("attach-photos-all", rc_attach), ("push-photos", rc_push), ("build-avito-catalog", rc_avito))
-        if rc != 0
-    ]
-    if failed:
-        print(f"update-photos: ошибка на шаге(ах): {', '.join(failed)} — проверьте вывод выше.")
-        return 1
-    print("update-photos: готово, фото обновлены на Ozon, WB и в фиде Avito.")
-    return 0
 
 
 def _build_tilda_commerceml_files():
@@ -1050,33 +1001,11 @@ def cmd_push_yandex_videos(dry_run: bool = False) -> int:
     print(f"push-yandex-videos: принято Маркетом {ok} из {len(todo)}.")
     return 1 if failed else 0
 
-def cmd_update_cards() -> int:
-    """Обёртка: весь вывод update-cards дублируется в data/update_cards_log.txt (логи Actions нам недоступны)."""
-    import io
+def cmd_update_cards(article: str = "") -> int:
+    """Content only. Commercial sync is never a side effect of a card/photo update."""
+    from content_sync import run
+    return run(mode="apply", only=[a.strip() for a in article.split(",") if a.strip()] or None)
 
-    class _Tee(io.TextIOBase):
-        def __init__(self, a, b):
-            self.a, self.b = a, b
-
-        def write(self, x):
-            self.a.write(x)
-            self.b.write(x)
-            return len(x)
-
-        def flush(self):
-            self.a.flush()
-            self.b.flush()
-
-    old = sys.stdout
-    with open(_data_path("update_cards_log.txt"), "w", encoding="utf-8") as fh:
-        sys.stdout = _Tee(old, fh)
-        try:
-            return _cmd_update_cards_impl()
-        except Exception as exc:  # noqa: BLE001
-            print(f"update-cards: исключение — {exc}")
-            raise
-        finally:
-            sys.stdout = old
 
 
 def _cmd_update_cards_impl() -> int:
@@ -4605,11 +4534,11 @@ def main() -> int:
     if args.push_photos_dryrun:
         return cmd_push_photos_dryrun()
     if args.push_photos:
-        return cmd_push_photos()
+        return cmd_push_photos(args.article)
     if args.update_photos:
-        return cmd_update_photos()
+        return cmd_update_photos(args.article)
     if args.update_cards:
-        return cmd_update_cards()
+        return cmd_update_cards(args.article)
     if args.push_wb_price_dryrun:
         return cmd_push_wb_price_dryrun()
     if args.push_wb_price:
