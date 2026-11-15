@@ -7,7 +7,7 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(root))
-ids = ['0AM325025B', '0AM325587E', '0am325025D', '0am325025f', '0am325025n', '0cw0am325025', '0BH325183 B', 'plita-filtr-v2']
+ids = ['0AM325025B', '0AM325587E', '0am325025D', '0am325025f', '0am325025n', '0cw0am325025', '0BH325183 B', 'plita-filtr-v2', '0AM325473']
 result = {'checked_at': datetime.datetime.now(datetime.timezone.utc).isoformat()}
 log = io.StringIO()
 failed = False
