@@ -78,7 +78,7 @@ def wb():
  cards=w.list_cards();prices=w.get_prices();d=RESULT['wb']={}
  for sku in SKUS:
   b=one(cards,'vendorCode',sku);nid=b['nmID'];p=d[sku]={'before':b,'prices_before':[r for r in prices if r['nmID']==nid]};save()
-  base={'0AM325025B':2,'0am325025m':1}[sku]
+  base={'0AM325025B':2,'0am325025m':3}[sku]
   if APPLY and 'wb'in PLATFORMS:
    assert base<=len(b.get('photos',[]))<=base+2,('Unexpected WB gallery',sku)
    for index,asset in enumerate(ASSETS[sku]):
