@@ -9,6 +9,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 SKU='0AM325025B'
 URL='https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0AM325025B-price-per-unit-20261115.png'
 APPLY='--apply' in sys.argv
+TARGETS=set(os.environ.get('COVER_TARGETS','ozon,wb,market').split(','))
 result={'sku':SKU,'apply':APPLY,'started_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'stock_write_calls':0,'price_write_calls':0}
 log=io.StringIO()
 def one(rows,key):
@@ -21,9 +22,15 @@ def ozon():
  d=result['ozon']={'before':before,'info_before':info,'prices_before':prices,'stocks_before':stocks}
  primary=before.get('primary_image');assert isinstance(primary,str) and primary
  extra=[u for u in before.get('images',[]) if u!=primary and u!=URL];images=[URL]+extra
- if APPLY:
-  d['request']={'product_id':info['id'],'images':images};d['response']=oz._post('/v1/product/pictures/import',d['request'])
-  time.sleep(15)
+ if APPLY and 'ozon'in TARGETS:
+  d['request']={'items':[{'offer_id':SKU,'primary_image':URL,'images':extra,'color_image':before.get('color_image')or''}]};d['response']=oz._post('/v2/product/pictures/import',d['request'])
+  task=d['response'].get('task_id')or d['response'].get('result',{}).get('task_id')
+  if task:
+   for _ in range(24):
+    time.sleep(5);d['import_status']=oz.get_import_status(task);items=d['import_status'].get('result',{}).get('items',[])
+    if items and all(r.get('status')not in ['pending','processing','']for r in items):break
+   assert not any(r.get('errors')for r in items),d['import_status']
+  time.sleep(10)
  after=one(oz.get_product_names([SKU]),'offer_id');d['after']=after;d['info_after']=one(oz.get_product_info_list([SKU]),'offer_id');d['prices_after']=oz.get_prices_and_stocks([SKU]);d['stocks_after']=oz.get_stocks([SKU])
  same(before,after,['name','attributes','complex_attributes','type_id','description_category_id','depth','width','height','weight'])
  assert [r.get('price')for r in prices]==[r.get('price')for r in d['prices_after']],'Ozon prices changed'
@@ -36,8 +43,11 @@ def wb_run():
  video=wb_video_for(SKU,before.get('video',''))
  assert not before.get('video') or video.endswith('.mp4'),'Cannot preserve video'
  urls=[URL]+[p['big']for p in before['photos'][1:]]+([video]if video else[])
- if APPLY:
-  d['request']={'nmId':nid,'data':urls};d['response']=wb.update_media(nid,urls);assert not d['response'].get('error');time.sleep(10)
+ if APPLY and 'wb'in TARGETS:
+  image=requests.get(URL,timeout=60);image.raise_for_status();assert image.content.startswith(b'\x89PNG\r\n\x1a\n')
+  d['request']={'nmId':nid,'photo_number':1,'source':URL}
+  response=requests.post('https://content-api.wildberries.ru/content/v3/media/file',headers={'Authorization':os.environ['WB_API_TOKEN'],'X-Nm-Id':str(nid),'X-Photo-Number':'1'},files={'uploadfile':('cover.png',image.content,'image/png')},timeout=120)
+  d['response']={'http':response.status_code,'body':response.json()};assert response.ok and not response.json().get('error');time.sleep(15)
  after=one(wb.list_cards(),'vendorCode');d['after']=after;d['prices_after']=[r for r in wb.get_prices()if r['nmID']==nid]
  same(before,after,['title','description','brand','subjectID','dimensions','sizes'])
  assert sorted(before.get('characteristics',[]),key=lambda x:x['id'])==sorted(after.get('characteristics',[]),key=lambda x:x['id'])
@@ -51,7 +61,7 @@ def market():
  b=ym.get_business_id();before=one([r['offer']for r in read_rows(b,'offer-mappings',[SKU])],'offerId');card=one(read_rows(b,'offer-cards',[SKU]),'offerId')
  d=result['market']={'before':before,'card_before':card};assert before.get('pictures')
  pics=[URL]+[u for u in before['pictures'][1:]if u!=URL]
- if APPLY:
+ if APPLY and 'market'in TARGETS:
   payload=preserve_typed_parameters(b,[{'offer':{'offerId':SKU,'pictures':pics}}]);d['request']=payload
   st,res=ym._request('POST',f'/v2/businesses/{b}/offer-mappings/update',json_body={'offerMappings':payload});d['response']={'http':st,'body':res}
   assert st==200 and res.get('status')=='OK'
@@ -64,7 +74,7 @@ def market():
  ca=one(read_rows(b,'offer-cards',[SKU]),'offerId');d['after']=after;d['card_after']=ca
  same(before,after,['name','description','basicPrice','purchasePrice','vendor','vendorCode','barcodes','params','videos','weightDimensions'])
  assert grouped(card.get('parameterValues',[]))==grouped(ca.get('parameterValues',[])),'Market characteristics changed'
- if APPLY:assert after.get('pictures')==pics,'Market pictures not applied'
+ if APPLY and 'market'in TARGETS:assert after.get('pictures')==pics,'Market pictures not applied'
  d['non_media_preserved']=True
 with contextlib.redirect_stdout(log),contextlib.redirect_stderr(log):
  for name,fn in [('ozon',ozon),('wb',wb_run),('market',market)]:

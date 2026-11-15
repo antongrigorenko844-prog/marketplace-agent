@@ -6,6 +6,10 @@ on:
         type: boolean
         default: false
         description: Apply approved cover to exact SKU 0AM325025B
+      targets:
+        type: string
+        default: ozon,wb,market
+        description: Exact subset of platforms to apply; other platforms read only
 permissions:
   contents: read
 concurrency:
@@ -28,6 +32,7 @@ jobs:
           YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
           YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
           APPLY_COVER: ${{ inputs.apply }}
+          COVER_TARGETS: ${{ inputs.targets }}
         run: |
           if [ "$APPLY_COVER" = "true" ]; then
             python scripts/solenoid_one_cover.py --apply
