@@ -804,7 +804,7 @@ def cmd_push_yandex_stock(dry_run: bool = False) -> int:
 def cmd_push_yandex_names(dry_run: bool = False) -> int:
     """
     Названия -> Яндекс Маркет: название товара на Маркете приводится к названию из
-    data/master_control.xlsx (колонка «Название», то же, что на Ozon). Берётся свежий
+    data/master_control.xlsx с учётом проверенных названий Маркета из content_updates. Берётся свежий
     список товаров Маркета; меняются только названия, которые отличаются. Архивные
     и отсутствующие в мастере товары не трогаются. Сначала всегда пробный прогон.
     """
@@ -813,6 +813,7 @@ def cmd_push_yandex_names(dry_run: bool = False) -> int:
     import openpyxl
 
     import yandex_market_client
+    from content_updates import market_title_for
 
     if not yandex_market_client.is_configured():
         print("Яндекс Маркет не подключён: нет секретов YANDEX_MARKET_API_KEY / YANDEX_MARKET_CAMPAIGN_ID.")
@@ -842,7 +843,7 @@ def cmd_push_yandex_names(dry_run: bool = False) -> int:
         if o["archived"] or not o["sku"]:
             continue
         # Маркет различает регистр SKU: "0am325025L" и "0am325025l" там — РАЗНЫЕ товары. Меняем только точное совпадение.
-        want = master.get(o["sku"])
+        want = market_title_for(o["sku"], master.get(o["sku"]))
         if not want:
             (case_only if o["sku"].lower() in master_low else unknown).append(o["sku"])
         elif norm(want) == norm(o["name"]):
@@ -4769,3 +4770,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+

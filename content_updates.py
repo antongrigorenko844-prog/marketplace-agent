@@ -17,7 +17,7 @@ def load():
     for sku, row in rows.items():
         if sku.startswith('_'):
             continue
-        assert set(row) <= {'description', 'composition', 'source', 'avito_condition', 'wb_composition', 'market_description', 'wb_title', 'wb_description'}, sku
+        assert set(row) <= {'description', 'composition', 'source', 'avito_condition', 'wb_composition', 'market_description', 'market_title', 'wb_title', 'wb_description'}, sku
         assert row.get('description') or row.get('composition'), sku
         if 'description' in row:
             assert isinstance(row['description'], str) and 100 < len(row['description']) <= 500, sku
@@ -29,6 +29,8 @@ def load():
             # Owner-approved concise compatibility copy for this regulator.
             minimum = 100 if sku == '0AM325025B' else 500
             assert isinstance(row['market_description'], str) and minimum <= len(row['market_description']) <= 6000, sku
+        if 'market_title' in row:
+            assert isinstance(row['market_title'], str) and 0 < len(row['market_title']) <= 256, sku
         if 'wb_title' in row:
             assert isinstance(row['wb_title'], str) and 0 < len(row['wb_title']) <= 60, sku
         if 'wb_description' in row:
@@ -59,3 +61,7 @@ def normalize_wb_composition(value):
     if value is None:
         return None
     return [' '.join(part.replace('ё', 'е').split()) for item in value for part in item.split(';') if part.strip()]
+
+
+def market_title_for(sku, fallback):
+    return load().get(sku, {}).get("market_title", fallback)
