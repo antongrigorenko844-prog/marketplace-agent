@@ -12,6 +12,15 @@ import content_transport as ct
 
 
 class ContentBoundaryTests(unittest.TestCase):
+    def test_market_comparison_uses_returned_public_cdn_without_rewriting_offer(self):
+        import content_sync as cs
+        offer={'pictures':['https://datacamp.market.yandex.ru/pictures/abc'], 'mediaFiles':{'pictures':[{'url':'https://datacamp.market.yandex.ru/pictures/abc','marketUrl':'https://avatars.mds.yandex.net/photo/orig'}]}}
+        original=copy.deepcopy(offer)
+        with patch.dict(cs.PICTURE_ALIASES, {}, clear=True):
+            cs.bind_market_images(offer)
+            self.assertEqual(cs.PICTURE_ALIASES[offer['pictures'][0]],'https://avatars.mds.yandex.net/photo/orig')
+        self.assertEqual(offer,original)
+
     def test_commercial_endpoints_rejected_even_with_innocent_name(self):
         endpoints=[
             ('POST','https://api-seller.ozon.ru/v1/product/import/prices'),

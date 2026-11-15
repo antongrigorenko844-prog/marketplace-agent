@@ -20,6 +20,16 @@ from content_transport import guard
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / 'reports/content-sync'
 REQUEST = ROOT / 'data/content_sync_request.json'
+PICTURE_ALIASES = {}
+
+
+def bind_market_images(offer):
+    # Market's upload URLs are not public image URLs. Use the public CDN URL
+    # returned by the same authenticated offer response for visual comparison.
+    for item in offer.get('mediaFiles', {}).get('pictures', []):
+        source, public = item.get('url'), item.get('marketUrl')
+        if source and public and public.startswith('https://'):
+            PICTURE_ALIASES[source] = public
 
 
 def one(rows, key, sku):
@@ -31,6 +41,7 @@ def one(rows, key, sku):
 
 @lru_cache(maxsize=256)
 def picture(url):
+    url = PICTURE_ALIASES.get(url, url)
     r=requests.get(url,timeout=60);r.raise_for_status()
     if len(r.content)>30_000_000:raise ValueError('Image too large')
     with Image.open(io.BytesIO(r.content)) as im:
@@ -166,6 +177,7 @@ def apply_market(sku,rule,before):
     import yandex_market_client as ym
     from market_content import read_rows,grouped
     biz=before['business_id'];b=one([r['offer'] for r in before['offers']],'offerId',sku);card=one(before['cards'],'offerId',sku)
+    bind_market_images(b)
     current=b.get('pictures',[]);desired=desired_gallery(current,rule)
     fields=rule.get('text',{}).get('market',{})
     expected={'name' if k=='title' else k:v for k,v in fields.items()}
@@ -179,6 +191,7 @@ def apply_market(sku,rule,before):
     for attempt in range(12 if changed else 1):
         if changed:time.sleep(5)
         after=one([r['offer'] for r in read_rows(biz,'offer-mappings',[sku])],'offerId',sku)
+        bind_market_images(after)
         if equal_gallery(after.get('pictures',[]),desired) and all(after.get(k)==v for k,v in expected.items()):break
     if not equal_gallery(after.get('pictures',[]),desired) or not all(after.get(k)==v for k,v in expected.items()):raise ValueError('Market content still not verified')
     after_card=one(read_rows(biz,'offer-cards',[sku]),'offerId',sku)
