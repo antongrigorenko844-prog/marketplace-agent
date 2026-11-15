@@ -21,7 +21,7 @@ def apply_market(y,biz):
   if sku=='0AM325025B' and g.get(60134505)==[{'parameterId':60134505,'value':'0am'}]:g.pop(60134505)
   offer={'offerId':sku,'marketCategoryId':71380208,'parameterValues':flatten(g)}
   if sku=='0am325025m':
-   offer['videos']=['https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0am325025m-original-video-20261115.mp4']
+   offer['videos']=json.loads((ROOT/'data/market_video_sources.json').read_text())['overrides'][sku]
    offer['commodityCodes']=[{'code':'8708409909','type':'CUSTOMS_COMMODITY_CODE'}]
   payload.append({'offer':offer})
  R['market_payload']=payload;save();R['market_response']=y._request('POST',f'/v2/businesses/{biz}/offer-mappings/update',json_body={'offerMappings':payload});save();assert R['market_response'][0]==200 and R['market_response'][1].get('status')=='OK'
