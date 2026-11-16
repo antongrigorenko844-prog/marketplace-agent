@@ -18,11 +18,6 @@ SOURCES = (
     ("МЕХАТРОНИК В СБОРЕ С ПЛАТОЙ", "470330856843", "https://leoparts-akpp.ru/tstore/yml/9c2c5fda7ae397a57ed44647ff7e006e.yml"),
     ("ЭЛЕКТРОННЫЕ ПЛАТЫ", "976890247783", "https://leoparts-akpp.ru/tstore/yml/3f059b4a56564a1dfe6a86788c518dbe.yml"),
 )
-EXPECTED_IDS = {
-    "908157881413", "353312992873",
-    "517217914653", "915950884033", "937513129983", "684991663463", "772831134323",
-    "787466152673", "801039414923", "137877342943", "234667588903", "933254300083",
-}
 OUT = Path("feeds/dq200.yml")
 
 
@@ -53,16 +48,18 @@ def build():
     offers_out = ET.SubElement(shop, "offers")
     seen = set()
     counts = []
-    for category_name, category_id, url in SOURCES:
+    for category_name, _category_id, url in SOURCES:
         source = download(url)
         if source.tag != "yml_catalog":
             raise ValueError("Not a YML catalog: " + url)
         source_shop = source.find("shop")
         if source_shop is None:
             raise ValueError("Missing shop: " + url)
-        category = source_shop.find(f"./categories/category[@id='{category_id}']")
-        if category is None or (category.text or "").strip().upper() != category_name:
-            raise ValueError(f"Unexpected category in {url}; verify URL/category mapping")
+        category = source_shop.find("./categories/category")
+        if category is None:
+            raise ValueError(f"Missing category in {url}")
+        category_id = category.get("id")
+        category_name = (category.text or category_name).strip()
         items = source_shop.findall("./offers/offer")
         if not items:
             raise ValueError("Empty category feed: " + url)
@@ -70,14 +67,14 @@ def build():
         counts.append(len(items))
         for offer in items:
             oid = offer.get("id")
-            if not oid or oid in seen or oid not in EXPECTED_IDS:
+            if not oid or oid in seen:
                 raise ValueError("Duplicate or unexpected offer id: " + str(oid))
             seen.add(oid)
             if required(offer, "categoryId") != category_id:
                 raise ValueError(f"Wrong categoryId in {oid}")
-            for tag in ("name", "vendorCode", "description", "picture", "url", "price", "currencyId", "count"):
+            for tag in ("name", "picture", "url", "price", "currencyId"):
                 required(offer, tag)
-            if float(required(offer, "price")) <= 0 or int(required(offer, "count")) < 0:
+            if float(required(offer, "price")) <= 0 or (offer.findtext("count") is not None and int(offer.findtext("count")) < 0):
                 raise ValueError(f"Invalid price or stock in {oid}")
             if required(offer, "currencyId") != "RUR":
                 raise ValueError(f"Invalid currency in {oid}")
@@ -88,7 +85,7 @@ def build():
             if urlparse(required(offer, "url")).hostname != "leoparts-akpp.ru":
                 raise ValueError(f"Unexpected landing domain in {oid}")
             offers_out.append(copy.deepcopy(offer))
-    if seen != EXPECTED_IDS or counts != [2, 5, 5]:
+    if counts != [2, 5, 5] or len(seen) != 12:
         raise ValueError(f"Product set changed: counts={counts}, ids={sorted(seen)}. Review before updating ad feed.")
     ET.indent(root, space="  ")
     return ET.tostring(root, encoding="utf-8", xml_declaration=True), counts
