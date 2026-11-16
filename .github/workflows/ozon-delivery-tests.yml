@@ -28,3 +28,4 @@ jobs:
         run: |
           node integrations/ozon_delivery/test_st100_readonly_probe.cjs
           node integrations/ozon_delivery/test_quote_state.cjs
+          node integrations/ozon_delivery/test_payment_integrity.cjs
