@@ -20,7 +20,7 @@ def load():
         assert set(row) <= {'description', 'composition', 'source', 'avito_condition', 'wb_composition', 'market_description', 'market_title', 'wb_title', 'wb_description'}, sku
         assert row.get('description') or row.get('composition'), sku
         if 'description' in row:
-            assert isinstance(row['description'], str) and 100 < len(row['description']) <= 500, sku
+            assert isinstance(row['description'], str) and 100 < len(row['description']) <= 2000, sku
         if 'composition' in row:
             assert isinstance(row['composition'], str) and 0 < len(row['composition']) <= 2000, sku
         if 'wb_composition' in row:
@@ -39,6 +39,9 @@ def load():
     return {k:v for k,v in rows.items() if not k.startswith('_')}
 
 def description_for(sku, fallback, platform=None):
+    from content_manifest import load as manifest
+    pinned=manifest().get(sku,{}).get('text',{}).get(platform or 'ozon',{}).get('description')
+    if pinned is not None:return pinned
     row = load().get(sku, {})
     if platform == 'market':
         return row.get('market_description', fallback)
@@ -54,7 +57,7 @@ def avito_condition_for(sku, fallback):
     return load().get(sku, {}).get('avito_condition', fallback)
 
 def wb_title_for(sku, fallback):
-    return load().get(sku, {}).get('wb_title', fallback)
+    return title_for(sku,load().get(sku, {}).get('wb_title', fallback),'wb')
 
 
 def normalize_wb_composition(value):
@@ -64,4 +67,9 @@ def normalize_wb_composition(value):
 
 
 def market_title_for(sku, fallback):
-    return load().get(sku, {}).get("market_title", fallback)
+    return title_for(sku,load().get(sku, {}).get("market_title", fallback),'market')
+
+
+def title_for(sku, fallback, platform):
+    from content_manifest import load as manifest
+    return manifest().get(sku,{}).get('text',{}).get(platform,{}).get('title',fallback)

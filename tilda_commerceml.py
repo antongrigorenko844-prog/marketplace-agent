@@ -43,7 +43,7 @@ from xml.sax.saxutils import escape
 import openpyxl
 import requests
 
-from content_updates import description_for
+from content_updates import description_for, title_for
 
 logger = logging.getLogger("marketplace-agent.tilda_commerceml")
 
@@ -103,8 +103,8 @@ def load_items(catalog_path: str, photos_dir: str, raw_base_url: str, price_over
         items.append(
             {
                 "id": offer_id,
-                "title": str(row[1] or "").strip() or offer_id,
-                "description": tilda_feed._clean_description(description_for(offer_id, row[2] or "")),
+                "title": title_for(offer_id,str(row[1] or "").strip() or offer_id,'tilda'),
+                "description": tilda_feed._clean_description(description_for(offer_id, row[2] or "",platform='tilda')),
                 "price": int(price),
                 "qty": qty,
                 "photo": photo,

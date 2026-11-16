@@ -12,6 +12,30 @@ import content_transport as ct
 
 
 class ContentBoundaryTests(unittest.TestCase):
+    def test_market_category_migration_rejects_unreviewed_parameter_loss(self):
+        card={'mapping':{'marketCategoryId':10},'parameterValues':[{'parameterId':1,'value':'keep'},{'parameterId':2,'value':'filter-only'}]}
+        defs={'20':{'parameters':[{'id':1,'type':'TEXT','allowCustomValues':True},{'id':3,'type':'NUMERIC','allowCustomValues':True,'unit':{'units':[{'id':9}]},'constraints':{'minValue':1,'maxValue':100}}]}}
+        plan={'category':20,'allowed_previous_categories':[10],'set':[{'parameterId':3,'unitId':9,'value':'7'}]}
+        with self.assertRaises(ValueError):cm.market_parameters_for(card,plan,defs)
+        plan['remove']=[2]
+        cat,values=cm.market_parameters_for(card,plan,defs)
+        self.assertEqual(cat,20);self.assertEqual(values[0],card['parameterValues'][0])
+        current={'mapping':{'marketCategoryId':20},'parameterValues':values}
+        self.assertEqual(cm.market_parameters_for(current,plan,defs),(cat,values))
+        plan['set'][0]['unitId']=99
+        with self.assertRaises(ValueError):cm.market_parameters_for(card,plan,defs)
+
+    def test_content_sources_override_stale_text_without_changing_other_skus(self):
+        import content_updates as cu
+        rules={'PART':{'text':{'avito':{'title':'Reviewed','description':'Reviewed text'}}}}
+        with patch.object(cm,'load',return_value=rules):
+            self.assertEqual(cu.description_for('PART','stale','avito'),'Reviewed text')
+            self.assertEqual(cu.title_for('PART','stale','avito'),'Reviewed')
+            self.assertEqual(cu.title_for('OTHER','untouched','avito'),'untouched')
+
+    def test_commerceml_import_is_not_misclassified_as_safe_get(self):
+        with self.assertRaises(ValueError):ct.classify('GET','https://store.tilda.ru/connector?mode=import&filename=offers.xml')
+
     def test_rebuilding_both_catalogs_from_stale_api_preserves_approved_slides(self):
         import catalog_editor as oz,wb_catalog_editor as wb
         urls=['https://images.test/cover.png','https://images.test/approved.png']

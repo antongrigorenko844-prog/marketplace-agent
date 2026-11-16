@@ -1,7 +1,7 @@
 """Fail-closed HTTP boundary for the content job, independent of caller names."""
 import contextlib
 import re
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, parse_qs
 from unittest.mock import patch
 import requests
 
@@ -25,6 +25,8 @@ def classify(method, url, body=None):
     """Return read/content/auth. Unknown POST/PUT/PATCH/DELETE is rejected."""
     p = urlsplit(url); host = p.hostname; path = p.path; method = method.upper()
     if method in {'GET', 'HEAD'}:
+        if host and (host.endswith('.tilda.ru') or host=='tilda.ru') and parse_qs(p.query).get('mode',[''])[0] in {'import','file'}:
+            raise ValueError('CommerceML import is a mutation, not a content read')
         return 'read'
     if host == 'api-seller.ozon.ru':
         if method == 'POST' and path in {

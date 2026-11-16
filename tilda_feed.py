@@ -45,7 +45,7 @@ from urllib.parse import quote
 
 import openpyxl
 
-from content_updates import description_for
+from content_updates import description_for, title_for
 
 logger = logging.getLogger("marketplace-agent.tilda_feed")
 
@@ -197,8 +197,8 @@ def build_tilda_catalog(
         if not offer_id:
             continue
         offer_id = str(offer_id).strip()
-        title = (row[1].value or "").strip()
-        description_raw = description_for(offer_id, row[2].value or "")
+        title = title_for(offer_id,(row[1].value or "").strip(),'tilda')
+        description_raw = description_for(offer_id, row[2].value or "",platform='tilda')
         has_override = offer_id in price_overrides
         price = price_overrides.get(offer_id, row[3].value)
         old_price = row[4].value

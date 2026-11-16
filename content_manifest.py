@@ -19,7 +19,7 @@ def load(path=None):
     for sku, row in data['products'].items():
         if not sku or sku != sku.strip():
             raise ValueError('Exact nonempty SKU required')
-        if set(row) - {'sources', 'second_slide', 'ids', 'text', 'note'}:
+        if set(row) - {'sources', 'second_slide', 'ids', 'text', 'note', 'market_parameters', 'wb_characteristics'}:
             raise ValueError('Unapproved content fields: ' + sku)
         for channel, urls in row.get('sources', {}).items():
             if channel not in CHANNELS or not isinstance(urls, list) or not urls:
@@ -36,6 +36,13 @@ def load(path=None):
                 raise ValueError('Only explicitly approved text fields allowed')
             if channel == 'ozon' and 'title' in fields:
                 raise ValueError('Ozon title needs a separately reviewed content-only endpoint')
+        plan=row.get('market_parameters',{})
+        if set(plan)-{'category','allowed_previous_categories','set','remove'}:
+            raise ValueError('Unknown Market parameter plan')
+        for p in plan.get('set',[]):
+            if set(p)-{'parameterId','value','valueId','unitId'}:raise ValueError('Unknown parameter field')
+        for p in row.get('wb_characteristics',[]):
+            if set(p)!={'id','value'} or p['id']!=378533:raise ValueError('Only reviewed WB composition is allowed')
     return data['products']
 
 
@@ -87,3 +94,33 @@ def market_offer_payload(offer, card, pictures=None, text=None):
         out['parameterValues'] = copy.deepcopy(card['parameterValues'])
         out['marketCategoryId'] = card['mapping']['marketCategoryId']
     return {'offer': out}
+
+
+def market_parameters_for(card, plan, definitions):
+    """Apply an exact content plan, retaining unrelated compatible parameters."""
+    if not plan:return card['mapping']['marketCategoryId'],copy.deepcopy(card.get('parameterValues',[]))
+    old=card['mapping']['marketCategoryId'];new=plan.get('category',old)
+    if old not in set(plan.get('allowed_previous_categories',[new]))|{new}:
+        raise ValueError('Market category changed since review')
+    defs={p['id']:p for p in definitions[str(new)]['parameters']}
+    replacements=plan.get('set',[])
+    replace_ids={p['parameterId']for p in replacements}
+    if len(replace_ids)!=len(replacements):raise ValueError('Duplicate parameter plan')
+    remove=set(plan.get('remove',[]))
+    values=[copy.deepcopy(p)for p in card.get('parameterValues',[])if p['parameterId']not in replace_ids|remove]
+    for p in values:
+        if p['parameterId']not in defs:raise ValueError('Category migration would discard an unreviewed parameter')
+    for p in replacements:
+        d=defs[p['parameterId']]
+        if 'valueId'in p:
+            if not any(v['id']==p['valueId']and v['value']==p['value']for v in d.get('values',[])):
+                raise ValueError('Dictionary value no longer matches')
+        elif not d.get('allowCustomValues'):raise ValueError('Custom parameter value not allowed')
+        if 'unitId'in p and p['unitId']not in {u['id']for u in d.get('unit',{}).get('units',[])}:
+            raise ValueError('Invalid parameter unit')
+        if d['type']=='NUMERIC':
+            number=float(p['value']);limits=d.get('constraints',{})
+            if not limits.get('minValue',number)<=number<=limits.get('maxValue',number):raise ValueError('Numeric parameter out of range')
+        if len(str(p.get('value','')))>d.get('constraints',{}).get('maxLength',100000):raise ValueError('Parameter too long')
+        values.append(copy.deepcopy(p))
+    return new,values

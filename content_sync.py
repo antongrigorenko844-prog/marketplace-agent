@@ -14,7 +14,7 @@ from functools import lru_cache
 
 import requests
 from PIL import Image, ImageChops, ImageStat
-from content_manifest import load, normalize_url, insert_second, unchanged_fields, market_offer_payload
+from content_manifest import load, normalize_url, insert_second, unchanged_fields, market_offer_payload, market_parameters_for
 from content_transport import guard
 
 ROOT = Path(__file__).resolve().parent
@@ -76,7 +76,15 @@ def capture(skus, include_aux=True):
     def call(channel,fn):
         try:result[channel]=fn()
         except Exception as exc:result[channel]={'error':str(exc)[:1000]}
-    call('ozon',lambda:{'cards':oz.get_product_names(skus),'info':oz.get_product_info_list(skus),'prices':oz.get_prices_and_stocks(skus),'stocks':oz.get_stocks(skus)})
+    def ozon():
+        info=oz.get_product_info_list(skus)
+        ids=[int(r['sku'])for r in info if r.get('sku')]
+        result={'cards':oz.get_product_names(skus),'info':info,'prices':oz.get_prices_and_stocks(skus),'stocks':oz.get_stocks(skus)}
+        if ids:
+            try:result['ratings']=oz._post('/v1/product/rating-by-sku',{'skus':ids})
+            except Exception as exc:result['ratings_error']=str(exc)[:500]
+        return result
+    call('ozon',ozon)
     call('wb',lambda:{'cards':[c for c in wb.list_cards() if c.get('vendorCode') in skus],'prices':wb.get_prices()})
     def market():
         biz=ym.get_business_id()
@@ -156,15 +164,22 @@ def apply_wb(sku,rule,before):
     current=wb_gallery(b);desired=desired_gallery(current,rule);media_changed=not equal_gallery(current,desired)
     fields=rule.get('text',{}).get('wb',{})
     if set(fields)-{'title','description'}:raise ValueError('WB composition needs an explicit characteristic plan')
-    text_changed=any(b.get(k)!=v for k,v in fields.items());changed=media_changed or text_changed
+    characteristic_plan={p['id']:p['value']for p in rule.get('wb_characteristics',[])}
+    characteristics=copy.deepcopy(b.get('characteristics',[]))
+    for aid,value in characteristic_plan.items():
+        existing=[p for p in characteristics if p['id']==aid]
+        if len(existing)!=1:raise ValueError('Expected existing WB composition characteristic')
+        existing[0]['value']=value
+    char_changed=characteristics!=b.get('characteristics',[])
+    text_changed=any(b.get(k)!=v for k,v in fields.items());changed=media_changed or text_changed or char_changed
     if len(desired)>30:raise ValueError('Gallery exceeds limit')
     if media_changed:
         media=desired+([b['video']] if b.get('video') else [])
         response=wb.update_media(b['nmID'],media)
         if response.get('error'):raise ValueError('WB rejected media: '+str(response))
-    if text_changed:
+    if text_changed or char_changed:
         row={k:copy.deepcopy(b[k]) for k in ['nmID','vendorCode','brand','title','description','dimensions','characteristics','sizes']}
-        row['kizMarked']=b.get('kizMarked',False);row.update(fields)
+        row['kizMarked']=b.get('kizMarked',False);row.update(fields);row['characteristics']=characteristics
         row['sizes']=[{k:v for k,v in s.items() if k in {'chrtID','techSize','wbSize','skus'}} for s in row['sizes']]
         response=wb.update_cards([row])
         if response.get('error'):raise ValueError('WB rejected text: '+str(response))
@@ -172,10 +187,10 @@ def apply_wb(sku,rule,before):
     for attempt in range(12 if changed else 1):
         if changed:time.sleep(10)
         after=one(wb.list_cards(),'vendorCode',sku)
-        if equal_gallery(wb_gallery(after),desired) and all(after.get(k)==v for k,v in fields.items()):break
+        if equal_gallery(wb_gallery(after),desired) and all(after.get(k)==v for k,v in fields.items()) and all(next((p['value']for p in after.get('characteristics',[])if p['id']==aid),None)==value for aid,value in characteristic_plan.items()):break
     if not equal_gallery(wb_gallery(after),desired) or not all(after.get(k)==v for k,v in fields.items()):raise ValueError('WB content still not verified')
     unchanged_fields(b,after,[k for k in ['title','description','brand','subjectID','dimensions','sizes','video'] if k not in fields])
-    if sorted(b.get('characteristics',[]),key=lambda x:x['id'])!=sorted(after.get('characteristics',[]),key=lambda x:x['id']):raise ValueError('WB characteristics changed')
+    if sorted(characteristics,key=lambda x:x['id'])!=sorted(after.get('characteristics',[]),key=lambda x:x['id']):raise ValueError('WB characteristics not verified')
     return {'changed':changed,'verified':True,'photos':len(desired),'cover_preserved':same_picture(current[0],wb_gallery(after)[0]),'after':after}
 
 
@@ -187,24 +202,30 @@ def apply_market(sku,rule,before):
     current=b.get('pictures',[]);desired=desired_gallery(current,rule)
     fields=rule.get('text',{}).get('market',{})
     expected={'name' if k=='title' else k:v for k,v in fields.items()}
-    media_changed=not equal_gallery(current,desired);changed=media_changed or any(b.get(k)!=v for k,v in expected.items())
+    category,parameters=market_parameters_for(card,rule.get('market_parameters'),before.get('definitions',{}))
+    params_changed=category!=card['mapping']['marketCategoryId'] or grouped(parameters)!=grouped(card.get('parameterValues',[]))
+    media_changed=not equal_gallery(current,desired);changed=media_changed or params_changed or any(b.get(k)!=v for k,v in expected.items())
     if changed:
         row=market_offer_payload(b,card,pictures=desired if media_changed else None,text=fields)
+        if params_changed:row['offer'].update(marketCategoryId=category,parameterValues=parameters)
         status,response=ym._request('POST',f'/v2/businesses/{biz}/offer-mappings/update',json_body={'offerMappings':[row]})
         if status!=200 or response.get('status')!='OK' or any(x.get('errors') for x in response.get('results',[])):
             raise ValueError('Market rejected media: '+str(response))
     after=b
+    after_card=card
     for attempt in range(12 if changed else 1):
         if changed:time.sleep(5)
         after=one([r['offer'] for r in read_rows(biz,'offer-mappings',[sku])],'offerId',sku)
         bind_market_images(after)
-        if equal_gallery(after.get('pictures',[]),desired) and all(after.get(k)==v for k,v in expected.items()):break
+        after_card=one(read_rows(biz,'offer-cards',[sku]),'offerId',sku)
+        if equal_gallery(after.get('pictures',[]),desired) and all(after.get(k)==v for k,v in expected.items()) and after_card['mapping']['marketCategoryId']==category and grouped(parameters)==grouped(after_card.get('parameterValues',[])):break
     if not equal_gallery(after.get('pictures',[]),desired) or not all(after.get(k)==v for k,v in expected.items()):raise ValueError('Market content still not verified')
     after_card=one(read_rows(biz,'offer-cards',[sku]),'offerId',sku)
     unchanged_fields(b,after,[k for k in ['name','description','basicPrice','purchasePrice','vendor','vendorCode','barcodes','params','videos','weightDimensions'] if k not in expected])
     if b.get('mediaFiles',{}).get('videos')!=after.get('mediaFiles',{}).get('videos'):raise ValueError('Market video changed')
-    if grouped(card.get('parameterValues',[]))!=grouped(after_card.get('parameterValues',[])):raise ValueError('Market typed characteristics changed')
-    return {'changed':changed,'verified':True,'photos':len(desired),'cover_preserved':same_picture(current[0],after['pictures'][0]),'after':after,'card_after':after_card}
+    if grouped(parameters)!=grouped(after_card.get('parameterValues',[])):raise ValueError('Market typed characteristics not verified')
+    if after_card['mapping']['marketCategoryId']!=category:raise ValueError('Market category not verified')
+    return {'changed':changed,'verified':True,'photos':len(desired),'cover_preserved':same_picture(current[0],after['pictures'][0]),'after':after,'card_after':after_card,'rating':after_card.get('contentRating'),'rating_status':after_card.get('contentRatingStatus')}
 
 
 def encrypt_report(result):
@@ -245,7 +266,7 @@ def run(mode='inspect',only=None):
         # Safety is enforced at transport level; raw before/after values are kept for review.
         result['finished_at']=datetime.datetime.now(datetime.timezone.utc).isoformat()
         encrypt_report(result)
-    summary={'mode':mode,'revision':result['revision'],'checked_at':result['finished_at'],'content_write_calls':len(result['writes']),'price_write_calls':0,'stock_write_calls':0,'products':{sku:{ch:{k:v for k,v in row.items() if k in {'verified','changed','photos','cover_preserved','error'}} for ch,row in channels.items()} for sku,channels in result['products'].items()},'read_errors':{phase+':'+ch:v['error'] for phase in ['before','after'] for ch,v in result[phase].items() if isinstance(v,dict) and v.get('error')}}
+    summary={'mode':mode,'revision':result['revision'],'checked_at':result['finished_at'],'content_write_calls':len(result['writes']),'price_write_calls':0,'stock_write_calls':0,'products':{sku:{ch:{k:v for k,v in row.items() if k in {'verified','changed','photos','cover_preserved','error','rating','rating_status'}} for ch,row in channels.items()} for sku,channels in result['products'].items()},'read_errors':{phase+':'+ch:v['error'] for phase in ['before','after'] for ch,v in result[phase].items() if isinstance(v,dict) and v.get('error')}}
     (OUT/'summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2))
     print(json.dumps(summary,ensure_ascii=False))
     return 1 if summary['read_errors'] or any(not r.get('verified') for c in summary['products'].values() for r in c.values()) else 0
