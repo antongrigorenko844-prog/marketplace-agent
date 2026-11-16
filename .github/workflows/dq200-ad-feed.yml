@@ -1,0 +1,31 @@
+name: DQ200 Tilda advertising feed
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: dq200-ad-feed
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate and build feed
+        run: python scripts/build_dq200_feed.py
+      - name: Publish only validated changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add feeds/dq200.yml
+          if ! git diff --cached --quiet; then
+            git commit -m "Update validated DQ200 advertising feed"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
