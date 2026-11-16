@@ -72,6 +72,7 @@ def build():
     for cid, title in CATEGORIES.items():
         ET.SubElement(categories, "category", id=cid).text = title
     offers = ET.SubElement(shop, "offers")
+    report = []
     for sku, title, category, picture in PRODUCTS:
         if sku not in prices or sku not in links:
             raise ValueError(f"Missing price or URL for {sku}")
@@ -84,26 +85,31 @@ def build():
         if not (ROOT / picture).is_file():
             raise ValueError(f"Missing product photo: {picture}")
         photo_url = "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/" + "/".join(quote(x) for x in picture.split("/"))
-        print(f"STOCK CHECK {sku}: {stocks.get(sku, 'MISSING')} (NOT VERIFIED LIVE)")
+        report.append({"sku": sku, "catalog_stock": stocks.get(sku), "price_rub": price, "site_url": url, "stock_source": "data/ozon_catalog.xlsx", "availability": "disabled_pending_live_verification"})
         offer = ET.SubElement(offers, "offer", id=sku, available="false")
         for key, val in (("url", url), ("price", str(price)), ("currencyId", "RUR"), ("categoryId", category), ("picture", photo_url), ("name", title), ("vendorCode", sku.upper())):
             ET.SubElement(offer, key).text = val
     if len(offers) != 12:
         raise ValueError("Expected exactly 12 offers")
     ET.indent(root, space="  ")
-    return ET.tostring(root, encoding="utf-8", xml_declaration=True)
+    return ET.tostring(root, encoding="utf-8", xml_declaration=True), report
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=OUTPUT)
     args = parser.parse_args()
-    payload = build()
+    payload, report = build()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile(dir=args.output.parent, prefix=".dq200-", delete=False) as f:
         f.write(payload)
         temp = f.name
     os.replace(temp, args.output)
+    report_path = ROOT / "feeds/dq200_stock_audit.json"
+    report_path.write_text(json.dumps({"source": "data/ozon_catalog.xlsx", "note": "Snapshot from repository, not verified live stock", "offers": report}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print("Saved stock snapshot:", report_path)
+    for row in report:
+        print("STOCK CHECK", row["sku"], row["catalog_stock"])
     print(f"Built 12-offer DRAFT feed: {args.output}. All offers available=false; live stock NOT verified.")
 
 
