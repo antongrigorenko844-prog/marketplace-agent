@@ -42,8 +42,12 @@ def catalog_stocks():
         if not row or row[0] is None:
             continue
         key = str(row[0]).strip().lower()
+        # Only DQ200 advertising SKUs matter here; other catalog products may
+        # legitimately have case-distinct identifiers (e.g. Dq500 / DQ500).
+        if key not in {item[0] for item in PRODUCTS}:
+            continue
         if key in stocks:
-            raise ValueError(f"Duplicate SKU in stock catalog: {key}")
+            raise ValueError(f"Duplicate target DQ200 SKU in stock catalog: {key}")
         qty = row[7] if len(row) > 7 else None
         if qty is None or str(qty).strip() == "":
             stocks[key] = None
