@@ -25,4 +25,6 @@ jobs:
       - name: Run isolated Ozon Delivery tests
         run: python -m unittest discover -s integrations/ozon_delivery -t . -p 'test_*.py' -v
       - name: Test read-only ST100 probe
-        run: node integrations/ozon_delivery/test_st100_readonly_probe.cjs
+        run: |
+          node integrations/ozon_delivery/test_st100_readonly_probe.cjs
+          node integrations/ozon_delivery/test_quote_state.cjs
