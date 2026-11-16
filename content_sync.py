@@ -80,6 +80,12 @@ def capture(skus, include_aux=True):
         info=oz.get_product_info_list(skus)
         ids=[int(r['sku'])for r in info if r.get('sku')]
         result={'cards':oz.get_product_names(skus),'info':info,'prices':oz.get_prices_and_stocks(skus),'stocks':oz.get_stocks(skus)}
+        result['definitions']={}
+        for card in result['cards']:
+            cid,tid=card['description_category_id'],card['type_id']
+            key=f'{cid}:{tid}'
+            if key not in result['definitions']:
+                result['definitions'][key]=oz.get_category_attributes(cid,tid)
         if ids:
             try:result['ratings']=oz._post('/v1/product/rating-by-sku',{'skus':ids})
             except Exception as exc:result['ratings_error']=str(exc)[:500]
@@ -113,7 +119,11 @@ def capture(skus, include_aux=True):
         def avito():
             import avito_client as av
             ids={int(row.get('ids',{}).get('avito',0)) for sku,row in load().items() if sku in skus}
-            return {'items':[r for r in av.list_all_items(statuses=['active','removed','old','blocked','rejected']) if int(r.get('id',0)) in ids]}
+            data={'items':[r for r in av.list_all_items(statuses=['active','removed','old','blocked','rejected']) if int(r.get('id',0)) in ids]}
+            for name,path in [('autoload_profile','/autoload/v2/profile'),('autoload_report','/autoload/v3/reports/last_completed_report')]:
+                try:data[name]=av._request('GET',path)
+                except Exception as exc:data[name]={'error':str(exc)[:600]}
+            return data
         call('avito',avito)
     return result
 

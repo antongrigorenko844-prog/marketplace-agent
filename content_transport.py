@@ -34,6 +34,7 @@ def classify(method, url, body=None):
             '/v5/product/info/prices', '/v4/product/info/stocks',
             '/v3/product/info/stocks', '/v1/product/rating-by-sku',
             '/v1/product/import/info', '/v3/product/list',
+            '/v1/description-category/attribute',
         }:
             return 'read'
         if method == 'POST' and path == '/v2/product/pictures/import':
