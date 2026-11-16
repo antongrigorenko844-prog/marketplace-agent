@@ -8,7 +8,7 @@ function isOzonSelected(radios){
  const chosen=Array.from(radios||[]).find(r=>r.checked);
  if(!chosen)return false;
  const title=String(chosen.title||chosen.label||'');
- return /(?:^|\s)(?:ozon|озон)(?:\s|$)/i.test(title);
+ return /^\s*(?:ozon|озон)(?=\s|[,.:;()\-–—]|$)/i.test(title);
 }
 function mayUpdatePrice({radios,pointId,quote,cartFingerprint,quoteFingerprint}){
  if(!isOzonSelected(radios))return {allowed:false,reason:'other_carrier'};
