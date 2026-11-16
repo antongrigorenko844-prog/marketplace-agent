@@ -66,6 +66,8 @@ def classify(method, url, body=None):
             if any(set(row)-allowed for row in body):raise ValueError('Invalid WB content fields')
             no_commercial_fields(body); return 'content'
     if host == 'api.partner.market.yandex.ru':
+        if method == 'POST' and re.fullmatch(r'/v2/category/\d+/parameters',path):
+            return 'read'
         if method == 'POST' and re.fullmatch(r'/v2/businesses/\d+/(offer-mappings|offer-cards)',path):
             return 'read'
         if method == 'POST' and re.fullmatch(r'/v2/businesses/\d+/offer-mappings/update',path):

@@ -80,7 +80,13 @@ def capture(skus, include_aux=True):
     call('wb',lambda:{'cards':[c for c in wb.list_cards() if c.get('vendorCode') in skus],'prices':wb.get_prices()})
     def market():
         biz=ym.get_business_id()
-        return {'business_id':biz,'offers':read_rows(biz,'offer-mappings',skus),'cards':read_rows(biz,'offer-cards',skus)}
+        cards=read_rows(biz,'offer-cards',skus)
+        definitions={}
+        for cid in {71380208} | {r['mapping']['marketCategoryId'] for r in cards}:
+            status,data=ym._request('POST',f'/v2/category/{cid}/parameters',params={'businessId':biz},json_body={})
+            if status!=200 or data.get('status')!='OK':raise ValueError('Cannot read Market category dictionary')
+            definitions[str(cid)]=data['result']
+        return {'business_id':biz,'offers':read_rows(biz,'offer-mappings',skus),'cards':cards,'definitions':definitions}
     call('market',market)
     if include_aux:
         def tilda():
