@@ -92,6 +92,16 @@ class ContentBoundaryTests(unittest.TestCase):
                 r=requests.post('https://content-api.wildberries.ru/content/v3/media/save',json={'nmId':1,'data':['https://img/a']})
             self.assertEqual(r,'OK');self.assertEqual(len(calls),1);self.assertEqual(network.call_count,1)
 
+    def test_content_response_warnings_are_preserved_in_private_evidence(self):
+        response=requests.Response();response.status_code=200
+        response._content=b'{"status":"OK","results":[{"warnings":["pending"]}]}'
+        calls=[]
+        with patch.object(requests.sessions.Session,'request',return_value=response):
+            with ct.guard(calls,allow_write=True):
+                requests.post('https://content-api.wildberries.ru/content/v3/media/save',json={'nmId':1,'data':['https://img/a']})
+        self.assertEqual(calls[0]['http_status'],200)
+        self.assertEqual(calls[0]['response']['results'][0]['warnings'],['pending'])
+
     def test_photo_retry_preserves_cover_and_tail_without_duplicate(self):
         original=['https://img/cover','https://img/details','https://img/other']
         first=cm.insert_second(original,'https://img/approved?v=1')

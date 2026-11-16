@@ -90,10 +90,17 @@ def guard(audit, allow_write=False):
     original = requests.sessions.Session.request
     def checked(session, method, url, **kwargs):
         kind = classify(method, url, kwargs.get('json'))
+        entry = None
         if kind == 'content':
             if not allow_write:
                 raise ValueError('Read-only content inspection cannot write')
-            audit.append({'method':method, 'url':url, 'payload':kwargs.get('json')})
-        return original(session, method, url, **kwargs)
+            entry = {'method':method, 'url':url, 'payload':kwargs.get('json')}
+            audit.append(entry)
+        response = original(session, method, url, **kwargs)
+        if entry is not None and isinstance(response, requests.Response):
+            entry['http_status'] = response.status_code
+            try: entry['response'] = response.json()
+            except ValueError: entry['response_text'] = response.text[:2000]
+        return response
     with patch.object(requests.sessions.Session, 'request', checked):
         yield
