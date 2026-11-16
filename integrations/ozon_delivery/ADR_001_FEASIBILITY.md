@@ -58,3 +58,14 @@ We use ST100 advanced shipping with Yandex Delivery and CDEK already enabled. Ca
 ## Questions to send Ozon support
 
 For private app with seller-api.ozon-logistics, does /v2/delivery/checkout provide **customer-payable shipping price** or only seller logistics commissions? Does the private app use production OAuth Authorization Code Flow, and is Sandbox OAuth a meaningful test for this seller-delivery functionality? Please point to the exact endpoint schema.
+
+## 2026-11-17 verified update — customer-visible shipping price
+
+Ozon official announcement dated **2026-08-06** explicitly states that `v2/delivery/checkout` now returns preliminary delivery cost and that merchants can **display the current delivery cost to customers at checkout and dynamically update it as cart items change**:
+https://dev.ozon.ru/news/780-Ozon-Dostavka-dlia-prodavtsov-podderzhka-rascheta-predvaritelnoi-stoimosti-dostavki/
+
+This resolves the prior question of whether the API exposes a displayable preliminary shipping cost **at the product capability level**. The exact response field, pricing policy, final charged amount, and how Tilda ST100 collects that amount remain to be verified. Do not conflate estimated logistics cost with an authorized final payment amount.
+
+Tilda's official shipping docs document fixed-price variants and manually maintained pickup points; they do not establish a supported mechanism for arbitrary third-party API prices to be included in ST100 payment total: https://help-ru.tilda.cc/online-store/shipping
+
+**Updated recommendation:** keep existing seller-api.ozon-logistics scope and infrastructure. Prioritize isolated ST100 payment-total feasibility; do not deploy JS price overrides, and do not open a new Ozon OAuth app.
