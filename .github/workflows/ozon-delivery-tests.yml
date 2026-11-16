@@ -1,0 +1,26 @@
+name: Ozon Delivery isolated tests
+on:
+  push:
+    branches:
+      - feature/ozon-delivery-st100-prototype
+    paths:
+      - 'integrations/ozon_delivery/**'
+      - '.github/workflows/ozon-delivery-tests.yml'
+  pull_request:
+    paths:
+      - 'integrations/ozon_delivery/**'
+      - '.github/workflows/ozon-delivery-tests.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run isolated Ozon Delivery tests
+        run: python -m unittest discover -s integrations/ozon_delivery -t . -p 'test_*.py' -v
