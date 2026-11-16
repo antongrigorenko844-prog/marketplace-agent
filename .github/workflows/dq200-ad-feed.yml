@@ -1,8 +1,6 @@
 name: DQ200 Tilda advertising feed
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '17 */6 * * *'
 permissions:
   contents: write
 concurrency:
