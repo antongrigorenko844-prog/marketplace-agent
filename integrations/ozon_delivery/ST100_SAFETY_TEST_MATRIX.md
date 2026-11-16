@@ -37,3 +37,13 @@ The supplied Capyflow w.js demonstrates that its Tilda adapter calls internal (n
 - Evidence that Yandex and CDEK remain functional through all scenarios.
 
 No deployment or production checkout change is authorized by this document.
+
+## Official Tilda test-environment clarification (2026-11-17)
+
+Source: https://help-ru.tilda.cc/online-store/cart
+
+Tilda says **preview** of ST100 contains a sample product and is useful for inspecting the cart UI, but **delivery services and payment providers can only be tested on a published page**. Therefore, a local fake DOM or unpublished editor preview is insufficient to prove real payment correctness. A **separately published non-public staging page/site** with sandbox or disabled payment and isolated order capture is needed for end-to-end checkout testing. Merely duplicating a page inside the production site may inherit global settings and HEAD scripts; do not assume it is isolated.
+
+Tilda's page duplication path: Settings of page -> Actions -> Duplicate. Source: https://help-ru.tilda.cc/page-actions . This duplicates a *page*, not the full site or its payment/delivery configuration. Tilda's official instructions explicitly say whole-site cloning is not available as a one-click operation: https://help-ru.tilda.cc/bilingual .
+
+**Gate:** do not request that the owner paste code into Chrome Console or production HEAD. First inspect a separately published staging checkout and its site-level settings. A production-domain duplicate is not safe by default. No test payments until payment sandbox / isolation is confirmed.
