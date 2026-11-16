@@ -1,0 +1,13 @@
+'use strict';
+const assert=require('node:assert/strict');
+const {moneyKopecks,compare}=require('./payment_integrity.js');
+assert.equal(moneyKopecks('1299.90'),129990);
+assert.equal(moneyKopecks('0'),0);
+assert.equal(moneyKopecks('1.5'),150);
+for(const bad of ['-1','1.999','Infinity','1e3','abc',null,NaN,Infinity])assert.equal(moneyKopecks(bad),null);
+const base={goodsRub:'1299.90',shippingRub:'199.10',paymentTotalRub:'1499.00',pointId:'pvz-1',quotePointId:'pvz-1'};
+assert.deepEqual(compare(base),{ok:true,expectedKopecks:149900});
+assert.equal(compare({...base,paymentTotalRub:'1299.90'}).reason,'payment_total_mismatch');
+assert.equal(compare({...base,quotePointId:'pvz-2'}).reason,'pickup_mismatch');
+assert.equal(compare({...base,shippingRub:'-1'}).reason,'invalid_amount');
+console.log('PASS: ST100 staging payment reconciliation');
