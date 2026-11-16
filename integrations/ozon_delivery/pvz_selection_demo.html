@@ -25,8 +25,8 @@ button[aria-pressed=true]{border:2px solid #2165db;background:#edf4ff}button:dis
 <p class="muted">Пункты ниже — только примеры интерфейса. Настоящие ПВЗ появятся после подключения API.</p>
 <ul id="points"></ul>
 <p id="selection" aria-live="polite" class="muted">ПВЗ не выбран</p>
-<p><strong>Стоимость:</strong> будет рассчитана через Ozon API</p>
-<p><strong>Срок:</strong> будет получен через Ozon API</p>
+<p id="quote" aria-live="polite"><strong>Стоимость и срок:</strong> выберите тестовый ПВЗ</p>
+<p id="checkout-note" class="muted">Расчёт демонстрационный. Оформление и оплата отключены.</p>
 </section>
 <p id="other" hidden class="muted">В рабочей Tilda эта доставка уже реализована. Макет не заменяет существующую интеграцию.</p>
 <button disabled>Оформить заказ — отключено в демо</button>
@@ -47,12 +47,12 @@ function render(){
   const li=document.createElement('li'),button=document.createElement('button');
   button.type='button';button.textContent=point.city+', '+point.address+' (ДЕМО)';
   button.setAttribute('aria-pressed',String(selected===point.id));
-  button.addEventListener('click',()=>{selected=point.id;$('selection').textContent='Выбран тестовый ПВЗ: '+point.city+', '+point.address;render()});
+  button.addEventListener('click',()=>{selected=point.id;$('selection').textContent='Выбран тестовый ПВЗ: '+point.city+', '+point.address;$('quote').textContent='ДЕМО: 199 ₽, 3–6 дней. Это вымышленные стоимость и срок, не предложение Ozon.';render()});
   li.append(button);$('points').append(li);
  }
  if(!$('points').children.length){const li=document.createElement('li');li.textContent='В демонстрационном списке ничего не найдено';$('points').append(li)}
 }
-$('city').addEventListener('input',render);
+$('city').addEventListener('input',()=>{selected=null;$('selection').textContent='ПВЗ не выбран';$('quote').textContent='Стоимость и срок: выберите тестовый ПВЗ';render()});
 document.querySelectorAll('input[name=delivery]').forEach(el=>el.addEventListener('change',()=>{
  const ozon=document.querySelector('input[name=delivery]:checked').value==='ozon';
  $('ozon').hidden=!ozon;$('other').hidden=ozon;
