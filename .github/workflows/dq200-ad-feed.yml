@@ -28,7 +28,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add feeds/dq200.yml feeds/dq200_stock_audit.json
+          git add feeds/dq200.yml feeds/dq200_candidate.yml feeds/dq200_stock_audit.json
           if ! git diff --cached --quiet; then
             git commit -m "Update validated DQ200 advertising feed"
             git pull --rebase origin main
