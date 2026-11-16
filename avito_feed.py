@@ -521,7 +521,9 @@ def build_avito_feed(
         images = (photo_overrides.get(offer_id) or [
             u.strip() for u in str(images_raw).split("|") if u.strip()
         ])[:AVITO_MAX_PHOTOS]
-        part_type = classify_transmission_part_type(title)
+        # A content-only title override must not alter routing or drop an ad
+        # from the next full feed. Classify from the original catalog identity.
+        part_type = classify_transmission_part_type((row[1].value or "").strip())
         if part_type is None:
             # "Тип детали трансмиссии" — обязательное поле в этом шаблоне.
             # Не пишем строку с пустым обязательным полем (Avito её всё
