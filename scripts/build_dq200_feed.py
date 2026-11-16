@@ -12,6 +12,7 @@ import os
 from pathlib import Path
 import tempfile
 import xml.etree.ElementTree as ET
+from openpyxl import load_workbook
 from urllib.parse import quote, urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,7 +34,32 @@ CATEGORIES = {"1": "Мехатроники без электронной пла�
 OUTPUT = ROOT / "feeds" / "dq200.yml"
 
 
+def catalog_stocks():
+    """Read master stock column from the same workbook as stock_sync.py."""
+    ws = load_workbook(ROOT / "data/ozon_catalog.xlsx", read_only=True, data_only=True).active
+    stocks = {}
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        if not row or row[0] is None:
+            continue
+        key = str(row[0]).strip().lower()
+        if key in stocks:
+            raise ValueError(f"Duplicate SKU in stock catalog: {key}")
+        qty = row[7] if len(row) > 7 else None
+        if qty is None or str(qty).strip() == "":
+            stocks[key] = None
+        else:
+            try:
+                n = float(qty)
+                if not n.is_integer() or n < 0:
+                    raise ValueError()
+                stocks[key] = int(n)
+            except (TypeError, ValueError):
+                raise ValueError(f"Invalid stock for {key}: {qty!r}")
+    return stocks
+
+
 def build():
+    stocks = catalog_stocks()
     prices = json.loads((ROOT / "data/site_prices.json").read_text(encoding="utf-8"))
     links = json.loads((ROOT / "data/site_links.json").read_text(encoding="utf-8"))
     root = ET.Element("yml_catalog", date=dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M"))
@@ -58,6 +84,7 @@ def build():
         if not (ROOT / picture).is_file():
             raise ValueError(f"Missing product photo: {picture}")
         photo_url = "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/" + "/".join(quote(x) for x in picture.split("/"))
+        print(f"STOCK CHECK {sku}: {stocks.get(sku, 'MISSING')} (NOT VERIFIED LIVE)")
         offer = ET.SubElement(offers, "offer", id=sku, available="false")
         for key, val in (("url", url), ("price", str(price)), ("currencyId", "RUR"), ("categoryId", category), ("picture", photo_url), ("name", title), ("vendorCode", sku.upper())):
             ET.SubElement(offer, key).text = val
