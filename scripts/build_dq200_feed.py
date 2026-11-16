@@ -96,19 +96,29 @@ def build():
     if len(offers) != 12:
         raise ValueError("Expected exactly 12 offers")
     ET.indent(root, space="  ")
-    return ET.tostring(root, encoding="utf-8", xml_declaration=True), report
+    candidate = ET.fromstring(ET.tostring(root, encoding="utf-8"))
+    for offer in candidate.findall("./shop/offers/offer"):
+        stock = stocks.get(offer.get("id"))
+        if stock is not None and stock > 0:
+            offer.set("available", "true")
+            ET.SubElement(offer, "count").text = str(stock)
+    ET.indent(candidate, space="  ")
+    return ET.tostring(root, encoding="utf-8", xml_declaration=True), report, ET.tostring(candidate, encoding="utf-8", xml_declaration=True)
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=OUTPUT)
     args = parser.parse_args()
-    payload, report = build()
+    payload, report, candidate = build()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile(dir=args.output.parent, prefix=".dq200-", delete=False) as f:
         f.write(payload)
         temp = f.name
     os.replace(temp, args.output)
+    candidate_path = ROOT / "feeds/dq200_candidate.yml"
+    candidate_path.write_bytes(candidate)
+    print("Created review-only candidate (NOT verified live):", candidate_path)
     report_path = ROOT / "feeds/dq200_stock_audit.json"
     report_path.write_text(json.dumps({"source": "data/ozon_catalog.xlsx", "note": "Snapshot from repository, not verified live stock", "offers": report}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("Saved stock snapshot:", report_path)
