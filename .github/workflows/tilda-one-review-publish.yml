@@ -1,0 +1,35 @@
+name: tilda-one-review-publish
+on:
+  push:
+    branches: [main]
+    paths: ['.github/agent-requests/tilda-one-review-publish.txt']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Publish one review only
+        env:
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+        run: python .github/scripts/tilda_one_review_publish.py
+      - name: Save outcome
+        if: always()
+        run: |
+          if [ -f data/tilda_one_review_publish_result.json ]; then
+            git config user.name github-actions
+            git config user.email actions@users.noreply.github.com
+            git add data/tilda_one_review_publish_result.json
+            git diff --cached --quiet || (git commit -m "Record one Tilda review import result" && git fetch origin main && git rebase origin/main && git push)
+          fi
