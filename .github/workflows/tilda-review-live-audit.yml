@@ -1,0 +1,22 @@
+name: tilda-review-live-audit
+on:
+  push:
+    branches: [main]
+    paths: ['.github/agent-requests/tilda-review-live-audit.txt']
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python .github/scripts/tilda_review_live_audit.py
+      - run: |
+          git config user.name github-actions
+          git config user.email actions@users.noreply.github.com
+          git add data/tilda_review_live_audit.json
+          git diff --cached --quiet || (git commit -m "Audit live Tilda review destination" && git fetch origin main && git rebase origin/main && git push)
