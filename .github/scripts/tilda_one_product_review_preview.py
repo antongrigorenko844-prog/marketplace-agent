@@ -13,7 +13,8 @@ if len(matches)!=1:raise RuntimeError(f"Expected exactly one Tilda product {SKU}
 item=matches[0]
 original=item.get("Text") or ""
 if not original.strip():raise RuntimeError("Original description empty; refusing to create replacement")
-heading="Отзывы покупателей на Ozon"\nreview="★★★★★ | 21 сентября | Суетолог\\nлето на нём откатал проблем небыло! жду зиму!"
+heading="Отзывы покупателей на Ozon"
+review="★★★★★ | 21 сентября | Суетолог\\nлето на нём откатал проблем небыло! жду зиму!"
 test_note=review
 preview=original+"\n\n"+heading+"\n"+test_note
 out=Path("data/tilda_review_one_product_preview.json")
