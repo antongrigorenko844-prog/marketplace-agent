@@ -26,6 +26,9 @@ products=root.findall(".//Товар")
 assert len(products)==1 and products[0].findtext("Артикул")==SKU
 assert products[0].findtext("Описание")==preview
 assert not root.findall(".//Картинка")
+# Local HTML visual preview only; no Tilda write.
+html_preview = """<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Leoparts — тест карточки</title><style>body{font-family:Arial,sans-serif;background:#f3f4f6;margin:0;padding:24px;color:#202124}.popup{max-width:520px;margin:24px auto;background:white;border-radius:16px;padding:24px;box-shadow:0 8px 28px #0002}h1{font-size:23px}.reviews{border-top:1px solid #ddd;margin-top:24px;padding-top:18px}.source{color:#005bff;font-weight:bold}.notice{font-size:13px;color:#666}.buy{background:#16803c;color:white;border-radius:8px;padding:15px;text-align:center;font-weight:bold;margin-top:16px}.placeholder{padding:15px;border:1px dashed #bbb;border-radius:8px;color:#666}</style><div class="popup"><h1>""" + html.escape(item.get("Title") or SKU) + """</h1><p class="notice">Артикул """+SKU+""" · визуальный тест, не опубликовано</p><div class="buy">Купить</div><section class="reviews"><h2>Отзывы покупателей</h2><p class="source">Источник: Ozon</p><div class="placeholder">Место для настоящего отзыва покупателя. Текст и оценка не подставлены, поскольку источник ещё не подтверждён.</div></section></div></html>"""
+Path("data/tilda_review_one_product_preview.html").write_text(html_preview,encoding="utf-8")
 print(f"PASS preview SKU={SKU}, title={item.get('Title')}, UID={item.get('Tilda UID')}")
 print("PASS: single product CommerceML XML, no photos, no offer/price upload, no Tilda write")
 print("BLOCKED publication: authentic Ozon review text and source not yet provided")
