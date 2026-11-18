@@ -1,0 +1,22 @@
+name: tilda-post-review-safety-audit
+on:
+  push:
+    branches: [main]
+    paths: ['.github/agent-requests/tilda-post-review-safety-audit.txt']
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python .github/scripts/tilda_post_review_safety_audit.py
+      - run: |
+          git config user.name github-actions
+          git config user.email actions@users.noreply.github.com
+          git add data/tilda_post_review_safety_audit.json
+          git diff --cached --quiet || (git commit -m "Record read-only Tilda safety audit" && git fetch origin main && git rebase origin/main && git push)
