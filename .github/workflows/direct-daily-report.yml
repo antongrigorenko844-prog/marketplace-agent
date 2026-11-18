@@ -5,6 +5,11 @@ on:
   schedule:
     - cron: "15 6 * * *"
   workflow_dispatch:
+  # A commit to this marker lets the connected agent trigger the read-only report.
+  push:
+    branches: [main]
+    paths:
+      - '.github/agent-requests/direct-report.txt'
 
 concurrency:
   group: marketplace-agent
