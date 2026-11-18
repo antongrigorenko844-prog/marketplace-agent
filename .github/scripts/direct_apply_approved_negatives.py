@@ -37,7 +37,7 @@ def read():
                         "FieldNames":["Id","Name","Type","State","NegativeKeywords"]}).get("Campaigns",[])
     if len(rows)!=1 or rows[0].get("Id")!=CAMPAIGN_ID or rows[0].get("Name")!=EXPECTED_NAME:
         raise RuntimeError("Campaign identity mismatch, refusing to modify")
-    if rows[0].get("Type")!="UNIFIED_CAMPAIGN" or rows[0].get("State")!="ON":
+    if rows[0].get("Type") not in ("UNIFIED_CAMPAIGN","TEXT_CAMPAIGN") or rows[0].get("State")!="ON":
         raise RuntimeError("Campaign type/state not matched: "+repr({"Type":rows[0].get("Type"),"State":rows[0].get("State"),"Status":rows[0].get("Status")})+"; refusing to modify")
     return rows[0]
 
