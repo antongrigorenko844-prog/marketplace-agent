@@ -12,7 +12,7 @@ from pathlib import Path
 token = os.environ["YANDEX_DIRECT_TOKEN"]
 end = dt.date.today() - dt.timedelta(days=1)
 start = end - dt.timedelta(days=29)
-fields = ["CampaignId", "Query", "Impressions", "Clicks", "Cost", "Conversions"]
+fields = ["Query", "Clicks", "Cost"]  # Known working fields from direct-report
 params = {"params": {
     "SelectionCriteria": {"DateFrom": str(start), "DateTo": str(end)},
     "FieldNames": fields,
