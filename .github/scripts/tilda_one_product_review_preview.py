@@ -1,7 +1,8 @@
 """Isolated, read-only preview of one Tilda product review section.
 No writes to Tilda, no fabricated customer reviews.
 """
-import csv,html,json,xml.etree.ElementTree as ET
+import csv,html,json,xml.etree.ElementTree as ET,sys
+sys.path.insert(0,'.')
 from pathlib import Path
 SKU="0AM325025H"
 src=Path("data/tilda_export.csv")
