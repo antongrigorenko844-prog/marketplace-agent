@@ -6,7 +6,7 @@ out={"mode":"READ_ONLY","checks":{},"products":[]}
 for route in ["/","/catalog","/mehatronik-dq200"]:
  try:
   r=requests.get(BASE+route,headers=UA,timeout=20)
-  parts=set(re.findall(r'storepart(?:uid|_uid|Uid)?["\\']?\\s*[:=]\\s*["\\']?(\\d{6,})',r.text,re.I))
+  parts=set(re.findall(r"storepartuid[^0-9]{0,25}([0-9]{6,})",r.text,re.I))
   parts.update(re.findall(r'"storepart"\\s*:\\s*"(\\d+)"',r.text))
   recids=re.findall(r'id="rec(\\d+)"',r.text)
   out["checks"][route]={"status":r.status_code,"parts":list(parts),"recids":len(recids)}
