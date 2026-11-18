@@ -70,7 +70,7 @@ if not isinstance(after,dict) or not isinstance(after.get("Items"),list):
     raise RuntimeError("Cannot verify negatives after update")
 actual={x.casefold().strip() for x in after["Items"]}
 if not set(x.casefold() for x in combined).issubset(actual):
-    raise RuntimeError("Verification mismatch: campaign negatives incomplete")
+    raise RuntimeError("Verification mismatch: missing="+repr(sorted(set(x.casefold() for x in combined)-actual))+"; existing_count="+str(len(existing))+"; actual_count="+str(len(after["Items"]))+"; actual="+repr(after["Items"][:100]))
 output=Path("data/direct_negatives_apply_result.txt")
 output.write_text("Campaign: "+EXPECTED_NAME+"\nID: "+str(CAMPAIGN_ID)+
     "\nExisting negatives preserved: "+str(len(existing))+
