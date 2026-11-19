@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import re
 import sys
+from urllib.parse import urlsplit, urlunsplit
 import requests
 from openpyxl import load_workbook
 
@@ -100,7 +101,18 @@ def avito_preflight():
         result['items_error_type'] = type(exc).__name__
     try:
         profile = avito_client._request('GET', '/autoload/v2/profile')
-        result['profile'] = {k: profile.get(k) for k in ('autoload_enabled', 'feeds_data', 'schedule') if k in profile}
+        result['profile'] = {k: profile.get(k) for k in ('autoload_enabled', 'schedule') if k in profile}
+        feeds = profile.get('feeds_data') or []
+        result['profile']['feeds_data'] = []
+        for feed in feeds:
+            if not isinstance(feed, dict):
+                continue
+            clean = {k: feed[k] for k in ('feed_name', 'name') if k in feed}
+            for key in ('feed_url', 'url'):
+                if key in feed:
+                    parsed = urlsplit(str(feed[key]))
+                    clean[key] = urlunsplit((parsed.scheme, parsed.hostname or '', parsed.path, '', ''))
+            result['profile']['feeds_data'].append(clean)
         result['profile_keys'] = sorted(profile)
     except Exception as exc:
         result['profile_error_type'] = type(exc).__name__
@@ -111,6 +123,48 @@ def avito_preflight():
     except Exception as exc:
         result['current_upload_error_type'] = type(exc).__name__
     return result
+
+def api_schema():
+    report = {'mode': 'api_schema', 'started_at_utc': now(), 'mutations': [], 'schemas': {}, 'errors': []}
+    wanted = {'/core/v1/items/{item_id}/update_price', '/autoload/v1/upload', '/autoload/v4/uploads/current/items', '/autoload/v4/uploads/current'}
+    for name in ('item', 'autoload'):
+        try:
+            r = requests.get('https://www.avito.ru/web/1/openapi/info/' + name, headers=UA, timeout=40)
+            item = {'http_status': r.status_code}
+            if r.ok:
+                data = r.json()
+                item['root_keys'] = sorted(data) if isinstance(data, dict) else []
+                def walk(value):
+                    if isinstance(value, str):
+                        if value.lstrip().startswith('{'):
+                            try:
+                                yield from walk(json.loads(value))
+                            except (ValueError, TypeError):
+                                pass
+                    elif isinstance(value, dict):
+                        if 'paths' in value and isinstance(value['paths'], dict):
+                            yield value
+                        for val in value.values():
+                            yield from walk(val)
+                    elif isinstance(value, list):
+                        for val in value:
+                            yield from walk(val)
+                specs = list(walk(data))
+                item['spec_count'] = len(specs)
+                for spec in specs:
+                    paths = {k: v for k, v in spec['paths'].items() if k in wanted}
+                    item.setdefault('selected_paths', {}).update(paths)
+                    item['path_names'] = list(spec['paths'])
+                    if paths:
+                        item['components'] = spec.get('components', {})
+                        item['definitions'] = spec.get('definitions', {})
+            report['schemas'][name] = item
+        except Exception as exc:
+            report['errors'].append({'source': name, 'type': type(exc).__name__})
+    report['finished_at_utc'] = now()
+    (ROOT / 'data/dq200_price_api_schema_20261120.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
+    print(json.dumps({'mode': 'api_schema', 'sources': {k: v.get('http_status') for k, v in report['schemas'].items()}, 'errors': len(report['errors'])}))
+    return 0
 
 def inspect():
     report = {'mode': 'inspect', 'started_at_utc': now(), 'mutations': [], 'errors': []}
@@ -136,9 +190,11 @@ def inspect():
 
 def main():
     request = json.loads(REQUEST.read_text())
-    if request.get('mode') != 'inspect':
-        raise RuntimeError('Only inspect mode has been installed')
-    return inspect()
+    if request.get('mode') == 'inspect':
+        return inspect()
+    if request.get('mode') == 'api_schema':
+        return api_schema()
+    raise RuntimeError('Requested mode has not been installed')
 
 if __name__ == '__main__':
     raise SystemExit(main())
