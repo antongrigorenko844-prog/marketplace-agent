@@ -1,0 +1,243 @@
+{
+  "observed_at_utc": "2026-11-19T22:47:50.694751+00:00",
+  "scope_skus": [
+    "tool-dq200-acc-restore",
+    "tool-dsg-pressure-hp"
+  ],
+  "external_mutations": 0,
+  "expected_prices_rub": {
+    "tool-dq200-acc-restore": {
+      "marketplaces": 38800,
+      "site_avito": 24800
+    },
+    "tool-dsg-pressure-hp": {
+      "marketplaces": 28800,
+      "site_avito": 18800
+    }
+  },
+  "channels": {
+    "avito": {
+      "status": "ok",
+      "catalog_titles_checked": 154,
+      "title_candidates": [],
+      "scope_note": "Seller item listing, no customer/order data or mutations. A title candidate is not a confirmed identity."
+    },
+    "ozon": {
+      "status": "error",
+      "error": {
+        "type": "OzonApiError",
+        "message": "Ozon /v4/product/info/attributes вернул 404: {\"code\":5, \"message\":\"item not found\"}"
+      }
+    },
+    "wildberries": {
+      "status": "ok",
+      "catalog_titles_checked": 137,
+      "exact_skus_found": [],
+      "title_candidates": [],
+      "prices": [],
+      "price_read_error": null,
+      "scope_note": "Content catalog scan; deleted-card bin is not queried."
+    },
+    "yandex_market": {
+      "status": "ok",
+      "offer-mappings": {
+        "paging": {},
+        "offerMappings": []
+      },
+      "offer-cards": {
+        "offerCards": [],
+        "paging": {}
+      },
+      "category_candidates": [
+        {
+          "id": 81902175,
+          "name": "Восстановители щёток стеклоочистителя",
+          "path": "Все товары / Авто / Автомобильные инструменты / Прочие инструменты / Специнструмент для автомобилей / Восстановители щёток стеклоочистителя"
+        },
+        {
+          "id": 81907309,
+          "name": "Инспекционные зеркала",
+          "path": "Все товары / Авто / Автомобильные инструменты / Прочие инструменты / Специнструмент для автомобилей / Инспекционные зеркала"
+        },
+        {
+          "id": 81912443,
+          "name": "Клещи автомобильные",
+          "path": "Все товары / Авто / Автомобильные инструменты / Прочие инструменты / Специнструмент для автомобилей / Клещи автомобильные"
+        },
+        {
+          "id": 81917575,
+          "name": "Ручные кромкогибы",
+          "path": "Все товары / Авто / Автомобильные инструменты / Прочие инструменты / Специнструмент для автомобилей / Ручные кромкогибы"
+        },
+        {
+          "id": 81922707,
+          "name": "Молотки обратные",
+          "path": "Все товары / Авто / Автомобильные инструменты / Прочие инструменты / Специнструмент для автомобилей / Молотки обратные"
+        },
+        {
+          "id": 81927839,
+          "name": "Оправки для сальников вилки мототехники",
+          "path": "Все товары / Авто / Автомобильные инструменты / Прочие инструменты / Специнструмент для автомобилей / Оправки для сальников вилки мототехники"
+        },
+        {
+          "id": 82179193,
+          "name": "Пневмокромкогибы",
+          "path": "Все товары / Авто / Автомобильные инструменты / Прочие инструменты / Специнструмент для автомобилей / Пневмокромкогибы"
+        },
+        {
+          "id": 82184337,
+          "name": "Специнструменты для авто",
+          "path": "Все товары / Авто / Автомобильные инструменты / Прочие инструменты / Специнструмент для автомобилей / Специнструменты для авто"
+        },
+        {
+          "id": 82189490,
+          "name": "Экстракторы для ниппелей",
+          "path": "Все товары / Авто / Автомобильные инструменты / Прочие инструменты / Специнструмент для автомобилей / Экстракторы для ниппелей"
+        },
+        {
+          "id": 65275928,
+          "name": "Манометры для дайвинга",
+          "path": "Все товары / Спорт и отдых / Водный спорт / Подводное плавание / Измерительные приборы / Манометры для дайвинга"
+        },
+        {
+          "id": 75341186,
+          "name": "Термоманометры",
+          "path": "Все товары / Строительство и ремонт / Отопление и вентиляция / Элементы систем отопления / Термоманометры"
+        },
+        {
+          "id": 62161152,
+          "name": "Коллекторы манометрические",
+          "path": "Все товары / Строительство и ремонт / Инструменты / Измерительные инструменты / Манометры / Коллекторы манометрические"
+        },
+        {
+          "id": 62162224,
+          "name": "Манометры измерительные",
+          "path": "Все товары / Строительство и ремонт / Инструменты / Измерительные инструменты / Манометры / Манометры измерительные"
+        },
+        {
+          "id": 61568916,
+          "name": "Опрессовщики",
+          "path": "Все товары / Строительство и ремонт / Водоснабжение / Комплектующие водоснабжения / Прочие материалы для сантехнических работ / Опрессовщики"
+        },
+        {
+          "id": 82419648,
+          "name": "Стробоскопы диагностические",
+          "path": "Все товары / Оборудование / Сфера услуг / Оборудование для автосервисов / Оборудование для обслуживания автомобилей / Стробоскопы диагностические"
+        },
+        {
+          "id": 82552154,
+          "name": "Дымогенераторы диагностические",
+          "path": "Все товары / Оборудование / Сфера услуг / Оборудование для автосервисов / Оборудование для обслуживания автомобилей / Дымогенераторы диагностические"
+        },
+        {
+          "id": 76058724,
+          "name": "Запчасти для маслопрессов",
+          "path": "Все товары / Бытовая техника / Мелкая техника для кухни / Приготовление блюд / Аксессуары и запчасти / Запчасти для мелкой техники / Запчасти для маслопрессов"
+        }
+      ],
+      "category_candidates_total": 17,
+      "category_candidates_omitted": 0
+    },
+    "tilda": {
+      "status": "ok",
+      "public_blocks_checked": 1,
+      "catalog_titles_checked": 144,
+      "exact_skus_found": [],
+      "title_candidates": [],
+      "read_errors": [],
+      "scope_note": "Public catalog blocks only; absence does not prove absence from the private Tilda product catalog."
+    }
+  },
+  "read_requests": [
+    {
+      "method": "GET",
+      "host": "api.partner.market.yandex.ru",
+      "path": "/v2/campaigns/{id}",
+      "http_status": 200
+    },
+    {
+      "method": "GET",
+      "host": "leoparts-akpp.ru",
+      "path": "/catalog",
+      "http_status": 200
+    },
+    {
+      "method": "POST",
+      "host": "api-seller.ozon.ru",
+      "path": "/v4/product/info/attributes",
+      "http_status": 200
+    },
+    {
+      "method": "POST",
+      "host": "content-api.wildberries.ru",
+      "path": "/content/v2/get/cards/list",
+      "http_status": 200
+    },
+    {
+      "method": "POST",
+      "host": "api.avito.ru",
+      "path": "/token",
+      "http_status": 200
+    },
+    {
+      "method": "GET",
+      "host": "api.avito.ru",
+      "path": "/core/v1/items",
+      "http_status": 200
+    },
+    {
+      "method": "GET",
+      "host": "api.avito.ru",
+      "path": "/core/v1/items",
+      "http_status": 200
+    },
+    {
+      "method": "POST",
+      "host": "api.partner.market.yandex.ru",
+      "path": "/v2/businesses/{id}/offer-mappings",
+      "http_status": 200
+    },
+    {
+      "method": "GET",
+      "host": "leoparts-akpp.ru",
+      "path": "/",
+      "http_status": 200
+    },
+    {
+      "method": "POST",
+      "host": "api-seller.ozon.ru",
+      "path": "/v4/product/info/attributes",
+      "http_status": 404
+    },
+    {
+      "method": "POST",
+      "host": "content-api.wildberries.ru",
+      "path": "/content/v2/get/cards/list",
+      "http_status": 200
+    },
+    {
+      "method": "GET",
+      "host": "store.tildaapi.com",
+      "path": "/api/getproductslist/",
+      "http_status": 200
+    },
+    {
+      "method": "POST",
+      "host": "api.partner.market.yandex.ru",
+      "path": "/v2/businesses/{id}/offer-cards",
+      "http_status": 200
+    },
+    {
+      "method": "POST",
+      "host": "api.partner.market.yandex.ru",
+      "path": "/v2/categories/tree",
+      "http_status": 200
+    },
+    {
+      "method": "GET",
+      "host": "store.tildaapi.com",
+      "path": "/api/getproductslist/",
+      "http_status": 200
+    }
+  ]
+}
