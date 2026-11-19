@@ -58,6 +58,10 @@ SETS_GET = {"FieldNames": ["Id", "Sitelinks"], "Page": {"Limit": 1000}}
 GETS = {"ads": ADS_GET, "campaigns": CAMPAIGN_GET, "feeds": FEED_GET, "sitelinks": SETS_GET}
 
 
+class ModerationRejected(RuntimeError):
+    pass
+
+
 def now():
     return datetime.now(timezone.utc).isoformat()
 
@@ -65,6 +69,7 @@ def now():
 class Client:
     def __init__(self, mode):
         self.mode, self.permitted, self.used = mode, None, set()
+        self.target_sid = None
 
     def __call__(self, service, method, params):
         if method == "get" and service in GETS and params == GETS[service]:
@@ -77,6 +82,21 @@ class Client:
                     or (self.mode == "apply" and (service, method) in
                         {("sitelinks", "add"), ("ads", "update"), ("ads", "moderate")})):
                 raise RuntimeError("Mutation outside explicit mode")
+            if service == "feeds" and params != {"Feeds": [{"Id": FID, "UrlFeed": {"Url": NEW_URL}}]}:
+                raise RuntimeError("Feed mutation outside exact approved URL")
+            if service == "sitelinks" and params != {"SitelinksSets": [{"Sitelinks": LINKS}]}:
+                raise RuntimeError("Sitelink mutation outside exact three approved links")
+            if service == "ads" and method == "update":
+                entries = params.get("Ads", [])
+                if (len(entries) != 1 or entries[0].get("Id") not in TARGETS
+                        or not isinstance(self.target_sid, int) or self.target_sid == OLD_SID
+                        or params != {"Ads": [{"Id": entries[0]["Id"],
+                            subtype(entries[0]["Id"]): desired_patch(entries[0]["Id"], self.target_sid)}]}):
+                    raise RuntimeError("Ad update outside exact titles/sitelink assignments")
+            if service == "ads" and method == "moderate":
+                ids = params.get("SelectionCriteria", {}).get("Ids", [])
+                if len(ids) != 1 or ids[0] not in TARGETS or params != {"SelectionCriteria": {"Ids": ids}}:
+                    raise RuntimeError("Moderation outside one approved ad")
             self.used.add(key)
             self.permitted = None
         token = os.environ.get("YANDEX_DIRECT_TOKEN")
@@ -231,7 +251,12 @@ def guard_ads(before, current, sid, proof):
         if stable(ad) != stable(expected) or (ad.get("State") != "ON" and not pending_own):
             raise RuntimeError("Ad fields changed outside this operation: " + str(aid))
         if ad.get("Status") == "REJECTED":
-            raise RuntimeError("Ad moderation rejected; requires review: " + str(aid))
+            raise ModerationRejected("Ad moderation rejected; requires review: " + str(aid))
+        if exact and (ad[subtype(aid)].get("SitelinksModeration") or {}).get("Status") == "REJECTED":
+            raise ModerationRejected("New sitelinks rejected; requires review: " + str(aid))
+        if exact and aid in RESPONSIVE and any(x.get("Status") == "REJECTED"
+                for x in ad["ResponsiveAd"].get("Titles", [])):
+            raise ModerationRejected("New ResponsiveAd title rejected; requires review: " + str(aid))
 
 
 def run(marker=None, api=None, public=None):
@@ -315,6 +340,8 @@ def run(marker=None, api=None, public=None):
                 raise RuntimeError("Prior uncertain/recorded mutation must not be repeated: " + key)
             ops[key] = {"service": service, "method": method, "params_sha256": jhash(params),
                         "attempted_at_utc": now(), "verified": False}
+            if key == "sitelinks_add":
+                ops[key]["ids_before"] = journal["pending_sitelink_ids_before"]
             journal_save()
             report["mutation_attempts_this_run"].append(key)
             save()
@@ -326,7 +353,10 @@ def run(marker=None, api=None, public=None):
                 entries = result.get(result_key, [])
                 ops[key]["response_ids"] = [x.get("Id") for x in entries]
                 ops[key]["error_codes"] = [x.get("Code") for row in entries for x in row.get("Errors", [])]
-                if not entries or ops[key]["error_codes"]:
+                expected_id = FID if service == "feeds" else (params["Ads"][0]["Id"] if method == "update"
+                    else params["SelectionCriteria"]["Ids"][0] if method == "moderate" else None)
+                if (len(entries) != 1 or ops[key]["error_codes"] or not isinstance(entries[0].get("Id"), int)
+                        or (expected_id is not None and entries[0]["Id"] != expected_id)):
                     raise RuntimeError("Mutation response reports failure or no result")
             except Exception as error:
                 ops[key]["uncertain_error"] = clean(error)
@@ -351,7 +381,10 @@ def run(marker=None, api=None, public=None):
             candidates = [set_id for set_id, value in sets.items() if value.get("Sitelinks") == LINKS]
             prior_add = ops.get("sitelinks_add")
             if prior_add:
-                candidates = [set_id for set_id in candidates if set_id not in prior_add.get("ids_before", [])]
+                prior_ids = prior_add.get("ids_before", journal.get("pending_sitelink_ids_before"))
+                if not isinstance(prior_ids, list):
+                    raise RuntimeError("Interrupted sitelink add lacks its recorded prior ID inventory")
+                candidates = [set_id for set_id in candidates if set_id not in prior_ids]
             if len(candidates) == 1:
                 sid = candidates[0]
             elif candidates or mode == "check":
@@ -380,6 +413,8 @@ def run(marker=None, api=None, public=None):
                 journal_save()
         if sid == OLD_SID or sid not in sets or sets[sid].get("Sitelinks") != LINKS:
             raise RuntimeError("New sitelink set contents are not exact")
+        if isinstance(api, Client):
+            api.target_sid = sid
         report["new_sitelinks_set"] = sets[sid]
         if mode == "apply":
             for aid in TARGETS:
@@ -412,21 +447,39 @@ def run(marker=None, api=None, public=None):
         guard_ads(before, current, sid, proof)
         if stable(get_campaign(api)) != stable(baseline["campaign"]):
             raise RuntimeError("Campaign changed during verification")
+        final_sets = get_sets(api)
+        if (final_sets.get(OLD_SID, {}).get("Sitelinks") != OLD_LINKS
+                or final_sets.get(sid, {}).get("Sitelinks") != LINKS):
+            raise RuntimeError("Final old/new sitelink contents differ from exact reviewed sets")
+        report["final_sitelinks_sets"] = [final_sets[OLD_SID], final_sets[sid]]
         report.update(ads_after=current, feed_after=feed, requested_copy_saved=all(matches(ad, sid) for ad in current.values()),
             other_read_ad_fields_preserved=True, original_sitelinks_set_preserved=True,
             prices_and_other_feed_fields_preserved=True, negative_130_preserved=True)
         feed_ready = (feed.get("Status") == "DONE" and feed.get("NumberOfItems") == 12
+            and feed.get("UrlFeed", {}).get("Url") == NEW_URL and bool(feed.get("UpdatedAt"))
             and feed.get("UpdatedAt") != baseline["feed"].get("UpdatedAt")
             and "name" in (feed.get("TitleAndTextSources") or {}).get("Items", []))
         ads_ready = all(a.get("State") == "ON" and a.get("Status") == "ACCEPTED" for a in current.values())
-        report.update(feed_processing_verified=feed_ready, ads_active_accepted=ads_ready)
-        report["status"] = ("verified_requested_settings" if report["requested_copy_saved"] and feed_ready and ads_ready
+        link_statuses = {str(aid): (ad[subtype(aid)].get("SitelinksModeration") or {}).get("Status")
+                         for aid, ad in current.items()}
+        links_ready = all(status == "ACCEPTED" for status in link_statuses.values())
+        title_statuses = {str(aid): [x.get("Status") for x in current[aid]["ResponsiveAd"].get("Titles", [])]
+                          for aid in RESPONSIVE}
+        titles_ready = all(values == ["ACCEPTED"] for values in title_statuses.values())
+        shopping_statuses = {str(aid): current[aid]["ShoppingAd"].get("FeedProcessingStatus") for aid in SHOPPING}
+        shopping_ready = all(value == "PROCESSED" for value in shopping_statuses.values())
+        report.update(feed_processing_verified=feed_ready, ads_active_accepted=ads_ready,
+                      sitelinks_moderation_statuses=link_statuses, sitelinks_all_accepted=links_ready,
+                      title_moderation_statuses=title_statuses, titles_all_accepted=titles_ready,
+                      shopping_feed_processing_statuses=shopping_statuses, shopping_feed_all_processed=shopping_ready)
+        report["status"] = ("verified_requested_settings" if report["requested_copy_saved"] and feed_ready and ads_ready and links_ready and titles_ready and shopping_ready
             else "requested_settings_saved_pending_processing_or_moderation" if report["requested_copy_saved"]
             else "requested_settings_not_applied")
         return 0 if report["requested_copy_saved"] else 1
     except Exception as error:
         report["errors"].append(clean(error))
-        report["status"] = "requires_review_after_attempt" if report["mutation_attempts_this_run"] else "blocked_no_write"
+        report["status"] = ("requires_review_moderation_rejected" if isinstance(error, ModerationRejected)
+            else "requires_review_after_attempt" if report["mutation_attempts_this_run"] else "blocked_no_write")
         return 1
     finally:
         report["finished_at_utc"] = now()
