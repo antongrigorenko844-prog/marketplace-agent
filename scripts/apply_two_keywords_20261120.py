@@ -279,7 +279,8 @@ def initial_guard(snap, plan, source):
             expected = {k: v for k, v in old.items() if k in current[ident]}
             actual = {k: current[ident][k] for k in expected}
             if stable(actual) != stable(expected):
-                raise RuntimeError("Initial existing object changed: " + key + "/" + str(ident))
+                changed = sorted(k for k in expected if stable(actual.get(k)) != stable(expected.get(k)))
+                raise RuntimeError("Initial existing object changed: " + key + "/" + str(ident) + "; fields=" + ",".join(changed))
     manual = [k for k in snap["keywords"] if k["Keyword"] != "---autotargeting"]
     if (len(manual), len(snap["keywords"]) - len(manual), len(snap["groups"]), len(snap["ads"])) != (39, 3, 3, 5):
         raise RuntimeError("Expected baseline 39 manual / 3 auto / 3 groups / 5 ads")
@@ -470,6 +471,7 @@ def main():
         report.update(mode=marker["mode"], request_id=marker["request_id"])
         api = Client(marker["mode"], plan, report, journal)
         snap = snapshot(api)
+        report["initial_readback"] = deepcopy(snap)
         if journal is None:
             initial_guard(snap, plan, source)
             if marker["mode"] != "inspect":
