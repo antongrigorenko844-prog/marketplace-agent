@@ -1,0 +1,470 @@
+{
+  "schema_version": 1,
+  "created_on_local_date": "2026-11-20",
+  "timezone": "Asia/Shanghai",
+  "status": "prepared_content_awaiting_product_inputs",
+  "publication_authorized_by_user": true,
+  "publication_ready": false,
+  "non_executable_draft": true,
+  "canonical_master_target": "data/master_control.xlsx",
+  "pricing_rule": "Use the existing master/channel price policy once commercial inputs are available; do not derive retail prices from order quantities or substitute nulls with zero.",
+  "visible_brand": null,
+  "latest_user_constraints": [
+    "No LEOPARTS wordmark or brand text",
+    "First product title: Набор для восстановления гидроаккумулятора DSG7 DQ200",
+    "First product: nitrogen charging and resource restoration only; omit removal, installation, disassembly, assembly",
+    "Do not publish unsupported 100 percent efficacy"
+  ],
+  "publication_route_notes": [
+    "Use exact two-SKU create and verification, not the existing broad launch-new-products workflow.",
+    "Correct categories are workshop/service tools; do not inherit transmission component category, Volkswagen manufacturer brand, OEM or component dimensions.",
+    "After creation, keep commercial inputs in master and consistent derivative rows; this draft is not a second active price source."
+  ],
+  "products": [
+    {
+      "draft_id": "accumulator_service_0am",
+      "seller_sku_candidate": "tool-dq200-acc-restore",
+      "sku_status": "candidate_checked_against_repository_catalogs; live_accounts_check_pending",
+      "content": {
+        "customer_copy": {
+          "title": "Набор для восстановления гидроаккумулятора DSG7 DQ200",
+          "short_title": "Набор для восстановления гидроаккумулятора DSG7 DQ200",
+          "concise_description": "Набор для восстановления гидроаккумулятора DSG7 DQ200 и заправки азотом. Специальная оснастка для работ по восстановлению ресурса гидроаккумулятора в профильной мастерской.",
+          "full_description": "Набор для восстановления гидроаккумулятора DSG7 DQ200 — специальная оснастка для заправки азотом при обслуживании роботизированных коробок передач.\n\nПредназначен для работ по восстановлению ресурса гидроаккумулятора в профильном автосервисе или мастерской. Набор используется при оснащении рабочего места специалиста по обслуживанию гидроаккумуляторов DSG7 DQ200.",
+          "benefits": [
+            "Для гидроаккумулятора DSG7 DQ200",
+            "Заправка азотом",
+            "Восстановление ресурса",
+            "Для профильной мастерской"
+          ],
+          "properties": [
+            {
+              "name": "Тип товара",
+              "value": "Набор инструмента"
+            },
+            {
+              "name": "Назначение",
+              "value": "Восстановление гидроаккумулятора"
+            },
+            {
+              "name": "Трансмиссия",
+              "value": "DSG7 DQ200"
+            },
+            {
+              "name": "Операция",
+              "value": "Заправка азотом"
+            },
+            {
+              "name": "Применение",
+              "value": "Работы по восстановлению ресурса гидроаккумулятора"
+            }
+          ],
+          "site": {
+            "h1": "Набор для восстановления гидроаккумулятора DSG7 DQ200",
+            "meta_title": "Набор для восстановления гидроаккумулятора DSG7 DQ200",
+            "meta_description": "Набор для восстановления гидроаккумулятора DSG7 DQ200. Заправка азотом и работы по восстановлению ресурса гидроаккумулятора в профильной мастерской.",
+            "slug_candidate": "nabor-vosstanovleniya-gidroakkumulyatora-dsg7-dq200"
+          },
+          "channels": {
+            "ozon": {
+              "title": "Набор для восстановления гидроаккумулятора DSG7 DQ200, заправка азотом",
+              "description_ref": "customer_copy.full_description"
+            },
+            "wildberries": {
+              "title": "Набор для восстановления гидроаккумулятора DSG7 DQ200",
+              "description_ref": "customer_copy.full_description"
+            },
+            "yandex_market": {
+              "title": "Набор для восстановления гидроаккумулятора DSG7 DQ200, заправка азотом",
+              "description_ref": "customer_copy.full_description"
+            },
+            "avito": {
+              "title": "Набор для восстановления гидроаккумулятора DSG7 DQ200",
+              "description": "Набор для восстановления гидроаккумулятора DSG7 DQ200.\n\nНазначение:\n• заправка азотом;\n• работы по восстановлению ресурса гидроаккумулятора.\n\nСпециальная оснастка для профильных автосервисов и мастерских по обслуживанию DSG7 DQ200."
+            }
+          },
+          "character_counts": {
+            "title": 53,
+            "short_title": 53,
+            "concise_description": 172,
+            "full_description": 363,
+            "meta_title": 53,
+            "meta_description": 148,
+            "channel_titles": {
+              "ozon": 70,
+              "wildberries": 53,
+              "yandex_market": 70,
+              "avito": 53
+            }
+          }
+        },
+        "graphic_slides": [
+          {
+            "slide": 1,
+            "role": "Обложка",
+            "eyebrow": "ГИДРОАККУМУЛЯТОР DSG7 DQ200",
+            "headline_lines": [
+              "НАБОР ДЛЯ",
+              "ВОССТАНОВЛЕНИЯ"
+            ],
+            "supporting_text": "Заправка азотом",
+            "chips": [
+              "ВОССТАНОВЛЕНИЕ РЕСУРСА"
+            ]
+          },
+          {
+            "slide": 2,
+            "role": "Назначение",
+            "eyebrow": "НАЗНАЧЕНИЕ НАБОРА",
+            "headline_lines": [
+              "ЗАПРАВКА",
+              "АЗОТОМ"
+            ],
+            "supporting_text": "Для работ по восстановлению гидроаккумулятора",
+            "chips": [
+              "DSG7 DQ200"
+            ]
+          },
+          {
+            "slide": 3,
+            "role": "Контекст применения",
+            "eyebrow": "РАБОТЫ С ГИДРОАККУМУЛЯТОРОМ",
+            "headline_lines": [
+              "ВОССТАНОВЛЕНИЕ",
+              "РЕСУРСА"
+            ],
+            "supporting_text": "Специальная оснастка для мастерской",
+            "chips": [
+              "DSG7 DQ200"
+            ]
+          }
+        ],
+        "semantic_query_clusters": [
+          {
+            "cluster": "Восстановление гидроаккумулятора",
+            "intent": "Найти набор для работ по восстановлению гидроаккумулятора DSG7 DQ200",
+            "queries": [
+              "набор для восстановления гидроаккумулятора DSG7 DQ200",
+              "инструмент для восстановления гидроаккумулятора DSG7",
+              "набор для восстановления гидроаккумулятора DQ200",
+              "оснастка для восстановления гидроаккумулятора ДСГ 7"
+            ]
+          },
+          {
+            "cluster": "Заправка азотом",
+            "intent": "Подобрать оснастку для заправки гидроаккумулятора азотом",
+            "queries": [
+              "набор для заправки гидроаккумулятора DSG7 азотом",
+              "инструмент для заправки азотом гидроаккумулятора DQ200",
+              "оснастка для заправки азотом гидроаккумулятора DSG7",
+              "заправка азотом гидроаккумулятора ДСГ 7 набор"
+            ]
+          },
+          {
+            "cluster": "Восстановление ресурса",
+            "intent": "Найти инструмент для сервисных работ по восстановлению ресурса гидроаккумулятора",
+            "queries": [
+              "набор для восстановления ресурса гидроаккумулятора DSG7",
+              "восстановление ресурса гидроаккумулятора DQ200 инструмент",
+              "оснастка для восстановления ресурса гидроаккумулятора DSG7 DQ200"
+            ]
+          }
+        ]
+      },
+      "commercial_inputs": {
+        "base_selling_price_rub": null,
+        "available_sets": null,
+        "packed_weight_g": null,
+        "package_length_mm": null,
+        "package_width_mm": null,
+        "package_height_mm": null
+      },
+      "manufacturer_brand": null,
+      "exact_kit_contents": null,
+      "rated_working_pressure": null,
+      "media": {
+        "status": "preview_from_supplier_thumbnail; original_product_photos_needed",
+        "cover_ready_as_layout": true,
+        "cover_verified_as_product_photograph": false,
+        "public_media_urls": []
+      },
+      "category_selection": {
+        "ozon": null,
+        "wildberries": null,
+        "yandex_market": null,
+        "avito": null,
+        "tilda": "Инструменты — название раздела предложено, раздел не создан"
+      },
+      "channels": {
+        "site": {
+          "status": "not_created",
+          "listing_id": null,
+          "url": null
+        },
+        "ozon": {
+          "status": "not_created",
+          "listing_id": null,
+          "url": null
+        },
+        "wildberries": {
+          "status": "not_created",
+          "listing_id": null,
+          "url": null
+        },
+        "yandex_market": {
+          "status": "not_created",
+          "listing_id": null,
+          "url": null
+        },
+        "avito": {
+          "status": "not_created",
+          "listing_id": null,
+          "url": null
+        }
+      },
+      "publication_blockers": [
+        "original_product_photos_and_kit_verification",
+        "selling_price_or_pricing_input",
+        "sellable_stock",
+        "actual_package_weight_and_dimensions",
+        "correct_tool_category_and_required_attributes"
+      ],
+      "pending_technical_facts": [
+        "Артикул товара продавца и точная модель набора",
+        "Производитель и товарный бренд",
+        "Точная опись комплекта, количество и назначение деталей",
+        "Допустимая методика восстановления гидроаккумулятора и требования к его состоянию",
+        "Совместимые исполнения гидроаккумулятора, резьбы и точки подключения",
+        "Возможность безопасной проверки давления газовой зарядки именно этим набором",
+        "Номинальное и максимально допустимое давление набора, шлангов, арматуры и манометра",
+        "Диапазон, единицы шкалы и точность манометра",
+        "Допустимые газовые соединения, наличие и тип редуктора",
+        "Точная применимость к исполнениям гидроаккумулятора DSG7 DQ200; обозначение DQ200 согласовано пользователем. Не расширять совместимость на 0CW.",
+        "Инструкция и допустимая методика обслуживания",
+        "Габариты, масса, материалы, гарантия и документы",
+        "Розничная цена, фактический остаток и условия доставки"
+      ]
+    },
+    {
+      "draft_id": "dsg_pressure_test_high_pressure",
+      "seller_sku_candidate": "tool-dsg-pressure-hp",
+      "sku_status": "candidate_checked_against_repository_catalogs; live_accounts_check_pending",
+      "content": {
+        "customer_copy": {
+          "title": "Набор для проверки давления DSG, исполнение высокого давления",
+          "short_title": "Набор для проверки давления DSG",
+          "concise_description": "Специализированный набор для проверки давления при обслуживании трансмиссий Volkswagen DSG. Исполнение для высокого давления с упаковкой. Для автосервисов и мастерских по ремонту коробок передач.",
+          "full_description": "Набор для проверки давления в трансмиссиях Volkswagen DSG. Специализированный инструмент для автосервисов и мастерских, которые работают с роботизированными коробками передач с двумя сцеплениями.\n\nПредназначен для измерительных операций при обслуживании DSG. Исполнение для высокого давления, с упаковкой. Набор подходит для оснащения рабочего места специалиста по ремонту трансмиссий.",
+          "benefits": [
+            "Для проверки давления DSG",
+            "Исполнение высокого давления",
+            "Вариант с упаковкой",
+            "Для сервисного участка"
+          ],
+          "properties": [
+            {
+              "name": "Тип товара",
+              "value": "Набор для проверки давления"
+            },
+            {
+              "name": "Назначение",
+              "value": "Сервисные работы с трансмиссиями DSG"
+            },
+            {
+              "name": "Вариант",
+              "value": "Высокое давление"
+            },
+            {
+              "name": "Упаковка",
+              "value": "Вариант с упаковкой"
+            }
+          ],
+          "site": {
+            "h1": "Набор для проверки давления DSG",
+            "meta_title": "Набор для проверки давления DSG",
+            "meta_description": "Специализированный набор для проверки давления при обслуживании Volkswagen DSG. Исполнение высокого давления с упаковкой для автосервисов и мастерских.",
+            "slug_candidate": "nabor-proverki-davleniya-dsg"
+          },
+          "channels": {
+            "ozon": {
+              "title": "Набор для проверки давления Volkswagen DSG, исполнение высокого давления",
+              "description_ref": "customer_copy.full_description"
+            },
+            "wildberries": {
+              "title": "Набор для проверки давления DSG",
+              "description_ref": "customer_copy.full_description"
+            },
+            "yandex_market": {
+              "title": "Набор для проверки давления Volkswagen DSG, высокое давление",
+              "description_ref": "customer_copy.full_description"
+            },
+            "avito": {
+              "title": "Набор для проверки давления DSG",
+              "description": "Специализированный набор для проверки давления при обслуживании коробок передач Volkswagen DSG.\n\nИсполнение для высокого давления, с упаковкой.\n\nИнструмент для автосервисов и мастерских по ремонту роботизированных трансмиссий."
+            }
+          },
+          "character_counts": {
+            "title": 61,
+            "short_title": 31,
+            "concise_description": 195,
+            "full_description": 385,
+            "meta_title": 31,
+            "meta_description": 151,
+            "channel_titles": {
+              "ozon": 72,
+              "wildberries": 31,
+              "yandex_market": 60,
+              "avito": 31
+            }
+          }
+        },
+        "graphic_slides": [
+          {
+            "slide": 1,
+            "role": "Обложка",
+            "eyebrow": "ИНСТРУМЕНТ ДЛЯ DSG",
+            "headline_lines": [
+              "ПРОВЕРКА",
+              "ДАВЛЕНИЯ"
+            ],
+            "supporting_text": "Специализированный набор",
+            "chips": [
+              "DSG",
+              "ВЫСОКОЕ ДАВЛЕНИЕ"
+            ]
+          },
+          {
+            "slide": 2,
+            "role": "Исполнение",
+            "eyebrow": "ВЫБРАННЫЙ ВАРИАНТ",
+            "headline_lines": [
+              "ВЫСОКОЕ",
+              "ДАВЛЕНИЕ"
+            ],
+            "supporting_text": "Набор для проверки давления DSG",
+            "chips": [
+              "С УПАКОВКОЙ"
+            ]
+          },
+          {
+            "slide": 3,
+            "role": "Контекст применения",
+            "eyebrow": "ОСНАЩЕНИЕ МАСТЕРСКОЙ",
+            "headline_lines": [
+              "СЕРВИСНЫЕ",
+              "РАБОТЫ С DSG"
+            ],
+            "supporting_text": "Инструмент для проверки давления",
+            "chips": [
+              "VOLKSWAGEN DSG"
+            ]
+          }
+        ],
+        "semantic_query_clusters": [
+          {
+            "cluster": "Основной товарный спрос",
+            "intent": "Найти набор для измерения давления DSG",
+            "queries": [
+              "набор для проверки давления DSG",
+              "тестер давления DSG",
+              "измеритель давления DSG",
+              "инструмент для проверки давления DSG"
+            ]
+          },
+          {
+            "cluster": "Задача мастера",
+            "intent": "Подобрать инструмент под проверку давления",
+            "queries": [
+              "специнструмент проверка давления DSG",
+              "набор измерения давления DSG",
+              "оборудование для проверки давления DSG"
+            ]
+          },
+          {
+            "cluster": "Марка и вариант написания",
+            "intent": "Найти набор с обозначением Volkswagen DSG",
+            "queries": [
+              "проверка давления Volkswagen DSG инструмент",
+              "набор проверки давления Фольксваген DSG",
+              "тестер давления ДСГ",
+              "набор проверки давления ДСГ"
+            ]
+          }
+        ]
+      },
+      "commercial_inputs": {
+        "base_selling_price_rub": null,
+        "available_sets": null,
+        "packed_weight_g": null,
+        "package_length_mm": null,
+        "package_width_mm": null,
+        "package_height_mm": null
+      },
+      "manufacturer_brand": null,
+      "exact_kit_contents": null,
+      "rated_working_pressure": null,
+      "media": {
+        "status": "preview_from_supplier_thumbnail; original_product_photos_needed",
+        "cover_ready_as_layout": true,
+        "cover_verified_as_product_photograph": false,
+        "public_media_urls": []
+      },
+      "category_selection": {
+        "ozon": null,
+        "wildberries": null,
+        "yandex_market": null,
+        "avito": null,
+        "tilda": "Инструменты — название раздела предложено, раздел не создан"
+      },
+      "channels": {
+        "site": {
+          "status": "not_created",
+          "listing_id": null,
+          "url": null
+        },
+        "ozon": {
+          "status": "not_created",
+          "listing_id": null,
+          "url": null
+        },
+        "wildberries": {
+          "status": "not_created",
+          "listing_id": null,
+          "url": null
+        },
+        "yandex_market": {
+          "status": "not_created",
+          "listing_id": null,
+          "url": null
+        },
+        "avito": {
+          "status": "not_created",
+          "listing_id": null,
+          "url": null
+        }
+      },
+      "publication_blockers": [
+        "original_product_photos_and_kit_verification",
+        "selling_price_or_pricing_input",
+        "sellable_stock",
+        "actual_package_weight_and_dimensions",
+        "correct_tool_category_and_required_attributes"
+      ],
+      "pending_technical_facts": [
+        "Артикул товара продавца и точная модель набора",
+        "Производитель и товарный бренд",
+        "Совместимые типы DSG: 0AM, DQ200 и другие нельзя выводить из общего слова DSG",
+        "Что проверяет набор: давление рабочей жидкости, давление газа, герметичность отдельного узла или иной параметр",
+        "Рабочая среда и точка подключения",
+        "Методика испытания и назначение металлической пластины",
+        "Допустимые давления набора и каждого компонента",
+        "Диапазон, единицы шкалы и точность манометра",
+        "Типы, размеры и количество переходников и соединений",
+        "Полная комплектация и длина шлангов",
+        "Вид упаковки: слово «с упаковкой» не подтверждает наличие кейса",
+        "Инструкция, габариты, масса, материалы, гарантия и документы",
+        "Розничная цена, фактический остаток и условия доставки"
+      ]
+    }
+  ]
+}
