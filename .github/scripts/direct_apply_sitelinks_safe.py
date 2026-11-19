@@ -37,7 +37,7 @@ try:
   html=resp.read().decode("utf-8","ignore")
   if resp.status!=200:raise RuntimeError("Landing HTTP not 200")
  for anchor in ("bez-platy","s-platoi","platy"):
-  if not re.search(r'(?:id|name)\\s*=\\s*["\\']'+re.escape(anchor)+r'["\\']',html,re.I):
+  if not any((marker+anchor+quote) in html for marker in ('id="','id=\'','name="','name=\'') for quote in ('"',"'")):
    raise RuntimeError("Missing anchor: "+anchor)
  before=snapshot()
  if len(before)!=3 or {x["Id"]:x["AdGroupId"] for x in before}!=EXPECTED or any(x["Type"]!="SHOPPING_AD" for x in before):
