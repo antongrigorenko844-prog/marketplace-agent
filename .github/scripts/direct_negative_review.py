@@ -112,7 +112,7 @@ def run():
         "current_day": {"date": "2026-11-19", "partial": True},
         "report_timezone": "Europe/Moscow",
         "freshness_note": "Current day is partial; recent search queries may remain aggregated. Direct statistics can be revised.",
-        "conversion_interpretation": "Aggregate of all goals under LC attribution; not verified paid orders",
+        "conversion_interpretation": "Aggregate of all goals using the documented default LC attribution; Goals and AttributionModels are omitted; not verified paid orders",
         "comparison_rule": "Compare search-query totals only with group rows where AdNetworkType is SEARCH",
         "sections": {}, "requests": {}, "errors": [], "reports": {}}
 
@@ -185,7 +185,7 @@ def run():
             "Filter": [{"Field": "CampaignId", "Operator": "IN", "Values": [str(CID)]}]},
             "FieldNames": fields, "ReportName": f"leoparts-negative-review-{name}-{DATE_TO}-LC-{datetime.now(timezone.utc):%H%M%S}",
             "ReportType": report_type, "DateRangeType": "CUSTOM_DATE", "Format": "TSV",
-            "IncludeVAT": "YES", "AttributionModels": ["LC"]}
+            "IncludeVAT": "YES"}
         record = {"endpoint": BASE_URL + "reports", "params": params,
             "headers": {k: v for k, v in headers(True).items() if k not in {"Authorization", "Client-Login"}},
             "path": str(destination), "requested_fields": fields, "attempts": []}
