@@ -100,6 +100,7 @@ def run():
         try:
             params=spec['params']
             if service=='keywords' and 'ServingStatus' not in params['FieldNames']: params['FieldNames'].append('ServingStatus')
+            if service=='ads' and 'AdImages' not in params['ResponsiveAdFieldNames']: params['ResponsiveAdFieldNames'].append('AdImages')
             report['snapshots'][service]={'at_utc':now(),'result':request(service,params)}
         except Exception as e: report['errors'].append({'section':service,'error':clean(str(e))})
         save(report)
