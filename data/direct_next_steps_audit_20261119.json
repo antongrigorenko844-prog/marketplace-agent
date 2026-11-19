@@ -496,9 +496,10 @@
       "Impressions": "3888",
       "Clicks": "108",
       "Cost": "2749.22",
-      "Conversions_675506966_LC": "0",
-      "Conversions_675507028_LC": "0"
+      "Conversions_675506966_LC": null,
+      "Conversions_675507028_LC": null
     },
+    "totals_semantics": "Sums of numeric cells only. null means no numeric values were reported; placeholders are not assumed to be zero. Partial coverage is not a complete total.",
     "missing_numeric_cells": {
       "Impressions": 0,
       "Clicks": 0,
@@ -506,64 +507,202 @@
       "Conversions_675506966_LC": 55,
       "Conversions_675507028_LC": 55
     },
+    "numeric_cells": {
+      "Impressions": 55,
+      "Clicks": 55,
+      "Cost": 55,
+      "Conversions_675506966_LC": 0,
+      "Conversions_675507028_LC": 0
+    },
+    "metric_coverage": {
+      "Impressions": "complete",
+      "Clicks": "complete",
+      "Cost": "complete",
+      "Conversions_675506966_LC": "not_reported",
+      "Conversions_675507028_LC": "not_reported"
+    },
+    "all_missing_numeric_columns": [
+      "Conversions_675506966_LC",
+      "Conversions_675507028_LC"
+    ],
     "by_criterion_category_decimal": {
       "AUTOTARGETING:ACCESSORY": {
         "Impressions": "468",
         "Clicks": "12",
         "Cost": "345.27",
-        "Conversions_675506966_LC": "0",
-        "Conversions_675507028_LC": "0"
+        "Conversions_675506966_LC": null,
+        "Conversions_675507028_LC": null
       },
       "AUTOTARGETING:ALTERNATIVE": {
         "Impressions": "118",
         "Clicks": "13",
         "Cost": "301.53",
-        "Conversions_675506966_LC": "0",
-        "Conversions_675507028_LC": "0"
+        "Conversions_675506966_LC": null,
+        "Conversions_675507028_LC": null
       },
       "AUTOTARGETING:BROADER": {
         "Impressions": "705",
         "Clicks": "30",
         "Cost": "659.17",
-        "Conversions_675506966_LC": "0",
-        "Conversions_675507028_LC": "0"
+        "Conversions_675506966_LC": null,
+        "Conversions_675507028_LC": null
       },
       "AUTOTARGETING:EXACT": {
         "Impressions": "2538",
         "Clicks": "50",
         "Cost": "1345.73",
-        "Conversions_675506966_LC": "0",
-        "Conversions_675507028_LC": "0"
+        "Conversions_675506966_LC": null,
+        "Conversions_675507028_LC": null
       },
       "KEYWORD:ACCESSORY": {
         "Impressions": "14",
         "Clicks": "1",
         "Cost": "24.37",
-        "Conversions_675506966_LC": "0",
-        "Conversions_675507028_LC": "0"
+        "Conversions_675506966_LC": null,
+        "Conversions_675507028_LC": null
       },
       "KEYWORD:EXACT": {
         "Impressions": "33",
         "Clicks": "2",
         "Cost": "73.15",
-        "Conversions_675506966_LC": "0",
-        "Conversions_675507028_LC": "0"
+        "Conversions_675506966_LC": null,
+        "Conversions_675507028_LC": null
       },
       "KEYWORD:UNKNOWN": {
         "Impressions": "11",
         "Clicks": "0",
         "Cost": "0.00",
-        "Conversions_675506966_LC": "0",
-        "Conversions_675507028_LC": "0"
+        "Conversions_675506966_LC": null,
+        "Conversions_675507028_LC": null
       },
       "KEYWORD:ALTERNATIVE": {
         "Impressions": "1",
         "Clicks": "0",
         "Cost": "0.00",
-        "Conversions_675506966_LC": "0",
-        "Conversions_675507028_LC": "0"
+        "Conversions_675506966_LC": null,
+        "Conversions_675507028_LC": null
+      }
+    },
+    "by_criterion_category_numeric_cells": {
+      "AUTOTARGETING:ACCESSORY": {
+        "Impressions": 12,
+        "Clicks": 12,
+        "Cost": 12,
+        "Conversions_675506966_LC": 0,
+        "Conversions_675507028_LC": 0
+      },
+      "AUTOTARGETING:ALTERNATIVE": {
+        "Impressions": 8,
+        "Clicks": 8,
+        "Cost": 8,
+        "Conversions_675506966_LC": 0,
+        "Conversions_675507028_LC": 0
+      },
+      "AUTOTARGETING:BROADER": {
+        "Impressions": 12,
+        "Clicks": 12,
+        "Cost": 12,
+        "Conversions_675506966_LC": 0,
+        "Conversions_675507028_LC": 0
+      },
+      "AUTOTARGETING:EXACT": {
+        "Impressions": 12,
+        "Clicks": 12,
+        "Cost": 12,
+        "Conversions_675506966_LC": 0,
+        "Conversions_675507028_LC": 0
+      },
+      "KEYWORD:ACCESSORY": {
+        "Impressions": 4,
+        "Clicks": 4,
+        "Cost": 4,
+        "Conversions_675506966_LC": 0,
+        "Conversions_675507028_LC": 0
+      },
+      "KEYWORD:EXACT": {
+        "Impressions": 3,
+        "Clicks": 3,
+        "Cost": 3,
+        "Conversions_675506966_LC": 0,
+        "Conversions_675507028_LC": 0
+      },
+      "KEYWORD:UNKNOWN": {
+        "Impressions": 3,
+        "Clicks": 3,
+        "Cost": 3,
+        "Conversions_675506966_LC": 0,
+        "Conversions_675507028_LC": 0
+      },
+      "KEYWORD:ALTERNATIVE": {
+        "Impressions": 1,
+        "Clicks": 1,
+        "Cost": 1,
+        "Conversions_675506966_LC": 0,
+        "Conversions_675507028_LC": 0
+      }
+    },
+    "by_criterion_category_coverage": {
+      "AUTOTARGETING:ACCESSORY": {
+        "Impressions": "complete",
+        "Clicks": "complete",
+        "Cost": "complete",
+        "Conversions_675506966_LC": "not_reported",
+        "Conversions_675507028_LC": "not_reported"
+      },
+      "AUTOTARGETING:ALTERNATIVE": {
+        "Impressions": "complete",
+        "Clicks": "complete",
+        "Cost": "complete",
+        "Conversions_675506966_LC": "not_reported",
+        "Conversions_675507028_LC": "not_reported"
+      },
+      "AUTOTARGETING:BROADER": {
+        "Impressions": "complete",
+        "Clicks": "complete",
+        "Cost": "complete",
+        "Conversions_675506966_LC": "not_reported",
+        "Conversions_675507028_LC": "not_reported"
+      },
+      "AUTOTARGETING:EXACT": {
+        "Impressions": "complete",
+        "Clicks": "complete",
+        "Cost": "complete",
+        "Conversions_675506966_LC": "not_reported",
+        "Conversions_675507028_LC": "not_reported"
+      },
+      "KEYWORD:ACCESSORY": {
+        "Impressions": "complete",
+        "Clicks": "complete",
+        "Cost": "complete",
+        "Conversions_675506966_LC": "not_reported",
+        "Conversions_675507028_LC": "not_reported"
+      },
+      "KEYWORD:EXACT": {
+        "Impressions": "complete",
+        "Clicks": "complete",
+        "Cost": "complete",
+        "Conversions_675506966_LC": "not_reported",
+        "Conversions_675507028_LC": "not_reported"
+      },
+      "KEYWORD:UNKNOWN": {
+        "Impressions": "complete",
+        "Clicks": "complete",
+        "Cost": "complete",
+        "Conversions_675506966_LC": "not_reported",
+        "Conversions_675507028_LC": "not_reported"
+      },
+      "KEYWORD:ALTERNATIVE": {
+        "Impressions": "complete",
+        "Clicks": "complete",
+        "Cost": "complete",
+        "Conversions_675506966_LC": "not_reported",
+        "Conversions_675507028_LC": "not_reported"
       }
     }
   },
-  "finished_at_utc": "2026-11-19T15:26:00.638911+00:00"
+  "finished_at_utc": "2026-11-19T15:26:00.638911+00:00",
+  "computed_summary_correction": {
+    "reason": "All 55 goal-specific cells are --; sums of no numeric values are not measured zeros. Raw TSV and API capture time unchanged.",
+    "recalculated_at_utc": "2026-11-19T15:33:32.463530+00:00"
+  }
 }
