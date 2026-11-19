@@ -1,13 +1,13 @@
 {
   "campaign_id": 716316525,
-  "started_at_utc": "2026-11-19T19:53:42.753904+00:00",
-  "workflow_commit": "62502e8d3c50b6e6b4fdb204739bc55ffaf7b028",
+  "started_at_utc": "2026-11-19T19:55:28.211748+00:00",
+  "workflow_commit": "5430b41e539e974c3da5fb14f968e021363ee8d4",
   "plan_sha256": "077f0b4c500c9f035f9e5c6feecf231fe7e0f4685090a876a8bab267353db3e8",
   "api_write_attempts_this_run": 0,
   "status": "inspect_verified_no_api_write",
   "errors": [],
   "mode": "inspect",
-  "request_id": "all234-inspect-20261120-01",
+  "request_id": "all234-inspect-20261120-02",
   "initial_readback": {
     "campaign": {
       "TimeZone": "Europe/Moscow",
@@ -1210,9 +1210,9 @@
         "Id": 1927488453443618167,
         "CampaignId": 716316525,
         "AdGroupId": 5828476541,
-        "Status": "MODERATION",
-        "State": "OFF",
-        "StatusClarification": "Awaiting moderation.",
+        "Status": "ACCEPTED",
+        "State": "ON",
+        "StatusClarification": "Campaign is in progress.",
         "Type": "RESPONSIVE_AD",
         "ResponsiveAd": {
           "Texts": [
@@ -1230,8 +1230,8 @@
           "Href": "https://leoparts-akpp.ru/mehatronik-dq200",
           "SitelinkSetId": 1526814548,
           "SitelinksModeration": {
-            "Status": "MODERATION",
-            "StatusClarification": "Sitelinks awaiting moderation."
+            "Status": "ACCEPTED",
+            "StatusClarification": "Sitelinks accepted at moderation."
           }
         }
       }
@@ -1257,72 +1257,22 @@
       ]
     }
   },
-  "client_restrictions": {
-    "Clients": [
-      {
-        "Restrictions": [
-          {
-            "Element": "CAMPAIGNS_TOTAL_PER_CLIENT",
-            "Value": 3000
-          },
-          {
-            "Element": "CAMPAIGNS_UNARCHIVED_PER_CLIENT",
-            "Value": 1000
-          },
-          {
-            "Element": "ADGROUPS_TOTAL_PER_CAMPAIGN",
-            "Value": 1000
-          },
-          {
-            "Element": "ADS_TOTAL_PER_ADGROUP",
-            "Value": 50
-          },
-          {
-            "Element": "KEYWORDS_TOTAL_PER_ADGROUP",
-            "Value": 200
-          },
-          {
-            "Element": "AD_EXTENSIONS_TOTAL",
-            "Value": 1000
-          },
-          {
-            "Element": "GENERAL_DOMAIN_BLACKLIST_SIZE",
-            "Value": 1000
-          },
-          {
-            "Element": "VIDEO_DOMAIN_BLACKLIST_SIZE",
-            "Value": 100
-          },
-          {
-            "Element": "STAT_REPORTS_TOTAL_IN_QUEUE",
-            "Value": 5
-          },
-          {
-            "Element": "FORECAST_REPORTS_TOTAL_IN_QUEUE",
-            "Value": 5
-          },
-          {
-            "Element": "WORDSTAT_REPORTS_TOTAL_IN_QUEUE",
-            "Value": 5
-          },
-          {
-            "Element": "API_POINTS",
-            "Value": 168000
-          }
-        ]
-      }
-    ]
-  },
   "landing_checks": [
     {
       "group": "HYDRO",
       "url": "https://leoparts-akpp.ru/tproduct/838583326453-usilennaya-gidroplita-mehatronika-dsg7-d",
-      "error": "HTTPError"
+      "final_url": "https://leoparts-akpp.ru/catalog/tproduct/838583326453-usilennaya-gidroplita-mehatronika-dsg7-d",
+      "http_status": 200,
+      "title": "Усиленная гидроплита мехатроника DSG7 DQ200 0AM325066AE",
+      "sku_visible": true
     },
     {
       "group": "SLEEVE",
       "url": "https://leoparts-akpp.ru/tproduct/731536345633-vtulka-gilza-shtoka-mehatronika-dsg7-dq2",
-      "error": "HTTPError"
+      "final_url": "https://leoparts-akpp.ru/catalog/tproduct/731536345633-vtulka-gilza-shtoka-mehatronika-dsg7-dq2",
+      "http_status": 200,
+      "title": "Втулка (гильза) штока мехатроника DSG7 DQ200 0AM325025D",
+      "sku_visible": true
     }
   ],
   "baseline_sha256": "ab8ffe773bf3b75033e9ce9f99f38c6f53aa062eb767b9d01eb303905e842a87",
@@ -2528,9 +2478,9 @@
         "Id": 1927488453443618167,
         "CampaignId": 716316525,
         "AdGroupId": 5828476541,
-        "Status": "MODERATION",
-        "State": "OFF",
-        "StatusClarification": "Awaiting moderation.",
+        "Status": "ACCEPTED",
+        "State": "ON",
+        "StatusClarification": "Campaign is in progress.",
         "Type": "RESPONSIVE_AD",
         "ResponsiveAd": {
           "Texts": [
@@ -2548,8 +2498,8 @@
           "Href": "https://leoparts-akpp.ru/mehatronik-dq200",
           "SitelinkSetId": 1526814548,
           "SitelinksModeration": {
-            "Status": "MODERATION",
-            "StatusClarification": "Sitelinks awaiting moderation."
+            "Status": "ACCEPTED",
+            "StatusClarification": "Sitelinks accepted at moderation."
           }
         }
       }
@@ -2584,7 +2534,12 @@
       "campaign_negatives": 130
     },
     "all_existing_objects_preserved": true,
-    "natural_moderation_transitions": [],
+    "natural_moderation_transitions": [
+      {
+        "ad_id_as_string": "1927488453443618167",
+        "transition": "Moderation accepted; no API edit"
+      }
+    ],
     "all234_source_rows_accounted": true,
     "all231_items_resolved": false,
     "all234_represented_and_new_ads_submitted": false,
@@ -16020,12 +15975,12 @@
       {
         "Id_as_string": "1927488453443618167",
         "AdGroupId": 5828476541,
-        "State": "OFF",
-        "Status": "MODERATION"
+        "State": "ON",
+        "Status": "ACCEPTED"
       }
     ],
     "note": "Source mapping is API-object evidence, not proof of impressions, exact universal query matching or paid orders."
   },
-  "finished_at_utc": "2026-11-19T19:53:53.479158+00:00",
+  "finished_at_utc": "2026-11-19T19:55:38.946862+00:00",
   "operations": {}
 }
