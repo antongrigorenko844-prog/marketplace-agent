@@ -1,9 +1,9 @@
 {
-  "status": "partial",
+  "status": "complete",
   "mode": "read_only",
   "campaign_id": 716316525,
-  "captured_at_utc": "2026-11-19T13:03:08.588124+00:00",
-  "workflow_commit": "050a9da6ef7e13d5f2edce0748ed17af2e18e7bf",
+  "captured_at_utc": "2026-11-19T13:04:41.731152+00:00",
+  "workflow_commit": "c89f2e463db14e91b8f03eca42b83ab7f72274f6",
   "requested_period": {
     "from": "2026-10-20",
     "to": "2026-11-19",
@@ -20,43 +20,43 @@
   },
   "report_timezone": "Europe/Moscow",
   "freshness_note": "Current day is partial; recent search queries may remain aggregated. Direct statistics can be revised.",
-  "conversion_interpretation": "Aggregate of all goals under LC attribution; not verified paid orders",
+  "conversion_interpretation": "Aggregate of all goals using the documented default LC attribution; Goals and AttributionModels are omitted; not verified paid orders",
   "comparison_rule": "Compare search-query totals only with group rows where AdNetworkType is SEARCH",
   "sections": {
     "campaigns": {
       "status": "complete",
-      "started_at_utc": "2026-11-19T13:03:08.588468+00:00",
-      "finished_at_utc": "2026-11-19T13:03:11.155354+00:00"
+      "started_at_utc": "2026-11-19T13:04:41.731583+00:00",
+      "finished_at_utc": "2026-11-19T13:04:43.945691+00:00"
     },
     "groups": {
       "status": "complete",
-      "started_at_utc": "2026-11-19T13:03:11.155769+00:00",
-      "finished_at_utc": "2026-11-19T13:03:12.792774+00:00"
+      "started_at_utc": "2026-11-19T13:04:43.946083+00:00",
+      "finished_at_utc": "2026-11-19T13:04:45.520107+00:00"
     },
     "keywords": {
       "status": "complete",
-      "started_at_utc": "2026-11-19T13:03:12.793178+00:00",
-      "finished_at_utc": "2026-11-19T13:03:14.252681+00:00"
+      "started_at_utc": "2026-11-19T13:04:45.520601+00:00",
+      "finished_at_utc": "2026-11-19T13:04:47.231808+00:00"
     },
     "shared_sets": {
       "status": "complete",
-      "started_at_utc": "2026-11-19T13:03:14.262300+00:00",
-      "finished_at_utc": "2026-11-19T13:03:14.263022+00:00"
+      "started_at_utc": "2026-11-19T13:04:47.232612+00:00",
+      "finished_at_utc": "2026-11-19T13:04:47.233335+00:00"
     },
     "query_report": {
-      "status": "failed",
-      "started_at_utc": "2026-11-19T13:03:14.263659+00:00",
-      "finished_at_utc": "2026-11-19T13:03:15.506950+00:00"
+      "status": "complete",
+      "started_at_utc": "2026-11-19T13:04:47.234049+00:00",
+      "finished_at_utc": "2026-11-19T13:04:52.412380+00:00"
     },
     "group_report": {
-      "status": "failed",
-      "started_at_utc": "2026-11-19T13:03:15.507870+00:00",
-      "finished_at_utc": "2026-11-19T13:03:16.447048+00:00"
+      "status": "complete",
+      "started_at_utc": "2026-11-19T13:04:52.413312+00:00",
+      "finished_at_utc": "2026-11-19T13:04:55.733546+00:00"
     },
     "autotargeting_keywords": {
       "status": "complete",
-      "started_at_utc": "2026-11-19T13:03:16.448031+00:00",
-      "finished_at_utc": "2026-11-19T13:03:17.853907+00:00"
+      "started_at_utc": "2026-11-19T13:04:55.734342+00:00",
+      "finished_at_utc": "2026-11-19T13:04:57.022475+00:00"
     }
   },
   "requests": {
@@ -194,16 +194,7 @@
       }
     ]
   },
-  "errors": [
-    {
-      "section": "query_report",
-      "error": "Reports HTTP 400: {\"error\":{\"request_id\":\"360716831879387358\",\"error_string\":\"Invalid request parameters\",\"error_code\":\"4000\",\"error_detail\":\"Поле AttributionModels может быть указано только в случае, если указано поле Goals\"}}"
-    },
-    {
-      "section": "group_report",
-      "error": "Reports HTTP 400: {\"error\":{\"error_string\":\"Invalid request parameters\",\"request_id\":\"6368031237490053771\",\"error_detail\":\"Поле AttributionModels может быть указано только в случае, если указано поле Goals\",\"error_code\":\"4000\"}}"
-    }
-  ],
+  "errors": [],
   "reports": {
     "queries": {
       "endpoint": "https://api.direct.yandex.com/json/v501/reports",
@@ -235,14 +226,11 @@
           "Cost",
           "Conversions"
         ],
-        "ReportName": "leoparts-negative-review-queries-2026-11-19-LC-130314",
+        "ReportName": "leoparts-negative-review-queries-2026-11-19-LC-130447",
         "ReportType": "SEARCH_QUERY_PERFORMANCE_REPORT",
         "DateRangeType": "CUSTOM_DATE",
         "Format": "TSV",
-        "IncludeVAT": "YES",
-        "AttributionModels": [
-          "LC"
-        ]
+        "IncludeVAT": "YES"
       },
       "headers": {
         "Content-Type": "application/json; charset=utf-8",
@@ -271,10 +259,50 @@
       "attempts": [
         {
           "attempt": 1,
-          "http_status": 400,
-          "at_utc": "2026-11-19T13:03:15.506917+00:00"
+          "http_status": 201,
+          "at_utc": "2026-11-19T13:04:48.844719+00:00",
+          "retry_in_seconds": 1
+        },
+        {
+          "attempt": 2,
+          "http_status": 200,
+          "at_utc": "2026-11-19T13:04:52.399354+00:00"
         }
-      ]
+      ],
+      "row_count": 1541,
+      "response_fields": [
+        "Date",
+        "CampaignId",
+        "AdGroupId",
+        "AdGroupName",
+        "Query",
+        "CriterionType",
+        "CriterionId",
+        "Criterion",
+        "Impressions",
+        "Clicks",
+        "Cost",
+        "Conversions"
+      ],
+      "metric_columns": {
+        "Impressions": "Impressions",
+        "Clicks": "Clicks",
+        "Cost": "Cost",
+        "Conversions": "Conversions"
+      },
+      "totals_decimal": {
+        "Impressions": "3686",
+        "Clicks": "100",
+        "Cost": "2511.82",
+        "Conversions": "4"
+      },
+      "missing_numeric_cells": {
+        "Impressions": 0,
+        "Clicks": 0,
+        "Cost": 0,
+        "Conversions": 0
+      },
+      "captured_at_utc": "2026-11-19T13:04:52.410827+00:00"
     },
     "groups": {
       "endpoint": "https://api.direct.yandex.com/json/v501/reports",
@@ -304,14 +332,11 @@
           "Cost",
           "Conversions"
         ],
-        "ReportName": "leoparts-negative-review-groups-2026-11-19-LC-130315",
+        "ReportName": "leoparts-negative-review-groups-2026-11-19-LC-130452",
         "ReportType": "ADGROUP_PERFORMANCE_REPORT",
         "DateRangeType": "CUSTOM_DATE",
         "Format": "TSV",
-        "IncludeVAT": "YES",
-        "AttributionModels": [
-          "LC"
-        ]
+        "IncludeVAT": "YES"
       },
       "headers": {
         "Content-Type": "application/json; charset=utf-8",
@@ -338,10 +363,48 @@
       "attempts": [
         {
           "attempt": 1,
-          "http_status": 400,
-          "at_utc": "2026-11-19T13:03:16.447013+00:00"
+          "http_status": 201,
+          "at_utc": "2026-11-19T13:04:53.519386+00:00",
+          "retry_in_seconds": 1
+        },
+        {
+          "attempt": 2,
+          "http_status": 200,
+          "at_utc": "2026-11-19T13:04:55.732183+00:00"
         }
-      ]
+      ],
+      "row_count": 16,
+      "response_fields": [
+        "Date",
+        "CampaignId",
+        "AdGroupId",
+        "AdGroupName",
+        "AdNetworkType",
+        "CriterionType",
+        "Impressions",
+        "Clicks",
+        "Cost",
+        "Conversions"
+      ],
+      "metric_columns": {
+        "Impressions": "Impressions",
+        "Clicks": "Clicks",
+        "Cost": "Cost",
+        "Conversions": "Conversions"
+      },
+      "totals_decimal": {
+        "Impressions": "3811",
+        "Clicks": "104",
+        "Cost": "2596.91",
+        "Conversions": "4"
+      },
+      "missing_numeric_cells": {
+        "Impressions": 0,
+        "Clicks": 0,
+        "Cost": 0,
+        "Conversions": 0
+      },
+      "captured_at_utc": "2026-11-19T13:04:55.732637+00:00"
     }
   },
   "campaigns": [
@@ -1171,5 +1234,5 @@
       }
     }
   ],
-  "finished_at_utc": "2026-11-19T13:03:17.854882+00:00"
+  "finished_at_utc": "2026-11-19T13:04:57.023606+00:00"
 }
