@@ -74,7 +74,7 @@ def fetch_site_records():
         slice_no = 1
         for _ in range(10):
             r = requests.get('https://store.tildaapi.com/api/getproductslist/', headers=UA, timeout=35,
-                params={'storepartuid': part, 'recid': next(iter(sorted(recids)), ''), 'c': '', 'getparts': 'true', 'getoptions': 'true', 'slice': slice_no, 'size': 100})
+                params={'storepartuid': part, 'recid': next(iter(sorted(recids)), ''), 'c': str(int(time.time() * 1000)), 'getparts': 'true', 'getoptions': 'true', 'slice': slice_no, 'size': 100})
             r.raise_for_status()
             data = r.json()
             for p in data.get('products') or []:
@@ -542,6 +542,29 @@ def apply_prices():
     print(json.dumps({k: report.get(k) for k in ('status', 'source_prices_saved', 'site_verified', 'avito_verified', 'errors')}, ensure_ascii=False))
     return 0 if report['status'] == 'applied_and_verified' else 1
 
+def verify_prices():
+    report = {'mode': 'verify', 'started_at_utc': now(), 'external_mutations': [], 'errors': []}
+    try:
+        original = json.loads((ROOT / 'data/dq200_price_apply_20261120.json').read_text())
+        after_site = fetch_site_records()
+        report['site'] = after_site
+        report['site_verified'] = verified_site_delta(original['site_before'], after_site)
+        after_avito = avito_preflight()
+        report['avito'] = after_avito
+        got = after_avito.get('targets', {})
+        report['avito_verified'] = set(got) == set(TARGETS) | set(KEEP) and all(int(got[s]['price']) == NEW_PRICE for s in TARGETS) and int(got['0am325025HX']['price']) == 64500
+        if report['site_verified']:
+            paths = update_price_snapshots(after_site)
+            report['feed_commit'] = commit_paths(paths, 'Verify four live site prices and refresh matching DQ200 feed prices')
+        report['status'] = 'applied_and_verified' if report['site_verified'] and report['avito_verified'] else 'verification_pending'
+    except Exception as exc:
+        report['status'] = 'verification_failed'
+        report['errors'].append({'type': type(exc).__name__, 'message': str(exc) if isinstance(exc, RuntimeError) else 'Verification failed'})
+    report['finished_at_utc'] = now()
+    (ROOT / 'data/dq200_price_verify_20261120.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
+    print(json.dumps({k: report.get(k) for k in ('status', 'site_verified', 'avito_verified', 'errors')}, ensure_ascii=False))
+    return 0 if report['status'] == 'applied_and_verified' else 1
+
 def inspect():
     report = {'mode': 'inspect', 'started_at_utc': now(), 'mutations': [], 'errors': []}
     try:
@@ -572,6 +595,8 @@ def main():
         return api_schema()
     if request.get('mode') == 'apply':
         return apply_prices()
+    if request.get('mode') == 'verify':
+        return verify_prices()
     raise RuntimeError('Requested mode has not been installed')
 
 if __name__ == '__main__':
