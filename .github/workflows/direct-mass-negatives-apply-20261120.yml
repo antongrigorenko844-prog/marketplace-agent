@@ -28,7 +28,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for report in data/direct_mass_negatives_preflight_20261120.json data/direct_mass_negatives_apply_20261120.json data/direct_mass_negatives_check_20261120.json data/direct_mass_negatives_rollback_new_20261120.json; do
+          for report in data/direct_mass_negatives_preflight_20261120.json data/direct_mass_negatives_apply_20261120.json data/direct_mass_negatives_apply_blocked_20261120.json data/direct_mass_negatives_check_20261120.json data/direct_mass_negatives_rollback_new_20261120.json; do
             if [ -f "$report" ]; then
               git add -- "$report"
             fi
