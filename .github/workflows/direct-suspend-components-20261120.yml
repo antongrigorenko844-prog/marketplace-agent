@@ -1,0 +1,38 @@
+name: direct-suspend-components-20261120
+on:
+  push:
+    branches: [main]
+    paths: ['.github/agent-requests/direct-suspend-components-20261120.txt']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  suspend-approved-two-ads:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Suspend only the two user-approved component ads and verify
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_suspend_components_20261120.py
+      - name: Save only the scoped execution result
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          report=data/direct_suspend_components_20261120_result.json
+          if [ -f "$report" ]; then
+            git add -- "$report"
+          fi
+          if ! git diff --cached --quiet; then
+            git commit -m "Record approved component ad suspension [skip ci]"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
