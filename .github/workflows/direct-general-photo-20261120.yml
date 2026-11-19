@@ -1,0 +1,37 @@
+name: direct-general-photo-20261120
+on:
+  push:
+    branches: [main]
+    paths: ['.github/agent-requests/direct-general-photo-20261120.txt']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  attach-selected-photo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Attach only user-selected image to existing general mechatronics ad
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_general_photo_20261120.py
+      - name: Save only this image change result
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -f data/direct_general_photo_20261120_result.json ]; then
+            git add -- data/direct_general_photo_20261120_result.json
+          fi
+          if ! git diff --cached --quiet; then
+            git commit -m "Record approved general mechatronics photo attachment [skip ci]"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
