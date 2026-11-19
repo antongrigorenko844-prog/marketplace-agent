@@ -175,6 +175,7 @@ try:
             raise RuntimeError("Post-apply invariants failed")
     report["after"] = after
     report["other_ad_settings_unchanged"] = True
+    report["links_verified"] = True
     report["status"] = "verified"
     save()
     drafts = [x["Id"] for x in after if x["Status"] == "DRAFT"]
@@ -188,7 +189,7 @@ try:
 except Exception as error:
     report["error"] = clean_error(error)
     # Re-read after uncertain writes; restore only our sitelink assignment.
-    if report["attempted"] and target_sid is not None and report.get("status") != "verified":
+    if report["attempted"] and target_sid is not None and not report.get("links_verified"):
         rollback = []
         try:
             current_by_id = {x["Id"]: x for x in snapshot()}
@@ -212,7 +213,7 @@ except Exception as error:
         except Exception as rollback_error:
             report["rollback_error"] = clean_error(rollback_error)
         report["rollback"] = rollback
-    if report.get("status") == "verified":
+    if report.get("links_verified"):
         report["status"] = "verified_moderation_requires_attention"
     else:
         report["status"] = "failed"
