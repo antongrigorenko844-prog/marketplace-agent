@@ -189,6 +189,20 @@ def fetch_public(url):
     return parse_xml(raw)
 
 
+def public_observation(root, plan, url, attempt):
+    rows = {row.get("id"): row for row in root.findall("./shop/offers/offer")}
+    values = [{"offer_id": oid, "name": rows[oid].findtext("name") if oid in rows else None,
+               "description_present": bool(rows[oid].findtext("description")) if oid in rows else False,
+               "description_matches_approved": rows[oid].findtext("description") == TEXT if oid in rows else False}
+              for oid in sorted(MECH_IDS)]
+    observed_hash = digest(root)
+    return {"attempt": attempt, "checked_at_utc": now(), "url": url, "semantic_sha256": observed_hash,
+            "matches_before": observed_hash == plan["before_hash"], "matches_after": observed_hash == plan["after_hash"],
+            "mechatronics": values, "approved_name_count": sum(x["name"] == TITLE for x in values),
+            "description_present_count": sum(x["description_present"] for x in values),
+            "approved_description_count": sum(x["description_matches_approved"] for x in values)}
+
+
 def get_feed(api):
     result = api("feeds", "get", {"SelectionCriteria": {"Ids": [FID]},
         "FieldNames": ["Id", "Name", "SourceType", "Status", "UpdatedAt", "NumberOfItems", "TitleAndTextSources"],
@@ -228,14 +242,22 @@ def copy_fields(ad):
     return {key: ad["ShoppingAd"].get(key) for key in DESIRED}
 
 
-def guard_ads(before, current, allow_desired=True):
+def guard_ads(before, current, allow_desired=True, write_proof=()):
     for aid in ALL_ADS:
         expected = copy.deepcopy(before[aid])
         if aid in TARGETS and allow_desired and copy_fields(current[aid]) == DESIRED:
             expected["ShoppingAd"].update(copy.deepcopy(DESIRED))
+        own_pending_edit = (aid in TARGETS and aid in write_proof
+                            and copy_fields(current[aid]) == DESIRED
+                            and current[aid].get("State") == "OFF"
+                            and current[aid].get("Status") in {"DRAFT", "MODERATION"})
+        if aid in TARGETS and copy_fields(current[aid]) == DESIRED and current[aid].get("Status") == "REJECTED":
+            raise RuntimeError("Approved copy is rejected and requires review: " + str(aid))
+        if own_pending_edit:
+            expected["State"] = "OFF"
         if stable(current[aid]) != stable(expected):
             raise RuntimeError("Ad changed outside this approved operation: " + str(aid))
-        if current[aid].get("State") != "ON":
+        if current[aid].get("State") != "ON" and not own_pending_edit:
             raise RuntimeError("Reviewed active ad is no longer ON")
 
 
@@ -276,6 +298,9 @@ def run(mode, api=None, public=None, poll_attempts=1):
         raise ValueError("Unsupported marker mode or poll bound")
     api, public = api or Client(mode), public or fetch_public
     out = Path("data/direct_shopping_copy_" + mode + "_20261119.json")
+    apply_path = Path("data/direct_shopping_copy_apply_20261119.json")
+    prior_apply = json.loads(apply_path.read_text(encoding="utf-8")) if apply_path.exists() else {}
+    write_proof = set()
     report = {"mode": mode, "status": "started", "campaign_id": CID, "feed_id": FID,
               "target_ad_ids": list(TARGETS), "started_at_utc": now(), "workflow_commit": os.environ.get("GITHUB_SHA"),
               "mutation_attempts": [], "mutations_verified": [], "errors": []}
@@ -288,6 +313,13 @@ def run(mode, api=None, public=None, poll_attempts=1):
     try:
         plan = validate_plan()
         report["plan_sha256"] = plan["plan_sha256"]
+        if (prior_apply.get("mode") == "apply" and prior_apply.get("campaign_id") == CID
+                and prior_apply.get("feed_id") == FID and prior_apply.get("plan_sha256") == plan["plan_sha256"]
+                and set(prior_apply.get("target_ad_ids", [])) == set(TARGETS)):
+            write_proof.update(i for i in prior_apply.get("approved_copy_write_ids", []) if i in TARGETS)
+            write_proof.update(x["id"] for x in prior_apply.get("mutation_attempts", [])
+                               if x.get("service") == "ads" and x.get("method") == "update" and x.get("id") in TARGETS)
+        report["approved_copy_write_ids"] = sorted(write_proof)
         report["feed_semantic_hashes"] = {"before": plan["before_hash"], "after": plan["after_hash"]}
         report["feed"] = feed = get_feed(api)
         report["ads"] = current = get_ads(api)
@@ -310,13 +342,24 @@ def run(mode, api=None, public=None, poll_attempts=1):
             if not -60 <= age <= 86400:
                 raise RuntimeError("Preflight is older than 24 hours")
             before = {int(key): value for key, value in baseline["ads"].items()}
-            guard_ads(before, current)
+            guard_ads(before, current, write_proof=write_proof)
             guard_filters(current, plan["after"])
             if digest(parse_xml(ACTIVE_XML.read_bytes())) != plan["after_hash"]:
                 raise RuntimeError("Authorized feed version is not published in this checkout")
             source_url = REFRESH_URL if mode == "refresh" else feed["UrlFeed"]["Url"]
-            if digest(public(source_url)) != plan["after_hash"]:
-                raise RuntimeError("Public feed does not match the exact authorized seven-offer patch")
+            report["public_feed_observations"] = []
+            public_attempts = 3 if mode == "refresh" else 1
+            for attempt in range(1, public_attempts + 1):
+                observation = public_observation(public(source_url), plan, source_url, attempt)
+                report["public_feed_observations"].append(observation)
+                save()
+                if observation["matches_after"]:
+                    break
+                if mode == "refresh" and observation["matches_before"] and attempt < public_attempts:
+                    time.sleep(20)
+                    continue
+                raise RuntimeError("Public feed does not match the exact authorized patch; observed semantic SHA256 "
+                                   + observation["semantic_sha256"] + "; exact previous version=" + str(observation["matches_before"]))
             report["public_after_feed_verified"] = True
             if mode == "refresh":
                 if feed["UrlFeed"]["Url"] != REFRESH_URL:
@@ -332,7 +375,7 @@ def run(mode, api=None, public=None, poll_attempts=1):
                     raise RuntimeError("Refresh URL change not confirmed; no retry performed")
                 report["mutations_verified"].append({"service": "feeds", "id": FID, "url": REFRESH_URL})
                 report["ads"] = after = get_ads(api)
-                guard_ads(current, after, allow_desired=False)
+                guard_ads(current, after, allow_desired=False, write_proof=write_proof)
                 report["status"] = "feed_ready" if feed_ready(feed, baseline["feed"]) else "refresh_requested_waiting_processing"
             else:
                 for attempt in range(poll_attempts):
@@ -345,11 +388,16 @@ def run(mode, api=None, public=None, poll_attempts=1):
                     report["status"] = "waiting_feed_processing"
                 else:
                     if mode == "apply":
+                        # Re-read after any processing wait before the first write.
+                        report["ads"] = current = get_ads(api)
+                        guard_ads(before, current, write_proof=write_proof)
                         for aid in TARGETS:
-                            guard_ads(before, current)
+                            guard_ads(before, current, write_proof=write_proof)
                             if copy_fields(current[aid]) == DESIRED:
                                 continue
                             report["mutation_attempts"].append({"service": "ads", "method": "update", "id": aid})
+                            write_proof.add(aid)
+                            report["approved_copy_write_ids"] = sorted(write_proof)
                             save()
                             try:
                                 result = api("ads", "update", {"Ads": [{"Id": aid, "ShoppingAd": copy.deepcopy(DESIRED)}]})
@@ -358,7 +406,7 @@ def run(mode, api=None, public=None, poll_attempts=1):
                             except Exception as error:
                                 report.setdefault("uncertain_write_responses", []).append({"id": aid, "error": clean(error)})
                             report["ads"] = current = get_ads(api)
-                            guard_ads(before, current)
+                            guard_ads(before, current, write_proof=write_proof)
                             if copy_fields(current[aid]) != DESIRED:
                                 raise RuntimeError("Ad copy update not confirmed; no retry: " + str(aid))
                             report["mutations_verified"].append({"service": "ads", "id": aid})
@@ -373,7 +421,7 @@ def run(mode, api=None, public=None, poll_attempts=1):
                             except Exception as error:
                                 report["moderation_response_error"] = clean(error)
                     report["ads"] = current = get_ads(api)
-                    guard_ads(before, current)
+                    guard_ads(before, current, write_proof=write_proof)
                     desired = all(copy_fields(current[aid]) == DESIRED for aid in TARGETS)
                     live = all(current[aid].get("State") == "ON" and current[aid].get("Status") == "ACCEPTED"
                                and current[aid]["ShoppingAd"].get("FeedProcessingStatus") == "PROCESSED" for aid in TARGETS)
