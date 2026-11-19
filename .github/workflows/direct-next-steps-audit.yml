@@ -1,0 +1,31 @@
+name: direct-next-steps-audit
+on:
+  push:
+    branches: [main]
+    paths: ['.github/agent-requests/direct-next-steps-audit.txt']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read goal names, categories, ad statuses, feed and negative verification
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_next_steps_audit.py
+      - name: Save audit including partial results
+        if: always()
+        run: |
+          git config user.name github-actions
+          git config user.email actions@users.noreply.github.com
+          git add data/direct_next_steps_audit_20261119.json data/direct_next_steps_categories_20261119.tsv data/direct_next_steps_goals_20261119.tsv data/direct_thematic_negatives_verification_20261119.json
+          git diff --cached --quiet || (git commit -m "Save read-only Direct next-steps audit" && git fetch origin main && git rebase origin/main && git push)
