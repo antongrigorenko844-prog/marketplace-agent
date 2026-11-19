@@ -1,0 +1,271 @@
+{
+  "mode": "apply_default_text",
+  "status": "verified_default_text_settings",
+  "campaign_id": 716316525,
+  "feed_id": 4061297,
+  "target_ad_ids": [
+    1927186476439690942,
+    1927189770678081700
+  ],
+  "started_at_utc": "2026-11-19T16:20:29.584389+00:00",
+  "workflow_commit": "5fabdf8f5e8e720a4d55e7bad886891e4c4740f0",
+  "mutation_attempts": [
+    {
+      "service": "ads",
+      "method": "update",
+      "id": 1927186476439690942
+    },
+    {
+      "service": "ads",
+      "method": "update",
+      "id": 1927189770678081700
+    }
+  ],
+  "mutations_verified": [
+    {
+      "service": "ads",
+      "id": 1927186476439690942
+    },
+    {
+      "service": "ads",
+      "id": 1927189770678081700
+    }
+  ],
+  "errors": [],
+  "plan_sha256": "7e6169a4446329f77539dd01fd750861b1ab8cfa5c57f5474765802e500ce0fe",
+  "approved_copy_write_ids": [
+    1927186476439690942,
+    1927189770678081700
+  ],
+  "approved_copy_patch": {
+    "TitleSources": {
+      "Items": [
+        "name"
+      ]
+    },
+    "DefaultTexts": [
+      "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ"
+    ]
+  },
+  "fallback_semantics": "DefaultTexts is a fallback if generated/source text is unavailable; TextSources=null does not disable generation or prove the literal text was displayed.",
+  "feed_semantic_hashes": {
+    "before": "5b580ea333ede077f300b3a69059ab57e076601e0a02f2ac2b80bff8ec598a29",
+    "after": "efac4a4e070586cbb4525a43fccc8e9fa2aad87c49e4787c5b0835eddf63efc0"
+  },
+  "feed": {
+    "Id": 4061297,
+    "Name": "Leoparts DQ200 — проверка.",
+    "SourceType": "URL",
+    "Status": "DONE",
+    "UpdatedAt": "2026-11-19T19:10:12",
+    "NumberOfItems": 12,
+    "TitleAndTextSources": {
+      "Items": [
+        "name"
+      ]
+    },
+    "UrlFeed": {
+      "Url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml?copy_rev=20261119_01"
+    }
+  },
+  "ads": {
+    "1927186476439690942": {
+      "Id": 1927186476439690942,
+      "CampaignId": 716316525,
+      "AdGroupId": 5826171512,
+      "Status": "ACCEPTED",
+      "State": "ON",
+      "StatusClarification": "Campaign is in progress.",
+      "Type": "SHOPPING_AD",
+      "ShoppingAd": {
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "ACCEPTED",
+          "StatusClarification": "Sitelinks accepted at moderation."
+        },
+        "AdExtensions": [],
+        "BusinessId": null,
+        "FeedId": 4061297,
+        "FeedFilterConditions": {
+          "Items": [
+            {
+              "Operand": "price",
+              "Operator": "IN_RANGE",
+              "Arguments": [
+                "33500-38500"
+              ]
+            }
+          ]
+        },
+        "FeedProcessingStatus": "PROCESSED",
+        "TitleSources": {
+          "Items": [
+            "name"
+          ]
+        },
+        "TextSources": null,
+        "DefaultTexts": [
+          "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ"
+        ],
+        "GenerationScopes": [
+          "OFFER"
+        ],
+        "ListingFeedFilterConditions": null,
+        "ListingTitleSources": null,
+        "ListingTextSources": null
+      }
+    },
+    "1927189770678081700": {
+      "Id": 1927189770678081700,
+      "CampaignId": 716316525,
+      "AdGroupId": 5826183946,
+      "Status": "ACCEPTED",
+      "State": "ON",
+      "StatusClarification": "Campaign is in progress.",
+      "Type": "SHOPPING_AD",
+      "ShoppingAd": {
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "ACCEPTED",
+          "StatusClarification": "Sitelinks accepted at moderation."
+        },
+        "AdExtensions": [],
+        "BusinessId": null,
+        "FeedId": 4061297,
+        "FeedFilterConditions": {
+          "Items": [
+            {
+              "Operand": "price",
+              "Operator": "IN_RANGE",
+              "Arguments": [
+                "60000-75000"
+              ]
+            }
+          ]
+        },
+        "FeedProcessingStatus": "PROCESSED",
+        "TitleSources": {
+          "Items": [
+            "name"
+          ]
+        },
+        "TextSources": null,
+        "DefaultTexts": [
+          "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ"
+        ],
+        "GenerationScopes": [
+          "OFFER",
+          "LISTING"
+        ],
+        "ListingFeedFilterConditions": null,
+        "ListingTitleSources": null,
+        "ListingTextSources": null
+      }
+    },
+    "1927190920657966611": {
+      "Id": 1927190920657966611,
+      "CampaignId": 716316525,
+      "AdGroupId": 5826320196,
+      "Status": "ACCEPTED",
+      "State": "ON",
+      "StatusClarification": "Campaign is in progress.",
+      "Type": "SHOPPING_AD",
+      "ShoppingAd": {
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "ACCEPTED",
+          "StatusClarification": "Sitelinks accepted at moderation."
+        },
+        "AdExtensions": [],
+        "BusinessId": null,
+        "FeedId": 4061297,
+        "FeedFilterConditions": {
+          "Items": [
+            {
+              "Operand": "price",
+              "Operator": "IN_RANGE",
+              "Arguments": [
+                "39000-45000"
+              ]
+            }
+          ]
+        },
+        "FeedProcessingStatus": "PROCESSED",
+        "TitleSources": null,
+        "TextSources": null,
+        "DefaultTexts": [],
+        "GenerationScopes": [
+          "OFFER",
+          "LISTING"
+        ],
+        "ListingFeedFilterConditions": null,
+        "ListingTitleSources": null,
+        "ListingTextSources": null
+      }
+    }
+  },
+  "public_feed_observations": [
+    {
+      "attempt": 1,
+      "checked_at_utc": "2026-11-19T16:20:32.442306+00:00",
+      "url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml?copy_rev=20261119_01",
+      "semantic_sha256": "efac4a4e070586cbb4525a43fccc8e9fa2aad87c49e4787c5b0835eddf63efc0",
+      "matches_before": false,
+      "matches_after": true,
+      "mechatronics": [
+        {
+          "offer_id": "0am325025h",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025hx",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025hxe",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025hxf",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025hxg",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025hxk",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025x",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        }
+      ],
+      "approved_name_count": 7,
+      "description_present_count": 7,
+      "approved_description_count": 7
+    }
+  ],
+  "public_after_feed_verified": true,
+  "copy_saved_exactly": true,
+  "unrelated_ad_fields_and_board_unchanged": true,
+  "default_text_saved_exactly": true,
+  "text_sources_preserved_null": true,
+  "rendered_ad_preview_verified": false,
+  "finished_at_utc": "2026-11-19T16:20:41.069957+00:00"
+}
