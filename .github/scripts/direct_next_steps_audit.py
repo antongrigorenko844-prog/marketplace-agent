@@ -206,7 +206,10 @@ def parse_report(text, goal_ids=None):
     metric_columns = ["Impressions", "Clicks", "Cost"] + conversion_columns
     totals = {name: Decimal(0) for name in metric_columns}
     missing = {name: 0 for name in metric_columns}
+    numeric = {name: 0 for name in metric_columns}
     categories = {}
+    category_numeric = {}
+    category_rows = {}
     count = 0
     for count, row in enumerate(reader, 1):
         if None in row or any(value is None for value in row.values()):
@@ -215,6 +218,8 @@ def parse_report(text, goal_ids=None):
             raise RuntimeError("Report row outside requested campaign/dates")
         bucket = row["CriterionType"] + ":" + row["TargetingCategory"]
         sums = categories.setdefault(bucket, {name: Decimal(0) for name in metric_columns})
+        known = category_numeric.setdefault(bucket, {name: 0 for name in metric_columns})
+        category_rows[bucket] = category_rows.get(bucket, 0) + 1
         for name in metric_columns:
             value = row[name].strip()
             if value in ("", "-", "--"):
@@ -225,11 +230,28 @@ def parse_report(text, goal_ids=None):
                 raise RuntimeError("Invalid numeric report metric")
             totals[name] += number
             sums[name] += number
+            numeric[name] += 1
+            known[name] += 1
+    def coverage(known_count, row_count):
+        if row_count == 0:
+            return "no_rows"
+        if known_count == 0:
+            return "not_reported"
+        return "complete" if known_count == row_count else "partial_numeric_cells"
     return {"rows": count, "columns": columns,
-            "totals_decimal": {k: str(v) for k, v in totals.items()},
+            "totals_decimal": {k: str(v) if numeric[k] else None for k, v in totals.items()},
+            "totals_semantics": "Sums of numeric cells only. null means no numeric values were reported; placeholders are not assumed to be zero. Partial coverage is not a complete total.",
             "missing_numeric_cells": missing,
-            "by_criterion_category_decimal": {k: {m: str(v) for m, v in values.items()}
-                                                for k, values in categories.items()}}
+            "numeric_cells": numeric,
+            "metric_coverage": {k: coverage(v, count) for k, v in numeric.items()},
+            "all_missing_numeric_columns": [k for k, v in numeric.items() if count and not v],
+            "by_criterion_category_decimal": {k: {m: str(v) if category_numeric[k][m] else None
+                                                    for m, v in values.items()}
+                                                for k, values in categories.items()},
+            "by_criterion_category_numeric_cells": category_numeric,
+            "by_criterion_category_coverage": {k: {m: coverage(v, category_rows[k])
+                                                    for m, v in values.items()}
+                                                 for k, values in category_numeric.items()}}
 
 
 def run():
@@ -247,6 +269,7 @@ def run():
                  "Category report contains SEARCH/AUTOTARGETING only; goal report contains all SEARCH criterion types.",
                  "Aggregate conversions are all-goal visits using default LC; goal-specific conversions use explicit LC.",
                  "Do not sum goal conversion columns as unique orders or count repeated traffic across the two reports.",
+                 "TSV placeholders are not numeric zeros. Totals without numeric observations are null; partial numeric coverage is labelled explicitly.",
                  "Live4 returns goal names, not goal types or event conditions. No Metrica scope/access is attempted.",
                  "Goal names and configured goal values do not verify paid orders or realized profit.",
                  "Recent data and the partial current day can change; decimal totals cover the full requested period."]}
