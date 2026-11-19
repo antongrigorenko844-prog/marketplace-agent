@@ -1,0 +1,39 @@
+name: direct-independent-audit-20261120
+on:
+  push:
+    branches: [main]
+    paths: ['.github/agent-requests/direct-independent-audit-20261120.txt']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  read-only-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read Direct objects reports and public landing pages
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_independent_audit_20261120.py
+      - name: Save only independent audit results
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for report in data/direct_independent_audit_20261120.json data/direct_independent_queries_20261120.tsv data/direct_independent_criteria_20261120.tsv data/direct_independent_groups_20261120.tsv; do
+            if [ -f "$report" ]; then
+              git add -- "$report"
+            fi
+          done
+          if ! git diff --cached --quiet; then
+            git commit -m "Save independent read-only Direct audit [skip ci]"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
