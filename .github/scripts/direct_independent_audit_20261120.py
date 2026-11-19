@@ -143,7 +143,7 @@ def run():
     requests=[('queries','SEARCH_QUERY_PERFORMANCE_REPORT',base_fields+['AdId','Query','CriterionType','CriterionId','Criterion','MatchedKeyword','MatchType','Impressions','Clicks','Cost','Conversions']),('criteria','CRITERIA_PERFORMANCE_REPORT',base_fields+['AdNetworkType','CriterionType','CriterionId','Criterion','Impressions','Clicks','Cost','Conversions']),('groups','ADGROUP_PERFORMANCE_REPORT',base_fields+['AdNetworkType','Impressions','Clicks','Cost','Conversions'])]
     for key,kind,fields in requests:
         try:
-            params={'SelectionCriteria':{'DateFrom':'2026-10-20','DateTo':date_to,'Filter':[{'Field':'CampaignId','Operator':'IN','Values':[str(CID)]}]},'FieldNames':fields,'ReportName':'LEOPARTS-independent-'+key+'-'+str(int(time.time())),'ReportType':kind,'DateRangeType':'CUSTOM_DATE','Format':'TSV','IncludeVAT':'YES','IncludeDiscount':'YES','AttributionModels':['LC']}
+            params={'SelectionCriteria':{'DateFrom':'2026-10-20','DateTo':date_to,'Filter':[{'Field':'CampaignId','Operator':'IN','Values':[str(CID)]}]},'FieldNames':fields,'ReportName':'LEOPARTS-independent-'+key+'-'+str(int(time.time())),'ReportType':kind,'DateRangeType':'CUSTOM_DATE','Format':'TSV','IncludeVAT':'YES','IncludeDiscount':'YES'}
             raw=request('reports',params,report=True)
             path=Path('data/direct_independent_'+key+'_20261120.tsv'); path.write_text(raw,encoding='utf-8')
             report['reports'][key]={'path':str(path),'at_utc':now(),'fields':fields,'rows':list(csv.DictReader(io.StringIO(raw),delimiter='\t'))}
