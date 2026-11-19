@@ -3301,6 +3301,33 @@
         ]
       },
       "intent_at_utc": "2026-11-19T19:57:37.271466+00:00",
+      "outcome": "response_received",
+      "result": {
+        "AddResults": [
+          {
+            "Id": 1927493554789861877,
+            "Errors": []
+          },
+          {
+            "Id": 1927493554789861878,
+            "Errors": []
+          }
+        ]
+      },
+      "response_at_utc": "2026-11-19T19:57:41.302144+00:00"
+    },
+    "ads_moderate": {
+      "service": "ads",
+      "method": "moderate",
+      "params": {
+        "SelectionCriteria": {
+          "Ids": [
+            1927493554789861877,
+            1927493554789861878
+          ]
+        }
+      },
+      "intent_at_utc": "2026-11-19T19:57:48.663340+00:00",
       "outcome": "intent_saved_before_network"
     }
   },
