@@ -299,7 +299,14 @@ def tilda_price_payloads(before):
     import tilda_commerceml as tc
     stamp = dt.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
     prefix = '<?xml version="1.0" encoding="UTF-8"?>\n<КоммерческаяИнформация ВерсияСхемы="2.05" ДатаФормирования="' + stamp + '">'
-    import_xml = prefix + '<Каталог СодержитТолькоИзменения="true"><Ид>' + tc.CATALOG_ID + '</Ид><ИдКлассификатора>' + tc.CLASSIFIER_ID + '</ИдКлассификатора><Товары></Товары></Каталог></КоммерческаяИнформация>'
+    import_parts = [prefix, '<Каталог СодержитТолькоИзменения="true"><Ид>' + tc.CATALOG_ID + '</Ид><ИдКлассификатора>' + tc.CLASSIFIER_ID + '</ИдКлассификатора><Товары>']
+    for sku in TARGETS:
+        item = before['targets'][sku]
+        if item.get('externalid') != sku or item.get('sku') != sku:
+            raise RuntimeError('Tilda external ID mismatch')
+        import_parts.append('<Товар><Ид>' + escape(sku) + '</Ид><Артикул>' + escape(sku) + '</Артикул><Наименование>' + escape(str(item['title'])) + '</Наименование></Товар>')
+    import_parts.append('</Товары></Каталог></КоммерческаяИнформация>')
+    import_xml = '\n'.join(import_parts)
     parts = [prefix, '<ПакетПредложений СодержитТолькоИзменения="true">', '<Ид>' + tc.CATALOG_ID + '#offers</Ид>', '<ИдКаталога>' + tc.CATALOG_ID + '</ИдКаталога>', '<ИдКлассификатора>' + tc.CLASSIFIER_ID + '</ИдКлассификатора>', '<ТипыЦен><ТипЦены><Ид>' + tc.PRICE_TYPE_ID + '</Ид><Наименование>Розничная</Наименование></ТипЦены></ТипыЦен><Предложения>']
     for sku in TARGETS:
         item = before['targets'][sku]
@@ -309,6 +316,7 @@ def tilda_price_payloads(before):
     parts.append('</Предложения></ПакетПредложений></КоммерческаяИнформация>')
     offers_xml = '\n'.join(parts)
     assert not any(tag in import_xml + offers_xml for tag in ('<Количество>', '<Группы>', '<Описание>', '<Картинка>'))
+    assert {x.findtext('Ид') for x in ET.fromstring(import_xml).findall('./Каталог/Товары/Товар')} == set(TARGETS)
     assert len(ET.fromstring(offers_xml).findall('./ПакетПредложений/Предложения/Предложение')) == 4
     return import_xml, offers_xml
 
@@ -318,7 +326,7 @@ def publish_tilda_prices(before, report):
         report['tilda_publication'] = {'status': 'already_correct'}
         return
     import_xml, offers_xml = tilda_price_payloads(before)
-    event = {'status': 'started', 'target_skus': list(TARGETS), 'import_products': 0, 'offers': 4, 'steps': [], 'payload_sha256': {'import': digest(import_xml.encode()), 'offers': digest(offers_xml.encode())}}
+    event = {'status': 'started', 'target_skus': list(TARGETS), 'import_products': 4, 'offers': 4, 'steps': [], 'payload_sha256': {'import': digest(import_xml.encode()), 'offers': digest(offers_xml.encode())}}
     report['tilda_publication'] = event
     session = requests.Session()
     session.auth = (os.environ['TILDA_COMMERCEML_USER'], os.environ['TILDA_COMMERCEML_PASSWORD'])
