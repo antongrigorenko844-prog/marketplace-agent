@@ -1,0 +1,43 @@
+name: direct-keywords-audit-20261120
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/agent-requests/direct-keywords-audit-20261120.txt'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  read-current-keywords:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read current keyword objects and dated reports
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_keywords_audit_20261120.py
+      - name: Extract existing semantic workbooks and caches without modifying sources
+        if: always()
+        run: python .github/scripts/direct_keywords_source_export_20261120.py
+      - name: Save only the four new keyword-audit outputs
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for report in data/direct_keywords_live_20261120.json data/direct_keywords_queries_20261120.tsv data/direct_keywords_groups_20261120.tsv data/direct_keywords_criteria_20261120.tsv data/direct_keywords_semantics_source_20261120.json; do
+            if [ -f "$report" ]; then
+              git add -- "$report"
+            fi
+          done
+          if ! git diff --cached --quiet; then
+            git commit -m "Record read-only current Direct keywords and matching statistics [skip ci]"
+            git pull --rebase
+            git push
+          fi
