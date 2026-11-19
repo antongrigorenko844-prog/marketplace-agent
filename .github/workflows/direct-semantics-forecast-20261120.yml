@@ -1,0 +1,38 @@
+name: direct-semantics-forecast-20261120
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/direct_semantics_forecast_request_20261120.txt'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  readonly-search-volume-forecast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Request only the approved read-only forecast
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python scripts/direct_semantics_forecast_20261120.py
+      - name: Preserve only the new forecast report
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -f data/direct_semantics_forecast_20261120.json ]; then
+            git add -- data/direct_semantics_forecast_20261120.json
+            if ! git diff --cached --quiet; then
+              git commit -m "Record read-only semantics forecast [skip ci]"
+              git pull --rebase origin main
+              git push origin HEAD:main
+            fi
+          fi
