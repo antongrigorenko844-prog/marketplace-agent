@@ -28,6 +28,8 @@ BEFORE_SHA = "2afda2206653bbad7842326d543c0c93bb8da2f4f140226e25fb723f7f5bb7fc"
 PLAN = Path("data/direct_mass_negatives_plan_20261120.json")
 PREFLIGHT = Path("data/direct_mass_negatives_preflight_20261120.json")
 APPLY = Path("data/direct_mass_negatives_apply_20261120.json")
+BLOCKED_APPLY = Path("data/direct_mass_negatives_apply_blocked_20261120.json")
+ROLLBACK = Path("data/direct_mass_negatives_rollback_new_20261120.json")
 REMOVALS = ["куда подходит мехатроник dq200", "купить дсг 7 dq200 новую"]
 EXCLUDED_CANDIDATE = "мехатроника поступление"
 ADDITIONAL_PROTECTED = "новое поступление мехатроников dq200"
@@ -278,9 +280,18 @@ def run(marker=None, api=None):
         raise RuntimeError("Missing/invalid request_id")
     out = Path("data/direct_mass_negatives_" + mode + "_20261120.json")
     prior = read_json(APPLY)[0] if APPLY.exists() else None
+    previous_attempt = (isinstance(prior, dict) and prior.get("mode") == "apply"
+        and prior.get("campaign_id") == CID and (prior.get("write_attempted") is True
+        or prior.get("approved_apply_write_proof", {}).get("write_attempted") is True))
+    previous_rollback = read_json(ROLLBACK)[0] if ROLLBACK.exists() else None
+    rollback_attempt = (isinstance(previous_rollback, dict) and previous_rollback.get("mode") == "rollback_new"
+        and previous_rollback.get("campaign_id") == CID and (previous_rollback.get("write_attempted") is True
+        or previous_rollback.get("rollback_attempt_recorded") is True))
     report = {"mode": mode, "request_id": request_id, "campaign_id": CID,
         "started_at_utc": now(), "workflow_commit": os.environ.get("GITHUB_SHA"),
         "status": "started", "write_attempted": False, "mutation_count": 0, "errors": [],
+        "previous_apply_attempt_detected": previous_attempt,
+        "rollback_attempt_recorded": rollback_attempt if mode == "rollback_new" else False,
         "automatic_canonicalization_acceptance": False,
         "protected_check_limitation": "Literal token guard only; not an emulator of Direct morphology, stop words or keyword priority."}
     api = api or Client(mode)
@@ -340,8 +351,10 @@ def run(marker=None, api=None):
             return 0
         if current_hash != expected_start:
             raise RuntimeError("Fresh entire negative list differs from exact expected start")
-        if mode == "apply" and own_prior:
+        if mode == "apply" and (own_prior or previous_attempt):
             raise RuntimeError("Prior apply write exists; current baseline needs review, no blind repeat")
+        if mode == "rollback_new" and rollback_attempt:
+            raise RuntimeError("Prior rollback write exists; current after list needs review, no blind repeat")
         # One final fresh campaign read immediately before mutation; no overwrite of concurrent edits.
         prewrite = campaign_read(api)
         report["prewrite_campaign"] = prewrite
@@ -353,6 +366,8 @@ def run(marker=None, api=None):
         if isinstance(api, Client):
             api.allowed_update = payload
         report.update(write_attempted=True, mutation_count=1, payload=payload)
+        if mode == "rollback_new":
+            report["rollback_attempt_recorded"] = True
         if mode == "apply":
             report["approved_apply_write_proof"] = {"plan_sha256": plan_sha,
                 "original_request_id": request_id, "write_attempted": True,
@@ -393,7 +408,13 @@ def run(marker=None, api=None):
     finally:
         report["finished_at_utc"] = now()
         # Refusing a duplicate preflight must not destroy its existing proof file.
-        if not (mode == "preflight" and PREFLIGHT.exists()
+        if (mode == "apply" and previous_attempt and not report.get("approved_apply_write_proof")
+                and not report["write_attempted"]):
+            # A malformed marker/plan/source must never erase the preceding write
+            # evidence. Keep that report intact and persist this separate outcome.
+            report["prior_apply_report_preserved"] = True
+            atomic_save(BLOCKED_APPLY, report)
+        elif not (mode == "preflight" and PREFLIGHT.exists()
                 and read_json(PREFLIGHT)[0].get("status") == "preflight_verified_no_write"):
             save()
         print("Direct mass negatives:", mode, report["status"])
