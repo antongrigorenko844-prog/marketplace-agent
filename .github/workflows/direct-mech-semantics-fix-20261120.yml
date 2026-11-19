@@ -1,0 +1,37 @@
+name: direct-mech-semantics-fix-20261120
+on:
+  push:
+    branches: [main]
+    paths: ['.github/agent-requests/direct-mech-semantics-fix-20261120.txt']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  fix-mechatronics-routing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Apply only two mechatronics landing anchors
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_mech_semantics_fix_20261120.py
+      - name: Save only this correction result
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -f data/direct_mech_semantics_fix_20261120_result.json ]; then
+            git add -- data/direct_mech_semantics_fix_20261120_result.json
+          fi
+          if ! git diff --cached --quiet; then
+            git commit -m "Record approved mechatronics semantic corrections [skip ci]"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
