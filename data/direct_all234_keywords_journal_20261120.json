@@ -1286,6 +1286,63 @@
         ]
       },
       "intent_at_utc": "2026-11-19T19:56:49.676754+00:00",
+      "outcome": "response_received",
+      "result": {
+        "AddResults": [
+          {
+            "Id": 5828501772,
+            "Errors": []
+          },
+          {
+            "Id": 5828501773,
+            "Errors": []
+          }
+        ]
+      },
+      "response_at_utc": "2026-11-19T19:56:55.329629+00:00"
+    },
+    "autos_settings": {
+      "service": "keywords",
+      "method": "update",
+      "params": {
+        "Keywords": [
+          {
+            "Id": 205828501772,
+            "AutotargetingSettings": {
+              "Categories": {
+                "Exact": "YES",
+                "Narrow": "NO",
+                "Alternative": "NO",
+                "Accessory": "NO",
+                "Broader": "NO"
+              },
+              "BrandOptions": {
+                "WithoutBrands": "YES",
+                "WithAdvertiserBrand": "YES",
+                "WithCompetitorsBrand": "NO"
+              }
+            }
+          },
+          {
+            "Id": 205828501773,
+            "AutotargetingSettings": {
+              "Categories": {
+                "Exact": "YES",
+                "Narrow": "NO",
+                "Alternative": "NO",
+                "Accessory": "NO",
+                "Broader": "NO"
+              },
+              "BrandOptions": {
+                "WithoutBrands": "YES",
+                "WithAdvertiserBrand": "YES",
+                "WithCompetitorsBrand": "NO"
+              }
+            }
+          }
+        ]
+      },
+      "intent_at_utc": "2026-11-19T19:57:02.822588+00:00",
       "outcome": "intent_saved_before_network"
     }
   },
