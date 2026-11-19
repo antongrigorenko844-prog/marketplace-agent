@@ -1,0 +1,409 @@
+{
+  "mode": "read_only_mapping",
+  "campaign_id": "716316525",
+  "feed_id": "4061297",
+  "prepared_at_utc": "2026-11-19T15:30:25.108603+00:00",
+  "source": {
+    "live_feed_url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml",
+    "feed_api_audit_captured_at_utc": "2026-11-19T15:25:44.923440+00:00",
+    "feed_api_audit_finished_at_utc": "2026-11-19T15:25:50.646937+00:00",
+    "audit_workflow_commit": "220c6928d369b0bbb11f4702242ac077eedb8237",
+    "audit_source_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_next_steps_audit_20261119.json",
+    "feed_content_source_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/feeds/dq200_candidate.yml",
+    "feed_content_retrieval_method": "GitHub connector; path equals URL returned by live Direct feeds.get",
+    "feed_xml_sha256": "f49fe81aa899c7f75b76f36b081cc0cddfd409f476cfa49feef18455510f0162",
+    "feed_catalog_declared_datetime": "2026-11-16 11:39",
+    "price_filters_snapshot_utc": "2026-11-19T12:48:36.638773+00:00",
+    "price_filters_source_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_live_shopping_inventory.json"
+  },
+  "verification": {
+    "offer_count": 12,
+    "expected_count_from_live_feed_api": 12,
+    "all_offer_ids_unique": true,
+    "all_current_feed_available_true": true,
+    "categories_present": {
+      "1": "Мехатроники без электронной платы",
+      "2": "Мехатроники с электронной платой",
+      "3": "Электронные платы"
+    },
+    "ambiguous_offer_count": 0,
+    "description_count": 0,
+    "price_filter_mismatch_count": 0,
+    "interpretation": "All 12 present feed offers match the reviewed price-based group selection. Future price drift is a risk, not an observed current mismatch."
+  },
+  "group_mapping": [
+    {
+      "category_id": "1",
+      "category_name": "Мехатроники без электронной платы",
+      "group_id": "5826171512",
+      "group_name": "DQ200 | Мехатроники без платы | Поиск",
+      "group_landing_url": "https://leoparts-akpp.ru/mehatronik-dq200#bez-platy",
+      "offer_ids": [
+        "0am325025h",
+        "0am325025x"
+      ],
+      "reviewed_price_filter": {
+        "Operand": "price",
+        "Operator": "IN_RANGE",
+        "Arguments": [
+          "33500-38500"
+        ]
+      },
+      "recommended_selection_intent": "Select categoryId 1 independently of price",
+      "api_filter_payload": null,
+      "api_filter_support_verified": false
+    },
+    {
+      "category_id": "2",
+      "category_name": "Мехатроники с электронной платой",
+      "group_id": "5826183946",
+      "group_name": "DQ200 | Мехатроники с платой | Поиск",
+      "group_landing_url": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi",
+      "offer_ids": [
+        "0am325025hx",
+        "0am325025hxf",
+        "0am325025hxe",
+        "0am325025hxg",
+        "0am325025hxk"
+      ],
+      "reviewed_price_filter": {
+        "Operand": "price",
+        "Operator": "IN_RANGE",
+        "Arguments": [
+          "60000-75000"
+        ]
+      },
+      "recommended_selection_intent": "Select categoryId 2 independently of price",
+      "api_filter_payload": null,
+      "api_filter_support_verified": false
+    },
+    {
+      "category_id": "3",
+      "category_name": "Электронные платы",
+      "group_id": "5826320196",
+      "group_name": "Название: DQ200 | Электронные платы | Поиск.",
+      "group_landing_url": "https://leoparts-akpp.ru/mehatronik-dq200#platy",
+      "offer_ids": [
+        "0am927769d",
+        "0am927769f",
+        "0am927769e",
+        "0am927769g",
+        "0am927769k"
+      ],
+      "reviewed_price_filter": {
+        "Operand": "price",
+        "Operator": "IN_RANGE",
+        "Arguments": [
+          "39000-45000"
+        ]
+      },
+      "recommended_selection_intent": "Select categoryId 3 independently of price",
+      "api_filter_payload": null,
+      "api_filter_support_verified": false
+    }
+  ],
+  "offers": [
+    {
+      "offer_id": "0am325025h",
+      "vendor_code": "0AM325025H",
+      "name": "Мехатроник DSG7 DQ200 0AM325025H без электронной платы",
+      "description": null,
+      "category_id": "1",
+      "category_name": "Мехатроники без электронной платы",
+      "price": 33500.0,
+      "currency": "RUR",
+      "feed_available": "true",
+      "feed_count": 17,
+      "product_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/908157881413-mehatronik-dsg7-dq200-0am0cw-proveren-na",
+      "assigned_group_id": "5826171512",
+      "assigned_group_name": "DQ200 | Мехатроники без платы | Поиск",
+      "group_landing_url": "https://leoparts-akpp.ru/mehatronik-dq200#bez-platy",
+      "semantic_assignment_basis": "Explicit feed categoryId and product name",
+      "semantic_ambiguity": false,
+      "price_filter_matching_group_ids": [
+        "5826171512"
+      ],
+      "current_price_filter_matches_assigned_group": true,
+      "product_url_http_checked_in_this_mapping": false
+    },
+    {
+      "offer_id": "0am325025x",
+      "vendor_code": "0AM325025X",
+      "name": "Мехатроник DSG7 DQ200 0AM325025X без электронной платы",
+      "description": null,
+      "category_id": "1",
+      "category_name": "Мехатроники без электронной платы",
+      "price": 38500.0,
+      "currency": "RUR",
+      "feed_available": "true",
+      "feed_count": 2,
+      "product_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/353312992873-mehatronik-dsg7-dq200-0am-s-novimi-solen",
+      "assigned_group_id": "5826171512",
+      "assigned_group_name": "DQ200 | Мехатроники без платы | Поиск",
+      "group_landing_url": "https://leoparts-akpp.ru/mehatronik-dq200#bez-platy",
+      "semantic_assignment_basis": "Explicit feed categoryId and product name",
+      "semantic_ambiguity": false,
+      "price_filter_matching_group_ids": [
+        "5826171512"
+      ],
+      "current_price_filter_matches_assigned_group": true,
+      "product_url_http_checked_in_this_mapping": false
+    },
+    {
+      "offer_id": "0am325025hx",
+      "vendor_code": "0AM325025HX",
+      "name": "Мехатроник DSG7 DQ200 в сборе с платой D",
+      "description": null,
+      "category_id": "2",
+      "category_name": "Мехатроники с электронной платой",
+      "price": 64500.0,
+      "currency": "RUR",
+      "feed_available": "true",
+      "feed_count": 9,
+      "product_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/517217914653-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+      "assigned_group_id": "5826183946",
+      "assigned_group_name": "DQ200 | Мехатроники с платой | Поиск",
+      "group_landing_url": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi",
+      "semantic_assignment_basis": "Explicit feed categoryId and product name",
+      "semantic_ambiguity": false,
+      "price_filter_matching_group_ids": [
+        "5826183946"
+      ],
+      "current_price_filter_matches_assigned_group": true,
+      "product_url_http_checked_in_this_mapping": false
+    },
+    {
+      "offer_id": "0am325025hxf",
+      "vendor_code": "0AM325025HXF",
+      "name": "Мехатроник DSG7 DQ200 в сборе с платой F",
+      "description": null,
+      "category_id": "2",
+      "category_name": "Мехатроники с электронной платой",
+      "price": 64500.0,
+      "currency": "RUR",
+      "feed_available": "true",
+      "feed_count": 3,
+      "product_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/915950884033-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+      "assigned_group_id": "5826183946",
+      "assigned_group_name": "DQ200 | Мехатроники с платой | Поиск",
+      "group_landing_url": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi",
+      "semantic_assignment_basis": "Explicit feed categoryId and product name",
+      "semantic_ambiguity": false,
+      "price_filter_matching_group_ids": [
+        "5826183946"
+      ],
+      "current_price_filter_matches_assigned_group": true,
+      "product_url_http_checked_in_this_mapping": false
+    },
+    {
+      "offer_id": "0am325025hxe",
+      "vendor_code": "0AM325025HXE",
+      "name": "Мехатроник DSG7 DQ200 в сборе с платой E",
+      "description": null,
+      "category_id": "2",
+      "category_name": "Мехатроники с электронной платой",
+      "price": 71310.0,
+      "currency": "RUR",
+      "feed_available": "true",
+      "feed_count": 5,
+      "product_url": "https://leoparts-akpp.ru/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "assigned_group_id": "5826183946",
+      "assigned_group_name": "DQ200 | Мехатроники с платой | Поиск",
+      "group_landing_url": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi",
+      "semantic_assignment_basis": "Explicit feed categoryId and product name",
+      "semantic_ambiguity": false,
+      "price_filter_matching_group_ids": [
+        "5826183946"
+      ],
+      "current_price_filter_matches_assigned_group": true,
+      "product_url_http_checked_in_this_mapping": false
+    },
+    {
+      "offer_id": "0am325025hxg",
+      "vendor_code": "0AM325025HXG",
+      "name": "Мехатроник DSG7 DQ200 в сборе с платой G",
+      "description": null,
+      "category_id": "2",
+      "category_name": "Мехатроники с электронной платой",
+      "price": 71310.0,
+      "currency": "RUR",
+      "feed_available": "true",
+      "feed_count": 5,
+      "product_url": "https://leoparts-akpp.ru/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "assigned_group_id": "5826183946",
+      "assigned_group_name": "DQ200 | Мехатроники с платой | Поиск",
+      "group_landing_url": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi",
+      "semantic_assignment_basis": "Explicit feed categoryId and product name",
+      "semantic_ambiguity": false,
+      "price_filter_matching_group_ids": [
+        "5826183946"
+      ],
+      "current_price_filter_matches_assigned_group": true,
+      "product_url_http_checked_in_this_mapping": false
+    },
+    {
+      "offer_id": "0am325025hxk",
+      "vendor_code": "0AM325025HXK",
+      "name": "Мехатроник DSG7 DQ200 в сборе с платой K",
+      "description": null,
+      "category_id": "2",
+      "category_name": "Мехатроники с электронной платой",
+      "price": 71310.0,
+      "currency": "RUR",
+      "feed_available": "true",
+      "feed_count": 5,
+      "product_url": "https://leoparts-akpp.ru/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "assigned_group_id": "5826183946",
+      "assigned_group_name": "DQ200 | Мехатроники с платой | Поиск",
+      "group_landing_url": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi",
+      "semantic_assignment_basis": "Explicit feed categoryId and product name",
+      "semantic_ambiguity": false,
+      "price_filter_matching_group_ids": [
+        "5826183946"
+      ],
+      "current_price_filter_matches_assigned_group": true,
+      "product_url_http_checked_in_this_mapping": false
+    },
+    {
+      "offer_id": "0am927769d",
+      "vendor_code": "0AM927769D",
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769D",
+      "description": null,
+      "category_id": "3",
+      "category_name": "Электронные платы",
+      "price": 39500.0,
+      "currency": "RUR",
+      "feed_available": "true",
+      "feed_count": 7,
+      "product_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/787466152673-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "assigned_group_id": "5826320196",
+      "assigned_group_name": "Название: DQ200 | Электронные платы | Поиск.",
+      "group_landing_url": "https://leoparts-akpp.ru/mehatronik-dq200#platy",
+      "semantic_assignment_basis": "Explicit feed categoryId and product name",
+      "semantic_ambiguity": false,
+      "price_filter_matching_group_ids": [
+        "5826320196"
+      ],
+      "current_price_filter_matches_assigned_group": true,
+      "product_url_http_checked_in_this_mapping": false
+    },
+    {
+      "offer_id": "0am927769f",
+      "vendor_code": "0AM927769F",
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769F",
+      "description": null,
+      "category_id": "3",
+      "category_name": "Электронные платы",
+      "price": 39500.0,
+      "currency": "RUR",
+      "feed_available": "true",
+      "feed_count": 3,
+      "product_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/801039414923-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "assigned_group_id": "5826320196",
+      "assigned_group_name": "Название: DQ200 | Электронные платы | Поиск.",
+      "group_landing_url": "https://leoparts-akpp.ru/mehatronik-dq200#platy",
+      "semantic_assignment_basis": "Explicit feed categoryId and product name",
+      "semantic_ambiguity": false,
+      "price_filter_matching_group_ids": [
+        "5826320196"
+      ],
+      "current_price_filter_matches_assigned_group": true,
+      "product_url_http_checked_in_this_mapping": false
+    },
+    {
+      "offer_id": "0am927769e",
+      "vendor_code": "0AM927769E",
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769E",
+      "description": null,
+      "category_id": "3",
+      "category_name": "Электронные платы",
+      "price": 44910.0,
+      "currency": "RUR",
+      "feed_available": "true",
+      "feed_count": 5,
+      "product_url": "https://leoparts-akpp.ru/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "assigned_group_id": "5826320196",
+      "assigned_group_name": "Название: DQ200 | Электронные платы | Поиск.",
+      "group_landing_url": "https://leoparts-akpp.ru/mehatronik-dq200#platy",
+      "semantic_assignment_basis": "Explicit feed categoryId and product name",
+      "semantic_ambiguity": false,
+      "price_filter_matching_group_ids": [
+        "5826320196"
+      ],
+      "current_price_filter_matches_assigned_group": true,
+      "product_url_http_checked_in_this_mapping": false
+    },
+    {
+      "offer_id": "0am927769g",
+      "vendor_code": "0AM927769G",
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769G",
+      "description": null,
+      "category_id": "3",
+      "category_name": "Электронные платы",
+      "price": 44910.0,
+      "currency": "RUR",
+      "feed_available": "true",
+      "feed_count": 5,
+      "product_url": "https://leoparts-akpp.ru/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "assigned_group_id": "5826320196",
+      "assigned_group_name": "Название: DQ200 | Электронные платы | Поиск.",
+      "group_landing_url": "https://leoparts-akpp.ru/mehatronik-dq200#platy",
+      "semantic_assignment_basis": "Explicit feed categoryId and product name",
+      "semantic_ambiguity": false,
+      "price_filter_matching_group_ids": [
+        "5826320196"
+      ],
+      "current_price_filter_matches_assigned_group": true,
+      "product_url_http_checked_in_this_mapping": false
+    },
+    {
+      "offer_id": "0am927769k",
+      "vendor_code": "0AM927769K",
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769K",
+      "description": null,
+      "category_id": "3",
+      "category_name": "Электронные платы",
+      "price": 44910.0,
+      "currency": "RUR",
+      "feed_available": "true",
+      "feed_count": 5,
+      "product_url": "https://leoparts-akpp.ru/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "assigned_group_id": "5826320196",
+      "assigned_group_name": "Название: DQ200 | Электронные платы | Поиск.",
+      "group_landing_url": "https://leoparts-akpp.ru/mehatronik-dq200#platy",
+      "semantic_assignment_basis": "Explicit feed categoryId and product name",
+      "semantic_ambiguity": false,
+      "price_filter_matching_group_ids": [
+        "5826320196"
+      ],
+      "current_price_filter_matches_assigned_group": true,
+      "product_url_http_checked_in_this_mapping": false
+    }
+  ],
+  "hypothetical_future_cases": [
+    {
+      "offer_id": "0am325025x",
+      "current_price": 38500.0,
+      "hypothetical_price": 39500.0,
+      "result_under_reviewed_price_filters": "Would leave the no-board group and match the electronic-board price range. This price change has not been observed."
+    },
+    {
+      "offer_id": "0am927769d",
+      "current_price": 39500.0,
+      "hypothetical_price": 38500.0,
+      "result_under_reviewed_price_filters": "Would match the no-board mechatronic price range. This discount has not been observed."
+    }
+  ],
+  "recommendation": {
+    "preferred": "Use existing feed categoryId 1/2/3 for three groups if supported by the documented current filter schema; verify selection before an approved live change. Keep product URLs as product destinations and group anchors as category destinations.",
+    "alternative": "Keep current price filters temporarily with explicit control after each price or assortment update.",
+    "live_changes_performed": false
+  },
+  "limitations": [
+    "No description tags are present in these 12 offers. Names and category IDs are sufficient for current three-way classification; no technical description was invented.",
+    "Feed available/count values are source declarations, not independent warehouse verification.",
+    "Product landing URLs are copied verbatim from the live-source feed; HTTP availability of each product page was not tested here.",
+    "The public feed file retains the name dq200_candidate.yml, but live Direct feeds.get confirms this exact URL as the active feed source.",
+    "Category-based API filter support and payload are not yet validated; this is a semantic mapping, not an executable update request."
+  ]
+}
