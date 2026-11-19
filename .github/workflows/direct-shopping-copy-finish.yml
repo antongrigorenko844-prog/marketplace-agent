@@ -1,0 +1,33 @@
+name: direct-shopping-copy-finish
+on:
+  push:
+    branches: [main]
+    paths: ['.github/agent-requests/direct-shopping-copy-finish.txt']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  finish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Guarded shopping copy operation selected by reviewed marker
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_shopping_copy_finish.py
+      - name: Save operation report, including uncertain responses
+        if: always()
+        run: |
+          git config user.name github-actions
+          git config user.email actions@users.noreply.github.com
+          for report in data/direct_shopping_copy_preflight_20261119.json data/direct_shopping_copy_refresh_20261119.json data/direct_shopping_copy_apply_20261119.json data/direct_shopping_copy_check_20261119.json; do
+            if [ -f "$report" ]; then git add -- "$report"; fi
+          done
+          git diff --cached --quiet || (git commit -m "Record guarded Direct shopping copy operation" && git fetch origin main && git rebase origin/main && git push)
