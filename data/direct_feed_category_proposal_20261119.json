@@ -1,0 +1,235 @@
+{
+  "status": "proposal_only_pending_live_schema_confirmation_and_approval",
+  "campaign_id": 716316525,
+  "feed_id": 4061297,
+  "filter_schema": "PerformanceDefault",
+  "proposed_api_endpoint": "https://api.direct.yandex.com/json/v501/ads",
+  "important_api_correction": "Filters belong to ShoppingAd.FeedFilterConditions, not AdGroups; the equality operator is EQUALS_ANY.",
+  "read_only_schema_probe": {
+    "endpoint": "https://api.direct.yandex.com/json/v501/dictionaries",
+    "body": {
+      "method": "get",
+      "params": {
+        "DictionaryNames": [
+          "FilterSchemas"
+        ]
+      }
+    },
+    "required_result": "FilterSchemas[Name=PerformanceDefault].Fields[Name=categoryId].Operators contains Type=EQUALS_ANY"
+  },
+  "live_schema_confirmation": false,
+  "changes": [
+    {
+      "ad_id": 1927186476439690942,
+      "group_id": 5826171512,
+      "feed_id": 4061297,
+      "category_id": "1",
+      "category_name": "Мехатроники без электронной платы",
+      "before": {
+        "Items": [
+          {
+            "Operand": "price",
+            "Operator": "IN_RANGE",
+            "Arguments": [
+              "33500-38500"
+            ]
+          }
+        ]
+      },
+      "proposed": {
+        "Items": [
+          {
+            "Operand": "categoryId",
+            "Operator": "EQUALS_ANY",
+            "Arguments": [
+              "1"
+            ]
+          }
+        ]
+      },
+      "current_category_offer_ids": [
+        "0am325025h",
+        "0am325025x"
+      ],
+      "current_price_offer_ids_inclusive_simulation": [
+        "0am325025h",
+        "0am325025x"
+      ],
+      "same_current_offer_set": true,
+      "offer_count": 2,
+      "generation_scopes_unchanged": [
+        "OFFER"
+      ],
+      "listing_feed_filter_conditions_unchanged": null
+    },
+    {
+      "ad_id": 1927189770678081700,
+      "group_id": 5826183946,
+      "feed_id": 4061297,
+      "category_id": "2",
+      "category_name": "Мехатроники с электронной платой",
+      "before": {
+        "Items": [
+          {
+            "Operand": "price",
+            "Operator": "IN_RANGE",
+            "Arguments": [
+              "60000-75000"
+            ]
+          }
+        ]
+      },
+      "proposed": {
+        "Items": [
+          {
+            "Operand": "categoryId",
+            "Operator": "EQUALS_ANY",
+            "Arguments": [
+              "2"
+            ]
+          }
+        ]
+      },
+      "current_category_offer_ids": [
+        "0am325025hx",
+        "0am325025hxe",
+        "0am325025hxf",
+        "0am325025hxg",
+        "0am325025hxk"
+      ],
+      "current_price_offer_ids_inclusive_simulation": [
+        "0am325025hx",
+        "0am325025hxe",
+        "0am325025hxf",
+        "0am325025hxg",
+        "0am325025hxk"
+      ],
+      "same_current_offer_set": true,
+      "offer_count": 5,
+      "generation_scopes_unchanged": [
+        "OFFER",
+        "LISTING"
+      ],
+      "listing_feed_filter_conditions_unchanged": null
+    },
+    {
+      "ad_id": 1927190920657966611,
+      "group_id": 5826320196,
+      "feed_id": 4061297,
+      "category_id": "3",
+      "category_name": "Электронные платы",
+      "before": {
+        "Items": [
+          {
+            "Operand": "price",
+            "Operator": "IN_RANGE",
+            "Arguments": [
+              "39000-45000"
+            ]
+          }
+        ]
+      },
+      "proposed": {
+        "Items": [
+          {
+            "Operand": "categoryId",
+            "Operator": "EQUALS_ANY",
+            "Arguments": [
+              "3"
+            ]
+          }
+        ]
+      },
+      "current_category_offer_ids": [
+        "0am927769d",
+        "0am927769e",
+        "0am927769f",
+        "0am927769g",
+        "0am927769k"
+      ],
+      "current_price_offer_ids_inclusive_simulation": [
+        "0am927769d",
+        "0am927769e",
+        "0am927769f",
+        "0am927769g",
+        "0am927769k"
+      ],
+      "same_current_offer_set": true,
+      "offer_count": 5,
+      "generation_scopes_unchanged": [
+        "OFFER",
+        "LISTING"
+      ],
+      "listing_feed_filter_conditions_unchanged": null
+    }
+  ],
+  "proposed_request": {
+    "method": "update",
+    "params": {
+      "Ads": [
+        {
+          "Id": 1927186476439690942,
+          "ShoppingAd": {
+            "FeedFilterConditions": {
+              "Items": [
+                {
+                  "Operand": "categoryId",
+                  "Operator": "EQUALS_ANY",
+                  "Arguments": [
+                    "1"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "Id": 1927189770678081700,
+          "ShoppingAd": {
+            "FeedFilterConditions": {
+              "Items": [
+                {
+                  "Operand": "categoryId",
+                  "Operator": "EQUALS_ANY",
+                  "Arguments": [
+                    "2"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "Id": 1927190920657966611,
+          "ShoppingAd": {
+            "FeedFilterConditions": {
+              "Items": [
+                {
+                  "Operand": "categoryId",
+                  "Operator": "EQUALS_ANY",
+                  "Arguments": [
+                    "3"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "rationale": "Replace the price rule with category membership, so an approved price change does not silently remove a product from its intended product group. Do not retain both rules unless a price restriction is intended, because rules are combined with AND.",
+  "risks_and_limits": [
+    "Category assignment must remain accurate when adding products; a wrongly classified offer would enter the wrong group.",
+    "Current XML gives the same offer sets under inclusive price-range simulation and the proposed category selectors:2/5/5; this is not a measured performance lift.",
+    "Two ShoppingAds have OFFER+LISTING; the proposal changes only product FeedFilterConditions. ListingFeedFilterConditions remains null and must be examined separately before claiming catalog pages are category-scoped.",
+    "A fresh ads.get must confirm exact three ad IDs, group IDs, feed4061297 and old filters before any future approved update; API readback and FeedProcessingStatus must be verified after it."
+  ],
+  "official_sources": [
+    "https://yandex.ru/dev/direct/doc/ru/ads/update",
+    "https://yandex.ru/dev/direct/doc/ru/ads/get",
+    "https://yandex.ru/dev/direct/doc/ru/objects/ad",
+    "https://yandex.ru/dev/direct/doc/ru/dictionaries/get"
+  ],
+  "actual_live_mutations": false
+}
