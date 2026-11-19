@@ -1,0 +1,115 @@
+{
+  "status": "verified_canonical_41",
+  "mode": "read_only",
+  "campaign_id": 716316525,
+  "started_at_utc": "2026-11-19T15:25:46.855764+00:00",
+  "workflow_commit": "220c6928d369b0bbb11f4702242ac077eedb8237",
+  "errors": [],
+  "original_attempt_report_retained": true,
+  "original_apply_run_id": "44552767161",
+  "only_allowed_removed_phrase": "\"плата ноутбука\"",
+  "approved_added_phrases": [
+    "плата ноутбука",
+    "компьютерные компоненты",
+    "сервисное оборудование",
+    "оборудование автомобильного сервиса"
+  ],
+  "sources": {
+    "verified_38": {
+      "path": "data/direct_service_negatives_apply_20261119.json",
+      "sha256": "8a652716a679780cf2dafe6740e851358163e393310bafee66cd46ff0b190d8f"
+    },
+    "first_attempt": {
+      "path": "data/direct_thematic_negatives_apply_20261119.json",
+      "sha256": "7fa1697bc58c415930b2f34ae3526e573852648407ad3a94e64d75fbf7efeaeb",
+      "status": "unexpected_after_requires_review",
+      "workflow_commit": "06d58f7e24d2cf9d4ceef3f9e0520b6d0bdc5d2b"
+    }
+  },
+  "fresh_get_params": {
+    "SelectionCriteria": {
+      "Ids": [
+        716316525
+      ]
+    },
+    "FieldNames": [
+      "Id",
+      "Name",
+      "Type",
+      "State",
+      "Status",
+      "NegativeKeywords"
+    ]
+  },
+  "fresh_at_utc": "2026-11-19T15:25:48.178444+00:00",
+  "after": {
+    "Id": 716316525,
+    "Name": "Leoparts | DQ200 | Товарная ЕПК | Поиск | Тест",
+    "Type": "UNIFIED_CAMPAIGN",
+    "Status": "ACCEPTED",
+    "State": "ON",
+    "NegativeKeywords": {
+      "Items": [
+        "!как снять",
+        "!как установить",
+        "!своими руками",
+        "\"диагностика мехатроника dq200\"",
+        "\"дсг7 dq200 цена ремонта\"",
+        "\"купить плату для ноутбука\"",
+        "\"мехатроник ремонт цена\"",
+        "\"плата для ноутбука\"",
+        "\"плата от ноутбука\"",
+        "\"плата у ноутбука\"",
+        "\"ремонт мехатроника сервисы\"",
+        "\"скачать сайт для покупки авто запчастей\"",
+        "\"сколько стоит плата на ноутбук\"",
+        "\"средняя стоимость ремонта снятого мехатроника dq200\"",
+        "\"цена на платы от ноутбуков\"",
+        "\"эл плата и компьютерные компоненты\"",
+        "бесплатно",
+        "вакансии",
+        "видео ремонта",
+        "гидроблок abs",
+        "дсг 250 коробка !что !это",
+        "компьютерные компоненты",
+        "кпп dsg !что !это !такое",
+        "куда подходит мехатроник dq200",
+        "купить дсг 7 dq200 новую",
+        "купить коробку дсг 7 dq200",
+        "мерседес мехатроник",
+        "оборудование автомобильного сервиса",
+        "обучение ремонту",
+        "плата ноутбука",
+        "прошивка мехатроника",
+        "прошить мехатроник",
+        "работа механиком",
+        "ремонт блока abs",
+        "сервисное оборудование",
+        "скачать прошивку",
+        "снятие мехатроника",
+        "стенд !для проверки мехатроника",
+        "схема подключения",
+        "тестовый стенд",
+        "установка мехатроника"
+      ]
+    }
+  },
+  "expected_phrase_count": 41,
+  "observed_phrase_count": 41,
+  "removed_from_original_38": [
+    "\"плата ноутбука\""
+  ],
+  "added_to_original_38": [
+    "компьютерные компоненты",
+    "оборудование автомобильного сервиса",
+    "плата ноутбука",
+    "сервисное оборудование"
+  ],
+  "remaining_original_37_preserved_exactly": true,
+  "all_four_present_unquoted": true,
+  "only_quoted_laptop_removed": true,
+  "exact_expected_41_phrases": true,
+  "nonnegative_campaign_fields_unchanged": true,
+  "explanation": "The first strict guard correctly reported 38-to-42 mismatch. Observed readback removed only the prior quoted laptop phrase after adding its unquoted counterpart. Fresh GET confirms the other 37 originals and all four approved additions. No repeat write occurred.",
+  "finished_at_utc": "2026-11-19T15:25:48.178576+00:00"
+}

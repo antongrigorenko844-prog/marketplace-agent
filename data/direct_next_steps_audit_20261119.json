@@ -1,0 +1,569 @@
+{
+  "mode": "read_only",
+  "status": "complete",
+  "campaign_id": 716316525,
+  "captured_at_utc": "2026-11-19T15:25:44.923440+00:00",
+  "workflow_commit": "220c6928d369b0bbb11f4702242ac077eedb8237",
+  "period": {
+    "from": "2026-10-20",
+    "to": "2026-11-19",
+    "timezone": "Europe/Moscow",
+    "today_partial": true
+  },
+  "goal_ids": [
+    "675506966",
+    "675507028"
+  ],
+  "sections": {
+    "campaign": {
+      "status": "complete",
+      "started_at_utc": "2026-11-19T15:25:44.923564+00:00",
+      "finished_at_utc": "2026-11-19T15:25:46.854196+00:00"
+    },
+    "thematic_verification": {
+      "status": "complete",
+      "started_at_utc": "2026-11-19T15:25:46.854496+00:00",
+      "finished_at_utc": "2026-11-19T15:25:48.179047+00:00"
+    },
+    "ads": {
+      "status": "complete",
+      "started_at_utc": "2026-11-19T15:25:48.179379+00:00",
+      "finished_at_utc": "2026-11-19T15:25:49.611064+00:00"
+    },
+    "feed": {
+      "status": "complete",
+      "started_at_utc": "2026-11-19T15:25:49.611560+00:00",
+      "finished_at_utc": "2026-11-19T15:25:50.646937+00:00"
+    },
+    "goal_names": {
+      "status": "complete",
+      "started_at_utc": "2026-11-19T15:25:50.647412+00:00",
+      "finished_at_utc": "2026-11-19T15:25:52.483864+00:00"
+    },
+    "category_report": {
+      "status": "complete",
+      "started_at_utc": "2026-11-19T15:25:52.484421+00:00",
+      "finished_at_utc": "2026-11-19T15:25:56.294956+00:00"
+    },
+    "goal_report": {
+      "status": "complete",
+      "started_at_utc": "2026-11-19T15:25:56.295451+00:00",
+      "finished_at_utc": "2026-11-19T15:26:00.638367+00:00"
+    }
+  },
+  "errors": [],
+  "limitations": [
+    "TargetingCategory is a deprecated legacy report dimension. It cannot resolve new Exact vs Narrow separately.",
+    "Category report contains SEARCH/AUTOTARGETING only; goal report contains all SEARCH criterion types.",
+    "Aggregate conversions are all-goal visits using default LC; goal-specific conversions use explicit LC.",
+    "Do not sum goal conversion columns as unique orders or count repeated traffic across the two reports.",
+    "Live4 returns goal names, not goal types or event conditions. No Metrica scope/access is attempted.",
+    "Goal names and configured goal values do not verify paid orders or realized profit.",
+    "Recent data and the partial current day can change; decimal totals cover the full requested period."
+  ],
+  "campaign": [
+    {
+      "Id": 716316525,
+      "Name": "Leoparts | DQ200 | Товарная ЕПК | Поиск | Тест",
+      "Type": "UNIFIED_CAMPAIGN",
+      "Status": "ACCEPTED",
+      "State": "ON",
+      "Currency": "RUB",
+      "UnifiedCampaign": {
+        "BiddingStrategy": {
+          "Search": {
+            "BiddingStrategyType": "HIGHEST_POSITION",
+            "HighestPosition": {
+              "WeeklySpendLimit": 4000000000
+            }
+          },
+          "Network": {
+            "BiddingStrategyType": "SERVING_OFF"
+          }
+        },
+        "Settings": [
+          {
+            "Option": "ADD_METRICA_TAG",
+            "Value": "NO"
+          },
+          {
+            "Option": "ADD_TO_FAVORITES",
+            "Value": "NO"
+          },
+          {
+            "Option": "CAMPAIGN_EXACT_PHRASE_MATCHING_ENABLED",
+            "Value": "YES"
+          },
+          {
+            "Option": "ALTERNATIVE_TEXTS_ENABLED",
+            "Value": "NO"
+          },
+          {
+            "Option": "AUTO_ASSETS_ENABLED",
+            "Value": "NO"
+          },
+          {
+            "Option": "ENABLE_AREA_OF_INTEREST_TARGETING",
+            "Value": "YES"
+          },
+          {
+            "Option": "ENABLE_COMPANY_INFO",
+            "Value": "YES"
+          },
+          {
+            "Option": "ENABLE_SITE_MONITORING",
+            "Value": "YES"
+          },
+          {
+            "Option": "REQUIRE_SERVICING",
+            "Value": "NO"
+          },
+          {
+            "Option": "SHARED_ACCOUNT_ENABLED",
+            "Value": "YES"
+          }
+        ],
+        "PriorityGoals": {
+          "Items": [
+            {
+              "GoalId": 675506966,
+              "Value": 500000000,
+              "IsMetrikaSourceOfValue": "NO"
+            },
+            {
+              "GoalId": 675507028,
+              "Value": 3000000000,
+              "IsMetrikaSourceOfValue": "NO"
+            }
+          ]
+        },
+        "CounterIds": {
+          "Items": [
+            113839860
+          ]
+        },
+        "AttributionModel": "AUTO"
+      }
+    }
+  ],
+  "thematic_verification": {
+    "status": "verified_canonical_41",
+    "path": "data/direct_thematic_negatives_verification_20261119.json",
+    "observed_phrase_count": 41
+  },
+  "ads": [
+    {
+      "Id": 1927466195846975291,
+      "CampaignId": 716316525,
+      "AdGroupId": 5826171512,
+      "Status": "ACCEPTED",
+      "State": "ON",
+      "StatusClarification": "Campaign is in progress.",
+      "Type": "RESPONSIVE_AD",
+      "ResponsiveAd": {
+        "Texts": [
+          {
+            "Text": "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ",
+            "Status": "ACCEPTED"
+          }
+        ],
+        "Titles": [
+          {
+            "Title": "Мехатроники DSG7 DQ200 с электронной платой и без",
+            "Status": "ACCEPTED"
+          }
+        ],
+        "Href": "https://leoparts-akpp.ru/mehatronik-dq200",
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "ACCEPTED",
+          "StatusClarification": "Sitelinks accepted at moderation."
+        }
+      }
+    },
+    {
+      "Id": 1927466206584354174,
+      "CampaignId": 716316525,
+      "AdGroupId": 5826183946,
+      "Status": "ACCEPTED",
+      "State": "ON",
+      "StatusClarification": "Campaign is in progress.",
+      "Type": "RESPONSIVE_AD",
+      "ResponsiveAd": {
+        "Texts": [
+          {
+            "Text": "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ",
+            "Status": "ACCEPTED"
+          }
+        ],
+        "Titles": [
+          {
+            "Title": "Мехатроники DSG7 DQ200 с электронной платой и без",
+            "Status": "ACCEPTED"
+          }
+        ],
+        "Href": "https://leoparts-akpp.ru/mehatronik-dq200",
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "ACCEPTED",
+          "StatusClarification": "Sitelinks accepted at moderation."
+        }
+      }
+    },
+    {
+      "Id": 1927186476439690942,
+      "CampaignId": 716316525,
+      "AdGroupId": 5826171512,
+      "Status": "ACCEPTED",
+      "State": "ON",
+      "StatusClarification": "Campaign is in progress.",
+      "Type": "SHOPPING_AD",
+      "ShoppingAd": {
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "ACCEPTED",
+          "StatusClarification": "Sitelinks accepted at moderation."
+        },
+        "FeedId": 4061297,
+        "FeedProcessingStatus": "PROCESSED"
+      }
+    },
+    {
+      "Id": 1927189770678081700,
+      "CampaignId": 716316525,
+      "AdGroupId": 5826183946,
+      "Status": "ACCEPTED",
+      "State": "ON",
+      "StatusClarification": "Campaign is in progress.",
+      "Type": "SHOPPING_AD",
+      "ShoppingAd": {
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "ACCEPTED",
+          "StatusClarification": "Sitelinks accepted at moderation."
+        },
+        "FeedId": 4061297,
+        "FeedProcessingStatus": "PROCESSED"
+      }
+    },
+    {
+      "Id": 1927190920657966611,
+      "CampaignId": 716316525,
+      "AdGroupId": 5826320196,
+      "Status": "ACCEPTED",
+      "State": "ON",
+      "StatusClarification": "Campaign is in progress.",
+      "Type": "SHOPPING_AD",
+      "ShoppingAd": {
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "ACCEPTED",
+          "StatusClarification": "Sitelinks accepted at moderation."
+        },
+        "FeedId": 4061297,
+        "FeedProcessingStatus": "PROCESSED"
+      }
+    }
+  ],
+  "feed": {
+    "Id": 4061297,
+    "Name": "Leoparts DQ200 — проверка.",
+    "SourceType": "URL",
+    "FilterSchema": "PerformanceDefault",
+    "Status": "DONE",
+    "NumberOfItems": 12,
+    "TitleAndTextSources": {
+      "Items": [
+        "name"
+      ]
+    },
+    "url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml",
+    "public_feed": {
+      "status": "skipped",
+      "reason": "Missing URL, credentials, or host outside safe allowlist"
+    }
+  },
+  "goal_names": {
+    "source": "Live4.GetStatGoals",
+    "names": [
+      {
+        "CampaignID": 716316525,
+        "GoalID": 675506966,
+        "Name": "Заявка по VIN"
+      },
+      {
+        "CampaignID": 716316525,
+        "GoalID": 675507028,
+        "Name": "Заказ с сайта"
+      }
+    ],
+    "missing_goal_ids": [],
+    "goal_types_and_conditions": "unavailable_without_Metrica_read_access"
+  },
+  "categories_request": {
+    "params": {
+      "SelectionCriteria": {
+        "DateFrom": "2026-10-20",
+        "DateTo": "2026-11-19",
+        "Filter": [
+          {
+            "Field": "CampaignId",
+            "Operator": "IN",
+            "Values": [
+              "716316525"
+            ]
+          },
+          {
+            "Field": "AdNetworkType",
+            "Operator": "EQUALS",
+            "Values": [
+              "SEARCH"
+            ]
+          },
+          {
+            "Field": "CriterionType",
+            "Operator": "EQUALS",
+            "Values": [
+              "AUTOTARGETING"
+            ]
+          }
+        ]
+      },
+      "FieldNames": [
+        "Date",
+        "CampaignId",
+        "AdGroupId",
+        "AdGroupName",
+        "CriterionType",
+        "TargetingCategory",
+        "Impressions",
+        "Clicks",
+        "Cost",
+        "Conversions"
+      ],
+      "ReportType": "ADGROUP_PERFORMANCE_REPORT",
+      "ReportName": "leoparts-next-categories-20261119-152552-484969",
+      "DateRangeType": "CUSTOM_DATE",
+      "Format": "TSV",
+      "IncludeVAT": "YES"
+    },
+    "path": "data/direct_next_steps_categories_20261119.tsv",
+    "attempts": [
+      {
+        "attempt": 1,
+        "http_status": 201,
+        "at_utc": "2026-11-19T15:25:53.869422+00:00"
+      },
+      {
+        "attempt": 2,
+        "http_status": 200,
+        "at_utc": "2026-11-19T15:25:56.293926+00:00"
+      }
+    ]
+  },
+  "category_report": {
+    "captured_at_utc": "2026-11-19T15:25:56.294939+00:00",
+    "rows": 44,
+    "columns": [
+      "Date",
+      "CampaignId",
+      "AdGroupId",
+      "AdGroupName",
+      "CriterionType",
+      "TargetingCategory",
+      "Impressions",
+      "Clicks",
+      "Cost",
+      "Conversions"
+    ],
+    "totals_decimal": {
+      "Impressions": "3829",
+      "Clicks": "105",
+      "Cost": "2651.70",
+      "Conversions": "4"
+    },
+    "missing_numeric_cells": {
+      "Impressions": 0,
+      "Clicks": 0,
+      "Cost": 0,
+      "Conversions": 0
+    },
+    "by_criterion_category_decimal": {
+      "AUTOTARGETING:ACCESSORY": {
+        "Impressions": "468",
+        "Clicks": "12",
+        "Cost": "345.27",
+        "Conversions": "0"
+      },
+      "AUTOTARGETING:ALTERNATIVE": {
+        "Impressions": "118",
+        "Clicks": "13",
+        "Cost": "301.53",
+        "Conversions": "1"
+      },
+      "AUTOTARGETING:BROADER": {
+        "Impressions": "705",
+        "Clicks": "30",
+        "Cost": "659.17",
+        "Conversions": "1"
+      },
+      "AUTOTARGETING:EXACT": {
+        "Impressions": "2538",
+        "Clicks": "50",
+        "Cost": "1345.73",
+        "Conversions": "2"
+      }
+    }
+  },
+  "goals_request": {
+    "params": {
+      "SelectionCriteria": {
+        "DateFrom": "2026-10-20",
+        "DateTo": "2026-11-19",
+        "Filter": [
+          {
+            "Field": "CampaignId",
+            "Operator": "IN",
+            "Values": [
+              "716316525"
+            ]
+          },
+          {
+            "Field": "AdNetworkType",
+            "Operator": "EQUALS",
+            "Values": [
+              "SEARCH"
+            ]
+          }
+        ]
+      },
+      "FieldNames": [
+        "Date",
+        "CampaignId",
+        "AdGroupId",
+        "AdGroupName",
+        "CriterionType",
+        "TargetingCategory",
+        "Impressions",
+        "Clicks",
+        "Cost",
+        "Conversions"
+      ],
+      "ReportType": "ADGROUP_PERFORMANCE_REPORT",
+      "ReportName": "leoparts-next-goals-20261119-152556-295783",
+      "DateRangeType": "CUSTOM_DATE",
+      "Format": "TSV",
+      "IncludeVAT": "YES",
+      "Goals": [
+        "675506966",
+        "675507028"
+      ],
+      "AttributionModels": [
+        "LC"
+      ]
+    },
+    "path": "data/direct_next_steps_goals_20261119.tsv",
+    "attempts": [
+      {
+        "attempt": 1,
+        "http_status": 201,
+        "at_utc": "2026-11-19T15:25:58.448503+00:00"
+      },
+      {
+        "attempt": 2,
+        "http_status": 200,
+        "at_utc": "2026-11-19T15:26:00.637077+00:00"
+      }
+    ]
+  },
+  "goal_report": {
+    "captured_at_utc": "2026-11-19T15:26:00.638346+00:00",
+    "rows": 55,
+    "columns": [
+      "Date",
+      "CampaignId",
+      "AdGroupId",
+      "AdGroupName",
+      "CriterionType",
+      "TargetingCategory",
+      "Impressions",
+      "Clicks",
+      "Cost",
+      "Conversions_675506966_LC",
+      "Conversions_675507028_LC"
+    ],
+    "totals_decimal": {
+      "Impressions": "3888",
+      "Clicks": "108",
+      "Cost": "2749.22",
+      "Conversions_675506966_LC": "0",
+      "Conversions_675507028_LC": "0"
+    },
+    "missing_numeric_cells": {
+      "Impressions": 0,
+      "Clicks": 0,
+      "Cost": 0,
+      "Conversions_675506966_LC": 55,
+      "Conversions_675507028_LC": 55
+    },
+    "by_criterion_category_decimal": {
+      "AUTOTARGETING:ACCESSORY": {
+        "Impressions": "468",
+        "Clicks": "12",
+        "Cost": "345.27",
+        "Conversions_675506966_LC": "0",
+        "Conversions_675507028_LC": "0"
+      },
+      "AUTOTARGETING:ALTERNATIVE": {
+        "Impressions": "118",
+        "Clicks": "13",
+        "Cost": "301.53",
+        "Conversions_675506966_LC": "0",
+        "Conversions_675507028_LC": "0"
+      },
+      "AUTOTARGETING:BROADER": {
+        "Impressions": "705",
+        "Clicks": "30",
+        "Cost": "659.17",
+        "Conversions_675506966_LC": "0",
+        "Conversions_675507028_LC": "0"
+      },
+      "AUTOTARGETING:EXACT": {
+        "Impressions": "2538",
+        "Clicks": "50",
+        "Cost": "1345.73",
+        "Conversions_675506966_LC": "0",
+        "Conversions_675507028_LC": "0"
+      },
+      "KEYWORD:ACCESSORY": {
+        "Impressions": "14",
+        "Clicks": "1",
+        "Cost": "24.37",
+        "Conversions_675506966_LC": "0",
+        "Conversions_675507028_LC": "0"
+      },
+      "KEYWORD:EXACT": {
+        "Impressions": "33",
+        "Clicks": "2",
+        "Cost": "73.15",
+        "Conversions_675506966_LC": "0",
+        "Conversions_675507028_LC": "0"
+      },
+      "KEYWORD:UNKNOWN": {
+        "Impressions": "11",
+        "Clicks": "0",
+        "Cost": "0.00",
+        "Conversions_675506966_LC": "0",
+        "Conversions_675507028_LC": "0"
+      },
+      "KEYWORD:ALTERNATIVE": {
+        "Impressions": "1",
+        "Clicks": "0",
+        "Cost": "0.00",
+        "Conversions_675506966_LC": "0",
+        "Conversions_675507028_LC": "0"
+      }
+    }
+  },
+  "finished_at_utc": "2026-11-19T15:26:00.638911+00:00"
+}
