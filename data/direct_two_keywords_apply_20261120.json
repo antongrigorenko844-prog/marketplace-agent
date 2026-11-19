@@ -3,7 +3,7 @@
   "started_at_utc": "2026-11-19T18:37:26.340507+00:00",
   "workflow_commit": "2219fb6a1cb03140aaf778b46e5ed04df75f51fd",
   "status": "started",
-  "api_write_attempts_this_run": 4,
+  "api_write_attempts_this_run": 5,
   "errors": [],
   "plan_sha256": "dab383c9bb4f6149c0cd7a1dfd03e4b39ec3e98b17ee308204f8ed4afd007e9a",
   "mode": "apply",
@@ -2015,7 +2015,18 @@
           }
         ]
       }
+    },
+    {
+      "key": "ad_add",
+      "result": {
+        "AddResults": [
+          {
+            "Id": 1927488453443618167,
+            "Errors": []
+          }
+        ]
+      }
     }
   ],
-  "pending_operation": "ad_add"
+  "pending_operation": "ad_moderate"
 }
