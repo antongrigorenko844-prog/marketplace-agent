@@ -30,6 +30,8 @@ PRODUCTS = [
     ("0am927769g", "Электронная плата мехатроника DSG7 DQ200 0AM927769G", "3", "photos/0AM927769G/0AM927769G_1.png"),
     ("0am927769k", "Электронная плата мехатроника DSG7 DQ200 0AM927769K", "3", "photos/0AM927769K/0AM927769K_1.png"),
 ]
+MECH_AD_TITLE = "Мехатроник DSG7 DQ200 0AM325025"
+MECH_AD_TEXT = "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ"
 CATEGORIES = {"1": "Мехатроники без электронной платы", "2": "Мехатроники с электронной платой", "3": "Электронные платы"}
 OUTPUT = ROOT / "feeds" / "dq200.yml"
 
@@ -91,8 +93,10 @@ def build():
         photo_url = "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/" + "/".join(quote(x) for x in picture.split("/"))
         report.append({"sku": sku, "catalog_stock": stocks.get(sku), "price_rub": price, "site_url": url, "stock_source": "data/ozon_catalog.xlsx", "availability": "disabled_pending_live_verification"})
         offer = ET.SubElement(offers, "offer", id=sku, available="false")
-        for key, val in (("url", url), ("price", str(price)), ("currencyId", "RUR"), ("categoryId", category), ("picture", photo_url), ("name", title), ("vendorCode", sku.upper())):
+        for key, val in (("url", url), ("price", str(price)), ("currencyId", "RUR"), ("categoryId", category), ("picture", photo_url), ("name", MECH_AD_TITLE if category in {"1", "2"} else title), ("vendorCode", sku.upper())):
             ET.SubElement(offer, key).text = val
+            if key == "name" and category in {"1", "2"}:
+                ET.SubElement(offer, "description").text = MECH_AD_TEXT
     if len(offers) != 12:
         raise ValueError("Expected exactly 12 offers")
     ET.indent(root, space="  ")
