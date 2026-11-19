@@ -20,14 +20,17 @@
       "Сводный расход рассчитан по отчёту групп SEARCH. В детализации запросов100 из104 кликов; разница85,09руб. За19ноября детализация отличается на+0,01руб.",
       "Классификация — оценка намерения по формулировке; она не доказывает качество продаж."
     ],
-    "appliedAtUtc": "2026-11-19T13:15:18.508024+00:00",
-    "applySource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_reviewed_negatives_apply_20261119.json",
-    "negativesSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_reviewed_negatives_apply_20261119.json",
+    "appliedAtUtc": "2026-11-19T13:43:20.686068+00:00",
+    "applySource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_service_negatives_apply_20261119.json",
+    "negativesSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_service_negatives_apply_20261119.json",
     "negativeCounts": {
-      "before": 24,
-      "added": 9,
-      "after": 33
-    }
+      "original": 24,
+      "firstBatchAdded": 9,
+      "before": 33,
+      "added": 5,
+      "after": 38
+    },
+    "previousApplySource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_reviewed_negatives_apply_20261119.json"
   },
   "periods": [
     {
@@ -39,22 +42,22 @@
       "dateTo": "2026-11-18",
       "complete": true,
       "controlTotals": {
-        "Impressions": 3224.0,
-        "Clicks": 85.0,
-        "Cost": 1980.0,
-        "Conversions": 3.0
+        "Impressions": 3224,
+        "Clicks": 85,
+        "Cost": 1980,
+        "Conversions": 3
       },
       "queryTotals": {
-        "Impressions": 3127.0,
-        "Clicks": 81.0,
+        "Impressions": 3127,
+        "Clicks": 81,
         "Cost": 1894.9,
-        "Conversions": 3.0
+        "Conversions": 3
       },
       "autotargetingTotals": {
-        "Impressions": 3181.0,
-        "Clicks": 83.0,
+        "Impressions": 3181,
+        "Clicks": 83,
         "Cost": 1942.85,
-        "Conversions": 3.0
+        "Conversions": 3
       }
     },
     {
@@ -66,22 +69,22 @@
       "dateTo": "2026-11-18",
       "complete": true,
       "controlTotals": {
-        "Impressions": 3224.0,
-        "Clicks": 85.0,
-        "Cost": 1980.0,
-        "Conversions": 3.0
+        "Impressions": 3224,
+        "Clicks": 85,
+        "Cost": 1980,
+        "Conversions": 3
       },
       "queryTotals": {
-        "Impressions": 3127.0,
-        "Clicks": 81.0,
+        "Impressions": 3127,
+        "Clicks": 81,
         "Cost": 1894.9,
-        "Conversions": 3.0
+        "Conversions": 3
       },
       "autotargetingTotals": {
-        "Impressions": 3181.0,
-        "Clicks": 83.0,
+        "Impressions": 3181,
+        "Clicks": 83,
         "Cost": 1942.85,
-        "Conversions": 3.0
+        "Conversions": 3
       }
     },
     {
@@ -93,22 +96,22 @@
       "dateTo": "2026-11-18",
       "complete": true,
       "controlTotals": {
-        "Impressions": 1455.0,
-        "Clicks": 40.0,
+        "Impressions": 1455,
+        "Clicks": 40,
         "Cost": 1044.66,
-        "Conversions": 1.0
+        "Conversions": 1
       },
       "queryTotals": {
-        "Impressions": 1413.0,
-        "Clicks": 40.0,
+        "Impressions": 1413,
+        "Clicks": 40,
         "Cost": 1044.66,
-        "Conversions": 1.0
+        "Conversions": 1
       },
       "autotargetingTotals": {
-        "Impressions": 1428.0,
-        "Clicks": 39.0,
+        "Impressions": 1428,
+        "Clicks": 39,
         "Cost": 1020.29,
-        "Conversions": 1.0
+        "Conversions": 1
       }
     },
     {
@@ -120,22 +123,22 @@
       "dateTo": "2026-11-19",
       "complete": false,
       "controlTotals": {
-        "Impressions": 587.0,
-        "Clicks": 19.0,
+        "Impressions": 587,
+        "Clicks": 19,
         "Cost": 616.91,
-        "Conversions": 1.0
+        "Conversions": 1
       },
       "queryTotals": {
-        "Impressions": 559.0,
-        "Clicks": 19.0,
+        "Impressions": 559,
+        "Clicks": 19,
         "Cost": 616.92,
-        "Conversions": 1.0
+        "Conversions": 1
       },
       "autotargetingTotals": {
-        "Impressions": 571.0,
-        "Clicks": 18.0,
+        "Impressions": 571,
+        "Clicks": 18,
         "Cost": 556.54,
-        "Conversions": 1.0
+        "Conversions": 1
       }
     }
   ],
@@ -151,9 +154,9 @@
       "rollback": "Удалить только эту новую фразу, если обнаружен конфликт с товарным запросом.",
       "status": "Применено и проверено",
       "historicalCost": 57.42,
-      "historicalClicks": 1.0,
-      "historicalImpressions": 2.0,
-      "historicalConversions": 0.0
+      "historicalClicks": 1,
+      "historicalImpressions": 2,
+      "historicalConversions": 0
     },
     {
       "priority": "P1",
@@ -166,9 +169,9 @@
       "rollback": "Удалить только эту новую фразу, если обнаружен конфликт с товарным запросом.",
       "status": "Применено и проверено",
       "historicalCost": 38.76,
-      "historicalClicks": 1.0,
-      "historicalImpressions": 5.0,
-      "historicalConversions": 0.0
+      "historicalClicks": 1,
+      "historicalImpressions": 5,
+      "historicalConversions": 0
     },
     {
       "priority": "P1",
@@ -180,10 +183,10 @@
       "confidence": "Высокая по смыслу; объём эффекта неизвестен",
       "rollback": "Удалить только эту новую фразу, если обнаружен конфликт с товарным запросом.",
       "status": "Применено и проверено",
-      "historicalCost": 0.0,
-      "historicalClicks": 0.0,
-      "historicalImpressions": 5.0,
-      "historicalConversions": 0.0
+      "historicalCost": 0,
+      "historicalClicks": 0,
+      "historicalImpressions": 5,
+      "historicalConversions": 0
     },
     {
       "priority": "P1",
@@ -195,10 +198,10 @@
       "confidence": "Высокая по смыслу; объём эффекта неизвестен",
       "rollback": "Удалить только эту новую фразу, если обнаружен конфликт с товарным запросом.",
       "status": "Применено и проверено",
-      "historicalCost": 0.0,
-      "historicalClicks": 0.0,
-      "historicalImpressions": 2.0,
-      "historicalConversions": 0.0
+      "historicalCost": 0,
+      "historicalClicks": 0,
+      "historicalImpressions": 2,
+      "historicalConversions": 0
     },
     {
       "priority": "P1",
@@ -210,10 +213,10 @@
       "confidence": "Высокая по смыслу; объём эффекта неизвестен",
       "rollback": "Удалить только эту новую фразу, если обнаружен конфликт с товарным запросом.",
       "status": "Применено и проверено",
-      "historicalCost": 0.0,
-      "historicalClicks": 0.0,
-      "historicalImpressions": 5.0,
-      "historicalConversions": 0.0
+      "historicalCost": 0,
+      "historicalClicks": 0,
+      "historicalImpressions": 5,
+      "historicalConversions": 0
     },
     {
       "priority": "P1",
@@ -225,10 +228,10 @@
       "confidence": "Высокая по смыслу; объём эффекта неизвестен",
       "rollback": "Удалить только эту новую фразу, если обнаружен конфликт с товарным запросом.",
       "status": "Применено и проверено",
-      "historicalCost": 0.0,
-      "historicalClicks": 0.0,
-      "historicalImpressions": 4.0,
-      "historicalConversions": 0.0
+      "historicalCost": 0,
+      "historicalClicks": 0,
+      "historicalImpressions": 4,
+      "historicalConversions": 0
     },
     {
       "priority": "P1",
@@ -240,10 +243,10 @@
       "confidence": "Высокая по смыслу; объём эффекта неизвестен",
       "rollback": "Удалить только эту новую фразу, если обнаружен конфликт с товарным запросом.",
       "status": "Применено и проверено",
-      "historicalCost": 0.0,
-      "historicalClicks": 0.0,
-      "historicalImpressions": 1.0,
-      "historicalConversions": 0.0
+      "historicalCost": 0,
+      "historicalClicks": 0,
+      "historicalImpressions": 1,
+      "historicalConversions": 0
     },
     {
       "priority": "P1",
@@ -255,10 +258,10 @@
       "confidence": "Высокая по смыслу; объём эффекта неизвестен",
       "rollback": "Удалить только эту новую фразу, если обнаружен конфликт с товарным запросом.",
       "status": "Применено и проверено",
-      "historicalCost": 0.0,
-      "historicalClicks": 0.0,
-      "historicalImpressions": 5.0,
-      "historicalConversions": 0.0
+      "historicalCost": 0,
+      "historicalClicks": 0,
+      "historicalImpressions": 5,
+      "historicalConversions": 0
     },
     {
       "priority": "P1",
@@ -270,10 +273,10 @@
       "confidence": "Высокая по смыслу; объём эффекта неизвестен",
       "rollback": "Удалить только эту новую фразу, если обнаружен конфликт с товарным запросом.",
       "status": "Применено и проверено",
-      "historicalCost": 0.0,
-      "historicalClicks": 0.0,
-      "historicalImpressions": 7.0,
-      "historicalConversions": 0.0
+      "historicalCost": 0,
+      "historicalClicks": 0,
+      "historicalImpressions": 7,
+      "historicalConversions": 0
     },
     {
       "priority": "P1",
@@ -318,19 +321,99 @@
       "confidence": "Настройки и доля подтверждены; эффект сужения ещё не измерен",
       "rollback": "Категории изменять только отдельным тестом с сохранением исходных настроек.",
       "status": "Рекомендация; настройки не изменены"
+    },
+    {
+      "priority": "P1",
+      "action": "Добавить минус-фразу",
+      "scope": "Кампания 716316525",
+      "phrase": "\"ремонт мехатроника сервисы\"",
+      "reason": "Прямой поиск сервиса; компания продаёт детали и не выполняет ремонт.",
+      "expectedEffect": "Отсечь согласованную полную сервисную формулировку; прогноз экономии не рассчитан.",
+      "confidence": "Соответствие предложению оценено; продажи по этим запросам не подтверждены",
+      "rollback": "При подтверждённой потере товарного заказа пересмотреть только соответствующее новое исключение.",
+      "status": "Применено и проверено",
+      "historicalCost": 27.24,
+      "historicalClicks": 1,
+      "historicalConversions": 1,
+      "verificationSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_service_negatives_apply_20261119.json"
+    },
+    {
+      "priority": "P1",
+      "action": "Добавить минус-фразу",
+      "scope": "Кампания 716316525",
+      "phrase": "\"средняя стоимость ремонта снятого мехатроника dq200\"",
+      "reason": "Запрос стоимости ремонта имеющегося узла; услуга отсутствует.",
+      "expectedEffect": "Отсечь согласованную полную сервисную формулировку; прогноз экономии не рассчитан.",
+      "confidence": "Соответствие предложению оценено; продажи по этим запросам не подтверждены",
+      "rollback": "При подтверждённой потере товарного заказа пересмотреть только соответствующее новое исключение.",
+      "status": "Применено и проверено",
+      "historicalCost": 34.3,
+      "historicalClicks": 1,
+      "historicalConversions": 0,
+      "verificationSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_service_negatives_apply_20261119.json"
+    },
+    {
+      "priority": "P1",
+      "action": "Добавить минус-фразу",
+      "scope": "Кампания 716316525",
+      "phrase": "\"диагностика мехатроника dq200\"",
+      "reason": "Запрос диагностики; компания не оказывает эту услугу.",
+      "expectedEffect": "Отсечь согласованную полную сервисную формулировку; прогноз экономии не рассчитан.",
+      "confidence": "Соответствие предложению оценено; продажи по этим запросам не подтверждены",
+      "rollback": "При подтверждённой потере товарного заказа пересмотреть только соответствующее новое исключение.",
+      "status": "Применено и проверено",
+      "historicalCost": 19.89,
+      "historicalClicks": 1,
+      "historicalConversions": 0,
+      "verificationSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_service_negatives_apply_20261119.json"
+    },
+    {
+      "priority": "P1",
+      "action": "Добавить минус-фразу",
+      "scope": "Кампания 716316525",
+      "phrase": "\"мехатроник ремонт цена\"",
+      "reason": "Запрос цены ремонта; услуга отсутствует.",
+      "expectedEffect": "Отсечь согласованную полную сервисную формулировку; прогноз экономии не рассчитан.",
+      "confidence": "Соответствие предложению оценено; продажи по этим запросам не подтверждены",
+      "rollback": "При подтверждённой потере товарного заказа пересмотреть только соответствующее новое исключение.",
+      "status": "Применено и проверено",
+      "historicalCost": 17.79,
+      "historicalClicks": 1,
+      "historicalConversions": 0,
+      "verificationSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_service_negatives_apply_20261119.json"
+    },
+    {
+      "priority": "P1",
+      "action": "Добавить минус-фразу",
+      "scope": "Кампания 716316525",
+      "phrase": "\"дсг7 dq200 цена ремонта\"",
+      "reason": "Запрос цены ремонта трансмиссии; услуга отсутствует.",
+      "expectedEffect": "Отсечь согласованную полную сервисную формулировку; прогноз экономии не рассчитан.",
+      "confidence": "Соответствие предложению оценено; продажи по этим запросам не подтверждены",
+      "rollback": "При подтверждённой потере товарного заказа пересмотреть только соответствующее новое исключение.",
+      "status": "Применено и проверено",
+      "historicalCost": 12.48,
+      "historicalClicks": 1,
+      "historicalConversions": 0,
+      "verificationSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_service_negatives_apply_20261119.json"
     }
   ],
   "current_negatives": [
     "!как снять",
     "!как установить",
     "!своими руками",
+    "\"диагностика мехатроника dq200\"",
+    "\"дсг7 dq200 цена ремонта\"",
     "\"купить плату для ноутбука\"",
+    "\"мехатроник ремонт цена\"",
     "\"плата для ноутбука\"",
     "\"плата ноутбука\"",
     "\"плата от ноутбука\"",
     "\"плата у ноутбука\"",
+    "\"ремонт мехатроника сервисы\"",
     "\"скачать сайт для покупки авто запчастей\"",
     "\"сколько стоит плата на ноутбук\"",
+    "\"средняя стоимость ремонта снятого мехатроника dq200\"",
     "\"цена на платы от ноутбуков\"",
     "\"эл плата и компьютерные компоненты\"",
     "бесплатно",
@@ -575,7 +658,6 @@
   ],
   "protected_queries": [
     "трещина платы дсг",
-    "ремонт мехатроника сервисы",
     "коробка робот замена",
     "плата мехатроника dsg 7 dq200 купить",
     "dq200 купить",
@@ -590,14 +672,98 @@
     "гидроплита dq200 купить",
     "электронная плата dq200 купить",
     "адаптация мехатроника dq200",
-    "клонирование платы dq200"
+    "клонирование платы dq200",
+    "замена корпуса мехатроника",
+    "ремонт мехатроника",
+    "ремонт мехатроника dq200",
+    "замена электронного плата мехатроника"
   ],
-  "apply_status": "Добавлено и проверено через API",
+  "apply_status": "Первые 9 и следующие 5 исключений применены и проверены; всего 38. Новые тематические предложения ещё не применены.",
   "finding": "96.2447678202% of full-window cost was autotargeting; all four reported conversions were autotargeting. These conversions are not verified orders.",
   "completed_data_dates": [
     "2026-11-16",
     "2026-11-17",
     "2026-11-18"
   ],
-  "next_change_proposal_file": "data/direct_negative_next_changes_20261119.json"
+  "next_change_proposal_file": "data/direct_negative_next_changes_20261119.json",
+  "latest_owner_decision": {
+    "date": "2026-11-19",
+    "instruction": "спорные оставим с остальным согласен убирать",
+    "appliedQueries": [
+      "ремонт мехатроника сервисы",
+      "средняя стоимость ремонта снятого мехатроника dq200",
+      "диагностика мехатроника dq200",
+      "мехатроник ремонт цена",
+      "дсг7 dq200 цена ремонта"
+    ],
+    "preservedQueries": [
+      "трещина платы дсг",
+      "коробка робот замена",
+      "замена корпуса мехатроника",
+      "ремонт мехатроника",
+      "ремонт мехатроника dq200",
+      "ремонт платы мехатроника dsg 7 dq200",
+      "замена электронного плата мехатроника"
+    ],
+    "scope": "Добавлены только пять полных фраз в ASCII-кавычках. Спорные запросы оставлены; прежние 33 исключения сохранены.",
+    "verificationSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_service_negatives_apply_20261119.json"
+  },
+  "proactive_negative_candidates": [
+    {
+      "phrase": "плата ноутбука",
+      "quoted": false,
+      "scope": "Кампания 716316525",
+      "status": "Предложено; не применено",
+      "basis": "7 различных наблюдаемых запросов о платах ноутбуков",
+      "impressions": 27,
+      "clicks": 1,
+      "historicalCost": 38.76,
+      "historicalConversions": 0,
+      "risk": "Редкие смешанные технические запросы о плате DQ200 и ноутбуке; не расширять до отдельных слов плата или ноутбук.",
+      "note": "Все наблюдавшиеся ноутбучные формулировки уже закрыты точными исключениями; исторический расход не является новой экономией."
+    },
+    {
+      "phrase": "компьютерные компоненты",
+      "quoted": false,
+      "scope": "Кампания 716316525",
+      "status": "Предложено; не применено",
+      "basis": "эл плата и компьютерные компоненты",
+      "impressions": 7,
+      "clicks": 0,
+      "historicalCost": 0,
+      "historicalConversions": 0,
+      "risk": "Не расширять до компьютер, компоненты, электроника.",
+      "note": "Наблюдавшаяся точная фраза уже исключена; новое правило защищает от дополнительных слов."
+    },
+    {
+      "phrase": "сервисное оборудование",
+      "quoted": false,
+      "scope": "Кампания 716316525",
+      "status": "Предложено; не применено",
+      "basis": "сервисное оборудование дром",
+      "impressions": 1,
+      "clicks": 0,
+      "historicalCost": 0,
+      "historicalConversions": 0,
+      "risk": "Не исключать слово сервис отдельно: сервисы могут покупать запчасти."
+    },
+    {
+      "phrase": "оборудование автомобильного сервиса",
+      "quoted": false,
+      "scope": "Кампания 716316525",
+      "status": "Предложено; не применено",
+      "basis": "оборудование автомобильного сервиса",
+      "impressions": 3,
+      "clicks": 0,
+      "historicalCost": 0,
+      "historicalConversions": 0,
+      "risk": "Не расширять до оборудования или автомобилей вообще."
+    }
+  ],
+  "proactive_review_notes": [
+    "Все четыре наблюдаемые темы пришли через автотаргетинг.",
+    "Статистика исходной выгрузки не обновлялась; 19 ноября неполный день.",
+    "Примеры будущих дополнительных формулировок — гипотезы, не новые фактические запросы.",
+    "Категории автотаргетинга, бюджет, ставки и объявления этим применением не изменялись."
+  ]
 }
