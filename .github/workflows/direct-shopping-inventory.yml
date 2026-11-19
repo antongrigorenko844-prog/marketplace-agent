@@ -1,0 +1,30 @@
+name: direct-shopping-inventory
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/agent-requests/direct-shopping-inventory.txt'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Audit live shopping ads
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_shopping_inventory.py
+      - name: Save inventory
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/direct_live_shopping_inventory.json
+          git diff --cached --quiet || (git commit -m "Update DQ200 shopping inventory" && git pull --rebase && git push)
