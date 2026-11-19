@@ -1,0 +1,818 @@
+{
+  "plan_id": "leoparts_two_keywords_20261120_v1",
+  "status": "local_read_only_preparation_ready_for_parent_review",
+  "prepared_at_utc": "2026-11-19T18:19:32.385020+00:00",
+  "external_writes_performed": false,
+  "campaign_id": 716316525,
+  "source_snapshot_captured_at_utc": "2026-11-19T17:27:57.398251+00:00",
+  "authorization_scope": {
+    "manual_keywords": [
+      {
+        "phrase": "мехатроник dq200",
+        "destination": "one_new_general_mechatronics_group_both_configurations"
+      },
+      {
+        "phrase": "0am927769d",
+        "ad_group_id": 5826320196
+      }
+    ],
+    "new_groups": 1,
+    "new_ads": 1,
+    "existing_groups_updated": 0,
+    "existing_ads_updated": 0,
+    "campaign_fields_updated": 0,
+    "negative_keywords_updated": 0,
+    "prices_updated_by_this_plan": 0
+  },
+  "source_files": [
+    {
+      "path": "direct_work/keyword_review_20261120/fresh/direct_keywords_live_20261120.json",
+      "sha256": "774147ec0b375083b6c66ad0169875f18e0676b5a781b819cdf8fba0b18f257b"
+    },
+    {
+      "path": "direct_work/direct_neutral_copy_apply_20261120.json",
+      "sha256": "ad7290ba8a6b6385809bc11ce4f981e2dd54a261863630174387763c45c7bfff"
+    }
+  ],
+  "snapshot_not_a_live_apply_guard": "Перед любым add выполнить fresh GET и сохранить отдельный preflight. Этот локальный план не подтверждает состояние кабинета в момент будущей записи.",
+  "expected_baseline": {
+    "existing_group_ids": [
+      5826171512,
+      5826183946,
+      5826320196
+    ],
+    "manual_keyword_count": 39,
+    "autotargeting_count": 3,
+    "ad_count": 5,
+    "campaign_negative_count": 130,
+    "regions": [
+      225,
+      -11024,
+      977
+    ],
+    "search_strategy": "HIGHEST_POSITION",
+    "network_strategy": "SERVING_OFF",
+    "new_objects_search_bid_microunits": 50000000,
+    "new_objects_search_bid_rub": 50,
+    "bid_source": "В проверенном снимке все42 объекта keywords имеют Bid=50000000. Ставки новых объектов задаются на этом же уровне; это не финансовый прогноз и не гарантия CPC.",
+    "campaign_preserved_fields": {
+      "TimeZone": "Europe/Moscow",
+      "Id": 716316525,
+      "Name": "Leoparts | DQ200 | Товарная ЕПК | Поиск | Тест",
+      "StartDate": "2026-11-16",
+      "Type": "UNIFIED_CAMPAIGN",
+      "State": "ON",
+      "Currency": "RUB",
+      "DailyBudget": {
+        "Amount": 571428571,
+        "Mode": "STANDARD"
+      },
+      "EndDate": null,
+      "NegativeKeywords": {
+        "Items": [
+          "!как снять",
+          "!как установить",
+          "!своими руками",
+          "\"igbt модуль\"",
+          "\"автосалон новые автомобили\"",
+          "\"диагностика dq200 +на дому\"",
+          "\"диагностика мехатроника dq200\"",
+          "\"дсг7 dq200 цена ремонта\"",
+          "\"заказать диагностику мехатроника dq200\"",
+          "\"записаться +на ремонт мехатроника\"",
+          "\"запись +на диагностику dq200\"",
+          "\"купить авто\"",
+          "\"купить автомобиль +в кредит\"",
+          "\"купить автомобиль +с пробегом\"",
+          "\"купить автомобиль\"",
+          "\"купить машину\"",
+          "\"купить новую машину\"",
+          "\"купить плату для ноутбука\"",
+          "\"лизинг автомобилей\"",
+          "\"мастер +по ремонту мехатроника\"",
+          "\"мехатроник ремонт цена\"",
+          "\"мехатронная станция 2 модуля\"",
+          "\"основные разделы мехатроники\"",
+          "\"плата для ноутбука\"",
+          "\"плата от ноутбука\"",
+          "\"плата у ноутбука\"",
+          "\"ремонт мехатроника +на дому\"",
+          "\"ремонт мехатроника +с выездом\"",
+          "\"ремонт мехатроника сервисы\"",
+          "\"скачать программу адаптации dq200\"",
+          "\"скачать программу диагностики dsg\"",
+          "\"скачать сайт для покупки авто запчастей\"",
+          "\"сколько стоит плата на ноутбук\"",
+          "\"средняя стоимость ремонта снятого мехатроника dq200\"",
+          "\"стоимость работ +по замене мехатроника\"",
+          "\"стоимость работы +по адаптации dq200\"",
+          "\"стоимость работы +по клонированию платы dq200\"",
+          "\"услуги адаптации мехатроника dq200\"",
+          "\"услуги клонирования платы dq200\"",
+          "\"услуги ремонта мехатроника dq200\"",
+          "\"цена на платы от ноутбуков\"",
+          "\"чем занимается техник мехатроник\"",
+          "\"эл плата и компьютерные компоненты\"",
+          "html магазин автозапчастей",
+          "woocommerce автозапчасти",
+          "wordpress магазин автозапчастей",
+          "автомобильный подъемник",
+          "активатор odis",
+          "аппарат замены масла",
+          "балансировочный станок",
+          "бесплатно",
+          "вакансии",
+          "видео ремонта",
+          "гидроблок abs",
+          "дипломная работа мехатроника",
+          "должностная инструкция автомеханика",
+          "должностная инструкция мехатроника",
+          "дсг 250 коробка !что !это",
+          "зарплата автомеханика",
+          "зарплата мехатроника",
+          "ищу работу автомехаником",
+          "ищу работу мехатроником",
+          "ключ активации odis",
+          "колледж мехатроника",
+          "компьютерные компоненты",
+          "кпп dsg !что !это !такое",
+          "кряк odis",
+          "купить коробку дсг 7 dq200",
+          "курсовая работа мехатроника",
+          "курсы автомехаников",
+          "курсы автоэлектриков",
+          "материнская плата компьютера",
+          "мерседес мехатроник",
+          "мехатроника вступительные экзамены",
+          "мехатроника проходной балл",
+          "мехатроника специальность",
+          "набор инструментов автослесаря",
+          "оборудование автомобильного сервиса",
+          "оборудование ремонта коробок передач",
+          "оборудование ремонта кпп",
+          "обучение ремонту",
+          "плата варочной панели",
+          "плата газового котла",
+          "плата гироскутера",
+          "плата духового шкафа",
+          "плата игровой приставки",
+          "плата квадрокоптера",
+          "плата компьютерного монитора",
+          "плата кофемашины",
+          "плата микроволновой печи",
+          "плата ноутбука",
+          "плата планшета",
+          "плата посудомоечной машины",
+          "плата принтера",
+          "плата пылесоса",
+          "плата роутера",
+          "плата смартфона",
+          "плата стиральной машины",
+          "плата телевизора",
+          "плата холодильника",
+          "плата швейной машины",
+          "плата электросамоката",
+          "покрасочная камера",
+          "прошивка мехатроника",
+          "прошить мехатроник",
+          "работа механиком",
+          "разработка сайта автозапчастей",
+          "резюме автомеханика",
+          "резюме автоэлектрика",
+          "ремонт блока abs",
+          "реферат мехатроника",
+          "сварочный аппарат",
+          "сервисное оборудование",
+          "системная плата компьютера",
+          "скачать прошивку",
+          "снятие мехатроника",
+          "станок ремонта гидротрансформаторов",
+          "стенд !для проверки мехатроника",
+          "стенд развал схождение",
+          "схема подключения",
+          "тележка инструментальная",
+          "тестовый стенд",
+          "торрент odis",
+          "торрент vcds",
+          "университет мехатроника",
+          "установка мехатроника",
+          "устроиться автомехаником",
+          "устроиться автоэлектриком",
+          "шаблон сайта автозапчастей",
+          "шиномонтажный станок"
+        ]
+      },
+      "UnifiedCampaign": {
+        "BiddingStrategy": {
+          "Search": {
+            "BiddingStrategyType": "HIGHEST_POSITION",
+            "PlacementTypes": {
+              "SearchResults": "YES",
+              "ProductGallery": "YES",
+              "DynamicPlaces": "YES",
+              "Maps": "NO",
+              "SearchOrganizationList": "NO"
+            },
+            "HighestPosition": {
+              "WeeklySpendLimit": 4000000000
+            }
+          },
+          "Network": {
+            "BiddingStrategyType": "SERVING_OFF"
+          }
+        },
+        "Settings": [
+          {
+            "Option": "ADD_METRICA_TAG",
+            "Value": "NO"
+          },
+          {
+            "Option": "ADD_TO_FAVORITES",
+            "Value": "NO"
+          },
+          {
+            "Option": "CAMPAIGN_EXACT_PHRASE_MATCHING_ENABLED",
+            "Value": "YES"
+          },
+          {
+            "Option": "ALTERNATIVE_TEXTS_ENABLED",
+            "Value": "NO"
+          },
+          {
+            "Option": "AUTO_ASSETS_ENABLED",
+            "Value": "NO"
+          },
+          {
+            "Option": "ENABLE_AREA_OF_INTEREST_TARGETING",
+            "Value": "YES"
+          },
+          {
+            "Option": "ENABLE_COMPANY_INFO",
+            "Value": "YES"
+          },
+          {
+            "Option": "ENABLE_SITE_MONITORING",
+            "Value": "YES"
+          },
+          {
+            "Option": "REQUIRE_SERVICING",
+            "Value": "NO"
+          },
+          {
+            "Option": "SHARED_ACCOUNT_ENABLED",
+            "Value": "YES"
+          }
+        ],
+        "TrackingParams": "utm_source=yandex&utm_medium=cpc&utm_campaign=dq200_feed_search&utm_content={ad_id}&utm_term={keyword}&cid={campaign_id}&gid={gbid}&aid={ad_id}",
+        "PriorityGoals": {
+          "Items": [
+            {
+              "GoalId": 675506966,
+              "Value": 500000000,
+              "IsMetrikaSourceOfValue": "NO"
+            },
+            {
+              "GoalId": 675507028,
+              "Value": 3000000000,
+              "IsMetrikaSourceOfValue": "NO"
+            }
+          ]
+        },
+        "PackageBiddingStrategy": null,
+        "WeeklyBudgetRollover": null,
+        "CounterIds": {
+          "Items": [
+            113839860
+          ]
+        },
+        "AttributionModel": "AUTO",
+        "NegativeKeywordSharedSetIds": {
+          "Items": []
+        }
+      },
+      "TimeTargeting": {
+        "HolidaysSchedule": null,
+        "Schedule": {
+          "Items": [
+            "1,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100",
+            "2,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100",
+            "3,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100",
+            "4,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100",
+            "5,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100",
+            "6,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100",
+            "7,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100"
+          ]
+        },
+        "ConsiderWorkingWeekends": "YES"
+      }
+    }
+  },
+  "new_general_ad": {
+    "Type": "RESPONSIVE_AD",
+    "Title": "Мехатроник DSG7 DQ200",
+    "title_chars": 21,
+    "Text": "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ",
+    "text_chars": 78,
+    "Href": "https://leoparts-akpp.ru/mehatronik-dq200",
+    "SitelinkSetId": 1526814548,
+    "no_price_extension": true
+  },
+  "new_group_autotargeting": {
+    "explicit_autotargeting_add": false,
+    "reason": "AdGroups.add автоматически создаёт объект; для поисковой ЕПК отключение недоступно.",
+    "proposed_minimum_categories": {
+      "Categories": {
+        "Exact": "YES",
+        "Narrow": "NO",
+        "Alternative": "NO",
+        "Accessory": "NO",
+        "Broader": "NO"
+      },
+      "BrandOptions": {
+        "WithoutBrands": "YES",
+        "WithAdvertiserBrand": "YES",
+        "WithCompetitorsBrand": "NO"
+      }
+    },
+    "only_new_object_may_be_updated": true,
+    "at_least_one_category_with_forecast_required": true,
+    "forecast_available_in_retrieved_keyword_api_fields": false,
+    "exact_is_not_literal_exact_match": true,
+    "no_automatic_broadening_on_failure": true,
+    "note": "Категорийные настройки применяются до создания/модерации рабочего объявления. Существующие3 авто не менять. Включённый обязательный auto — отдельное условие показа, не третий ручной ключ."
+  },
+  "preflight_read_only_requests": [
+    {
+      "endpoint": "https://api.direct.yandex.com/json/v501/campaigns",
+      "method": "get",
+      "params": {
+        "SelectionCriteria": {
+          "Ids": [
+            716316525
+          ]
+        },
+        "FieldNames": [
+          "Id",
+          "Name",
+          "Type",
+          "State",
+          "Status",
+          "Currency",
+          "StartDate",
+          "EndDate",
+          "DailyBudget",
+          "TimeTargeting",
+          "TimeZone",
+          "NegativeKeywords"
+        ],
+        "UnifiedCampaignFieldNames": [
+          "CounterIds",
+          "Settings",
+          "BiddingStrategy",
+          "PriorityGoals",
+          "TrackingParams",
+          "AttributionModel",
+          "PackageBiddingStrategy",
+          "NegativeKeywordSharedSetIds",
+          "WeeklyBudgetRollover"
+        ],
+        "UnifiedCampaignSearchStrategyPlacementTypesFieldNames": [
+          "SearchResults",
+          "ProductGallery",
+          "DynamicPlaces",
+          "Maps",
+          "SearchOrganizationList"
+        ],
+        "UnifiedCampaignPackageBiddingStrategyPlatformsFieldNames": [
+          "SearchResult",
+          "ProductGallery",
+          "Maps",
+          "SearchOrganizationList",
+          "Network",
+          "DynamicPlaces"
+        ],
+        "Page": {
+          "Limit": 1000
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.direct.yandex.com/json/v501/adgroups",
+      "method": "get",
+      "params": {
+        "SelectionCriteria": {
+          "CampaignIds": [
+            716316525
+          ]
+        },
+        "FieldNames": [
+          "Id",
+          "CampaignId",
+          "Name",
+          "Type",
+          "Subtype",
+          "Status",
+          "RegionIds",
+          "NegativeKeywords",
+          "NegativeKeywordSharedSetIds",
+          "TrackingParams"
+        ],
+        "Page": {
+          "Limit": 1000
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.direct.yandex.com/json/v501/keywords",
+      "method": "get",
+      "params": {
+        "SelectionCriteria": {
+          "CampaignIds": [
+            716316525
+          ]
+        },
+        "FieldNames": [
+          "Id",
+          "CampaignId",
+          "AdGroupId",
+          "Keyword",
+          "State",
+          "Status",
+          "Bid",
+          "ContextBid",
+          "AutotargetingSearchBidIsAuto"
+        ],
+        "AutotargetingSettingsCategoriesFieldNames": [
+          "Exact",
+          "Narrow",
+          "Alternative",
+          "Accessory",
+          "Broader"
+        ],
+        "AutotargetingSettingsBrandOptionsFieldNames": [
+          "WithoutBrands",
+          "WithAdvertiserBrand",
+          "WithCompetitorsBrand"
+        ],
+        "Page": {
+          "Limit": 1000
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.direct.yandex.com/json/v501/ads",
+      "method": "get",
+      "params": {
+        "SelectionCriteria": {
+          "CampaignIds": [
+            716316525
+          ]
+        },
+        "FieldNames": [
+          "Id",
+          "CampaignId",
+          "AdGroupId",
+          "Type",
+          "State",
+          "Status",
+          "StatusClarification"
+        ],
+        "ResponsiveAdFieldNames": [
+          "Titles",
+          "Texts",
+          "Href",
+          "SitelinkSetId",
+          "SitelinksModeration"
+        ],
+        "ShoppingAdFieldNames": [
+          "SitelinkSetId",
+          "SitelinksModeration",
+          "FeedId",
+          "FeedProcessingStatus",
+          "FeedFilterConditions",
+          "GenerationScopes",
+          "TitleSources",
+          "TextSources",
+          "DefaultTexts",
+          "ListingFeedFilterConditions",
+          "ListingTitleSources",
+          "ListingTextSources"
+        ],
+        "Page": {
+          "Limit": 1000
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.direct.yandex.com/json/v501/sitelinks",
+      "method": "get",
+      "params": {
+        "SelectionCriteria": {
+          "Ids": [
+            1526814548
+          ]
+        },
+        "FieldNames": [
+          "Id",
+          "Sitelinks"
+        ],
+        "Page": {
+          "Limit": 1000
+        }
+      }
+    }
+  ],
+  "implementation_steps": [
+    {
+      "order": 1,
+      "action": "create_one_general_group",
+      "request": {
+        "endpoint": "https://api.direct.yandex.com/json/v501/adgroups",
+        "method": "add",
+        "params": {
+          "AdGroups": [
+            {
+              "Name": "DQ200 | Мехатроники общий запрос | Поиск",
+              "CampaignId": 716316525,
+              "RegionIds": [
+                225,
+                -11024,
+                977
+              ],
+              "UnifiedAdGroup": {
+                "OfferRetargeting": "NO"
+              }
+            }
+          ]
+        }
+      },
+      "readback": "Проверить новый Id, принадлежность CID, Type=UNIFIED_AD_GROUP, точные Name/RegionIds, пустые group negatives/shared-set associations. Не писать старые группы.",
+      "schema_note": "OfferRetargeting помечен required в JSON-схеме UnifiedAdGroup, но устаревшим в текущей русской таблице. NO задан для совместимости; включать офферный ретаргетинг не требуется. Не подменять группу старым TextAdGroup."
+    },
+    {
+      "order": 2,
+      "action": "read_autocreated_autotargeting",
+      "request": {
+        "endpoint": "https://api.direct.yandex.com/json/v501/keywords",
+        "method": "get",
+        "params": {
+          "SelectionCriteria": {
+            "AdGroupIds": [
+              "__NEW_GROUP_ID_FROM_OWN_ADD_RESULT__"
+            ]
+          },
+          "FieldNames": [
+            "Id",
+            "CampaignId",
+            "AdGroupId",
+            "Keyword",
+            "State",
+            "Status",
+            "Bid",
+            "AutotargetingSearchBidIsAuto"
+          ],
+          "AutotargetingSettingsCategoriesFieldNames": [
+            "Exact",
+            "Narrow",
+            "Alternative",
+            "Accessory",
+            "Broader"
+          ],
+          "AutotargetingSettingsBrandOptionsFieldNames": [
+            "WithoutBrands",
+            "WithAdvertiserBrand",
+            "WithCompetitorsBrand"
+          ],
+          "Page": {
+            "Limit": 1000
+          }
+        }
+      },
+      "required": "Ровно один объект ---autotargeting внутри своего нового group Id. Если отсутствует/дубликаты — остановить применение и исследовать; Keywords.add для авто не выполнять."
+    },
+    {
+      "order": 3,
+      "action": "constrain_only_new_autotargeting",
+      "request": {
+        "endpoint": "https://api.direct.yandex.com/json/v501/keywords",
+        "method": "update",
+        "params": {
+          "Keywords": [
+            {
+              "Id": "__NEW_GROUP_AUTOTARGET_ID_FROM_FRESH_GET__",
+              "AutotargetingSettings": {
+                "Categories": {
+                  "Exact": "YES",
+                  "Narrow": "NO",
+                  "Alternative": "NO",
+                  "Accessory": "NO",
+                  "Broader": "NO"
+                },
+                "BrandOptions": {
+                  "WithoutBrands": "YES",
+                  "WithAdvertiserBrand": "YES",
+                  "WithCompetitorsBrand": "NO"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "readback": "Все5 Categories и все3 BrandOptions равны payload. Если валидация не разрешает только Exact или требует прогноз — не открывать другие категории автоматически, не отправлять новый ad на модерацию; сохранить точную ошибку без секретов."
+    },
+    {
+      "order": 4,
+      "action": "add_two_approved_keywords",
+      "request": {
+        "endpoint": "https://api.direct.yandex.com/json/v501/keywords",
+        "method": "add",
+        "params": {
+          "Keywords": [
+            {
+              "Keyword": "мехатроник dq200",
+              "AdGroupId": "__NEW_GROUP_ID_FROM_OWN_ADD_RESULT__",
+              "Bid": 50000000
+            },
+            {
+              "Keyword": "0am927769d",
+              "AdGroupId": 5826320196,
+              "Bid": 50000000
+            }
+          ]
+        }
+      },
+      "readback": "Каждый AddResult сверить по отдельности. Точные Keyword, group, CID, Bid=50000000; оба новых Id различны. При warning duplicate принять только точный запрошенный текст в нужной группе, не выдавать другой текст за добавленный. Старые ключи, их inline minus и ставки должны остаться прежними."
+    },
+    {
+      "order": 5,
+      "action": "bound_only_new_autotargeting_bid",
+      "conditional": "Выполнить только если fresh GET показывает у нового auto Bid !=50000000 или AutotargetingSearchBidIsAuto !=NO; иначе0writes.",
+      "request": {
+        "endpoint": "https://api.direct.yandex.com/json/v501/keywordbids",
+        "method": "set",
+        "params": {
+          "KeywordBids": [
+            {
+              "KeywordId": "__NEW_GROUP_AUTOTARGET_ID_FROM_FRESH_GET__",
+              "SearchBid": 50000000,
+              "AutotargetingSearchBidIsAuto": "NO"
+            }
+          ]
+        }
+      },
+      "readback": "Только свой new auto имеет SearchBid50₽ и ручную опциюNO. Не передавать CampaignId/AdGroupId, не менять NetworkBid, не использовать setAuto."
+    },
+    {
+      "order": 6,
+      "action": "create_one_literal_text_responsive_ad",
+      "request": {
+        "endpoint": "https://api.direct.yandex.com/json/v501/ads",
+        "method": "add",
+        "params": {
+          "Ads": [
+            {
+              "AdGroupId": "__NEW_GROUP_ID_FROM_OWN_ADD_RESULT__",
+              "ResponsiveAd": {
+                "Titles": [
+                  "Мехатроник DSG7 DQ200"
+                ],
+                "Texts": [
+                  "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ"
+                ],
+                "Href": "https://leoparts-akpp.ru/mehatronik-dq200",
+                "SitelinkSetId": 1526814548
+              }
+            }
+          ]
+        }
+      },
+      "readback": "Один новый Type=RESPONSIVE_AD. Titles/Texts содержат по1 точному согласованному значению, Href/SitelinkSetId точны. Не копировать ShoppingAd или товарный фильтр в новую группу."
+    },
+    {
+      "order": 7,
+      "action": "moderate_only_owned_new_ad",
+      "conditional": "Только fresh Status=DRAFT, все prior readbacks PASS, auto настройки сохранены, обе фразы есть в правильных группах, campaign/old objects неизменны.",
+      "request": {
+        "endpoint": "https://api.direct.yandex.com/json/v501/ads",
+        "method": "moderate",
+        "params": {
+          "SelectionCriteria": {
+            "Ids": [
+              "__NEW_AD_ID_FROM_OWN_ADD_RESULT__"
+            ]
+          }
+        }
+      },
+      "readback": "После успеха MODERATION допускается как pending. Повторно moderate только по подтверждённому состоянию/журналу; никакого ads.resume для OFF/DRAFT/MODERATION. Старое объявление плат не редактировать и на модерацию не отправлять."
+    }
+  ],
+  "guard_rules": [
+    "Один существующий Client-Login; токен не сохранять в plan/report, не печатать Authorization/request headers.",
+    "Свежие данные до записи: CID ON/UNIFIED_CAMPAIGN, группа плат принадлежитCID и UNIFIED_AD_GROUP, currentSID найден и содержит прежние3 ссылки, регионы равны[225,-11024,977], HIGHEST_POSITION/SERVING_OFF и50₽ подтверждены.",
+    "Не использовать snapshot39 как универсальную догадку: любое неизвестное добавление/изменение между preflight и apply — readback и review. Сравнивать уже существующие объекты поID, их текстам и настройкам; статусы модерации могут измениться сами.",
+    "Не добавлять фразы, если точная фраза уже есть в нужной группе; idempotence только по exact content плюс собственной provenance. Общую фразу не добавлять в группу плат или в отдельную конфигурацию.",
+    "Все write intentions и ID-before хранить в долговечном journal ДО запроса, журнал не перезаписывать при ошибке marker/plan/hash. После неизвестного ответа выполнить свежий read-only GET; никогда не повторять add вслепую.",
+    "Неизвестный исход group.add: искать ровно1 новый groupId с approvedName/regions/CID относительно beforeIDs. Если0 или>1 — stop/review, не второе add.",
+    "Неизвестный исход ads.add: искать ровно1 новый adId в своём groupId с exact content относительно beforeIDs. Никаких операций над похожим чужим объявлением.",
+    "Фразы добавляются одним запросом, но частичный успех возможен; сохранить независимые результаты. Не считать весь пакет атомарным.",
+    "Перед moderate ещё раз получить новое объявление, новые ключи/auto и campaign. Не считать ON/ACCEPTED у одной сущности подтверждением всех остальных.",
+    "Никаких campaign.update, старых adgroups.update, keywords.update для старых ключей, feeds.update, старых ads.update, changes бюджета/стратегии/минусов/географии/корректировок.",
+    "KeywordBids.set разрешён только для собственного нового autoID, SearchBid=50000000 и Auto=NO. Новые2 ручныхkeywords получают Bid50₽ при add; old bids неизменны.",
+    "Все64-bit adIds обрабатывать Python int/строками в JS; динамические placeholders в plan заменить только собственными фактическими long IDs, никогда не отправлять строки-заглушки вAPI."
+  ],
+  "readback_success_criteria": {
+    "manual_keywords": 41,
+    "autotargeting": 4,
+    "groups": 4,
+    "ads": 6,
+    "campaign_negatives": 130,
+    "only_two_new_manual_keyword_texts": [
+      "мехатроник dq200",
+      "0am927769d"
+    ],
+    "old_objects_preserved": true,
+    "fully_serving_requires": "Новый ad StateON/StatusACCEPTED, каждый Titles/Texts StatusACCEPTED, SitelinksModeration ACCEPTED; новые keywords StateON/StatusACCEPTED; новому auto сохранены одобренные категории/бренды/ставка. ServingStatus ELIGIBLE сам по себе недостаточен; он устаревший.",
+    "pending_is_not_failure": "MODERATION/DRAFT с подтверждённым exact saved content — только честный статус ожидания; REJECTED требует разбора, не повторной слепой отправки.",
+    "existing_board_ad": "Новый bareD использует существующие объявления группы плат. Их содержание иState не менять."
+  },
+  "technical_limits": {
+    "group_name_max_chars": 255,
+    "regions_min_items": 1,
+    "responsive_titles_min": 1,
+    "responsive_titles_max": 7,
+    "responsive_title_max_chars": 56,
+    "responsive_title_word_max_chars": 22,
+    "responsive_texts_min": 1,
+    "responsive_texts_max": 3,
+    "responsive_text_max_non_narrow_chars": 81,
+    "responsive_text_extra_narrow_chars": 15,
+    "responsive_text_word_max_chars": 23,
+    "keyword_words_max_excluding_stop_and_negative": 7,
+    "keyword_text_max_chars": 4096,
+    "autotargeting_max_per_group": 1,
+    "ad_add_type": "RESPONSIVE_AD via ResponsiveAd structure; new TextAd not used"
+  },
+  "official_sources": [
+    {
+      "url": "https://yandex.ru/dev/direct/doc/ru/adgroups/add",
+      "ref": "turn316368214view0",
+      "supports": "Group add Name/CampaignId/RegionIds and UnifiedAdGroup schema."
+    },
+    {
+      "url": "https://yandex.ru/dev/direct/doc/ru/objects/adgroup",
+      "ref": "turn930590569view0",
+      "supports": "UNIFIED_AD_GROUP supports ResponsiveAd; group type fixed atcreation."
+    },
+    {
+      "url": "https://yandex.ru/dev/direct/doc/ru/ads/add",
+      "ref": "turn316368214view1",
+      "supports": "ResponsiveAd add Titles/Texts/Href/SitelinkSetId and lengthlimits; new TextAd restricted."
+    },
+    {
+      "url": "https://yandex.ru/dev/direct/doc/en/keywords/add",
+      "ref": "turn381376174view1",
+      "supports": "Keyword and AdGroupId required; manualBid optional but defaultminimum; categoriesdefaultYES."
+    },
+    {
+      "url": "https://yandex.ru/dev/direct/doc/ru/best-practice/auto-targeting",
+      "ref": "turn930590569view2",
+      "supports": "Automatic ---autotargeting creation atAdGroups.add; searchcannotdisable. Page also contains outdated type/delete descriptions; current EPK constraint independentlychecked."
+    },
+    {
+      "url": "https://www.yandex.ru/support/direct/ru/impression-criteria/autotargeting-upc",
+      "ref": "turn930590569view1",
+      "supports": "Current EPK searchmandatoryauto; at leastonecategorywithforecast."
+    },
+    {
+      "url": "https://yandex.ru/dev/direct/doc/ru/keywords/update",
+      "ref": "turn930590569view4",
+      "supports": "AutotargetingSettings Categories/BrandOptions update byId."
+    },
+    {
+      "url": "https://yandex.ru/dev/direct/doc/ru/keywordbids/set",
+      "ref": "turn381376174view0",
+      "supports": "Fixed SearchBid and AutotargetingSearchBidIsAuto byKeywordId."
+    },
+    {
+      "url": "https://yandex.ru/dev/direct/doc/ru/ads/moderate",
+      "ref": "turn832264988view0",
+      "supports": "Only DRAFT ads canbe sent; targetingcondition required."
+    },
+    {
+      "url": "https://yandex.ru/dev/direct/doc/ru/ads/resume",
+      "ref": "turn381376174view2",
+      "supports": "Resume intendedfor previouslysuspended ads; draftcannotresume."
+    },
+    {
+      "url": "https://yandex.ru/dev/direct/doc/ru/objects/keyword",
+      "ref": "turn832264988view2",
+      "supports": "Automaticmoderationnewkeywords; duplicatedetection within group; ELIGIBLEobsolete."
+    }
+  ],
+  "transport_note": "Поле endpoint в шаблонах выбирает URL. HTTP POST body содержит только method и params, без endpoint. Использовать существующую авторизацию; токены/логин не сохранять в этом плане.",
+  "duplicate_check_details": {
+    "exact_full_phrase": "Сравнивать NFC+casefold+схлопнутые пробелы, сохраняя порядок слов, операторы и inline negatives.",
+    "positive_phrase": "Отдельно показать строки с положительной частью0am927769d перед inline negatives; не считать их точной копией bare0am927769d и не удалять/редактировать.",
+    "scope": "Проверить целевую активную группу плат5826320196. Наличие похожей фразы в остановленных кампаниях не заменяет добавление в эту группу."
+  }
+}
