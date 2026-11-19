@@ -1,5 +1,5 @@
 {
-  "status": "proposal_only_pending_live_schema_confirmation_and_approval",
+  "status": "proposal_only_schema_verified_pending_approval",
   "campaign_id": 716316525,
   "feed_id": 4061297,
   "filter_schema": "PerformanceDefault",
@@ -17,7 +17,7 @@
     },
     "required_result": "FilterSchemas[Name=PerformanceDefault].Fields[Name=categoryId].Operators contains Type=EQUALS_ANY"
   },
-  "live_schema_confirmation": false,
+  "live_schema_confirmation": true,
   "changes": [
     {
       "ad_id": 1927186476439690942,
@@ -231,5 +231,7 @@
     "https://yandex.ru/dev/direct/doc/ru/objects/ad",
     "https://yandex.ru/dev/direct/doc/ru/dictionaries/get"
   ],
-  "actual_live_mutations": false
+  "actual_live_mutations": false,
+  "live_schema_evidence": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_feed_schema_20261119.json",
+  "live_schema_verified_at_utc": "2026-11-19T15:37:19.508159+00:00"
 }
