@@ -1,5 +1,5 @@
 {
-  "observed_at_utc": "2026-11-19T22:47:50.694751+00:00",
+  "observed_at_utc": "2026-11-19T22:49:34.225755+00:00",
   "scope_skus": [
     "tool-dq200-acc-restore",
     "tool-dsg-pressure-hp"
@@ -20,14 +20,8 @@
       "status": "ok",
       "catalog_titles_checked": 154,
       "title_candidates": [],
-      "scope_note": "Seller item listing, no customer/order data or mutations. A title candidate is not a confirmed identity."
-    },
-    "ozon": {
-      "status": "error",
-      "error": {
-        "type": "OzonApiError",
-        "message": "Ozon /v4/product/info/attributes вернул 404: {\"code\":5, \"message\":\"item not found\"}"
-      }
+      "scope_note": "Seller item listing, no customer/order data or mutations. A title candidate is not a confirmed identity.",
+      "observed_at_utc": "2026-11-19T22:47:50.694751+00:00"
     },
     "wildberries": {
       "status": "ok",
@@ -36,7 +30,8 @@
       "title_candidates": [],
       "prices": [],
       "price_read_error": null,
-      "scope_note": "Content catalog scan; deleted-card bin is not queried."
+      "scope_note": "Content catalog scan; deleted-card bin is not queried.",
+      "observed_at_utc": "2026-11-19T22:47:50.694751+00:00"
     },
     "yandex_market": {
       "status": "ok",
@@ -136,7 +131,8 @@
         }
       ],
       "category_candidates_total": 17,
-      "category_candidates_omitted": 0
+      "category_candidates_omitted": 0,
+      "observed_at_utc": "2026-11-19T22:47:50.694751+00:00"
     },
     "tilda": {
       "status": "ok",
@@ -145,23 +141,22 @@
       "exact_skus_found": [],
       "title_candidates": [],
       "read_errors": [],
-      "scope_note": "Public catalog blocks only; absence does not prove absence from the private Tilda product catalog."
+      "scope_note": "Public catalog blocks only; absence does not prove absence from the private Tilda product catalog.",
+      "observed_at_utc": "2026-11-19T22:47:50.694751+00:00"
+    },
+    "ozon": {
+      "status": "ok",
+      "catalog_titles_checked": 142,
+      "exact_skus_found": [],
+      "title_candidates": [],
+      "product_details": [],
+      "detail_read_errors": [],
+      "observed_at_utc": "2026-11-19T22:49:34.225755+00:00"
     }
   },
+  "retry_of_observed_at_utc": "2026-11-19T22:47:50.694751+00:00",
   "read_requests": [
     {
-      "method": "GET",
-      "host": "api.partner.market.yandex.ru",
-      "path": "/v2/campaigns/{id}",
-      "http_status": 200
-    },
-    {
-      "method": "GET",
-      "host": "leoparts-akpp.ru",
-      "path": "/catalog",
-      "http_status": 200
-    },
-    {
       "method": "POST",
       "host": "api-seller.ozon.ru",
       "path": "/v4/product/info/attributes",
@@ -169,74 +164,8 @@
     },
     {
       "method": "POST",
-      "host": "content-api.wildberries.ru",
-      "path": "/content/v2/get/cards/list",
-      "http_status": 200
-    },
-    {
-      "method": "POST",
-      "host": "api.avito.ru",
-      "path": "/token",
-      "http_status": 200
-    },
-    {
-      "method": "GET",
-      "host": "api.avito.ru",
-      "path": "/core/v1/items",
-      "http_status": 200
-    },
-    {
-      "method": "GET",
-      "host": "api.avito.ru",
-      "path": "/core/v1/items",
-      "http_status": 200
-    },
-    {
-      "method": "POST",
-      "host": "api.partner.market.yandex.ru",
-      "path": "/v2/businesses/{id}/offer-mappings",
-      "http_status": 200
-    },
-    {
-      "method": "GET",
-      "host": "leoparts-akpp.ru",
-      "path": "/",
-      "http_status": 200
-    },
-    {
-      "method": "POST",
       "host": "api-seller.ozon.ru",
-      "path": "/v4/product/info/attributes",
-      "http_status": 404
-    },
-    {
-      "method": "POST",
-      "host": "content-api.wildberries.ru",
-      "path": "/content/v2/get/cards/list",
-      "http_status": 200
-    },
-    {
-      "method": "GET",
-      "host": "store.tildaapi.com",
-      "path": "/api/getproductslist/",
-      "http_status": 200
-    },
-    {
-      "method": "POST",
-      "host": "api.partner.market.yandex.ru",
-      "path": "/v2/businesses/{id}/offer-cards",
-      "http_status": 200
-    },
-    {
-      "method": "POST",
-      "host": "api.partner.market.yandex.ru",
-      "path": "/v2/categories/tree",
-      "http_status": 200
-    },
-    {
-      "method": "GET",
-      "host": "store.tildaapi.com",
-      "path": "/api/getproductslist/",
+      "path": "/v3/product/info/list",
       "http_status": 200
     }
   ]
