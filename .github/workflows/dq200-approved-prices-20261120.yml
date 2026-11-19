@@ -36,7 +36,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          for file in data/dq200_price_preflight_20261120.json data/dq200_price_apply_20261120.json; do
+          for file in data/dq200_price_preflight_20261120.json data/dq200_price_apply_20261120.json data/dq200_price_api_schema_20261120.json; do
             if [ -f "$file" ]; then git add -- "$file"; fi
           done
           if ! git diff --cached --quiet; then
