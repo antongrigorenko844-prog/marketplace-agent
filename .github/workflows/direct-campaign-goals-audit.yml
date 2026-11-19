@@ -1,0 +1,29 @@
+name: direct-campaign-goals-audit
+on:
+  push:
+    branches: [main]
+    paths: ['.github/agent-requests/direct-campaign-goals-audit.txt']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read campaign goal settings
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_campaign_goals_audit.py
+      - name: Save audit
+        run: |
+          git config user.name github-actions
+          git config user.email actions@users.noreply.github.com
+          git add data/direct_campaign_goals_audit.json
+          git diff --cached --quiet || (git commit -m "Save Direct campaign goal settings audit" && git fetch origin main && git rebase origin/main && git push)
