@@ -1,0 +1,4947 @@
+{
+  "version": 1,
+  "campaign_id": 716316525,
+  "authorization": "User asked to add all234 and then clarified prior grouping/cross-negatives. Include every source positive, preserve all59existing keywords and their current routing; no existing Keyword updates.",
+  "source_report": "data/direct_next18_keywords_report_20261120.json",
+  "source_after_sha256": "ab8ffe773bf3b75033e9ce9f99f38c6f53aa062eb767b9d01eb303905e842a87",
+  "candidate_sha256": "5b6f403231464a6ee163dfd5631fae45f329bc72aee94452d41e0bdb5daa6afe",
+  "expected_before": {
+    "groups": 4,
+    "manual_keywords": 59,
+    "autotargeting": 4,
+    "ads": 6,
+    "campaign_negatives": 130
+  },
+  "new_bid_micros": 50000000,
+  "regions": [
+    225,
+    -11024,
+    977
+  ],
+  "autotargeting_settings": {
+    "Categories": {
+      "Exact": "YES",
+      "Narrow": "NO",
+      "Alternative": "NO",
+      "Accessory": "NO",
+      "Broader": "NO"
+    },
+    "BrandOptions": {
+      "WithoutBrands": "YES",
+      "WithAdvertiserBrand": "YES",
+      "WithCompetitorsBrand": "NO"
+    }
+  },
+  "preflight_read_only_requests": [
+    {
+      "endpoint": "https://api.direct.yandex.com/json/v501/campaigns",
+      "method": "get",
+      "params": {
+        "SelectionCriteria": {
+          "Ids": [
+            716316525
+          ]
+        },
+        "FieldNames": [
+          "Id",
+          "Name",
+          "Type",
+          "State",
+          "Status",
+          "Currency",
+          "StartDate",
+          "EndDate",
+          "DailyBudget",
+          "TimeTargeting",
+          "TimeZone",
+          "NegativeKeywords"
+        ],
+        "UnifiedCampaignFieldNames": [
+          "CounterIds",
+          "Settings",
+          "BiddingStrategy",
+          "PriorityGoals",
+          "TrackingParams",
+          "AttributionModel",
+          "PackageBiddingStrategy",
+          "NegativeKeywordSharedSetIds",
+          "WeeklyBudgetRollover"
+        ],
+        "UnifiedCampaignSearchStrategyPlacementTypesFieldNames": [
+          "SearchResults",
+          "ProductGallery",
+          "DynamicPlaces",
+          "Maps",
+          "SearchOrganizationList"
+        ],
+        "UnifiedCampaignPackageBiddingStrategyPlatformsFieldNames": [
+          "SearchResult",
+          "ProductGallery",
+          "Maps",
+          "SearchOrganizationList",
+          "Network",
+          "DynamicPlaces"
+        ],
+        "Page": {
+          "Limit": 1000
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.direct.yandex.com/json/v501/adgroups",
+      "method": "get",
+      "params": {
+        "SelectionCriteria": {
+          "CampaignIds": [
+            716316525
+          ]
+        },
+        "FieldNames": [
+          "Id",
+          "CampaignId",
+          "Name",
+          "Type",
+          "Subtype",
+          "Status",
+          "RegionIds",
+          "NegativeKeywords",
+          "NegativeKeywordSharedSetIds",
+          "TrackingParams"
+        ],
+        "Page": {
+          "Limit": 1000
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.direct.yandex.com/json/v501/keywords",
+      "method": "get",
+      "params": {
+        "SelectionCriteria": {
+          "CampaignIds": [
+            716316525
+          ]
+        },
+        "FieldNames": [
+          "Id",
+          "CampaignId",
+          "AdGroupId",
+          "Keyword",
+          "State",
+          "Status",
+          "Bid",
+          "ContextBid",
+          "AutotargetingSearchBidIsAuto"
+        ],
+        "AutotargetingSettingsCategoriesFieldNames": [
+          "Exact",
+          "Narrow",
+          "Alternative",
+          "Accessory",
+          "Broader"
+        ],
+        "AutotargetingSettingsBrandOptionsFieldNames": [
+          "WithoutBrands",
+          "WithAdvertiserBrand",
+          "WithCompetitorsBrand"
+        ],
+        "Page": {
+          "Limit": 1000
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.direct.yandex.com/json/v501/ads",
+      "method": "get",
+      "params": {
+        "SelectionCriteria": {
+          "CampaignIds": [
+            716316525
+          ]
+        },
+        "FieldNames": [
+          "Id",
+          "CampaignId",
+          "AdGroupId",
+          "Type",
+          "State",
+          "Status",
+          "StatusClarification"
+        ],
+        "ResponsiveAdFieldNames": [
+          "Titles",
+          "Texts",
+          "Href",
+          "SitelinkSetId",
+          "SitelinksModeration"
+        ],
+        "ShoppingAdFieldNames": [
+          "SitelinkSetId",
+          "SitelinksModeration",
+          "FeedId",
+          "FeedProcessingStatus",
+          "FeedFilterConditions",
+          "GenerationScopes",
+          "TitleSources",
+          "TextSources",
+          "DefaultTexts",
+          "ListingFeedFilterConditions",
+          "ListingTitleSources",
+          "ListingTextSources"
+        ],
+        "Page": {
+          "Limit": 1000
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.direct.yandex.com/json/v501/sitelinks",
+      "method": "get",
+      "params": {
+        "SelectionCriteria": {
+          "Ids": [
+            1526814548
+          ]
+        },
+        "FieldNames": [
+          "Id",
+          "Sitelinks"
+        ],
+        "Page": {
+          "Limit": 1000
+        }
+      }
+    }
+  ],
+  "groups": [
+    {
+      "code": "GENERAL",
+      "id": 5828476541,
+      "name": "DQ200 | Мехатроники общий запрос | Поиск",
+      "landing": "https://leoparts-akpp.ru/mehatronik-dq200"
+    },
+    {
+      "code": "WITHOUT",
+      "id": 5826171512,
+      "name": "DQ200 | Мехатроники без платы | Поиск",
+      "landing": "https://leoparts-akpp.ru/mehatronik-dq200#bez-platy"
+    },
+    {
+      "code": "WITH",
+      "id": 5826183946,
+      "name": "DQ200 | Мехатроники с платой | Поиск",
+      "landing": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi"
+    },
+    {
+      "code": "BOARDS",
+      "id": 5826320196,
+      "name": "Название: DQ200 | Электронные платы | Поиск.",
+      "landing": "https://leoparts-akpp.ru/mehatronik-dq200#platy"
+    },
+    {
+      "code": "HYDRO",
+      "id": null,
+      "name": "DQ200 | Гидроплита и гидроблок | Поиск",
+      "landing": "https://leoparts-akpp.ru/tproduct/838583326453-usilennaya-gidroplita-mehatronika-dsg7-d",
+      "ad": {
+        "Titles": [
+          "Усиленная гидроплита мехатроника DSG7 DQ200"
+        ],
+        "Texts": [
+          "Гидроплита DSG7 DQ200 0AM/0CW. Артикул 0AM325066AE."
+        ],
+        "Href": "https://leoparts-akpp.ru/tproduct/838583326453-usilennaya-gidroplita-mehatronika-dsg7-d"
+      },
+      "catalog_sku": "0am325066ae",
+      "catalog_name": "Усиленная гидроплита мехатроника DSG7 DQ200 0AM325066AE",
+      "catalog_row": 59
+    },
+    {
+      "code": "SLEEVE",
+      "id": null,
+      "name": "DQ200 | Втулка штока 0AM325025D | Поиск",
+      "landing": "https://leoparts-akpp.ru/tproduct/731536345633-vtulka-gilza-shtoka-mehatronika-dsg7-dq2",
+      "ad": {
+        "Titles": [
+          "Втулка (гильза) штока мехатроника DSG7 DQ200"
+        ],
+        "Texts": [
+          "Новая втулка для штока мехатроника DSG7 DQ200 (0AM/0CW)."
+        ],
+        "Href": "https://leoparts-akpp.ru/tproduct/731536345633-vtulka-gilza-shtoka-mehatronika-dsg7-dq2"
+      },
+      "catalog_sku": "0am325025D",
+      "catalog_name": "Втулка (гильза) штока мехатроника DSG7 DQ200",
+      "catalog_row": 33
+    }
+  ],
+  "items": [
+    {
+      "key": "K001",
+      "keyword": "мехатроник dsg 7 dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        1
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K002",
+      "keyword": "мехатроник дсг 7 dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        2
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K003",
+      "keyword": "мехатроник dsg 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        3
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K004",
+      "keyword": "мехатроник дсг 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        4
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K005",
+      "keyword": "мехатроник dsg7",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030463,
+      "before_keyword": "мехатроник dsg7",
+      "group_code": "GENERAL",
+      "source_positions": [
+        5
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K006",
+      "keyword": "мехатроник дсг7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        6
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K007",
+      "keyword": "мехатроник dq200 купить",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        7
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K008",
+      "keyword": "мехатроник dsg 7 купить",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        8
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K009",
+      "keyword": "мехатроник дсг 7 купить",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        9
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K010",
+      "keyword": "мехатроник dq200 цена",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        10
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K011",
+      "keyword": "мехатроник dsg 7 цена",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        11
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K012",
+      "keyword": "мехатроник на дсг 7 цена",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        12
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K013",
+      "keyword": "мехатроник 0am",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030464,
+      "before_keyword": "мехатроник 0am",
+      "group_code": "GENERAL",
+      "source_positions": [
+        13
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K014",
+      "keyword": "мехатроник 0cw",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030465,
+      "before_keyword": "мехатроник 0cw",
+      "group_code": "GENERAL",
+      "source_positions": [
+        14
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K015",
+      "keyword": "мехатроник dq200 0am",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        15
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K016",
+      "keyword": "мехатроника dsg 7 dq200 купить",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        16
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K017",
+      "keyword": "мехатроник dq200 артикул",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        17
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K018",
+      "keyword": "мехатроник dsg 7 шкода",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        18
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K019",
+      "keyword": "мехатроник dsg 7 фольксваген",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        19
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K020",
+      "keyword": "мехатроник dsg 7 ауди",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        20
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K021",
+      "keyword": "мехатроник коробки dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        21
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K022",
+      "keyword": "мехатроник dq 200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        22
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K023",
+      "keyword": "мехатроник dsg dq 200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        23
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K024",
+      "keyword": "мехатроник дсг",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        24
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K025",
+      "keyword": "дсг мехатроник цена",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        25
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K026",
+      "keyword": "мехатроник на дсг 7 dq200 купить",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        26
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K027",
+      "keyword": "купить мехатроник dsg 7 dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        27
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K028",
+      "keyword": "мехатроник dsg 7 dq200 цена",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        28
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K029",
+      "keyword": "сколько стоит мехатроник на dsg",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        29
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K030",
+      "keyword": "сколько стоит мехатроник на dsg 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        30
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K031",
+      "keyword": "купить мехатроник dsg 7 цена для фольксваген",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        31
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K032",
+      "keyword": "dq200 0cw",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        32
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K033",
+      "keyword": "0cw dq200 7f",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        33
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K034",
+      "keyword": "0am325025d",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "SLEEVE",
+      "source_positions": [
+        34
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K035",
+      "keyword": "мехатроник dq200 +без платы",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "WITHOUT",
+      "source_positions": [
+        35
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K036",
+      "keyword": "мехатроник dsg 7 +без платы",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "WITHOUT",
+      "source_positions": [
+        36
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K037",
+      "keyword": "мехатроник дсг 7 +без платы",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "WITHOUT",
+      "source_positions": [
+        37
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K038",
+      "keyword": "мехатроник проверенный dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        38
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K039",
+      "keyword": "мехатроник проверенный dsg 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        39
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K040",
+      "keyword": "мехатроник dq200 бу",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        40
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K041",
+      "keyword": "мехатроник dsg 7 бу",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        41
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K042",
+      "keyword": "гидравлическая часть мехатроника dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "WITHOUT",
+      "source_positions": [
+        42
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K043",
+      "keyword": "мехатроник dq200 контрактный",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        43
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K044",
+      "keyword": "0am325025h",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030466,
+      "before_keyword": "0am325025h",
+      "group_code": "WITHOUT",
+      "source_positions": [
+        44
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K045",
+      "keyword": "0am325025h zdz",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "WITHOUT",
+      "source_positions": [
+        45
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K046",
+      "keyword": "мехатроник 0am325025h",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58544149384,
+      "before_keyword": "мехатроник 0am325025h",
+      "group_code": "WITHOUT",
+      "source_positions": [
+        46
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K047",
+      "keyword": "0am 325 025 h",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "WITHOUT",
+      "source_positions": [
+        47
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K048",
+      "keyword": "купить мехатроник dsg 7 dq200 новый",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        48
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K049",
+      "keyword": "новый мехатроник dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        49
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K050",
+      "keyword": "новый мехатроник dsg 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        50
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K051",
+      "keyword": "мехатроник dq200 купить новый",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        51
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K052",
+      "keyword": "мехатроник dsg 7 купить новый",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        52
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K053",
+      "keyword": "мехатроник dq200 соленоиды bosch",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030459,
+      "before_keyword": "мехатроник dq200 соленоиды bosch",
+      "group_code": "WITHOUT",
+      "source_positions": [
+        53
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K054",
+      "keyword": "мехатроник dsg 7 новые соленоиды",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "WITHOUT",
+      "source_positions": [
+        54
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K055",
+      "keyword": "мехатроник dq200 восстановленный",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        55
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K056",
+      "keyword": "мехатроник dsg 7 восстановленный",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        56
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K057",
+      "keyword": "мехатроник dq200 в сборе",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        57
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K058",
+      "keyword": "мехатроник с платой дсг 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "WITH",
+      "source_positions": [
+        58
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K059",
+      "keyword": "мехатроник с платой dsg 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "WITH",
+      "source_positions": [
+        59
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K060",
+      "keyword": "мехатроник dq200 с платой",
+      "action": "EXISTING_ROUTED",
+      "existing_id": 58545151245,
+      "before_keyword": "мехатроник dq200 с платой -электронный -купить -сбор",
+      "group_code": "WITH",
+      "source_positions": [
+        60
+      ],
+      "forecast": "YES",
+      "child_keyword_ids": [
+        58545151246,
+        58545151247,
+        58545151251
+      ],
+      "routing_note": "Preserve existing parent inline negatives and active child keywords; do not claim literal unrestricted parent."
+    },
+    {
+      "key": "K061",
+      "keyword": "мехатроник dsg 7 в сборе",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        61
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K062",
+      "keyword": "мехатроник 0am927769d",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "WITH",
+      "source_positions": [
+        62
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K063",
+      "keyword": "мехатроник с платой 0am927769d",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030455,
+      "before_keyword": "мехатроник с платой 0am927769d",
+      "group_code": "WITH",
+      "source_positions": [
+        63
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K064",
+      "keyword": "мехатроник dq200 в сборе купить",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        64
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K065",
+      "keyword": "мехатроник 0am927769f",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "WITH",
+      "source_positions": [
+        65
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K066",
+      "keyword": "мехатроник с платой 0am927769f",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030456,
+      "before_keyword": "мехатроник с платой 0am927769f",
+      "group_code": "WITH",
+      "source_positions": [
+        66
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K067",
+      "keyword": "мехатроник dq200 0am927769f",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "WITH",
+      "source_positions": [
+        67
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K068",
+      "keyword": "мехатроник dsg 7 0am927769f",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "WITH",
+      "source_positions": [
+        68
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K069",
+      "keyword": "плата мехатроника dq200",
+      "action": "EXISTING_ROUTED",
+      "existing_id": 58545169890,
+      "before_keyword": "плата мехатроника dq200 -электронный -купить",
+      "group_code": "BOARDS",
+      "source_positions": [
+        69
+      ],
+      "forecast": "YES",
+      "child_keyword_ids": [
+        58545169891,
+        58545169892
+      ],
+      "routing_note": "Preserve existing parent inline negatives and active child keywords; do not claim literal unrestricted parent."
+    },
+    {
+      "key": "K070",
+      "keyword": "плата dsg dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        70
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K071",
+      "keyword": "плата dsg 7 dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        71
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K072",
+      "keyword": "плата дсг 7 dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        72
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K073",
+      "keyword": "плата мехатроника dsg 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        73
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K074",
+      "keyword": "плата мехатроника дсг 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        74
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K075",
+      "keyword": "плата мехатроник dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        75
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K076",
+      "keyword": "электронная плата dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        76
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K077",
+      "keyword": "электронная плата dsg 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        77
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K078",
+      "keyword": "плата мехатроника dq200 купить",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        78
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K079",
+      "keyword": "плата мехатроника dsg 7 dq200 купить",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        79
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K080",
+      "keyword": "плата управления мехатроником дсг 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        80
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K081",
+      "keyword": "блок управления dsg 7 dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        81
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K082",
+      "keyword": "эбу dsg 7 dq200",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030457,
+      "before_keyword": "эбу dsg 7 dq200",
+      "group_code": "BOARDS",
+      "source_positions": [
+        82
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K083",
+      "keyword": "0am927769",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030450,
+      "before_keyword": "0am927769",
+      "group_code": "BOARDS",
+      "source_positions": [
+        83,
+        229
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K084",
+      "keyword": "печатная плата 0am927769",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        84
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K085",
+      "keyword": "плата 0am927769",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        85
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K086",
+      "keyword": "плата dq200",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030458,
+      "before_keyword": "плата dq200",
+      "group_code": "BOARDS",
+      "source_positions": [
+        86
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K087",
+      "keyword": "плата мехатроника dsg 7 dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        87
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K088",
+      "keyword": "плата мехатроника dq200 цена",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        88
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K089",
+      "keyword": "плата дсг 7 купить мехатроника dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        89
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K090",
+      "keyword": "плата мехатроника dq 200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        90
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K091",
+      "keyword": "плата 0ам",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        91
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K092",
+      "keyword": "плата 0am",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030467,
+      "before_keyword": "плата 0am",
+      "group_code": "BOARDS",
+      "source_positions": [
+        92
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K093",
+      "keyword": "0am927769d",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58581707732,
+      "before_keyword": "0am927769d",
+      "group_code": "BOARDS",
+      "source_positions": [
+        93,
+        230
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K094",
+      "keyword": "плата 0am927769d",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58545169898,
+      "before_keyword": "плата 0am927769d",
+      "group_code": "BOARDS",
+      "source_positions": [
+        94
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K095",
+      "keyword": "0am927769d плата мехатроника",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        95
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K096",
+      "keyword": "0am927769d купить",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        96
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K097",
+      "keyword": "электронная плата 0am927769d",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        97
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K098",
+      "keyword": "блок 0am927769d",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        98
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K099",
+      "keyword": "0am 927 769 d",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        99
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K100",
+      "keyword": "0am927769f",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030454,
+      "before_keyword": "0am927769f",
+      "group_code": "BOARDS",
+      "source_positions": [
+        100,
+        234
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K101",
+      "keyword": "плата 0am927769f",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58545169900,
+      "before_keyword": "плата 0am927769f",
+      "group_code": "BOARDS",
+      "source_positions": [
+        101
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K102",
+      "keyword": "0am927769f плата мехатроника",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        102
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K103",
+      "keyword": "0am927769f купить",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        103
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K104",
+      "keyword": "электронная плата 0am927769f",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        104
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K105",
+      "keyword": "мехатроник dq200 обмен",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        105
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K106",
+      "keyword": "мехатроник dsg 7 обмен",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        106
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K107",
+      "keyword": "мехатроник дсг 7 обмен",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        107
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K108",
+      "keyword": "обмен мехатроника dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        108
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K109",
+      "keyword": "обмен мехатроника dsg 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        109
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K110",
+      "keyword": "гидроблок dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "HYDRO",
+      "source_positions": [
+        110
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K111",
+      "keyword": "гидроблок дсг 7 dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "HYDRO",
+      "source_positions": [
+        111
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K112",
+      "keyword": "гидроблок мехатроник dsg 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "HYDRO",
+      "source_positions": [
+        112
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K113",
+      "keyword": "гидроблок мехатроника dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "HYDRO",
+      "source_positions": [
+        113
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K114",
+      "keyword": "гидроблок дсг",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "HYDRO",
+      "source_positions": [
+        114
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K115",
+      "keyword": "гидроблок дсг 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "HYDRO",
+      "source_positions": [
+        115
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K116",
+      "keyword": "гидроблок dsg 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "HYDRO",
+      "source_positions": [
+        116
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K117",
+      "keyword": "гидроблок dq200 купить",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "HYDRO",
+      "source_positions": [
+        117
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K118",
+      "keyword": "гидроблок дсг 7 купить",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "HYDRO",
+      "source_positions": [
+        118
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K119",
+      "keyword": "китайский мехатроник dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        119
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K120",
+      "keyword": "китайский мехатроник dq 200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        120
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K121",
+      "keyword": "китайский мехатроник +без платы dq 200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "WITHOUT",
+      "source_positions": [
+        121
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K122",
+      "keyword": "китайский мехатроник dsg 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        122
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K123",
+      "keyword": "мехатроник dq200 китай",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        123
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K124",
+      "keyword": "мехатроник dsg 7 китай",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        124
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K125",
+      "keyword": "мехатроник dq200 faw",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        125
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K126",
+      "keyword": "мехатроник шкода октавия",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        126
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K127",
+      "keyword": "мехатроник шкода октавия а7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        127
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K128",
+      "keyword": "мехатроник шкода октавия а5",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        128
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K129",
+      "keyword": "мехатроник шкода октавия а7 1.8",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        129
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K130",
+      "keyword": "мехатроник шкода октавия а5 купить",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        130
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K131",
+      "keyword": "мехатроник шкода йети",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        131
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K132",
+      "keyword": "мехатроник шкода рапид купить",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        132
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K133",
+      "keyword": "мехатроник шкода рапид",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        133
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K134",
+      "keyword": "мехатроник гольф 6",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        134
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K135",
+      "keyword": "мехатроник гольф 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        135
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K136",
+      "keyword": "мехатроник гольф 6 1.4",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        136
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K137",
+      "keyword": "мехатроник пассат",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        137
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K138",
+      "keyword": "мехатроник пассат б6",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        138
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K139",
+      "keyword": "мехатроник пассат сс",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        139
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K140",
+      "keyword": "мехатроник на пассат б7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        140
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K141",
+      "keyword": "мехатроник пассат б7 купить",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        141
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K142",
+      "keyword": "мехатроник фольксваген пассат б7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        142
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K143",
+      "keyword": "мехатроник для фольксваген пассат цц",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        143
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K144",
+      "keyword": "мехатроник ауди а3",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        144
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K145",
+      "keyword": "мехатроник поло",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        145
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K146",
+      "keyword": "мехатроник фольксваген поло",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        146
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K147",
+      "keyword": "мехатроник джетта",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        147
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K148",
+      "keyword": "мехатроник сеат леон",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        148
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K149",
+      "keyword": "замена платы dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        149
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K150",
+      "keyword": "замена платы мехатроника dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        150
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K151",
+      "keyword": "замена платы мехатроника dq200 dsg 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "BOARDS",
+      "source_positions": [
+        151
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K152",
+      "keyword": "ошибка p17bf",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        152
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K153",
+      "keyword": "p17bf ошибка dsg",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        153
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K154",
+      "keyword": "p17bf ошибка dsg 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        154
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K155",
+      "keyword": "p17bf ошибка dsg 7 dq200",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030460,
+      "before_keyword": "p17bf ошибка dsg 7 dq200",
+      "group_code": "GENERAL",
+      "source_positions": [
+        155
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K156",
+      "keyword": "p17bf ошибка фольксваген",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        156
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K157",
+      "keyword": "ошибка p17bf фольксваген dsg",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        157
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K158",
+      "keyword": "шкода октавия ошибка p17bf00",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        158
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K159",
+      "keyword": "p17bf00 ошибка dsg",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        159
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K160",
+      "keyword": "p17bf00 ошибка шкода октавия а7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        160
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K161",
+      "keyword": "ошибка p17bf фольксваген dsg dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        161
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K162",
+      "keyword": "код ошибки dtc p17bf",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        162
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K163",
+      "keyword": "vag fault code p17bf",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        163
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K164",
+      "keyword": "ошибка p189c p17bf насос работает постоянно",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        164
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K165",
+      "keyword": "p189c ошибка dsg",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        165
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K166",
+      "keyword": "p189c ошибка dsg 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        166
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K167",
+      "keyword": "p189c ошибка dsg 7 dq200",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030461,
+      "before_keyword": "p189c ошибка dsg 7 dq200",
+      "group_code": "GENERAL",
+      "source_positions": [
+        167
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K168",
+      "keyword": "p189c00 ошибка dsg",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        168
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K169",
+      "keyword": "р189с ошибка дсг",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        169
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K170",
+      "keyword": "ошибка p189c00 skoda octavia 2017 год",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        170
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K171",
+      "keyword": "ошибка p189c00 шкода а7 дсг",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        171
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K172",
+      "keyword": "ошибка p189c00 шкода а6 дсг",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        172
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K173",
+      "keyword": "ошибка p189c00 акпп dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        173
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K174",
+      "keyword": "p189c",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        174
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K175",
+      "keyword": "ошибка p189c",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        175
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K176",
+      "keyword": "p189c00",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        176
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K177",
+      "keyword": "p1895 ошибка dsg",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        177
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K178",
+      "keyword": "p1895 ошибка dsg 7 dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        178
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K179",
+      "keyword": "vag fault code p1895",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        179
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K180",
+      "keyword": "0am dsg 7 ошибка p1895",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        180
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K181",
+      "keyword": "p0841 ошибка dsg 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        181
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K182",
+      "keyword": "p0841 dq200",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030462,
+      "before_keyword": "p0841 dq200",
+      "group_code": "GENERAL",
+      "source_positions": [
+        182
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K183",
+      "keyword": "ошибка p0841 dsg dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        183
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K184",
+      "keyword": "p0841 ошибка dsg 7 dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        184
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K185",
+      "keyword": "p0841 ошибка vag",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        185
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K186",
+      "keyword": "vag fault code p0841",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        186
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K187",
+      "keyword": "р0841 ошибка фольксваген дсг7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        187
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K188",
+      "keyword": "ошибка р0841 фольксваген дсг",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        188
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K189",
+      "keyword": "dtc p0841 skoda",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        189
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K190",
+      "keyword": "06079 ошибка фольксваген",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        190
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K191",
+      "keyword": "ошибка 06079 dsg 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        191
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K192",
+      "keyword": "ошибка 6079 дсг",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        192
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K193",
+      "keyword": "006079 ошибка дсг 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        193
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K194",
+      "keyword": "джетта 6 ошибка 06079",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        194
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K195",
+      "keyword": "ошибка 6079 дсг 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        195
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K196",
+      "keyword": "p060700 ошибка дсг",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        196
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K197",
+      "keyword": "p060700 dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        197
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K198",
+      "keyword": "p060700 ошибка dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        198
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K199",
+      "keyword": "p0607 dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        199
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K200",
+      "keyword": "p060700 ошибка дсг dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        200
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K201",
+      "keyword": "p060700 ошибка dq200 двигатель не запускается",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        201
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K202",
+      "keyword": "p175d ошибка dsg",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        202
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K203",
+      "keyword": "p175d ошибка dsg 7 dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        203
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K204",
+      "keyword": "p072c ошибка dsg 7 dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        204
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K205",
+      "keyword": "u0101 ошибка vw",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        205
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K206",
+      "keyword": "ошибка u0101 фольксваген",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        206
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K207",
+      "keyword": "u0101 ошибка vw dsg",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        207
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K208",
+      "keyword": "u0101 ошибка шкода октавия а7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        208
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K209",
+      "keyword": "ошибка u0101 шкода октавия а5",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        209
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K210",
+      "keyword": "пассат б6 дсг7 ошибка u0101",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        210
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K211",
+      "keyword": "ошибка u0101 01315 фольксваген только на горячую",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        211
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K212",
+      "keyword": "01315 фольксваген",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        212
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K213",
+      "keyword": "ошибка 01315",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        213
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K214",
+      "keyword": "01315",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        214
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K215",
+      "keyword": "01315 ошибка фольксваген",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        215
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K216",
+      "keyword": "01315 ошибка vw",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        216
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K217",
+      "keyword": "01315 ошибка шкода",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        217
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K218",
+      "keyword": "01315 блок управления коробки передач",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        218
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K219",
+      "keyword": "vag fault code 01315",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        219
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K220",
+      "keyword": "01315 dq200 пассат в7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        220
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K221",
+      "keyword": "01315 ошибка ауди",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        221
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K222",
+      "keyword": "давление в мехатронике дсг 7",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        222
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K223",
+      "keyword": "dq200 не держит давление",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        223
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K224",
+      "keyword": "признаки неисправности мехатроника dsg 7 dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        224
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K225",
+      "keyword": "быстрое падение давление в мехатронике dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        225
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K226",
+      "keyword": "ауди а3 2012г ошибка связи с мехатроником",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        226
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K227",
+      "keyword": "коробка dq200 падает давление в мехатронике",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        227
+      ],
+      "forecast": "NO"
+    },
+    {
+      "key": "K228",
+      "keyword": "p173c ошибка dsg 7 dq200",
+      "action": "ADD_KEYWORD",
+      "existing_id": null,
+      "before_keyword": null,
+      "group_code": "GENERAL",
+      "source_positions": [
+        228
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K229",
+      "keyword": "0am927769k",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030451,
+      "before_keyword": "0am927769k",
+      "group_code": "BOARDS",
+      "source_positions": [
+        231
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K230",
+      "keyword": "0am927769e",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030452,
+      "before_keyword": "0am927769e",
+      "group_code": "BOARDS",
+      "source_positions": [
+        232
+      ],
+      "forecast": "YES"
+    },
+    {
+      "key": "K231",
+      "keyword": "0am927769g",
+      "action": "EXISTING_UNCHANGED",
+      "existing_id": 58582030453,
+      "before_keyword": "0am927769g",
+      "group_code": "BOARDS",
+      "source_positions": [
+        233
+      ],
+      "forecast": "YES"
+    }
+  ],
+  "source_mapping": [
+    {
+      "source_position": 1,
+      "record_key": "audit:58349859476",
+      "source_phrase_exact": "мехатроник dsg 7 dq200 -купить -цена",
+      "positive_keyword": "мехатроник dsg 7 dq200",
+      "item_key": "K001",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 2,
+      "record_key": "audit:58349859477",
+      "source_phrase_exact": "мехатроник дсг 7 dq200 -купить",
+      "positive_keyword": "мехатроник дсг 7 dq200",
+      "item_key": "K002",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 3,
+      "record_key": "audit:58349859478",
+      "source_phrase_exact": "мехатроник dsg 7 -dq200 -купить -цена -шкода -фольксваген -ауди",
+      "positive_keyword": "мехатроник dsg 7",
+      "item_key": "K003",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 4,
+      "record_key": "audit:58349859479",
+      "source_phrase_exact": "мехатроник дсг 7 -dq200 -купить -цена",
+      "positive_keyword": "мехатроник дсг 7",
+      "item_key": "K004",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 5,
+      "record_key": "audit:58349859480",
+      "source_phrase_exact": "мехатроник dsg7",
+      "positive_keyword": "мехатроник dsg7",
+      "item_key": "K005",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 6,
+      "record_key": "audit:58349859481",
+      "source_phrase_exact": "мехатроник дсг7",
+      "positive_keyword": "мехатроник дсг7",
+      "item_key": "K006",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 7,
+      "record_key": "audit:58349859482",
+      "source_phrase_exact": "мехатроник dq200 купить",
+      "positive_keyword": "мехатроник dq200 купить",
+      "item_key": "K007",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 8,
+      "record_key": "audit:58349859483",
+      "source_phrase_exact": "мехатроник dsg 7 купить -dq200",
+      "positive_keyword": "мехатроник dsg 7 купить",
+      "item_key": "K008",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 9,
+      "record_key": "audit:58349859484",
+      "source_phrase_exact": "мехатроник дсг 7 купить -dq200",
+      "positive_keyword": "мехатроник дсг 7 купить",
+      "item_key": "K009",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 10,
+      "record_key": "audit:58349859485",
+      "source_phrase_exact": "мехатроник dq200 цена",
+      "positive_keyword": "мехатроник dq200 цена",
+      "item_key": "K010",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 11,
+      "record_key": "audit:58349859486",
+      "source_phrase_exact": "мехатроник dsg 7 цена -dq200",
+      "positive_keyword": "мехатроник dsg 7 цена",
+      "item_key": "K011",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 12,
+      "record_key": "audit:58349859487",
+      "source_phrase_exact": "мехатроник на дсг 7 цена",
+      "positive_keyword": "мехатроник на дсг 7 цена",
+      "item_key": "K012",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 13,
+      "record_key": "audit:58349859488",
+      "source_phrase_exact": "мехатроник 0am -dq200",
+      "positive_keyword": "мехатроник 0am",
+      "item_key": "K013",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 14,
+      "record_key": "audit:58349859489",
+      "source_phrase_exact": "мехатроник 0cw",
+      "positive_keyword": "мехатроник 0cw",
+      "item_key": "K014",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 15,
+      "record_key": "audit:58349859490",
+      "source_phrase_exact": "мехатроник dq200 0am",
+      "positive_keyword": "мехатроник dq200 0am",
+      "item_key": "K015",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 16,
+      "record_key": "audit:58349859491",
+      "source_phrase_exact": "мехатроника dsg 7 dq200 купить",
+      "positive_keyword": "мехатроника dsg 7 dq200 купить",
+      "item_key": "K016",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 17,
+      "record_key": "audit:58349859492",
+      "source_phrase_exact": "мехатроник dq200 артикул",
+      "positive_keyword": "мехатроник dq200 артикул",
+      "item_key": "K017",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 18,
+      "record_key": "audit:58349859493",
+      "source_phrase_exact": "мехатроник dsg 7 шкода",
+      "positive_keyword": "мехатроник dsg 7 шкода",
+      "item_key": "K018",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 19,
+      "record_key": "audit:58349859494",
+      "source_phrase_exact": "мехатроник dsg 7 фольксваген",
+      "positive_keyword": "мехатроник dsg 7 фольксваген",
+      "item_key": "K019",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 20,
+      "record_key": "audit:58349859495",
+      "source_phrase_exact": "мехатроник dsg 7 ауди",
+      "positive_keyword": "мехатроник dsg 7 ауди",
+      "item_key": "K020",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 21,
+      "record_key": "audit:58349859496",
+      "source_phrase_exact": "мехатроник коробки dq200",
+      "positive_keyword": "мехатроник коробки dq200",
+      "item_key": "K021",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 22,
+      "record_key": "audit:58349859497",
+      "source_phrase_exact": "мехатроник dq 200 -dsg",
+      "positive_keyword": "мехатроник dq 200",
+      "item_key": "K022",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 23,
+      "record_key": "audit:58349859498",
+      "source_phrase_exact": "мехатроник dsg dq 200",
+      "positive_keyword": "мехатроник dsg dq 200",
+      "item_key": "K023",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 24,
+      "record_key": "audit:58349859499",
+      "source_phrase_exact": "мехатроник дсг -7 -цена",
+      "positive_keyword": "мехатроник дсг",
+      "item_key": "K024",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 25,
+      "record_key": "audit:58349859500",
+      "source_phrase_exact": "дсг мехатроник цена -7",
+      "positive_keyword": "дсг мехатроник цена",
+      "item_key": "K025",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 26,
+      "record_key": "audit:58349859501",
+      "source_phrase_exact": "мехатроник на дсг 7 dq200 купить",
+      "positive_keyword": "мехатроник на дсг 7 dq200 купить",
+      "item_key": "K026",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 27,
+      "record_key": "audit:58349859502",
+      "source_phrase_exact": "купить мехатроник dsg 7 dq200",
+      "positive_keyword": "купить мехатроник dsg 7 dq200",
+      "item_key": "K027",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 28,
+      "record_key": "audit:58349859503",
+      "source_phrase_exact": "мехатроник dsg 7 dq200 цена",
+      "positive_keyword": "мехатроник dsg 7 dq200 цена",
+      "item_key": "K028",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 29,
+      "record_key": "audit:58349859504",
+      "source_phrase_exact": "сколько стоит мехатроник на dsg -7",
+      "positive_keyword": "сколько стоит мехатроник на dsg",
+      "item_key": "K029",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 30,
+      "record_key": "audit:58349859505",
+      "source_phrase_exact": "сколько стоит мехатроник на dsg 7",
+      "positive_keyword": "сколько стоит мехатроник на dsg 7",
+      "item_key": "K030",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 31,
+      "record_key": "audit:58349859506",
+      "source_phrase_exact": "купить мехатроник dsg 7 цена для фольксваген",
+      "positive_keyword": "купить мехатроник dsg 7 цена для фольксваген",
+      "item_key": "K031",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 32,
+      "record_key": "audit:58349859507",
+      "source_phrase_exact": "dq200 0cw -7f",
+      "positive_keyword": "dq200 0cw",
+      "item_key": "K032",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 33,
+      "record_key": "audit:58349859508",
+      "source_phrase_exact": "0cw dq200 7f",
+      "positive_keyword": "0cw dq200 7f",
+      "item_key": "K033",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 34,
+      "record_key": "audit:58349859509",
+      "source_phrase_exact": "0am325025d",
+      "positive_keyword": "0am325025d",
+      "item_key": "K034",
+      "group_code": "SLEEVE"
+    },
+    {
+      "source_position": 35,
+      "record_key": "audit:58349859510",
+      "source_phrase_exact": "мехатроник dq200 +без платы",
+      "positive_keyword": "мехатроник dq200 +без платы",
+      "item_key": "K035",
+      "group_code": "WITHOUT"
+    },
+    {
+      "source_position": 36,
+      "record_key": "audit:58349859511",
+      "source_phrase_exact": "мехатроник dsg 7 +без платы",
+      "positive_keyword": "мехатроник dsg 7 +без платы",
+      "item_key": "K036",
+      "group_code": "WITHOUT"
+    },
+    {
+      "source_position": 37,
+      "record_key": "audit:58349859512",
+      "source_phrase_exact": "мехатроник дсг 7 +без платы",
+      "positive_keyword": "мехатроник дсг 7 +без платы",
+      "item_key": "K037",
+      "group_code": "WITHOUT"
+    },
+    {
+      "source_position": 38,
+      "record_key": "audit:58349859513",
+      "source_phrase_exact": "мехатроник проверенный dq200",
+      "positive_keyword": "мехатроник проверенный dq200",
+      "item_key": "K038",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 39,
+      "record_key": "audit:58349859514",
+      "source_phrase_exact": "мехатроник проверенный dsg 7",
+      "positive_keyword": "мехатроник проверенный dsg 7",
+      "item_key": "K039",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 40,
+      "record_key": "audit:58349859515",
+      "source_phrase_exact": "мехатроник dq200 бу",
+      "positive_keyword": "мехатроник dq200 бу",
+      "item_key": "K040",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 41,
+      "record_key": "audit:58349859516",
+      "source_phrase_exact": "мехатроник dsg 7 бу",
+      "positive_keyword": "мехатроник dsg 7 бу",
+      "item_key": "K041",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 42,
+      "record_key": "audit:58349859517",
+      "source_phrase_exact": "гидравлическая часть мехатроника dq200",
+      "positive_keyword": "гидравлическая часть мехатроника dq200",
+      "item_key": "K042",
+      "group_code": "WITHOUT"
+    },
+    {
+      "source_position": 43,
+      "record_key": "audit:58349859518",
+      "source_phrase_exact": "мехатроник dq200 контрактный",
+      "positive_keyword": "мехатроник dq200 контрактный",
+      "item_key": "K043",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 44,
+      "record_key": "audit:58349859519",
+      "source_phrase_exact": "0am325025h -zdz -мехатроник",
+      "positive_keyword": "0am325025h",
+      "item_key": "K044",
+      "group_code": "WITHOUT"
+    },
+    {
+      "source_position": 45,
+      "record_key": "audit:58349859520",
+      "source_phrase_exact": "0am325025h zdz",
+      "positive_keyword": "0am325025h zdz",
+      "item_key": "K045",
+      "group_code": "WITHOUT"
+    },
+    {
+      "source_position": 46,
+      "record_key": "audit:58349859521",
+      "source_phrase_exact": "мехатроник 0am325025h",
+      "positive_keyword": "мехатроник 0am325025h",
+      "item_key": "K046",
+      "group_code": "WITHOUT"
+    },
+    {
+      "source_position": 47,
+      "record_key": "audit:58349859522",
+      "source_phrase_exact": "0am 325 025 h",
+      "positive_keyword": "0am 325 025 h",
+      "item_key": "K047",
+      "group_code": "WITHOUT"
+    },
+    {
+      "source_position": 48,
+      "record_key": "audit:58349859523",
+      "source_phrase_exact": "купить мехатроник dsg 7 dq200 новый",
+      "positive_keyword": "купить мехатроник dsg 7 dq200 новый",
+      "item_key": "K048",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 49,
+      "record_key": "audit:58349859524",
+      "source_phrase_exact": "новый мехатроник dq200 -купить",
+      "positive_keyword": "новый мехатроник dq200",
+      "item_key": "K049",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 50,
+      "record_key": "audit:58349859525",
+      "source_phrase_exact": "новый мехатроник dsg 7 -купить -соленоид",
+      "positive_keyword": "новый мехатроник dsg 7",
+      "item_key": "K050",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 51,
+      "record_key": "audit:58349859526",
+      "source_phrase_exact": "мехатроник dq200 купить новый",
+      "positive_keyword": "мехатроник dq200 купить новый",
+      "item_key": "K051",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 52,
+      "record_key": "audit:58349859527",
+      "source_phrase_exact": "мехатроник dsg 7 купить новый -dq200",
+      "positive_keyword": "мехатроник dsg 7 купить новый",
+      "item_key": "K052",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 53,
+      "record_key": "audit:58349859528",
+      "source_phrase_exact": "мехатроник dq200 соленоиды bosch",
+      "positive_keyword": "мехатроник dq200 соленоиды bosch",
+      "item_key": "K053",
+      "group_code": "WITHOUT"
+    },
+    {
+      "source_position": 54,
+      "record_key": "audit:58349859529",
+      "source_phrase_exact": "мехатроник dsg 7 новые соленоиды",
+      "positive_keyword": "мехатроник dsg 7 новые соленоиды",
+      "item_key": "K054",
+      "group_code": "WITHOUT"
+    },
+    {
+      "source_position": 55,
+      "record_key": "audit:58349859530",
+      "source_phrase_exact": "мехатроник dq200 восстановленный",
+      "positive_keyword": "мехатроник dq200 восстановленный",
+      "item_key": "K055",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 56,
+      "record_key": "audit:58349859531",
+      "source_phrase_exact": "мехатроник dsg 7 восстановленный",
+      "positive_keyword": "мехатроник dsg 7 восстановленный",
+      "item_key": "K056",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 57,
+      "record_key": "audit:58349859532",
+      "source_phrase_exact": "мехатроник dq200 в сборе -купить",
+      "positive_keyword": "мехатроник dq200 в сборе",
+      "item_key": "K057",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 58,
+      "record_key": "audit:58349859533",
+      "source_phrase_exact": "мехатроник с платой дсг 7",
+      "positive_keyword": "мехатроник с платой дсг 7",
+      "item_key": "K058",
+      "group_code": "WITH"
+    },
+    {
+      "source_position": 59,
+      "record_key": "audit:58349859534",
+      "source_phrase_exact": "мехатроник с платой dsg 7",
+      "positive_keyword": "мехатроник с платой dsg 7",
+      "item_key": "K059",
+      "group_code": "WITH"
+    },
+    {
+      "source_position": 60,
+      "record_key": "audit:58349859535",
+      "source_phrase_exact": "мехатроник dq200 с платой",
+      "positive_keyword": "мехатроник dq200 с платой",
+      "item_key": "K060",
+      "group_code": "WITH"
+    },
+    {
+      "source_position": 61,
+      "record_key": "audit:58349859536",
+      "source_phrase_exact": "мехатроник dsg 7 в сборе",
+      "positive_keyword": "мехатроник dsg 7 в сборе",
+      "item_key": "K061",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 62,
+      "record_key": "audit:58349859537",
+      "source_phrase_exact": "мехатроник 0am927769d -плата",
+      "positive_keyword": "мехатроник 0am927769d",
+      "item_key": "K062",
+      "group_code": "WITH"
+    },
+    {
+      "source_position": 63,
+      "record_key": "audit:58349859538",
+      "source_phrase_exact": "мехатроник с платой 0am927769d",
+      "positive_keyword": "мехатроник с платой 0am927769d",
+      "item_key": "K063",
+      "group_code": "WITH"
+    },
+    {
+      "source_position": 64,
+      "record_key": "audit:58349859539",
+      "source_phrase_exact": "мехатроник dq200 в сборе купить",
+      "positive_keyword": "мехатроник dq200 в сборе купить",
+      "item_key": "K064",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 65,
+      "record_key": "audit:58349859540",
+      "source_phrase_exact": "мехатроник 0am927769f -плата -dq200",
+      "positive_keyword": "мехатроник 0am927769f",
+      "item_key": "K065",
+      "group_code": "WITH"
+    },
+    {
+      "source_position": 66,
+      "record_key": "audit:58349859541",
+      "source_phrase_exact": "мехатроник с платой 0am927769f",
+      "positive_keyword": "мехатроник с платой 0am927769f",
+      "item_key": "K066",
+      "group_code": "WITH"
+    },
+    {
+      "source_position": 67,
+      "record_key": "audit:58349859542",
+      "source_phrase_exact": "мехатроник dq200 0am927769f",
+      "positive_keyword": "мехатроник dq200 0am927769f",
+      "item_key": "K067",
+      "group_code": "WITH"
+    },
+    {
+      "source_position": 68,
+      "record_key": "audit:58349859543",
+      "source_phrase_exact": "мехатроник dsg 7 0am927769f",
+      "positive_keyword": "мехатроник dsg 7 0am927769f",
+      "item_key": "K068",
+      "group_code": "WITH"
+    },
+    {
+      "source_position": 69,
+      "record_key": "audit:58349859544",
+      "source_phrase_exact": "плата мехатроника dq200 -купить -цена",
+      "positive_keyword": "плата мехатроника dq200",
+      "item_key": "K069",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 70,
+      "record_key": "audit:58349859545",
+      "source_phrase_exact": "плата dsg dq200 -7",
+      "positive_keyword": "плата dsg dq200",
+      "item_key": "K070",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 71,
+      "record_key": "audit:58349859546",
+      "source_phrase_exact": "плата dsg 7 dq200 -мехатроника",
+      "positive_keyword": "плата dsg 7 dq200",
+      "item_key": "K071",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 72,
+      "record_key": "audit:58349859547",
+      "source_phrase_exact": "плата дсг 7 dq200",
+      "positive_keyword": "плата дсг 7 dq200",
+      "item_key": "K072",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 73,
+      "record_key": "audit:58349859548",
+      "source_phrase_exact": "плата мехатроника dsg 7 -dq200",
+      "positive_keyword": "плата мехатроника dsg 7",
+      "item_key": "K073",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 74,
+      "record_key": "audit:58349859549",
+      "source_phrase_exact": "плата мехатроника дсг 7 -управление",
+      "positive_keyword": "плата мехатроника дсг 7",
+      "item_key": "K074",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 75,
+      "record_key": "audit:58349859550",
+      "source_phrase_exact": "плата мехатроник dq200",
+      "positive_keyword": "плата мехатроник dq200",
+      "item_key": "K075",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 76,
+      "record_key": "audit:58349859551",
+      "source_phrase_exact": "электронная плата dq200",
+      "positive_keyword": "электронная плата dq200",
+      "item_key": "K076",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 77,
+      "record_key": "audit:58349859552",
+      "source_phrase_exact": "электронная плата dsg 7",
+      "positive_keyword": "электронная плата dsg 7",
+      "item_key": "K077",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 78,
+      "record_key": "audit:58349859553",
+      "source_phrase_exact": "плата мехатроника dq200 купить",
+      "positive_keyword": "плата мехатроника dq200 купить",
+      "item_key": "K078",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 79,
+      "record_key": "audit:58349859554",
+      "source_phrase_exact": "плата мехатроника dsg 7 dq200 купить",
+      "positive_keyword": "плата мехатроника dsg 7 dq200 купить",
+      "item_key": "K079",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 80,
+      "record_key": "audit:58349859555",
+      "source_phrase_exact": "плата управления мехатроником дсг 7",
+      "positive_keyword": "плата управления мехатроником дсг 7",
+      "item_key": "K080",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 81,
+      "record_key": "audit:58349859556",
+      "source_phrase_exact": "блок управления dsg 7 dq200",
+      "positive_keyword": "блок управления dsg 7 dq200",
+      "item_key": "K081",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 82,
+      "record_key": "audit:58349859557",
+      "source_phrase_exact": "эбу dsg 7 dq200",
+      "positive_keyword": "эбу dsg 7 dq200",
+      "item_key": "K082",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 83,
+      "record_key": "audit:58349859558",
+      "source_phrase_exact": "0am927769 -плат",
+      "positive_keyword": "0am927769",
+      "item_key": "K083",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 84,
+      "record_key": "audit:58349859559",
+      "source_phrase_exact": "печатная плата 0am927769",
+      "positive_keyword": "печатная плата 0am927769",
+      "item_key": "K084",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 85,
+      "record_key": "audit:58349859560",
+      "source_phrase_exact": "плата 0am927769 -печатный",
+      "positive_keyword": "плата 0am927769",
+      "item_key": "K085",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 86,
+      "record_key": "audit:58349859561",
+      "source_phrase_exact": "плата dq200 -мехатроника -dsg -мехатроник -электронный",
+      "positive_keyword": "плата dq200",
+      "item_key": "K086",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 87,
+      "record_key": "audit:58349859562",
+      "source_phrase_exact": "плата мехатроника dsg 7 dq200 -купить",
+      "positive_keyword": "плата мехатроника dsg 7 dq200",
+      "item_key": "K087",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 88,
+      "record_key": "audit:58349859563",
+      "source_phrase_exact": "плата мехатроника dq200 цена",
+      "positive_keyword": "плата мехатроника dq200 цена",
+      "item_key": "K088",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 89,
+      "record_key": "audit:58349859564",
+      "source_phrase_exact": "плата дсг 7 купить мехатроника dq200",
+      "positive_keyword": "плата дсг 7 купить мехатроника dq200",
+      "item_key": "K089",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 90,
+      "record_key": "audit:58349859565",
+      "source_phrase_exact": "плата мехатроника dq 200",
+      "positive_keyword": "плата мехатроника dq 200",
+      "item_key": "K090",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 91,
+      "record_key": "audit:58349859566",
+      "source_phrase_exact": "плата 0ам",
+      "positive_keyword": "плата 0ам",
+      "item_key": "K091",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 92,
+      "record_key": "audit:58349859567",
+      "source_phrase_exact": "плата 0am",
+      "positive_keyword": "плата 0am",
+      "item_key": "K092",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 93,
+      "record_key": "audit:58349859568",
+      "source_phrase_exact": "0am927769d -плат -купить -блок",
+      "positive_keyword": "0am927769d",
+      "item_key": "K093",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 94,
+      "record_key": "audit:58349859569",
+      "source_phrase_exact": "плата 0am927769d -мехатроника -электронный",
+      "positive_keyword": "плата 0am927769d",
+      "item_key": "K094",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 95,
+      "record_key": "audit:58349859570",
+      "source_phrase_exact": "0am927769d плата мехатроника",
+      "positive_keyword": "0am927769d плата мехатроника",
+      "item_key": "K095",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 96,
+      "record_key": "audit:58349859571",
+      "source_phrase_exact": "0am927769d купить",
+      "positive_keyword": "0am927769d купить",
+      "item_key": "K096",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 97,
+      "record_key": "audit:58349859572",
+      "source_phrase_exact": "электронная плата 0am927769d",
+      "positive_keyword": "электронная плата 0am927769d",
+      "item_key": "K097",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 98,
+      "record_key": "audit:58349859573",
+      "source_phrase_exact": "блок 0am927769d",
+      "positive_keyword": "блок 0am927769d",
+      "item_key": "K098",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 99,
+      "record_key": "audit:58349859574",
+      "source_phrase_exact": "0am 927 769 d",
+      "positive_keyword": "0am 927 769 d",
+      "item_key": "K099",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 100,
+      "record_key": "audit:58349859575",
+      "source_phrase_exact": "0am927769f -плат -купить",
+      "positive_keyword": "0am927769f",
+      "item_key": "K100",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 101,
+      "record_key": "audit:58349859576",
+      "source_phrase_exact": "плата 0am927769f -мехатроника -электронный",
+      "positive_keyword": "плата 0am927769f",
+      "item_key": "K101",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 102,
+      "record_key": "audit:58349859577",
+      "source_phrase_exact": "0am927769f плата мехатроника",
+      "positive_keyword": "0am927769f плата мехатроника",
+      "item_key": "K102",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 103,
+      "record_key": "audit:58349859578",
+      "source_phrase_exact": "0am927769f купить",
+      "positive_keyword": "0am927769f купить",
+      "item_key": "K103",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 104,
+      "record_key": "audit:58349859579",
+      "source_phrase_exact": "электронная плата 0am927769f",
+      "positive_keyword": "электронная плата 0am927769f",
+      "item_key": "K104",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 105,
+      "record_key": "audit:58349859580",
+      "source_phrase_exact": "мехатроник dq200 обмен",
+      "positive_keyword": "мехатроник dq200 обмен",
+      "item_key": "K105",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 106,
+      "record_key": "audit:58349859581",
+      "source_phrase_exact": "мехатроник dsg 7 обмен",
+      "positive_keyword": "мехатроник dsg 7 обмен",
+      "item_key": "K106",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 107,
+      "record_key": "audit:58349859582",
+      "source_phrase_exact": "мехатроник дсг 7 обмен",
+      "positive_keyword": "мехатроник дсг 7 обмен",
+      "item_key": "K107",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 108,
+      "record_key": "audit:58349859583",
+      "source_phrase_exact": "обмен мехатроника dq200",
+      "positive_keyword": "обмен мехатроника dq200",
+      "item_key": "K108",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 109,
+      "record_key": "audit:58349859584",
+      "source_phrase_exact": "обмен мехатроника dsg 7",
+      "positive_keyword": "обмен мехатроника dsg 7",
+      "item_key": "K109",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 110,
+      "record_key": "audit:58349859585",
+      "source_phrase_exact": "гидроблок dq200 -мехатроника -купить",
+      "positive_keyword": "гидроблок dq200",
+      "item_key": "K110",
+      "group_code": "HYDRO"
+    },
+    {
+      "source_position": 111,
+      "record_key": "audit:58349859586",
+      "source_phrase_exact": "гидроблок дсг 7 dq200",
+      "positive_keyword": "гидроблок дсг 7 dq200",
+      "item_key": "K111",
+      "group_code": "HYDRO"
+    },
+    {
+      "source_position": 112,
+      "record_key": "audit:58349859587",
+      "source_phrase_exact": "гидроблок мехатроник dsg 7",
+      "positive_keyword": "гидроблок мехатроник dsg 7",
+      "item_key": "K112",
+      "group_code": "HYDRO"
+    },
+    {
+      "source_position": 113,
+      "record_key": "audit:58349859588",
+      "source_phrase_exact": "гидроблок мехатроника dq200",
+      "positive_keyword": "гидроблок мехатроника dq200",
+      "item_key": "K113",
+      "group_code": "HYDRO"
+    },
+    {
+      "source_position": 114,
+      "record_key": "audit:58349859589",
+      "source_phrase_exact": "гидроблок дсг -7",
+      "positive_keyword": "гидроблок дсг",
+      "item_key": "K114",
+      "group_code": "HYDRO"
+    },
+    {
+      "source_position": 115,
+      "record_key": "audit:58349859590",
+      "source_phrase_exact": "гидроблок дсг 7 -dq200 -купить",
+      "positive_keyword": "гидроблок дсг 7",
+      "item_key": "K115",
+      "group_code": "HYDRO"
+    },
+    {
+      "source_position": 116,
+      "record_key": "audit:58349859591",
+      "source_phrase_exact": "гидроблок dsg 7 -мехатроник",
+      "positive_keyword": "гидроблок dsg 7",
+      "item_key": "K116",
+      "group_code": "HYDRO"
+    },
+    {
+      "source_position": 117,
+      "record_key": "audit:58349859592",
+      "source_phrase_exact": "гидроблок dq200 купить",
+      "positive_keyword": "гидроблок dq200 купить",
+      "item_key": "K117",
+      "group_code": "HYDRO"
+    },
+    {
+      "source_position": 118,
+      "record_key": "audit:58349859593",
+      "source_phrase_exact": "гидроблок дсг 7 купить",
+      "positive_keyword": "гидроблок дсг 7 купить",
+      "item_key": "K118",
+      "group_code": "HYDRO"
+    },
+    {
+      "source_position": 119,
+      "record_key": "audit:58349859594",
+      "source_phrase_exact": "китайский мехатроник dq200",
+      "positive_keyword": "китайский мехатроник dq200",
+      "item_key": "K119",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 120,
+      "record_key": "audit:58349859595",
+      "source_phrase_exact": "китайский мехатроник dq 200",
+      "positive_keyword": "китайский мехатроник dq 200",
+      "item_key": "K120",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 121,
+      "record_key": "audit:58349859596",
+      "source_phrase_exact": "китайский мехатроник +без платы dq 200",
+      "positive_keyword": "китайский мехатроник +без платы dq 200",
+      "item_key": "K121",
+      "group_code": "WITHOUT"
+    },
+    {
+      "source_position": 122,
+      "record_key": "audit:58349859597",
+      "source_phrase_exact": "китайский мехатроник dsg 7",
+      "positive_keyword": "китайский мехатроник dsg 7",
+      "item_key": "K122",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 123,
+      "record_key": "audit:58349859598",
+      "source_phrase_exact": "мехатроник dq200 китай",
+      "positive_keyword": "мехатроник dq200 китай",
+      "item_key": "K123",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 124,
+      "record_key": "audit:58349859599",
+      "source_phrase_exact": "мехатроник dsg 7 китай",
+      "positive_keyword": "мехатроник dsg 7 китай",
+      "item_key": "K124",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 125,
+      "record_key": "audit:58349859600",
+      "source_phrase_exact": "мехатроник dq200 faw",
+      "positive_keyword": "мехатроник dq200 faw",
+      "item_key": "K125",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 126,
+      "record_key": "audit:58349859601",
+      "source_phrase_exact": "мехатроник шкода октавия -а7 -а5",
+      "positive_keyword": "мехатроник шкода октавия",
+      "item_key": "K126",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 127,
+      "record_key": "audit:58349859602",
+      "source_phrase_exact": "мехатроник шкода октавия а7 -1.8",
+      "positive_keyword": "мехатроник шкода октавия а7",
+      "item_key": "K127",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 128,
+      "record_key": "audit:58349859603",
+      "source_phrase_exact": "мехатроник шкода октавия а5 -купить",
+      "positive_keyword": "мехатроник шкода октавия а5",
+      "item_key": "K128",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 129,
+      "record_key": "audit:58349859604",
+      "source_phrase_exact": "мехатроник шкода октавия а7 1.8",
+      "positive_keyword": "мехатроник шкода октавия а7 1.8",
+      "item_key": "K129",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 130,
+      "record_key": "audit:58349859605",
+      "source_phrase_exact": "мехатроник шкода октавия а5 купить",
+      "positive_keyword": "мехатроник шкода октавия а5 купить",
+      "item_key": "K130",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 131,
+      "record_key": "audit:58349859606",
+      "source_phrase_exact": "мехатроник шкода йети",
+      "positive_keyword": "мехатроник шкода йети",
+      "item_key": "K131",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 132,
+      "record_key": "audit:58349859607",
+      "source_phrase_exact": "мехатроник шкода рапид купить",
+      "positive_keyword": "мехатроник шкода рапид купить",
+      "item_key": "K132",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 133,
+      "record_key": "audit:58349859608",
+      "source_phrase_exact": "мехатроник шкода рапид -купить",
+      "positive_keyword": "мехатроник шкода рапид",
+      "item_key": "K133",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 134,
+      "record_key": "audit:58349859609",
+      "source_phrase_exact": "мехатроник гольф 6 -1.4",
+      "positive_keyword": "мехатроник гольф 6",
+      "item_key": "K134",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 135,
+      "record_key": "audit:58349859610",
+      "source_phrase_exact": "мехатроник гольф 7",
+      "positive_keyword": "мехатроник гольф 7",
+      "item_key": "K135",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 136,
+      "record_key": "audit:58349859611",
+      "source_phrase_exact": "мехатроник гольф 6 1.4",
+      "positive_keyword": "мехатроник гольф 6 1.4",
+      "item_key": "K136",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 137,
+      "record_key": "audit:58349859612",
+      "source_phrase_exact": "мехатроник пассат -б6 -сс -б7",
+      "positive_keyword": "мехатроник пассат",
+      "item_key": "K137",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 138,
+      "record_key": "audit:58349859613",
+      "source_phrase_exact": "мехатроник пассат б6",
+      "positive_keyword": "мехатроник пассат б6",
+      "item_key": "K138",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 139,
+      "record_key": "audit:58349859614",
+      "source_phrase_exact": "мехатроник пассат сс",
+      "positive_keyword": "мехатроник пассат сс",
+      "item_key": "K139",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 140,
+      "record_key": "audit:58349859615",
+      "source_phrase_exact": "мехатроник на пассат б7 -купить -фольксваген",
+      "positive_keyword": "мехатроник на пассат б7",
+      "item_key": "K140",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 141,
+      "record_key": "audit:58349859616",
+      "source_phrase_exact": "мехатроник пассат б7 купить",
+      "positive_keyword": "мехатроник пассат б7 купить",
+      "item_key": "K141",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 142,
+      "record_key": "audit:58349859617",
+      "source_phrase_exact": "мехатроник фольксваген пассат б7",
+      "positive_keyword": "мехатроник фольксваген пассат б7",
+      "item_key": "K142",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 143,
+      "record_key": "audit:58349859618",
+      "source_phrase_exact": "мехатроник для фольксваген пассат цц",
+      "positive_keyword": "мехатроник для фольксваген пассат цц",
+      "item_key": "K143",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 144,
+      "record_key": "audit:58349859619",
+      "source_phrase_exact": "мехатроник ауди а3",
+      "positive_keyword": "мехатроник ауди а3",
+      "item_key": "K144",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 145,
+      "record_key": "audit:58349859620",
+      "source_phrase_exact": "мехатроник поло -фольксваген",
+      "positive_keyword": "мехатроник поло",
+      "item_key": "K145",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 146,
+      "record_key": "audit:58349859621",
+      "source_phrase_exact": "мехатроник фольксваген поло",
+      "positive_keyword": "мехатроник фольксваген поло",
+      "item_key": "K146",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 147,
+      "record_key": "audit:58349859622",
+      "source_phrase_exact": "мехатроник джетта",
+      "positive_keyword": "мехатроник джетта",
+      "item_key": "K147",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 148,
+      "record_key": "audit:58349859623",
+      "source_phrase_exact": "мехатроник сеат леон",
+      "positive_keyword": "мехатроник сеат леон",
+      "item_key": "K148",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 149,
+      "record_key": "audit:58349859624",
+      "source_phrase_exact": "замена платы dq200 -мехатроника",
+      "positive_keyword": "замена платы dq200",
+      "item_key": "K149",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 150,
+      "record_key": "audit:58349859625",
+      "source_phrase_exact": "замена платы мехатроника dq200",
+      "positive_keyword": "замена платы мехатроника dq200",
+      "item_key": "K150",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 151,
+      "record_key": "audit:58349859626",
+      "source_phrase_exact": "замена платы мехатроника dq200 dsg 7",
+      "positive_keyword": "замена платы мехатроника dq200 dsg 7",
+      "item_key": "K151",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 152,
+      "record_key": "audit:58350699182",
+      "source_phrase_exact": "ошибка p17bf -dsg -фольксваген",
+      "positive_keyword": "ошибка p17bf",
+      "item_key": "K152",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 153,
+      "record_key": "audit:58350699183",
+      "source_phrase_exact": "p17bf ошибка dsg -7 -фольксваген",
+      "positive_keyword": "p17bf ошибка dsg",
+      "item_key": "K153",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 154,
+      "record_key": "audit:58350699184",
+      "source_phrase_exact": "p17bf ошибка dsg 7 -dq200",
+      "positive_keyword": "p17bf ошибка dsg 7",
+      "item_key": "K154",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 155,
+      "record_key": "audit:58350699185",
+      "source_phrase_exact": "p17bf ошибка dsg 7 dq200",
+      "positive_keyword": "p17bf ошибка dsg 7 dq200",
+      "item_key": "K155",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 156,
+      "record_key": "audit:58350699186",
+      "source_phrase_exact": "p17bf ошибка фольксваген -dsg",
+      "positive_keyword": "p17bf ошибка фольксваген",
+      "item_key": "K156",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 157,
+      "record_key": "audit:58350699187",
+      "source_phrase_exact": "ошибка p17bf фольксваген dsg -dq200",
+      "positive_keyword": "ошибка p17bf фольксваген dsg",
+      "item_key": "K157",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 158,
+      "record_key": "audit:58350699188",
+      "source_phrase_exact": "шкода октавия ошибка p17bf00 -а7",
+      "positive_keyword": "шкода октавия ошибка p17bf00",
+      "item_key": "K158",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 159,
+      "record_key": "audit:58350699189",
+      "source_phrase_exact": "p17bf00 ошибка dsg",
+      "positive_keyword": "p17bf00 ошибка dsg",
+      "item_key": "K159",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 160,
+      "record_key": "audit:58350699190",
+      "source_phrase_exact": "p17bf00 ошибка шкода октавия а7",
+      "positive_keyword": "p17bf00 ошибка шкода октавия а7",
+      "item_key": "K160",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 161,
+      "record_key": "audit:58350699191",
+      "source_phrase_exact": "ошибка p17bf фольксваген dsg dq200",
+      "positive_keyword": "ошибка p17bf фольксваген dsg dq200",
+      "item_key": "K161",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 162,
+      "record_key": "audit:58350699192",
+      "source_phrase_exact": "код ошибки dtc p17bf",
+      "positive_keyword": "код ошибки dtc p17bf",
+      "item_key": "K162",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 163,
+      "record_key": "audit:58350699193",
+      "source_phrase_exact": "vag fault code p17bf",
+      "positive_keyword": "vag fault code p17bf",
+      "item_key": "K163",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 164,
+      "record_key": "audit:58350699194",
+      "source_phrase_exact": "ошибка p189c p17bf насос работает постоянно",
+      "positive_keyword": "ошибка p189c p17bf насос работает постоянно",
+      "item_key": "K164",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 165,
+      "record_key": "audit:58350699195",
+      "source_phrase_exact": "p189c ошибка dsg -7",
+      "positive_keyword": "p189c ошибка dsg",
+      "item_key": "K165",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 166,
+      "record_key": "audit:58350699196",
+      "source_phrase_exact": "p189c ошибка dsg 7 -dq200",
+      "positive_keyword": "p189c ошибка dsg 7",
+      "item_key": "K166",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 167,
+      "record_key": "audit:58350699197",
+      "source_phrase_exact": "p189c ошибка dsg 7 dq200",
+      "positive_keyword": "p189c ошибка dsg 7 dq200",
+      "item_key": "K167",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 168,
+      "record_key": "audit:58350699198",
+      "source_phrase_exact": "p189c00 ошибка dsg",
+      "positive_keyword": "p189c00 ошибка dsg",
+      "item_key": "K168",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 169,
+      "record_key": "audit:58350699199",
+      "source_phrase_exact": "р189с ошибка дсг",
+      "positive_keyword": "р189с ошибка дсг",
+      "item_key": "K169",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 170,
+      "record_key": "audit:58350699200",
+      "source_phrase_exact": "ошибка p189c00 skoda octavia 2017 год",
+      "positive_keyword": "ошибка p189c00 skoda octavia 2017 год",
+      "item_key": "K170",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 171,
+      "record_key": "audit:58350699201",
+      "source_phrase_exact": "ошибка p189c00 шкода а7 дсг",
+      "positive_keyword": "ошибка p189c00 шкода а7 дсг",
+      "item_key": "K171",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 172,
+      "record_key": "audit:58350699202",
+      "source_phrase_exact": "ошибка p189c00 шкода а6 дсг",
+      "positive_keyword": "ошибка p189c00 шкода а6 дсг",
+      "item_key": "K172",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 173,
+      "record_key": "audit:58350699203",
+      "source_phrase_exact": "ошибка p189c00 акпп dq200",
+      "positive_keyword": "ошибка p189c00 акпп dq200",
+      "item_key": "K173",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 174,
+      "record_key": "audit:58350699204",
+      "source_phrase_exact": "p189c -ошибка",
+      "positive_keyword": "p189c",
+      "item_key": "K174",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 175,
+      "record_key": "audit:58350699205",
+      "source_phrase_exact": "ошибка p189c -dsg",
+      "positive_keyword": "ошибка p189c",
+      "item_key": "K175",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 176,
+      "record_key": "audit:58350699206",
+      "source_phrase_exact": "p189c00",
+      "positive_keyword": "p189c00",
+      "item_key": "K176",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 177,
+      "record_key": "audit:58350699207",
+      "source_phrase_exact": "p1895 ошибка dsg",
+      "positive_keyword": "p1895 ошибка dsg",
+      "item_key": "K177",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 178,
+      "record_key": "audit:58350699208",
+      "source_phrase_exact": "p1895 ошибка dsg 7 dq200",
+      "positive_keyword": "p1895 ошибка dsg 7 dq200",
+      "item_key": "K178",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 179,
+      "record_key": "audit:58350699209",
+      "source_phrase_exact": "vag fault code p1895",
+      "positive_keyword": "vag fault code p1895",
+      "item_key": "K179",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 180,
+      "record_key": "audit:58350699210",
+      "source_phrase_exact": "0am dsg 7 ошибка p1895",
+      "positive_keyword": "0am dsg 7 ошибка p1895",
+      "item_key": "K180",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 181,
+      "record_key": "audit:58350699211",
+      "source_phrase_exact": "p0841 ошибка dsg 7 -dq200",
+      "positive_keyword": "p0841 ошибка dsg 7",
+      "item_key": "K181",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 182,
+      "record_key": "audit:58350699212",
+      "source_phrase_exact": "p0841 dq200",
+      "positive_keyword": "p0841 dq200",
+      "item_key": "K182",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 183,
+      "record_key": "audit:58350699213",
+      "source_phrase_exact": "ошибка p0841 dsg dq200 -7",
+      "positive_keyword": "ошибка p0841 dsg dq200",
+      "item_key": "K183",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 184,
+      "record_key": "audit:58350699214",
+      "source_phrase_exact": "p0841 ошибка dsg 7 dq200",
+      "positive_keyword": "p0841 ошибка dsg 7 dq200",
+      "item_key": "K184",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 185,
+      "record_key": "audit:58350699215",
+      "source_phrase_exact": "p0841 ошибка vag",
+      "positive_keyword": "p0841 ошибка vag",
+      "item_key": "K185",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 186,
+      "record_key": "audit:58350699216",
+      "source_phrase_exact": "vag fault code p0841",
+      "positive_keyword": "vag fault code p0841",
+      "item_key": "K186",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 187,
+      "record_key": "audit:58350699217",
+      "source_phrase_exact": "р0841 ошибка фольксваген дсг7",
+      "positive_keyword": "р0841 ошибка фольксваген дсг7",
+      "item_key": "K187",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 188,
+      "record_key": "audit:58350699218",
+      "source_phrase_exact": "ошибка р0841 фольксваген дсг",
+      "positive_keyword": "ошибка р0841 фольксваген дсг",
+      "item_key": "K188",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 189,
+      "record_key": "audit:58350699219",
+      "source_phrase_exact": "dtc p0841 skoda",
+      "positive_keyword": "dtc p0841 skoda",
+      "item_key": "K189",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 190,
+      "record_key": "audit:58350699220",
+      "source_phrase_exact": "06079 ошибка фольксваген",
+      "positive_keyword": "06079 ошибка фольксваген",
+      "item_key": "K190",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 191,
+      "record_key": "audit:58350699221",
+      "source_phrase_exact": "ошибка 06079 dsg 7",
+      "positive_keyword": "ошибка 06079 dsg 7",
+      "item_key": "K191",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 192,
+      "record_key": "audit:58350699222",
+      "source_phrase_exact": "ошибка 6079 дсг -7",
+      "positive_keyword": "ошибка 6079 дсг",
+      "item_key": "K192",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 193,
+      "record_key": "audit:58350699223",
+      "source_phrase_exact": "006079 ошибка дсг 7",
+      "positive_keyword": "006079 ошибка дсг 7",
+      "item_key": "K193",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 194,
+      "record_key": "audit:58350699224",
+      "source_phrase_exact": "джетта 6 ошибка 06079",
+      "positive_keyword": "джетта 6 ошибка 06079",
+      "item_key": "K194",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 195,
+      "record_key": "audit:58350699225",
+      "source_phrase_exact": "ошибка 6079 дсг 7",
+      "positive_keyword": "ошибка 6079 дсг 7",
+      "item_key": "K195",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 196,
+      "record_key": "audit:58350699226",
+      "source_phrase_exact": "p060700 ошибка дсг -dq200",
+      "positive_keyword": "p060700 ошибка дсг",
+      "item_key": "K196",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 197,
+      "record_key": "audit:58350699227",
+      "source_phrase_exact": "p060700 dq200 -ошибка",
+      "positive_keyword": "p060700 dq200",
+      "item_key": "K197",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 198,
+      "record_key": "audit:58350699228",
+      "source_phrase_exact": "p060700 ошибка dq200 -дсг",
+      "positive_keyword": "p060700 ошибка dq200",
+      "item_key": "K198",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 199,
+      "record_key": "audit:58350699229",
+      "source_phrase_exact": "p0607 dq200",
+      "positive_keyword": "p0607 dq200",
+      "item_key": "K199",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 200,
+      "record_key": "audit:58350699230",
+      "source_phrase_exact": "p060700 ошибка дсг dq200",
+      "positive_keyword": "p060700 ошибка дсг dq200",
+      "item_key": "K200",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 201,
+      "record_key": "audit:58350699231",
+      "source_phrase_exact": "p060700 ошибка dq200 двигатель не запускается",
+      "positive_keyword": "p060700 ошибка dq200 двигатель не запускается",
+      "item_key": "K201",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 202,
+      "record_key": "audit:58350699232",
+      "source_phrase_exact": "p175d ошибка dsg",
+      "positive_keyword": "p175d ошибка dsg",
+      "item_key": "K202",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 203,
+      "record_key": "audit:58350699233",
+      "source_phrase_exact": "p175d ошибка dsg 7 dq200",
+      "positive_keyword": "p175d ошибка dsg 7 dq200",
+      "item_key": "K203",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 204,
+      "record_key": "audit:58350699234",
+      "source_phrase_exact": "p072c ошибка dsg 7 dq200",
+      "positive_keyword": "p072c ошибка dsg 7 dq200",
+      "item_key": "K204",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 205,
+      "record_key": "audit:58350699235",
+      "source_phrase_exact": "u0101 ошибка vw -dsg",
+      "positive_keyword": "u0101 ошибка vw",
+      "item_key": "K205",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 206,
+      "record_key": "audit:58350699236",
+      "source_phrase_exact": "ошибка u0101 фольксваген",
+      "positive_keyword": "ошибка u0101 фольксваген",
+      "item_key": "K206",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 207,
+      "record_key": "audit:58350699237",
+      "source_phrase_exact": "u0101 ошибка vw dsg",
+      "positive_keyword": "u0101 ошибка vw dsg",
+      "item_key": "K207",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 208,
+      "record_key": "audit:58350699238",
+      "source_phrase_exact": "u0101 ошибка шкода октавия а7",
+      "positive_keyword": "u0101 ошибка шкода октавия а7",
+      "item_key": "K208",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 209,
+      "record_key": "audit:58350699239",
+      "source_phrase_exact": "ошибка u0101 шкода октавия а5",
+      "positive_keyword": "ошибка u0101 шкода октавия а5",
+      "item_key": "K209",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 210,
+      "record_key": "audit:58350699240",
+      "source_phrase_exact": "пассат б6 дсг7 ошибка u0101",
+      "positive_keyword": "пассат б6 дсг7 ошибка u0101",
+      "item_key": "K210",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 211,
+      "record_key": "audit:58350699241",
+      "source_phrase_exact": "ошибка u0101 01315 фольксваген только на горячую",
+      "positive_keyword": "ошибка u0101 01315 фольксваген только на горячую",
+      "item_key": "K211",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 212,
+      "record_key": "audit:58350699242",
+      "source_phrase_exact": "01315 фольксваген -ошибка",
+      "positive_keyword": "01315 фольксваген",
+      "item_key": "K212",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 213,
+      "record_key": "audit:58350699243",
+      "source_phrase_exact": "ошибка 01315 -фольксваген -vw -шкода -ауди",
+      "positive_keyword": "ошибка 01315",
+      "item_key": "K213",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 214,
+      "record_key": "audit:58350699244",
+      "source_phrase_exact": "01315 -фольксваген -ошибка",
+      "positive_keyword": "01315",
+      "item_key": "K214",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 215,
+      "record_key": "audit:58350699245",
+      "source_phrase_exact": "01315 ошибка фольксваген",
+      "positive_keyword": "01315 ошибка фольксваген",
+      "item_key": "K215",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 216,
+      "record_key": "audit:58350699246",
+      "source_phrase_exact": "01315 ошибка vw",
+      "positive_keyword": "01315 ошибка vw",
+      "item_key": "K216",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 217,
+      "record_key": "audit:58350699247",
+      "source_phrase_exact": "01315 ошибка шкода",
+      "positive_keyword": "01315 ошибка шкода",
+      "item_key": "K217",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 218,
+      "record_key": "audit:58350699248",
+      "source_phrase_exact": "01315 блок управления коробки передач",
+      "positive_keyword": "01315 блок управления коробки передач",
+      "item_key": "K218",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 219,
+      "record_key": "audit:58350699249",
+      "source_phrase_exact": "vag fault code 01315",
+      "positive_keyword": "vag fault code 01315",
+      "item_key": "K219",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 220,
+      "record_key": "audit:58350699250",
+      "source_phrase_exact": "01315 dq200 пассат в7",
+      "positive_keyword": "01315 dq200 пассат в7",
+      "item_key": "K220",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 221,
+      "record_key": "audit:58350699251",
+      "source_phrase_exact": "01315 ошибка ауди",
+      "positive_keyword": "01315 ошибка ауди",
+      "item_key": "K221",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 222,
+      "record_key": "audit:58350699252",
+      "source_phrase_exact": "давление в мехатронике дсг 7",
+      "positive_keyword": "давление в мехатронике дсг 7",
+      "item_key": "K222",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 223,
+      "record_key": "audit:58350699253",
+      "source_phrase_exact": "dq200 не держит давление",
+      "positive_keyword": "dq200 не держит давление",
+      "item_key": "K223",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 224,
+      "record_key": "audit:58350699254",
+      "source_phrase_exact": "признаки неисправности мехатроника dsg 7 dq200",
+      "positive_keyword": "признаки неисправности мехатроника dsg 7 dq200",
+      "item_key": "K224",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 225,
+      "record_key": "audit:58350699255",
+      "source_phrase_exact": "быстрое падение давление в мехатронике dq200",
+      "positive_keyword": "быстрое падение давление в мехатронике dq200",
+      "item_key": "K225",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 226,
+      "record_key": "audit:58350699256",
+      "source_phrase_exact": "ауди а3 2012г ошибка связи с мехатроником",
+      "positive_keyword": "ауди а3 2012г ошибка связи с мехатроником",
+      "item_key": "K226",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 227,
+      "record_key": "audit:58350699257",
+      "source_phrase_exact": "коробка dq200 падает давление в мехатронике",
+      "positive_keyword": "коробка dq200 падает давление в мехатронике",
+      "item_key": "K227",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 228,
+      "record_key": "audit:58350699258",
+      "source_phrase_exact": "p173c ошибка dsg 7 dq200",
+      "positive_keyword": "p173c ошибка dsg 7 dq200",
+      "item_key": "K228",
+      "group_code": "GENERAL"
+    },
+    {
+      "source_position": 229,
+      "record_key": "board_candidate:0",
+      "source_phrase_exact": "0am927769",
+      "positive_keyword": "0am927769",
+      "item_key": "K083",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 230,
+      "record_key": "board_candidate:2",
+      "source_phrase_exact": "0am927769d",
+      "positive_keyword": "0am927769d",
+      "item_key": "K093",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 231,
+      "record_key": "board_candidate:4",
+      "source_phrase_exact": "0am927769k",
+      "positive_keyword": "0am927769k",
+      "item_key": "K229",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 232,
+      "record_key": "board_candidate:5",
+      "source_phrase_exact": "0am927769e",
+      "positive_keyword": "0am927769e",
+      "item_key": "K230",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 233,
+      "record_key": "board_candidate:6",
+      "source_phrase_exact": "0am927769g",
+      "positive_keyword": "0am927769g",
+      "item_key": "K231",
+      "group_code": "BOARDS"
+    },
+    {
+      "source_position": 234,
+      "record_key": "board_candidate:7",
+      "source_phrase_exact": "0am927769f",
+      "positive_keyword": "0am927769f",
+      "item_key": "K100",
+      "group_code": "BOARDS"
+    }
+  ],
+  "cross_negative_policy": {
+    "existing_parent_child_routing": "Preserve all existing keyword texts and two verified parent/child families.",
+    "historical_inline_on_new": "Do not mechanically copy old25group structure. New positives included fully; prioritization CAMPAIGN_EXACT_PHRASE_MATCHING_ENABLED=YES, existing6productcategory routing.",
+    "historical_group_negatives": "Do not union old letter-specific groups negatives; this would exclude own E/F/G/K/D products in combined categories.",
+    "campaign_negatives": "All130 preserved exactly.",
+    "matching_limit": "Semantic prioritization is not a guarantee of correct selection for every future query; review query/group/ad reports."
+  }
+}
