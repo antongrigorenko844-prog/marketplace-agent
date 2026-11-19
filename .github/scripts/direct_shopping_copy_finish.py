@@ -2,6 +2,8 @@
 
 Marker modes: preflight (read), refresh (one bounded feed-URL update), apply
 (two bounded ad-copy updates, moderation if required), check (read).
+apply_default_text/check_default_text use only TitleSources and DefaultTexts,
+preserving TextSources=null; they do not force a literal rendered ad text.
 Never edits feed files, boards, ResponsiveAds, bids, budgets or sitelinks.
 An uncertain write is always read back and never blindly retried.
 """
@@ -31,6 +33,7 @@ MECH_IDS = set().union(*(OFFER_GROUPS[x] for x in TARGETS))
 TITLE = "Мехатроник DSG7 DQ200 0AM325025"
 TEXT = "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ"
 DESIRED = {"TitleSources": {"Items": ["name"]}, "TextSources": {"Items": ["description"]}, "DefaultTexts": [TEXT]}
+DEFAULT_DESIRED = {"TitleSources": {"Items": ["name"]}, "DefaultTexts": [TEXT]}
 FEED_URL = "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml"
 REFRESH_URL = FEED_URL + "?copy_rev=20261119_01"
 API_BASE = "https://api.direct.yandex.com/json/v501/"
@@ -75,12 +78,13 @@ class Client:
         elif service == "feeds" and method == "update" and self.mode == "refresh":
             if params != {"Feeds": [{"Id": FID, "UrlFeed": {"Url": REFRESH_URL}}]}:
                 raise RuntimeError("Feed update outside exact approved URL change")
-        elif service == "ads" and method == "update" and self.mode == "apply":
+        elif service == "ads" and method == "update" and self.mode in {"apply", "apply_default_text"}:
             rows = params.get("Ads", [])
+            patch = DEFAULT_DESIRED if self.mode == "apply_default_text" else DESIRED
             if (set(params) != {"Ads"} or len(rows) != 1 or rows[0].get("Id") not in TARGETS
-                    or rows[0] != {"Id": rows[0]["Id"], "ShoppingAd": DESIRED}):
+                    or rows[0] != {"Id": rows[0]["Id"], "ShoppingAd": patch}):
                 raise RuntimeError("Ad update outside two approved copy patches")
-        elif service == "ads" and method == "moderate" and self.mode == "apply":
+        elif service == "ads" and method == "moderate" and self.mode in {"apply", "apply_default_text"}:
             ids = params.get("SelectionCriteria", {}).get("Ids", [])
             if (not ids or len(ids) != len(set(ids)) or not set(ids) <= set(TARGETS)
                     or params != {"SelectionCriteria": {"Ids": ids}}):
@@ -238,20 +242,20 @@ def stable(value):
     return value
 
 
-def copy_fields(ad):
-    return {key: ad["ShoppingAd"].get(key) for key in DESIRED}
+def copy_fields(ad, desired=DESIRED):
+    return {key: ad["ShoppingAd"].get(key) for key in desired}
 
 
-def guard_ads(before, current, allow_desired=True, write_proof=()):
+def guard_ads(before, current, allow_desired=True, write_proof=(), desired=DESIRED):
     for aid in ALL_ADS:
         expected = copy.deepcopy(before[aid])
-        if aid in TARGETS and allow_desired and copy_fields(current[aid]) == DESIRED:
-            expected["ShoppingAd"].update(copy.deepcopy(DESIRED))
+        if aid in TARGETS and allow_desired and copy_fields(current[aid], desired) == desired:
+            expected["ShoppingAd"].update(copy.deepcopy(desired))
         own_pending_edit = (aid in TARGETS and aid in write_proof
-                            and copy_fields(current[aid]) == DESIRED
+                            and copy_fields(current[aid], desired) == desired
                             and current[aid].get("State") == "OFF"
                             and current[aid].get("Status") in {"DRAFT", "MODERATION"})
-        if aid in TARGETS and copy_fields(current[aid]) == DESIRED and current[aid].get("Status") == "REJECTED":
+        if aid in TARGETS and copy_fields(current[aid], desired) == desired and current[aid].get("Status") == "REJECTED":
             raise RuntimeError("Approved copy is rejected and requires review: " + str(aid))
         if own_pending_edit:
             expected["State"] = "OFF"
@@ -281,9 +285,10 @@ def guard_filters(ads, feed_root):
             raise RuntimeError("Filter selects unexpected offer category")
 
 
-def feed_ready(feed, baseline):
+def feed_ready(feed, baseline, require_description=True):
+    required_sources = {"name", "description"} if require_description else {"name"}
     return (feed.get("Status") == "DONE" and feed.get("NumberOfItems") == 12
-            and {"name", "description"} <= set((feed.get("TitleAndTextSources") or {}).get("Items", []))
+            and required_sources <= set((feed.get("TitleAndTextSources") or {}).get("Items", []))
             and bool(feed.get("UpdatedAt")) and feed.get("UpdatedAt") != baseline.get("UpdatedAt"))
 
 
@@ -294,12 +299,17 @@ def write_result_ok(result, key, ids):
 
 
 def run(mode, api=None, public=None, poll_attempts=1):
-    if mode not in {"preflight", "refresh", "apply", "check"} or not 1 <= poll_attempts <= 6:
+    if mode not in {"preflight", "refresh", "apply", "check", "apply_default_text", "check_default_text"} or not 1 <= poll_attempts <= 6:
         raise ValueError("Unsupported marker mode or poll bound")
+    default_mode = mode in {"apply_default_text", "check_default_text"}
+    apply_mode = "apply_default_text" if default_mode else "apply"
+    desired_patch = DEFAULT_DESIRED if default_mode else DESIRED
     api, public = api or Client(mode), public or fetch_public
     out = Path("data/direct_shopping_copy_" + mode + "_20261119.json")
-    apply_path = Path("data/direct_shopping_copy_apply_20261119.json")
+    apply_path = Path("data/direct_shopping_copy_" + apply_mode + "_20261119.json")
     prior_apply = json.loads(apply_path.read_text(encoding="utf-8")) if apply_path.exists() else {}
+    fallback_path = Path("data/direct_shopping_copy_apply_default_text_20261119.json")
+    prior_fallback = json.loads(fallback_path.read_text(encoding="utf-8")) if fallback_path.exists() else {}
     write_proof = set()
     report = {"mode": mode, "status": "started", "campaign_id": CID, "feed_id": FID,
               "target_ad_ids": list(TARGETS), "started_at_utc": now(), "workflow_commit": os.environ.get("GITHUB_SHA"),
@@ -313,13 +323,21 @@ def run(mode, api=None, public=None, poll_attempts=1):
     try:
         plan = validate_plan()
         report["plan_sha256"] = plan["plan_sha256"]
-        if (prior_apply.get("mode") == "apply" and prior_apply.get("campaign_id") == CID
+        if (mode == "apply" and prior_fallback.get("mode") == "apply_default_text"
+                and prior_fallback.get("campaign_id") == CID and prior_fallback.get("feed_id") == FID
+                and prior_fallback.get("plan_sha256") == plan["plan_sha256"]
+                and (prior_fallback.get("approved_copy_write_ids") or prior_fallback.get("mutation_attempts"))):
+            raise RuntimeError("Literal fallback already attempted; automatic switch to description-source mode is forbidden")
+        if (prior_apply.get("mode") == apply_mode and prior_apply.get("campaign_id") == CID
                 and prior_apply.get("feed_id") == FID and prior_apply.get("plan_sha256") == plan["plan_sha256"]
                 and set(prior_apply.get("target_ad_ids", [])) == set(TARGETS)):
             write_proof.update(i for i in prior_apply.get("approved_copy_write_ids", []) if i in TARGETS)
             write_proof.update(x["id"] for x in prior_apply.get("mutation_attempts", [])
                                if x.get("service") == "ads" and x.get("method") == "update" and x.get("id") in TARGETS)
         report["approved_copy_write_ids"] = sorted(write_proof)
+        report["approved_copy_patch"] = desired_patch
+        if default_mode:
+            report["fallback_semantics"] = "DefaultTexts is a fallback if generated/source text is unavailable; TextSources=null does not disable generation or prove the literal text was displayed."
         report["feed_semantic_hashes"] = {"before": plan["before_hash"], "after": plan["after_hash"]}
         report["feed"] = feed = get_feed(api)
         report["ads"] = current = get_ads(api)
@@ -342,7 +360,10 @@ def run(mode, api=None, public=None, poll_attempts=1):
             if not -60 <= age <= 86400:
                 raise RuntimeError("Preflight is older than 24 hours")
             before = {int(key): value for key, value in baseline["ads"].items()}
-            guard_ads(before, current, write_proof=write_proof)
+            if default_mode and any(before[aid]["ShoppingAd"].get("TextSources") is not None
+                                    or current[aid]["ShoppingAd"].get("TextSources") is not None for aid in TARGETS):
+                raise RuntimeError("Literal fallback requires TextSources=null to remain unchanged")
+            guard_ads(before, current, write_proof=write_proof, desired=desired_patch)
             guard_filters(current, plan["after"])
             if digest(parse_xml(ACTIVE_XML.read_bytes())) != plan["after_hash"]:
                 raise RuntimeError("Authorized feed version is not published in this checkout")
@@ -375,39 +396,39 @@ def run(mode, api=None, public=None, poll_attempts=1):
                     raise RuntimeError("Refresh URL change not confirmed; no retry performed")
                 report["mutations_verified"].append({"service": "feeds", "id": FID, "url": REFRESH_URL})
                 report["ads"] = after = get_ads(api)
-                guard_ads(current, after, allow_desired=False, write_proof=write_proof)
+                guard_ads(current, after, allow_desired=False, write_proof=write_proof, desired=desired_patch)
                 report["status"] = "feed_ready" if feed_ready(feed, baseline["feed"]) else "refresh_requested_waiting_processing"
             else:
                 for attempt in range(poll_attempts):
-                    if feed_ready(feed, baseline["feed"]):
+                    if feed_ready(feed, baseline["feed"], require_description=not default_mode):
                         break
                     if attempt + 1 < poll_attempts:
                         time.sleep(20)
                         report["feed"] = feed = get_feed(api)
-                if not feed_ready(feed, baseline["feed"]):
+                if not feed_ready(feed, baseline["feed"], require_description=not default_mode):
                     report["status"] = "waiting_feed_processing"
                 else:
-                    if mode == "apply":
+                    if mode in {"apply", "apply_default_text"}:
                         # Re-read after any processing wait before the first write.
                         report["ads"] = current = get_ads(api)
-                        guard_ads(before, current, write_proof=write_proof)
+                        guard_ads(before, current, write_proof=write_proof, desired=desired_patch)
                         for aid in TARGETS:
-                            guard_ads(before, current, write_proof=write_proof)
-                            if copy_fields(current[aid]) == DESIRED:
+                            guard_ads(before, current, write_proof=write_proof, desired=desired_patch)
+                            if copy_fields(current[aid], desired_patch) == desired_patch:
                                 continue
                             report["mutation_attempts"].append({"service": "ads", "method": "update", "id": aid})
                             write_proof.add(aid)
                             report["approved_copy_write_ids"] = sorted(write_proof)
                             save()
                             try:
-                                result = api("ads", "update", {"Ads": [{"Id": aid, "ShoppingAd": copy.deepcopy(DESIRED)}]})
+                                result = api("ads", "update", {"Ads": [{"Id": aid, "ShoppingAd": copy.deepcopy(desired_patch)}]})
                                 if not write_result_ok(result, "UpdateResults", [aid]):
                                     report.setdefault("write_response_warnings", []).append("Update response requires reconciliation: " + str(aid))
                             except Exception as error:
                                 report.setdefault("uncertain_write_responses", []).append({"id": aid, "error": clean(error)})
                             report["ads"] = current = get_ads(api)
-                            guard_ads(before, current, write_proof=write_proof)
-                            if copy_fields(current[aid]) != DESIRED:
+                            guard_ads(before, current, write_proof=write_proof, desired=desired_patch)
+                            if copy_fields(current[aid], desired_patch) != desired_patch:
                                 raise RuntimeError("Ad copy update not confirmed; no retry: " + str(aid))
                             report["mutations_verified"].append({"service": "ads", "id": aid})
                             save()
@@ -421,13 +442,17 @@ def run(mode, api=None, public=None, poll_attempts=1):
                             except Exception as error:
                                 report["moderation_response_error"] = clean(error)
                     report["ads"] = current = get_ads(api)
-                    guard_ads(before, current, write_proof=write_proof)
-                    desired = all(copy_fields(current[aid]) == DESIRED for aid in TARGETS)
+                    guard_ads(before, current, write_proof=write_proof, desired=desired_patch)
+                    copy_exact = all(copy_fields(current[aid], desired_patch) == desired_patch for aid in TARGETS)
                     live = all(current[aid].get("State") == "ON" and current[aid].get("Status") == "ACCEPTED"
                                and current[aid]["ShoppingAd"].get("FeedProcessingStatus") == "PROCESSED" for aid in TARGETS)
-                    report["copy_saved_exactly"] = desired
+                    report["copy_saved_exactly"] = copy_exact
                     report["unrelated_ad_fields_and_board_unchanged"] = True
-                    report["status"] = ("verified" if live else "copy_saved_pending_processing_or_moderation") if desired else "copy_not_applied"
+                    report["status"] = ("verified" if live else "copy_saved_pending_processing_or_moderation") if copy_exact else "copy_not_applied"
+                    if default_mode:
+                        report["default_text_saved_exactly"] = all(current[aid]["ShoppingAd"].get("DefaultTexts") == [TEXT] for aid in TARGETS)
+                        report["text_sources_preserved_null"] = all(current[aid]["ShoppingAd"].get("TextSources") is None for aid in TARGETS)
+                        report["status"] = ("verified_default_text_settings" if live else "default_text_saved_pending_processing_or_moderation") if copy_exact else "default_text_not_applied"
                     report["rendered_ad_preview_verified"] = False
     except Exception as error:
         report["errors"].append(clean(error))
