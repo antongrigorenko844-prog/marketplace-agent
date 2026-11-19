@@ -1,0 +1,33 @@
+name: direct-apply-sitelinks-safe
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/agent-requests/direct-apply-sitelinks-safe.txt'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Apply only approved sitelinks with live guards
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_apply_sitelinks_safe.py
+      - name: Save audit and backup
+        if: always()
+        run: |
+          if [ -f data/direct_sitelinks_apply_20261119.json ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/direct_sitelinks_apply_20261119.json
+            git diff --cached --quiet || (git commit -m "Record verified Direct sitelinks apply or failure" && git pull --rebase && git push)
+          fi
