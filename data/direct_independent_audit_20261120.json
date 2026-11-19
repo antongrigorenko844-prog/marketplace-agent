@@ -1,11 +1,11 @@
 {
   "audit_kind": "independent_read_only",
-  "started_at_utc": "2026-11-19T20:15:39.898128+00:00",
+  "started_at_utc": "2026-11-19T20:40:31.108066+00:00",
   "api_mutations": 0,
   "errors": [],
   "snapshots": {
     "campaigns": {
-      "at_utc": "2026-11-19T20:15:39.899623+00:00",
+      "at_utc": "2026-11-19T20:40:31.110094+00:00",
       "result": {
         "Campaigns": [
           {
@@ -264,7 +264,7 @@
       }
     },
     "adgroups": {
-      "at_utc": "2026-11-19T20:15:41.380028+00:00",
+      "at_utc": "2026-11-19T20:40:32.733663+00:00",
       "result": {
         "AdGroups": [
           {
@@ -367,7 +367,7 @@
       }
     },
     "keywords": {
-      "at_utc": "2026-11-19T20:15:42.273663+00:00",
+      "at_utc": "2026-11-19T20:40:33.820907+00:00",
       "result": {
         "Keywords": [
           {
@@ -3456,7 +3456,7 @@
       }
     },
     "ads": {
-      "at_utc": "2026-11-19T20:15:43.371629+00:00",
+      "at_utc": "2026-11-19T20:40:35.118557+00:00",
       "result": {
         "Ads": [
           {
@@ -3550,9 +3550,9 @@
             "Id": 1927493554789861877,
             "CampaignId": 716316525,
             "AdGroupId": 5828501772,
-            "Status": "MODERATION",
-            "State": "OFF",
-            "StatusClarification": "Awaiting moderation.",
+            "Status": "ACCEPTED",
+            "State": "ON",
+            "StatusClarification": "Campaign is in progress.",
             "Type": "RESPONSIVE_AD",
             "ResponsiveAd": {
               "Texts": [
@@ -3576,9 +3576,9 @@
             "Id": 1927493554789861878,
             "CampaignId": 716316525,
             "AdGroupId": 5828501773,
-            "Status": "MODERATION",
-            "State": "OFF",
-            "StatusClarification": "Awaiting moderation.",
+            "Status": "ACCEPTED",
+            "State": "ON",
+            "StatusClarification": "Campaign is in progress.",
             "Type": "RESPONSIVE_AD",
             "ResponsiveAd": {
               "Texts": [
@@ -3730,7 +3730,7 @@
       }
     },
     "sitelinks": {
-      "at_utc": "2026-11-19T20:15:44.622238+00:00",
+      "at_utc": "2026-11-19T20:40:36.610864+00:00",
       "result": {
         "SitelinksSets": [
           {
@@ -3760,7 +3760,7 @@
   "reports": {
     "queries": {
       "path": "data/direct_independent_queries_20261120.tsv",
-      "at_utc": "2026-11-19T20:16:03.038789+00:00",
+      "at_utc": "2026-11-19T20:40:54.189535+00:00",
       "fields": [
         "Date",
         "CampaignId",
@@ -11299,13 +11299,13 @@
           "AdGroupId": "5826183946",
           "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
           "AdId": "1927189770678081700",
-          "Query": "мехатроник DSG",
+          "Query": "мехатроник dsg",
           "CriterionType": "AUTOTARGETING",
           "CriterionId": "205826183946",
           "Criterion": "---autotargeting",
           "MatchedKeyword": "",
           "MatchType": "NONE",
-          "Impressions": "1",
+          "Impressions": "7",
           "Clicks": "0",
           "Cost": "0.00",
           "Conversions": "0"
@@ -11316,13 +11316,13 @@
           "AdGroupId": "5826183946",
           "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
           "AdId": "1927189770678081700",
-          "Query": "мехатроник dsg",
+          "Query": "мехатроник DSG",
           "CriterionType": "AUTOTARGETING",
           "CriterionId": "205826183946",
           "Criterion": "---autotargeting",
           "MatchedKeyword": "",
           "MatchType": "NONE",
-          "Impressions": "7",
+          "Impressions": "1",
           "Clicks": "0",
           "Cost": "0.00",
           "Conversions": "0"
@@ -26139,6 +26139,23 @@
           "CampaignId": "716316525",
           "AdGroupId": "5826171512",
           "AdGroupName": "DQ200 | Мехатроники без платы | Поиск",
+          "AdId": "1927186476439690942",
+          "Query": "запчасти на машину севастополь",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826171512",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "MatchType": "NONE",
+          "Impressions": "1",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        },
+        {
+          "Date": "2026-11-19",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826171512",
+          "AdGroupName": "DQ200 | Мехатроники без платы | Поиск",
           "AdId": "1927466195846975291",
           "Query": "как проверить фрикционы дсг мокрой",
           "CriterionType": "AUTOTARGETING",
@@ -26445,6 +26462,23 @@
           "CampaignId": "716316525",
           "AdGroupId": "5826171512",
           "AdGroupName": "DQ200 | Мехатроники без платы | Поиск",
+          "AdId": "1927466195846975291",
+          "Query": "разборка дсг 7",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826171512",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "MatchType": "NONE",
+          "Impressions": "1",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        },
+        {
+          "Date": "2026-11-19",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826171512",
+          "AdGroupName": "DQ200 | Мехатроники без платы | Поиск",
           "AdId": "1927186476439690942",
           "Query": "расположение соленоидов dq200",
           "CriterionType": "AUTOTARGETING",
@@ -26691,6 +26725,23 @@
           "MatchedKeyword": "",
           "MatchType": "NONE",
           "Impressions": "5",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        },
+        {
+          "Date": "2026-11-19",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826183946",
+          "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+          "AdId": "1927466206584354174",
+          "Query": "dq 200 коробка",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826183946",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "MatchType": "NONE",
+          "Impressions": "1",
           "Clicks": "0",
           "Cost": "0.00",
           "Conversions": "0"
@@ -27149,7 +27200,7 @@
           "Criterion": "---autotargeting",
           "MatchedKeyword": "",
           "MatchType": "NONE",
-          "Impressions": "3",
+          "Impressions": "4",
           "Clicks": "0",
           "Cost": "0.00",
           "Conversions": "0"
@@ -27201,6 +27252,23 @@
           "MatchedKeyword": "",
           "MatchType": "NONE",
           "Impressions": "2",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        },
+        {
+          "Date": "2026-11-19",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826183946",
+          "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+          "AdId": "1927189770678081700",
+          "Query": "dsg dq200 ресурс сцепления",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826183946",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "MatchType": "NONE",
+          "Impressions": "1",
           "Clicks": "0",
           "Cost": "0.00",
           "Conversions": "0"
@@ -27551,6 +27619,23 @@
           "AdGroupId": "5826183946",
           "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
           "AdId": "1927189770678081700",
+          "Query": "автомобильные запчасти",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826183946",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "MatchType": "NONE",
+          "Impressions": "1",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        },
+        {
+          "Date": "2026-11-19",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826183946",
+          "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+          "AdId": "1927189770678081700",
           "Query": "адаптация dq200 после какой замены масла необходима",
           "CriterionType": "AUTOTARGETING",
           "CriterionId": "205826183946",
@@ -27603,6 +27688,23 @@
           "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
           "AdId": "1927189770678081700",
           "Query": "база дром запчасти",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826183946",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "MatchType": "NONE",
+          "Impressions": "2",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        },
+        {
+          "Date": "2026-11-19",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826183946",
+          "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+          "AdId": "1927189770678081700",
+          "Query": "блок коробки передач",
           "CriterionType": "AUTOTARGETING",
           "CriterionId": "205826183946",
           "Criterion": "---autotargeting",
@@ -27773,6 +27875,23 @@
           "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
           "AdId": "1927189770678081700",
           "Query": "где стоит мехатроник",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826183946",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "MatchType": "NONE",
+          "Impressions": "1",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        },
+        {
+          "Date": "2026-11-19",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826183946",
+          "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+          "AdId": "1927189770678081700",
+          "Query": "гидроблок",
           "CriterionType": "AUTOTARGETING",
           "CriterionId": "205826183946",
           "Criterion": "---autotargeting",
@@ -28247,6 +28366,23 @@
           "CampaignId": "716316525",
           "AdGroupId": "5826183946",
           "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+          "AdId": "1927466206584354174",
+          "Query": "замена штоков мехатроника dsg 7 dq200",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826183946",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "MatchType": "NONE",
+          "Impressions": "2",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        },
+        {
+          "Date": "2026-11-19",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826183946",
+          "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
           "AdId": "1927189770678081700",
           "Query": "запасные части",
           "CriterionType": "AUTOTARGETING",
@@ -28255,6 +28391,23 @@
           "MatchedKeyword": "",
           "MatchType": "NONE",
           "Impressions": "5",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        },
+        {
+          "Date": "2026-11-19",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826183946",
+          "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+          "AdId": "1927189770678081700",
+          "Query": "запчасти авто от прямых поставщиков в россии",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826183946",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "MatchType": "NONE",
+          "Impressions": "1",
           "Clicks": "0",
           "Cost": "0.00",
           "Conversions": "0"
@@ -28452,6 +28605,23 @@
           "AdGroupId": "5826183946",
           "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
           "AdId": "1927189770678081700",
+          "Query": "запчасти на",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826183946",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "MatchType": "NONE",
+          "Impressions": "1",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        },
+        {
+          "Date": "2026-11-19",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826183946",
+          "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+          "AdId": "1927189770678081700",
           "Query": "запчасти на автомат коробки",
           "CriterionType": "AUTOTARGETING",
           "CriterionId": "205826183946",
@@ -28538,6 +28708,23 @@
           "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
           "AdId": "1927189770678081700",
           "Query": "как выглядит моторчик мехатроника",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826183946",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "MatchType": "NONE",
+          "Impressions": "2",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        },
+        {
+          "Date": "2026-11-19",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826183946",
+          "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+          "AdId": "1927189770678081700",
+          "Query": "как заказать запчасти по каталогу через интернет",
           "CriterionType": "AUTOTARGETING",
           "CriterionId": "205826183946",
           "Criterion": "---autotargeting",
@@ -29846,6 +30033,23 @@
           "AdGroupId": "5826183946",
           "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
           "AdId": "1927189770678081700",
+          "Query": "нет плавности переключения передач dq200",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826183946",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "MatchType": "NONE",
+          "Impressions": "1",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        },
+        {
+          "Date": "2026-11-19",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826183946",
+          "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+          "AdId": "1927189770678081700",
           "Query": "официальный представитель в россии автозапчасти",
           "CriterionType": "AUTOTARGETING",
           "CriterionId": "205826183946",
@@ -30202,6 +30406,23 @@
           "CampaignId": "716316525",
           "AdGroupId": "5826183946",
           "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+          "AdId": "1927466206584354174",
+          "Query": "разборка дсг 7",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826183946",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "MatchType": "NONE",
+          "Impressions": "1",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        },
+        {
+          "Date": "2026-11-19",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826183946",
+          "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
           "AdId": "1927189770678081700",
           "Query": "ремкомплект мехатроника dsg 7 dq200",
           "CriterionType": "AUTOTARGETING",
@@ -30476,6 +30697,40 @@
           "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
           "AdId": "1927189770678081700",
           "Query": "сайты запчасти для автомобилей рб",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826183946",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "MatchType": "NONE",
+          "Impressions": "2",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        },
+        {
+          "Date": "2026-11-19",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826183946",
+          "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+          "AdId": "1927189770678081700",
+          "Query": "самые продаваемые авто детали",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826183946",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "MatchType": "NONE",
+          "Impressions": "1",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        },
+        {
+          "Date": "2026-11-19",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826183946",
+          "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+          "AdId": "1927189770678081700",
+          "Query": "свалка автомобилей челябинск купить запчасти",
           "CriterionType": "AUTOTARGETING",
           "CriterionId": "205826183946",
           "Criterion": "---autotargeting",
@@ -30799,6 +31054,23 @@
           "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
           "AdId": "1927189770678081700",
           "Query": "усиленная плита мехатроника dq200",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826183946",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "MatchType": "NONE",
+          "Impressions": "1",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        },
+        {
+          "Date": "2026-11-19",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826183946",
+          "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+          "AdId": "1927466206584354174",
+          "Query": "усиленные штоки поршни dsg 7 отзывы",
           "CriterionType": "AUTOTARGETING",
           "CriterionId": "205826183946",
           "Criterion": "---autotargeting",
@@ -32173,7 +32445,7 @@
     },
     "criteria": {
       "path": "data/direct_independent_criteria_20261120.tsv",
-      "at_utc": "2026-11-19T20:16:12.755156+00:00",
+      "at_utc": "2026-11-19T20:41:04.502157+00:00",
       "fields": [
         "Date",
         "CampaignId",
@@ -32450,7 +32722,7 @@
           "CriterionType": "AUTOTARGETING",
           "CriterionId": "205826171512",
           "Criterion": "---autotargeting",
-          "Impressions": "67",
+          "Impressions": "69",
           "Clicks": "1",
           "Cost": "33.55",
           "Conversions": "0"
@@ -32478,7 +32750,7 @@
           "CriterionType": "AUTOTARGETING",
           "CriterionId": "205826183946",
           "Criterion": "---autotargeting",
-          "Impressions": "459",
+          "Impressions": "478",
           "Clicks": "23",
           "Cost": "634.69",
           "Conversions": "1"
@@ -32529,7 +32801,7 @@
     },
     "groups": {
       "path": "data/direct_independent_groups_20261120.tsv",
-      "at_utc": "2026-11-19T20:16:22.603979+00:00",
+      "at_utc": "2026-11-19T20:41:14.860340+00:00",
       "fields": [
         "Date",
         "CampaignId",
@@ -32647,7 +32919,7 @@
           "AdGroupId": "5826171512",
           "AdGroupName": "DQ200 | Мехатроники без платы | Поиск",
           "AdNetworkType": "SEARCH",
-          "Impressions": "68",
+          "Impressions": "70",
           "Clicks": "1",
           "Cost": "33.55",
           "Conversions": "0"
@@ -32658,7 +32930,7 @@
           "AdGroupId": "5826183946",
           "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
           "AdNetworkType": "SEARCH",
-          "Impressions": "459",
+          "Impressions": "478",
           "Clicks": "23",
           "Cost": "634.69",
           "Conversions": "1"
@@ -32683,7 +32955,7 @@
       "final_url": "https://leoparts-akpp.ru/mehatronik-dq200",
       "status": 200,
       "sha256": "ffde1e14c00c6bfe707fa8d279b7c3f83c557e3fd7848a656b285c5aaef5cb39",
-      "fetched_at_utc": "2026-11-19T20:15:48.714000+00:00",
+      "fetched_at_utc": "2026-11-19T20:40:40.772203+00:00",
       "title": "Мехатроник DSG7 DQ200 — с платой и без, по обмену | Leoparts",
       "anchors": {
         "bez-platy": true,
@@ -32697,7 +32969,7 @@
       "final_url": "https://leoparts-akpp.ru/catalog/tproduct/731536345633-vtulka-gilza-shtoka-mehatronika-dsg7-dq2",
       "status": 200,
       "sha256": "66ffb472f84f051a317ca4b1c13d52f5b6bfd124887ad349072bb61b6629586e",
-      "fetched_at_utc": "2026-11-19T20:15:50.697245+00:00",
+      "fetched_at_utc": "2026-11-19T20:40:42.022993+00:00",
       "title": "Втулка (гильза) штока мехатроника DSG7 DQ200 0AM325025D",
       "anchors": {
         "bez-platy": false,
@@ -32711,7 +32983,7 @@
       "final_url": "https://leoparts-akpp.ru/catalog/tproduct/838583326453-usilennaya-gidroplita-mehatronika-dsg7-d",
       "status": 200,
       "sha256": "8f0b80e76fd9a9a32a33d7f5bb4f39c8bb6f6cbdd27e579fe916fb92399e158f",
-      "fetched_at_utc": "2026-11-19T20:15:52.524833+00:00",
+      "fetched_at_utc": "2026-11-19T20:40:43.345581+00:00",
       "title": "Усиленная гидроплита мехатроника DSG7 DQ200 0AM325066AE",
       "anchors": {
         "bez-platy": false,
@@ -32728,7 +33000,7 @@
       "final_url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml?copy_rev=20261120_02",
       "status": 200,
       "sha256": "875bf777ab7aa937db2cf7bc7f841bed7ca2f4873eee39cbdcc71e0e715893b1",
-      "fetched_at_utc": "2026-11-19T20:15:46.993754+00:00",
+      "fetched_at_utc": "2026-11-19T20:40:39.620068+00:00",
       "offer_count": 12,
       "offers": [
         {
@@ -32918,6 +33190,6 @@
     "full_import_completed_utc": "2026-11-19T19:57:59.212926+00:00",
     "daily_granularity_cannot_split_import_day": true
   },
-  "finished_at_utc": "2026-11-19T20:16:22.647046+00:00",
+  "finished_at_utc": "2026-11-19T20:41:14.907648+00:00",
   "status": "complete"
 }
