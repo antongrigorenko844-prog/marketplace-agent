@@ -1,5 +1,14 @@
 {
   "campaign_id": 716316525,
+  "captured_at_utc": "2026-11-19T12:37:43.639969+00:00",
+  "workflow_commit": "0dc9cdb0bfd296423ef9943ca9d7b615c1041877",
+  "mode": "read_only",
+  "errors": [
+    {
+      "section": "landing",
+      "error": "HTTP Error 403: Forbidden"
+    }
+  ],
   "ads": [
     {
       "Id": 1927186476439690942,
@@ -7,7 +16,40 @@
       "AdGroupId": 5826171512,
       "Status": "ACCEPTED",
       "State": "ON",
-      "Type": "SHOPPING_AD"
+      "StatusClarification": "Идут показы.",
+      "Type": "SHOPPING_AD",
+      "ShoppingAd": {
+        "SitelinkSetId": null,
+        "SitelinksModeration": null,
+        "AdExtensions": [],
+        "BusinessId": null,
+        "FeedId": 4061297,
+        "FeedFilterConditions": {
+          "Items": [
+            {
+              "Operand": "price",
+              "Operator": "IN_RANGE",
+              "Arguments": [
+                "33500-38500"
+              ]
+            }
+          ]
+        },
+        "FeedProcessingStatus": "PROCESSED",
+        "TitleSources": {
+          "Items": [
+            "name"
+          ]
+        },
+        "TextSources": null,
+        "DefaultTexts": [],
+        "GenerationScopes": [
+          "OFFER"
+        ],
+        "ListingFeedFilterConditions": null,
+        "ListingTitleSources": null,
+        "ListingTextSources": null
+      }
     },
     {
       "Id": 1927189770678081700,
@@ -15,7 +57,37 @@
       "AdGroupId": 5826183946,
       "Status": "ACCEPTED",
       "State": "ON",
-      "Type": "SHOPPING_AD"
+      "StatusClarification": "Идут показы.",
+      "Type": "SHOPPING_AD",
+      "ShoppingAd": {
+        "SitelinkSetId": null,
+        "SitelinksModeration": null,
+        "AdExtensions": [],
+        "BusinessId": null,
+        "FeedId": 4061297,
+        "FeedFilterConditions": {
+          "Items": [
+            {
+              "Operand": "price",
+              "Operator": "IN_RANGE",
+              "Arguments": [
+                "60000-75000"
+              ]
+            }
+          ]
+        },
+        "FeedProcessingStatus": "PROCESSED",
+        "TitleSources": null,
+        "TextSources": null,
+        "DefaultTexts": [],
+        "GenerationScopes": [
+          "OFFER",
+          "LISTING"
+        ],
+        "ListingFeedFilterConditions": null,
+        "ListingTitleSources": null,
+        "ListingTextSources": null
+      }
     },
     {
       "Id": 1927190920657966611,
@@ -23,7 +95,37 @@
       "AdGroupId": 5826320196,
       "Status": "ACCEPTED",
       "State": "ON",
-      "Type": "SHOPPING_AD"
+      "StatusClarification": "Идут показы.",
+      "Type": "SHOPPING_AD",
+      "ShoppingAd": {
+        "SitelinkSetId": null,
+        "SitelinksModeration": null,
+        "AdExtensions": [],
+        "BusinessId": null,
+        "FeedId": 4061297,
+        "FeedFilterConditions": {
+          "Items": [
+            {
+              "Operand": "price",
+              "Operator": "IN_RANGE",
+              "Arguments": [
+                "39000-45000"
+              ]
+            }
+          ]
+        },
+        "FeedProcessingStatus": "PROCESSED",
+        "TitleSources": null,
+        "TextSources": null,
+        "DefaultTexts": [],
+        "GenerationScopes": [
+          "OFFER",
+          "LISTING"
+        ],
+        "ListingFeedFilterConditions": null,
+        "ListingTitleSources": null,
+        "ListingTextSources": null
+      }
     }
   ],
   "groups": [
@@ -36,7 +138,8 @@
         225,
         -11024,
         977
-      ]
+      ],
+      "NegativeKeywords": null
     },
     {
       "Id": 5826183946,
@@ -47,7 +150,8 @@
         225,
         -11024,
         977
-      ]
+      ],
+      "NegativeKeywords": null
     },
     {
       "Id": 5826320196,
@@ -58,8 +162,361 @@
         225,
         -11024,
         977
-      ]
+      ],
+      "NegativeKeywords": null
     }
   ],
-  "note": "Read-only snapshot. Shopping ad text can originate from product feed; do not edit product titles without source mapping."
+  "keywords": [
+    {
+      "Id": 58544149377,
+      "Keyword": "мехатроник dq200 без платы -купить -электронный -сбор",
+      "AdGroupId": 5826171512,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58544149378,
+      "Keyword": "мехатроник dsg7 без платы",
+      "AdGroupId": 5826171512,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58544149379,
+      "Keyword": "мехатроник 0am без платы",
+      "AdGroupId": 5826171512,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58544149380,
+      "Keyword": "мехатроник 0cw без платы",
+      "AdGroupId": 5826171512,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58544149381,
+      "Keyword": "купить мехатроник dq200 без платы",
+      "AdGroupId": 5826171512,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58544149382,
+      "Keyword": "мехатроник dq200 без электронной платы",
+      "AdGroupId": 5826171512,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58544149383,
+      "Keyword": "мехатроник dsg 7 без электронной платы",
+      "AdGroupId": 5826171512,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58544149384,
+      "Keyword": "мехатроник 0am325025h",
+      "AdGroupId": 5826171512,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58544149385,
+      "Keyword": "мехатроник 0am325025x",
+      "AdGroupId": 5826171512,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58544149386,
+      "Keyword": "0am325025h купить",
+      "AdGroupId": 5826171512,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58544149387,
+      "Keyword": "0am325025x купить",
+      "AdGroupId": 5826171512,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58544149388,
+      "Keyword": "мехатроник dq200 гидравлическая часть",
+      "AdGroupId": 5826171512,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58544149389,
+      "Keyword": "гидравлический блок мехатроника dq200",
+      "AdGroupId": 5826171512,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58544149390,
+      "Keyword": "мехатроник dq200 в сборе без платы",
+      "AdGroupId": 5826171512,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545151245,
+      "Keyword": "мехатроник dq200 с платой -электронный -купить -сбор",
+      "AdGroupId": 5826183946,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545151246,
+      "Keyword": "мехатроник dq200 с электронной платой",
+      "AdGroupId": 5826183946,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545151247,
+      "Keyword": "купить мехатроник dq200 с платой",
+      "AdGroupId": 5826183946,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545151248,
+      "Keyword": "мехатроник dsg7 с платой",
+      "AdGroupId": 5826183946,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545151249,
+      "Keyword": "мехатроник 0am с платой",
+      "AdGroupId": 5826183946,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545151250,
+      "Keyword": "мехатроник 0cw с платой",
+      "AdGroupId": 5826183946,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545151251,
+      "Keyword": "мехатроник dq200 в сборе с платой",
+      "AdGroupId": 5826183946,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545151252,
+      "Keyword": "мехатроник 0am325025hx",
+      "AdGroupId": 5826183946,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545151253,
+      "Keyword": "мехатроник 0am325025hxe",
+      "AdGroupId": 5826183946,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545151254,
+      "Keyword": "мехатроник 0am325025hxf",
+      "AdGroupId": 5826183946,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545151255,
+      "Keyword": "мехатроник 0am325025hxg",
+      "AdGroupId": 5826183946,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545151256,
+      "Keyword": "мехатроник 0am325025hxk",
+      "AdGroupId": 5826183946,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545169890,
+      "Keyword": "плата мехатроника dq200 -электронный -купить",
+      "AdGroupId": 5826320196,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545169891,
+      "Keyword": "электронная плата мехатроника dq200",
+      "AdGroupId": 5826320196,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545169892,
+      "Keyword": "купить плату мехатроника dq200",
+      "AdGroupId": 5826320196,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545169893,
+      "Keyword": "плата управления dq200",
+      "AdGroupId": 5826320196,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545169894,
+      "Keyword": "плата мехатроника dsg7",
+      "AdGroupId": 5826320196,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545169895,
+      "Keyword": "плата мехатроника 0am",
+      "AdGroupId": 5826320196,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545169896,
+      "Keyword": "плата мехатроника 0cw",
+      "AdGroupId": 5826320196,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545169897,
+      "Keyword": "блок управления мехатроника dq200",
+      "AdGroupId": 5826320196,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545169898,
+      "Keyword": "плата 0am927769d",
+      "AdGroupId": 5826320196,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545169899,
+      "Keyword": "плата 0am927769e",
+      "AdGroupId": 5826320196,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545169900,
+      "Keyword": "плата 0am927769f",
+      "AdGroupId": 5826320196,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545169901,
+      "Keyword": "плата 0am927769g",
+      "AdGroupId": 5826320196,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 58545169902,
+      "Keyword": "плата 0am927769k",
+      "AdGroupId": 5826320196,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 205826171512,
+      "Keyword": "---autotargeting",
+      "AdGroupId": 5826171512,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 205826183946,
+      "Keyword": "---autotargeting",
+      "AdGroupId": 5826183946,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    },
+    {
+      "Id": 205826320196,
+      "Keyword": "---autotargeting",
+      "AdGroupId": 5826320196,
+      "CampaignId": 716316525,
+      "State": "ON",
+      "Status": "ACCEPTED"
+    }
+  ],
+  "feeds": [
+    {
+      "Id": 4061297,
+      "Name": "Leoparts DQ200 — проверка.",
+      "SourceType": "URL",
+      "UpdatedAt": "2026-11-19T11:03:24",
+      "NumberOfItems": 12,
+      "Status": "DONE",
+      "TitleAndTextSources": {
+        "Items": [
+          "name"
+        ]
+      }
+    }
+  ]
 }
