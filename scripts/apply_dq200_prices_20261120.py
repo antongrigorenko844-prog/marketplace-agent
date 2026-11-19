@@ -57,7 +57,7 @@ def read_book(path, sheet, sku_col, price_cols):
         raise RuntimeError('target SKU missing from workbook')
     return result
 
-def fetch_site_records():
+def fetch_site_records(edition_price_baseline=None):
     import site_links
     parts = set()
     recids = set()
@@ -96,7 +96,20 @@ def fetch_site_records():
         result[sku] = {key: p.get(key) for key in ('uid', 'sku', 'externalid', 'external_id', 'title', 'price', 'priceold', 'quantity', 'inv', 'url', 'descr', 'text', 'gallery', 'editions') if key in p}
         result[sku]['response_keys'] = sorted(p)
     stable_fields = ('sku', 'externalid', 'external_id', 'title', 'descr', 'text', 'gallery', 'editions', 'quantity', 'inv', 'partuids', 'characteristics', 'json_options', 'pack_label', 'pack_m', 'pack_x', 'pack_y', 'pack_z', 'unit', 'url', 'priceold')
-    all_prices = {uid: {'sku': p.get('sku'), 'price': p.get('price'), 'non_price_sha256': digest(json.dumps({k: p.get(k) for k in stable_fields}, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode())} for uid, p in products.items()}
+    all_prices = {}
+    for uid, p in products.items():
+        projection = {k: p.get(k) for k in stable_fields}
+        row = {'sku': p.get('sku'), 'price': p.get('price'), 'non_price_sha256': digest(json.dumps(projection, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode())}
+        sku = str(p.get('sku') or '')
+        if edition_price_baseline and sku in TARGETS:
+            original_editions = {str(x.get('uid')): x for x in edition_price_baseline[sku].get('editions', [])}
+            normalized = json.loads(json.dumps(projection))
+            for edition in normalized.get('editions') or []:
+                old = original_editions.get(str(edition.get('uid')))
+                if old is not None and edition.get('sku') == old.get('sku') == sku and float(edition.get('price') or 0) == NEW_PRICE:
+                    edition['price'] = old.get('price')
+            row['non_price_sha256_with_baseline_edition_prices'] = digest(json.dumps(normalized, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode())
+        all_prices[uid] = row
     return {'checked_at_utc': now(), 'product_count': len(products), 'store_parts': sorted(parts), 'targets': result, 'all_prices': all_prices}
 
 def avito_preflight():
@@ -445,7 +458,8 @@ def verified_site_delta(before, after):
     unexpected = []
     for uid, old in before['all_prices'].items():
         new = after['all_prices'][uid]
-        if old.get('non_price_sha256') != new.get('non_price_sha256'):
+        new_nonprice = new.get('non_price_sha256_with_baseline_edition_prices', new.get('non_price_sha256'))
+        if old.get('non_price_sha256') != new_nonprice:
             raise RuntimeError('Site non-price data changed during operation: ' + str(old['sku']))
         if uid not in wanted_uids and float(old['price'] or 0) != float(new['price'] or 0):
             unexpected.append(old['sku'])
@@ -456,6 +470,14 @@ def verified_site_delta(before, after):
         if float(after['targets'][sku]['price']) != expected:
             return False
         for field in ('uid', 'sku', 'externalid', 'title', 'priceold', 'descr', 'text', 'gallery', 'editions', 'quantity', 'inv'):
+            if field == 'editions' and sku in TARGETS:
+                old_editions = before['targets'][sku].get(field) or []
+                new_editions = after['targets'][sku].get(field) or []
+                if [{k: v for k, v in x.items() if k != 'price'} for x in old_editions] != [{k: v for k, v in x.items() if k != 'price'} for x in new_editions]:
+                    raise RuntimeError('Non-price edition data changed: ' + sku)
+                if not all(float(x.get('price') or 0) == NEW_PRICE for x in new_editions):
+                    return False
+                continue
             if before['targets'][sku].get(field) != after['targets'][sku].get(field):
                 raise RuntimeError('Unrelated target product field changed: ' + sku + '/' + field)
     return True
@@ -520,7 +542,7 @@ def apply_prices():
         publish_tilda_prices(before_site, report)
         site_ok = False
         for attempt in range(6):
-            after_site = fetch_site_records()
+            after_site = fetch_site_records(edition_price_baseline=before_site['targets'])
             report['site_after'] = after_site
             if verified_site_delta(before_site, after_site):
                 site_ok = True
@@ -554,7 +576,7 @@ def verify_prices():
     report = {'mode': 'verify', 'started_at_utc': now(), 'external_mutations': [], 'errors': []}
     try:
         original = json.loads((ROOT / 'data/dq200_price_apply_20261120.json').read_text())
-        after_site = fetch_site_records()
+        after_site = fetch_site_records(edition_price_baseline=original['site_before']['targets'])
         report['site'] = after_site
         report['site_verified'] = verified_site_delta(original['site_before'], after_site)
         after_avito = avito_preflight()
