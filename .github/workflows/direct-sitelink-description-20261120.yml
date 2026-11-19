@@ -1,0 +1,37 @@
+name: direct-sitelink-description-20261120
+on:
+  push:
+    branches: [main]
+    paths: ['.github/agent-requests/direct-sitelink-description-20261120.txt']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  replace-description:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Save and verify approved first-link description
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_sitelink_description_20261120.py
+      - name: Save only this operation's report and journal
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for report in data/direct_sitelink_description_apply_20261120.json data/direct_sitelink_description_check_20261120.json data/direct_sitelink_description_journal_20261120.json; do
+            if [ -f "$report" ]; then git add -- "$report"; fi
+          done
+          if ! git diff --cached --quiet; then
+            git commit -m "Record verified first sitelink description update [skip ci]"
+            git pull --rebase
+            git push
+          fi
