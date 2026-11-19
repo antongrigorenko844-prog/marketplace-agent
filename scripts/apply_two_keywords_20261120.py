@@ -94,6 +94,26 @@ def stable(value):
     return value
 
 
+def source_projection(actual, expected, path="object"):
+    """Compare requested source fields; retain strict presence/list structure.
+
+    This is used only for the historical initial comparison. The fresh journal
+    and every later readback still compare all fields returned by the new GET.
+    """
+    if isinstance(expected, dict):
+        if not isinstance(actual, dict):
+            raise RuntimeError("Expected object missing at " + path)
+        missing = sorted(set(expected) - set(actual))
+        if missing:
+            raise RuntimeError("Expected source fields missing at " + path + ": " + ",".join(missing))
+        return {k: source_projection(actual[k], v, path + "." + k) for k, v in expected.items()}
+    if isinstance(expected, list):
+        if not isinstance(actual, list) or len(actual) != len(expected):
+            raise RuntimeError("Source list structure changed at " + path)
+        return [source_projection(a, e, path + "[" + str(i) + "]") for i, (a, e) in enumerate(zip(actual, expected))]
+    return actual
+
+
 def by_id(rows):
     result = {r["Id"]: r for r in rows}
     if len(result) != len(rows) or any(type(k) is not int for k in result):
@@ -274,12 +294,20 @@ def initial_guard(snap, plan, source):
         current, previous = by_id(snap[key]), by_id(source[src_key])
         if set(current) != set(previous):
             raise RuntimeError("Initial object IDs changed: " + key)
+        service = {"groups": "adgroups", "ads": "ads", "keywords": "keywords"}[key]
+        requested = next(r["params"] for r in plan["preflight_read_only_requests"] if r["endpoint"] == BASE + service)
+        source_fields = set(requested["FieldNames"])
+        if key == "ads":
+            source_fields.update(name for name in ("ShoppingAd", "ResponsiveAd") if name + "FieldNames" in requested)
+        if key == "keywords" and "AutotargetingSettingsCategoriesFieldNames" in requested:
+            source_fields.add("AutotargetingSettings")
         for ident, old in previous.items():
-            # Only fields actually requested by the verified read-only schema.
-            expected = {k: v for k, v in old.items() if k in current[ident]}
-            actual = {k: current[ident][k] for k in expected}
-            if stable(actual) != stable(expected):
-                changed = sorted(k for k in expected if stable(actual.get(k)) != stable(expected.get(k)))
+            # Extra nested fields from the expanded GET are not historical changes.
+            # Expected requested fields must exist; absence is never silently ignored.
+            expected = stable({k: v for k, v in old.items() if k in source_fields})
+            actual = source_projection(stable(current[ident]), expected, key + "/" + str(ident))
+            if actual != expected:
+                changed = sorted(k for k in expected if actual[k] != expected[k])
                 raise RuntimeError("Initial existing object changed: " + key + "/" + str(ident) + "; fields=" + ",".join(changed))
     manual = [k for k in snap["keywords"] if k["Keyword"] != "---autotargeting"]
     if (len(manual), len(snap["keywords"]) - len(manual), len(snap["groups"]), len(snap["ads"])) != (39, 3, 3, 5):
