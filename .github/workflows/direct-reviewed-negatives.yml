@@ -1,0 +1,38 @@
+name: direct-reviewed-negatives
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/agent-requests/direct-reviewed-negatives.txt'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  append-reviewed-negatives:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Append only the nine approved quoted phrases
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_reviewed_negatives.py --apply
+      - name: Save the exact apply report
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -f data/direct_reviewed_negatives_apply_20261119.json ]; then
+            git add -- data/direct_reviewed_negatives_apply_20261119.json
+          fi
+          if ! git diff --cached --quiet; then
+            git commit -m "Record nine approved quoted Direct negatives and verification"
+            git pull --rebase
+            git push
+          fi
