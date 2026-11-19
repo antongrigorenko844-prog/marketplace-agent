@@ -6,42 +6,10 @@ from pathlib import Path
 
 CAMPAIGN_ID = 716316525
 EXPECTED_NAME = "Leoparts | DQ200 | Товарная ЕПК | Поиск | Тест"
-NEW = [
-    "купить коробку dsg7",
-    "купить коробку dsg 7",
-    "купить коробку дсг7",
-    "купить коробку дсг 7",
-    "купить кпп dq200",
-    "купить кпп дк200",
-    "купить коробку dq200",
-    "купить коробку дк200",
-    "коробка dsg7 в сборе",
-    "коробка dsg 7 в сборе",
-    "коробка дсг7 в сборе",
-    "коробка дсг 7 в сборе",
-    "коробка dq200 в сборе",
-    "коробка дк200 в сборе",
-    "коробка передач целиком",
-    "кпп dq200 в сборе",
-    "кпп дк200 в сборе",
-    "контрактная коробка dq200",
-    "контрактная кпп dsg7",
-    "коробка dsg7 бу",
-    "коробка дсг7 бу",
-    "сколько стоит коробка дсг7",
-    "сколько стоит коробка dsg7",
-    "цена коробки dq200",
-    "стоимость кпп dsg7",
-    "замена коробки dsg7 цена",
-    "ремонт кпп dq200 под ключ",
-    "что такое коробка dsg",
-    "что такое коробка дсг",
-    "коробка dsg что это такое",
-    "коробка дсг что это такое",
-    "на какие машины подходит мехатроник",
-    "на какие автомобили подходит мехатроник",
-    "куда ставится мехатроник"
-]
+# SAFETY LOCK: 34 broad negative phrases were rolled back after overlap audit.
+# This legacy script is intentionally disabled; never reapply them by accident.
+raise SystemExit("SAFETY LOCK: legacy negative keyword script disabled; 34 broad phrases were rolled back. Use a new reviewed plan.")
+
 API = "https://api.direct.yandex.com/json/v5/campaigns"
 HEADERS = {"Authorization":"Bearer "+os.environ["YANDEX_DIRECT_TOKEN"],
            "Content-Type":"application/json; charset=utf-8", "Accept-Language":"ru"}
