@@ -2,12 +2,12 @@
   "schema_version": 1,
   "created_on_local_date": "2026-11-20",
   "timezone": "Asia/Shanghai",
-  "status": "prepared_content_awaiting_product_inputs",
+  "status": "canonical_prices_and_approved_media_saved_pending_logistics",
   "publication_authorized_by_user": true,
   "publication_ready": false,
   "non_executable_draft": true,
   "canonical_master_target": "data/master_control.xlsx",
-  "pricing_rule": "Use the existing master/channel price policy once commercial inputs are available; do not derive retail prices from order quantities or substitute nulls with zero.",
+  "pricing_rule": "Explicit owner-approved channel prices in data/master_control.xlsx and fixed Avito/site rows in data/avito_site_price_overrides.xlsx. Never recalculate these two site/Avito prices from marketplace percentages.",
   "visible_brand": null,
   "latest_user_constraints": [
     "No LEOPARTS wordmark or brand text",
@@ -173,21 +173,32 @@
         ]
       },
       "commercial_inputs": {
-        "base_selling_price_rub": null,
+        "base_selling_price_rub": 38800,
         "available_sets": null,
         "packed_weight_g": null,
         "package_length_mm": null,
         "package_width_mm": null,
-        "package_height_mm": null
+        "package_height_mm": null,
+        "prices_rub": {
+          "ozon": 38800,
+          "wildberries": 38800,
+          "yandex_market": 38800,
+          "site": 24800,
+          "avito": 24800
+        },
+        "site_avito_price_fixed": true,
+        "price_authority": "owner message 2026-11-20; canonical master and fixed channel-price workbook"
       },
       "manufacturer_brand": null,
       "exact_kit_contents": null,
       "rated_working_pressure": null,
       "media": {
-        "status": "preview_from_supplier_thumbnail; original_product_photos_needed",
+        "status": "approved_assets_persisted_in_repository",
         "cover_ready_as_layout": true,
         "cover_verified_as_product_photograph": false,
-        "public_media_urls": [],
+        "public_media_urls": [
+          "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/drafts/new-products/dsg-tools-20261120/media/tool-dq200-acc-restore_cover_20261120.png"
+        ],
         "cover_layout": {
           "title": "Набор для восстановления гидроаккумулятора DSG7 DQ200",
           "visible_brand": null,
@@ -199,8 +210,21 @@
           "inset_caption": "Объект восстановления",
           "arrow_direction": "tool kit to accumulator",
           "accumulator_photo_source": "User-supplied photo_2026-11-20 05.57.23.jpeg",
-          "status": "layout generated; actual kit photo and commercial inputs still required"
-        }
+          "status": "user approved for publication"
+        },
+        "approved_for_publication_by_user": true,
+        "approval_date": "2026-11-20",
+        "repo_assets": [
+          {
+            "key": "restore",
+            "filename": "tool-dq200-acc-restore_cover_20261120.png",
+            "role": "cover",
+            "path": "drafts/new-products/dsg-tools-20261120/media/tool-dq200-acc-restore_cover_20261120.png",
+            "sha256": "0ba3a8ae0243d57f58f18ef2fdc12c942fc976ca150978e0b2f386835a3841c9",
+            "size": 1731239
+          }
+        ],
+        "generated_graphic_provenance": "Approved graphics derived from user-supplied product references; not a raw unedited product photograph"
       },
       "category_selection": {
         "ozon": null,
@@ -237,8 +261,6 @@
         }
       },
       "publication_blockers": [
-        "original_product_photos_and_kit_verification",
-        "selling_price_or_pricing_input",
         "sellable_stock",
         "actual_package_weight_and_dimensions",
         "correct_tool_category_and_required_attributes"
@@ -430,21 +452,33 @@
         ]
       },
       "commercial_inputs": {
-        "base_selling_price_rub": null,
+        "base_selling_price_rub": 28800,
         "available_sets": null,
         "packed_weight_g": null,
         "package_length_mm": null,
         "package_width_mm": null,
-        "package_height_mm": null
+        "package_height_mm": null,
+        "prices_rub": {
+          "ozon": 28800,
+          "wildberries": 28800,
+          "yandex_market": 28800,
+          "site": 18800,
+          "avito": 18800
+        },
+        "site_avito_price_fixed": true,
+        "price_authority": "owner message 2026-11-20; canonical master and fixed channel-price workbook"
       },
       "manufacturer_brand": null,
       "exact_kit_contents": null,
       "rated_working_pressure": null,
       "media": {
-        "status": "preview_from_supplier_thumbnail; original_product_photos_needed",
+        "status": "approved_assets_persisted_in_repository",
         "cover_ready_as_layout": true,
         "cover_verified_as_product_photograph": false,
-        "public_media_urls": [],
+        "public_media_urls": [
+          "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/drafts/new-products/dsg-tools-20261120/media/tool-dsg-pressure-hp_cover_20261120.png",
+          "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/drafts/new-products/dsg-tools-20261120/media/tool-dsg-pressure-hp_application_20261120.png"
+        ],
         "application_example": {
           "role": "Пример подключения",
           "headline_lines": [
@@ -464,7 +498,7 @@
           ],
           "visible_brand": null,
           "source_photo": "photo_2026-11-20 06.02.57.jpeg",
-          "generation_status": "generated_preview",
+          "generation_status": "user approved for publication",
           "evidence_scope": "Illustrated application example only; its regulator differs visually from the red/blue gauge on the kit cover. Does not establish kit contents or rated pressure.",
           "slide": 2
         },
@@ -479,7 +513,28 @@
             "pinyin": "jiācháng qìguǎn shǐyòng gèng fāngbiàn",
             "russian": "Удлинённый воздушный шланг — удобнее пользоваться"
           }
-        ]
+        ],
+        "approved_for_publication_by_user": true,
+        "approval_date": "2026-11-20",
+        "repo_assets": [
+          {
+            "key": "pressure",
+            "filename": "tool-dsg-pressure-hp_cover_20261120.png",
+            "role": "cover",
+            "path": "drafts/new-products/dsg-tools-20261120/media/tool-dsg-pressure-hp_cover_20261120.png",
+            "sha256": "ed59977ea06c70e9b27d80c19e4868b962e8c57f8c22c7d88e9edb4af0713d45",
+            "size": 1695406
+          },
+          {
+            "key": "application",
+            "filename": "tool-dsg-pressure-hp_application_20261120.png",
+            "role": "application_example",
+            "path": "drafts/new-products/dsg-tools-20261120/media/tool-dsg-pressure-hp_application_20261120.png",
+            "sha256": "0e8d01b2ef73bb4d842599d922ee6f4ad4e21caadff5083f01a0d9abaf9094af",
+            "size": 1797729
+          }
+        ],
+        "generated_graphic_provenance": "Approved graphics derived from user-supplied product references; not a raw unedited product photograph"
       },
       "category_selection": {
         "ozon": null,
@@ -516,8 +571,6 @@
         }
       },
       "publication_blockers": [
-        "original_product_photos_and_kit_verification",
-        "selling_price_or_pricing_input",
         "sellable_stock",
         "actual_package_weight_and_dimensions",
         "correct_tool_category_and_required_attributes"
@@ -538,5 +591,12 @@
         "Розничная цена, фактический остаток и условия доставки"
       ]
     }
-  ]
+  ],
+  "updated_on_local_date": "2026-11-20",
+  "user_price_authorization": {
+    "date": "2026-11-20",
+    "text": "все выкладывай",
+    "currency": "RUB"
+  },
+  "canonical_saved": true
 }
