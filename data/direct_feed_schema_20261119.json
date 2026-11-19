@@ -1,0 +1,459 @@
+{
+  "status": "complete",
+  "mode": "read_only",
+  "captured_at_utc": "2026-11-19T15:37:17.814474+00:00",
+  "workflow_commit": "32101bbeebc5cf684d2c199bbd1b23f534e83ab7",
+  "feed_id_context": 4061297,
+  "endpoint": "https://api.direct.yandex.com/json/v501/dictionaries",
+  "request": {
+    "method": "get",
+    "params": {
+      "DictionaryNames": [
+        "FilterSchemas"
+      ]
+    }
+  },
+  "schema_name": "PerformanceDefault",
+  "errors": [],
+  "schema": {
+    "Name": "PerformanceDefault",
+    "Fields": [
+      {
+        "Name": "adult",
+        "Type": "Enum",
+        "Operators": [
+          {
+            "MaxItems": 1,
+            "Type": "EQUALS_ANY"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "EXISTS"
+          }
+        ]
+      },
+      {
+        "Name": "age",
+        "Type": "Enum",
+        "Operators": [
+          {
+            "MaxItems": 1,
+            "Type": "EQUALS_ANY"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "EXISTS"
+          }
+        ]
+      },
+      {
+        "Name": "available",
+        "Type": "Enum",
+        "Operators": [
+          {
+            "MaxItems": 1,
+            "Type": "EQUALS_ANY"
+          }
+        ]
+      },
+      {
+        "Name": "categoryId",
+        "Type": "Number",
+        "Operators": [
+          {
+            "MaxItems": 20000,
+            "Type": "EQUALS_ANY"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "GREATER_THAN"
+          },
+          {
+            "MaxItems": 10,
+            "Type": "IN_RANGE"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "LESS_THAN"
+          }
+        ]
+      },
+      {
+        "Name": "collectionId",
+        "Type": "String",
+        "Operators": [
+          {
+            "MaxItems": 20000,
+            "Type": "EQUALS_ANY"
+          }
+        ]
+      },
+      {
+        "Name": "custom_label_0",
+        "Type": "String",
+        "Operators": [
+          {
+            "MaxItems": 100,
+            "Type": "CONTAINS_ANY"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "EQUALS_ANY"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "NOT_CONTAINS_ALL"
+          }
+        ]
+      },
+      {
+        "Name": "custom_label_1",
+        "Type": "String",
+        "Operators": [
+          {
+            "MaxItems": 100,
+            "Type": "CONTAINS_ANY"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "EQUALS_ANY"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "NOT_CONTAINS_ALL"
+          }
+        ]
+      },
+      {
+        "Name": "custom_label_2",
+        "Type": "String",
+        "Operators": [
+          {
+            "MaxItems": 100,
+            "Type": "CONTAINS_ANY"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "EQUALS_ANY"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "NOT_CONTAINS_ALL"
+          }
+        ]
+      },
+      {
+        "Name": "custom_label_3",
+        "Type": "String",
+        "Operators": [
+          {
+            "MaxItems": 100,
+            "Type": "CONTAINS_ANY"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "EQUALS_ANY"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "NOT_CONTAINS_ALL"
+          }
+        ]
+      },
+      {
+        "Name": "custom_label_4",
+        "Type": "String",
+        "Operators": [
+          {
+            "MaxItems": 100,
+            "Type": "CONTAINS_ANY"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "EQUALS_ANY"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "NOT_CONTAINS_ALL"
+          }
+        ]
+      },
+      {
+        "Name": "custom_score",
+        "Type": "Number",
+        "Operators": [
+          {
+            "MaxItems": 100,
+            "Type": "EQUALS_ANY"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "GREATER_THAN"
+          },
+          {
+            "MaxItems": 10,
+            "Type": "IN_RANGE"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "LESS_THAN"
+          }
+        ]
+      },
+      {
+        "Name": "description",
+        "Type": "String",
+        "Operators": [
+          {
+            "MaxItems": 100,
+            "Type": "CONTAINS_ANY"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "NOT_CONTAINS_ALL"
+          }
+        ]
+      },
+      {
+        "Name": "id",
+        "Type": "Number",
+        "Operators": [
+          {
+            "MaxItems": 100,
+            "Type": "EQUALS_ANY"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "GREATER_THAN"
+          },
+          {
+            "MaxItems": 10,
+            "Type": "IN_RANGE"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "LESS_THAN"
+          }
+        ]
+      },
+      {
+        "Name": "manufacturer_warranty",
+        "Type": "Enum",
+        "Operators": [
+          {
+            "MaxItems": 1,
+            "Type": "EQUALS_ANY"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "EXISTS"
+          }
+        ]
+      },
+      {
+        "Name": "market_category",
+        "Type": "String",
+        "Operators": [
+          {
+            "MaxItems": 100,
+            "Type": "CONTAINS_ANY"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "EXISTS"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "NOT_CONTAINS_ALL"
+          }
+        ]
+      },
+      {
+        "Name": "model",
+        "Type": "String",
+        "Operators": [
+          {
+            "MaxItems": 100,
+            "Type": "CONTAINS_ANY"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "NOT_CONTAINS_ALL"
+          }
+        ]
+      },
+      {
+        "Name": "name",
+        "Type": "String",
+        "Operators": [
+          {
+            "MaxItems": 100,
+            "Type": "CONTAINS_ANY"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "NOT_CONTAINS_ALL"
+          }
+        ]
+      },
+      {
+        "Name": "oldprice",
+        "Type": "Number",
+        "Operators": [
+          {
+            "MaxItems": 100,
+            "Type": "EQUALS_ANY"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "EXISTS"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "GREATER_THAN"
+          },
+          {
+            "MaxItems": 10,
+            "Type": "IN_RANGE"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "LESS_THAN"
+          }
+        ]
+      },
+      {
+        "Name": "pickup",
+        "Type": "Enum",
+        "Operators": [
+          {
+            "MaxItems": 1,
+            "Type": "EQUALS_ANY"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "EXISTS"
+          }
+        ]
+      },
+      {
+        "Name": "price",
+        "Type": "Number",
+        "Operators": [
+          {
+            "MaxItems": 100,
+            "Type": "EQUALS_ANY"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "EXISTS"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "GREATER_THAN"
+          },
+          {
+            "MaxItems": 10,
+            "Type": "IN_RANGE"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "LESS_THAN"
+          }
+        ]
+      },
+      {
+        "Name": "store",
+        "Type": "Enum",
+        "Operators": [
+          {
+            "MaxItems": 1,
+            "Type": "EQUALS_ANY"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "EXISTS"
+          }
+        ]
+      },
+      {
+        "Name": "typePrefix",
+        "Type": "String",
+        "Operators": [
+          {
+            "MaxItems": 100,
+            "Type": "CONTAINS_ANY"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "EXISTS"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "NOT_CONTAINS_ALL"
+          }
+        ]
+      },
+      {
+        "Name": "url",
+        "Type": "String",
+        "Operators": [
+          {
+            "MaxItems": 100,
+            "Type": "CONTAINS_ANY"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "EQUALS_ANY"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "NOT_CONTAINS_ALL"
+          }
+        ]
+      },
+      {
+        "Name": "vendor",
+        "Type": "String",
+        "Operators": [
+          {
+            "MaxItems": 100,
+            "Type": "CONTAINS_ANY"
+          },
+          {
+            "MaxItems": 1,
+            "Type": "EXISTS"
+          },
+          {
+            "MaxItems": 100,
+            "Type": "NOT_CONTAINS_ALL"
+          }
+        ]
+      }
+    ]
+  },
+  "category_id_equals_any_supported": true,
+  "category_id_field": {
+    "Name": "categoryId",
+    "Type": "Number",
+    "Operators": [
+      {
+        "MaxItems": 20000,
+        "Type": "EQUALS_ANY"
+      },
+      {
+        "MaxItems": 1,
+        "Type": "GREATER_THAN"
+      },
+      {
+        "MaxItems": 10,
+        "Type": "IN_RANGE"
+      },
+      {
+        "MaxItems": 1,
+        "Type": "LESS_THAN"
+      }
+    ]
+  },
+  "finished_at_utc": "2026-11-19T15:37:19.508159+00:00"
+}
