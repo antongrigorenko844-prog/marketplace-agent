@@ -1,0 +1,97 @@
+{
+  "status": "PASS_WITH_N021_OMITTED",
+  "campaign_id": 716316525,
+  "scope": "Independent final semantic review of exactly 92 proposed additions and 2 approved removals. No live writes; original files not modified.",
+  "reviewed_json": "/workspace/scratch/c968f725ab31/direct_work/direct_mass_negative_proposal_final_20261119.json",
+  "reviewed_json_sha256": "8522987370ace8a6230f340884b7e68b7a873b57d481cdee77dca362c72a0727",
+  "reviewed_txt": "/workspace/scratch/c968f725ab31/direct_work/LEOPARTS_Direct_92_Proposed_Negatives_20261119.txt",
+  "reviewed_txt_sha256": "f8d4204ceb8d44a4b78f8ffa6916bb40af7d74402de2898dfcb20274d7ea9844",
+  "source_snapshot_utc": "2026-11-19T15:41:39.794008+00:00",
+  "mandatory_narrowings": [
+    {
+      "id": "N021",
+      "before": "мехатроника поступление",
+      "after": null,
+      "reason": "Без уточнения учебного заведения слово «поступление» означает также поступление товара на склад. Мехатроника/мехатроников — допустимые формы товара.",
+      "plausible_commercial_counterexample": "новое поступление мехатроников dq200",
+      "counterexample_observed": false,
+      "observed_cost_rub": null,
+      "result": "Фраза полностью исключена из применения без замены; защищён товарный смысл поступления на склад.",
+      "original_alternative_not_used": "поступление +в вуз мехатроника"
+    }
+  ],
+  "other_additions_semantic_verdict": "PASS: remaining 91. Specific jobs/education, workshop equipment, household electronics, software files, complete-vehicle shopping, website creation and quoted service-only requests. No new broad repair/board/diagnostics/DIY/model exclusions.",
+  "operator_checks": {
+    "json_txt_same_order_and_content": true,
+    "count": 92,
+    "unique_literal": 92,
+    "maximum_word_count_before_narrowing": 6,
+    "all_quotes_ascii_and_balanced": true,
+    "literal_duplicates_with_current": [],
+    "word_order_token_duplicates": []
+  },
+  "source_query_checks": {
+    "source_rows": 1571,
+    "clicked_unique_queries_reviewed": 84,
+    "all_goal_query_names": [
+      "коробка робот замена",
+      "купить коробку дсг 7 dq200",
+      "плата мехатроника dq200 dsg 7 с ручным стояночным тормозом",
+      "ремонт мехатроника сервисы"
+    ],
+    "protected_query_count": 40,
+    "literal_paid_query_collisions": [],
+    "literal_goal_query_collisions": [],
+    "literal_protected_query_collisions": [],
+    "limitation": "Literal token screen plus manual semantic review, not a Yandex morphology/stop-word/keyword-exception emulator. No promise of zero collateral risk."
+  },
+  "removals": [
+    {
+      "phrase": "куда подходит мехатроник dq200",
+      "verdict": "PASS_REMOVE",
+      "currently_present": true,
+      "reason": "Совместимость/возможная покупка, а не однозначный чужой интерес. Два одиночных клика без цели не доказывают нецелевость. Удаление разрешено пользователем.",
+      "historical_exact_query_only": {
+        "impressions": 3,
+        "clicks": 1,
+        "cost_rub": 32.52,
+        "aggregate_goals": 0.0
+      }
+    },
+    {
+      "phrase": "купить дсг 7 dq200 новую",
+      "verdict": "PASS_REMOVE",
+      "currently_present": true,
+      "reason": "Совместимость/возможная покупка, а не однозначный чужой интерес. Два одиночных клика без цели не доказывают нецелевость. Удаление разрешено пользователем.",
+      "historical_exact_query_only": {
+        "impressions": 6,
+        "clicks": 1,
+        "cost_rub": 16.15,
+        "aggregate_goals": 0.0
+      }
+    }
+  ],
+  "current_41_scope_note": "Удаляются только две явно разрешённые фразы. Старые !как снять, !как установить, !своими руками, схема подключения и бесплатно сохраняют свои отдельные риски DIY/технического выбора/бесплатной доставки. Проверка 91 нового минуса не является подтверждением безопасности оставшихся 39 старых и не означает, что весь DIY теперь открыт.",
+  "goal_note": "4 aggregate-goal conversions in source, not confirmed paid orders. One service-goal query is already excluded by a prior authorized action; no new blocker introduced for it.",
+  "prospective_total_if_one_replacement_and_two_removals": "SUPERSEDED: N021 omitted, no replacement.",
+  "no_external_writes": true,
+  "final_execution_decision": {
+    "approved_additions_after_safety_review": 91,
+    "remove_current_phrases": [
+      "куда подходит мехатроник dq200",
+      "купить дсг 7 dq200 новую"
+    ],
+    "omit_without_replacement": {
+      "id": "N021",
+      "phrase": "мехатроника поступление"
+    },
+    "reason": "Parent accepted semantic review and chose the safer omission, no replacement."
+  },
+  "new_protected_hypothetical_query": {
+    "query": "новое поступление мехатроников dq200",
+    "observed": false,
+    "historical_cost_rub": null,
+    "reason": "Естественный коммерческий смысл: поступление товара на склад. Не приписывать этому примеру фактический расход."
+  },
+  "prospective_total_after_final_decision": "41 - 2 + 91 = 130 before any Yandex canonicalization; verify live response before asserting the applied count."
+}
