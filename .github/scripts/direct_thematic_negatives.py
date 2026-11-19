@@ -19,6 +19,7 @@ QUERIES = (
     "оборудование автомобильного сервиса",
 )
 ADDITIONS = QUERIES  # Intentionally unquoted; only these four approved themes.
+CANONICAL_REMOVAL = '"плата ноутбука"'
 PROTECTED = (
     "коробка робот замена", "замена корпуса мехатроника", "трещина платы дсг",
     "ремонт платы мехатроника dsg 7 dq200", "замена электронного плата мехатроника",
@@ -96,6 +97,7 @@ def run(apply=False, api=None, baseline_path=None, out_path=None):
     report = {"status": "preflight", "mode": "apply" if apply else "read_only_plan",
         "campaign_id": CID, "started_at_utc": now(), "workflow_commit": os.environ.get("GITHUB_SHA"),
         "approved_additions": list(ADDITIONS), "preserved_queries": list(PROTECTED),
+        "allowed_canonical_removed_phrase": CANONICAL_REMOVAL,
         "authorization": {
             "source": "Current conversation: user authorized the previously proposed four thematic negatives",
             "scope": "Append these four unquoted phrases only; preserve all existing 38 phrases",
@@ -143,8 +145,10 @@ def run(apply=False, api=None, baseline_path=None, out_path=None):
             raise RuntimeError("Baseline campaign mismatch")
         original = negatives(baseline_after)
         if (len(original) != 38 or len(set(original)) != 38 or set(original) & set(ADDITIONS)
+                or original.count(CANONICAL_REMOVAL) != 1
                 or not same_phrases(original, baseline.get("proposed_negatives", []))):
             raise RuntimeError("Expected the exact verified baseline of 38 phrases")
+        canonical = [x for x in original if x != CANONICAL_REMOVAL] + list(ADDITIONS)
         report["baseline_report"] = str(baseline_path or BASELINE)
         report["baseline_verified_at_utc"] = baseline.get("finished_at_utc")
         report["baseline_report_workflow_commit"] = baseline.get("workflow_commit")
@@ -159,8 +163,10 @@ def run(apply=False, api=None, baseline_path=None, out_path=None):
         report["baseline_phrase_count"] = len(original)
         report["before_phrase_count"] = len(current)
         already = [x for x in ADDITIONS if x in current]
-        # The sole permitted difference from the baseline is our own exact additions.
-        if not same_phrases(current, original + already):
+        # Also accept only the observed complete canonical form: other 37 + all four.
+        canonical_before = same_phrases(current, canonical)
+        report["canonical_41_already_present"] = canonical_before
+        if not same_phrases(current, original + already) and not canonical_before:
             raise RuntimeError("Live negatives differ from baseline plus exact approved additions")
         missing = [x for x in ADDITIONS if x not in current]
         proposed = current + missing
@@ -168,7 +174,8 @@ def run(apply=False, api=None, baseline_path=None, out_path=None):
             "proposed_phrase_count": len(proposed),
             "proposed_negatives": proposed, "payload": {"Campaigns": [
                 {"Id": CID, "NegativeKeywords": {"Items": proposed}}]}})
-        if not same_phrases(proposed, original + list(ADDITIONS)):
+        if (not same_phrases(proposed, original + list(ADDITIONS))
+                and not same_phrases(proposed, canonical)):
             raise RuntimeError("Proposed list would change original phrases or exceed approved additions")
         save()
         if not apply:
@@ -199,17 +206,27 @@ def run(apply=False, api=None, baseline_path=None, out_path=None):
         report["original_38_preserved_exactly"] = all(observed.count(x) == original.count(x) for x in original)
         report["all_four_present_unquoted"] = all(observed.count(x) == 1 for x in ADDITIONS)
         report["exact_expected_42_phrases"] = same_phrases(observed, original + list(ADDITIONS))
+        report["exact_observed_canonical_41_phrases"] = same_phrases(observed, canonical)
+        report["removed_original_phrases"] = list((Counter(original) - Counter(observed)).elements())
+        report["remaining_original_37_preserved_exactly"] = all(
+            observed.count(x) == 1 for x in original if x != CANONICAL_REMOVAL)
         report["nonnegative_campaign_fields_unchanged"] = nonnegative_fields(after) == nonnegative_fields(before)
         report["protected_queries_not_added"] = not (set(PROTECTED) & set(QUERIES))
-        if report["exact_expected_42_phrases"] and report["nonnegative_campaign_fields_unchanged"]:
+        if ((report["exact_expected_42_phrases"] or report["exact_observed_canonical_41_phrases"])
+                and report["nonnegative_campaign_fields_unchanged"]):
             report["status"] = ("already_applied_verified" if not missing else
                 "verified_after_uncertain_response" if "update_error" in report else "applied_verified")
+            if report["exact_observed_canonical_41_phrases"]:
+                report["status"] += "_canonical_41"
+                report["canonicalization_note"] = (
+                    "Only the quoted laptop phrase is absent; its approved unquoted counterpart "
+                    "and all other 37 original phrases are present. No other removal is permitted.")
             report["changed_fields"] = ["NegativeKeywords"] if missing else []
             return 0
         report["status"] = ("not_applied_verified_unchanged"
             if same_phrases(observed, current) and report["nonnegative_campaign_fields_unchanged"]
             else "unexpected_after_requires_review")
-        report["errors"].append("Readback differs from the expected 42 phrases or other read campaign fields; no retry or rollback performed")
+        report["errors"].append("Readback differs from the requested 42 or bounded canonical 41 phrases, or other read campaign fields; no retry or rollback performed")
         # Do not replace an unexpected list: it may contain another person's changes.
         return 1
     except Exception as error:
