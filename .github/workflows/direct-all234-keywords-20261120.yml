@@ -1,0 +1,42 @@
+name: direct-all234-keywords-20261120
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/direct_all234_keywords_request_20261120.txt'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  approved-all234-keywords:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Prepare durable report identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Run explicit inspect apply or check mode
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python scripts/apply_all234_keywords_20261120.py
+      - name: Preserve new operation report and journal
+        if: always()
+        run: |
+          for report in data/direct_all234_keywords_report_20261120.json data/direct_all234_keywords_journal_20261120.json; do
+            if [ -f "$report" ]; then
+              git add -- "$report"
+            fi
+          done
+          if ! git diff --cached --quiet; then
+            git commit -m "Record authorized full234 outcome [skip ci]"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
