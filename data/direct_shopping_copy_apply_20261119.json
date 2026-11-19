@@ -1,0 +1,224 @@
+{
+  "mode": "apply",
+  "status": "waiting_feed_processing",
+  "campaign_id": 716316525,
+  "feed_id": 4061297,
+  "target_ad_ids": [
+    1927186476439690942,
+    1927189770678081700
+  ],
+  "started_at_utc": "2026-11-19T16:10:05.090518+00:00",
+  "workflow_commit": "ba01ade055ee0f56c549da2ba83996dd020e3428",
+  "mutation_attempts": [],
+  "mutations_verified": [],
+  "errors": [],
+  "plan_sha256": "7e6169a4446329f77539dd01fd750861b1ab8cfa5c57f5474765802e500ce0fe",
+  "approved_copy_write_ids": [],
+  "feed_semantic_hashes": {
+    "before": "5b580ea333ede077f300b3a69059ab57e076601e0a02f2ac2b80bff8ec598a29",
+    "after": "efac4a4e070586cbb4525a43fccc8e9fa2aad87c49e4787c5b0835eddf63efc0"
+  },
+  "feed": {
+    "Id": 4061297,
+    "Name": "Leoparts DQ200 — проверка.",
+    "SourceType": "URL",
+    "Status": "DONE",
+    "UpdatedAt": "2026-11-19T19:10:12",
+    "NumberOfItems": 12,
+    "TitleAndTextSources": {
+      "Items": [
+        "name"
+      ]
+    },
+    "UrlFeed": {
+      "Url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml?copy_rev=20261119_01"
+    }
+  },
+  "ads": {
+    "1927186476439690942": {
+      "Id": 1927186476439690942,
+      "CampaignId": 716316525,
+      "AdGroupId": 5826171512,
+      "Status": "ACCEPTED",
+      "State": "ON",
+      "StatusClarification": "Campaign is in progress.",
+      "Type": "SHOPPING_AD",
+      "ShoppingAd": {
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "ACCEPTED",
+          "StatusClarification": "Sitelinks accepted at moderation."
+        },
+        "AdExtensions": [],
+        "BusinessId": null,
+        "FeedId": 4061297,
+        "FeedFilterConditions": {
+          "Items": [
+            {
+              "Operand": "price",
+              "Operator": "IN_RANGE",
+              "Arguments": [
+                "33500-38500"
+              ]
+            }
+          ]
+        },
+        "FeedProcessingStatus": "PROCESSED",
+        "TitleSources": {
+          "Items": [
+            "name"
+          ]
+        },
+        "TextSources": null,
+        "DefaultTexts": [],
+        "GenerationScopes": [
+          "OFFER"
+        ],
+        "ListingFeedFilterConditions": null,
+        "ListingTitleSources": null,
+        "ListingTextSources": null
+      }
+    },
+    "1927189770678081700": {
+      "Id": 1927189770678081700,
+      "CampaignId": 716316525,
+      "AdGroupId": 5826183946,
+      "Status": "ACCEPTED",
+      "State": "ON",
+      "StatusClarification": "Campaign is in progress.",
+      "Type": "SHOPPING_AD",
+      "ShoppingAd": {
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "ACCEPTED",
+          "StatusClarification": "Sitelinks accepted at moderation."
+        },
+        "AdExtensions": [],
+        "BusinessId": null,
+        "FeedId": 4061297,
+        "FeedFilterConditions": {
+          "Items": [
+            {
+              "Operand": "price",
+              "Operator": "IN_RANGE",
+              "Arguments": [
+                "60000-75000"
+              ]
+            }
+          ]
+        },
+        "FeedProcessingStatus": "PROCESSED",
+        "TitleSources": null,
+        "TextSources": null,
+        "DefaultTexts": [],
+        "GenerationScopes": [
+          "OFFER",
+          "LISTING"
+        ],
+        "ListingFeedFilterConditions": null,
+        "ListingTitleSources": null,
+        "ListingTextSources": null
+      }
+    },
+    "1927190920657966611": {
+      "Id": 1927190920657966611,
+      "CampaignId": 716316525,
+      "AdGroupId": 5826320196,
+      "Status": "ACCEPTED",
+      "State": "ON",
+      "StatusClarification": "Campaign is in progress.",
+      "Type": "SHOPPING_AD",
+      "ShoppingAd": {
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "ACCEPTED",
+          "StatusClarification": "Sitelinks accepted at moderation."
+        },
+        "AdExtensions": [],
+        "BusinessId": null,
+        "FeedId": 4061297,
+        "FeedFilterConditions": {
+          "Items": [
+            {
+              "Operand": "price",
+              "Operator": "IN_RANGE",
+              "Arguments": [
+                "39000-45000"
+              ]
+            }
+          ]
+        },
+        "FeedProcessingStatus": "PROCESSED",
+        "TitleSources": null,
+        "TextSources": null,
+        "DefaultTexts": [],
+        "GenerationScopes": [
+          "OFFER",
+          "LISTING"
+        ],
+        "ListingFeedFilterConditions": null,
+        "ListingTitleSources": null,
+        "ListingTextSources": null
+      }
+    }
+  },
+  "public_feed_observations": [
+    {
+      "attempt": 1,
+      "checked_at_utc": "2026-11-19T16:10:09.007752+00:00",
+      "url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml?copy_rev=20261119_01",
+      "semantic_sha256": "efac4a4e070586cbb4525a43fccc8e9fa2aad87c49e4787c5b0835eddf63efc0",
+      "matches_before": false,
+      "matches_after": true,
+      "mechatronics": [
+        {
+          "offer_id": "0am325025h",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025hx",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025hxe",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025hxf",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025hxg",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025hxk",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025x",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        }
+      ],
+      "approved_name_count": 7,
+      "description_present_count": 7,
+      "approved_description_count": 7
+    }
+  ],
+  "public_after_feed_verified": true,
+  "finished_at_utc": "2026-11-19T16:10:51.538236+00:00"
+}
