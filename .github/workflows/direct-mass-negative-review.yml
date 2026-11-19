@@ -1,0 +1,48 @@
+name: direct-mass-negative-review
+on:
+  push:
+    branches: [main]
+    paths: ['.github/agent-requests/direct-mass-negative-review.txt']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Refresh read-only queries and all negative levels for bulk review
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: |
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0, ".github/scripts")
+          import direct_negative_review as review
+          review.OUT = Path("data/direct_mass_negatives_live_20261119.json")
+          review.QUERY_OUT = Path("data/direct_mass_negative_queries_20261119.tsv")
+          review.GROUP_OUT = Path("data/direct_mass_negative_groups_20261119.tsv")
+          sys.exit(review.run())
+          PY
+      - name: Save only the three bulk-review evidence files
+        if: always()
+        run: |
+          git config user.name github-actions
+          git config user.email actions@users.noreply.github.com
+          for path in data/direct_mass_negatives_live_20261119.json data/direct_mass_negative_queries_20261119.tsv data/direct_mass_negative_groups_20261119.tsv; do
+            if [ -f "$path" ]; then git add -- "$path"; fi
+          done
+          if ! git diff --cached --quiet; then
+            git commit -m "Record fresh read-only evidence for bulk negative phrase review"
+            git fetch origin main
+            git rebase origin/main
+            git push
+          fi
