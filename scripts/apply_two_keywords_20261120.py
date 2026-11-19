@@ -376,7 +376,7 @@ def progress(api, snap):
              and auto.get("AutotargetingSearchBidIsAuto") == "NO" and ad_copy(ad) == expected_ad(own.get("group_id")))
     moderation = {"new_ad": {k: ad.get(k) for k in ("State", "Status", "StatusClarification")},
                   "titles": [v.get("Status") for v in r.get("Titles", [])], "texts": [v.get("Status") for v in r.get("Texts", [])],
-                  "sitelinks": r.get("SitelinksModeration", {}).get("Status"),
+                  "sitelinks": (r.get("SitelinksModeration") or {}).get("Status"),
                   "manual_keywords": [{"Id": k.get("Id"), "Keyword": k.get("Keyword"), "State": k.get("State"), "Status": k.get("Status")} for k in manual],
                   "autotargeting": {k: auto.get(k) for k in ("Id", "State", "Status")}}
     rejected = (ad.get("Status") == "REJECTED" or any("REJECTED" in moderation[k] for k in ("titles", "texts"))
