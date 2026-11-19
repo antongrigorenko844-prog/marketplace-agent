@@ -1,0 +1,40 @@
+name: direct-neutral-ad-copy-20261120
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/agent-requests/direct-neutral-ad-copy-20261120.txt'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  neutral-ad-copy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run only the requested bounded mode
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_neutral_ad_copy_20261120.py
+      - name: Save exact operation reports and persistent write journal
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for report in data/direct_neutral_copy_preflight_20261120.json data/direct_neutral_copy_refresh_20261120.json data/direct_neutral_copy_apply_20261120.json data/direct_neutral_copy_check_20261120.json data/direct_neutral_copy_journal_20261120.json; do
+            if [ -f "$report" ]; then
+              git add -- "$report"
+            fi
+          done
+          if ! git diff --cached --quiet; then
+            git commit -m "Record bounded neutral Direct copy operation [skip ci]"
+            git pull --rebase
+            git push
+          fi
