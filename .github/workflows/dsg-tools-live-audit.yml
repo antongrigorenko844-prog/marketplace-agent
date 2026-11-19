@@ -31,7 +31,7 @@ jobs:
           YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
           AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
           AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
-        run: python .github/scripts/dsg_tools_live_audit.py
+        run: python .github/scripts/dsg_tools_live_audit.py --retry-failed
       - name: Preserve result
         if: always()
         uses: actions/upload-artifact@v4

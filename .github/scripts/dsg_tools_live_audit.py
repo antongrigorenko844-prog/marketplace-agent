@@ -112,7 +112,20 @@ def wrap(call):
 
 def audit_ozon():
     import ozon_client as oz
-    all_named = oz.get_product_names()
+    all_named, cursor, seen = [], "", set()
+    for _ in range(20):
+        page = oz._post("/v4/product/info/attributes", {"filter": {"visibility": "ALL"}, "last_id": cursor, "limit": 1000, "sort_dir": "ASC"})
+        rows = page.get("result") or []
+        all_named.extend(rows)
+        next_cursor = page.get("last_id") or ""
+        if len(rows) < 1000 or not next_cursor:
+            break
+        if next_cursor in seen:
+            raise RuntimeError("Ozon pagination did not advance")
+        seen.add(next_cursor)
+        cursor = next_cursor
+    else:
+        raise RuntimeError("Ozon catalog exceeds bounded pagination")
     named = []
     for row in all_named:
         reason = match_reason(row.get("offer_id"), row.get("name") or row.get("title"))
@@ -261,11 +274,22 @@ def main():
     guard_http()
     jobs = {"ozon": audit_ozon, "wildberries": audit_wildberries, "yandex_market": audit_yandex_market, "avito": audit_avito, "tilda": audit_tilda}
     report = {"observed_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(), "scope_skus": list(SKUS), "external_mutations": 0, "expected_prices_rub": {SKUS[0]: {"marketplaces": 38800, "site_avito": 24800}, SKUS[1]: {"marketplaces": 28800, "site_avito": 18800}}, "channels": {}}
+    if "--retry-failed" in sys.argv and OUT.exists():
+        previous = json.loads(OUT.read_text())
+        if previous.get("scope_skus") != list(SKUS):
+            raise RuntimeError("Prior report scope differs")
+        for name, result in previous.get("channels", {}).items():
+            if result.get("status") == "ok":
+                report["channels"][name] = result
+                result["observed_at_utc"] = result.get("observed_at_utc") or previous["observed_at_utc"]
+                jobs.pop(name, None)
+        report["retry_of_observed_at_utc"] = previous["observed_at_utc"]
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as pool:
         pending = {pool.submit(wrap, fn): name for name, fn in jobs.items()}
         for future in concurrent.futures.as_completed(pending):
             name = pending[future]
             report["channels"][name] = future.result()
+            report["channels"][name]["observed_at_utc"] = report["observed_at_utc"]
             print(name + ": " + report["channels"][name]["status"], flush=True)
     report["read_requests"] = HTTP
     OUT.parent.mkdir(parents=True, exist_ok=True)
@@ -276,3 +300,4 @@ def main():
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
