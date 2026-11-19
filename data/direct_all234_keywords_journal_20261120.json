@@ -1253,7 +1253,42 @@
     }
   },
   "baseline_sha256": "ab8ffe773bf3b75033e9ce9f99f38c6f53aa062eb767b9d01eb303905e842a87",
-  "operations": {},
+  "operations": {
+    "groups_add": {
+      "service": "adgroups",
+      "method": "add",
+      "params": {
+        "AdGroups": [
+          {
+            "Name": "DQ200 | Гидроплита и гидроблок | Поиск",
+            "CampaignId": 716316525,
+            "RegionIds": [
+              225,
+              -11024,
+              977
+            ],
+            "UnifiedAdGroup": {
+              "OfferRetargeting": "NO"
+            }
+          },
+          {
+            "Name": "DQ200 | Втулка штока 0AM325025D | Поиск",
+            "CampaignId": 716316525,
+            "RegionIds": [
+              225,
+              -11024,
+              977
+            ],
+            "UnifiedAdGroup": {
+              "OfferRetargeting": "NO"
+            }
+          }
+        ]
+      },
+      "intent_at_utc": "2026-11-19T19:56:49.676754+00:00",
+      "outcome": "intent_saved_before_network"
+    }
+  },
   "keyword_limit": 200,
   "landing_checks": [
     {
