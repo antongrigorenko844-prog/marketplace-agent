@@ -1,0 +1,181 @@
+{
+  "mode": "preflight",
+  "status": "ready",
+  "campaign_id": 716316525,
+  "feed_id": 4061297,
+  "target_ad_ids": [
+    1927186476439690942,
+    1927189770678081700
+  ],
+  "started_at_utc": "2026-11-19T16:02:40.407713+00:00",
+  "workflow_commit": "5b7958e0a4a3311167d2f7eeb3897df48804ed87",
+  "mutation_attempts": [],
+  "mutations_verified": [],
+  "errors": [],
+  "plan_sha256": "7e6169a4446329f77539dd01fd750861b1ab8cfa5c57f5474765802e500ce0fe",
+  "feed_semantic_hashes": {
+    "before": "5b580ea333ede077f300b3a69059ab57e076601e0a02f2ac2b80bff8ec598a29",
+    "after": "efac4a4e070586cbb4525a43fccc8e9fa2aad87c49e4787c5b0835eddf63efc0"
+  },
+  "feed": {
+    "Id": 4061297,
+    "Name": "Leoparts DQ200 — проверка.",
+    "SourceType": "URL",
+    "Status": "DONE",
+    "UpdatedAt": "2026-11-19T11:03:24",
+    "NumberOfItems": 12,
+    "TitleAndTextSources": {
+      "Items": [
+        "name"
+      ]
+    },
+    "UrlFeed": {
+      "Url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml"
+    }
+  },
+  "ads": {
+    "1927186476439690942": {
+      "Id": 1927186476439690942,
+      "CampaignId": 716316525,
+      "AdGroupId": 5826171512,
+      "Status": "ACCEPTED",
+      "State": "ON",
+      "StatusClarification": "Campaign is in progress.",
+      "Type": "SHOPPING_AD",
+      "ShoppingAd": {
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "ACCEPTED",
+          "StatusClarification": "Sitelinks accepted at moderation."
+        },
+        "AdExtensions": [],
+        "BusinessId": null,
+        "FeedId": 4061297,
+        "FeedFilterConditions": {
+          "Items": [
+            {
+              "Operand": "price",
+              "Operator": "IN_RANGE",
+              "Arguments": [
+                "33500-38500"
+              ]
+            }
+          ]
+        },
+        "FeedProcessingStatus": "PROCESSED",
+        "TitleSources": {
+          "Items": [
+            "name"
+          ]
+        },
+        "TextSources": null,
+        "DefaultTexts": [],
+        "GenerationScopes": [
+          "OFFER"
+        ],
+        "ListingFeedFilterConditions": null,
+        "ListingTitleSources": null,
+        "ListingTextSources": null
+      }
+    },
+    "1927189770678081700": {
+      "Id": 1927189770678081700,
+      "CampaignId": 716316525,
+      "AdGroupId": 5826183946,
+      "Status": "ACCEPTED",
+      "State": "ON",
+      "StatusClarification": "Campaign is in progress.",
+      "Type": "SHOPPING_AD",
+      "ShoppingAd": {
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "ACCEPTED",
+          "StatusClarification": "Sitelinks accepted at moderation."
+        },
+        "AdExtensions": [],
+        "BusinessId": null,
+        "FeedId": 4061297,
+        "FeedFilterConditions": {
+          "Items": [
+            {
+              "Operand": "price",
+              "Operator": "IN_RANGE",
+              "Arguments": [
+                "60000-75000"
+              ]
+            }
+          ]
+        },
+        "FeedProcessingStatus": "PROCESSED",
+        "TitleSources": null,
+        "TextSources": null,
+        "DefaultTexts": [],
+        "GenerationScopes": [
+          "OFFER",
+          "LISTING"
+        ],
+        "ListingFeedFilterConditions": null,
+        "ListingTitleSources": null,
+        "ListingTextSources": null
+      }
+    },
+    "1927190920657966611": {
+      "Id": 1927190920657966611,
+      "CampaignId": 716316525,
+      "AdGroupId": 5826320196,
+      "Status": "ACCEPTED",
+      "State": "ON",
+      "StatusClarification": "Campaign is in progress.",
+      "Type": "SHOPPING_AD",
+      "ShoppingAd": {
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "ACCEPTED",
+          "StatusClarification": "Sitelinks accepted at moderation."
+        },
+        "AdExtensions": [],
+        "BusinessId": null,
+        "FeedId": 4061297,
+        "FeedFilterConditions": {
+          "Items": [
+            {
+              "Operand": "price",
+              "Operator": "IN_RANGE",
+              "Arguments": [
+                "39000-45000"
+              ]
+            }
+          ]
+        },
+        "FeedProcessingStatus": "PROCESSED",
+        "TitleSources": null,
+        "TextSources": null,
+        "DefaultTexts": [],
+        "GenerationScopes": [
+          "OFFER",
+          "LISTING"
+        ],
+        "ListingFeedFilterConditions": null,
+        "ListingTitleSources": null,
+        "ListingTextSources": null
+      }
+    }
+  },
+  "approved_copy_patch": {
+    "TitleSources": {
+      "Items": [
+        "name"
+      ]
+    },
+    "TextSources": {
+      "Items": [
+        "description"
+      ]
+    },
+    "DefaultTexts": [
+      "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ"
+    ]
+  },
+  "approved_refresh_url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml?copy_rev=20261119_01",
+  "finished_at_utc": "2026-11-19T16:02:45.399970+00:00"
+}
