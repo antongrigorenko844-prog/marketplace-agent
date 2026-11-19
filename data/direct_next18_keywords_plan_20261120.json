@@ -1,0 +1,493 @@
+{
+  "plan_id": "leoparts_next18_keywords_20261120_v1",
+  "status": "USER_APPROVED_EXACT18",
+  "prepared_at_utc": "2026-11-19T19:14:59.326154+00:00",
+  "authorization_note": "Пользователь явно разрешил все18 оставшихся phase2_test_list: «добавляй все и давай следующие анализировать». Это обновляет прежний статус prepared-test и условие отдельного согласования; исходный файл сохраняется как история.",
+  "campaign_id": 716316525,
+  "source_selection_sha256": "1b29fbddcf6fd24a48d45b6e2c7ba742964763896f73b73511306b179eff2270",
+  "source_selection_field": "phase2_test_list",
+  "source_snapshot_path": "data/direct_two_keywords_apply_20261120.json",
+  "source_snapshot_request_id": "two-keywords-check-20261120-01",
+  "source_snapshot_finished_at_utc": "2026-11-19T18:40:22.546270+00:00",
+  "source_after_sha256": "936c1eafe29ed0253f5c914f3952e786f296b7ae34df51acfbec3d9770695b59",
+  "core_script_path": "scripts/apply_two_keywords_20261120.py",
+  "core_script_sha256": "c6c52c7337ad3991fb40a76cf9edb6f667d6dabb5072f7e103a07e510cea466b",
+  "group_mapping": {
+    "GENERAL": 5828476541,
+    "BOARDS": 5826320196,
+    "WITH": 5826183946,
+    "WITHOUT": 5826171512
+  },
+  "approved_additions": [
+    {
+      "Keyword": "0am927769",
+      "AdGroupId": 5826320196,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "0am927769k",
+      "AdGroupId": 5826320196,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "0am927769e",
+      "AdGroupId": 5826320196,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "0am927769g",
+      "AdGroupId": 5826320196,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "0am927769f",
+      "AdGroupId": 5826320196,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "мехатроник с платой 0am927769d",
+      "AdGroupId": 5826183946,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "мехатроник с платой 0am927769f",
+      "AdGroupId": 5826183946,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "эбу dsg 7 dq200",
+      "AdGroupId": 5826320196,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "плата dq200",
+      "AdGroupId": 5826320196,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "мехатроник dq200 соленоиды bosch",
+      "AdGroupId": 5826171512,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "p17bf ошибка dsg 7 dq200",
+      "AdGroupId": 5828476541,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "p189c ошибка dsg 7 dq200",
+      "AdGroupId": 5828476541,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "p0841 dq200",
+      "AdGroupId": 5828476541,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "мехатроник dsg7",
+      "AdGroupId": 5828476541,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "мехатроник 0am",
+      "AdGroupId": 5828476541,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "мехатроник 0cw",
+      "AdGroupId": 5828476541,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "0am325025h",
+      "AdGroupId": 5826171512,
+      "Bid": 50000000
+    },
+    {
+      "Keyword": "плата 0am",
+      "AdGroupId": 5826320196,
+      "Bid": 50000000
+    }
+  ],
+  "additions_by_group": {
+    "BOARDS": 8,
+    "WITH": 2,
+    "WITHOUT": 2,
+    "GENERAL": 6
+  },
+  "preflight_read_only_requests": [
+    {
+      "endpoint": "https://api.direct.yandex.com/json/v501/campaigns",
+      "method": "get",
+      "params": {
+        "SelectionCriteria": {
+          "Ids": [
+            716316525
+          ]
+        },
+        "FieldNames": [
+          "Id",
+          "Name",
+          "Type",
+          "State",
+          "Status",
+          "Currency",
+          "StartDate",
+          "EndDate",
+          "DailyBudget",
+          "TimeTargeting",
+          "TimeZone",
+          "NegativeKeywords"
+        ],
+        "UnifiedCampaignFieldNames": [
+          "CounterIds",
+          "Settings",
+          "BiddingStrategy",
+          "PriorityGoals",
+          "TrackingParams",
+          "AttributionModel",
+          "PackageBiddingStrategy",
+          "NegativeKeywordSharedSetIds",
+          "WeeklyBudgetRollover"
+        ],
+        "UnifiedCampaignSearchStrategyPlacementTypesFieldNames": [
+          "SearchResults",
+          "ProductGallery",
+          "DynamicPlaces",
+          "Maps",
+          "SearchOrganizationList"
+        ],
+        "UnifiedCampaignPackageBiddingStrategyPlatformsFieldNames": [
+          "SearchResult",
+          "ProductGallery",
+          "Maps",
+          "SearchOrganizationList",
+          "Network",
+          "DynamicPlaces"
+        ],
+        "Page": {
+          "Limit": 1000
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.direct.yandex.com/json/v501/adgroups",
+      "method": "get",
+      "params": {
+        "SelectionCriteria": {
+          "CampaignIds": [
+            716316525
+          ]
+        },
+        "FieldNames": [
+          "Id",
+          "CampaignId",
+          "Name",
+          "Type",
+          "Subtype",
+          "Status",
+          "RegionIds",
+          "NegativeKeywords",
+          "NegativeKeywordSharedSetIds",
+          "TrackingParams"
+        ],
+        "Page": {
+          "Limit": 1000
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.direct.yandex.com/json/v501/keywords",
+      "method": "get",
+      "params": {
+        "SelectionCriteria": {
+          "CampaignIds": [
+            716316525
+          ]
+        },
+        "FieldNames": [
+          "Id",
+          "CampaignId",
+          "AdGroupId",
+          "Keyword",
+          "State",
+          "Status",
+          "Bid",
+          "ContextBid",
+          "AutotargetingSearchBidIsAuto"
+        ],
+        "AutotargetingSettingsCategoriesFieldNames": [
+          "Exact",
+          "Narrow",
+          "Alternative",
+          "Accessory",
+          "Broader"
+        ],
+        "AutotargetingSettingsBrandOptionsFieldNames": [
+          "WithoutBrands",
+          "WithAdvertiserBrand",
+          "WithCompetitorsBrand"
+        ],
+        "Page": {
+          "Limit": 1000
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.direct.yandex.com/json/v501/ads",
+      "method": "get",
+      "params": {
+        "SelectionCriteria": {
+          "CampaignIds": [
+            716316525
+          ]
+        },
+        "FieldNames": [
+          "Id",
+          "CampaignId",
+          "AdGroupId",
+          "Type",
+          "State",
+          "Status",
+          "StatusClarification"
+        ],
+        "ResponsiveAdFieldNames": [
+          "Titles",
+          "Texts",
+          "Href",
+          "SitelinkSetId",
+          "SitelinksModeration"
+        ],
+        "ShoppingAdFieldNames": [
+          "SitelinkSetId",
+          "SitelinksModeration",
+          "FeedId",
+          "FeedProcessingStatus",
+          "FeedFilterConditions",
+          "GenerationScopes",
+          "TitleSources",
+          "TextSources",
+          "DefaultTexts",
+          "ListingFeedFilterConditions",
+          "ListingTitleSources",
+          "ListingTextSources"
+        ],
+        "Page": {
+          "Limit": 1000
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.direct.yandex.com/json/v501/sitelinks",
+      "method": "get",
+      "params": {
+        "SelectionCriteria": {
+          "Ids": [
+            1526814548
+          ]
+        },
+        "FieldNames": [
+          "Id",
+          "Sitelinks"
+        ],
+        "Page": {
+          "Limit": 1000
+        }
+      }
+    }
+  ],
+  "write_request": {
+    "endpoint": "https://api.direct.yandex.com/json/v501/keywords",
+    "method": "add",
+    "params": {
+      "Keywords": [
+        {
+          "Keyword": "0am927769",
+          "AdGroupId": 5826320196,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "0am927769k",
+          "AdGroupId": 5826320196,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "0am927769e",
+          "AdGroupId": 5826320196,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "0am927769g",
+          "AdGroupId": 5826320196,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "0am927769f",
+          "AdGroupId": 5826320196,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "мехатроник с платой 0am927769d",
+          "AdGroupId": 5826183946,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "мехатроник с платой 0am927769f",
+          "AdGroupId": 5826183946,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "эбу dsg 7 dq200",
+          "AdGroupId": 5826320196,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "плата dq200",
+          "AdGroupId": 5826320196,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "мехатроник dq200 соленоиды bosch",
+          "AdGroupId": 5826171512,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "p17bf ошибка dsg 7 dq200",
+          "AdGroupId": 5828476541,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "p189c ошибка dsg 7 dq200",
+          "AdGroupId": 5828476541,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "p0841 dq200",
+          "AdGroupId": 5828476541,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "мехатроник dsg7",
+          "AdGroupId": 5828476541,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "мехатроник 0am",
+          "AdGroupId": 5828476541,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "мехатроник 0cw",
+          "AdGroupId": 5828476541,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "0am325025h",
+          "AdGroupId": 5826171512,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "плата 0am",
+          "AdGroupId": 5826320196,
+          "Bid": 50000000
+        }
+      ]
+    }
+  },
+  "expected_before": {
+    "groups": 4,
+    "manual_keywords": 41,
+    "autotargeting": 4,
+    "ads": 6,
+    "campaign_negatives": 130
+  },
+  "expected_after": {
+    "groups": 4,
+    "manual_keywords": 59,
+    "autotargeting": 4,
+    "ads": 6,
+    "campaign_negatives": 130
+  },
+  "preserve_source_group_ids": [
+    5826171512,
+    5826183946,
+    5826320196,
+    5828476541
+  ],
+  "preserve_source_keyword_ids": [
+    58544149377,
+    58544149378,
+    58544149379,
+    58544149380,
+    58544149381,
+    58544149382,
+    58544149383,
+    58544149384,
+    58544149385,
+    58544149386,
+    58544149387,
+    58544149388,
+    58544149389,
+    58544149390,
+    58545151245,
+    58545151246,
+    58545151247,
+    58545151248,
+    58545151249,
+    58545151250,
+    58545151251,
+    58545151252,
+    58545151253,
+    58545151254,
+    58545151255,
+    58545151256,
+    58545169890,
+    58545169891,
+    58545169892,
+    58545169893,
+    58545169894,
+    58545169895,
+    58545169896,
+    58545169897,
+    58545169898,
+    58545169899,
+    58545169900,
+    58545169901,
+    58545169902,
+    58581707731,
+    58581707732,
+    205826171512,
+    205826183946,
+    205826320196,
+    205828476541
+  ],
+  "preserve_source_ad_ids_as_strings": [
+    "1927186476439690942",
+    "1927189770678081700",
+    "1927190920657966611",
+    "1927466195846975291",
+    "1927466206584354174",
+    "1927488453443618167"
+  ],
+  "allowed_natural_moderation_state_transition": {
+    "ad_id_as_string": "1927488453443618167",
+    "source_state": "OFF",
+    "source_status": "MODERATION",
+    "allowed_current_state": "ON",
+    "allowed_current_statuses": [
+      "PREACCEPTED",
+      "ACCEPTED"
+    ],
+    "note": "Только естественный переход ранее созданного собственного объявления после модерации. Не запись Ads.resume, не разрешение на чужую сменуState. Все прочие прочитанные поля сохраняются. Послеinspect применяетсяfullfreshbaseline."
+  },
+  "rules": [
+    "Только один Keywords.add с exact18. Никаких новых групп, объявлений, авто или изменений кампании/минусов/ставок старыхключей.",
+    "Свежийinspectобязателен; исходныйsnapshotсверяетсяпоcanonicaldigest(after), не rawJSONnewline.",
+    "Intent и beforeIDs сохраняются durable доAPI. Неизвестныйответ→GET/readback, не второеadd.",
+    "API normalization не принимается молча: сохранять actual additions + missing/extra/changed, статусrequires_review.",
+    "Допускается idempotent no-write, только если уже подтверждены все18 exactфраз в правильныхгруппах сBid50. Частичныйуспех не повторять широкимпакетом.",
+    "Для исходных41ключей inline-минусы сохраняются; к новым18 не копируются исторические inline-минусы.",
+    "Статусы модерации могут меняться; неизменность рабочихнастроек проверяется отдельно. Никаких Telegram/других сообщений."
+  ]
+}
