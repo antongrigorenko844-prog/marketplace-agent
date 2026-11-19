@@ -987,7 +987,9 @@
   "source_sha256": "774147ec0b375083b6c66ad0169875f18e0676b5a781b819cdf8fba0b18f257b",
   "own": {
     "group_id": 5828476541,
-    "autotargeting_id": 205828476541
+    "autotargeting_id": 205828476541,
+    "generic_keyword_id": 58581707731,
+    "board_keyword_id": 58581707732
   },
   "operations": {
     "group_add": {
@@ -1026,7 +1028,7 @@
         ]
       },
       "response_at_utc": "2026-11-19T18:37:41.543958+00:00",
-      "readback_verified_at_utc": "2026-11-19T18:38:01.594494+00:00"
+      "readback_verified_at_utc": "2026-11-19T18:38:15.563175+00:00"
     },
     "auto_settings": {
       "key": "auto_settings",
@@ -1130,8 +1132,39 @@
         205826320196,
         205828476541
       ],
+      "outcome": "response_received",
+      "result": {
+        "AddResults": [
+          {
+            "Id": 58581707731,
+            "Errors": []
+          },
+          {
+            "Id": 58581707732,
+            "Errors": []
+          }
+        ]
+      },
+      "response_at_utc": "2026-11-19T18:38:07.162385+00:00",
+      "readback_verified_at_utc": "2026-11-19T18:38:15.563191+00:00"
+    },
+    "auto_bid": {
+      "key": "auto_bid",
+      "service": "keywordbids",
+      "method": "set",
+      "params": {
+        "KeywordBids": [
+          {
+            "KeywordId": 205828476541,
+            "SearchBid": 50000000,
+            "AutotargetingSearchBidIsAuto": "NO"
+          }
+        ]
+      },
+      "intent_at_utc": "2026-11-19T18:38:15.565497+00:00",
+      "before_ids": [],
       "outcome": "intent_saved_before_network"
     }
   },
-  "last_readback_at_utc": "2026-11-19T18:38:01.594511+00:00"
+  "last_readback_at_utc": "2026-11-19T18:38:15.563193+00:00"
 }
