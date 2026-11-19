@@ -1,0 +1,38 @@
+name: direct-negative-review
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/agent-requests/direct-negative-review.txt'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read current negatives and dated performance
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_negative_review.py
+      - name: Save only the three review outputs
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for path in data/direct_negatives_live_20261119.json data/direct_negative_queries_20261119.tsv data/direct_negative_groups_20261119.tsv; do
+            if [ -f "$path" ]; then git add -- "$path"; fi
+          done
+          if ! git diff --cached --quiet; then
+            git commit -m "Record read-only Direct negative review for 19 November 2026"
+            git pull --rebase
+            git push
+          fi
