@@ -118,11 +118,13 @@ collect("ads", lambda: pages("ads", {
     "SelectionCriteria": {"CampaignIds": [CID]},
     "FieldNames": ["Id", "CampaignId", "AdGroupId", "Type", "Status", "State", "StatusClarification"],
     "ShoppingAdFieldNames": SHOPPING_FIELDS,
+    "ResponsiveAdFieldNames": ["Titles", "Texts", "Href", "SitelinkSetId"],
 }, "Ads"))
 collect("groups", lambda: pages("adgroups", {
     "SelectionCriteria": {"CampaignIds": [CID]},
-    "FieldNames": ["Id", "CampaignId", "Name", "Status", "RegionIds", "NegativeKeywords"],
-}, "AdGroups", "v5"))
+    "FieldNames": ["Id", "CampaignId", "Name", "Type", "Subtype", "Status", "RegionIds", "NegativeKeywords", "TrackingParams"],
+    "UnifiedAdGroupFieldNames": ["OfferRetargeting"],
+}, "AdGroups"))
 collect("keywords", lambda: pages("keywords", {
     "SelectionCriteria": {"CampaignIds": [CID]},
     "FieldNames": ["Id", "CampaignId", "AdGroupId", "Keyword", "State", "Status"],
