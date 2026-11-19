@@ -1,14 +1,9 @@
 {
   "campaign_id": 716316525,
-  "captured_at_utc": "2026-11-19T12:37:43.639969+00:00",
-  "workflow_commit": "0dc9cdb0bfd296423ef9943ca9d7b615c1041877",
+  "captured_at_utc": "2026-11-19T12:48:36.638773+00:00",
+  "workflow_commit": "dbcfdc9816d9d6e9a2259097179a25b1be8a9a83",
   "mode": "read_only",
-  "errors": [
-    {
-      "section": "landing",
-      "error": "HTTP Error 403: Forbidden"
-    }
-  ],
+  "errors": [],
   "ads": [
     {
       "Id": 1927186476439690942,
@@ -19,8 +14,11 @@
       "StatusClarification": "Идут показы.",
       "Type": "SHOPPING_AD",
       "ShoppingAd": {
-        "SitelinkSetId": null,
-        "SitelinksModeration": null,
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "MODERATION",
+          "StatusClarification": "Дополнительные ссылки ожидают модерации."
+        },
         "AdExtensions": [],
         "BusinessId": null,
         "FeedId": 4061297,
@@ -60,8 +58,11 @@
       "StatusClarification": "Идут показы.",
       "Type": "SHOPPING_AD",
       "ShoppingAd": {
-        "SitelinkSetId": null,
-        "SitelinksModeration": null,
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "MODERATION",
+          "StatusClarification": "Дополнительные ссылки ожидают модерации."
+        },
         "AdExtensions": [],
         "BusinessId": null,
         "FeedId": 4061297,
@@ -98,8 +99,11 @@
       "StatusClarification": "Идут показы.",
       "Type": "SHOPPING_AD",
       "ShoppingAd": {
-        "SitelinkSetId": null,
-        "SitelinksModeration": null,
+        "SitelinkSetId": 1526787288,
+        "SitelinksModeration": {
+          "Status": "MODERATION",
+          "StatusClarification": "Дополнительные ссылки ожидают модерации."
+        },
         "AdExtensions": [],
         "BusinessId": null,
         "FeedId": 4061297,
@@ -134,36 +138,54 @@
       "Name": "DQ200 | Мехатроники без платы | Поиск",
       "CampaignId": 716316525,
       "Status": "ACCEPTED",
+      "Type": "UNIFIED_AD_GROUP",
+      "Subtype": "NONE",
+      "UnifiedAdGroup": {
+        "OfferRetargeting": "NO"
+      },
       "RegionIds": [
         225,
         -11024,
         977
       ],
-      "NegativeKeywords": null
+      "NegativeKeywords": null,
+      "TrackingParams": ""
     },
     {
       "Id": 5826183946,
       "Name": "DQ200 | Мехатроники с платой | Поиск",
       "CampaignId": 716316525,
       "Status": "ACCEPTED",
+      "Type": "UNIFIED_AD_GROUP",
+      "Subtype": "NONE",
+      "UnifiedAdGroup": {
+        "OfferRetargeting": "NO"
+      },
       "RegionIds": [
         225,
         -11024,
         977
       ],
-      "NegativeKeywords": null
+      "NegativeKeywords": null,
+      "TrackingParams": ""
     },
     {
       "Id": 5826320196,
       "Name": "Название: DQ200 | Электронные платы | Поиск.",
       "CampaignId": 716316525,
       "Status": "ACCEPTED",
+      "Type": "UNIFIED_AD_GROUP",
+      "Subtype": "NONE",
+      "UnifiedAdGroup": {
+        "OfferRetargeting": "NO"
+      },
       "RegionIds": [
         225,
         -11024,
         977
       ],
-      "NegativeKeywords": null
+      "NegativeKeywords": null,
+      "TrackingParams": ""
     }
   ],
   "keywords": [
@@ -518,5 +540,38 @@
         ]
       }
     }
-  ]
+  ],
+  "sitelink_sets": [
+    {
+      "Id": 1526787288,
+      "Sitelinks": [
+        {
+          "Title": "Мехатроники без платы",
+          "Href": "https://leoparts-akpp.ru/mehatronik-dq200#bez-platy",
+          "Description": "Мехатроники DSG7 DQ200 без электронной платы"
+        },
+        {
+          "Title": "Мехатроники с платой",
+          "Href": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi",
+          "Description": "Мехатроники DSG7 DQ200 с электронной платой"
+        },
+        {
+          "Title": "Электронные платы DQ200",
+          "Href": "https://leoparts-akpp.ru/mehatronik-dq200#platy",
+          "Description": "Платы управления мехатроника DSG7 DQ200"
+        }
+      ]
+    }
+  ],
+  "landing": {
+    "url": "https://leoparts-akpp.ru/mehatronik-dq200",
+    "http_status": 200,
+    "title": "Мехатроник DSG7 DQ200 — с платой и без, по обмену | Leoparts",
+    "sha256": "ffde1e14c00c6bfe707fa8d279b7c3f83c557e3fd7848a656b285c5aaef5cb39",
+    "anchors": {
+      "bez-platy": true,
+      "s-platoi": true,
+      "platy": true
+    }
+  }
 }
