@@ -27,7 +27,7 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email actions@users.noreply.github.com
-          for report in data/direct_shopping_copy_preflight_20261119.json data/direct_shopping_copy_refresh_20261119.json data/direct_shopping_copy_apply_20261119.json data/direct_shopping_copy_check_20261119.json; do
+          for report in data/direct_shopping_copy_preflight_20261119.json data/direct_shopping_copy_refresh_20261119.json data/direct_shopping_copy_apply_20261119.json data/direct_shopping_copy_check_20261119.json data/direct_shopping_copy_apply_default_text_20261119.json data/direct_shopping_copy_check_default_text_20261119.json; do
             if [ -f "$report" ]; then git add -- "$report"; fi
           done
           git diff --cached --quiet || (git commit -m "Record guarded Direct shopping copy operation" && git fetch origin main && git rebase origin/main && git push)
