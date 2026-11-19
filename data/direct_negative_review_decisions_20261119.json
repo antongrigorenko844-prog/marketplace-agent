@@ -18,19 +18,28 @@
       "19 ноября — неполный день; данные уточняются.",
       "Конверсии — все цели LC, а не подтверждённые заявки или оплаченные заказы.",
       "Сводный расход рассчитан по отчёту групп SEARCH. В детализации запросов100 из104 кликов; разница85,09руб. За19ноября детализация отличается на+0,01руб.",
-      "Классификация — оценка намерения по формулировке; она не доказывает качество продаж."
+      "Классификация — оценка намерения по формулировке; она не доказывает качество продаж.",
+      "Перечень periods и 1541 поисковая строка относятся к снимку 13:04 UTC. latest_report_snapshot содержит более позднюю статистику 15:26 UTC; эти снимки не складываются.",
+      "Выбранные цели в 55 строках нового отчёта представлены --. Отсутствующие числовые значения сохраняются как null, а не заменяются нулями."
     ],
     "appliedAtUtc": "2026-11-19T13:43:20.686068+00:00",
-    "applySource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_service_negatives_apply_20261119.json",
-    "negativesSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_service_negatives_apply_20261119.json",
+    "applySource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_thematic_negatives_apply_20261119.json",
+    "negativesSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_thematic_negatives_verification_20261119.json",
     "negativeCounts": {
       "original": 24,
       "firstBatchAdded": 9,
-      "before": 33,
-      "added": 5,
-      "after": 38
+      "serviceBatchAdded": 5,
+      "beforeThematicChange": 38,
+      "removedQuotedDuplicate": 1,
+      "thematicAdded": 4,
+      "after": 41,
+      "arithmetic": "38 - 1 + 4 = 41"
     },
-    "previousApplySource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_reviewed_negatives_apply_20261119.json"
+    "previousApplySource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_reviewed_negatives_apply_20261119.json",
+    "latestVerificationAtUtc": "2026-11-19T15:25:48.178444+00:00",
+    "latestAuditFinishedAtUtc": "2026-11-19T15:26:00.638911+00:00",
+    "latestProbeFinishedAtUtc": "2026-11-19T15:37:17Z",
+    "latestSchemaFinishedAtUtc": "2026-11-19T15:37:19Z"
   },
   "periods": [
     {
@@ -186,7 +195,9 @@
       "historicalCost": 0,
       "historicalClicks": 0,
       "historicalImpressions": 5,
-      "historicalConversions": 0
+      "historicalConversions": 0,
+      "current_state": "Исторически добавлена точная фраза. В текущем 41её нет: подтверждена замена на нецитированную тематическую фразу плата ноутбука.",
+      "latestVerificationSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_thematic_negatives_verification_20261119.json"
     },
     {
       "priority": "P1",
@@ -396,6 +407,74 @@
       "historicalClicks": 1,
       "historicalConversions": 0,
       "verificationSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_service_negatives_apply_20261119.json"
+    },
+    {
+      "priority": "P1",
+      "action": "Добавлена тематическая минус-фраза без кавычек",
+      "scope": "Кампания 716316525",
+      "phrase": "плата ноутбука",
+      "reason": "7 различных наблюдаемых запросов о платах ноутбуков",
+      "status": "Применено и проверено; verified_canonical_41",
+      "historicalImpressions": 27,
+      "historicalClicks": 1,
+      "historicalCost": 38.76,
+      "historicalConversions": 0,
+      "confidence": "Высокая по чужой товарной тематике; эффект будущего расхода ещё не измерен",
+      "risk": "Редкие смешанные технические запросы о плате DQ200 и ноутбуке; не расширять до отдельных слов плата или ноутбук.",
+      "expectedEffect": "Ограничить новые формулировки той же нерелевантной темы. Исторический расход не является прогнозом экономии.",
+      "rollback": "При подтверждённом конфликте с целевым товарным запросом пересмотреть только соответствующую новую фразу.",
+      "verificationSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_thematic_negatives_verification_20261119.json"
+    },
+    {
+      "priority": "P1",
+      "action": "Добавлена тематическая минус-фраза без кавычек",
+      "scope": "Кампания 716316525",
+      "phrase": "компьютерные компоненты",
+      "reason": "эл плата и компьютерные компоненты",
+      "status": "Применено и проверено; verified_canonical_41",
+      "historicalImpressions": 7,
+      "historicalClicks": 0,
+      "historicalCost": 0,
+      "historicalConversions": 0,
+      "confidence": "Высокая по чужой товарной тематике; эффект будущего расхода ещё не измерен",
+      "risk": "Не расширять до компьютер, компоненты, электроника.",
+      "expectedEffect": "Ограничить новые формулировки той же нерелевантной темы. Исторический расход не является прогнозом экономии.",
+      "rollback": "При подтверждённом конфликте с целевым товарным запросом пересмотреть только соответствующую новую фразу.",
+      "verificationSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_thematic_negatives_verification_20261119.json"
+    },
+    {
+      "priority": "P1",
+      "action": "Добавлена тематическая минус-фраза без кавычек",
+      "scope": "Кампания 716316525",
+      "phrase": "сервисное оборудование",
+      "reason": "сервисное оборудование дром",
+      "status": "Применено и проверено; verified_canonical_41",
+      "historicalImpressions": 1,
+      "historicalClicks": 0,
+      "historicalCost": 0,
+      "historicalConversions": 0,
+      "confidence": "Высокая по чужой товарной тематике; эффект будущего расхода ещё не измерен",
+      "risk": "Не исключать слово сервис отдельно: сервисы могут покупать запчасти.",
+      "expectedEffect": "Ограничить новые формулировки той же нерелевантной темы. Исторический расход не является прогнозом экономии.",
+      "rollback": "При подтверждённом конфликте с целевым товарным запросом пересмотреть только соответствующую новую фразу.",
+      "verificationSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_thematic_negatives_verification_20261119.json"
+    },
+    {
+      "priority": "P1",
+      "action": "Добавлена тематическая минус-фраза без кавычек",
+      "scope": "Кампания 716316525",
+      "phrase": "оборудование автомобильного сервиса",
+      "reason": "оборудование автомобильного сервиса",
+      "status": "Применено и проверено; verified_canonical_41",
+      "historicalImpressions": 3,
+      "historicalClicks": 0,
+      "historicalCost": 0,
+      "historicalConversions": 0,
+      "confidence": "Высокая по чужой товарной тематике; эффект будущего расхода ещё не измерен",
+      "risk": "Не расширять до оборудования или автомобилей вообще.",
+      "expectedEffect": "Ограничить новые формулировки той же нерелевантной темы. Исторический расход не является прогнозом экономии.",
+      "rollback": "При подтверждённом конфликте с целевым товарным запросом пересмотреть только соответствующую новую фразу.",
+      "verificationSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_thematic_negatives_verification_20261119.json"
     }
   ],
   "current_negatives": [
@@ -407,7 +486,6 @@
     "\"купить плату для ноутбука\"",
     "\"мехатроник ремонт цена\"",
     "\"плата для ноутбука\"",
-    "\"плата ноутбука\"",
     "\"плата от ноутбука\"",
     "\"плата у ноутбука\"",
     "\"ремонт мехатроника сервисы\"",
@@ -421,16 +499,20 @@
     "видео ремонта",
     "гидроблок abs",
     "дсг 250 коробка !что !это",
+    "компьютерные компоненты",
     "кпп dsg !что !это !такое",
     "куда подходит мехатроник dq200",
     "купить дсг 7 dq200 новую",
     "купить коробку дсг 7 dq200",
     "мерседес мехатроник",
+    "оборудование автомобильного сервиса",
     "обучение ремонту",
+    "плата ноутбука",
     "прошивка мехатроника",
     "прошить мехатроник",
     "работа механиком",
     "ремонт блока abs",
+    "сервисное оборудование",
     "скачать прошивку",
     "снятие мехатроника",
     "стенд !для проверки мехатроника",
@@ -678,8 +760,8 @@
     "ремонт мехатроника dq200",
     "замена электронного плата мехатроника"
   ],
-  "apply_status": "Первые 9 и следующие 5 исключений применены и проверены; всего 38. Новые тематические предложения ещё не применены.",
-  "finding": "96.2447678202% of full-window cost was autotargeting; all four reported conversions were autotargeting. These conversions are not verified orders.",
+  "apply_status": "Подтверждено verified_canonical_41: 38 прежних минус-фраз минус только цитированный дубликат «плата ноутбука» плюс 4 согласованные тематические фразы. Итого 41; остальные 37 прежних сохранены дословно.",
+  "finding": "Свежий SEARCH: 2749,22 руб. / 108 кликов. Автотаргетинг: 2651,70 руб. / 105 кликов (96.45% расхода) и 4 агрегатных срабатывания всех целей, не заказы. Обе выбранные цели во всех 55 строках представлены --; итоги null, не 0.",
   "completed_data_dates": [
     "2026-11-16",
     "2026-11-17",
@@ -713,51 +795,59 @@
       "phrase": "плата ноутбука",
       "quoted": false,
       "scope": "Кампания 716316525",
-      "status": "Предложено; не применено",
+      "status": "Применено; verified_canonical_41",
       "basis": "7 различных наблюдаемых запросов о платах ноутбуков",
       "impressions": 27,
       "clicks": 1,
       "historicalCost": 38.76,
       "historicalConversions": 0,
       "risk": "Редкие смешанные технические запросы о плате DQ200 и ноутбуке; не расширять до отдельных слов плата или ноутбук.",
-      "note": "Все наблюдавшиеся ноутбучные формулировки уже закрыты точными исключениями; исторический расход не является новой экономией."
+      "note": "Все наблюдавшиеся ноутбучные формулировки уже закрыты точными исключениями; исторический расход не является новой экономией.",
+      "previous_status": "Предложено; не применено",
+      "verificationSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_thematic_negatives_verification_20261119.json"
     },
     {
       "phrase": "компьютерные компоненты",
       "quoted": false,
       "scope": "Кампания 716316525",
-      "status": "Предложено; не применено",
+      "status": "Применено; verified_canonical_41",
       "basis": "эл плата и компьютерные компоненты",
       "impressions": 7,
       "clicks": 0,
       "historicalCost": 0,
       "historicalConversions": 0,
       "risk": "Не расширять до компьютер, компоненты, электроника.",
-      "note": "Наблюдавшаяся точная фраза уже исключена; новое правило защищает от дополнительных слов."
+      "note": "Наблюдавшаяся точная фраза уже исключена; новое правило защищает от дополнительных слов.",
+      "previous_status": "Предложено; не применено",
+      "verificationSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_thematic_negatives_verification_20261119.json"
     },
     {
       "phrase": "сервисное оборудование",
       "quoted": false,
       "scope": "Кампания 716316525",
-      "status": "Предложено; не применено",
+      "status": "Применено; verified_canonical_41",
       "basis": "сервисное оборудование дром",
       "impressions": 1,
       "clicks": 0,
       "historicalCost": 0,
       "historicalConversions": 0,
-      "risk": "Не исключать слово сервис отдельно: сервисы могут покупать запчасти."
+      "risk": "Не исключать слово сервис отдельно: сервисы могут покупать запчасти.",
+      "previous_status": "Предложено; не применено",
+      "verificationSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_thematic_negatives_verification_20261119.json"
     },
     {
       "phrase": "оборудование автомобильного сервиса",
       "quoted": false,
       "scope": "Кампания 716316525",
-      "status": "Предложено; не применено",
+      "status": "Применено; verified_canonical_41",
       "basis": "оборудование автомобильного сервиса",
       "impressions": 3,
       "clicks": 0,
       "historicalCost": 0,
       "historicalConversions": 0,
-      "risk": "Не расширять до оборудования или автомобилей вообще."
+      "risk": "Не расширять до оборудования или автомобилей вообще.",
+      "previous_status": "Предложено; не применено",
+      "verificationSource": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_thematic_negatives_verification_20261119.json"
     }
   ],
   "proactive_review_notes": [
@@ -765,5 +855,250 @@
     "Статистика исходной выгрузки не обновлялась; 19 ноября неполный день.",
     "Примеры будущих дополнительных формулировок — гипотезы, не новые фактические запросы.",
     "Категории автотаргетинга, бюджет, ставки и объявления этим применением не изменялись."
-  ]
+  ],
+  "revision": {
+    "mode": "LOCAL_DRAFT_NOT_PUBLISHED",
+    "target_repository_path": "data/direct_negative_review_decisions_20261119.json",
+    "prepared_at_utc": "2026-11-19T15:39:09.404004+00:00",
+    "prior_local_source": "direct_work/direct_negative_review_decisions_20261119.json",
+    "prior_source_sha256": "af71b55788d8c39cf9ddebfedf314e49eecba7d30dba154112bcf25e0bc9031a",
+    "preserved_decisions_note": "Existing periods, original negative review, protected queries and prior actions are retained. Latest verified state is recorded separately; historical report periods remain tied to their earlier snapshot.",
+    "prior_state": {
+      "apply_status": "Первые 9 и следующие 5 исключений применены и проверены; всего 38. Новые тематические предложения ещё не применены.",
+      "finding": "96.2447678202% of full-window cost was autotargeting; all four reported conversions were autotargeting. These conversions are not verified orders.",
+      "negative_counts": {
+        "original": 24,
+        "firstBatchAdded": 9,
+        "before": 33,
+        "added": 5,
+        "after": 38
+      },
+      "apply_source": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_service_negatives_apply_20261119.json",
+      "negatives_source": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_service_negatives_apply_20261119.json"
+    }
+  },
+  "latest_negative_verification": {
+    "status": "verified_canonical_41",
+    "captured_at_utc": "2026-11-19T15:25:48.178444+00:00",
+    "source": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_thematic_negatives_verification_20261119.json",
+    "source_workflow_commit": "220c6928d369b0bbb11f4702242ac077eedb8237",
+    "previous_count": 38,
+    "removed": [
+      "\"плата ноутбука\""
+    ],
+    "added": [
+      "компьютерные компоненты",
+      "оборудование автомобильного сервиса",
+      "плата ноутбука",
+      "сервисное оборудование"
+    ],
+    "current_count": 41,
+    "other_37_preserved_exactly": true,
+    "nonnegative_campaign_fields_unchanged": true,
+    "repeated_write_performed": false,
+    "interpretation": "Fresh GET reconciles the initial expected42 versus observed41 difference. Only the quoted laptop phrase disappeared when its unquoted counterpart was added."
+  },
+  "latest_report_snapshot": {
+    "source": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_next_steps_audit_20261119.json",
+    "captured_at_utc": "2026-11-19T15:26:00.638346+00:00",
+    "period": {
+      "from": "2026-10-20",
+      "to": "2026-11-19",
+      "timezone": "Europe/Moscow",
+      "today_partial": true
+    },
+    "attribution": "LC",
+    "search_totals": {
+      "impressions": 3888,
+      "clicks": 108,
+      "cost_rub": 2749.22
+    },
+    "autotargeting_totals": {
+      "impressions": 3829,
+      "clicks": 105,
+      "cost_rub": 2651.7,
+      "share_of_search_cost_pct": 96.45281207033267,
+      "aggregate_all_goal_conversions": 4
+    },
+    "aggregate_conversions_are_paid_orders": false,
+    "aggregate_goal_interpretation": "4 срабатывания агрегата всех целей; не подтверждённые оплаченные заказы и не подтверждённые квалифицированные лиды.",
+    "selected_goal_report_row_count": 55,
+    "selected_goals": [
+      {
+        "goal_id": "675506966",
+        "name": "Заявка по VIN",
+        "report_column": "Conversions_675506966_LC",
+        "conversion_total": null,
+        "raw_placeholder": "--",
+        "rows": 55,
+        "missing_numeric_rows": 55,
+        "numeric_rows": 0,
+        "metric_coverage": "not_reported",
+        "is_zero": false,
+        "interpretation": "Числовое число достижений не представлено. Это не ноль и не доказательство отсутствия обращений."
+      },
+      {
+        "goal_id": "675507028",
+        "name": "Заказ с сайта",
+        "report_column": "Conversions_675507028_LC",
+        "conversion_total": null,
+        "raw_placeholder": "--",
+        "rows": 55,
+        "missing_numeric_rows": 55,
+        "numeric_rows": 0,
+        "metric_coverage": "not_reported",
+        "is_zero": false,
+        "interpretation": "Числовое число достижений не представлено. Это не ноль и не доказательство отсутствия обращений."
+      }
+    ],
+    "no_cpa_from_selected_goal_nulls": true
+  },
+  "latest_ad_status": {
+    "source": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_next_steps_audit_20261119.json",
+    "captured_at_utc": "2026-11-19T15:25:49.611064+00:00",
+    "responsive_ads": {
+      "count": 2,
+      "state": "ON",
+      "status": "ACCEPTED"
+    },
+    "shopping_ads": {
+      "count": 3,
+      "state": "ON",
+      "status": "ACCEPTED"
+    },
+    "sitelinks_status": "ACCEPTED",
+    "decision": "Работа с запуском ранее согласованных объявлений и быстрых ссылок завершена; не пересоздавать дубликаты."
+  },
+  "product_filter_state": {
+    "source_feed_url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml",
+    "mapping_file": "data/direct_product_group_map_20261119.json",
+    "mapping_local_file": "direct_work/direct_product_group_map_20261119.json",
+    "offer_count": 12,
+    "category_group_counts": {
+      "1": 2,
+      "2": 5,
+      "3": 5
+    },
+    "current_price_filter_mismatch_count": 0,
+    "current_price_filters_interpretation": "Все 12 предложений соответствуют проверенным ценовым группам. Ошибочное текущее распределение не подтверждено; риск связан с будущими ценовыми изменениями.",
+    "schema_verification": {
+      "source": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_feed_schema_20261119.json",
+      "finished_at_utc": "2026-11-19T15:37:19Z",
+      "schema": "PerformanceDefault",
+      "category_id_filter_supported": true,
+      "operand": "categoryId",
+      "operator": "EQUALS_ANY"
+    },
+    "category_patch": {
+      "status": "NOT_APPLIED",
+      "requires_separate_explicit_decision": true,
+      "proposed_group_filters": [
+        {
+          "group_id": "5826171512",
+          "category_id": "1",
+          "condition": {
+            "Operand": "categoryId",
+            "Operator": "EQUALS_ANY",
+            "Arguments": [
+              "1"
+            ]
+          }
+        },
+        {
+          "group_id": "5826183946",
+          "category_id": "2",
+          "condition": {
+            "Operand": "categoryId",
+            "Operator": "EQUALS_ANY",
+            "Arguments": [
+              "2"
+            ]
+          }
+        },
+        {
+          "group_id": "5826320196",
+          "category_id": "3",
+          "condition": {
+            "Operand": "categoryId",
+            "Operator": "EQUALS_ANY",
+            "Arguments": [
+              "3"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "metrika_goal_definition_probe": {
+    "source": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/direct_metrika_goals_probe_20261119.json",
+    "finished_at_utc": "2026-11-19T15:37:17Z",
+    "mode": "read_only",
+    "counter_id": "113839860",
+    "method": "GET",
+    "path": "/counter/113839860/goals",
+    "http_status": 403,
+    "status": "limited",
+    "definitions_retrieved": false,
+    "exact_refusal_cause": null,
+    "tilda_fault_established": false,
+    "pending": "Получить определения и условия целей 675506966/675507028 допустимым способом и проверить соответствие событиям форм/заказов. Причина HTTP403 не установлена."
+  },
+  "pending_old_negative_decisions": [
+    {
+      "phrase": "куда подходит мехатроник dq200",
+      "current_state": "Действует",
+      "recommended_decision": "Удалить как широкое исключение запроса применимости",
+      "status": "NOT_APPLIED_AWAITING_EXPLICIT_DECISION",
+      "live_change_allowed_without_explicit_decision": false
+    },
+    {
+      "phrase": "купить дсг 7 dq200 новую",
+      "current_state": "Действует",
+      "recommended_decision": "Удалить широкое исключение либо отдельно согласовать сужение",
+      "status": "NOT_APPLIED_AWAITING_EXPLICIT_DECISION",
+      "live_change_allowed_without_explicit_decision": false
+    }
+  ],
+  "open_decisions_summary": [
+    {
+      "priority": "P0",
+      "topic": "Основные цели",
+      "status": "PENDING_DEFINITIONS_AND_EVENT_VALIDATION",
+      "next": "Условия целей пока не прочитаны: read-only Metrika GET вернул 403. Не назначать причину без данных; сверить форму, событие и отчёт."
+    },
+    {
+      "priority": "P1",
+      "topic": "Два старых широких минуса",
+      "status": "AWAITING_EXPLICIT_DECISION",
+      "next": "Сохранены в текущем 41; не менять до явного решения."
+    },
+    {
+      "priority": "P1",
+      "topic": "Фильтры товаров",
+      "status": "PROPOSAL_NOT_APPLIED",
+      "next": "Категории 1/2/3 поддерживаются схемой и соответствуют 2/5/5 товарам; согласовать отдельный переход с цены на categoryId."
+    },
+    {
+      "priority": "P1",
+      "topic": "Автотаргетинг",
+      "status": "UNCHANGED_PENDING_CONTROLLED_TEST",
+      "next": "Не считать 4 агрегатных цели заказами. Категории менять отдельным тестом после проверки целей и состава запросов."
+    },
+    {
+      "priority": "P1",
+      "topic": "Экономика",
+      "status": "MISSING_UNIT_COST_INPUTS",
+      "next": "Допустимый CPA по реальным заказам рассчитать после закупки, переменных затрат и резервов; прогноз прибыли пока не считать."
+    }
+  ],
+  "public_form_mapping": {
+    "form_dom_id": "form1942382393",
+    "page": "https://leoparts-akpp.ru/",
+    "placement": "popup",
+    "label": "Подберём запчасти",
+    "selected_goal_mapping_verified": false,
+    "mapping_status": "PENDING_GOAL_CONDITION_AND_EVENT_VALIDATION",
+    "note": "This is public form metadata only. No submission contents, screenshot, user identifiers, contact details, IP address or individual lead attribution are included."
+  },
+  "lead_qualification_rule": "Факт отправки формы, её название или отдельная UTM-метка не подтверждают квалификацию лида, оплату заказа либо атрибуцию Директу. Требуется проверка обращения и аналитического события."
 }
