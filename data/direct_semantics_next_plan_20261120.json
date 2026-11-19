@@ -1,0 +1,1522 @@
+{
+  "status": "prepared_not_applied_requires_approval",
+  "prepared_at_client_date": "2026-11-20",
+  "campaign_id": 716316525,
+  "scope": "Mechatronics DQ200 and electronic boards only",
+  "source_live_result": "data/direct_general_photo_20261120_result.json",
+  "baseline_readback_utc": "2026-11-19T21:05:45.834654+00:00",
+  "approval_boundary": "Uploaded audit instruction requires proposed semantic changes to be presented for approval. User explicitly approved the photo; this semantic package has not been sent to Direct.",
+  "manual_before": 266,
+  "manual_after_if_all_added_without_api_deduplication": 278,
+  "proposal_summary": {
+    "BOARDS_add": 5,
+    "WITH_add": 5,
+    "WITHOUT_add": 2,
+    "existing_keywords_to_delete": 0,
+    "existing_keywords_to_suspend": 0,
+    "campaign_negative_changes": 0,
+    "new_groups": 0,
+    "campaign_budget_changes": 0
+  },
+  "bid_explanation": "Proposed Bid=50000000 microcurrency =50 RUB, identical to all existing manual keywords in these three groups; this is an auction bid, not a guaranteed click cost.",
+  "requires_preflight": [
+    "Refresh current settings immediately before application.",
+    "Deduplicate again against fresh API keywords; reconcile returned IDs.",
+    "Require existing active relevant ads in all three groups.",
+    "Preserve all existing keyword IDs, bid values, negatives, budgets and ad content."
+  ],
+  "request_to_apply_after_approval": {
+    "endpoint": "https://api.direct.yandex.com/json/v501/keywords",
+    "method": "add",
+    "params": {
+      "Keywords": [
+        {
+          "Keyword": "эбу мехатроник dsg 7",
+          "AdGroupId": 5826320196,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "блок управления мехатроника дсг 7",
+          "AdGroupId": 5826320196,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "электронный блок управления dq200",
+          "AdGroupId": 5826320196,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "эбу dq200",
+          "AdGroupId": 5826320196,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "tcu dq200",
+          "AdGroupId": 5826320196,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "мехатроник dq200 +с эбу",
+          "AdGroupId": 5826183946,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "мехатроник dq200 +без эбу",
+          "AdGroupId": 5826171512,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "мехатроник dq200 +с блоком управления",
+          "AdGroupId": 5826183946,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "мехатроник dq200 +без блока управления",
+          "AdGroupId": 5826171512,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "мехатроник +с платой 0am927769e",
+          "AdGroupId": 5826183946,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "мехатроник +с платой 0am927769g",
+          "AdGroupId": 5826183946,
+          "Bid": 50000000
+        },
+        {
+          "Keyword": "мехатроник +с платой 0am927769k",
+          "AdGroupId": 5826183946,
+          "Bid": 50000000
+        }
+      ]
+    }
+  },
+  "new_keyword_review": [
+    {
+      "id": "K01",
+      "original_candidate": "эбу мехатроник dsg 7",
+      "proposed_explicit_operator_phrase": "эбу мехатроник dsg 7",
+      "group": "BOARDS",
+      "priority": "P1",
+      "preconditions": "Только DQ200. Подбор буквы платы по исходному номеру; не обещать универсальную совместимость или услугу клонирования.",
+      "state": "proposal_not_applied",
+      "ready_scope": "core_12_for_existing_groups"
+    },
+    {
+      "id": "K02",
+      "original_candidate": "блок управления мехатроника дсг 7",
+      "proposed_explicit_operator_phrase": "блок управления мехатроника дсг 7",
+      "group": "BOARDS",
+      "priority": "P1",
+      "preconditions": "Только DQ200. Подбор буквы платы по исходному номеру; не обещать универсальную совместимость или услугу клонирования.",
+      "state": "proposal_not_applied",
+      "ready_scope": "core_12_for_existing_groups"
+    },
+    {
+      "id": "K03",
+      "original_candidate": "электронный блок управления dq200",
+      "proposed_explicit_operator_phrase": "электронный блок управления dq200",
+      "group": "BOARDS",
+      "priority": "P1",
+      "preconditions": "Только DQ200. Подбор буквы платы по исходному номеру; не обещать универсальную совместимость или услугу клонирования.",
+      "state": "proposal_not_applied",
+      "ready_scope": "core_12_for_existing_groups"
+    },
+    {
+      "id": "K04",
+      "original_candidate": "эбу dq200",
+      "proposed_explicit_operator_phrase": "эбу dq200",
+      "group": "BOARDS",
+      "priority": "P2",
+      "preconditions": "Только DQ200. Подбор буквы платы по исходному номеру; не обещать универсальную совместимость или услугу клонирования. Дополнительный охват не доказан.",
+      "state": "proposal_not_applied",
+      "ready_scope": "core_12_for_existing_groups"
+    },
+    {
+      "id": "K05",
+      "original_candidate": "tcu dq200",
+      "proposed_explicit_operator_phrase": "tcu dq200",
+      "group": "BOARDS",
+      "priority": "P2",
+      "preconditions": "Только DQ200. Подбор буквы платы по исходному номеру; не обещать универсальную совместимость или услугу клонирования. Частотность и покупательский спрос на эту форму не проверены.",
+      "state": "proposal_not_applied",
+      "ready_scope": "core_12_for_existing_groups"
+    },
+    {
+      "id": "K06",
+      "original_candidate": "мехатроник dq200 с эбу",
+      "proposed_explicit_operator_phrase": "мехатроник dq200 +с эбу",
+      "group": "WITH",
+      "priority": "P1",
+      "preconditions": "Только DQ200. Подбор буквы платы по исходному номеру; не обещать универсальную совместимость или услугу клонирования.",
+      "state": "proposal_not_applied",
+      "ready_scope": "core_12_for_existing_groups"
+    },
+    {
+      "id": "K07",
+      "original_candidate": "мехатроник dq200 +без эбу",
+      "proposed_explicit_operator_phrase": "мехатроник dq200 +без эбу",
+      "group": "WITHOUT",
+      "priority": "P1",
+      "preconditions": "Проверять комплектность. Не обещать готовность без адаптации; товар X имеет противоречие новый/восстановленный в описании.",
+      "state": "proposal_not_applied",
+      "ready_scope": "core_12_for_existing_groups"
+    },
+    {
+      "id": "K08",
+      "original_candidate": "мехатроник dq200 с блоком управления",
+      "proposed_explicit_operator_phrase": "мехатроник dq200 +с блоком управления",
+      "group": "WITH",
+      "priority": "P2",
+      "preconditions": "Только DQ200. Подбор буквы платы по исходному номеру; не обещать универсальную совместимость или услугу клонирования. Близко к уже имеющимся фразам: прирост спроса не гарантирован.",
+      "state": "proposal_not_applied",
+      "ready_scope": "core_12_for_existing_groups"
+    },
+    {
+      "id": "K09",
+      "original_candidate": "мехатроник dq200 +без блока управления",
+      "proposed_explicit_operator_phrase": "мехатроник dq200 +без блока управления",
+      "group": "WITHOUT",
+      "priority": "P2",
+      "preconditions": "Оператор +без должен сохраниться; не обещать услуги адаптации. Близко к уже имеющимся фразам.",
+      "state": "proposal_not_applied",
+      "ready_scope": "core_12_for_existing_groups"
+    },
+    {
+      "id": "K10",
+      "original_candidate": "мехатроник с платой 0am927769e",
+      "proposed_explicit_operator_phrase": "мехатроник +с платой 0am927769e",
+      "group": "WITH",
+      "priority": "P1",
+      "preconditions": "Только DQ200. Подбор буквы платы по исходному номеру; не обещать универсальную совместимость или услугу клонирования.",
+      "state": "proposal_not_applied",
+      "ready_scope": "core_12_for_existing_groups"
+    },
+    {
+      "id": "K11",
+      "original_candidate": "мехатроник с платой 0am927769g",
+      "proposed_explicit_operator_phrase": "мехатроник +с платой 0am927769g",
+      "group": "WITH",
+      "priority": "P1",
+      "preconditions": "Только DQ200. Подбор буквы платы по исходному номеру; не обещать универсальную совместимость или услугу клонирования.",
+      "state": "proposal_not_applied",
+      "ready_scope": "core_12_for_existing_groups"
+    },
+    {
+      "id": "K12",
+      "original_candidate": "мехатроник с платой 0am927769k",
+      "proposed_explicit_operator_phrase": "мехатроник +с платой 0am927769k",
+      "group": "WITH",
+      "priority": "P1",
+      "preconditions": "Только DQ200. Подбор буквы платы по исходному номеру; не обещать универсальную совместимость или услугу клонирования.",
+      "state": "proposal_not_applied",
+      "ready_scope": "core_12_for_existing_groups"
+    },
+    {
+      "id": "K13",
+      "original_candidate": "мехатроник dq200 с возвратом старого",
+      "proposed_explicit_operator_phrase": "мехатроник dq200 +с возвратом старого",
+      "group": "EXCHANGE",
+      "priority": "P1",
+      "preconditions": "Сначала отдельный текст и ясное условие 29 500 ₽ только при возврате своего старого мехатроника; уточнить условия приёмки. Не считать новую формулировку независимым спросом от существующих фраз обмена.",
+      "state": "proposal_not_applied",
+      "ready_scope": "needs_exchange_ad_or_test_landing"
+    },
+    {
+      "id": "K14",
+      "original_candidate": "компьютер мехатроника dq200",
+      "proposed_explicit_operator_phrase": "компьютер мехатроника dq200",
+      "group": "BOARDS",
+      "priority": "P3",
+      "preconditions": "Только DQ200. Подбор буквы платы по исходному номеру; не обещать универсальную совместимость или услугу клонирования. Наличие спроса не подтверждено; не добавлять слово компьютер отдельно.",
+      "state": "proposal_not_applied",
+      "ready_scope": "needs_exchange_ad_or_test_landing"
+    },
+    {
+      "id": "K15",
+      "original_candidate": "мозги dq200",
+      "proposed_explicit_operator_phrase": "мозги dq200",
+      "group": "BOARDS",
+      "priority": "P3",
+      "preconditions": "Только DQ200. Подбор буквы платы по исходному номеру; не обещать универсальную совместимость или услугу клонирования. Наличие спроса не подтверждено.",
+      "state": "proposal_not_applied",
+      "ready_scope": "needs_exchange_ad_or_test_landing"
+    },
+    {
+      "id": "K16",
+      "original_candidate": "мехатроник шкода суперб dq200",
+      "proposed_explicit_operator_phrase": "мехатроник шкода суперб dq200",
+      "group": "MODEL",
+      "priority": "P2",
+      "preconditions": "Не все Superb имеют DQ200. Уточнять коробку/номер и не обещать совместимость только по модели.",
+      "state": "proposal_not_applied",
+      "ready_scope": "needs_exchange_ad_or_test_landing"
+    },
+    {
+      "id": "K17",
+      "original_candidate": "мехатроник ауди а1 dq200",
+      "proposed_explicit_operator_phrase": "мехатроник ауди а1 dq200",
+      "group": "MODEL",
+      "priority": "P3",
+      "preconditions": "Проверка конкретной коробки и номера обязательна; не все модификации одной модели одинаковы.",
+      "state": "proposal_not_applied",
+      "ready_scope": "needs_exchange_ad_or_test_landing"
+    },
+    {
+      "id": "K18",
+      "original_candidate": "плата мехатроника dq200 с ручным стояночным тормозом",
+      "proposed_explicit_operator_phrase": "плата мехатроника dq200 с ручным стояночным тормозом",
+      "group": "BOARD_SELECTION",
+      "priority": "P2",
+      "preconditions": "Запуск только после понятного блока подбора по номеру/комплектации. Не связывать тормоз с конкретной буквой платы без проверки.",
+      "state": "proposal_not_applied",
+      "ready_scope": "needs_exchange_ad_or_test_landing"
+    },
+    {
+      "id": "K19",
+      "original_candidate": "трещина платы дсг",
+      "proposed_explicit_operator_phrase": "трещина платы дсг",
+      "group": "CRACK",
+      "priority": "P2",
+      "preconditions": "Защищённый запрос. Нужен раздел выбора между электронной платой и гидроплитой; конкретный URL утвердить после создания. Не подставлять автоматически одну деталь.",
+      "state": "proposal_not_applied",
+      "ready_scope": "needs_exchange_ad_or_test_landing"
+    }
+  ],
+  "remaining_semantic_analysis": {
+    "general160_counts": {
+      "general_core": 41,
+      "diagnostic": 77,
+      "models": 23,
+      "exchange": 5,
+      "new_condition": 5,
+      "used_contract": 3,
+      "origin_china_faw": 6
+    },
+    "general160": {
+      "general_core": [
+        {
+          "id": "58581707731",
+          "phrase": "мехатроник dq200",
+          "source_group": null,
+          "source_position": null
+        },
+        {
+          "id": "58582030463",
+          "phrase": "мехатроник dsg7",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 5
+        },
+        {
+          "id": "58582030464",
+          "phrase": "мехатроник 0am",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 13
+        },
+        {
+          "id": "58582030465",
+          "phrase": "мехатроник 0cw",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 14
+        },
+        {
+          "id": "58582210227",
+          "phrase": "мехатроник dsg 7 dq200",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 1
+        },
+        {
+          "id": "58582210228",
+          "phrase": "мехатроник дсг 7 dq200",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 2
+        },
+        {
+          "id": "58582210229",
+          "phrase": "мехатроник dsg 7",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 3
+        },
+        {
+          "id": "58582210230",
+          "phrase": "мехатроник дсг 7",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 4
+        },
+        {
+          "id": "58582210231",
+          "phrase": "мехатроник дсг7",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 6
+        },
+        {
+          "id": "58582210232",
+          "phrase": "мехатроник dq200 купить",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 7
+        },
+        {
+          "id": "58582210233",
+          "phrase": "мехатроник dsg 7 купить",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 8
+        },
+        {
+          "id": "58582210234",
+          "phrase": "мехатроник дсг 7 купить",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 9
+        },
+        {
+          "id": "58582210235",
+          "phrase": "мехатроник dq200 цена",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 10
+        },
+        {
+          "id": "58582210236",
+          "phrase": "мехатроник dsg 7 цена",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 11
+        },
+        {
+          "id": "58582210237",
+          "phrase": "мехатроник на дсг 7 цена",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 12
+        },
+        {
+          "id": "58582210238",
+          "phrase": "мехатроник dq200 0am",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 15
+        },
+        {
+          "id": "58582210239",
+          "phrase": "мехатроника dsg 7 dq200 купить",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 16
+        },
+        {
+          "id": "58582210240",
+          "phrase": "мехатроник dq200 артикул",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 17
+        },
+        {
+          "id": "58582210241",
+          "phrase": "мехатроник dsg 7 шкода",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 18
+        },
+        {
+          "id": "58582210242",
+          "phrase": "мехатроник dsg 7 фольксваген",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 19
+        },
+        {
+          "id": "58582210243",
+          "phrase": "мехатроник dsg 7 ауди",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 20
+        },
+        {
+          "id": "58582210244",
+          "phrase": "мехатроник коробки dq200",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 21
+        },
+        {
+          "id": "58582210245",
+          "phrase": "мехатроник dq 200",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 22
+        },
+        {
+          "id": "58582210246",
+          "phrase": "мехатроник dsg dq 200",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 23
+        },
+        {
+          "id": "58582210247",
+          "phrase": "мехатроник дсг",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 24
+        },
+        {
+          "id": "58582210248",
+          "phrase": "дсг мехатроник цена",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 25
+        },
+        {
+          "id": "58582210249",
+          "phrase": "мехатроник на дсг 7 dq200 купить",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 26
+        },
+        {
+          "id": "58582210250",
+          "phrase": "купить мехатроник dsg 7 dq200",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 27
+        },
+        {
+          "id": "58582210251",
+          "phrase": "мехатроник dsg 7 dq200 цена",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 28
+        },
+        {
+          "id": "58582210252",
+          "phrase": "сколько стоит мехатроник на dsg",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 29
+        },
+        {
+          "id": "58582210253",
+          "phrase": "сколько стоит мехатроник на dsg 7",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 30
+        },
+        {
+          "id": "58582210254",
+          "phrase": "купить мехатроник dsg 7 цена для фольксваген",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 31
+        },
+        {
+          "id": "58582210255",
+          "phrase": "dq200 0cw",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 32
+        },
+        {
+          "id": "58582210256",
+          "phrase": "0cw dq200 7f",
+          "source_group": "Мехатроник DQ200 общий",
+          "source_position": 33
+        },
+        {
+          "id": "58582210261",
+          "phrase": "мехатроник проверенный dq200",
+          "source_group": "Мехатроник без платы (H)",
+          "source_position": 38
+        },
+        {
+          "id": "58582210262",
+          "phrase": "мехатроник проверенный dsg 7",
+          "source_group": "Мехатроник без платы (H)",
+          "source_position": 39
+        },
+        {
+          "id": "58582210275",
+          "phrase": "мехатроник dq200 восстановленный",
+          "source_group": "Мехатроник с новыми соленоидами Bosch (x)",
+          "source_position": 55
+        },
+        {
+          "id": "58582210276",
+          "phrase": "мехатроник dsg 7 восстановленный",
+          "source_group": "Мехатроник с новыми соленоидами Bosch (x)",
+          "source_position": 56
+        },
+        {
+          "id": "58582210277",
+          "phrase": "мехатроник dq200 в сборе",
+          "source_group": "Мехатроник с платой D (HX)",
+          "source_position": 57
+        },
+        {
+          "id": "58582210280",
+          "phrase": "мехатроник dsg 7 в сборе",
+          "source_group": "Мехатроник с платой D (HX)",
+          "source_position": 61
+        },
+        {
+          "id": "58582210282",
+          "phrase": "мехатроник dq200 в сборе купить",
+          "source_group": "Мехатроник с платой D (HX)",
+          "source_position": 64
+        }
+      ],
+      "diagnostic": [
+        {
+          "id": "58582030460",
+          "phrase": "p17bf ошибка dsg 7 dq200",
+          "source_group": "P17BF",
+          "source_position": 155
+        },
+        {
+          "id": "58582030461",
+          "phrase": "p189c ошибка dsg 7 dq200",
+          "source_group": "P189C",
+          "source_position": 167
+        },
+        {
+          "id": "58582030462",
+          "phrase": "p0841 dq200",
+          "source_group": "P0841",
+          "source_position": 182
+        },
+        {
+          "id": "58582210360",
+          "phrase": "ошибка p17bf",
+          "source_group": "P17BF",
+          "source_position": 152
+        },
+        {
+          "id": "58582210361",
+          "phrase": "p17bf ошибка dsg",
+          "source_group": "P17BF",
+          "source_position": 153
+        },
+        {
+          "id": "58582210362",
+          "phrase": "p17bf ошибка dsg 7",
+          "source_group": "P17BF",
+          "source_position": 154
+        },
+        {
+          "id": "58582210363",
+          "phrase": "p17bf ошибка фольксваген",
+          "source_group": "P17BF",
+          "source_position": 156
+        },
+        {
+          "id": "58582210364",
+          "phrase": "ошибка p17bf фольксваген dsg",
+          "source_group": "P17BF",
+          "source_position": 157
+        },
+        {
+          "id": "58582210365",
+          "phrase": "шкода октавия ошибка p17bf00",
+          "source_group": "P17BF",
+          "source_position": 158
+        },
+        {
+          "id": "58582210366",
+          "phrase": "p17bf00 ошибка dsg",
+          "source_group": "P17BF",
+          "source_position": 159
+        },
+        {
+          "id": "58582210367",
+          "phrase": "p17bf00 ошибка шкода октавия а7",
+          "source_group": "P17BF",
+          "source_position": 160
+        },
+        {
+          "id": "58582210368",
+          "phrase": "ошибка p17bf фольксваген dsg dq200",
+          "source_group": "P17BF",
+          "source_position": 161
+        },
+        {
+          "id": "58582210369",
+          "phrase": "код ошибки dtc p17bf",
+          "source_group": "P17BF",
+          "source_position": 162
+        },
+        {
+          "id": "58582210370",
+          "phrase": "vag fault code p17bf",
+          "source_group": "P17BF",
+          "source_position": 163
+        },
+        {
+          "id": "58582210371",
+          "phrase": "ошибка p189c p17bf насос работает постоянно",
+          "source_group": "P17BF",
+          "source_position": 164
+        },
+        {
+          "id": "58582210372",
+          "phrase": "p189c ошибка dsg",
+          "source_group": "P189C",
+          "source_position": 165
+        },
+        {
+          "id": "58582210373",
+          "phrase": "p189c ошибка dsg 7",
+          "source_group": "P189C",
+          "source_position": 166
+        },
+        {
+          "id": "58582210374",
+          "phrase": "p189c00 ошибка dsg",
+          "source_group": "P189C",
+          "source_position": 168
+        },
+        {
+          "id": "58582210375",
+          "phrase": "р189с ошибка дсг",
+          "source_group": "P189C",
+          "source_position": 169
+        },
+        {
+          "id": "58582210376",
+          "phrase": "ошибка p189c00 skoda octavia 2017 год",
+          "source_group": "P189C",
+          "source_position": 170
+        },
+        {
+          "id": "58582210377",
+          "phrase": "ошибка p189c00 шкода а7 дсг",
+          "source_group": "P189C",
+          "source_position": 171
+        },
+        {
+          "id": "58582210378",
+          "phrase": "ошибка p189c00 шкода а6 дсг",
+          "source_group": "P189C",
+          "source_position": 172
+        },
+        {
+          "id": "58582210379",
+          "phrase": "ошибка p189c00 акпп dq200",
+          "source_group": "P189C",
+          "source_position": 173
+        },
+        {
+          "id": "58582210380",
+          "phrase": "p189c",
+          "source_group": "P189C",
+          "source_position": 174
+        },
+        {
+          "id": "58582210381",
+          "phrase": "ошибка p189c",
+          "source_group": "P189C",
+          "source_position": 175
+        },
+        {
+          "id": "58582210382",
+          "phrase": "p189c00",
+          "source_group": "P189C",
+          "source_position": 176
+        },
+        {
+          "id": "58582210383",
+          "phrase": "p1895 ошибка dsg",
+          "source_group": "P1895",
+          "source_position": 177
+        },
+        {
+          "id": "58582210384",
+          "phrase": "p1895 ошибка dsg 7 dq200",
+          "source_group": "P1895",
+          "source_position": 178
+        },
+        {
+          "id": "58582210385",
+          "phrase": "vag fault code p1895",
+          "source_group": "P1895",
+          "source_position": 179
+        },
+        {
+          "id": "58582210386",
+          "phrase": "0am dsg 7 ошибка p1895",
+          "source_group": "P1895",
+          "source_position": 180
+        },
+        {
+          "id": "58582210387",
+          "phrase": "p0841 ошибка dsg 7",
+          "source_group": "P0841",
+          "source_position": 181
+        },
+        {
+          "id": "58582210388",
+          "phrase": "ошибка p0841 dsg dq200",
+          "source_group": "P0841",
+          "source_position": 183
+        },
+        {
+          "id": "58582210389",
+          "phrase": "p0841 ошибка dsg 7 dq200",
+          "source_group": "P0841",
+          "source_position": 184
+        },
+        {
+          "id": "58582210390",
+          "phrase": "p0841 ошибка vag",
+          "source_group": "P0841",
+          "source_position": 185
+        },
+        {
+          "id": "58582210391",
+          "phrase": "vag fault code p0841",
+          "source_group": "P0841",
+          "source_position": 186
+        },
+        {
+          "id": "58582210392",
+          "phrase": "р0841 ошибка фольксваген дсг7",
+          "source_group": "P0841",
+          "source_position": 187
+        },
+        {
+          "id": "58582210393",
+          "phrase": "ошибка р0841 фольксваген дсг",
+          "source_group": "P0841",
+          "source_position": 188
+        },
+        {
+          "id": "58582210394",
+          "phrase": "dtc p0841 skoda",
+          "source_group": "P0841",
+          "source_position": 189
+        },
+        {
+          "id": "58582210395",
+          "phrase": "06079 ошибка фольксваген",
+          "source_group": "006079",
+          "source_position": 190
+        },
+        {
+          "id": "58582210396",
+          "phrase": "ошибка 06079 dsg 7",
+          "source_group": "006079",
+          "source_position": 191
+        },
+        {
+          "id": "58582210397",
+          "phrase": "ошибка 6079 дсг",
+          "source_group": "006079",
+          "source_position": 192
+        },
+        {
+          "id": "58582210398",
+          "phrase": "006079 ошибка дсг 7",
+          "source_group": "006079",
+          "source_position": 193
+        },
+        {
+          "id": "58582210399",
+          "phrase": "джетта 6 ошибка 06079",
+          "source_group": "006079",
+          "source_position": 194
+        },
+        {
+          "id": "58582210400",
+          "phrase": "ошибка 6079 дсг 7",
+          "source_group": "006079",
+          "source_position": 195
+        },
+        {
+          "id": "58582210401",
+          "phrase": "p060700 ошибка дсг",
+          "source_group": "P0607",
+          "source_position": 196
+        },
+        {
+          "id": "58582210402",
+          "phrase": "p060700 dq200",
+          "source_group": "P0607",
+          "source_position": 197
+        },
+        {
+          "id": "58582210403",
+          "phrase": "p060700 ошибка dq200",
+          "source_group": "P0607",
+          "source_position": 198
+        },
+        {
+          "id": "58582210404",
+          "phrase": "p0607 dq200",
+          "source_group": "P0607",
+          "source_position": 199
+        },
+        {
+          "id": "58582210405",
+          "phrase": "p060700 ошибка дсг dq200",
+          "source_group": "P0607",
+          "source_position": 200
+        },
+        {
+          "id": "58582210406",
+          "phrase": "p060700 ошибка dq200 двигатель не запускается",
+          "source_group": "P0607",
+          "source_position": 201
+        },
+        {
+          "id": "58582210407",
+          "phrase": "p175d ошибка dsg",
+          "source_group": "P175D",
+          "source_position": 202
+        },
+        {
+          "id": "58582210408",
+          "phrase": "p175d ошибка dsg 7 dq200",
+          "source_group": "P175D",
+          "source_position": 203
+        },
+        {
+          "id": "58582210409",
+          "phrase": "p072c ошибка dsg 7 dq200",
+          "source_group": "? P072C",
+          "source_position": 204
+        },
+        {
+          "id": "58582210410",
+          "phrase": "u0101 ошибка vw",
+          "source_group": "? U0101 связь с блоком коробки",
+          "source_position": 205
+        },
+        {
+          "id": "58582210411",
+          "phrase": "ошибка u0101 фольксваген",
+          "source_group": "? U0101 связь с блоком коробки",
+          "source_position": 206
+        },
+        {
+          "id": "58582210412",
+          "phrase": "u0101 ошибка vw dsg",
+          "source_group": "? U0101 связь с блоком коробки",
+          "source_position": 207
+        },
+        {
+          "id": "58582210413",
+          "phrase": "u0101 ошибка шкода октавия а7",
+          "source_group": "? U0101 связь с блоком коробки",
+          "source_position": 208
+        },
+        {
+          "id": "58582210414",
+          "phrase": "ошибка u0101 шкода октавия а5",
+          "source_group": "? U0101 связь с блоком коробки",
+          "source_position": 209
+        },
+        {
+          "id": "58582210415",
+          "phrase": "пассат б6 дсг7 ошибка u0101",
+          "source_group": "? U0101 связь с блоком коробки",
+          "source_position": 210
+        },
+        {
+          "id": "58582210416",
+          "phrase": "ошибка u0101 01315 фольксваген только на горячую",
+          "source_group": "? U0101 связь с блоком коробки",
+          "source_position": 211
+        },
+        {
+          "id": "58582210417",
+          "phrase": "01315 фольксваген",
+          "source_group": "? 01315 связь с блоком коробки",
+          "source_position": 212
+        },
+        {
+          "id": "58582210418",
+          "phrase": "ошибка 01315",
+          "source_group": "? 01315 связь с блоком коробки",
+          "source_position": 213
+        },
+        {
+          "id": "58582210419",
+          "phrase": "01315",
+          "source_group": "? 01315 связь с блоком коробки",
+          "source_position": 214
+        },
+        {
+          "id": "58582210420",
+          "phrase": "01315 ошибка фольксваген",
+          "source_group": "? 01315 связь с блоком коробки",
+          "source_position": 215
+        },
+        {
+          "id": "58582210421",
+          "phrase": "01315 ошибка vw",
+          "source_group": "? 01315 связь с блоком коробки",
+          "source_position": 216
+        },
+        {
+          "id": "58582210422",
+          "phrase": "01315 ошибка шкода",
+          "source_group": "? 01315 связь с блоком коробки",
+          "source_position": 217
+        },
+        {
+          "id": "58582210423",
+          "phrase": "01315 блок управления коробки передач",
+          "source_group": "? 01315 связь с блоком коробки",
+          "source_position": 218
+        },
+        {
+          "id": "58582210424",
+          "phrase": "vag fault code 01315",
+          "source_group": "? 01315 связь с блоком коробки",
+          "source_position": 219
+        },
+        {
+          "id": "58582210425",
+          "phrase": "01315 dq200 пассат в7",
+          "source_group": "? 01315 связь с блоком коробки",
+          "source_position": 220
+        },
+        {
+          "id": "58582210426",
+          "phrase": "01315 ошибка ауди",
+          "source_group": "? 01315 связь с блоком коробки",
+          "source_position": 221
+        },
+        {
+          "id": "58582210427",
+          "phrase": "давление в мехатронике дсг 7",
+          "source_group": "? Давление / неисправность мехатроника",
+          "source_position": 222
+        },
+        {
+          "id": "58582210428",
+          "phrase": "dq200 не держит давление",
+          "source_group": "? Давление / неисправность мехатроника",
+          "source_position": 223
+        },
+        {
+          "id": "58582210429",
+          "phrase": "признаки неисправности мехатроника dsg 7 dq200",
+          "source_group": "? Давление / неисправность мехатроника",
+          "source_position": 224
+        },
+        {
+          "id": "58582210430",
+          "phrase": "быстрое падение давление в мехатронике dq200",
+          "source_group": "? Давление / неисправность мехатроника",
+          "source_position": 225
+        },
+        {
+          "id": "58582210431",
+          "phrase": "ауди а3 2012г ошибка связи с мехатроником",
+          "source_group": "? Давление / неисправность мехатроника",
+          "source_position": 226
+        },
+        {
+          "id": "58582210432",
+          "phrase": "коробка dq200 падает давление в мехатронике",
+          "source_group": "? Давление / неисправность мехатроника",
+          "source_position": 227
+        },
+        {
+          "id": "58582210433",
+          "phrase": "p173c ошибка dsg 7 dq200",
+          "source_group": "P173C",
+          "source_position": 228
+        }
+      ],
+      "models": [
+        {
+          "id": "58582210334",
+          "phrase": "мехатроник шкода октавия",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 126
+        },
+        {
+          "id": "58582210335",
+          "phrase": "мехатроник шкода октавия а7",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 127
+        },
+        {
+          "id": "58582210336",
+          "phrase": "мехатроник шкода октавия а5",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 128
+        },
+        {
+          "id": "58582210337",
+          "phrase": "мехатроник шкода октавия а7 1.8",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 129
+        },
+        {
+          "id": "58582210338",
+          "phrase": "мехатроник шкода октавия а5 купить",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 130
+        },
+        {
+          "id": "58582210339",
+          "phrase": "мехатроник шкода йети",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 131
+        },
+        {
+          "id": "58582210340",
+          "phrase": "мехатроник шкода рапид купить",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 132
+        },
+        {
+          "id": "58582210341",
+          "phrase": "мехатроник шкода рапид",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 133
+        },
+        {
+          "id": "58582210342",
+          "phrase": "мехатроник гольф 6",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 134
+        },
+        {
+          "id": "58582210343",
+          "phrase": "мехатроник гольф 7",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 135
+        },
+        {
+          "id": "58582210344",
+          "phrase": "мехатроник гольф 6 1.4",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 136
+        },
+        {
+          "id": "58582210345",
+          "phrase": "мехатроник пассат",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 137
+        },
+        {
+          "id": "58582210346",
+          "phrase": "мехатроник пассат б6",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 138
+        },
+        {
+          "id": "58582210347",
+          "phrase": "мехатроник пассат сс",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 139
+        },
+        {
+          "id": "58582210348",
+          "phrase": "мехатроник на пассат б7",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 140
+        },
+        {
+          "id": "58582210349",
+          "phrase": "мехатроник пассат б7 купить",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 141
+        },
+        {
+          "id": "58582210350",
+          "phrase": "мехатроник фольксваген пассат б7",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 142
+        },
+        {
+          "id": "58582210351",
+          "phrase": "мехатроник для фольксваген пассат цц",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 143
+        },
+        {
+          "id": "58582210352",
+          "phrase": "мехатроник ауди а3",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 144
+        },
+        {
+          "id": "58582210353",
+          "phrase": "мехатроник поло",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 145
+        },
+        {
+          "id": "58582210354",
+          "phrase": "мехатроник фольксваген поло",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 146
+        },
+        {
+          "id": "58582210355",
+          "phrase": "мехатроник джетта",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 147
+        },
+        {
+          "id": "58582210356",
+          "phrase": "мехатроник сеат леон",
+          "source_group": "Мехатроник по моделям авто",
+          "source_position": 148
+        }
+      ],
+      "exchange": [
+        {
+          "id": "58582210313",
+          "phrase": "мехатроник dq200 обмен",
+          "source_group": "Мехатроник по обмену",
+          "source_position": 105
+        },
+        {
+          "id": "58582210314",
+          "phrase": "мехатроник dsg 7 обмен",
+          "source_group": "Мехатроник по обмену",
+          "source_position": 106
+        },
+        {
+          "id": "58582210315",
+          "phrase": "мехатроник дсг 7 обмен",
+          "source_group": "Мехатроник по обмену",
+          "source_position": 107
+        },
+        {
+          "id": "58582210316",
+          "phrase": "обмен мехатроника dq200",
+          "source_group": "Мехатроник по обмену",
+          "source_position": 108
+        },
+        {
+          "id": "58582210317",
+          "phrase": "обмен мехатроника dsg 7",
+          "source_group": "Мехатроник по обмену",
+          "source_position": 109
+        }
+      ],
+      "new_condition": [
+        {
+          "id": "58582210269",
+          "phrase": "купить мехатроник dsg 7 dq200 новый",
+          "source_group": "Мехатроник с новыми соленоидами Bosch (x)",
+          "source_position": 48
+        },
+        {
+          "id": "58582210270",
+          "phrase": "новый мехатроник dq200",
+          "source_group": "Мехатроник с новыми соленоидами Bosch (x)",
+          "source_position": 49
+        },
+        {
+          "id": "58582210271",
+          "phrase": "новый мехатроник dsg 7",
+          "source_group": "Мехатроник с новыми соленоидами Bosch (x)",
+          "source_position": 50
+        },
+        {
+          "id": "58582210272",
+          "phrase": "мехатроник dq200 купить новый",
+          "source_group": "Мехатроник с новыми соленоидами Bosch (x)",
+          "source_position": 51
+        },
+        {
+          "id": "58582210273",
+          "phrase": "мехатроник dsg 7 купить новый",
+          "source_group": "Мехатроник с новыми соленоидами Bosch (x)",
+          "source_position": 52
+        }
+      ],
+      "used_contract": [
+        {
+          "id": "58582210263",
+          "phrase": "мехатроник dq200 бу",
+          "source_group": "Мехатроник без платы (H)",
+          "source_position": 40
+        },
+        {
+          "id": "58582210264",
+          "phrase": "мехатроник dsg 7 бу",
+          "source_group": "Мехатроник без платы (H)",
+          "source_position": 41
+        },
+        {
+          "id": "58582210266",
+          "phrase": "мехатроник dq200 контрактный",
+          "source_group": "Мехатроник без платы (H)",
+          "source_position": 43
+        }
+      ],
+      "origin_china_faw": [
+        {
+          "id": "58582210327",
+          "phrase": "китайский мехатроник dq200",
+          "source_group": "Китайский мехатроник DQ200",
+          "source_position": 119
+        },
+        {
+          "id": "58582210328",
+          "phrase": "китайский мехатроник dq 200",
+          "source_group": "Китайский мехатроник DQ200",
+          "source_position": 120
+        },
+        {
+          "id": "58582210330",
+          "phrase": "китайский мехатроник dsg 7",
+          "source_group": "Китайский мехатроник DQ200",
+          "source_position": 122
+        },
+        {
+          "id": "58582210331",
+          "phrase": "мехатроник dq200 китай",
+          "source_group": "Китайский мехатроник DQ200",
+          "source_position": 123
+        },
+        {
+          "id": "58582210332",
+          "phrase": "мехатроник dsg 7 китай",
+          "source_group": "Китайский мехатроник DQ200",
+          "source_position": 124
+        },
+        {
+          "id": "58582210333",
+          "phrase": "мехатроник dq200 faw",
+          "source_group": "Китайский мехатроник DQ200",
+          "source_position": 125
+        }
+      ]
+    },
+    "proposal_diagnostic_group": {
+      "count": 77,
+      "title": "Мехатроники и платы DSG7 DQ200",
+      "text": "Мехатроники и электронные платы DQ200. Продажа запчастей. Гарантия.",
+      "landing": "https://leoparts-akpp.ru/mehatronik-dq200",
+      "caveat": "Код неисправности не определяет единственную деталь. Это группа товарного теста, не услуга диагностики и не отдельный бюджет. Перед переносом нужна модерация нового объявления; не удалять исходные234строки. Операция сменыгруппы не поддерживается Keywords.update: нужен контролируемый add+pauseold с картой ID."
+    },
+    "ten_keywords_preserved_but_no_active_ad": [
+      {
+        "id": "58582210257",
+        "phrase": "0am325025d",
+        "current_group_id": "5828501773",
+        "current_group_has_active_ad": false,
+        "proposed_route": "GENERAL: выбор мехатроника; не сопоставлять с внутренним SKU втулки",
+        "confidence": "Гипотеза по внешнему OEM-значению, без универсальной совместимости"
+      },
+      {
+        "id": "58582210318",
+        "phrase": "гидроблок dq200",
+        "current_group_id": "5828501772",
+        "current_group_has_active_ad": false,
+        "proposed_route": "GENERAL/тест гидравлической части: неоднозначность блок/плита",
+        "confidence": "Средняя; не переносить автоматически"
+      },
+      {
+        "id": "58582210319",
+        "phrase": "гидроблок дсг 7 dq200",
+        "current_group_id": "5828501772",
+        "current_group_has_active_ad": false,
+        "proposed_route": "GENERAL/тест гидравлической части: неоднозначность блок/плита",
+        "confidence": "Средняя; не переносить автоматически"
+      },
+      {
+        "id": "58582210320",
+        "phrase": "гидроблок мехатроник dsg 7",
+        "current_group_id": "5828501772",
+        "current_group_has_active_ad": false,
+        "proposed_route": "WITHOUT: кандидат на собранную гидравлическую часть мехатроника",
+        "confidence": "Средняя; проверить комплектность по обращениям"
+      },
+      {
+        "id": "58582210321",
+        "phrase": "гидроблок мехатроника dq200",
+        "current_group_id": "5828501772",
+        "current_group_has_active_ad": false,
+        "proposed_route": "WITHOUT: кандидат на собранную гидравлическую часть мехатроника",
+        "confidence": "Средняя; проверить комплектность по обращениям"
+      },
+      {
+        "id": "58582210322",
+        "phrase": "гидроблок дсг",
+        "current_group_id": "5828501772",
+        "current_group_has_active_ad": false,
+        "proposed_route": "Тест DSG с явным DQ200 в объявлении; широкая модель трансмиссии",
+        "confidence": "Низкая/средняя; нет точного DQ200"
+      },
+      {
+        "id": "58582210323",
+        "phrase": "гидроблок дсг 7",
+        "current_group_id": "5828501772",
+        "current_group_has_active_ad": false,
+        "proposed_route": "Тест DSG с явным DQ200 в объявлении; широкая модель трансмиссии",
+        "confidence": "Низкая/средняя; нет точного DQ200"
+      },
+      {
+        "id": "58582210324",
+        "phrase": "гидроблок dsg 7",
+        "current_group_id": "5828501772",
+        "current_group_has_active_ad": false,
+        "proposed_route": "Тест DSG с явным DQ200 в объявлении; широкая модель трансмиссии",
+        "confidence": "Низкая/средняя; нет точного DQ200"
+      },
+      {
+        "id": "58582210325",
+        "phrase": "гидроблок dq200 купить",
+        "current_group_id": "5828501772",
+        "current_group_has_active_ad": false,
+        "proposed_route": "GENERAL/тест гидравлической части: неоднозначность блок/плита",
+        "confidence": "Средняя; не переносить автоматически"
+      },
+      {
+        "id": "58582210326",
+        "phrase": "гидроблок дсг 7 купить",
+        "current_group_id": "5828501772",
+        "current_group_has_active_ad": false,
+        "proposed_route": "Тест DSG с явным DQ200 в объявлении; широкая модель трансмиссии",
+        "confidence": "Низкая/средняя; нет точного DQ200"
+      }
+    ],
+    "minus_proposal": {
+      "remove_exact7": [
+        "бесплатно",
+        "купить коробку дсг 7 dq200",
+        "прошивка мехатроника",
+        "прошить мехатроник",
+        "снятие мехатроника",
+        "схема подключения",
+        "установка мехатроника"
+      ],
+      "add_exact13": [
+        "\"купить коробку дсг 7 dq200\"",
+        "\"прошивка мехатроника\"",
+        "\"прошивка мехатроника dq200\"",
+        "\"цена прошивки мехатроника dq200\"",
+        "\"прошить мехатроник\"",
+        "\"прошить мехатроник dq200\"",
+        "\"где прошить мехатроник dq200\"",
+        "\"снятие мехатроника\"",
+        "\"снятие мехатроника dq200\"",
+        "\"стоимость снятия мехатроника dq200\"",
+        "\"установка мехатроника\"",
+        "\"установка мехатроника dq200\"",
+        "\"цена установки мехатроника dq200\""
+      ],
+      "before_count": 130,
+      "after_count": 136,
+      "why": "Сужение сервисных исключений; не массовое расширение. Удаление широких бесплатно/схема подключения — гипотеза сохранения товарного спроса. Новые бесплатные/схема исключения не добавлять без данных.",
+      "protected_queries": [
+        "трещина платы дсг",
+        "купить мехатроник dq200 доставка бесплатно",
+        "купить плату коробки дсг 7 dq200",
+        "купить мехатроник dq200 без прошивки",
+        "купить мехатроник dq200 чтобы прошить в сервисе",
+        "купить мехатроник dq200 после снятия старого",
+        "купить плату dq200 со схемой подключения",
+        "купить мехатроник dq200 без установки"
+      ]
+    },
+    "operator_review_only": {
+      "count": 19,
+      "candidates": [
+        {
+          "id": "58544149377",
+          "before": "мехатроник dq200 без платы -купить -электронный -сбор",
+          "candidate": "мехатроник dq200 +без платы -купить -электронный -сбор"
+        },
+        {
+          "id": "58544149378",
+          "before": "мехатроник dsg7 без платы",
+          "candidate": "мехатроник dsg7 +без платы"
+        },
+        {
+          "id": "58544149379",
+          "before": "мехатроник 0am без платы",
+          "candidate": "мехатроник 0am +без платы"
+        },
+        {
+          "id": "58544149380",
+          "before": "мехатроник 0cw без платы",
+          "candidate": "мехатроник 0cw +без платы"
+        },
+        {
+          "id": "58544149381",
+          "before": "купить мехатроник dq200 без платы",
+          "candidate": "купить мехатроник dq200 +без платы"
+        },
+        {
+          "id": "58544149382",
+          "before": "мехатроник dq200 без электронной платы",
+          "candidate": "мехатроник dq200 +без электронной платы"
+        },
+        {
+          "id": "58544149383",
+          "before": "мехатроник dsg 7 без электронной платы",
+          "candidate": "мехатроник dsg 7 +без электронной платы"
+        },
+        {
+          "id": "58544149390",
+          "before": "мехатроник dq200 в сборе без платы",
+          "candidate": "мехатроник dq200 в сборе +без платы"
+        },
+        {
+          "id": "58545151245",
+          "before": "мехатроник dq200 с платой -электронный -купить -сбор",
+          "candidate": "мехатроник dq200 +с платой -электронный -купить -сбор"
+        },
+        {
+          "id": "58545151246",
+          "before": "мехатроник dq200 с электронной платой",
+          "candidate": "мехатроник dq200 +с электронной платой"
+        },
+        {
+          "id": "58545151247",
+          "before": "купить мехатроник dq200 с платой",
+          "candidate": "купить мехатроник dq200 +с платой"
+        },
+        {
+          "id": "58545151248",
+          "before": "мехатроник dsg7 с платой",
+          "candidate": "мехатроник dsg7 +с платой"
+        },
+        {
+          "id": "58545151249",
+          "before": "мехатроник 0am с платой",
+          "candidate": "мехатроник 0am +с платой"
+        },
+        {
+          "id": "58545151250",
+          "before": "мехатроник 0cw с платой",
+          "candidate": "мехатроник 0cw +с платой"
+        },
+        {
+          "id": "58545151251",
+          "before": "мехатроник dq200 в сборе с платой",
+          "candidate": "мехатроник dq200 в сборе +с платой"
+        },
+        {
+          "id": "58582030455",
+          "before": "мехатроник с платой 0am927769d",
+          "candidate": "мехатроник +с платой 0am927769d"
+        },
+        {
+          "id": "58582030456",
+          "before": "мехатроник с платой 0am927769f",
+          "candidate": "мехатроник +с платой 0am927769f"
+        },
+        {
+          "id": "58582210278",
+          "before": "мехатроник с платой дсг 7",
+          "candidate": "мехатроник +с платой дсг 7"
+        },
+        {
+          "id": "58582210279",
+          "before": "мехатроник с платой dsg 7",
+          "candidate": "мехатроник +с платой dsg 7"
+        }
+      ],
+      "warning": "Отсутствие+ не доказанная ошибка: Директ учитывает смысл стоп-слов. Не массово обновлять: keyword.update может заменитьID/удалитьдубликат. Пара58544149377+58582210258 уже пересекается по положительнойфразе.",
+      "do_not_apply_blanket_group_negatives": [
+        "плата",
+        "мехатроник",
+        "ремонт",
+        "замена",
+        "ошибка"
+      ]
+    },
+    "sources": [
+      "https://yandex.ru/support/direct/ru/keywords/negative-keywords",
+      "https://yandex.ru/support/direct/ru/keywords/symbols-and-operators",
+      "https://yandex.ru/dev/direct/doc/ru/keywords/update"
+    ]
+  },
+  "limitations": [
+    "Exact phrase absence does not prove absence of coverage; broad matching and autotargeting may already serve these queries.",
+    "No search-frequency or profit uplift numbers invented.",
+    "All 234 source rows retained; ten remain in groups without an active ad after component ads were suspended.",
+    "No new key, minus or group change applied by this proposal."
+  ]
+}
