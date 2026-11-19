@@ -1,20 +1,31 @@
 {
   "mode": "refresh",
-  "status": "guard_failed_no_mutations",
+  "status": "refresh_requested_waiting_processing",
   "campaign_id": 716316525,
   "feed_id": 4061297,
   "target_ad_ids": [
     1927186476439690942,
     1927189770678081700
   ],
-  "started_at_utc": "2026-11-19T16:05:16.278228+00:00",
-  "workflow_commit": "c34d3f1f1adbd48924edf0e7dad43b6e3a4e5d18",
-  "mutation_attempts": [],
-  "mutations_verified": [],
-  "errors": [
-    "Public feed does not match the exact authorized seven-offer patch"
+  "started_at_utc": "2026-11-19T16:08:54.158967+00:00",
+  "workflow_commit": "ba0dc6809dbc14ecd3c60f8a2ada96e24934cfda",
+  "mutation_attempts": [
+    {
+      "service": "feeds",
+      "method": "update",
+      "id": 4061297
+    }
   ],
+  "mutations_verified": [
+    {
+      "service": "feeds",
+      "id": 4061297,
+      "url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml?copy_rev=20261119_01"
+    }
+  ],
+  "errors": [],
   "plan_sha256": "7e6169a4446329f77539dd01fd750861b1ab8cfa5c57f5474765802e500ce0fe",
+  "approved_copy_write_ids": [],
   "feed_semantic_hashes": {
     "before": "5b580ea333ede077f300b3a69059ab57e076601e0a02f2ac2b80bff8ec598a29",
     "after": "efac4a4e070586cbb4525a43fccc8e9fa2aad87c49e4787c5b0835eddf63efc0"
@@ -23,8 +34,8 @@
     "Id": 4061297,
     "Name": "Leoparts DQ200 — проверка.",
     "SourceType": "URL",
-    "Status": "DONE",
-    "UpdatedAt": "2026-11-19T11:03:24",
+    "Status": "UPDATING",
+    "UpdatedAt": "2026-11-19T19:08:58",
     "NumberOfItems": 12,
     "TitleAndTextSources": {
       "Items": [
@@ -32,7 +43,7 @@
       ]
     },
     "UrlFeed": {
-      "Url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml"
+      "Url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml?copy_rev=20261119_01"
     }
   },
   "ads": {
@@ -163,5 +174,64 @@
       }
     }
   },
-  "finished_at_utc": "2026-11-19T16:05:20.659072+00:00"
+  "public_feed_observations": [
+    {
+      "attempt": 1,
+      "checked_at_utc": "2026-11-19T16:08:57.957377+00:00",
+      "url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml?copy_rev=20261119_01",
+      "semantic_sha256": "efac4a4e070586cbb4525a43fccc8e9fa2aad87c49e4787c5b0835eddf63efc0",
+      "matches_before": false,
+      "matches_after": true,
+      "mechatronics": [
+        {
+          "offer_id": "0am325025h",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025hx",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025hxe",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025hxf",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025hxg",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025hxk",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        },
+        {
+          "offer_id": "0am325025x",
+          "name": "Мехатроник DSG7 DQ200 0AM325025",
+          "description_present": true,
+          "description_matches_approved": true
+        }
+      ],
+      "approved_name_count": 7,
+      "description_present_count": 7,
+      "approved_description_count": 7
+    }
+  ],
+  "public_after_feed_verified": true,
+  "refresh_response_ok": true,
+  "finished_at_utc": "2026-11-19T16:09:02.356348+00:00"
 }
