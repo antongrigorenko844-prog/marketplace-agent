@@ -1028,7 +1028,7 @@
         ]
       },
       "response_at_utc": "2026-11-19T18:37:41.543958+00:00",
-      "readback_verified_at_utc": "2026-11-19T18:38:15.563175+00:00"
+      "readback_verified_at_utc": "2026-11-19T18:38:26.903196+00:00"
     },
     "auto_settings": {
       "key": "auto_settings",
@@ -1146,7 +1146,7 @@
         ]
       },
       "response_at_utc": "2026-11-19T18:38:07.162385+00:00",
-      "readback_verified_at_utc": "2026-11-19T18:38:15.563191+00:00"
+      "readback_verified_at_utc": "2026-11-19T18:38:26.903213+00:00"
     },
     "auto_bid": {
       "key": "auto_bid",
@@ -1163,8 +1163,48 @@
       },
       "intent_at_utc": "2026-11-19T18:38:15.565497+00:00",
       "before_ids": [],
+      "outcome": "response_received",
+      "result": {
+        "SetResults": [
+          {
+            "KeywordId": 205828476541,
+            "Errors": []
+          }
+        ]
+      },
+      "response_at_utc": "2026-11-19T18:38:19.665358+00:00"
+    },
+    "ad_add": {
+      "key": "ad_add",
+      "service": "ads",
+      "method": "add",
+      "params": {
+        "Ads": [
+          {
+            "AdGroupId": 5828476541,
+            "ResponsiveAd": {
+              "Titles": [
+                "Мехатроник DSG7 DQ200"
+              ],
+              "Texts": [
+                "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ"
+              ],
+              "Href": "https://leoparts-akpp.ru/mehatronik-dq200",
+              "SitelinkSetId": 1526814548
+            }
+          }
+        ]
+      },
+      "intent_at_utc": "2026-11-19T18:38:26.905212+00:00",
+      "before_ids": [
+        1927186476439690942,
+        1927189770678081700,
+        1927190920657966611,
+        1927466195846975291,
+        1927466206584354174
+      ],
       "outcome": "intent_saved_before_network"
     }
   },
-  "last_readback_at_utc": "2026-11-19T18:38:15.563193+00:00"
+  "last_readback_at_utc": "2026-11-19T18:38:26.903216+00:00"
 }
