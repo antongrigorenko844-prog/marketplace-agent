@@ -1,13 +1,13 @@
 {
   "campaign_id": 716316525,
-  "started_at_utc": "2026-11-19T18:37:26.340507+00:00",
-  "workflow_commit": "2219fb6a1cb03140aaf778b46e5ed04df75f51fd",
+  "started_at_utc": "2026-11-19T18:40:17.448611+00:00",
+  "workflow_commit": "721bbd0a15ff52d4413a56b53183981c61928a43",
   "status": "saved_waiting_moderation_or_activation",
-  "api_write_attempts_this_run": 6,
+  "api_write_attempts_this_run": 0,
   "errors": [],
   "plan_sha256": "dab383c9bb4f6149c0cd7a1dfd03e4b39ec3e98b17ee308204f8ed4afd007e9a",
-  "mode": "apply",
-  "request_id": "two-keywords-apply-20261120-01",
+  "mode": "check",
+  "request_id": "two-keywords-check-20261120-01",
   "initial_readback": {
     "campaign": {
       "TimeZone": "Europe/Moscow",
@@ -297,6 +297,22 @@
       {
         "Id": 5826320196,
         "Name": "Название: DQ200 | Электронные платы | Поиск.",
+        "CampaignId": 716316525,
+        "Status": "ACCEPTED",
+        "Type": "UNIFIED_AD_GROUP",
+        "Subtype": "NONE",
+        "RegionIds": [
+          225,
+          -11024,
+          977
+        ],
+        "NegativeKeywords": null,
+        "NegativeKeywordSharedSetIds": null,
+        "TrackingParams": ""
+      },
+      {
+        "Id": 5828476541,
+        "Name": "DQ200 | Мехатроники общий запрос | Поиск",
         "CampaignId": 716316525,
         "Status": "ACCEPTED",
         "Type": "UNIFIED_AD_GROUP",
@@ -703,6 +719,26 @@
         "Status": "ACCEPTED"
       },
       {
+        "Id": 58581707731,
+        "Keyword": "мехатроник dq200",
+        "AdGroupId": 5828476541,
+        "CampaignId": 716316525,
+        "Bid": 50000000,
+        "ContextBid": 300000,
+        "State": "ON",
+        "Status": "ACCEPTED"
+      },
+      {
+        "Id": 58581707732,
+        "Keyword": "0am927769d",
+        "AdGroupId": 5826320196,
+        "CampaignId": 716316525,
+        "Bid": 50000000,
+        "ContextBid": 300000,
+        "State": "ON",
+        "Status": "ACCEPTED"
+      },
+      {
         "Id": 205826171512,
         "Keyword": "---autotargeting",
         "AdGroupId": 5826171512,
@@ -774,6 +810,31 @@
             "WithoutBrands": "YES",
             "WithAdvertiserBrand": "YES",
             "WithCompetitorsBrand": "YES"
+          }
+        }
+      },
+      {
+        "Id": 205828476541,
+        "Keyword": "---autotargeting",
+        "AdGroupId": 5828476541,
+        "CampaignId": 716316525,
+        "Bid": 50000000,
+        "AutotargetingSearchBidIsAuto": "NO",
+        "ContextBid": 30000000,
+        "State": "ON",
+        "Status": "ACCEPTED",
+        "AutotargetingSettings": {
+          "Categories": {
+            "Exact": "YES",
+            "Narrow": "NO",
+            "Alternative": "NO",
+            "Accessory": "NO",
+            "Broader": "NO"
+          },
+          "BrandOptions": {
+            "WithoutBrands": "YES",
+            "WithAdvertiserBrand": "YES",
+            "WithCompetitorsBrand": "NO"
           }
         }
       }
@@ -963,6 +1024,32 @@
             "Status": "ACCEPTED",
             "StatusClarification": "Sitelinks accepted at moderation."
           }
+        }
+      },
+      {
+        "Id": 1927488453443618167,
+        "CampaignId": 716316525,
+        "AdGroupId": 5828476541,
+        "Status": "MODERATION",
+        "State": "OFF",
+        "StatusClarification": "Awaiting moderation.",
+        "Type": "RESPONSIVE_AD",
+        "ResponsiveAd": {
+          "Texts": [
+            {
+              "Text": "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ",
+              "Status": "ACCEPTED"
+            }
+          ],
+          "Titles": [
+            {
+              "Title": "Мехатроник DSG7 DQ200",
+              "Status": "ACCEPTED"
+            }
+          ],
+          "Href": "https://leoparts-akpp.ru/mehatronik-dq200",
+          "SitelinkSetId": 1526814548,
+          "SitelinksModeration": null
         }
       }
     ],
@@ -1288,6 +1375,22 @@
         "NegativeKeywords": null,
         "NegativeKeywordSharedSetIds": null,
         "TrackingParams": ""
+      },
+      {
+        "Id": 5828476541,
+        "Name": "DQ200 | Мехатроники общий запрос | Поиск",
+        "CampaignId": 716316525,
+        "Status": "ACCEPTED",
+        "Type": "UNIFIED_AD_GROUP",
+        "Subtype": "NONE",
+        "RegionIds": [
+          225,
+          -11024,
+          977
+        ],
+        "NegativeKeywords": null,
+        "NegativeKeywordSharedSetIds": null,
+        "TrackingParams": ""
       }
     ],
     "keywords": [
@@ -1682,6 +1785,26 @@
         "Status": "ACCEPTED"
       },
       {
+        "Id": 58581707731,
+        "Keyword": "мехатроник dq200",
+        "AdGroupId": 5828476541,
+        "CampaignId": 716316525,
+        "Bid": 50000000,
+        "ContextBid": 300000,
+        "State": "ON",
+        "Status": "ACCEPTED"
+      },
+      {
+        "Id": 58581707732,
+        "Keyword": "0am927769d",
+        "AdGroupId": 5826320196,
+        "CampaignId": 716316525,
+        "Bid": 50000000,
+        "ContextBid": 300000,
+        "State": "ON",
+        "Status": "ACCEPTED"
+      },
+      {
         "Id": 205826171512,
         "Keyword": "---autotargeting",
         "AdGroupId": 5826171512,
@@ -1753,6 +1876,31 @@
             "WithoutBrands": "YES",
             "WithAdvertiserBrand": "YES",
             "WithCompetitorsBrand": "YES"
+          }
+        }
+      },
+      {
+        "Id": 205828476541,
+        "Keyword": "---autotargeting",
+        "AdGroupId": 5828476541,
+        "CampaignId": 716316525,
+        "Bid": 50000000,
+        "AutotargetingSearchBidIsAuto": "NO",
+        "ContextBid": 30000000,
+        "State": "ON",
+        "Status": "ACCEPTED",
+        "AutotargetingSettings": {
+          "Categories": {
+            "Exact": "YES",
+            "Narrow": "NO",
+            "Alternative": "NO",
+            "Accessory": "NO",
+            "Broader": "NO"
+          },
+          "BrandOptions": {
+            "WithoutBrands": "YES",
+            "WithAdvertiserBrand": "YES",
+            "WithCompetitorsBrand": "NO"
           }
         }
       }
@@ -1943,6 +2091,32 @@
             "StatusClarification": "Sitelinks accepted at moderation."
           }
         }
+      },
+      {
+        "Id": 1927488453443618167,
+        "CampaignId": 716316525,
+        "AdGroupId": 5828476541,
+        "Status": "MODERATION",
+        "State": "OFF",
+        "StatusClarification": "Awaiting moderation.",
+        "Type": "RESPONSIVE_AD",
+        "ResponsiveAd": {
+          "Texts": [
+            {
+              "Text": "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ",
+              "Status": "ACCEPTED"
+            }
+          ],
+          "Titles": [
+            {
+              "Title": "Мехатроник DSG7 DQ200",
+              "Status": "ACCEPTED"
+            }
+          ],
+          "Href": "https://leoparts-akpp.ru/mehatronik-dq200",
+          "SitelinkSetId": 1526814548,
+          "SitelinksModeration": null
+        }
       }
     ],
     "sitelink_set": {
@@ -1967,78 +2141,6 @@
     }
   },
   "baseline_sha256": "2b543bd92c2648124353bc25397e19283dbdc446e9c833fcb399b0f2bf01bca8",
-  "api_operation_results": [
-    {
-      "key": "group_add",
-      "result": {
-        "AddResults": [
-          {
-            "Id": 5828476541,
-            "Errors": []
-          }
-        ]
-      }
-    },
-    {
-      "key": "auto_settings",
-      "result": {
-        "UpdateResults": [
-          {
-            "Id": 205828476541,
-            "Errors": []
-          }
-        ]
-      }
-    },
-    {
-      "key": "keywords_add",
-      "result": {
-        "AddResults": [
-          {
-            "Id": 58581707731,
-            "Errors": []
-          },
-          {
-            "Id": 58581707732,
-            "Errors": []
-          }
-        ]
-      }
-    },
-    {
-      "key": "auto_bid",
-      "result": {
-        "SetResults": [
-          {
-            "KeywordId": 205828476541,
-            "Errors": []
-          }
-        ]
-      }
-    },
-    {
-      "key": "ad_add",
-      "result": {
-        "AddResults": [
-          {
-            "Id": 1927488453443618167,
-            "Errors": []
-          }
-        ]
-      }
-    },
-    {
-      "key": "ad_moderate",
-      "result": {
-        "ModerateResults": [
-          {
-            "Id": 1927488453443618167,
-            "Errors": []
-          }
-        ]
-      }
-    }
-  ],
   "after": {
     "campaign": {
       "TimeZone": "Europe/Moscow",
@@ -2345,7 +2447,7 @@
         "Id": 5828476541,
         "Name": "DQ200 | Мехатроники общий запрос | Поиск",
         "CampaignId": 716316525,
-        "Status": "DRAFT",
+        "Status": "ACCEPTED",
         "Type": "UNIFIED_AD_GROUP",
         "Subtype": "NONE",
         "RegionIds": [
@@ -3161,7 +3263,7 @@
     "campaign_budget_strategy_and_130_negatives_unchanged": true,
     "note": "Автообъект обязателен для новой поисковой группы; это не третий ручной ключ. Saved не означает, что модерация завершена или уже были показы."
   },
-  "finished_at_utc": "2026-11-19T18:38:48.629791+00:00",
+  "finished_at_utc": "2026-11-19T18:40:22.546270+00:00",
   "journal_operation_results": {
     "group_add": {
       "key": "group_add",
@@ -3199,7 +3301,7 @@
         ]
       },
       "response_at_utc": "2026-11-19T18:37:41.543958+00:00",
-      "readback_verified_at_utc": "2026-11-19T18:38:48.627511+00:00"
+      "readback_verified_at_utc": "2026-11-19T18:40:22.540996+00:00"
     },
     "auto_settings": {
       "key": "auto_settings",
@@ -3317,7 +3419,7 @@
         ]
       },
       "response_at_utc": "2026-11-19T18:38:07.162385+00:00",
-      "readback_verified_at_utc": "2026-11-19T18:38:48.627527+00:00"
+      "readback_verified_at_utc": "2026-11-19T18:40:22.541013+00:00"
     },
     "auto_bid": {
       "key": "auto_bid",
@@ -3384,7 +3486,7 @@
         ]
       },
       "response_at_utc": "2026-11-19T18:38:30.939771+00:00",
-      "readback_verified_at_utc": "2026-11-19T18:38:48.627529+00:00"
+      "readback_verified_at_utc": "2026-11-19T18:40:22.541015+00:00"
     },
     "ad_moderate": {
       "key": "ad_moderate",
