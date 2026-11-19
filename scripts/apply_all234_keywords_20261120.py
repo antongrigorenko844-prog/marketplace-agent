@@ -14,6 +14,8 @@ import re
 import subprocess
 import sys
 import urllib.request
+import urllib.error
+import urllib.parse
 
 CORE = Path(__file__).with_name("apply_two_keywords_20261120.py")
 if hashlib.sha256(CORE.read_bytes()).hexdigest() != "c6c52c7337ad3991fb40a76cf9edb6f667d6dabb5072f7e103a07e510cea466b":
@@ -357,18 +359,29 @@ def refresh(api):
 
 
 def landing_checks(plan):
+    class SameSiteRedirect(urllib.request.HTTPRedirectHandler):
+        max_redirections = 3
+        def redirect_request(self, req, fp, code, msg, headers, newurl):
+            parsed = urllib.parse.urlsplit(newurl)
+            if parsed.scheme != "https" or parsed.hostname not in {"leoparts-akpp.ru", "www.leoparts-akpp.ru"}:
+                raise RuntimeError("Unexpected product landing redirect host")
+            return super().redirect_request(req, fp, code, msg, headers, newurl)
     out = []
     for g in plan["groups"]:
         if g["id"] is not None:
             continue
         request = urllib.request.Request(g["landing"], headers={"User-Agent": "Mozilla/5.0", "Accept": "text/html"})
         try:
-            with urllib.request.build_opener(core.NoRedirect()).open(request, timeout=30) as res:
+            with urllib.request.build_opener(SameSiteRedirect()).open(request, timeout=30) as res:
                 raw = res.read(2*1024*1024).decode("utf-8", "replace")
                 title = re.search(r"<title[^>]*>(.*?)</title>", raw, re.I|re.S)
-                out.append({"group": g["code"], "url": g["landing"], "http_status": res.status,
+                out.append({"group": g["code"], "url": g["landing"], "final_url": res.geturl(), "http_status": res.status,
                             "title": html.unescape(title.group(1).strip()) if title else None,
                             "sku_visible": g["catalog_sku"].casefold() in raw.casefold()})
+        except urllib.error.HTTPError as e:
+            out.append({"group": g["code"], "url": g["landing"], "error": type(e).__name__, "http_status": e.code,
+                        "location": e.headers.get("Location")})
+            e.close()
         except Exception as e:
             out.append({"group": g["code"], "url": g["landing"], "error": type(e).__name__})
     return out
@@ -411,6 +424,10 @@ def main():
                  "baseline": snap, "baseline_sha256": core.digest(snap), "operations": {},
                  "keyword_limit": limits[0], "landing_checks": report["landing_checks"]}
             api.journal = j
+            core.save(JOURNAL, j)
+        elif marker["mode"] == "inspect" and not j["operations"]:
+            report["landing_checks"] = landing_checks(plan)
+            j["landing_checks"] = report["landing_checks"]
             core.save(JOURNAL, j)
         ownership_guard(plan, j, snap)
         report["baseline_sha256"] = j["baseline_sha256"]
