@@ -1343,6 +1343,39 @@
         ]
       },
       "intent_at_utc": "2026-11-19T19:57:02.822588+00:00",
+      "outcome": "response_received",
+      "result": {
+        "UpdateResults": [
+          {
+            "Id": 205828501772,
+            "Errors": []
+          },
+          {
+            "Id": 205828501773,
+            "Errors": []
+          }
+        ]
+      },
+      "response_at_utc": "2026-11-19T19:57:06.938071+00:00"
+    },
+    "autos_bids": {
+      "service": "keywordbids",
+      "method": "set",
+      "params": {
+        "KeywordBids": [
+          {
+            "KeywordId": 205828501772,
+            "SearchBid": 50000000,
+            "AutotargetingSearchBidIsAuto": "NO"
+          },
+          {
+            "KeywordId": 205828501773,
+            "SearchBid": 50000000,
+            "AutotargetingSearchBidIsAuto": "NO"
+          }
+        ]
+      },
+      "intent_at_utc": "2026-11-19T19:57:14.046293+00:00",
       "outcome": "intent_saved_before_network"
     }
   },
