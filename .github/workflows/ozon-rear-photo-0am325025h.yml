@@ -1,0 +1,26 @@
+name: Publish the fifth Ozon photo for 0am325025H
+on:
+  push:
+    branches: ['content/ozon-0am325025h-fifth-photo-20261121']
+    paths: ['media/ozon/0am325025H/0am325025H_5.jpg', 'scripts/ozon_rear_photo_0am325025h.py', '.github/workflows/ozon-rear-photo-0am325025h.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  gallery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip -q install -r requirements.txt
+      - name: Append and verify one image
+        run: python -m scripts.ozon_rear_photo_0am325025h
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
