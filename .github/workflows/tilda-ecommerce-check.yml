@@ -1,0 +1,29 @@
+name: LEOPARTS eCommerce checkout read-only check
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/tilda-ecommerce-check.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  public-storefront:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Chromium
+        run: |
+          pip install playwright==1.56.0
+          python -m playwright install chromium
+      - name: Read checkout and ecommerce flags, no checkout actions
+        run: python .github/scripts/tilda_checkout_ecommerce_readonly.py
+      - name: Save public checkout tracking status
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/tilda_checkout_ecommerce_status.json
