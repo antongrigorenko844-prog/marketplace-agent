@@ -101,7 +101,7 @@ def part(skus, label):
     return not (set(todo)-set(verified))
 
 def main():
-    first=['0am325091f-set','0am325091e-set']
+    first=['0am325025u','0am325025z']
     if not part(first,'pilot'):
         raise RuntimeError('Pilot still pending; no other requests')
     if not part([s for s in PLAN if s not in first],'batch'):
