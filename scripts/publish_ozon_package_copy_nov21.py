@@ -52,7 +52,7 @@ def main():
     payload = []
     for key, rule in PLAN.items():
         row, state = old[key], info[key]
-        if state.get('is_archived') or state.get('is_autoarchived') or state.get('statuses',{}).get('status_name') != 'Продается':
+        if state.get('is_archived') or state.get('is_autoarchived') or state.get('statuses',{}).get('status_name','').replace('ё','е') != 'Продается':
             print('SKIP', key, 'not actively selling', state.get('statuses',{}).get('status_name'))
             continue
         if (row['id'], row['sku']) != (rule['id'],rule['sku']):
