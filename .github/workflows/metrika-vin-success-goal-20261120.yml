@@ -1,0 +1,31 @@
+name: LEOPARTS Metrica add VIN verified-success JS goal (not active until site publish)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/metrika-vin-success-goal-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  guarded-goal:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Offline test code and planned Metrica goal
+        run: |
+          python -m unittest discover -s tests -p test_metrika_vin_success_goal_safe.py -v
+          node tests/test_tilda_vin_success_js.js
+      - name: Create only verified VIN success JS action goal in counter 113839860
+        env:
+          YANDEX_METRIKA_WRITE_TOKEN: ${{ secrets.YANDEX_METRIKA_WRITE_TOKEN }}
+        run: python .github/scripts/metrika_vin_success_goal_create_20261120.py
+      - name: Persist exact one-attempt Metrica proof and readback
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/metrika_vin_js_goal_create.json
