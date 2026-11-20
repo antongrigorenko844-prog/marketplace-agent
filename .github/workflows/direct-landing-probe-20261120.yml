@@ -1,0 +1,26 @@
+name: LEOPARTS Direct landing read-only probe
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/scripts/direct_landing_probe_20261120.py
+      - .github/workflows/direct-landing-probe-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check only the public site and feed
+        run: python .github/scripts/direct_landing_probe_20261120.py
+      - name: Save only the public site probe
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_audit_20261120/site_probe.json
