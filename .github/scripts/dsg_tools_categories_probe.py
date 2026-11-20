@@ -35,19 +35,20 @@ def compact_error(ex):
 def rank(path):
     s=path.lower().replace("ё","е")
     return 6*sum(t in s for t in STRONG)+sum(t in s for t in TOKENS)
-def walk(nodes, parent=()):
+def walk(nodes, parent=(), inherited_category_id=None):
     if isinstance(nodes,dict):nodes=[nodes]
     if not isinstance(nodes,list):return
     for n in nodes:
         if not isinstance(n,dict):continue
         name=str(n.get("category_name") or n.get("type_name") or n.get("name") or n.get("subjectName") or "")
         parts=(*parent,name) if name else parent
+        category_id=n.get("description_category_id") or inherited_category_id
         kids=n.get("children") or []
-        if kids:yield from walk(kids,parts)
+        if kids:yield from walk(kids,parts,category_id)
         else:
             path=" / ".join(parts)
             if rank(path)>1 and ("авто" in path.lower() or "инструмент" in path.lower() or "манометр" in path.lower() or "измерител" in path.lower() or "пневмат" in path.lower() or "тестер" in path.lower()):
-                yield {"path":path,"rank":rank(path),"description_category_id":n.get("description_category_id"),"type_id":n.get("type_id"),"disabled":n.get("disabled")}
+                yield {"path":path,"rank":rank(path),"description_category_id":category_id,"type_id":n.get("type_id"),"disabled":n.get("disabled")}
 def probe_ozon():
     cid=os.getenv("OZON_CLIENT_ID"); key=os.getenv("OZON_API_KEY")
     if not (cid and key):return {"status":"missing_secret"}
@@ -88,7 +89,16 @@ def probe_wb():
             searches.append({"name":name,"matches":[{k:v for k,v in s.items() if k in ("subjectID","subjectName","parentID","parentName","name")} for s in items[:50]],"total_count":len(items)})
         except Exception as e:searches.append({"name":name,**compact_error(e)})
         time.sleep(0.4)
-    return {"status":"ok","searches":searches}
+    characteristics=[]
+    for subject_id in (6370,768,7769):
+        try:
+            response=requests.get("https://content-api.wildberries.ru/content/v2/object/charcs/"+str(subject_id),headers=hdr)
+            if not response.ok:characteristics.append({"subjectID":subject_id,"http_status":response.status_code});continue
+            attributes=response.json().get("data") or []
+            characteristics.append({"subjectID":subject_id,"attributes":[{"charcID":a.get("charcID"),"name":a.get("name"),"required":a.get("required"),"unitName":a.get("unitName"),"charcType":a.get("charcType"),"maxCount":a.get("maxCount")} for a in attributes]})
+        except Exception as ex:characteristics.append({"subjectID":subject_id,**compact_error(ex)})
+        time.sleep(0.3)
+    return {"status":"ok","searches":searches,"characteristics":characteristics}
 try:report["categories"]["ozon"]=probe_ozon()
 except Exception as e:report["categories"]["ozon"]=compact_error(e)
 try:report["categories"]["wildberries"]=probe_wb()
