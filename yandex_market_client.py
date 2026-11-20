@@ -204,7 +204,11 @@ def update_prices(prices: Dict[str, Tuple[int, Optional[int]]]) -> Tuple[int, Di
         entries.append((offer, {"offerId": offer, "price": p}))
 
     def send(elems):
-        return _request("POST", f"/v2/campaigns/{campaign}/offer-prices/updates", json_body={"offers": elems})
+        status, body = _request("POST", f"/v2/campaigns/{campaign}/offer-prices/updates", json_body={"offers": elems})
+        if status == 200 and (not isinstance(body, dict) or body.get("status") != "OK" or body.get("errors")):
+            # The outcome is unknown. Resubmitting the batch could overwrite a later price.
+            raise YandexMarketError("Маркет не подтвердил приём цен в ответе HTTP 200.")
+        return status, body
 
     return _send_isolating("цены", send, entries)
 

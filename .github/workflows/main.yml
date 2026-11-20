@@ -25,9 +25,8 @@
 # пересобирается и перезаливается по ПОСТОЯННОЙ ссылке data/avito_feed.xlsx —
 # Avito сам подхватывает её по расписанию "Автозагрузка по ссылке" (настраивается
 # один раз в личном кабинете, см. вывод build-avito-catalog), без ручной загрузки.
-# Если отправлять/заливать нечего или нечего менять — это НЕ ошибка, шаг не
-# должен становиться красным (см. "|| true" в шаге ниже). Чтобы полностью
-# отключить автозапуск — закомментируйте/удалите блок "schedule:".
+# После учёта заказов журнал и каталог сохраняются до рассылки. Ошибка канала
+# отражается в результате запуска после попытки обновить остальные каналы.
 #
 # Перед использованием (см. README):
 # 1. Settings -> Secrets and variables -> Actions -> добавить секреты:
@@ -146,12 +145,14 @@ jobs:
           elif [ "${{ github.event_name }}" = "schedule" ]; then
             echo "Автозапуск по расписанию: общий учёт остатков (Ozon+WB)"
             python main.py --sync-orders
-            python main.py --push-stock || true
-            python main.py --push-wb-stock || true
-            # Яндекс Маркет: остатки отправляем сами (цены он берёт из Ozon); заказы учитывает sync-orders
-            if [ -n "$YANDEX_MARKET_API_KEY" ]; then python main.py --push-yandex-stock || true; fi
-            python main.py --build-avito-catalog || true
-            if [ -n "$TILDA_COMMERCEML_URL" ]; then python main.py --push-tilda || true; fi
+            bash .github/scripts/save_data.sh data/
+            failed=0
+            python main.py --push-stock || failed=1
+            python main.py --push-wb-stock || failed=1
+            if [ -n "$YANDEX_MARKET_API_KEY" ]; then python main.py --push-yandex-stock || failed=1; fi
+            python main.py --build-avito-catalog || failed=1
+            if [ -n "$TILDA_COMMERCEML_URL" ]; then python main.py --push-tilda || failed=1; fi
+            exit "$failed"
           else
             echo "Заказ с сайта (Тильда) через вебхук"
             python main.py --sync-tilda-order

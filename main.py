@@ -211,7 +211,7 @@ def cmd_build_master_control() -> int:
     return build_master_control.run()
 
 
-def cmd_sync_master_control() -> int:
+def cmd_sync_master_control(*, zero_stock_ids=()) -> int:
     """
     Переносит правки, сделанные в data/master_control.xlsx (единый
     файл-пульт), обратно в data/ozon_catalog.xlsx / data/ozon_new_products.xlsx
@@ -220,7 +220,7 @@ def cmd_sync_master_control() -> int:
     """
     import sync_master_control
 
-    return sync_master_control.run()
+    return sync_master_control.run(zero_stock_ids=zero_stock_ids)
 
 
 def _load_ozon_push_inputs():
@@ -581,6 +581,9 @@ def _build_tilda_commerceml_files():
     """Общая часть build-tilda-commerceml и push-tilda: собирает import.xml/offers.xml в data/."""
     import tilda_commerceml
 
+    from stock_transaction import assert_stock_ready
+
+    assert_stock_ready(config.db_path)
     catalog_path = _data_path("ozon_catalog.xlsx")
     photos_dir = os.path.join(os.path.dirname(__file__), "photos")
     if not os.path.exists(catalog_path):
@@ -721,15 +724,21 @@ def cmd_push_yandex_stock(dry_run: bool = False) -> int:
     if os.path.exists(offers_path):
         import openpyxl
 
-        low = {k.lower(): v for k, v in stocks.items()}
+        candidates = {}
+        for canonical in stocks:
+            candidates.setdefault(canonical.casefold(), []).append(canonical)
         ws_m = openpyxl.load_workbook(offers_path, read_only=True, data_only=True).worksheets[0]
         for r in list(ws_m.iter_rows(values_only=True))[1:]:
             sku = str(r[0]).strip() if r and r[0] else ""
             if not sku or sku in stocks:
                 continue
-            if sku.lower() in low:
-                stocks[sku] = low[sku.lower()]
-                print(f"  {sku}: вариант артикула с другим регистром — отправляю остаток {low[sku.lower()]}")
+            matches = candidates.get(sku.casefold(), [])
+            if len(matches) == 1:
+                stocks[sku] = stocks[matches[0]]
+                print(f"  {sku}: остаток из однозначного соответствия {matches[0]}")
+            elif len(matches) > 1:
+                print(f"  {sku}: несколько артикулов различаются регистром; требуется точная привязка.")
+                return 1
             else:
                 unmanaged.append(sku)
     if unmanaged:
@@ -749,7 +758,7 @@ def cmd_push_yandex_stock(dry_run: bool = False) -> int:
         return 1
     print(f"push-yandex-stock: принято Маркетом {ok} из {len(stocks)}.")
     _print_yandex_failures(failed)
-    return 0 if ok else 1
+    return 0 if ok == len(stocks) and not failed else 1
 
 
 def cmd_push_yandex_names(dry_run: bool = False) -> int:
@@ -824,7 +833,20 @@ def cmd_push_yandex_names(dry_run: bool = False) -> int:
     return 0 if ok else 1
 
 
-def cmd_push_yandex_price(dry_run: bool = False) -> int:
+def _scoped_prices(rows, article):
+    """An empty workflow input selects the catalog. A supplied list must match in full."""
+    if article == "":
+        return rows
+    keys = [part.strip() for part in article.split(",")]
+    if not all(keys):
+        raise ValueError("В --article указан пустой SKU.")
+    missing = set(keys) - rows.keys()
+    if missing:
+        raise ValueError("Нет точного SKU с данными для цены: " + ", ".join(sorted(missing)))
+    return {key: rows[key] for key in keys}
+
+
+def cmd_push_yandex_price(dry_run: bool = False, article: str = "") -> int:
     """
     Цены -> Яндекс Маркет: берётся ТА ЖЕ цена, что и на Ozon (колонка 'Цена, ₽' в
     ozon_catalog.xlsx), а 'цена до скидки' передаётся как зачёркнутая, если
@@ -835,7 +857,7 @@ def cmd_push_yandex_price(dry_run: bool = False) -> int:
 
     import yandex_market_client
 
-    if not yandex_market_client.is_configured():
+    if not dry_run and not yandex_market_client.is_configured():
         print("Яндекс Маркет не подключён: нет секретов YANDEX_MARKET_API_KEY / YANDEX_MARKET_CAMPAIGN_ID.")
         return 1
     catalog_path = _data_path("ozon_catalog.xlsx")
@@ -846,19 +868,24 @@ def cmd_push_yandex_price(dry_run: bool = False) -> int:
     ws = openpyxl.load_workbook(catalog_path, data_only=True).active
     for row in ws.iter_rows(min_row=2, values_only=True):
         row = list(row) + [None] * 6
-        if not row[0]:
+        if not row[0] or isinstance(row[3], bool):
             continue
         try:
             price = int(float(row[3]))
-        except (TypeError, ValueError):
+        except (TypeError, ValueError, OverflowError):
             continue
         if price <= 0:
             continue
         try:
             old = int(float(row[4])) if row[4] not in (None, "") else None
-        except (TypeError, ValueError):
+        except (TypeError, ValueError, OverflowError):
             old = None
         prices[str(row[0]).strip()] = (price, old)
+    try:
+        prices = _scoped_prices(prices, article)
+    except ValueError as exc:
+        print(exc)
+        return 1
     if not prices:
         print("Нечего отправлять — нет товаров с ценой.")
         return 1
@@ -874,7 +901,7 @@ def cmd_push_yandex_price(dry_run: bool = False) -> int:
         return 1
     print(f"push-yandex-price: принято Маркетом {ok} из {len(prices)}.")
     _print_yandex_failures(failed)
-    return 0 if ok else 1
+    return 0 if ok == len(prices) and not failed else 1
 
 
 def cmd_build_tilda_commerceml() -> int:
@@ -1205,77 +1232,83 @@ def _cmd_update_cards_impl() -> int:
     return 0
 
 
-def cmd_push_wb_price_dryrun() -> int:
-    import wb_catalog_editor
-
-    wb_data, edits = _load_wb_push_inputs()
-    if wb_data is None:
-        return 1
-    updates = wb_catalog_editor.build_wb_price_updates(wb_data, edits)
-
-    print("ПРОБНЫЙ ПРОГОН — в WB ничего не отправляется.")
-    print(f"Изменений цены: {len(updates)} товаров")
-    for u in updates:
-        print(
-            f"  {u['vendor_code']}: {u['old_final_price']} -> {u['new_final_price']} ₽ "
-            f"(скидка {u['discount']}% не меняется, в WB уйдёт 'цена до скидки' = {u['price_to_send']})"
-        )
-    if not updates:
-        print("Либо колонка 'Цена WB' пуста у всех товаров, либо вписанные значения совпадают с текущей ценой на WB.")
-    return 0
-
-
-def cmd_push_wb_price() -> int:
+def _confirm_wb_prices(upload_id, expected):
     import wb_client
+
+    for _ in range(6):
+        time.sleep(8)
+        try:
+            result = wb_client.get_price_upload_result(upload_id)
+        except wb_client.WbApiError:
+            # The history API can lag behind a newly accepted upload.
+            continue
+        task = result.get("task") if isinstance(result, dict) else None
+        if not isinstance(task, dict) or task.get("uploadID") != upload_id:
+            continue
+        goods = result.get("goods") or []
+        if not isinstance(goods, list) or not all(isinstance(g, dict) for g in goods):
+            continue
+        failed = [g for g in goods if g.get("errorText")]
+        if failed or task.get("status") in (4, 5, 6):
+            print(f"WB: загрузка {upload_id}, статус {task.get('status')}, обработано без ошибок: {task.get('successGoodsNumber')}.")
+            for row in failed:
+                print(f"  WB: ошибка для nmID {row.get('nmID')}: {row['errorText']}")
+            return False
+        matched = {g.get("nmID") for g in goods}
+        if (task.get("status") == 3 and task.get("overAllGoodsNumber") == len(expected)
+                and task.get("successGoodsNumber") == len(expected) and matched == expected.keys()
+                and all((g.get("price"), g.get("discount")) == expected[g["nmID"]] for g in goods)):
+            print(f"WB подтвердил обработку {len(expected)} цен, загрузка {upload_id}.")
+            return True
+    print(f"Итог загрузки WB {upload_id} не подтверждён для всех {len(expected)} товаров. Проверьте историю загрузок.")
+    return False
+
+
+def cmd_push_wb_price_dryrun(article: str = "") -> int:
+    return cmd_push_wb_price(article=article, dry_run=True)
+
+
+def cmd_push_wb_price(article: str = "", dry_run: bool = False) -> int:
     import wb_catalog_editor
+    import wb_client
 
     wb_data, edits = _load_wb_push_inputs()
     if wb_data is None:
         return 1
-    updates = wb_catalog_editor.build_wb_price_updates(wb_data, edits)
-    if not updates:
-        print("Цены на WB менять не нужно: ни одна цена в wb_catalog.xlsx не отличается от текущей на WB.")
-        return 0
-
-    items = [{"nmID": u["nm_id"], "price": u["price_to_send"], "discount": u["discount"]} for u in updates]
     try:
-        upload = wb_client.update_prices(items)
-    except wb_client.WbApiError as exc:
-        print(f"ОШИБКА при отправке цены ({len(items)} товаров): {exc}")
+        edits = _scoped_prices(edits, article)
+        rejected = {}
+        updates = wb_catalog_editor.build_wb_price_updates(wb_data, edits, scoped=bool(article), rejected=rejected)
+    except ValueError as exc:
+        print(exc)
         return 1
-
-    print(f"Цена отправлена для {len(items)} товаров:")
+    for sku, reason in rejected.items():
+        print(f"WB: {sku} пропущен — {reason}.")
+    if article and rejected:
+        return 1
+    print(f"План изменений цен WB по снимку каталога: {len(updates)} товаров.")
     for u in updates:
-        step = "" if u.get("target_price") in (None, u["new_final_price"]) else f"  (ступенью: WB не даёт снижать больше чем вдвое; цель {u['target_price']} ₽ — следующим запуском)"
-        print(f"  {u['vendor_code']}: {u['old_final_price']} -> {u['new_final_price']} ₽{step}")
-    # Узнаём, что WB реально сделал с ценами (применил / карантин / ошибка) — не ждём вслепую.
-    try:
-        upload_id = ((upload or {}).get("data") or {}).get("id")
-        if upload_id:
-            by_nm = {u["nm_id"]: u["vendor_code"] for u in updates}
-            res = {}
-            for _ in range(6):
-                time.sleep(8)
-                res = wb_client.get_price_upload_result(upload_id)
-                if res["goods"]:
-                    break
-            bad = 0
-            for g in res.get("goods", []):
-                err = str(g.get("errorText") or "").strip()
-                if err:
-                    bad += 1
-                    print(f"  WB НЕ ПРИМЕНИЛ {by_nm.get(g.get('nmID'), g.get('nmID'))}: {err[:300]}")
-            if res.get("goods") and not bad:
-                print("  WB принял все цены без ошибок.")
-            elif not res.get("goods"):
-                print(f"  (WB ещё обрабатывает загрузку {upload_id}; итог смотрите в кабинете: Цены и скидки → История)")
-    except Exception as exc:  # noqa: BLE001 — диагностика не должна ронять шаг
-        print(f"  (не удалось получить итог загрузки цен: {exc})")
-    print(
-        "\nWB обрабатывает изменение цены не мгновенно — проверьте карточку через несколько минут "
-        "(следующий fetch-wb покажет уже применившуюся цену)."
-    )
-    return 0
+        print(f"  {u['vendor_code']}: {u['old_final_price']} -> {u['new_final_price']} ₽ "
+              f"(база {u['price_to_send']}, скидка {u['discount']}%, цель {u['target_price']} ₽)")
+    if dry_run or not updates:
+        return int(bool(rejected))
+    for start in range(0, len(updates), 1000):
+        items = [{"nmID": u["nm_id"], "price": u["price_to_send"], "discount": u["discount"]}
+                 for u in updates[start:start + 1000]]
+        try:
+            upload = wb_client.update_prices(items)
+        except wb_client.WbApiError as exc:
+            print(f"Ошибка отправки цен WB: {exc}")
+            return 1
+        data = upload.get("data") if isinstance(upload, dict) else None
+        upload_id = data.get("id") if isinstance(data, dict) else None
+        if type(upload_id) is not int or upload_id <= 0 or upload.get("error") or upload.get("errorText"):
+            print("WB не подтвердил приём загрузки цен.")
+            return 1
+        expected = {item["nmID"]: (item["price"], item["discount"]) for item in items}
+        if not _confirm_wb_prices(upload_id, expected):
+            return 1
+    return int(bool(rejected))
 
 
 def cmd_build_ozon_new_template() -> int:
@@ -1793,6 +1826,9 @@ def cmd_build_avito_catalog() -> int:
     """
     import avito_feed
 
+    from stock_transaction import assert_stock_ready
+
+    assert_stock_ready(config.db_path)
     catalog_path = _data_path("ozon_catalog.xlsx")
     template_path = _data_path("avito_template.xlsx")
     output_path = _data_path("avito_feed.xlsx")
@@ -1827,7 +1863,7 @@ def cmd_build_avito_catalog() -> int:
     if result["skipped_no_price"]:
         print(f"Пропущено (нет цены): {', '.join(result['skipped_no_price'])}")
     if result.get("skipped_no_stock"):
-        print(f"Пропущено (остаток 0 в master_control.xlsx — сняты с продажи): {', '.join(result['skipped_no_stock'])}")
+        print(f"Пропущено (остаток 0 в ozon_catalog.xlsx — исключены из фида): {', '.join(result['skipped_no_stock'])}")
     if result["unclassified"]:
         print(
             "\nВНИМАНИЕ: не удалось автоматически определить 'Тип детали трансмиссии' "
@@ -1863,6 +1899,7 @@ def cmd_build_avito_catalog() -> int:
             f"скачайте файл из data/ и загрузите в личном кабинете Avito -> Автозагрузка -> "
             "Загрузить файл -> Вручную, как раньше."
         )
+        return 1
 
     return 0
 
@@ -2092,10 +2129,11 @@ def cmd_sync_orders() -> int:
         if "yandex_market_error" in summary:
             print(f"    ОШИБКА Яндекс Маркет: {summary['yandex_market_error']}")
 
+    incomplete = any(key.endswith("_error") for key in summary) or bool(summary.get("unmatched"))
     deltas = summary.get("deltas") or {}
     if not deltas:
         print("\nНовых изменений остатка нет (нечего списывать/возвращать за этот период).")
-        return 0
+        return int(incomplete)
 
     print(f"\nИзменения остатка ({len(deltas)} артикул(ов)):")
     applied = summary.get("applied") or {}
@@ -2114,6 +2152,7 @@ def cmd_sync_orders() -> int:
         print(f"\nОстаток комплектов пересчитан ({len(kit_updates)} шт.):")
         for kit_id, new_qty in sorted(kit_updates.items()):
             print(f"  {kit_id}: можно собрать {new_qty} шт.")
+    return int(incomplete)
 
 
 def cmd_sync_tilda_order() -> int:
@@ -2146,13 +2185,8 @@ def cmd_sync_tilda_order() -> int:
     items = payload.get("items") or []
     order_key = str(payload.get("order_key") or "").strip()
     if not order_key:
-        import hashlib
-
-        order_key = "tilda-" + hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
-        print(
-            f"ВНИМАНИЕ: в заказе нет order_key от Apps Script, использую "
-            f"хэш всего payload как ключ ({order_key})."
-        )
+        print("Нет стабильного order_key от Тильды: заказ требует повторной доставки с идентификатором.")
+        return 1
 
     if not items:
         print(
@@ -2256,9 +2290,8 @@ def _load_stock_items(warehouse_id=None, skip_ozon_off=False):
     Собирает offer_id -> остаток из ЕДИНОГО столбца "Кол-во к продаже" —
     для уже существующих товаров из data/ozon_catalog.xlsx, для черновиков
     (совсем новых товаров) из data/ozon_new_products.xlsx (это их остаток
-    при первом появлении на Ozon). Обе колонки редактируются либо напрямую,
-    либо через единый файл-пульт master_control.xlsx + sync-master-control
-    (колонка "Остаток, шт.").
+    при первом появлении на Ozon). Для действующего товара используется
+    оперативное количество в каталоге. Мастер задаёт начальный запас черновиков.
 
     Пустая ячейка = остаток никто не задавал — такой товар в список НЕ
     попадает (ничего не отправляется в Ozon), чтобы случайно не обнулить
@@ -2273,6 +2306,9 @@ def _load_stock_items(warehouse_id=None, skip_ozon_off=False):
     import catalog_editor
     import ozon_new_products
 
+    from stock_transaction import assert_stock_ready
+
+    assert_stock_ready(config.db_path)
     items = []
 
     catalog_path = _data_path("ozon_catalog.xlsx")
@@ -2406,9 +2442,15 @@ def cmd_push_stock() -> int:
             total_err += len(batch)
             failed_offer_ids.extend(str(it.get("offer_id", "")) for it in batch)
             continue
+        expected = {it["offer_id"] for it in batch}
+        returned = [it.get("offer_id") for it in result_items if isinstance(it, dict)]
+        if len(returned) != len(batch) or set(returned) != expected:
+            total_err += len(batch)
+            print(f"Партия {batch_num}: Ozon не подтвердил точный набор отправленных SKU.")
+            continue
         for it in result_items:
             offer_id = it.get("offer_id", "?")
-            if it.get("updated"):
+            if it.get("updated") is True and not it.get("errors"):
                 total_ok += 1
                 print(f"  ОК {offer_id}: остаток обновлён")
             else:
@@ -3441,29 +3483,58 @@ def cmd_sync_ozon_prices(dry_run: bool, article: str = "") -> int:
     import catalog_editor
 
     edits = catalog_editor.load_catalog_edits(_data_path("ozon_catalog.xlsx"))
-    only = {a.strip() for a in (article or "").split(",") if a.strip()}
-    ids = [o for o in edits if (not only or o in only)]
+    try:
+        ids = list(_scoped_prices(edits, article))
+    except ValueError as exc:
+        print(exc)
+        return 1
     # Товары с "no_price_sync": true в data/ozon_overrides.json не трогаем никогда
     overrides = catalog_editor._load_overrides()
     skipped = [o for o in ids if (overrides.get(o) or {}).get("no_price_sync")]
     if skipped:
         print("Пропускаю (no_price_sync в ozon_overrides.json): " + ", ".join(skipped))
     ids = [o for o in ids if o not in skipped]
-    live = {it.get("offer_id"): (it.get("price") or {}) for it in ozon_client.get_prices_and_stocks(ids)}
+    if article and skipped:
+        return 1
 
     def _num(v):
         try:
             return int(round(float(str(v).replace(" ", "").replace(",", "."))))
-        except (TypeError, ValueError):
+        except (TypeError, ValueError, OverflowError):
             return 0
+
+    live = {}
+    requested = set(ids)
+    seen = set()
+    duplicates = set()
+    for item in ozon_client.get_prices_and_stocks(ids):
+        if not isinstance(item, dict):
+            continue
+        oid = item.get("offer_id")
+        if not isinstance(oid, str) or oid not in requested:
+            continue
+        price = item.get("price")
+        if oid in seen:
+            duplicates.add(oid)
+        elif isinstance(price, dict) and _num(price.get("price")) > 0:
+            live[oid] = price
+        seen.add(oid)
+    missing = (requested - live.keys()) | duplicates
+    if missing:
+        print("Ozon не вернул однозначную текущую цену SKU: " + ", ".join(sorted(missing)))
+        if article:
+            return 1
 
     to_push = []
     for oid in ids:
-        if oid not in live:
+        if oid in missing:
             continue
         want_price = _num(edits[oid].get("price"))
         want_old = _num(edits[oid].get("old_price"))
         if want_price <= 0:
+            if article:
+                print(f"{oid}: в каталоге нет положительной цены.")
+                return 1
             continue
         cur = live[oid]
         cur_price = _num(cur.get("price"))
@@ -3479,16 +3550,34 @@ def cmd_sync_ozon_prices(dry_run: bool, article: str = "") -> int:
     print(f"\nТоваров с расхождением цены: {len(to_push)} из {len(ids)}")
     if dry_run:
         print("ПРОБНЫЙ ПРОГОН — в Ozon ничего не отправлено.")
-        return 0
-    bad = 0
+        return int(bool(missing))
+    confirmed = 0
+    unexpected = False
     for i in range(0, len(to_push), 100):
-        resp = ozon_client.update_prices(to_push[i : i + 100])
-        for r in resp.get("result", []):
-            if not r.get("updated", True) or r.get("errors"):
-                bad += 1
-                print(f"ОШИБКА {r.get('offer_id')}: {json.dumps(r.get('errors'), ensure_ascii=False)}")
-    print(f"Отправлено: {len(to_push) - bad}, с ошибкой: {bad}")
-    return 1 if bad else 0
+        batch = to_push[i : i + 100]
+        expected = {item["offer_id"] for item in batch}
+        resp = ozon_client.update_prices(batch)
+        rows = resp.get("result") if isinstance(resp, dict) else None
+        by_offer = {}
+        duplicates = set()
+        for row in rows if isinstance(rows, list) else []:
+            oid = row.get("offer_id") if isinstance(row, dict) else None
+            if not isinstance(oid, str) or oid not in expected:
+                unexpected = True
+            elif oid in by_offer:
+                duplicates.add(oid)
+            else:
+                by_offer[oid] = row
+        for oid in sorted(expected):
+            row = by_offer.get(oid, {})
+            if oid not in duplicates and row.get("updated") is True and not row.get("errors"):
+                confirmed += 1
+            else:
+                print(f"Ozon не подтвердил изменение цены для {oid}.")
+    if unexpected:
+        print("В ответе Ozon есть неожиданные позиции.")
+    print(f"Подтверждено Ozon: {confirmed} из {len(to_push)}.")
+    return int(bool(missing or unexpected or confirmed != len(to_push)))
 
 
 def _ozon_set_price_floor(offer_ids) -> None:
@@ -3858,7 +3947,7 @@ def cmd_remove_product(article: str, dry_run: bool) -> int:
     results = []
 
     print("\n=== Шаг 1/5: sync-master-control (остаток 0 -> рабочие файлы) ===")
-    rc = cmd_sync_master_control()
+    rc = cmd_sync_master_control(zero_stock_ids={oid for oid, _ in found})
     results.append(("sync-master-control", rc))
     if rc != 0:
         print("\nremove-product: sync-master-control упал — дальше не иду (иначе отправили бы старые остатки). Проверьте вывод выше.")
@@ -4332,7 +4421,7 @@ def main() -> int:
     parser.add_argument("--test-wordstat", action="store_true", help="Проверить, что ключ Wordstat API работает")
     parser.add_argument("--wordstat-collect", action="store_true", help="Собрать SEO-семантику по артикулу через Wordstat API (см. --article/--seed-phrase)")
     parser.add_argument("--wordstat-collect-batch", action="store_true", help="Собрать SEO-семантику сразу по списку артикулов из data/wordstat_queue.xlsx")
-    parser.add_argument("--article", type=str, default="", help="Артикул товара — для wordstat-collect/diag-ozon-product (один) или archive/unarchive-ozon-products (можно несколько через запятую)")
+    parser.add_argument("--article", type=str, default="", help="Артикул товара. Для команд цен WB, Яндекс Маркета и Ozon допускаются точные SKU через запятую; пустое значение выбирает весь каталог.")
     parser.add_argument("--seed-phrase", type=str, default="", help="Стартовая фраза(ы) для --wordstat-collect, через ';' если несколько")
     parser.add_argument("--social-test", action="store_true", help="Проверить токены VK и Instagram")
     parser.add_argument("--plan-reorder", action="store_true", help="Переставить даты постов в data/content_plan.xlsx: мехатроники/платы первыми, похожие детали не подряд (см. plan_order.py)")
@@ -4379,9 +4468,9 @@ def main() -> int:
     if args.push_yandex_names:
         return cmd_push_yandex_names()
     if args.push_yandex_price_dryrun:
-        return cmd_push_yandex_price(dry_run=True)
+        return cmd_push_yandex_price(dry_run=True, article=args.article)
     if args.push_yandex_price:
-        return cmd_push_yandex_price()
+        return cmd_push_yandex_price(article=args.article)
     if args.build_tilda_commerceml:
         return cmd_build_tilda_commerceml()
     if args.push_tilda:
@@ -4540,9 +4629,9 @@ def main() -> int:
     if args.update_cards:
         return cmd_update_cards(args.article)
     if args.push_wb_price_dryrun:
-        return cmd_push_wb_price_dryrun()
+        return cmd_push_wb_price_dryrun(article=args.article)
     if args.push_wb_price:
-        return cmd_push_wb_price()
+        return cmd_push_wb_price(article=args.article)
     if args.sync_orders:
         return cmd_sync_orders()
     if args.sync_tilda_order:

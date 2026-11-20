@@ -16,9 +16,10 @@
 from __future__ import annotations
 
 import json
+import math
 import os
 import re
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import datetime, timedelta, timezone
 
 DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
@@ -248,28 +249,71 @@ def _num(v):
         return None
 
 
+def _unique_records(pairs):
+    """A duplicate identifier cannot establish which record belongs to a product."""
+    records, duplicates = {}, set()
+    for sku, value in pairs:
+        if sku in records:
+            duplicates.add(sku)
+        records[sku] = value
+    return {sku: value for sku, value in records.items() if sku not in duplicates}
+
+
+def _avito_prices(master_ids):
+    import openpyxl
+
+    feed = os.path.join(DATA, "avito_feed.xlsx")
+    if not os.path.exists(feed):
+        return {}
+    links_path = os.path.join(DATA, "avito_links.json")
+    links = {}
+    if os.path.exists(links_path):
+        with open(links_path, encoding="utf-8") as file:
+            links = json.load(file)
+    linked_numbers = Counter(str(value) for sku, value in links.items() if not sku.startswith("_"))
+
+    wb = openpyxl.load_workbook(feed, read_only=True, data_only=True)
+    try:
+        sheet = wb["Объявления"]
+        header = next(sheet.iter_rows(min_row=2, max_row=2, values_only=True))
+        ad_id = header.index("Уникальный идентификатор объявления")
+        price = header.index("Цена")
+        number_header = "Номер объявления на Авито"
+        number = header.index(number_header) if number_header in header else None
+        prices = []
+        for row in sheet.iter_rows(min_row=5, values_only=True):
+            raw = str(row[ad_id] or "").strip()
+            listing = row[number] if number is not None else None
+            sku = raw
+            if raw.endswith("-av") and listing not in (None, ""):
+                original = raw[:-3]
+                if (raw in master_ids or original not in links or linked_numbers[str(listing)] != 1
+                        or str(links[original]) != str(listing)):
+                    continue
+                sku = original
+            if sku in master_ids:
+                prices.append((sku, _num(row[price])))
+        return _unique_records(prices)
+    finally:
+        wb.close()
+
+
 def build_price_audit() -> dict:
     import openpyxl
     from openpyxl.styles import Alignment, Font, PatternFill
 
-    oz = json.load(open(os.path.join(DATA, "ozon_products.json"), encoding="utf-8"))
-    det = {x["offer_id"].lower(): x for x in oz.get("details", [])}
-    fin = {}
+    with open(os.path.join(DATA, "ozon_products.json"), encoding="utf-8") as file:
+        oz = json.load(file)
+    det = _unique_records((x["offer_id"], x) for x in oz.get("details", []))
+    finance = {}
     if os.path.exists(FIN_PATH):
-        f = json.load(open(FIN_PATH, encoding="utf-8"))
-        fin = {k.lower(): v for k, v in (f.get("items") or {}).items()}
+        with open(FIN_PATH, encoding="utf-8") as file:
+            finance = json.load(file)
+    fin = finance.get("items") or {}
     site = {}
     try:
-        site = {k.lower(): v for k, v in json.load(open(os.path.join(DATA, "site_prices.json"), encoding="utf-8")).items()}
-    except Exception:  # noqa: BLE001
-        pass
-    avito = {}
-    try:
-        ws = openpyxl.load_workbook(os.path.join(DATA, "avito_feed.xlsx"), read_only=True)["Объявления"]
-        rows = list(ws.iter_rows(values_only=True))
-        h = list(rows[1])
-        iu, ip = h.index("Уникальный идентификатор объявления"), h.index("Цена")
-        avito = {str(r[iu]).lower(): _num(r[ip]) for r in rows[4:] if r[iu]}
+        with open(os.path.join(DATA, "site_prices.json"), encoding="utf-8") as file:
+            site = json.load(file)
     except Exception:  # noqa: BLE001
         pass
 
@@ -284,30 +328,37 @@ def build_price_audit() -> dict:
     i_price, i_stock, i_name = head.index("Цена, ₽") + 1, head.index("Остаток, шт.") + 1, head.index("Название товара") + 1
     filled = 0
     items = []
+    sku_counts = Counter(str(row[0]).strip() for row in ws.iter_rows(min_row=2, max_col=1, values_only=True) if row[0])
+    # site_links stores lower-case keys. Neither spelling is reliable after a collision.
+    site_counts = Counter(sku.lower() for sku in sku_counts)
+    avito = _avito_prices(sku_counts)
     for r in range(2, ws.max_row + 1):
         art = ws.cell(r, 1).value
         if not art:
             continue
         a = str(art).strip()
         cost = _num(ws.cell(r, ci).value)
-        e = det.get(a.lower())
-        if (cost is None or cost <= 0) and e:
+        if cost is None or not math.isfinite(cost) or cost <= 0:
+            cost = None
+            e = det.get(a, {})
             np_ = _num((e.get("price") or {}).get("net_price"))
-            if np_ and np_ > 0:
+            if sku_counts[a] == 1 and np_ and math.isfinite(np_) and np_ > 0:
                 ws.cell(r, ci, np_ if not float(np_).is_integer() else int(np_))
                 cost, filled = np_, filled + 1
         items.append({"art": a, "name": ws.cell(r, i_name).value or "", "price": _num(ws.cell(r, i_price).value),
                       "stock": _num(ws.cell(r, i_stock).value), "cost": cost})
     if filled:
         wb.save(MASTER)
+    wb.close()
 
     try:  # data/audit_ignore.json — «не продаём, не напоминать»: в ревизию цен не попадают
-        ign = {k.lower() for k in json.load(open(os.path.join(DATA, "audit_ignore.json"), encoding="utf-8")) if not k.startswith("_")}
+        with open(os.path.join(DATA, "audit_ignore.json"), encoding="utf-8") as file:
+            ign = {k for k in json.load(file) if not k.startswith("_")}
     except Exception:  # noqa: BLE001
         ign = set()
     out = []
     for it in items:
-        a, p, cost = it["art"].lower(), it["price"], it["cost"]
+        a, p, cost = it["art"], it["price"], it["cost"]
         if not p or a in ign:
             continue
         e, f = det.get(a), fin.get(a)
@@ -328,9 +379,11 @@ def build_price_audit() -> dict:
         oz_profit = (oz_net - p * TAX - cost) if (oz_net is not None and cost is not None) else None
         av = avito.get(a)
         av_profit = (av * (1 - AVITO_FEE - TAX) - cost) if (av and cost is not None) else None
-        st = site.get(a)
+        st = site.get(a.lower()) if site_counts[a.lower()] == 1 else None
         st_profit = (st * (1 - SITE_FEE - TAX) - cost) if (st and cost is not None) else None
         flags = []
+        if site_counts[a.lower()] > 1 and a.lower() in site:
+            flags.append("неоднозначный артикул в снимке цен сайта")
         if cost is None:
             flags.append("нет закупки")
         for ch, pr, price in (("Ozon", oz_profit, p), ("Авито", av_profit, av), ("сайт", st_profit, st)):
@@ -348,10 +401,10 @@ def build_price_audit() -> dict:
                     "site": st, "st_profit": st_profit, "flags": flags,
                     "fin": f})
 
-    # дубли: одинаковое название без хвоста -v2 / регистра, разные цены
+    # -v2 may designate a version; case alone is never a duplicate identifier.
     groups = defaultdict(list)
     for o in out:
-        key = re.sub(r"-v\d+$", "", o["art"].lower())
+        key = re.sub(r"-v\d+$", "", o["art"])
         groups[key].append(o)
     for g in groups.values():
         if len(g) > 1 and len({o["price"] for o in g} | {o["avito"] for o in g if o["avito"]}) > 2:
@@ -415,16 +468,15 @@ def build_price_audit() -> dict:
     ], 1):
         n.cell(k, 1, line).font = Font(name="Arial", size=10)
     n.column_dimensions["A"].width = 160
-    if os.path.exists(FIN_PATH):
-        f = json.load(open(FIN_PATH, encoding="utf-8"))
+    if finance:
         g = wb2.create_sheet("Общие расходы Ozon")
-        g.cell(1, 1, f"Период {f.get('from')}..{f.get('to')}").font = Font(name="Arial", bold=True)
-        for k, (name, v) in enumerate(sorted((f.get("unassigned") or {}).items(), key=lambda x: x[1]), 3):
+        g.cell(1, 1, f"Период {finance.get('from')}..{finance.get('to')}").font = Font(name="Arial", bold=True)
+        for k, (name, v) in enumerate(sorted((finance.get("unassigned") or {}).items(), key=lambda x: x[1]), 3):
             g.cell(k, 1, name)
             g.cell(k, 2, round(v)).number_format = "#,##0"
         k0 = g.max_row + 2
         g.cell(k0, 1, "Все удержания и начисления по видам (для сверки с «Финансы» в кабинете)").font = Font(name="Arial", bold=True)
-        for k, (name, v) in enumerate((f.get("by_type") or {}).items(), k0 + 1):
+        for k, (name, v) in enumerate((finance.get("by_type") or {}).items(), k0 + 1):
             g.cell(k, 1, name)
             g.cell(k, 2, round(v)).number_format = "#,##0"
         g.column_dimensions["A"].width = 70
@@ -461,7 +513,7 @@ def build_price_preview() -> dict:
     prof = dict(sp.get_profit_settings())
     plan = sp.plan_equal_profit(MASTER, prof=prof)
     oz = json.load(open(os.path.join(DATA, "ozon_products.json"), encoding="utf-8"))
-    idx = {x["offer_id"].lower(): (x.get("price_indexes") or {}) for x in oz.get("details", [])}
+    idx = _unique_records((x["offer_id"], x.get("price_indexes") or {}) for x in oz.get("details", []))
     wbm = openpyxl.load_workbook(MASTER, read_only=True, data_only=True)
     rows = list(wbm["Товары"].iter_rows(values_only=True))
     h = [str(c or "") for c in rows[0]]
@@ -478,7 +530,7 @@ def build_price_preview() -> dict:
         oz_profit = (net - tax * p - cost) if (net is not None and cost is not None) else None
         av_profit = (x["avito_new"] * (1 - tax - prof["avito_fee"]) - cost) if (x["avito_new"] and cost is not None) else None
         st_profit = (x["site_new"] * (1 - tax - prof["site_fee"]) - cost) if (x["site_new"] and cost is not None) else None
-        pi = idx.get(x["art"].lower(), {})
+        pi = idx.get(x["art"], {})
         selfm = pi.get("self_marketplaces_index_data") or {}
         flags = []
         if oz_profit is not None and oz_profit < 0:

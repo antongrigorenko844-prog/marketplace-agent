@@ -39,7 +39,7 @@ push-ozon-cards-dryrun -> push-ozon-cards, и аналогично attach-ozon-n
   8  Цена, ₽ (Ozon)
   9  Цена до скидки, ₽ (Ozon)
   10 Остаток, шт. (Ozon — "Кол-во к продаже" в ozon_catalog.xlsx/ozon_new_products.xlsx;
-     реально уходит в Ozon только отдельной командой push-stock, см. main.py)
+     для действующих товаров оперативный остаток ведётся в ozon_catalog.xlsx)
   11 Цена WB, ₽ (финальная, покупателю)
   12 Описание
   13 Хэштеги / Теги (только Ozon — у WB такого поля нет)
@@ -442,7 +442,7 @@ def _ensure_tnved_column() -> int:
     return filled
 
 
-def run() -> int:
+def run(*, zero_stock_ids=()) -> int:
     if not os.path.exists(MASTER_PATH):
         print(f"Нет файла {MASTER_PATH} — сначала создайте его (build_master_control.py) и загрузите в репозиторий.")
         return 1
@@ -465,6 +465,12 @@ def run() -> int:
         real_wb_vendor_codes |= set(wb_new_products.load_new_edits(WB_NEW_PATH))
 
     existing_updates = {oid: r for oid, r in rows.items() if r["status_ozon"] == STATUS_EXISTING}
+    # Stock for existing products belongs to the order ledger/catalog. Only
+    # the explicit removal operation may carry a zero from the master here.
+    for oid, row in existing_updates.items():
+        if oid in zero_stock_ids and row["quantity"] != 0:
+            raise ValueError(f"{oid}: снятие с продажи требует нулевого остатка")
+        existing_updates[oid] = {**row, "quantity": 0 if oid in zero_stock_ids else None}
     draft_updates = {oid: r for oid, r in rows.items() if r["status_ozon"] == STATUS_DRAFT}
     wb_existing_updates = _remap_wb_keys(
         {oid: r for oid, r in rows.items() if r["status_wb"] == STATUS_EXISTING}, real_wb_vendor_codes

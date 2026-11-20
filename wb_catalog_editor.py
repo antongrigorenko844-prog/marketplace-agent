@@ -493,7 +493,7 @@ def build_wb_update_items(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
 WB_MAX_DROP_RATIO = 0.52  # минимум от текущей цены за один шаг снижения (WB: не более чем вдвое)
 
 
-def build_wb_price_updates(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
+def build_wb_price_updates(wb_data: dict, edits: Dict[str, dict], *, scoped: bool = False, rejected=None) -> List[dict]:
     """
     Собирает список товаров, у которых "Цена WB" в xlsx отличается от
     текущей цены на WB (пустая ячейка или совпадение с текущей ценой — не
@@ -510,23 +510,34 @@ def build_wb_price_updates(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
     cards = _cards_by_vendor(wb_data)
     prices_by_nm = _prices_by_nm(wb_data)
     out: List[dict] = []
+    if rejected is None:
+        rejected = {}
     for vendor_code, edit in edits.items():
         new_price = edit.get("price")
         if new_price in (None, ""):
+            if scoped:
+                rejected[vendor_code] = "в каталоге WB отсутствует цена"
             continue
         card = cards.get(vendor_code)
         if not card or not card.get("nmID"):
+            rejected[vendor_code] = "в снимке WB нет карточки с nmID"
             logger.warning("%s: нет карточки/nmID в wb_cards.json — цену отправить некуда, пропущено", vendor_code)
             continue
         current = current_wb_price(card, prices_by_nm)
         old_final = current.get("price")
-        discount = current.get("discount") or 0
+        discount = current.get("discount")
         try:
             new_final = round(float(new_price))
-        except (TypeError, ValueError):
-            logger.warning("%s: 'Цена WB' = %r не число, пропущено", vendor_code, new_price)
+            old_final = float(old_final)
+            discount = float(discount)
+            if (isinstance(new_price, bool) or new_final <= 0 or not math.isfinite(old_final)
+                    or old_final <= 0 or not 0 <= discount < 100 or not discount.is_integer()):
+                raise ValueError
+            discount = int(discount)
+        except (TypeError, ValueError, OverflowError):
+            rejected[vendor_code] = "некорректная цена или неполные данные текущей цены/скидки WB"
             continue
-        if old_final is not None and new_final == round(float(old_final)):
+        if new_final == round(old_final):
             continue  # не изменилось — нечего отправлять
         target = new_final
         # WB не принимает снижение цены больше чем в 2 раза за раз («New prices are more than twice lower

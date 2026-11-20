@@ -180,9 +180,10 @@ def _truncate_title(title: str, max_len: int = AVITO_TITLE_MAX_LEN) -> str:
     if len(title) <= max_len:
         return title
     cut = title[:max_len]
-    last_space = cut.rfind(" ")
-    if last_space > 0:
-        cut = cut[:last_space]
+    if not title[max_len].isspace():
+        # Remove a partial final word only. A separator at max_len already
+        # marks the end of a whole word that fits in the title.
+        cut = re.sub(r"\s+\S+$", "", cut)
     # не оставлять обрывок после двоеточия («…DQ200: 2» — покупатель видит «2» как часть цены)
     colon = cut.rfind(":")
     if colon > 0 and len(cut[colon + 1:].strip()) < 12:
@@ -353,34 +354,6 @@ def _load_avito_photo_overrides(map_path: str) -> Dict[str, List[str]]:
     return overrides
 
 
-def _load_stock_map(master_control_path: str) -> Dict[str, float]:
-    """
-    Остаток ("Остаток, шт.") по артикулу из data/master_control.xlsx —
-    используется, чтобы не включать в фид Avito товары с обнулённым
-    остатком (см. build_avito_feed). Товары, для которых остаток не
-    заполнен (пусто/None), НЕ считаются закончившимися — попадают в фид
-    как обычно (остаток для них просто не отслеживается на этом уровне).
-    Если файла нет — считаем, что ограничений по остатку нет (пустой dict).
-    """
-    if not os.path.exists(master_control_path):
-        return {}
-    wb = openpyxl.load_workbook(master_control_path, data_only=True)
-    ws = wb["Товары"] if "Товары" in wb.sheetnames else wb.active
-    stock_map: Dict[str, float] = {}
-    for row in ws.iter_rows(min_row=2, values_only=True):
-        if not row or not row[0]:
-            continue
-        offer_id = str(row[0]).strip()
-        stock_cell = row[9] if len(row) > 9 else None
-        if stock_cell is None or str(stock_cell).strip() == "":
-            continue
-        try:
-            stock_map[offer_id] = float(stock_cell)
-        except (TypeError, ValueError):
-            continue
-    return stock_map
-
-
 def _clean_description(html_desc: str) -> str:
     """
     <br/> и блочные теги (<p>/<div>/<li>/<ul>/<ol>/<h1-6>) -> перенос строки,
@@ -429,7 +402,7 @@ def build_avito_feed(
     condition: str = DEFAULT_CONDITION,
     avito_photos_map_path: str = AVITO_PHOTOS_MAP_PATH,
     price_overrides_path: Optional[str] = None,
-    master_control_path: str = MASTER_CONTROL_PATH,
+    master_control_path: str = MASTER_CONTROL_PATH,  # retained for callers using the previous signature
 ) -> Dict[str, object]:
     """
     Читает data/ozon_catalog.xlsx (общие данные — название/описание/цена/фото,
@@ -453,9 +426,9 @@ def build_avito_feed(
 
     Возвращает статистику: {"written": N, "skipped_no_price": [...],
     "skipped_no_stock": [...], "unclassified": [(offer_id, title), ...]} —
-    skipped_no_stock — товары с остатком 0 в data/master_control.xlsx, их
+    skipped_no_stock — товары с остатком 0 в data/ozon_catalog.xlsx, их
     специально не включаем в фид, чтобы Avito сам снял объявление при
-    следующем опросе "Автозагрузки по ссылке" (см. _load_stock_map). Для
+    следующем опросе "Автозагрузки по ссылке". Для
     unclassified нужна ручная проверка (main.py печатает эти строки).
     """
     if not os.path.exists(template_path):
@@ -475,7 +448,6 @@ def build_avito_feed(
     src_ws = src_wb.active
     photo_overrides = _load_avito_photo_overrides(avito_photos_map_path)
     price_overrides = site_pricing.load_price_overrides(price_overrides_path or site_pricing.OVERRIDES_PATH)
-    stock_map = _load_stock_map(master_control_path)
 
     tmpl_wb = openpyxl.load_workbook(template_path)
     ws = tmpl_wb[SHEET_ADS]
@@ -508,13 +480,15 @@ def build_avito_feed(
             skipped_no_price.append(offer_id)
             continue
 
-        stock = stock_map.get(offer_id)
-        if stock is not None and stock <= 0:
-            # Остаток обнулён в master_control.xlsx — не включаем в фид,
-            # чтобы объявление на Avito само снялось при следующем опросе
-            # "Автозагрузки по ссылке" (ручное снятие в кабинете Avito не
-            # держится — следующий авто-прогон build-avito-catalog просто
-            # вернул бы его обратно, если бы мы не делали эту проверку).
+        # The same quantity column is updated by order reconciliation.
+        raw_stock = row[7].value
+        try:
+            stock = float(raw_stock)
+        except (TypeError, ValueError):
+            raise ValueError(f"{offer_id}: укажите целый остаток в ozon_catalog.xlsx") from None
+        if not stock.is_integer() or stock < 0:
+            raise ValueError(f"{offer_id}: некорректный остаток в ozon_catalog.xlsx")
+        if stock == 0:
             skipped_no_stock.append(offer_id)
             continue
 

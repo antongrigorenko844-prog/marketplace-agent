@@ -44,12 +44,14 @@ KITS_HEADER = [
 ]
 
 
-def load_bom(kits_path: str = DEFAULT_KITS_PATH) -> Dict[str, List[Tuple[str, int]]]:
+def load_bom(kits_path: str = DEFAULT_KITS_PATH, *, strict: bool = False) -> Dict[str, List[Tuple[str, int]]]:
     """
     kit_offer_id -> [(component_offer_id, qty_per_kit), ...].
     Пустой словарь, если файла нет — значит, комплекты ещё не заведены.
     """
     if not os.path.exists(kits_path):
+        if strict:
+            raise FileNotFoundError("Нет файла состава комплектов. Списание требует проверки состава.")
         return {}
     wb = openpyxl.load_workbook(kits_path)
     ws = wb.active
@@ -62,13 +64,18 @@ def load_bom(kits_path: str = DEFAULT_KITS_PATH) -> Dict[str, List[Tuple[str, in
             continue
         kit_id = str(kit_id).strip()
         component_id = str(component_id).strip()
+        if strict and not (type(qty) is int or isinstance(qty, str) and qty.strip().isascii() and qty.strip().isdecimal()):
+            raise ValueError(f"Не задано целое количество компонента {component_id} в комплекте {kit_id}")
         try:
             qty = int(qty) if qty not in (None, "") else 1
         except (TypeError, ValueError):
             qty = 1
         if qty <= 0:
+            if strict:
+                raise ValueError(f"Неположительное количество компонента {component_id} в комплекте {kit_id}")
             qty = 1
         bom.setdefault(kit_id, []).append((component_id, qty))
+    wb.close()
     return bom
 
 

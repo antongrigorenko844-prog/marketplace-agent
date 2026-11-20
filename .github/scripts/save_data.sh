@@ -15,7 +15,7 @@
 #   * остальные файлы — версия робота, как и раньше.
 #
 # Использование: bash .github/scripts/save_data.sh data/ photos/ social/
-set -u
+set -euo pipefail
 BOT="marketplace-agent-bot"
 git config user.name "$BOT"
 git config user.email "actions@users.noreply.github.com"
@@ -24,7 +24,7 @@ START=$(git rev-parse HEAD)          # с какой версии робот н�
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 [ "$BRANCH" = "HEAD" ] && BRANCH="${GITHUB_REF_NAME:-main}"
 
-git add "$@" 2>/dev/null || true
+git add -A -- "$@"
 if git diff --cached --quiet; then
   echo "Нечего сохранять."
   exit 0
@@ -41,16 +41,25 @@ for i in 1 2 3 4 5; do
   git fetch -q origin "$BRANCH" || { sleep 5; continue; }
   REMOTE=$(git rev-parse FETCH_HEAD)
 
+  # A catalog and its journal describe one inventory state. Retrying against a
+  # fresh checkout is safer than combining one half of each revision.
+  inventory_files=(data/orders_seen.db data/ozon_catalog.xlsx data/kits.xlsx)
+  if ! git diff --quiet "$START" "$SNAP" -- "${inventory_files[@]}" &&
+     ! git diff --quiet "$START" "$REMOTE" -- "${inventory_files[@]}"; then
+    echo "::error::Склад или состав комплектов изменён одновременно. Нужен повтор со свежей версии."
+    exit 1
+  fi
+
   # Файлы, которые за время прогона трогал человек
   HUMAN_FILES=$(
     git log --format='%H%x09%an' "$START..$REMOTE" | while IFS=$'\t' read -r h an; do
       [ "$an" = "$BOT" ] && continue
-      git show --format= --name-only "$h"
+      git -c core.quotePath=false show --format= --name-only "$h"
     done | sort -u
   )
 
   git reset -q --hard "$REMOTE"
-  for f in $(git diff --name-only "$START" "$SNAP"); do
+  while IFS= read -r -d '' f; do
     if printf '%s\n' "$HUMAN_FILES" | grep -qxF "$f"; then
       echo "  оставляю правку человека: $f (изменения робота в нём отброшены)"
       continue
@@ -60,8 +69,8 @@ for i in 1 2 3 4 5; do
     else
       git rm -q --ignore-unmatch -- "$f"
     fi
-  done
-  git add -A "$@" 2>/dev/null || true
+  done < <(git diff --name-only -z "$START" "$SNAP")
+  git add -A -- "$@"
   if git diff --cached --quiet; then
     echo "После объединения сохранять нечего."
     exit 0
@@ -71,5 +80,5 @@ for i in 1 2 3 4 5; do
   SNAP=$(git rev-parse HEAD)
   sleep 3
 done
-echo "::warning::Не удалось сохранить data/ после 5 попыток — результаты этого прогона не записаны."
-exit 0
+echo "::error::Не удалось сохранить data/ после 5 попыток — результаты этого прогона не записаны."
+exit 1

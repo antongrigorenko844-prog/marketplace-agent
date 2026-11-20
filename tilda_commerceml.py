@@ -310,12 +310,17 @@ def _url(base: str, **params) -> str:
 
 def _check(resp: requests.Response, step: str) -> str:
     """Протокол CommerceML: успех — тело начинается со 'success'; иначе — 'failure' + текст."""
-    text = resp.text.strip()
+    text = resp.text.lstrip("\ufeff").strip()
     if resp.status_code != 200:
-        raise RuntimeError(f"{step}: HTTP {resp.status_code}: {text[:300]}")
-    first = text.splitlines()[0].strip().lower() if text else ""
-    if first.startswith("failure") or first.startswith("error"):
-        raise RuntimeError(f"{step}: Тильда ответила отказом: {text[:500]}")
+        raise RuntimeError(f"{step}: HTTP {resp.status_code}")
+    lines = text.splitlines()
+    first = lines[0].strip().lower() if lines else ""
+    if step == "init" and first in {"zip=no", "zip=yes"}:
+        return text
+    if first == "progress" and step.startswith("import "):
+        return text
+    if first != "success":
+        raise RuntimeError(f"{step}: Тильда не подтвердила операцию по протоколу CommerceML")
     return text
 
 

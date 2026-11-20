@@ -24,7 +24,17 @@ class TestDirectNewExactNegatives(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError,"outside allowed"):
                     m.request(service,method,params)
     def test_paid_query_evidence_and_exact_current_baseline(self):
-        v=json.loads(SRC.read_text(encoding="utf-8"))
+        # The review file is refreshed after the one-off campaign change.
+        # While it is pending, the live prerequisite must still match exactly.
+        source = SRC
+        if m.OUT.exists():
+            proof = json.loads(m.OUT.read_text(encoding="utf-8"))
+            if proof.get("write_attempted"):
+                self.assertTrue(proof["status"].startswith("applied_verified"))
+                self.assertEqual(proof["before_count"], 132)
+                self.assertTrue(proof["exact_new_two"] and proof["unchanged_original_132"])
+                source = pathlib.Path(__file__).parent / "fixtures/direct_info_negatives_preflight.json"
+        v=json.loads(source.read_text(encoding="utf-8"))
         self.assertEqual(v["status"],"complete")
         self.assertEqual(v["campaign_id"],m.CID)
         self.assertEqual(v["negatives_count"],132)
