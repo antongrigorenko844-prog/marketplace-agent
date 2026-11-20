@@ -247,6 +247,20 @@ def cmd_apply() -> int:
         return 1
 
     infos = {str(i.get("offer_id")): i for i in oc.get_product_names(list(plan))}
+    expected_offers = {"0cw0am", "0cw0amdsgdq200"}
+    if set(plan) != expected_offers:
+        raise ValueError("Expected exactly the two approved Ozon offer IDs")
+    for art, selected in plan.items():
+        raw = infos.get(art) or {}
+        row = selected[0]
+        if len(selected) != 1 or int(row[idx["id"]]) != 4191:
+            raise ValueError("Only annotation 4191 is approved")
+        if _current(raw).get(4191) != row[idx["Сейчас на Ozon"]]:
+            raise ValueError(f"{art}: live annotation has changed; no submission")
+        if not 101 <= len(str(row[idx["Предлагаю"]])) <= 500:
+            raise ValueError("Annotation outside the content score band")
+    price_before = {r["offer_id"]: (r.get("price") or {}).get("price") for r in oc.get_prices_and_stocks(sorted(plan))}
+    catalogue_before = {k: {field: v.get(field) for field in ("name", "images", "primary_image", "sku")} for k,v in infos.items()}
     log = []
     items = []
     for art, prs in plan.items():
@@ -318,6 +332,26 @@ def cmd_apply() -> int:
         after = _rating(oc, list(skus.values()))
         for art, s in skus.items():
             log.append(f"  рейтинг {art}: {before.get(s)} -> {after.get(s)} (Ozon может пересчитать позже)")
+    if items:
+        targets = {art: rows0[0][idx["Предлагаю"]] for art,rows0 in plan.items()}
+        seen = {}
+        for attempt in range(18):
+            seen = {r["offer_id"]: r for r in oc.get_product_names(sorted(targets))}
+            if all(_current(seen.get(k, {})).get(4191) == val for k,val in targets.items()):
+                break
+            if attempt < 17:
+                time.sleep(5)
+        details = oc._post("/v1/product/rating-by-sku", {"skus": list(skus.values())})
+        official = {p["sku"]: p for p in details.get("products", [])}
+        price_after = {r["offer_id"]: (r.get("price") or {}).get("price") for r in oc.get_prices_and_stocks(sorted(plan))}
+        for k, val in targets.items():
+            score = official.get(skus[k], {})
+            groups = {g["key"]: g["rating"] for g in score.get("groups", [])}
+            product = seen.get(k, {})
+            verified = _current(product).get(4191) == val
+            gallery_equal = all(product.get(field)==value for field,value in catalogue_before[k].items())
+            other_equal = {i:v for i,v in _current(infos[k]).items() if i != 4191} == {i:v for i,v in _current(product).items() if i != 4191}
+            print("OZ_CONTENT_CHECK",json.dumps(dict(offer=k, annotation_readback=verified, description_chars=len(_current(product).get(4191, "")), title_images_sku_equal=gallery_equal, other_text_attributes_equal=other_equal, seller_price_equal=bool(price_before.get(k)) and price_before.get(k)==price_after.get(k), score_before=before.get(skus[k]), score_after=score.get("rating"), group_scores=groups),ensure_ascii=False))
     open(RESULT, "w", encoding="utf-8").write("\n".join(log) + "\n")
     print("\n".join(log))
     return 0
