@@ -1,4 +1,4 @@
-name: Add buyer guides to verified Ozon transmission parts
+name: Read official scores for thirty-two updated Ozon offers
 on:
   push:
     branches: ['content/ozon-selection-guides-20261121']
@@ -18,7 +18,7 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip -q install -r requirements.txt
-      - name: Publish and verify only field 11254
+      - name: Read current official Ozon card scores
         env:
           OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
           OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
