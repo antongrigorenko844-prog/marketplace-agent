@@ -1,0 +1,219 @@
+{
+  "status": "complete",
+  "mode": "read_only",
+  "counter_id": 113839860,
+  "started_utc": "2026-11-20T13:00:29.190027+00:00",
+  "external_mutations": 0,
+  "requested_priority_goal_ids": [
+    675506966,
+    675507028
+  ],
+  "errors": [],
+  "all_goals_metadata": [
+    {
+      "id": 682257540,
+      "name": "Ecommerce: покупка",
+      "type": "e_purchase",
+      "status": "Active",
+      "auto": false,
+      "goal_source": "auto"
+    },
+    {
+      "id": 675271839,
+      "name": "WhatsApp",
+      "type": "messenger",
+      "status": "Active",
+      "auto": false,
+      "goal_source": "user"
+    },
+    {
+      "id": 675271996,
+      "name": "Telegram",
+      "type": "messenger",
+      "status": "Active",
+      "auto": false,
+      "goal_source": "user"
+    },
+    {
+      "id": 675272154,
+      "name": "Звонок",
+      "type": "phone",
+      "status": "Active",
+      "auto": false,
+      "goal_source": "user"
+    },
+    {
+      "id": 675272284,
+      "name": "Форма VIN",
+      "type": "form",
+      "status": "Active",
+      "auto": false,
+      "goal_source": "user"
+    },
+    {
+      "id": 675363017,
+      "name": "Автоцель: переход в мессенджер",
+      "type": "messenger",
+      "status": "Active",
+      "auto": false,
+      "goal_source": "auto"
+    },
+    {
+      "id": 675487735,
+      "name": "Ecommerce: добавление в корзину",
+      "type": "e_cart",
+      "status": "Active",
+      "auto": false,
+      "goal_source": "auto"
+    },
+    {
+      "id": 675506966,
+      "name": "Заявка по VIN",
+      "type": "url",
+      "status": "Active",
+      "auto": false,
+      "goal_source": "user",
+      "url_conditions": [
+        {
+          "type": "contain",
+          "url_pattern": "/tilda/form5246286101/submitted/"
+        }
+      ]
+    },
+    {
+      "id": 675507028,
+      "name": "Заказ с сайта",
+      "type": "url",
+      "status": "Active",
+      "auto": false,
+      "goal_source": "user",
+      "url_conditions": [
+        {
+          "type": "contain",
+          "url_pattern": "/tilda/form5260805101/submitted/"
+        }
+      ]
+    },
+    {
+      "id": 678989864,
+      "name": "Автоцель: заполнил контактные данные",
+      "type": "contact_data",
+      "status": "Active",
+      "auto": false,
+      "goal_source": "auto"
+    },
+    {
+      "id": 678989865,
+      "name": "Автоцель: отправил контактные данные",
+      "type": "contact_data_sent",
+      "status": "Active",
+      "auto": false,
+      "goal_source": "auto"
+    },
+    {
+      "id": 683185830,
+      "name": "Автоцель: поиск по сайту",
+      "type": "search",
+      "status": "Active",
+      "auto": false,
+      "goal_source": "auto"
+    }
+  ],
+  "goal_count": 12,
+  "priority_goals": [
+    {
+      "id": 675506966,
+      "name": "Заявка по VIN",
+      "type": "url",
+      "status": "Active",
+      "auto": false,
+      "goal_source": "user",
+      "url_conditions": [
+        {
+          "type": "contain",
+          "url_pattern": "/tilda/form5246286101/submitted/"
+        }
+      ]
+    },
+    {
+      "id": 675507028,
+      "name": "Заказ с сайта",
+      "type": "url",
+      "status": "Active",
+      "auto": false,
+      "goal_source": "user",
+      "url_conditions": [
+        {
+          "type": "contain",
+          "url_pattern": "/tilda/form5260805101/submitted/"
+        }
+      ]
+    }
+  ],
+  "missing_priority_goal_ids": [],
+  "goal_visits_batches": [
+    {
+      "ids": [
+        682257540,
+        675271839,
+        675271996,
+        675272154,
+        675272284,
+        675363017
+      ],
+      "status": "ok",
+      "totals": {
+        "visits": 172.0,
+        "682257540": 0.0,
+        "675271839": 0.0,
+        "675271996": 0.0,
+        "675272154": 1.0,
+        "675272284": 3.0,
+        "675363017": 0.0
+      }
+    },
+    {
+      "ids": [
+        675487735,
+        675506966,
+        675507028,
+        678989864,
+        678989865,
+        683185830
+      ],
+      "status": "ok",
+      "totals": {
+        "visits": 172.0,
+        "675487735": 14.0,
+        "675506966": 0.0,
+        "675507028": 0.0,
+        "678989864": 2.0,
+        "678989865": 2.0,
+        "683185830": 0.0
+      }
+    }
+  ],
+  "active_goal_visits": [
+    {
+      "id": 675272154,
+      "visits": 1.0
+    },
+    {
+      "id": 675272284,
+      "visits": 3.0
+    },
+    {
+      "id": 675487735,
+      "visits": 14.0
+    },
+    {
+      "id": 678989864,
+      "visits": 2.0
+    },
+    {
+      "id": 678989865,
+      "visits": 2.0
+    }
+  ],
+  "finished_utc": "2026-11-20T13:00:33.378116+00:00"
+}
