@@ -1,0 +1,32 @@
+name: Read Ozon category definitions for the verified card audit
+on:
+  push:
+    branches: [audit/ozon-content-score-20261120]
+    paths: [.github/workflows/read-ozon-quantity-semantics-20261120.yml]
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests python-dotenv
+      - env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python - <<'PY'
+          import json, ozon_client as oz
+          keys = {7202,8513,20189}
+          attrs = oz.get_category_attributes(17028756,971100605)
+          for a in attrs:
+              if a['id'] in keys:
+                  print('OZ_DEF',json.dumps({k:a.get(k) for k in ['id','name','description','type','is_collection','dictionary_id']},ensure_ascii=False))
+                  if a.get('dictionary_id') and a['id']==20189:
+                      values=oz._post('/v1/description-category/attribute/values',{'description_category_id':17028756,'type_id':971100605,'attribute_id':20189,'language':'DEFAULT','limit':100,'last_value_id':0})
+                      print('OZ_LOCATION_OPTIONS',json.dumps([x.get('value') for x in values.get('result',[])],ensure_ascii=False))
+          PY
