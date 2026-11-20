@@ -39,7 +39,7 @@ jobs:
           YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
         run: |
           set -o pipefail
-          python -u scripts/leoparts_market_prices_20261121.py apply | tee market-prices-20261121.log
+          python -u scripts/price_followup_20261121.py apply | tee market-prices-20261121.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
