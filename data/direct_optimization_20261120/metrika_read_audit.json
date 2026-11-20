@@ -1,18 +1,312 @@
 {
-  "status": "waiting_for_secret",
+  "status": "complete",
   "mode": "Metrica_read_only",
   "counter_id": 113839860,
   "goal_ids": [
     675506966,
     675507028
   ],
-  "started_utc": "2026-11-20T11:27:20.023069+00:00",
+  "started_utc": "2026-11-20T12:57:14.209497+00:00",
   "date1": "2026-11-16",
   "date2": "2026-11-20",
   "errors": [],
-  "sections": {},
+  "sections": {
+    "goal_setup": {
+      "status": "ok",
+      "retrieved_utc": "2026-11-20T12:57:14.209873+00:00",
+      "data": {
+        "requested_count": 2,
+        "goals_found": [
+          {
+            "id": 675506966,
+            "name": "Заявка по VIN",
+            "type": "url",
+            "conditions_count": 1,
+            "conditions_operator_types": [
+              {
+                "type": "contain",
+                "operator": ""
+              }
+            ]
+          },
+          {
+            "id": 675507028,
+            "name": "Заказ с сайта",
+            "type": "url",
+            "conditions_count": 1,
+            "conditions_operator_types": [
+              {
+                "type": "contain",
+                "operator": ""
+              }
+            ]
+          }
+        ],
+        "missing_ids": []
+      }
+    },
+    "goals_by_day": {
+      "status": "ok",
+      "retrieved_utc": "2026-11-20T12:57:15.346689+00:00",
+      "data": {
+        "metrics": [
+          "ym:s:visits",
+          "ym:s:goal675506966visits",
+          "ym:s:goal675507028visits"
+        ],
+        "dimensions": "ym:s:date",
+        "retrieved_utc": "2026-11-20T12:57:15.346709+00:00",
+        "result": {
+          "total_rows": 5,
+          "rows": [
+            {
+              "dimensions": [
+                {
+                  "name": "2026-11-18",
+                  "id": ""
+                }
+              ],
+              "metrics": [
+                49.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "dimensions": [
+                {
+                  "name": "2026-11-17",
+                  "id": ""
+                }
+              ],
+              "metrics": [
+                44.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "dimensions": [
+                {
+                  "name": "2026-11-19",
+                  "id": ""
+                }
+              ],
+              "metrics": [
+                41.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "dimensions": [
+                {
+                  "name": "2026-11-20",
+                  "id": ""
+                }
+              ],
+              "metrics": [
+                25.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "dimensions": [
+                {
+                  "name": "2026-11-16",
+                  "id": ""
+                }
+              ],
+              "metrics": [
+                13.0,
+                0.0,
+                0.0
+              ]
+            }
+          ],
+          "totals": [
+            172.0,
+            0.0,
+            0.0
+          ],
+          "sampled": false,
+          "sample_share": 1.0,
+          "contains_sensitive_user_data": false
+        }
+      }
+    },
+    "goals_by_traffic_source": {
+      "status": "ok",
+      "retrieved_utc": "2026-11-20T12:57:17.077107+00:00",
+      "data": {
+        "metrics": [
+          "ym:s:visits",
+          "ym:s:goal675506966visits",
+          "ym:s:goal675507028visits"
+        ],
+        "dimensions": "ym:s:lastTrafficSource",
+        "retrieved_utc": "2026-11-20T12:57:17.077126+00:00",
+        "result": {
+          "total_rows": 5,
+          "rows": [
+            {
+              "dimensions": [
+                {
+                  "name": "Переходы по рекламе",
+                  "id": "ad"
+                }
+              ],
+              "metrics": [
+                121.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "dimensions": [
+                {
+                  "name": "Прямые заходы",
+                  "id": "direct"
+                }
+              ],
+              "metrics": [
+                31.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "dimensions": [
+                {
+                  "name": "Внутренние переходы",
+                  "id": "internal"
+                }
+              ],
+              "metrics": [
+                10.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "dimensions": [
+                {
+                  "name": "Переходы из социальных сетей",
+                  "id": "social"
+                }
+              ],
+              "metrics": [
+                8.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "dimensions": [
+                {
+                  "name": "Переходы из поисковых систем",
+                  "id": "organic"
+                }
+              ],
+              "metrics": [
+                2.0,
+                0.0,
+                0.0
+              ]
+            }
+          ],
+          "totals": [
+            172.0,
+            0.0,
+            0.0
+          ],
+          "sampled": false,
+          "sample_share": 1.0,
+          "contains_sensitive_user_data": false
+        }
+      }
+    },
+    "utm_campaigns": {
+      "status": "ok",
+      "retrieved_utc": "2026-11-20T12:57:20.086182+00:00",
+      "data": {
+        "metrics": [
+          "ym:s:visits",
+          "ym:s:goal675506966visits",
+          "ym:s:goal675507028visits"
+        ],
+        "dimensions": "ym:s:lastUTMSource,ym:s:lastUTMCampaign",
+        "retrieved_utc": "2026-11-20T12:57:20.086202+00:00",
+        "result": {
+          "total_rows": 3,
+          "rows": [
+            {
+              "dimensions": [
+                {
+                  "name": "yandex",
+                  "id": ""
+                },
+                {
+                  "name": "dq200_feed_search",
+                  "id": ""
+                }
+              ],
+              "metrics": [
+                115.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "dimensions": [
+                {
+                  "name": "ya",
+                  "id": ""
+                },
+                {
+                  "name": "dq200_feed_search",
+                  "id": ""
+                }
+              ],
+              "metrics": [
+                4.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "dimensions": [
+                {
+                  "name": "chatgpt.com",
+                  "id": ""
+                },
+                {
+                  "name": "None",
+                  "id": ""
+                }
+              ],
+              "metrics": [
+                2.0,
+                0.0,
+                0.0
+              ]
+            }
+          ],
+          "totals": [
+            121.0,
+            0.0,
+            0.0
+          ],
+          "sampled": false,
+          "sample_share": 1.0,
+          "contains_sensitive_user_data": false
+        }
+      }
+    }
+  },
   "account_writes": 0,
   "uses_only_separate_token": true,
-  "finished_utc": "2026-11-20T11:27:20.023097+00:00",
-  "next_step": "Create GitHub Actions secret YANDEX_METRIKA_TOKEN with OAuth scope metrika:read"
+  "finished_utc": "2026-11-20T12:57:24.919318+00:00",
+  "interpretation_warning": "Goal visits are not necessarily paid orders. Confirm goal conditions and actual transaction data before ROAS."
 }
