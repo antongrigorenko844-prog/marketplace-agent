@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "generated_date": "2026-11-20",
+  "campaign_id": 716316525,
+  "origin": "Direct Reports read-only 20 November, cached table",
+  "snapshot_utc": "2026-11-20T09:28:46.510048+00:00",
+  "review_status": "recommendations_only_not_applied",
+  "campaign_negative_count_snapshot": 130,
+  "working_group_ids": [
+    5826171512,
+    5826183946,
+    5826320196,
+    5828476541
+  ],
+  "source_links": [
+    "data/direct_audit_20261120/full_audit.json",
+    "data/direct_audit_20261120/queries_daily.tsv"
+  ],
+  "today_clicks_total": 16,
+  "today_cost_campaign_rub": 485.53,
+  "today_cost_attributed_to_queries_rub": 485.52,
+  "unique_paid_queries": 15,
+  "all_paid_clicks_autotargeting": true,
+  "query_candidates": [
+    {
+      "query": "мехатроник dsg",
+      "group_id": 5826183946,
+      "criterion": "AUTOTARGETING",
+      "clicks": 2,
+      "cost_rub": 79.1,
+      "aggregate_conversions": 0,
+      "decision": "preserve_relevant",
+      "reason": "Commercial product-oriented search; don't negative broad dsg.",
+      "priority": "Protect"
+    },
+    {
+      "query": "ремонт дсг",
+      "group_id": 5826171512,
+      "criterion": "AUTOTARGETING",
+      "clicks": 1,
+      "cost_rub": 60.68,
+      "aggregate_conversions": 0,
+      "decision": "review_service_intent",
+      "reason": "Generic repair-service intent. Do not globally negative the word ремонт.",
+      "priority": "P0"
+    },
+    {
+      "query": "плата управления коробки робот автомат",
+      "group_id": 5826320196,
+      "criterion": "AUTOTARGETING",
+      "clicks": 1,
+      "cost_rub": 40.37,
+      "aggregate_conversions": 0,
+      "decision": "review_ambiguous",
+      "reason": "May refer to electronic board, cannot classify as noise without actual order.",
+      "priority": "P1"
+    },
+    {
+      "query": "dq200dsg купить",
+      "group_id": 5826183946,
+      "criterion": "AUTOTARGETING",
+      "clicks": 1,
+      "cost_rub": 39.84,
+      "aggregate_conversions": 0,
+      "decision": "preserve_relevant",
+      "reason": "Purchase intent DQ200.",
+      "priority": "Protect"
+    },
+    {
+      "query": "где отремонтировать без автомобиля мехатроник dsg 7 dq 200 в хмао югре",
+      "group_id": 5826183946,
+      "criterion": "AUTOTARGETING",
+      "clicks": 1,
+      "cost_rub": 37.62,
+      "aggregate_conversions": 1,
+      "decision": "inspect_false_positive_conversion",
+      "reason": "Explicit repair-service request recorded as 1 aggregate conversion. Validate Metrika goal before any new block.",
+      "priority": "P0"
+    },
+    {
+      "query": "ремонт дсг вологда",
+      "group_id": 5826183946,
+      "criterion": "AUTOTARGETING",
+      "clicks": 1,
+      "cost_rub": 35.42,
+      "aggregate_conversions": 0,
+      "decision": "candidate_exact_phrase_only",
+      "reason": "Geographically explicit repair service; exclude only after phrase operator and eligible group checks.",
+      "priority": "P0"
+    },
+    {
+      "query": "мехатроник на поло седан",
+      "group_id": 5826171512,
+      "criterion": "AUTOTARGETING",
+      "clicks": 1,
+      "cost_rub": 31.73,
+      "aggregate_conversions": 0,
+      "decision": "preserve_relevant",
+      "reason": "Potentially relevant vehicle selection; fitment still needed.",
+      "priority": "Protect"
+    },
+    {
+      "query": "мехатроник для гольф",
+      "group_id": 5826171512,
+      "criterion": "AUTOTARGETING",
+      "clicks": 1,
+      "cost_rub": 28.17,
+      "aggregate_conversions": 0,
+      "decision": "preserve_relevant",
+      "reason": "Potentially relevant vehicle selection; fitment still needed.",
+      "priority": "Protect"
+    },
+    {
+      "query": "мехатроник на дсг 7 цена",
+      "group_id": 5826183946,
+      "criterion": "AUTOTARGETING",
+      "clicks": 1,
+      "cost_rub": 27.89,
+      "aggregate_conversions": 0,
+      "decision": "preserve_relevant",
+      "reason": "Commercial price intent.",
+      "priority": "Protect"
+    },
+    {
+      "query": "купить новые мехатроники",
+      "group_id": 5826320196,
+      "criterion": "AUTOTARGETING",
+      "clicks": 1,
+      "cost_rub": 21.38,
+      "aggregate_conversions": 0,
+      "decision": "check_group_routing",
+      "reason": "Query shown in electronic PCB group, likely mismatch of item/landing.",
+      "priority": "P1"
+    },
+    {
+      "query": "dq200 купить",
+      "group_id": 5826183946,
+      "criterion": "AUTOTARGETING",
+      "clicks": 1,
+      "cost_rub": 20.22,
+      "aggregate_conversions": 0,
+      "decision": "preserve_relevant",
+      "reason": "Purchase intent, though part specificity unconfirmed.",
+      "priority": "Protect"
+    },
+    {
+      "query": "dsg7 мехатроник с платой",
+      "group_id": 5826183946,
+      "criterion": "AUTOTARGETING",
+      "clicks": 1,
+      "cost_rub": 18.25,
+      "aggregate_conversions": 0,
+      "decision": "preserve_relevant",
+      "reason": "Product variation specified positively.",
+      "priority": "Protect"
+    },
+    {
+      "query": "01315 блок управления коробки передач 004 нет сигнала связи dq200",
+      "group_id": 5826320196,
+      "criterion": "AUTOTARGETING",
+      "clicks": 1,
+      "cost_rub": 15.75,
+      "aggregate_conversions": 0,
+      "decision": "review_diagnostic",
+      "reason": "Diagnostic problem may lead to parts purchase; do not broad-block 01315.",
+      "priority": "P1"
+    },
+    {
+      "query": "02e мехатроник в сборе",
+      "group_id": 5826171512,
+      "criterion": "AUTOTARGETING",
+      "clicks": 1,
+      "cost_rub": 14.8,
+      "aggregate_conversions": 0,
+      "decision": "candidate_exact_phrase_only",
+      "reason": "02E / DQ250, not DQ200; separate gearbox campaign context.",
+      "priority": "P0"
+    },
+    {
+      "query": "плата автоматической коробки передач",
+      "group_id": 5826320196,
+      "criterion": "AUTOTARGETING",
+      "clicks": 1,
+      "cost_rub": 14.3,
+      "aggregate_conversions": 0,
+      "decision": "review_ambiguous",
+      "reason": "Generic board intent, may be valid electronic-board demand.",
+      "priority": "P1"
+    }
+  ]
+}
