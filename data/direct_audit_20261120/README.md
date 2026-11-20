@@ -8,11 +8,11 @@
 | 14 полных дней | 4092 | 114 | 2923.38 ₽ | 2.79% | 25.64 ₽ |
 | 30 полных дней | 4092 | 114 | 2923.38 ₽ | 2.79% | 25.64 ₽ |
 | 19 ноября | 868 | 29 | 943.38 ₽ | 3.34% | 32.53 ₽ |
-| 20 ноября, неполный | 757 | 16 | 485.53 ₽ | 2.11% | 30.35 ₽ |
+| 20 ноября, неполный | 777 | 16 | 485.53 ₽ | 2.06% | 30.35 ₽ |
 
 ## Качество данных
 - campaign: complete
-- thematic_verification: failed
+- thematic_verification: complete
 - adgroups: complete
 - keywords: complete
 - ads: complete
@@ -24,7 +24,7 @@
 - groups_daily: complete
 - ads_daily: complete
 - criteria_daily: complete
-- queries_daily: failed
+- queries_daily: complete
 - device_region: complete
 - metrika_goals: complete
 - sitelinks: complete
