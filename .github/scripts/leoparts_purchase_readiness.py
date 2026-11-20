@@ -71,11 +71,14 @@ def counter_options():
     if not isinstance(c, dict):
         raise RuntimeError("Counter missing")
     opts = c.get("code_options") or {}
+    raw_enabled = opts.get("ecommerce")
+    if raw_enabled not in (True, False, 0, 1):
+        raise RuntimeError("Unexpected ecommerce config value")
     return {
         "counter_id_confirmed": c.get("id") == COUNTER,
         "status": str(c.get("status", ""))[:30],
-        "ecommerce_enabled": opts.get("ecommerce"),
-        "ecommerce_enabled_is_boolean": isinstance(opts.get("ecommerce"), bool),
+        "ecommerce_enabled": bool(raw_enabled),
+        "ecommerce_flag_api_type": type(raw_enabled).__name__,
         "note": "Server-side counter configuration only; a working storefront event requires separate validation.",
     }
 
