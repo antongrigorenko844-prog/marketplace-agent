@@ -1,0 +1,33 @@
+name: Verify WB DQ200 cover and gasket title
+on:
+  push:
+    branches: [main]
+    paths:
+      - scripts/verify_wb_cover_title_20261121.py
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  title:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Verify exact card and set only the approved WB title
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: python scripts/verify_wb_cover_title_20261121.py
+      - name: Keep readback and public cover samples
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wb-cover-title-readback
+          path: /tmp/wb-kit-title/
+          retention-days: 14
