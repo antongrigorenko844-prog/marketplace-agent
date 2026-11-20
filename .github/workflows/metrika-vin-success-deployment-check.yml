@@ -1,5 +1,6 @@
 name: LEOPARTS verify live VIN-success script publication
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
