@@ -27,4 +27,4 @@ jobs:
         run: python .github/scripts/tilda_browser_vin_dom_20261120.py
       - name: Persist privacy-safe DOM metadata
         if: always()
-        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/tilda_browser_vin_dom.json
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/tilda_browser_vin_post_publish_20261120.json
