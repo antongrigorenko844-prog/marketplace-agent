@@ -50,7 +50,7 @@ def patch(path, heading, old):
         for entry in src.infolist():
             raw=src.read(entry)
             if entry.filename=='xl/worksheets/sheet1.xml':
-                pattern = rb'(<c\b[^>]*\br="' + addr.encode() + rb'"[^>]*>(?:(?!</c>).)*?<v>)' + str(old).encode() + rb'(</v>)'
+                pattern = rb'(<(?:ns[0-9]+:)?c\b[^>]*\br="' + addr.encode() + rb'"[^>]*>(?:(?!</(?:ns[0-9]+:)?c>).)*?<(?:ns[0-9]+:)?v>)' + str(old).encode() + rb'(</(?:ns[0-9]+:)?v>)'
                 raw,n=re.subn(pattern,lambda m:m[1]+str(TARGET).encode()+m[2],raw,flags=re.S)
                 if n!=1:raise ValueError('Unexpected source XML')
             dst.writestr(entry,raw)
