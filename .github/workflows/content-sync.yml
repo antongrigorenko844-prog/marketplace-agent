@@ -26,6 +26,8 @@ jobs:
           python-version: '3.11'
       - run: pip install -r requirements.txt
       - name: Test the content boundary before accessing seller accounts
+        env:
+          TMPDIR: ${{ runner.temp }}
         run: python -m unittest discover -s tests -v
       - name: Read, plan or apply only approved content
         env:
