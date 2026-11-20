@@ -1,0 +1,29 @@
+name: Pause the single LEOPARTS Tilda gasket 0cw0am
+on:
+  push:
+    branches: [main]
+    paths: ['.github/agent-requests/stop-tilda-0cw0am-20261121.txt']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  pause:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install --quiet requests playwright==1.56.0
+      - run: python -m playwright install chromium
+      - run: python -m py_compile scripts/stop_tilda_0cw0am_20261121.py
+      - name: Stop one public SKU and check its product card
+        env:
+          PYTHONPATH: .
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+        run: python -u scripts/stop_tilda_0cw0am_20261121.py
