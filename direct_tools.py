@@ -400,28 +400,56 @@ def _num(x: str) -> float:
         return 0.0
 
 
-def _perf(token: str, d_from: date, d_to: date, name: str) -> Dict[str, float]:
+# Для рекламы LEOPARTS показываем только кампанию DQ200, а не весь аккаунт.
+# ВАЖНО: Conversions — агрегированные достижения целей, НЕ доказанные продажи.
+DIRECT_DQ200_CAMPAIGN_ID = 716316525
+
+
+def _perf(token: str, d_from: date, d_to: date, name: str) -> dict:
     body = {"params": {
-        "SelectionCriteria": {"DateFrom": d_from.isoformat(), "DateTo": d_to.isoformat()},
-        "FieldNames": ["Impressions", "Clicks", "Cost", "Conversions"],
-        "ReportName": f"{name}-{d_from}-{d_to}-{int(time.time())}",
-        "ReportType": "ACCOUNT_PERFORMANCE_REPORT", "DateRangeType": "CUSTOM_DATE",
-        "Format": "TSV", "IncludeVAT": "YES", "IncludeDiscount": "NO"}}
+        "SelectionCriteria": {
+            "DateFrom": d_from.isoformat(),
+            "DateTo": d_to.isoformat(),
+            "Filter": [{"Field": "CampaignId", "Operator": "IN",
+                        "Values": [str(DIRECT_DQ200_CAMPAIGN_ID)]}],
+        },
+        "FieldNames": ["CampaignId", "Impressions", "Clicks", "Cost", "Conversions"],
+        "ReportName": f"{name}-{DIRECT_DQ200_CAMPAIGN_ID}-{d_from}-{d_to}-{int(time.time() * 1000)}",
+        "ReportType": "CAMPAIGN_PERFORMANCE_REPORT",
+        "DateRangeType": "CUSTOM_DATE", "Format": "TSV",
+        "IncludeVAT": "YES", "IncludeDiscount": "NO",
+    }}
     rows = _report(token, body)
-    tot = {"Impressions": 0.0, "Clicks": 0.0, "Cost": 0.0, "Conversions": 0.0}
-    for r in rows:
-        for k in tot:
-            tot[k] += _num(r.get(k, "0"))
-    return tot
+    totals = {"Impressions": 0.0, "Clicks": 0.0, "Cost": 0.0, "Conversions": 0.0}
+    conversion_cells = 0
+    for row in rows:
+        if row.get("CampaignId") != str(DIRECT_DQ200_CAMPAIGN_ID):
+            raise RuntimeError("Отчёт Директа вернул данные другой кампании: отмена сводки")
+        for key in ("Impressions", "Clicks", "Cost"):
+            totals[key] += _num(row.get(key, "0"))
+        conversion = row.get("Conversions", "--")
+        if conversion is not None and str(conversion).strip() not in ("", "-", "--"):
+            totals["Conversions"] += _num(conversion)
+            conversion_cells += 1
+    # Нельзя превращать '--' (данных нет) в "0 конверсий".
+    if rows and conversion_cells == 0:
+        totals["Conversions"] = None
+    return totals
 
 
-def _fmt(t: Dict[str, float]) -> str:
-    cl = t["Clicks"]
-    cpc = t["Cost"] / cl if cl else 0
+def _fmt(t: dict) -> str:
+    clicks = t["Clicks"]
+    cpc = t["Cost"] / clicks if clicks else 0.0
     conv = t["Conversions"]
-    s = f"расход {t['Cost']:,.0f} ₽ · показы {t['Impressions']:,.0f} · клики {cl:,.0f} · клик {cpc:,.0f} ₽"
-    s += f" · конверсии {conv:,.0f}" + (f" (заявка {t['Cost'] / conv:,.0f} ₽)" if conv else "")
-    return s.replace(",", " ")
+    text = (f"расход {t['Cost']:,.0f} ₽ · показы {t['Impressions']:,.0f} "
+            f"· клики {clicks:,.0f} · клик {cpc:,.0f} ₽")
+    if conv is None:
+        text += " · конверсии: данные недоступны"
+    else:
+        text += f" · конверсии (все цели) {conv:,.0f}"
+        if conv > 0:
+            text += f" (цена агрегированной конверсии {t['Cost'] / conv:,.0f} ₽)"
+    return text.replace(",", " ")
 
 
 def cmd_direct_report() -> int:
@@ -429,28 +457,45 @@ def cmd_direct_report() -> int:
     if not token:
         print("YANDEX_DIRECT_TOKEN не задан — сводку Директа пропускаю.")
         return 0
-    y = date.today() - timedelta(days=1)
-    week = _perf(token, y - timedelta(days=6), y, "acc7")
-    day = _perf(token, y, y, "acc1")
+    yesterday = date.today() - timedelta(days=1)
+    week = _perf(token, yesterday - timedelta(days=6), yesterday, "leoparts7")
+    day = _perf(token, yesterday, yesterday, "leoparts1")
     if not week["Impressions"] and not day["Impressions"]:
         print("Показов за 7 дней нет — сводку не отправляю.")
         return 0
-    lines = [f"📊 Яндекс Директ, {y:%d.%m} (с НДС)", "Вчера: " + _fmt(day), "7 дней: " + _fmt(week)]
+    lines = [
+        f"📊 Яндекс Директ LEOPARTS, {yesterday:%d.%m} (с НДС, кампания {DIRECT_DQ200_CAMPAIGN_ID})",
+        "Вчера: " + _fmt(day),
+        "7 дней: " + _fmt(week),
+        "⚠️ Конверсии Директа не равны подтверждённым заявкам и оплаченным заказам.",
+    ]
     try:
-        q = _report(token, {"params": {
-            "SelectionCriteria": {"DateFrom": y.isoformat(), "DateTo": y.isoformat()},
-            "FieldNames": ["Query", "Clicks", "Cost"],
-            "ReportName": f"sq-{y}-{int(time.time())}", "ReportType": "SEARCH_QUERY_PERFORMANCE_REPORT",
-            "DateRangeType": "CUSTOM_DATE", "Format": "TSV", "IncludeVAT": "YES"}})
-        q = sorted(q, key=lambda r: -_num(r.get("Cost", "0")))[:10]
-        q = [r for r in q if _num(r.get("Cost", "0")) > 0]
-        if q:
-            lines.append("\nДороже всего вчера (проверьте, нет ли мусора — пришлите Claude, допишем минус-слова):")
-            lines += [f"• {r['Query']} — {_num(r['Cost']):,.0f} ₽, {int(_num(r['Clicks']))} кл.".replace(",", " ") for r in q]
-    except Exception as exc:  # noqa — сводка важнее списка запросов
+        query_report = _report(token, {"params": {
+            "SelectionCriteria": {
+                "DateFrom": yesterday.isoformat(), "DateTo": yesterday.isoformat(),
+                "Filter": [{"Field": "CampaignId", "Operator": "IN",
+                            "Values": [str(DIRECT_DQ200_CAMPAIGN_ID)]}],
+            },
+            "FieldNames": ["CampaignId", "Query", "Clicks", "Cost"],
+            "ReportName": f"sq-{DIRECT_DQ200_CAMPAIGN_ID}-{yesterday}-{int(time.time() * 1000)}",
+            "ReportType": "SEARCH_QUERY_PERFORMANCE_REPORT",
+            "DateRangeType": "CUSTOM_DATE", "Format": "TSV", "IncludeVAT": "YES",
+        }})
+        if any(row.get("CampaignId") != str(DIRECT_DQ200_CAMPAIGN_ID) for row in query_report):
+            raise RuntimeError("Отчёт поисковых запросов содержит другую кампанию")
+        paid = [row for row in query_report if _num(row.get("Cost", "0")) > 0]
+        paid.sort(key=lambda row: -_num(row.get("Cost", "0")))
+        if paid:
+            lines.append("\nСамые затратные поисковые запросы (вчера; не добавляйте минусы без проверки):")
+            lines += [
+                f"• {row['Query']} — {_num(row['Cost']):,.0f} ₽, {int(_num(row['Clicks']))} кл."
+                .replace(",", " ") for row in paid[:10]
+            ]
+    except Exception as exc:
         print(f"Поисковые запросы: {exc}")
-    _tg_owner("\n".join(lines))
-    print("\n".join(lines))
+    message = "\n".join(lines)
+    _tg_owner(message)
+    print(message)
     return 0
 
 
