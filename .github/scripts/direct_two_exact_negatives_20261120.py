@@ -106,6 +106,16 @@ def nonnegative(c):
     return {k:v for k,v in c.items() if k not in ("NegativeKeywords","Status")}
 def main():
     global ALLOWED_WRITE
+    # An existing attempted write is immutable evidence; never repeat the write.
+    if OUT.exists():
+        try:
+            prior=json.loads(OUT.read_text(encoding="utf-8"))
+        except Exception:
+            print("Existing proof unreadable; refusing another write",flush=True)
+            return 1
+        if prior.get("write_attempted"):
+            print("Prior attempt exists: refusing any repeated mutation",flush=True)
+            return 1
     rep={"status":"preflight","mode":"apply_only_two_exact_phrases","campaign_id":CID,
          "started_utc":now(),"new_phrases":list(TERMS),"write_attempted":False,
          "mutations":0,"workflow_sha":os.getenv("GITHUB_SHA"),"errors":[]}
@@ -131,16 +141,13 @@ def main():
                 rep.update(status="already_present_no_write",before_count=len(neg));return 0
             raise RuntimeError("Current 130 negatives differ from strict preflight snapshot")
         if any(t in neg for t in TERMS):raise RuntimeError("Partial application / unexpected exact negative")
-        if OUT.exists():
-            previous=json.loads(OUT.read_text(encoding="utf-8"))
-            if previous.get("write_attempted"):raise RuntimeError("Prior write attempted; no blind retry")
         inv=checked_inventory()
         proposed=neg+list(TERMS)
         if len(set(proposed))!=132 or sum(len(p.replace(" ","")) for p in proposed)>20000:
             raise RuntimeError("Proposed negatives invalid or too long")
         rep.update(before=before,before_count=130,before_sha256=fingerprint(neg),
             proposed_sha256=fingerprint(proposed),inventory=inv,
-            "scope_note":"Only two quoted negatives added; no broad repair, board, or replacement words")
+            scope_note="Only two quoted negatives added; no broad repair, board, or replacement words")
         save(rep)
         fresh=read_campaign()
         if fresh["NegativeKeywords"]["Items"]!=neg or nonnegative(fresh)!=nonnegative(before):
