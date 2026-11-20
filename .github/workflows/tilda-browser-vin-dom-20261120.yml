@@ -1,0 +1,29 @@
+name: LEOPARTS Tilda VIN form rendered DOM (no submissions)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/tilda-browser-vin-dom-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  browser-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install browser automation
+        run: |
+          pip install playwright==1.56.0
+          python -m playwright install chromium
+      - name: Render public page and inspect VIN form (no click/submit)
+        run: python .github/scripts/tilda_browser_vin_dom_20261120.py
+      - name: Persist privacy-safe DOM metadata
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/tilda_browser_vin_dom.json
