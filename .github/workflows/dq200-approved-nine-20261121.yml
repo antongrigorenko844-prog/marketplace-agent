@@ -1,0 +1,23 @@
+name: Verify nine owner-approved DQ200 search exclusions
+on:
+  push:
+    branches: [ops/dq200-nine-negatives-20261121]
+    paths: ['.github/workflows/dq200-approved-nine-20261121.yml']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Add approved terms and read back the campaign
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/dq200_approved_nine_20261121.py
