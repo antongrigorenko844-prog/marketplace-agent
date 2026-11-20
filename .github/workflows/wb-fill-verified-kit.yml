@@ -1,0 +1,26 @@
+name: Fill verified WB pushrod kit composition
+on:
+  push:
+    branches: ['audit/wb-composition-verified-20261120']
+    paths: ['.github/workflows/wb-fill-verified-kit.yml']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip -q install -r requirements.txt
+      - name: Check the physical kit and verify the one permitted attribute
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: python scripts/wb_fill_verified_kit.py
