@@ -1,0 +1,106 @@
+name: Verify owner rear photo on one Market offer
+on:
+  push:
+    branches: ['content/ym-owner-gallery-20261121']
+    paths: ['.github/workflows/ym-owner-gallery-20261121.yml']
+permissions:
+  contents: read
+concurrency:
+  group: ym-exact-owner-gallery-0am325025h
+  cancel-in-progress: false
+jobs:
+  gallery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip -q install -r requirements.txt
+      - name: Add and verify the owner's additional angle
+        env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_BUSINESS_ID: ${{ secrets.YANDEX_MARKET_BUSINESS_ID }}
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import time
+          import requests
+          import yandex_market_client as ym
+          from market_content import read_rows
+          from content_sync import bind_market_images, same_picture
+
+          sku = '0am325025H'
+          market_sku = 4817587494
+          expected = [
+              'https://cdn1.ozone.ru/s3/multimedia-1-c/8458091220.jpg',
+              'https://ir-20.ozone.ru/s3/multimedia-1-1/14848105789.jpg',
+              'https://ir-20.ozone.ru/s3/multimedia-1-0/14848100064.jpg',
+              'https://ir-20.ozone.ru/s3/multimedia-1-h/21314625029.jpg',
+          ]
+          source = 'https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0am325025H_rear_b172348fa6.jpg?v=b172348fa6'
+          digest = 'b172348fa6324624e1d268af10f6bdf35a1c894095c6fb1726501745521c2ac4'
+          desired = expected + [source]
+          biz = ym.get_business_id()
+          def get(kind):
+              rows = read_rows(biz, kind, [sku])
+              if len(rows) != 1:
+                  raise RuntimeError('Market could not uniquely identify this offer')
+              return rows[0]
+          def parameters(card):
+              return sorted(json.dumps(p, sort_keys=True) for p in card.get('parameterValues', []))
+          def preserve(v):
+              return {k:v.get(k) for k in ['offerId','name','description','basicPrice','purchasePrice','vendor','vendorCode','weightDimensions','barcodes','params','videos','manuals','commodityCodes','groupId','condition','category','archived']}
+          pending = {"parameterId":7351754,"value":"в поставку входит гидравлическая часть мехатроника DQ200 в сборе, электронная плата в этот вариант не входит"}
+          for field_check in range(24):
+              current = get('offer-cards')
+              seen = [p for p in current.get('parameterValues', []) if p.get('parameterId') == pending['parameterId']]
+              if any(p.get('value') == pending['value'] for p in seen):
+                  break
+              if seen:
+                  raise RuntimeError('A different value appeared for the pending Market parameter')
+              if field_check < 23:
+                  time.sleep(25)
+          else:
+              print('GALLERY_DEFERRED: the previous parameter is still being processed; no image write')
+              raise SystemExit(0)
+          before = get('offer-mappings')
+          bc = get('offer-cards')
+          assert any(p.get('parameterId') == pending['parameterId'] and p.get('value') == pending['value'] for p in bc.get('parameterValues',[]))
+          b = before['offer']
+          assert b['offerId'] == sku == bc['offerId'] and int(bc['mapping']['marketSku']) == market_sku
+          assert int(before['mapping']['marketSku']) == market_sku and bc.get('cardStatus') == 'HAS_CARD_CAN_UPDATE'
+          linked = [r['sku'] for r in ym.get_all_offers(False)+ym.get_all_offers(True) if str(r['market_sku']) == str(market_sku)]
+          assert linked == [sku], 'Unexpected shared Market card'
+          assert b['pictures'] in (expected,desired) and all(r.get('uploadState') == 'UPLOADED' for r in b['mediaFiles']['pictures'][:4])
+          assert len(b.get('mediaFiles',{}).get('pictures',[]))>=4
+          bind_market_images(b)
+          response = requests.get(source,timeout=45)
+          response.raise_for_status()
+          assert hashlib.sha256(response.content).hexdigest() == digest
+          assert not any(same_picture(p, source) for p in expected)
+          if b['pictures'] == expected:
+              item = {'offerId': sku, 'pictures': desired}
+              if bc.get('parameterValues'):
+                  item['parameterValues'] = bc['parameterValues']
+                  item['marketCategoryId'] = bc['mapping']['marketCategoryId']
+              st, res = ym._request('POST', f'/v2/businesses/{biz}/offer-mappings/update', json_body={'offerMappings':[{'offer':item}]})
+              assert st == 200 and res.get('status') == 'OK' and not any(r.get('errors') for r in res.get('results',[])), 'Market rejected gallery update'
+              print('Market received the gallery', flush=True)
+          for attempt in range(16):
+              after=get('offer-mappings')
+              a=after['offer']
+              ac=get('offer-cards')
+              assert preserve(b) == preserve(a) and before['mapping']==after['mapping'], 'Unrelated offer change'
+              assert b.get('mediaFiles',{}).get('videos',[])==a.get('mediaFiles',{}).get('videos',[]), 'Unrelated video change'
+              assert parameters(ac)==parameters(bc), 'Typed characteristic change'
+              if a.get('pictures') == desired:
+                  pics=a.get('mediaFiles',{}).get('pictures',[])
+                  if len(pics)==len(desired) and all(p.get('url')==u and p.get('uploadState')=='UPLOADED' and p.get('marketUrl') for p,u in zip(pics,desired)) and same_picture(pics[-1]['marketUrl'],source):
+                      print('GALLERY_VERIFIED', json.dumps({'offer_id':sku,'photos':len(pics),'old_order':True,'image':pics[-1]['marketUrl'],'before_rating':bc.get('contentRating'),'rating':ac.get('contentRating'),'ratingStatus':ac.get('contentRatingStatus'),'video_preserved':True,'fields_preserved':True}),flush=True)
+                      break
+              if attempt<15:time.sleep(8)
+          else:raise RuntimeError('Accepted gallery is pending Market upload; read before retry')
+          PY
