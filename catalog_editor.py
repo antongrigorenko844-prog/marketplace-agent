@@ -912,7 +912,7 @@ def _build_one_item(name_entry: dict, detail: dict, edit: dict) -> dict:
     )
 
     attributes = name_entry.get("attributes") or []
-    composition = composition_for(name_entry.get("offer_id"))
+    composition = composition_for(name_entry.get("offer_id"), platform="ozon")
     if composition:
         attributes = _with_overridden_attr(attributes, 4384, composition)
     attributes = _with_overridden_attr(attributes, ATTR_ID_NAME_MIRROR, new_name)

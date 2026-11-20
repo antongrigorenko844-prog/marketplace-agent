@@ -50,6 +50,11 @@ def description_for(sku, fallback, platform=None):
     return row.get('description', fallback)
 
 def composition_for(sku, platform=None):
+    if platform == 'ozon':
+        from content_manifest import load as manifest
+        pinned = manifest().get(sku, {}).get('text', {}).get('ozon', {}).get('composition')
+        if pinned is not None:
+            return pinned
     row = load().get(sku, {})
     return row.get('wb_composition', row.get('composition')) if platform == 'wb' else row.get('composition')
 

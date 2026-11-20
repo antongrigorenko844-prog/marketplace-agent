@@ -33,6 +33,16 @@ class ContentBoundaryTests(unittest.TestCase):
             self.assertEqual(cu.title_for('PART','stale','avito'),'Reviewed')
             self.assertEqual(cu.title_for('OTHER','untouched','avito'),'untouched')
 
+    def test_ozon_composition_override_is_platform_and_sku_specific(self):
+        import content_updates as cu
+        rules = {'PART': {'text': {'ozon': {'composition': 'Reviewed Ozon contents'}}}}
+        previous = {'PART': {'composition': 'Common contents', 'wb_composition': 'WB contents'}}
+        with patch.object(cm, 'load', return_value=rules), patch.object(cu, 'load', return_value=previous):
+            self.assertEqual(cu.composition_for('PART', 'ozon'), 'Reviewed Ozon contents')
+            self.assertEqual(cu.composition_for('PART', 'wb'), 'WB contents')
+            self.assertEqual(cu.composition_for('PART'), 'Common contents')
+            self.assertIsNone(cu.composition_for('part', 'ozon'))
+
     def test_commerceml_import_is_not_misclassified_as_safe_get(self):
         with self.assertRaises(ValueError):ct.classify('GET','https://store.tilda.ru/connector?mode=import&filename=offers.xml')
 
