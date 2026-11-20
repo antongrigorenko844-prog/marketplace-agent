@@ -1,0 +1,33 @@
+name: Verify stocked exact WB kit counts
+on:
+  push:
+    branches: ['content/wb-bill-and-quantity-20261121']
+    paths: ['.github/workflows/wb-verified-kit-counts.yml']
+permissions:
+  contents: read
+concurrency:
+  group: leoparts-wb-pack-count-title-write
+  cancel-in-progress: false
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip -q install -r requirements.txt
+      - name: Verify live card compositions, apply and read each batch back
+        env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: python scripts/wb_verified_kit_quantities_20261121.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wb-kit-count-receipt
+          path: wb_verified_receipt.json
