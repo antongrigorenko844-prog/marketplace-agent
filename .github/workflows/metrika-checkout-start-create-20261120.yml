@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - .github/workflows/metrika-checkout-start-create-20261120.yml
+      - tests/test_metrika_checkout_goal_safe.py
 permissions:
   contents: write
 concurrency:
