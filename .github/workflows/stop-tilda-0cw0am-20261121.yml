@@ -20,10 +20,7 @@ jobs:
       - run: pip install --quiet requests openpyxl playwright==1.56.0
       - run: command -v google-chrome || command -v chromium || python -m playwright install chromium
       - run: python -m py_compile scripts/stop_tilda_0cw0am_20261121.py
-      - name: Stop one public SKU and check its product card
+      - name: Read public availability and product URLs after the completed exchange
         env:
           PYTHONPATH: .
-          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
-          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
-          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
-        run: python -u scripts/stop_tilda_0cw0am_20261121.py
+        run: python -u scripts/stop_tilda_0cw0am_20261121.py --verify-only
