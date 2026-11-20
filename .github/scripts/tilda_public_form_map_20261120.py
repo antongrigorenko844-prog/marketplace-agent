@@ -58,7 +58,21 @@ def fetch(url):
                 numbered=sorted(set(re.findall(r"(?i)(?:tilda/form|tilda-form|form)[_/\-]?(\d{7,12})",html)))
                 specids=[str(x) for x in (5171350301,5246286101,5260805101)]
                 matches={x:html.find(x)>=0 for x in specids}
-                return {"status":"ok","http":res.status,"length":len(html),"forms_count":len(frm.forms),
+                import html as html_tools
+                def context_for(number):
+                    found=list(re.finditer(re.escape(str(number)),html))
+                    context=[]
+                    for item in found[:4]:
+                        snippet=html_tools.unescape(html[max(0,item.start()-160):min(len(html),item.end()+160)])
+                        snippet=re.sub(r"<[^>]+>"," ",snippet)
+                        snippet=re.sub(r"[\\w.+-]+@[\\w.-]+","[email]",snippet)
+                        snippet=re.sub(r"(?:\\+?\\d[\\d\\s()\u2013-]{9,}\\d)","[phone]",snippet)
+                        snippet=re.sub(r"\\s+"," ",snippet).strip()
+                        context.append(snippet[:240])
+                    return context
+                contexts={key:context_for(key) for key in specids}
+                return {"status":"ok","http":res.status,"length":len(html),
+                        "form_id_context":contexts,"forms_count":len(frm.forms),
                         "forms":frm.forms,"virtual_form_identifiers":numbered[:80],
                         "tracked_form_id_mentions":matches,"tilda_marker":"tilda" in html.lower()}
         except urllib.error.HTTPError as e:
