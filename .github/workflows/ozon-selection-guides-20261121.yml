@@ -1,0 +1,25 @@
+name: Add buyer guides to verified Ozon transmission parts
+on:
+  push:
+    branches: ['content/ozon-selection-guides-20261121']
+    paths: ['scripts/apply_ozon_selection_guides_20261121.py','.github/workflows/ozon-selection-guides-20261121.yml','data/selection_guides_review_20261121.json','data/ozon_rich/**']
+permissions:
+  contents: read
+concurrency:
+  group: ozon-selection-guides-11254
+  cancel-in-progress: false
+jobs:
+  rich:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip -q install -r requirements.txt
+      - name: Publish and verify only field 11254
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: python -m scripts.apply_ozon_selection_guides_20261121
