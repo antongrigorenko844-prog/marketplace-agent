@@ -1,0 +1,30 @@
+name: LEOPARTS Direct controlled Accessory reduction for with-board group
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/direct-accessory-apply-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  controlled-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify exact targeting change offline (no token)
+        run: python -m unittest discover -s tests -p test_direct_accessory_safe.py -v
+      - name: Apply only Accessory NO to one autotargeting criterion and verify
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_accessory_test_20261120.py
+      - name: Persist proof of applied setting (including failures)
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/accessory_mech_with_board_apply.json
