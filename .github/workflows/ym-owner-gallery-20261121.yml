@@ -20,6 +20,7 @@ jobs:
       - run: pip -q install -r requirements.txt
       - name: Add and verify the owner's additional angle
         env:
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
           YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
           YANDEX_MARKET_BUSINESS_ID: ${{ secrets.YANDEX_MARKET_BUSINESS_ID }}
         run: |
