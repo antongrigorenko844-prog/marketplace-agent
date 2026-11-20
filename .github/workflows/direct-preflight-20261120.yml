@@ -1,0 +1,30 @@
+name: LEOPARTS Direct scoped optimization preflight
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/scripts/direct_preflight_20261120.py
+      - .github/workflows/direct-preflight-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read campaign, search queries and negative phrase collision
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: python .github/scripts/direct_preflight_20261120.py
+      - name: Save preflight evidence only
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/preflight.json
