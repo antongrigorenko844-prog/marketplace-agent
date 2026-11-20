@@ -18,6 +18,9 @@ SELECTORS = (
     ".t-store__card__btn .t-btn",
     ".t-store__card__btn",
     ".t-store__card__btn-wrapper .t-btn",
+    ".t-store__prod__btn",
+    ".t-store__prod-popup__btn",
+    ".js-store-prod-buy-btn",
 )
 
 
@@ -96,9 +99,30 @@ async def run():
         await context.route("**/*", intercept)
         page = await context.new_page()
         try:
-            response = await page.goto(URL, wait_until="domcontentloaded", timeout=60000)
+            response = await page.goto(URL + "#katalog", wait_until="domcontentloaded", timeout=60000)
             result["http_status"] = response.status if response else None
-            await page.wait_for_timeout(7500)
+            await page.wait_for_timeout(6500)
+            # Some Tilda product cards load only after the catalog section is scrolled into view.
+            await page.evaluate("() => window.scrollTo(0, document.body.scrollHeight * 0.7)")
+            await page.wait_for_timeout(2500)
+            await page.evaluate("() => window.scrollTo(0, document.body.scrollHeight)")
+            await page.wait_for_timeout(2000)
+            result["public_button_inventory"] = await page.evaluate("""() => {
+              const r = /(купить|корзину|добавить|заказать)/i;
+              return [...document.querySelectorAll('button,a,[role="button"]')]
+                .filter(x => r.test((x.textContent || '').trim()))
+                .slice(0, 45).map(x => ({
+                  tag: x.tagName,
+                  label: (x.textContent || '').trim().slice(0, 65),
+                  classes: String(x.className || '').slice(0, 120),
+                  parent_classes: String(x.parentElement?.className || '').slice(0, 100),
+                }));
+            }""")
+            result["catalog_elements"] = await page.evaluate("""() => ({
+              store_cards: document.querySelectorAll('.t-store__card').length,
+              product_lids: document.querySelectorAll('[data-product-lid]').length,
+              frames: window.frames.length,
+            })""")
             result["before"] = await snapshot(page)
             counts = {}
             clicked = False
