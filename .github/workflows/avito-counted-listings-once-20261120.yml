@@ -1,0 +1,263 @@
+name: Set and verify six approved Avito listing quantities
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/avito-counted-listings-once-20261120.yml']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  stock:
+    if: github.event.before == 'f77989b9c2e37fc549171894124eaed2130b1345' && github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: main
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /data/ozon_catalog.xlsx
+      - run: python3 -m pip install -q openpyxl
+      - name: Verify the shared warehouse counts
+        shell: python
+        run: |
+          from openpyxl import load_workbook
+          want = {'0am325025x':0,'0am325066ae':15,'plita-filtr-orig':15,'plita-pylniki-salniki':15,'plita-pylniki-salniki-orig':15,'plita-pylniki-salniki-orig-v2':15}
+          w=load_workbook("data/ozon_catalog.xlsx",read_only=True,data_only=True)
+          rows=[(r[0],r[7]) for r in w.active.values if r[0] in want]
+          w.close()
+          if len(rows)!=len(want) or dict(rows)!=want:
+              raise SystemExit("physical_counts_changed")
+      - name: Set and read back the approved listing counts
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        shell: python {0} --apply
+        run: |
+          """Single-use Avito stock operation for six fixed, previously verified listings."""
+          import argparse
+          from http.client import HTTPException
+          import json
+          import os
+          import sys
+          from urllib.error import HTTPError
+          from urllib.parse import urlencode
+          from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
+          
+          
+          HOST = "https://api.avito.ru"
+          TARGETS = {
+              "0am325025x": (8252041186, 0),
+              "0am325066ae": (8385926244, 15),
+              "plita-filtr-orig": (8304712062, 15),
+              "plita-pylniki-salniki": (8394895937, 15),
+              "plita-pylniki-salniki-orig": (8394697530, 15),
+              "plita-pylniki-salniki-orig-v2": (8386090647, 15),
+          }
+          
+          
+          class Guard(Exception):
+              """Every message is a locally defined code, safe for logs."""
+          
+          
+          def require(condition, code):
+              if not condition:
+                  raise Guard(code)
+          
+          
+          class NoRedirect(HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, headers, newurl):
+                  return None
+          
+          
+          def rows(response, key):
+              values = response.get(key)
+              require(isinstance(values, list) and all(isinstance(r, dict) for r in values), "response_schema")
+              return values
+          
+          
+          class Avito:
+              def __init__(self):
+                  self.opener = build_opener(ProxyHandler({}), NoRedirect())
+                  self.token = ""
+                  self.sent = set()
+                  client_id = os.getenv("AVITO_CLIENT_ID")
+                  client_secret = os.getenv("AVITO_CLIENT_SECRET")
+                  require(client_id and client_secret, "missing_credentials")
+                  token = self._http("POST", "/token", {"grant_type": "client_credentials",
+                                     "client_id": client_id, "client_secret": client_secret}, form=True)
+                  self.token = token.get("access_token")
+                  require(isinstance(self.token, str) and self.token, "authentication_failed")
+                  self.account = self._http("GET", "/core/v1/accounts/self").get("id")
+                  require(type(self.account) is int and self.account>0, "account_unconfirmed")
+          
+              def _http(self, method, path, body=None, form=False):
+                  payload = None if body is None else (urlencode(body) if form else json.dumps(body)).encode()
+                  headers = {"Content-Type": "application/x-www-form-urlencoded" if form else "application/json"}
+                  if self.token:
+                      headers["Authorization"] = "Bearer " + self.token
+                  try:
+                      with self.opener.open(Request(HOST+path, data=payload, method=method, headers=headers),
+                                            timeout=20) as resp:
+                          require(resp.status==200, "unexpected_status")
+                          data = resp.read(1_000_001)
+                          require(len(data)<=1_000_000, "unexpected_response_size")
+                          result = json.loads(data)
+                          require(isinstance(result, dict), "response_schema")
+                          return result
+                  except HTTPError as exc:
+                      raise Guard("http_"+str(exc.code)) from None
+                  except (OSError, ValueError, EOFError, HTTPException):
+                      raise Guard("unavailable_or_invalid_response") from None
+          
+              def links(self, skus):
+                  keys = [s for sku in skus for s in (sku, sku+"-av")]
+                  return self._http("GET", "/autoload/v2/items/avito_ids?"+urlencode({"query": ",".join(keys)}))
+          
+              def item(self, sku):
+                  identifier = TARGETS[sku][0]
+                  return self._http("GET", f"/core/v1/accounts/{self.account}/items/{identifier}/")
+          
+              def info(self, sku):
+                  return self._http("POST", "/stock-management/1/info",
+                                    {"item_ids": [TARGETS[sku][0]], "strong_consistency": True})
+          
+              def put(self, sku):
+                  identifier, qty = TARGETS[sku]
+                  require(identifier not in self.sent, "duplicate_write_prevented")
+                  self.sent.add(identifier)
+                  return self._http("PUT", "/stock-management/1/stocks",
+                                    {"stocks": [{"item_id": identifier, "quantity": qty}]})
+          
+          
+          def link_issues(api):
+              # Check all six in one read: a changed SKU might now be an alias of another target.
+              permitted = {s:sku for sku in TARGETS for s in (sku,sku+"-av")}
+              linked = {}
+              owners = {}
+              issues = {}
+              for row in rows(api.links(TARGETS), "items"):
+                  key = row.get("ad_id")
+                  require(isinstance(key,str) and key in permitted, "unexpected_autoload_response")
+                  sku = permitted[key]
+                  ident = row.get("avito_id")
+                  if key in linked:
+                      issues[sku] = "duplicate_autoload_row"
+                  linked[key] = ident
+                  if type(ident) is int and ident>0:
+                      owners.setdefault(ident,set()).add(sku)
+                  elif ident is not None:
+                      issues[sku] = "invalid_autoload_identifier"
+              for sku, (expected,_) in TARGETS.items():
+                  if type(linked.get(sku)) is not int or linked[sku]!=expected or linked.get(sku+"-av") is not None:
+                      issues[sku] = "historical_link_changed"
+                  if len(owners.get(expected,()))>1:
+                      issues[sku] = "listing_linked_to_another_sku"
+              return issues
+          
+          
+          def active(api, sku):
+              detail = api.item(sku)
+              require(detail.get("status")=="active", "listing_not_active")
+              reverse = detail.get("autoload_item_id")
+              require(reverse is None or reverse=="" or reverse==sku, "reverse_link_conflicts")
+          
+          
+          def state(api, sku):
+              result = rows(api.info(sku), "stocks")
+              require(len(result)==1 and type(result[0].get("item_id")) is int
+                      and result[0]["item_id"]==TARGETS[sku][0], "stock_identity_unconfirmed")
+              row = result[0]
+              require(all(type(row.get(f)) is bool for f in ("is_multiple","is_unlimited","is_out_of_stock"))
+                      and type(row.get("quantity")) is int, "stock_flags_unconfirmed")
+              if row["is_unlimited"]:
+                  return "unlimited",row["is_multiple"]
+              qty = row["quantity"]
+              if qty<0 or row["is_out_of_stock"]!=(qty==0):
+                  return "inconsistent_flags",row["is_multiple"]
+              return ("exact" if qty==TARGETS[sku][1] else "finite_other_or_reserved"),row["is_multiple"]
+          
+          
+          def receipt(response, sku):
+              result=rows(response, "stocks")
+              require(len(result)==1 and type(result[0].get("item_id")) is int
+                      and result[0]["item_id"]==TARGETS[sku][0], "receipt_identity_unconfirmed")
+              r=result[0]
+              require(r.get("success") is True and ("errors" not in r or r["errors"]==[]), "item_rejected")
+          
+          
+          def execute(api, apply):
+              initial_issues = link_issues(api)
+              results = {}
+              halted = False
+              for sku, (_, qty) in TARGETS.items():
+                  outcome = results[sku] = {"target": qty, "put_attempts": 0}
+                  if halted:
+                      outcome["status"] = "skipped_after_unconfirmed_write_or_guard"
+                      continue
+                  if sku in initial_issues:
+                      outcome["status"] = initial_issues[sku]
+                      continue
+                  try:
+                      fresh_issues=link_issues(api)
+                      if sku in fresh_issues:
+                          outcome["status"]=fresh_issues[sku]
+                          continue
+                      active(api, sku)
+                      before,multiple = state(api, sku)
+                      outcome["multiple_before"] = multiple
+                      if before!="unlimited":
+                          outcome["status"] = "already_exact" if before=="exact" else before
+                          continue
+                      if not apply:
+                          outcome["status"] = "would_change_unlimited"
+                          continue
+                      outcome["put_attempts"] = 1
+                      try:
+                          receipt(api.put(sku), sku)
+                          ack = "accepted"
+                      except Guard as exc:
+                          ack = str(exc)
+                      # Even on an ambiguous transport failure the only next request for this item is a read.
+                      outcome["ack"] = ack
+                      after,multiple = state(api, sku)
+                      outcome["readback"] = after
+                      outcome["multiple_after"] = multiple
+                      outcome["status"] = ("confirmed" if ack=="accepted" and after=="exact" else
+                                           "exact_after_unconfirmed_write" if after=="exact" else "unconfirmed")
+                      halted = ack!="accepted" or after!="exact"
+                  except Guard as exc:
+                      outcome["status"] = str(exc)
+                      # One missing or inactive listing has no effect on the other exact bindings.
+                      # After a PUT with missing readback, the write outcome is uncertain.
+                      halted = bool(outcome["put_attempts"])
+              return results
+          
+          
+          def main():
+              parser=argparse.ArgumentParser(description=__doc__)
+              mode=parser.add_mutually_exclusive_group(required=True)
+              mode.add_argument("--preview", action="store_true")
+              mode.add_argument("--apply", action="store_true")
+              args=parser.parse_args()
+              require(not args.apply or os.environ.get("GITHUB_RUN_ATTEMPT","1")=="1","workflow_rerun_not_allowed")
+              result=execute(Avito(), args.apply)
+              print(json.dumps({"mode":"apply" if args.apply else "preview","items":result},sort_keys=True))
+              good={"confirmed","already_exact"} if args.apply else {"would_change_unlimited","already_exact"}
+              return 0 if all(r["status"] in good for r in result.values()) else 2
+          
+          
+          if __name__=="__main__":
+              try:
+                  code=main()
+              except Guard as exc:
+                  print(json.dumps({"error":str(exc)}))
+                  code=2
+              except Exception:
+                  print('{"error":"internal_schema_or_transport_failure"}')
+                  code=2
+              sys.exit(code)
