@@ -1,0 +1,90 @@
+name: Find market attribute and media gaps against verified sources
+on:
+  push:
+    branches: ['audit/ym-content-rating-20261120']
+    paths: ['.github/workflows/ym-verified-card-backlog.yml']
+permissions:
+  contents: read
+concurrency:
+  group: market-content-rating-readonly
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip --quiet install requests PyNaCl==1.5.0
+      - name: Check seller content ratings
+        env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python - <<'PY'
+          import base64, collections, hashlib, json, sys
+          from nacl.public import Box, PrivateKey, PublicKey
+          from nacl.utils import random
+          import yandex_market_client as ym
+          from market_content import read_rows
+          from content_updates import load
+          from content_manifest import load as get_manifest
+          from video_sources import market_videos_for
+          from pathlib import Path
+          def seal(o):
+              sk=PrivateKey.generate();n=random(Box.NONCE_SIZE)
+              b=Box(sk,PublicKey(bytes.fromhex('a3967aa41a9355bb8e0b90a7a26da3ed30908731d7c6ffceb175723436354f3b'))).encrypt(json.dumps(o,ensure_ascii=False,separators=(',',':')).encode(),n).ciphertext
+              print('YMR_'+base64.b64encode(bytes(sk.public_key)+n+b).decode(),flush=True)
+          def run():
+              biz=ym.get_business_id();active=ym.get_all_offers(False);archived=ym.get_all_offers(True)
+              ids=[r['sku'] for r in active];by=collections.defaultdict(set)
+              for r in active+archived:by[str(r['market_sku'])].add(r['sku'])
+              cards={};maps={}
+              for i in range(0,len(ids),100):
+                  cards.update({r['offerId']:r for r in read_rows(biz,'offer-cards',ids[i:i+100])})
+                  maps.update({r['offer']['offerId']:r for r in read_rows(biz,'offer-mappings',ids[i:i+100])})
+              source=load();manifest=get_manifest()
+              media=json.loads(Path('data/market_video_sources.json').read_text());vids0=json.loads(Path('data/market_video_cache.json').read_text())
+              videos=market_videos_for({**vids0,**media.get('overrides',{})})
+              catid=71380208;status,d=ym._request('POST',f'/v2/category/{catid}/parameters',params={'businessId':biz},json_body={})
+              assert status==200
+              parameters=d['result']['parameters']
+              allow={p['id']:p for p in parameters if p['id'] in (7351754,14805583,33663230) or p['name'].lower() in ('длина','комплектация','количество')}
+              seal({'phase':'schema','schema':{str(i):{k:p.get(k) for k in ('name','type','unit','units','recommendationTypes','allowCustomValues')} for i,p in allow.items()}})
+              tally=collections.Counter();mediaCounts=collections.Counter()
+              for k in ids:
+                  o=maps[k]['offer'];m=maps[k]['mapping'];c=cards[k]; mid=str(m.get('marketSku')); rec={r['type']:r.get('remainingRatingPoints') for r in c.get('recommendations',[])}
+                  byid=collections.defaultdict(list)
+                  for v in c.get('parameterValues',[]):byid[v['parameterId']].append({a:b for a,b in v.items() if a in ('value','valueId','unitId')})
+                  live=next((c.get('status') for c in o.get('campaigns',[])),None)
+                  unstable=c.get('cardStatus')!='HAS_CARD_CAN_UPDATE' or c.get('contentRatingStatus')!='ACTUAL'
+                  eligible= k!='0cw0am' and len(by[mid])==1 and live=='PUBLISHED' and not unstable
+                  pics=o.get('mediaFiles',{});curr=pics.get('videos') or o.get('videos') or []
+                  if k=='0cw0am':mt='owner_hold'
+                  elif k not in videos:mt='no_explicit_reviewed_source'
+                  elif curr:mt='already_has_live_video'
+                  elif not eligible:mt='identity_status_or_quality_gate'
+                  elif not rec.get('VIDEO_COUNT'):mt='no_video_recommendation'
+                  else:
+                      mt='review_video_match'
+                      seal({'phase':'video','sku':k,'mid':mid,'title':o['name'],'src':videos[k],'points':rec.get('VIDEO_COUNT'),'score':c.get('contentRating')})
+                  mediaCounts[mt]+=1
+                  row=source.get(k,{})
+                  comp=row.get('composition','')
+                  if k=='0cw0am':reason='hold'
+                  elif m.get('marketCategoryId')!=catid:reason='different_category'
+                  elif len(by[mid])!=1:reason='shared_card'
+                  elif live!='PUBLISHED':reason='not_published'
+                  elif unstable:reason='unstable_or_card_error'
+                  elif not rec.get('ADDITIONAL') and not rec.get('MAIN'):reason='no_attribute_recommendation'
+                  elif not comp or not row.get('source'):reason='no_verified_comp_source'
+                  else:
+                      reason='review_composition_parameters'
+                      seal({'phase':'offer','sku':k,'id':mid,'title':o['name'],'score':c.get('contentRating'),'recs':{a:b for a,b in rec.items() if a in ('ADDITIONAL','MAIN')},'comp':comp,'src':row.get('source'),'fields':{str(a):byid[a] for a in allow},'pinned':bool(manifest.get(k,{}).get('market_parameters'))})
+                  tally[reason]+=1
+              seal({'phase':'tally','active':len(ids),'archive':len(archived),'parameters':dict(tally),'video':dict(mediaCounts)})
+          try:run()
+          except Exception as x:seal({'phase':'error','type':type(x).__name__});sys.exit(1)
+          PY
