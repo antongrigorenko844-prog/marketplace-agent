@@ -1,0 +1,113 @@
+name: Fill twelve verified product application and package attributes
+on:
+  push:
+    branches: ['audit/ym-content-rating-20261120']
+    paths: ['.github/workflows/ym-verified-attributes.yml']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip --quiet install requests PyNaCl==1.5.0
+      - name: Check seller content ratings
+        env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python - <<'PY'
+          import base64, collections, copy, hashlib, json, sys, time, datetime
+          import requests
+          from nacl.public import Box, PrivateKey, PublicKey
+          from nacl.utils import random
+          import yandex_market_client as ym
+          from market_content import read_rows
+          from content_updates import load
+          PLAN={"0am325025P":{"id":"4392869596","desc_sha":"97f131f9fcea9246c2633aead992bdcec7af360570d40f53973024add455daff","composition":"Клипса штока — 1 шт.","add":{"parameterId":7351754,"value":"Одна клипса для фиксации пыльника штока толкателя вилки в мехатронике DSG7 DQ200 (0AM/0CW)."}},"0am325025r":{"id":"4332439233","desc_sha":"75656a6656f84f803d5f6d94825be570df64cbbf97c0b4f280a83bc56990bef6","composition":"Усиленное опорное кольцо толкателя — 1 шт.","add":{"parameterId":7351754,"value":"Алюминиевое опорное кольцо толкателя мехатроника DSG7 DQ200 0AM. В комплекте одно кольцо."}},"0am325066AC":{"id":"4390303473","desc_sha":"7965d8f08aed653378fea36c15266a990b09646f349e7a712141b63dbaf45952","composition":"Усиленный поршень штока — 1 шт.","add":{"parameterId":7351754,"value":"Один усиленный поршень штока для передачи усилия к вилке сцепления мехатроника DSG7 DQ200 (0AM/0CW)."}},"0AM325120A":{"id":"4384121684","desc_sha":"8d88de4921d0a054501ce7d0c306f63cf5bfa3f5b19f73f2d80902a071d98ea2","composition":"Транспортная заглушка — 1 шт.","add":{"parameterId":7351754,"value":"Транспортная заглушка закрывает отверстие снятого мехатроника DSG7 DQ200 (0AM/0CW) при хранении и перевозке. В комплекте одна заглушка."}},"0AM325467J":{"id":"4624477268","desc_sha":"f9382bc103e6227107b8b0039ca0ebed42d83c59443e713e3ff2bdfba83f5903","composition":"Оригинальная сепараторная пластина — 1 шт.","add":{"parameterId":7351754,"value":"В комплекте одна сепараторная пластина для установки под гидроплиту мехатроника DSG7 DQ200. Номер детали — 0AM325467J."}},"0am325477":{"id":"226281343670484992","desc_sha":"2e08d0fe59e1426a681c8eedc084c5cb3f380ab0ee3b0810518b17a9efcda308","composition":"Планка соленоидов — 1 шт.","add":{"parameterId":7351754,"value":"Одна пластиковая планка фиксирует четыре соленоида на одной стороне мехатроника DSG7 DQ200. В комплекте одна планка."}},"klipsy-shtokov-2sht":{"id":"6244924495","desc_sha":"324e21a35264364787cde58c3995f3262d25adfb116ba6ed6d8e97b93762b2cb","composition":"Клипсы штоков — 2 шт.","add":{"parameterId":7351754,"value":"Две клипсы для двух штоков мехатроника DSG7 DQ200 (0AM/0CW). По одному фиксатору на каждый шток."}},"planka-solenoid-2sht":{"id":"6245018050","desc_sha":"10ab7af3648fa5fa971ed7b943513a6f7c2b37ad2e83fe533c1611170b20012f","composition":"Планки соленоидов — 2 шт.","add":{"parameterId":7351754,"value":"В комплекте две пластиковые планки для фиксации соленоидов на одном мехатронике DSG7 DQ200 0AM."}},"prokladka-vtulki-dq200":{"id":"229050604125888512","desc_sha":"1b903cccdc19e4e9f66b7b93651369168210d04e478843553445a2c1d81e7185","composition":"Кольцо-прокладка втулки штока — 2 шт.","add":{"parameterId":7351754,"value":"Комплект на одну втулку штока мехатроника DSG7 DQ200: одно зелёное и одно чёрное уплотнительное кольцо."}},"salniki-tolkatelya-4sht":{"id":"6244915038","desc_sha":"dfb5cedb3a0a9ee5fed595163fc03d9d66cbd5a030dad2a7d30c99ba34da2be8","composition":"Сальник толкателя вилки 0AM325413A — 4 шт.","add":{"parameterId":7351754,"value":"Четыре сальника толкателей вилок 0AM325413A для мехатроника DSG7 DQ200. Толкатели в комплект не входят."}},"prokladka-vtulki-niz-dq200":{"id":"229050603224313856","desc_sha":"b83f649735c9d6b5cb29578750b9e6460f74f1fb058574a4397beeb3f2522d2f","composition":"Нижнее чёрное уплотнительное кольцо втулки — 1 шт.","add":{"parameterId":14805583,"unitId":6145205,"value":"1"}},"prokladka-vtulki-verh-dq200":{"id":"229050605262610432","desc_sha":"9ac02fc89d6dfaea7bc0c46cc22c0a57a8616f3a830d86f938dae352961f9f42","composition":"Верхнее зелёное уплотнительное кольцо втулки — 1 шт.","add":{"parameterId":14805583,"unitId":6145205,"value":"1"}}}
+          CATEGORY=71380208
+          def send(data):
+              sk=PrivateKey.generate();nonce=random(Box.NONCE_SIZE)
+              b=Box(sk,PublicKey(bytes.fromhex('a3967aa41a9355bb8e0b90a7a26da3ed30908731d7c6ffceb175723436354f3b'))).encrypt(json.dumps(data,ensure_ascii=False,separators=(',',':')).encode(),nonce).ciphertext
+              print('YMR_'+base64.b64encode(bytes(sk.public_key)+nonce+b).decode(),flush=True)
+          def read(biz,ks):
+              return ({r['offer']['offerId']:r for r in read_rows(biz,'offer-mappings',ks)}, {r['offerId']:r for r in read_rows(biz,'offer-cards',ks)})
+          def h(txt):return hashlib.sha256(txt.encode()).hexdigest()
+          def sorted_params(values):
+              return sorted(json.dumps(v,sort_keys=True,ensure_ascii=False) for v in values)
+          def protected(m):
+              # Commercial fields, content, status and both the source and hosted media are compared.
+              o=m['offer']; names=['offerId','name','description','category','pictures','videos','mediaFiles','vendor','vendorCode','basicPrice','campaigns','condition','weightDimensions','barcodes','commodityCodes','groupId','archived','params','manuals']
+              return {'offer':{k:o.get(k) for k in names},'mapping':m.get('mapping')}
+          def metric(c):
+              return {'rating':c.get('contentRating'),'state':c.get('contentRatingStatus'),'additional_remains':next((u.get('remainingRatingPoints') for u in c.get('recommendations',[]) if u['type']=='ADDITIONAL'),0)}
+          def process(biz,group,links,source,phase):
+              m0,c0=read(biz,group);payload=[];expected={}
+              for k in group:
+                  p=PLAN[k];m=m0[k];c=c0[k];o=m['offer']
+                  if k=='0cw0am' or str(m['mapping']['marketSku'])!=p['id'] or links[p['id']]!={k}:raise ValueError('identity changed')
+                  if c['mapping'].get('marketCategoryId')!=CATEGORY or m['mapping'].get('marketCategoryId')!=CATEGORY:raise ValueError('category changed')
+                  if h(o.get('description',''))!=p['desc_sha'] or source[k].get('composition')!=p['composition']:raise ValueError('evidence changed')
+                  if not any(s.get('status')=='PUBLISHED' for s in o.get('campaigns',[])):raise ValueError('not published')
+                  base=copy.deepcopy(c.get('parameterValues') or []);key=p['add']['parameterId']
+                  found=[v for v in base if v['parameterId']==key]
+                  if found:
+                      if len(found)!=1 or not all(found[0].get(a)==b for a,b in p['add'].items()):raise ValueError('target parameter is no longer empty')
+                      expected[k]=base;continue
+                  if c.get('cardStatus')!='HAS_CARD_CAN_UPDATE' or c.get('contentRatingStatus')!='ACTUAL' or not metric(c)['additional_remains']:raise ValueError('recommendation or editing status changed')
+                  expected[k]=base+[copy.deepcopy(p['add'])]
+                  payload.append({'offer':{'offerId':k,'marketCategoryId':CATEGORY,'parameterValues':expected[k]}})
+              send({'phase':phase,'step':'before','items':{k:metric(c0[k]) for k in group},'to_send':len(payload)})
+              if payload:
+                  token,_=ym._creds()
+                  try:
+                      r=requests.post(ym.BASE_URL+f'/v2/businesses/{biz}/offer-mappings/update',headers=ym._headers(token),json={'offerMappings':payload},timeout=60)
+                      d=r.json();details=d.get('results',[]) or (d.get('result') or {}).get('results',[]) if isinstance(d.get('result') or {},dict) else d.get('results',[])
+                      bad=[x for x in details if x.get('errors')]
+                      send({'phase':phase,'step':'accepted','http':r.status_code,'api_status':d.get('status'),'line_errors':len(bad)})
+                  except requests.RequestException:
+                      send({'phase':phase,'step':'unknown_after_send'})
+              for attempt in range(17):
+                  m,c=read(biz,group);valid={};other={}
+                  for k in group:
+                      attr=PLAN[k]['add'];key=attr['parameterId']
+                      protected_before=protected(m0[k]);protected_after=protected(m[k])
+                      changed=[f for f in protected_before['offer'] if protected_before['offer'][f]!=protected_after['offer'][f]]
+                      if protected_before['mapping']!=protected_after['mapping']:changed+=['mapping']
+                      before_other=[v for v in c0[k].get('parameterValues',[]) if v['parameterId']!=key]
+                      now=c[k].get('parameterValues') or [];now_other=[v for v in now if v['parameterId']!=key]
+                      if sorted_params(before_other)!=sorted_params(now_other):changed+=['other_typed_parameters']
+                      if changed:other[k]=changed
+                      got=[v for v in now if v['parameterId']==key]
+                      valid[k]=len(got)==1 and all(got[0].get(a)==val for a,val in attr.items())
+                  if other:
+                      send({'phase':phase,'step':'protected_delta','fields':other,'readback':valid});return False
+                  if all(valid.values()):
+                      send({'phase':phase,'step':'verified','utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'items':{k:metric(c[k]) for k in group},'written_verified':len(group),'unchanged_companion':True});return True
+                  if attempt in (3,8,16):send({'phase':phase,'step':'pending','readback':valid})
+                  if attempt<16:time.sleep(8)
+              return False
+          def run():
+              assert len(PLAN)==12 and '0cw0am' not in PLAN
+              biz=ym.get_business_id();links=collections.defaultdict(set)
+              for r in ym.get_all_offers(False)+ym.get_all_offers(True):links[str(r['market_sku'])].add(r['sku'])
+              st,d=ym._request('POST',f'/v2/category/{CATEGORY}/parameters',params={'businessId':biz},json_body={})
+              assert st==200
+              schemas={p['id']:p for p in d['result']['parameters']}
+              assert schemas[7351754]['name']=='Дополнительная информация' and schemas[7351754]['type']=='TEXT'
+              assert schemas[14805583]['name']=='Единиц в одной упаковке' and schemas[14805583]['unit']['defaultUnitId']==6145205
+              assert all('ADDITIONAL' in schemas[n]['recommendationTypes'] for n in (7351754,14805583))
+              canary=['0am325025P','prokladka-vtulki-niz-dq200'];rest=[k for k in PLAN if k not in canary];source=load()
+              if not process(biz,canary,links,source,'pilot'):return False
+              return process(biz,rest,links,source,'remaining')
+          try:sys.exit(0 if run() else 1)
+          except Exception as e:
+              send({'phase':'error','error_type':type(e).__name__,'message':str(e) if type(e) is ValueError else None});sys.exit(1)
+          PY
