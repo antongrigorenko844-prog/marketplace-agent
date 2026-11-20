@@ -46,6 +46,7 @@ from urllib.parse import quote
 import openpyxl
 
 from content_updates import description_for, title_for
+from sales_availability import quantity_for_sale
 
 logger = logging.getLogger("marketplace-agent.tilda_feed")
 
@@ -233,7 +234,7 @@ def build_tilda_catalog(
                 description,  # Text — полное описание для попапа "Подробнее"
                 cover_photo,  # Photo
                 str(int(price)),  # Price
-                "",  # Quantity
+                quantity_for_sale(offer_id, ""),  # Quantity
                 price_old_val,  # Price Old
                 "",  # Editions
                 "",  # Modifications
