@@ -1,4 +1,4 @@
-name: Fill three verified Market category attributes
+name: Fill two verified Market category attributes
 on:
   push:
     branches: ['audit/ym-content-rating-20261120']
@@ -18,7 +18,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip --quiet install requests PyNaCl==1.5.0
-      - name: Fill and verify three typed fields
+      - name: Fill and verify two typed fields
         env:
           YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
           YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
@@ -31,7 +31,7 @@ jobs:
           import yandex_market_client as ym
           from market_content import read_rows
           from content_updates import load
-          PLAN={"0am325025q":{"id":"4390301546","cat":71380208,"title":"Крышка штока мехатроника DSG7 DQ200","composition":"Крышка штока — 1 шт.","value":"крышка","attr":{"parameterId":21194330,"valueId":23090250}},"podshipnik-vilki-6":{"id":"6244865322","cat":71391178,"title":"Подшипник вилки 6-й передачи и заднего хода DSG7 DQ200, 1 шт","composition":"Подшипник вилки 6-й передачи и заднего хода — 1 шт.","value":"1","attr":{"parameterId":14805583,"unitId":6145205,"value":"1"}},"0am325025":{"id":"4332439241","cat":71380208,"title":"Ремкомплект мехатроника DSG7 DQ200 (гидроплита, сальники, прокладки) 0AM325025","composition":"Усиленная гидроплита — 1 шт.; комплект прокладок и уплотнений — 1 набор.","value":"ремкомплект","attr":{"parameterId":21194330,"valueId":34071233}}}
+          PLAN={"0am325025q":{"id":"4390301546","cat":71380208,"title":"Крышка штока мехатроника DSG7 DQ200","composition":"Крышка штока — 1 шт.","value":"крышка","attr":{"parameterId":21194330,"valueId":23090250}},"podshipnik-vilki-6":{"id":"6244865322","cat":71391178,"title":"Подшипник вилки 6-й передачи и заднего хода DSG7 DQ200, 1 шт","composition":"Подшипник вилки 6-й передачи и заднего хода — 1 шт.","value":"1","attr":{"parameterId":14805583,"unitId":6145205,"value":"1"}}}
           def send(data):
               sk=PrivateKey.generate();nonce=random(Box.NONCE_SIZE)
               b=Box(sk,PublicKey(bytes.fromhex('56733be408e5d7af5d16424320949128b3ff20e898dea8ba263dd4b85579e338'))).encrypt(json.dumps(data,ensure_ascii=False,separators=(',',':')).encode(),nonce).ciphertext
