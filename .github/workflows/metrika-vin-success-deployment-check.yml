@@ -1,0 +1,25 @@
+name: LEOPARTS verify live VIN-success script publication
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/metrika-vin-success-deployment-check.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  public-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check published page for VIN-success event handler (no forms sent)
+        run: python .github/scripts/metrika_vin_success_deployment_check_20261120.py
+      - name: Save publication state
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/vin_success_deployment_status.json
