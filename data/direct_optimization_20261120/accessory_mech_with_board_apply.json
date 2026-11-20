@@ -1,0 +1,63 @@
+{
+  "status": "applied_verified",
+  "mode": "bounded_one_keyword_update",
+  "campaign": 716316525,
+  "group": 5826183946,
+  "autotargeting_keyword_id": 205826183946,
+  "started_utc": "2026-11-20T12:19:26.361358+00:00",
+  "write_attempted": true,
+  "errors": [],
+  "target_change_only": "AutotargetingSettings.Categories.Accessory: YES -> NO",
+  "baseline_autotargeting_sha256": "a56aff25d84aa35fa0d087ed059d7d7ff1f49617e114f9b4f4bc612d9a0795cf",
+  "before_settings": {
+    "Categories": {
+      "Exact": "YES",
+      "Narrow": "YES",
+      "Alternative": "YES",
+      "Accessory": "YES",
+      "Broader": "YES"
+    },
+    "BrandOptions": {
+      "WithoutBrands": "YES",
+      "WithAdvertiserBrand": "YES",
+      "WithCompetitorsBrand": "YES"
+    }
+  },
+  "expected_settings": {
+    "Categories": {
+      "Exact": "YES",
+      "Narrow": "YES",
+      "Alternative": "YES",
+      "Accessory": "NO",
+      "Broader": "YES"
+    },
+    "BrandOptions": {
+      "WithoutBrands": "YES",
+      "WithAdvertiserBrand": "YES",
+      "WithCompetitorsBrand": "YES"
+    }
+  },
+  "campaign_before_fingerprint": "fd9a2c201191102e12795660404ed5b956f7c466211ab278549ff639528ad1d8",
+  "write_started_utc": "2026-11-20T12:19:34.075967+00:00",
+  "api_accepted": true,
+  "api_warnings_codes": [],
+  "after_settings": {
+    "Categories": {
+      "Exact": "YES",
+      "Narrow": "YES",
+      "Alternative": "YES",
+      "Accessory": "NO",
+      "Broader": "YES"
+    },
+    "BrandOptions": {
+      "WithoutBrands": "YES",
+      "WithAdvertiserBrand": "YES",
+      "WithCompetitorsBrand": "YES"
+    }
+  },
+  "other_five_autotargetings_unchanged": true,
+  "exact_expected_target": true,
+  "campaign_fields_unchanged": true,
+  "verified_utc": "2026-11-20T12:19:39.942664+00:00",
+  "finished_utc": "2026-11-20T12:19:39.942682+00:00"
+}
