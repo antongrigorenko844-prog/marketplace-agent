@@ -1,0 +1,48 @@
+name: LEOPARTS approved marketplace prices 20261121
+on:
+  push:
+    branches: [main]
+    paths: [data/approved_market_prices_20261121.json]
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install --disable-pip-version-check -q -r requirements.txt
+      - name: Compare the signed-off list to the fixed SKU operation and catalog prices
+        run: |
+          PYTHONPATH=scripts python - <<'PY'
+          import json
+          from pathlib import Path
+          from leoparts_market_prices_20261121 import TARGETS, sources
+          requested = json.loads(Path("data/approved_market_prices_20261121.json").read_text())
+          assert requested["prices"] == {sku: target.new for sku, target in TARGETS.items()}
+          sources(Path.cwd())
+          PY
+      - name: Apply and read seller prices
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          set -o pipefail
+          python -u scripts/leoparts_market_prices_20261121.py apply | tee market-prices-20261121.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: approved-market-prices-20261121
+          path: market-prices-20261121.log
+          retention-days: 14
