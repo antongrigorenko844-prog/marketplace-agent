@@ -1,0 +1,110 @@
+name: Correct and verify two Market product descriptions
+on:
+  push:
+    branches: ['audit/ym-content-rating-20261120']
+    paths: ['.github/workflows/ym-description-rating.yml']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip --quiet install requests PyNaCl==1.5.0
+      - name: Correct and verify two approved product descriptions
+        env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python - <<'PY'
+          import base64, collections, contextlib, copy, datetime, hashlib, io, json, sys, time
+          from nacl.public import Box, PrivateKey, PublicKey
+          from nacl.utils import random
+          import requests
+          import yandex_market_client as ym
+          from market_content import read_rows
+          PLAN = {"0am325025u":{"id":"4490648841","hash":"31c50528437ea682478ce053a91655849dfef9de41cdad3723c455eba57ff3d5","new":"Ремкомплект для мехатроника семиступенчатой коробки DSG7 DQ200 в исполнениях 0AM и 0CW. В комплект входят один усиленный длинный шток 0AM325091E длиной 101 мм и одна направляющая втулка (гильза). Шток имеет дополнительное уплотнительное кольцо. Набор предназначен для замены одного длинного штока вместе с его втулкой. У семейства DQ200 есть также короткий шток 0AM325091F длиной 99 мм. Чтобы выбрать подходящий вариант, сравните маркировку и длину снятого штока с указанными для этой карточки, а состав поставки — с фотографией комплекта.","rating":62},"01X301127C":{"id":"4384124370","hash":"e7e28a6dbc2ab02315f619f56d1bda6f328020818a50fb898e44d8b10d35d4db","new":"Короткий болт для крепления мехатроника семиступенчатой коробки передач DSG7 DQ200 в исполнениях 0AM и 0CW. Артикул детали — 01X301127C. В этой карточке продаётся один новый болт. В крепеже мехатроника DQ200 встречаются болты разной длины: у длинного болта другой номер — WHT001922. Перед заказом сверьте артикул короткого болта и сравните длину и форму головки со снятой деталью. Комплект из семи болтов поставляется отдельной позицией и включает четыре длинных болта WHT001922 и три коротких 01X301127C. Для этой позиции указана комплектация на одну штуку.","rating":43}}
+          ids = list(PLAN)
+          before = {}
+          cards_before = {}
+          def seal(payload):
+              key = PrivateKey.generate()
+              nonce = random(Box.NONCE_SIZE)
+              box = Box(key,PublicKey(bytes.fromhex('a3967aa41a9355bb8e0b90a7a26da3ed30908731d7c6ffceb175723436354f3b')))
+              cipher=box.encrypt(json.dumps(payload,ensure_ascii=False,separators=(',',':')).encode(),nonce).ciphertext
+              print('YMR_'+base64.b64encode(bytes(key.public_key)+nonce+cipher).decode(), flush=True)
+          def snapshot(biz):
+              return ({r['offer']['offerId']:r for r in read_rows(biz,'offer-mappings',ids)},
+                      {r['offerId']:r for r in read_rows(biz,'offer-cards',ids)})
+          def digest(desc): return hashlib.sha256(desc.encode()).hexdigest()
+          def shape(items):
+              return sorted(json.dumps(i,ensure_ascii=False,sort_keys=True) for i in items or [])
+          def metrics(c):
+              return {'score':c.get('contentRating'),'status':c.get('contentRatingStatus'),'description_points':next((x.get('remainingRatingPoints') for x in c.get('recommendations',[]) if x.get('type')=='DESCRIPTION_LENGTH'),0)}
+          def protected(r,c):
+              o=r['offer']
+              fields=['offerId','name','pictures','videos','mediaFiles','weightDimensions','vendor','vendorCode','category','barcodes','commodityCodes','basicPrice','campaigns','params','condition','archived','groupId']
+              return {'catalog':{k:o.get(k) for k in fields},'mapping':r.get('mapping'),'typed':shape(c.get('parameterValues'))}
+          def summary_maps(m,c):
+              return {k:{**metrics(c[k]),'sha':digest(m[k]['offer'].get('description','')),'len':len(m[k]['offer'].get('description',''))} for k in ids}
+          def run():
+              biz=ym.get_business_id()
+              # Compare IDs across the whole business, including archives; shared cards are outside this operation.
+              catalog=ym.get_all_offers(False)+ym.get_all_offers(True)
+              links=collections.defaultdict(set)
+              for r in catalog: links[str(r['market_sku'])].add(r['sku'])
+              m0,c0=snapshot(biz)
+              if set(m0)!=set(ids) or set(c0)!=set(ids):raise ValueError('target identity missing')
+              payload=[]
+              for k,p in PLAN.items():
+                  r=m0[k];o=r['offer']; c=c0[k]
+                  if str(r['mapping']['marketSku'])!=p['id'] or links[p['id']]!={k}:raise ValueError('catalog association changed')
+                  if not any(x.get('status')=='PUBLISHED' for x in o.get('campaigns',[])):raise ValueError('availability changed')
+                  if o.get('description')==p['new']: continue
+                  if c['cardStatus']!='HAS_CARD_CAN_UPDATE' or c.get('contentRatingStatus')!='ACTUAL':raise ValueError('card is under moderation')
+                  if digest(o['description'])!=p['hash'] or metrics(c)['description_points']!=23:raise ValueError('source text or recommendation changed')
+                  candidate={'offerId':k,'description':p['new']}
+                  if c.get('parameterValues'):
+                      if c['mapping']['marketCategoryId']!=r['mapping']['marketCategoryId']:raise ValueError('category changed')
+                      candidate.update({'marketCategoryId':c['mapping']['marketCategoryId'],'parameterValues':copy.deepcopy(c['parameterValues'])})
+                  if set(candidate)-{'offerId','description','marketCategoryId','parameterValues'}:raise ValueError('unexpected write field')
+                  payload.append({'offer':candidate})
+              seal({'phase':'before','items':summary_maps(m0,c0)})
+              if payload:
+                  token,_=ym._creds()
+                  try:
+                      reply=requests.post(ym.BASE_URL+f'/v2/businesses/{biz}/offer-mappings/update',headers=ym._headers(token),json={'offerMappings':payload},timeout=60)
+                      response=reply.json()
+                      errors=[r.get('errors') for r in (response.get('result',{}).get('results',[]) if isinstance(response.get('result'),dict) else []) if r.get('errors')]
+                      errors+= [r.get('errors') for r in response.get('results',[]) if r.get('errors')]
+                      seal({'phase':'accepted','http':reply.status_code,'ok':response.get('status')=='OK' and reply.ok and not errors,'sent':len(payload),'errors_count':len(errors)})
+                  except requests.RequestException:
+                      seal({'phase':'response_unknown','sent':len(payload)})
+              for n in range(13):
+                  m,c=snapshot(biz)
+                  affected=[k for k in ids if protected(m[k],c[k])!=protected(m0[k],c0[k])]
+                  s=summary_maps(m,c)
+                  for k in ids:s[k]['published_text_verified']=m[k]['offer'].get('description')==PLAN[k]['new']
+                  if affected:
+                      seal({'phase':'concurrent_field_change','checked':s,'skus':affected})
+                      return False
+                  all_read=all(r['published_text_verified'] for r in s.values())
+                  rated=all(r['status']=='ACTUAL' and r['description_points']==0 for r in s.values())
+                  if n in (0,1,4,8,12) or (all_read and rated): seal({'phase':'verify','attempt':n,'utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'all_protected_fields_match':True,'items':s})
+                  if all_read and rated:return True
+                  if n<12:time.sleep(15)
+              return all_read
+          try:
+              result=run()
+              sys.exit(0 if result else 1)
+          except Exception as exc:
+              seal({'phase':'error','error_type':type(exc).__name__})
+              sys.exit(1)
+          PY
