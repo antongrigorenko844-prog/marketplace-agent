@@ -1,0 +1,30 @@
+name: Temporarily withhold small board gasket from Avito
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/avito-small-board-gasket-hold.yml]
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  hold:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Install project dependencies
+        run: python -m pip install -q --disable-pip-version-check -r requirements.txt
+      - name: Set and verify the single approved quantity
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: python -u scripts/withhold_small_gasket_avito.py stock
+      - name: Exclude only the matched row from the source and stable feed
+        if: success() || failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -u scripts/withhold_small_gasket_avito.py feed
