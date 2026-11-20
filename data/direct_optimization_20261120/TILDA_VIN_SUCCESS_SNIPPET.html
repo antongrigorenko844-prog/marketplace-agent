@@ -1,0 +1,52 @@
+<!--
+LEOPARTS: VIN form success-only event for Yandex Metrica.
+Install in Tilda Page Settings > Additional > HTML code in HEAD (for /mehatronik-dq200).
+Requires Yandex Metrica goal with action identifier LEOPARTS_VIN_SUCCESS_5246286101.
+IMPORTANT: no tracking on click, submit attempts, cart, or payment-start.
+Do not include customer VIN, name, phone or other data in analytics calls.
+-->
+<script>
+(function () {
+  "use strict";
+  var FORM_ID = "form5246286101";
+  var COUNTER_ID = 113839860;
+  var GOAL_IDENTIFIER = "LEOPARTS_VIN_SUCCESS_5246286101";
+
+  function attachToVinForm() {
+    var form = document.getElementById(FORM_ID);
+    if (!form) return false;
+    // Avoid duplicate event listeners if the same script runs more than once.
+    if (form.dataset.leopartsVinGoalBound === "1") return true;
+    form.dataset.leopartsVinGoalBound = "1";
+    var lastSuccessTime = 0;
+
+    // Tilda documents this event AFTER a successful submission response.
+    // Unlike a normal submit event, failed validation does not count.
+    form.addEventListener("tildaform:aftersuccess", function () {
+      var timestamp = Date.now();
+      if (timestamp - lastSuccessTime < 1500) return;
+      lastSuccessTime = timestamp;
+      if (typeof window.ym === "function") {
+        window.ym(COUNTER_ID, "reachGoal", GOAL_IDENTIFIER);
+      }
+    });
+    return true;
+  }
+
+  function initialize() {
+    // Zero Block creates <form> dynamically after the Tilda scripts render.
+    if (attachToVinForm()) return;
+    if (typeof MutationObserver !== "function") return;
+    var watcher = new MutationObserver(function () {
+      if (attachToVinForm()) watcher.disconnect();
+    });
+    watcher.observe(document.documentElement, {childList: true, subtree: true});
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initialize, {once: true});
+  } else {
+    initialize();
+  }
+})();
+</script>
