@@ -1,0 +1,27 @@
+name: LEOPARTS Metrica write OAuth preflight (GET only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/metrika-write-preflight-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  verify-write-access:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read counter permission and goal inventory with WRITE token (no mutations)
+        env:
+          YANDEX_METRIKA_WRITE_TOKEN: ${{ secrets.YANDEX_METRIKA_WRITE_TOKEN }}
+        run: python .github/scripts/metrika_write_access_preflight_20261120.py
+      - name: Save permission verification only
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/metrika_write_access_check.json
