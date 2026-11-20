@@ -1,0 +1,37 @@
+name: DSG tools category probe (read-only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/scripts/dsg_tools_categories_probe.py
+      - .github/workflows/dsg-tools-categories.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  categories:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Query read-only official categories
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: python .github/scripts/dsg_tools_categories_probe.py
+      - name: Save only the read-only category report
+        if: always()
+        run: bash .github/scripts/save_data.sh data/dsg_tools_categories_20261120.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dsg-tools-category-probe
+          path: data/dsg_tools_categories_20261120.json
+          retention-days: 7
