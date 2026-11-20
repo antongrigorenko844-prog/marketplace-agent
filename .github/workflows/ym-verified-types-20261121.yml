@@ -1,0 +1,139 @@
+name: Fill three verified Market category attributes
+on:
+  push:
+    branches: ['audit/ym-content-rating-20261120']
+    paths: ['.github/workflows/ym-verified-types-20261121.yml']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip --quiet install requests PyNaCl==1.5.0
+      - name: Fill and verify three typed fields
+        env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python - <<'PY'
+          import base64, collections, copy, hashlib, json, sys, time, datetime
+          import requests
+          from nacl.public import Box, PrivateKey, PublicKey
+          from nacl.utils import random
+          import yandex_market_client as ym
+          from market_content import read_rows
+          from content_updates import load
+          PLAN={"0am325025q":{"id":"4390301546","cat":71380208,"title":"Крышка штока мехатроника DSG7 DQ200","composition":"Крышка штока — 1 шт.","value":"крышка","attr":{"parameterId":21194330,"valueId":23090250}},"podshipnik-vilki-6":{"id":"6244865322","cat":71391178,"title":"Подшипник вилки 6-й передачи и заднего хода DSG7 DQ200, 1 шт","composition":"Подшипник вилки 6-й передачи и заднего хода — 1 шт.","value":"1","attr":{"parameterId":14805583,"unitId":6145205,"value":"1"}},"0am325025":{"id":"4332439241","cat":71380208,"title":"Ремкомплект мехатроника DSG7 DQ200 (гидроплита, сальники, прокладки) 0AM325025","composition":"Усиленная гидроплита — 1 шт.; комплект прокладок и уплотнений — 1 набор.","value":"ремкомплект","attr":{"parameterId":21194330,"valueId":34071233}}}
+          def send(data):
+              sk=PrivateKey.generate();nonce=random(Box.NONCE_SIZE)
+              b=Box(sk,PublicKey(bytes.fromhex('56733be408e5d7af5d16424320949128b3ff20e898dea8ba263dd4b85579e338'))).encrypt(json.dumps(data,ensure_ascii=False,separators=(',',':')).encode(),nonce).ciphertext
+              print('YM3_'+base64.b64encode(bytes(sk.public_key)+nonce+b).decode(),flush=True)
+          def read(biz,ks):
+              return ({r['offer']['offerId']:r for r in read_rows(biz,'offer-mappings',ks)}, {r['offerId']:r for r in read_rows(biz,'offer-cards',ks)})
+          def h(txt):return hashlib.sha256(txt.encode()).hexdigest()
+          def sorted_params(values):
+              return sorted(json.dumps(v,sort_keys=True,ensure_ascii=False) for v in values)
+          def protected(m):
+              # Commercial fields, content, status and both the source and hosted media are compared.
+              o=m['offer']; names=['offerId','name','description','category','pictures','videos','mediaFiles','vendor','vendorCode','basicPrice','campaigns','condition','weightDimensions','barcodes','commodityCodes','groupId','archived','params','manuals']
+              return {'offer':{k:o.get(k) for k in names},'mapping':m.get('mapping')}
+          def metric(c):
+              return {'rating':c.get('contentRating'),'state':c.get('contentRatingStatus'),'additional_remains':next((u.get('remainingRatingPoints') for u in c.get('recommendations',[]) if u['type']=='ADDITIONAL'),0)}
+          def read_definitions(biz):
+              categories = {}
+              for category in sorted({row['cat'] for row in PLAN.values()}):
+                  status, data = ym._request('POST', f'/v2/category/{category}/parameters', params={'businessId': biz}, json_body={})
+                  if status != 200 or data.get('status') != 'OK':
+                      raise ValueError('Category dictionary unavailable')
+                  categories[category] = {entry['id']: entry for entry in data['result']['parameters']}
+              return categories
+
+          def validate(spec, definition):
+              attr = spec['attr']
+              if 'ADDITIONAL' not in definition.get('recommendationTypes', []):
+                  raise ValueError('Recommendation changed')
+              if 'valueId' in attr:
+                  allowed = {v['id']: v['value'] for v in definition.get('values', [])}
+                  if definition.get('type') != 'ENUM' or definition.get('name') != 'Тип' or allowed.get(attr['valueId']) != spec['value']:
+                      raise ValueError('Enum changed')
+              else:
+                  if definition.get('type') != 'NUMERIC' or definition.get('name') != 'Единиц в одной упаковке' or definition.get('unit', {}).get('defaultUnitId') != attr['unitId']:
+                      raise ValueError('Quantity schema changed')
+
+          def run():
+              biz = ym.get_business_id()
+              links = collections.defaultdict(set)
+              for record in ym.get_all_offers(False) + ym.get_all_offers(True):
+                  links[str(record['market_sku'])].add(record['sku'])
+              definitions = read_definitions(biz)
+              canonical = load()
+              skus = list(PLAN)
+              before_offers, before_cards = read(biz, skus)
+              updates = []
+              planned = {}
+              for sku, spec in PLAN.items():
+                  mapping = before_offers[sku]
+                  offer = mapping['offer']
+                  card = before_cards[sku]
+                  if not (links[spec['id']] == {sku} and all(str(info['mapping']['marketSku']) == spec['id'] and info['mapping']['marketCategoryId'] == spec['cat'] for info in (card, mapping))):
+                      raise ValueError('Identity changed: ' + sku)
+                  if offer['name'] != spec['title'] or card['mapping']['marketSkuName'] != spec['title'] or canonical[sku]['composition'] != spec['composition']:
+                      raise ValueError('Title or canonical composition changed: ' + sku)
+                  evidence = [param.get('value') for param in offer.get('params', []) if param.get('name') == 'Комплектация']
+                  if evidence != [spec['composition']]:
+                      raise ValueError('Seller composition changed: ' + sku)
+                  if sku == 'podshipnik-vilki-6' and [p.get('value') for p in offer.get('params', []) if p.get('name') == 'Количество, штук'] != ['1']:
+                      raise ValueError('Seller quantity changed')
+                  if not any(c.get('status') == 'PUBLISHED' for c in offer.get('campaigns', [])) or card.get('cardStatus') != 'HAS_CARD_CAN_UPDATE':
+                      raise ValueError('Card is no longer active and editable: ' + sku)
+                  attr = spec['attr']
+                  validate(spec, definitions[spec['cat']][attr['parameterId']])
+                  existing = copy.deepcopy(card.get('parameterValues') or [])
+                  current = [p for p in existing if p['parameterId'] == attr['parameterId']]
+                  if current and current != [attr]:
+                      raise ValueError('Existing value conflicts: ' + sku)
+                  planned[sku] = existing if current else existing + [attr]
+                  if not current:
+                      if metric(card)['state'] != 'ACTUAL' or not metric(card)['additional_remains']:
+                          raise ValueError('Fresh rating check required: ' + sku)
+                      updates.append({'offer': {'offerId': sku, 'marketCategoryId': spec['cat'], 'parameterValues': planned[sku]}})
+              send({'step': 'before', 'scores': {sku: metric(card) for sku, card in before_cards.items()}, 'count': len(updates)})
+              if updates:
+                  token, _ = ym._creds()
+                  try:
+                      response = requests.post(ym.BASE_URL + f'/v2/businesses/{biz}/offer-mappings/update', headers=ym._headers(token), json={'offerMappings': updates}, timeout=60)
+                      result = response.json()
+                      statuses = result.get('results', []) or (result.get('result') or {}).get('results', [])
+                      send({'step':'accepted','http':response.status_code,'api':result.get('status'),'error_count':sum(bool(line.get('errors')) for line in statuses)})
+                  except (requests.RequestException, ValueError):
+                      send({'step':'unknown_request_result'})
+              for attempt in range(16):
+                  offers, cards = read(biz, skus)
+                  readback = {sku: sorted_params(cards[sku].get('parameterValues') or []) == sorted_params(planned[sku]) for sku in skus}
+                  changed = [sku for sku in skus if protected(offers[sku]) != protected(before_offers[sku])]
+                  if changed:
+                      send({'step': 'companion_delta', 'fields': {sku: [k for k,v in protected(before_offers[sku])['offer'].items() if v != protected(offers[sku])['offer'][k]] for sku in changed}, 'readback':readback})
+                      return False
+                  if all(readback.values()):
+                      send({'step': 'verified', 'at': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'scores': {sku:metric(cards[sku]) for sku in skus}, 'attrs': {sku: PLAN[sku]['attr'] for sku in skus}, 'companion_fields_unchanged':True})
+                      return True
+                  if attempt in (3,8,15):
+                      send({'step':'waiting','readback':readback})
+                  if attempt < 15:
+                      time.sleep(8)
+              return False
+
+          try:
+              sys.exit(0 if run() else 1)
+          except Exception as error:
+              send({'step': 'error', 'kind': type(error).__name__, 'message': str(error) if isinstance(error,(ValueError,KeyError)) else None})
+              sys.exit(1)
+          PY
