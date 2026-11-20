@@ -1,0 +1,28 @@
+name: Read WB card content scores
+on:
+  push:
+    branches: ['audit/wb-content-score-20261120']
+    paths: ['.github/workflows/wb-read-card-scores.yml']
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --quiet requests cryptography
+      - name: Read existing seller analytics access
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: python scripts/read_wb_card_scores.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wb-card-content-ratings-encrypted
+          path: wb-rating-result/ratings.enc.json
+          retention-days: 2
