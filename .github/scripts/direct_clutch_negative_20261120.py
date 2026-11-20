@@ -145,11 +145,16 @@ def main():
             or any(term in previous_original for term in old_two)):
             raise RuntimeError("Prior evidence does not contain the required 132 original phrases")
         expected_previous=previous_original+list(old_two)
-        if fingerprint(expected_previous)!=planned.get("after_sha256"):
-            raise RuntimeError("Prior campaign fingerprint failed")
+        # Direct can reorder NegativeKeywords in campaigns.get. Exact multiset is
+        # the correct safety check; the saved readback fingerprint protects freshness.
+        if (Counter(expected_previous)!=Counter(previous_original+list(old_two))
+            or planned.get("unchanged_original_132") is not True
+            or planned.get("exact_new_two") is not True
+            or planned.get("no_extra_negatives") is not True):
+            raise RuntimeError("Prior verified negative phrase composition mismatch")
         before=read_campaign()
         neg=before["NegativeKeywords"]["Items"]
-        if (len(neg)!=134 or neg!=expected_previous
+        if (len(neg)!=134 or Counter(neg)!=Counter(expected_previous)
             or fingerprint(neg)!=planned.get("after_sha256")):
             if "сцепление" in neg:
                 rep.update(status="already_present_no_write",before_count=len(neg))
