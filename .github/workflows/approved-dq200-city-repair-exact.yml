@@ -1,0 +1,45 @@
+name: Apply and verify exact DQ200 local repair exclusions
+on:
+  push:
+    branches: ['ops/dq200-city-repair-exact-20261121']
+    paths: ['.github/workflows/approved-dq200-city-repair-exact.yml']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Add local repair phrases and verify by reading Direct
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: |
+          PYTHONPATH=.github/scripts python - <<'PY'
+          import dq200_approved_nine_20261121 as reconcile
+
+          cities = (
+              "москва", "санкт петербург", "новосибирск", "екатеринбург", "казань",
+              "нижний новгород", "красноярск", "челябинск", "уфа", "самара", "омск",
+              "ростов +на дону", "краснодар", "воронеж", "пермь", "волгоград", "спб",
+          )
+          local_repair = [f"ремонт {gearbox} {city}" for city in cities for gearbox in ("дсг", "dsg")]
+          observed_variants = (
+              "ремонт дсг +в спб",
+              "ремонт дсг +в самаре",
+              "ремонт дсг 7 +в челябинске",
+              "ремонт dsg 7 нижний новгород",
+              "ремонт коробки дсг ростов +на дону",
+          )
+          general_repair = ("ремонт коробки dq200", "сколько стоит ремонт dq200")
+          phrases = [*local_repair, *observed_variants, *general_repair]
+          assert len(phrases) == len(set(phrases)) == 41
+          reconcile.TERMS = tuple(f'"{phrase}"' for phrase in phrases)
+          reconcile.main()
+          PY
