@@ -1,0 +1,185 @@
+{
+  "status": "complete",
+  "mode": "read_only",
+  "counter_id": 113839860,
+  "goal_id": 686020680,
+  "date1": "2026-11-20",
+  "date2": "2026-11-20",
+  "read_at_utc": "2026-11-20T14:49:23.131545+00:00",
+  "no_form_submissions_by_agent": true,
+  "metrika_writes": 0,
+  "goal_visibility": "not_yet_observed",
+  "sections": {
+    "goal_definition": {
+      "status": "ok",
+      "data": {
+        "goal_id": 686020680,
+        "name": "LEOPARTS | VIN — успешная отправка",
+        "type": "action",
+        "status": "Active",
+        "conditions": [
+          {
+            "type": "exact",
+            "url": "LEOPARTS_VIN_SUCCESS_5246286101"
+          }
+        ]
+      }
+    },
+    "by_date": {
+      "status": "ok",
+      "data": {
+        "name": "date",
+        "dimensions": "ym:s:date",
+        "totals": {
+          "visits": 30.0,
+          "686020680": 0.0,
+          "675506966": 0.0,
+          "675272284": 0.0,
+          "682257540": 0.0
+        },
+        "rows": [
+          {
+            "dimensions": [
+              {
+                "name": "2026-11-20",
+                "id": ""
+              }
+            ],
+            "values": {
+              "visits": 30.0,
+              "686020680": 0.0,
+              "675506966": 0.0,
+              "675272284": 0.0,
+              "682257540": 0.0
+            }
+          }
+        ],
+        "sampled": false,
+        "total_rows": 1
+      }
+    },
+    "by_traffic_source": {
+      "status": "ok",
+      "data": {
+        "name": "source",
+        "dimensions": "ym:s:lastTrafficSource",
+        "totals": {
+          "visits": 30.0,
+          "686020680": 0.0,
+          "675506966": 0.0,
+          "675272284": 0.0,
+          "682257540": 0.0
+        },
+        "rows": [
+          {
+            "dimensions": [
+              {
+                "name": "Переходы по рекламе",
+                "id": "ad"
+              }
+            ],
+            "values": {
+              "visits": 25.0,
+              "686020680": 0.0,
+              "675506966": 0.0,
+              "675272284": 0.0,
+              "682257540": 0.0
+            }
+          },
+          {
+            "dimensions": [
+              {
+                "name": "Прямые заходы",
+                "id": "direct"
+              }
+            ],
+            "values": {
+              "visits": 3.0,
+              "686020680": 0.0,
+              "675506966": 0.0,
+              "675272284": 0.0,
+              "682257540": 0.0
+            }
+          },
+          {
+            "dimensions": [
+              {
+                "name": "Внутренние переходы",
+                "id": "internal"
+              }
+            ],
+            "values": {
+              "visits": 2.0,
+              "686020680": 0.0,
+              "675506966": 0.0,
+              "675272284": 0.0,
+              "682257540": 0.0
+            }
+          }
+        ],
+        "sampled": false,
+        "total_rows": 3
+      }
+    },
+    "by_utm": {
+      "status": "ok",
+      "data": {
+        "name": "utm",
+        "dimensions": "ym:s:lastUTMSource,ym:s:lastUTMCampaign",
+        "totals": {
+          "visits": 25.0,
+          "686020680": 0.0,
+          "675506966": 0.0,
+          "675272284": 0.0,
+          "682257540": 0.0
+        },
+        "rows": [
+          {
+            "dimensions": [
+              {
+                "name": "yandex",
+                "id": ""
+              },
+              {
+                "name": "dq200_feed_search",
+                "id": ""
+              }
+            ],
+            "values": {
+              "visits": 23.0,
+              "686020680": 0.0,
+              "675506966": 0.0,
+              "675272284": 0.0,
+              "682257540": 0.0
+            }
+          },
+          {
+            "dimensions": [
+              {
+                "name": "ya",
+                "id": ""
+              },
+              {
+                "name": "dq200_feed_search",
+                "id": ""
+              }
+            ],
+            "values": {
+              "visits": 2.0,
+              "686020680": 0.0,
+              "675506966": 0.0,
+              "675272284": 0.0,
+              "682257540": 0.0
+            }
+          }
+        ],
+        "sampled": false,
+        "total_rows": 2
+      }
+    }
+  },
+  "errors": [],
+  "observed_new_goal_visits": 0.0,
+  "finished_utc": "2026-11-20T14:49:26.599923+00:00",
+  "caution": "Observed VIN goal does not independently prove CRM receipt; nonzero could include other submissions. A zero can be caused by Metrica report latency."
+}
