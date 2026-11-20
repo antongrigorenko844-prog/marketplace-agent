@@ -1,0 +1,42 @@
+name: Record and verify one owner-counted accumulator stock
+on:
+  push:
+    branches: ['inventory/0AM325587E-count-55-20261121']
+    paths: ['.github/workflows/count-one-accumulator.yml','scripts/count-one-accumulator/**']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: operation
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: current
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip -q install -r current/requirements.txt
+      - name: Record source then publish only the counted SKU and re-read it
+        working-directory: current
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          OZON_WAREHOUSE_ID: ${{ secrets.OZON_WAREHOUSE_ID }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+        run: python ../operation/scripts/count-one-accumulator/apply_count.py
