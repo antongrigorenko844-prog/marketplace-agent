@@ -1,0 +1,14 @@
+name: Проверка складского цикла с остатками Авито
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/verify-shared-stock-once.yml']
+permissions:
+  contents: write
+jobs:
+  shared-stock:
+    if: github.event.before == '3714c8d2f1a80d32d0ff41e088a7eaf099175ffd' && github.run_attempt == 1
+    uses: ./.github/workflows/main.yml
+    with:
+      command: sync-shared-stock
+    secrets: inherit
