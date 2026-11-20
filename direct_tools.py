@@ -452,6 +452,66 @@ def _fmt(t: dict) -> str:
     return text.replace(",", " ")
 
 
+# Read-only Yandex Metrica data: only aggregated paid-source visits.
+# Not tied to a particular Direct campaign without matching UTM/session IDs.
+METRIKA_COUNTER_ID = 113839860
+METRIKA_GOAL_IDS = (675272284, 675487735, 682257540, 675506966, 675507028)
+METRIKA_GOAL_LABELS = {
+    675272284: "Форма VIN (автоцель)",
+    675487735: "Добавления в корзину",
+    682257540: "Ecommerce-покупка",
+    675506966: "VIN — приоритетная URL-цель",
+    675507028: "Заказ — приоритетная URL-цель",
+}
+
+
+def _metrika_paid_summary(token: str, d_from: date, d_to: date) -> dict:
+    """Get per-goal VISITS, not unique submissions or paid orders.
+
+    Paid source includes all advertisements, not only campaign 716316525.
+    Never log OAuth tokens, raw URLs or visitor-level data.
+    """
+    if not token:
+        raise ValueError("Empty Metrika token")
+    metrics = ["ym:s:visits"] + [f"ym:s:goal{x}visits" for x in METRIKA_GOAL_IDS]
+    response = requests.get(
+        "https://api-metrika.yandex.net/stat/v1/data",
+        params={"ids": METRIKA_COUNTER_ID, "date1": d_from.isoformat(),
+                "date2": d_to.isoformat(), "dimensions": "ym:s:lastTrafficSource",
+                "metrics": ",".join(metrics), "accuracy": "full", "limit": 30},
+        headers={"Authorization": "OAuth " + token}, timeout=35,
+    )
+    if response.status_code != 200:
+        raise RuntimeError(f"Метрика HTTP {response.status_code}")
+    payload = response.json()
+    data = payload.get("data")
+    if not isinstance(data, list):
+        raise RuntimeError("Метрика: структура агрегированного отчёта неверна")
+    matches = [r for r in data if any(str(d.get("id", "")) == "ad"
+                for d in r.get("dimensions", []) if isinstance(d, dict))]
+    if len(matches) > 1:
+        raise RuntimeError("Метрика: несколько строк рекламного источника")
+    row = matches[0] if matches else {"metrics": [0] * len(metrics)}
+    values = row.get("metrics")
+    if (not isinstance(values, list) or len(values) != len(metrics)
+            or any(not isinstance(v, (int, float)) or v < 0 for v in values)):
+        raise RuntimeError("Метрика: неполные числовые значения")
+    return {"visits": values[0], "goal_visits": dict(zip(METRIKA_GOAL_IDS, values[1:])),
+            "attribution": "all_ads_sitewide", "sampled":payload.get("sampled")}
+
+
+def _format_metrika_paid(data: dict, caption: str) -> str:
+    vals = data["goal_visits"]
+    return (
+        f"{caption}: визиты {data['visits']:,.0f} · "
+        f"Форма VIN {vals[675272284]:,.0f} · "
+        f"Корзина {vals[675487735]:,.0f} · "
+        f"Ecommerce-покупка {vals[682257540]:,.0f} · "
+        f"VIN-URL {vals[675506966]:,.0f} · "
+        f"Заказ-URL {vals[675507028]:,.0f}"
+    ).replace(",", " ")
+
+
 def cmd_direct_report() -> int:
     token = os.getenv("YANDEX_DIRECT_TOKEN", "")
     if not token:
@@ -469,6 +529,27 @@ def cmd_direct_report() -> int:
         "7 дней: " + _fmt(week),
         "⚠️ Конверсии Директа не равны подтверждённым заявкам и оплаченным заказам.",
     ]
+    # Two independent sources: Direct clicks and Metrica ad-source visits.
+    # Keep them separate, since 1 click != 1 visit and other ads may exist.
+    metr_token = os.getenv("YANDEX_METRIKA_TOKEN", "")
+    if metr_token:
+        try:
+            mk_day = _metrika_paid_summary(metr_token, yesterday, yesterday)
+            mk_week = _metrika_paid_summary(
+                metr_token, yesterday - timedelta(days=6), yesterday)
+            lines += [
+                "\nМетрика — все рекламные визиты сайта (не только кампания Директа):",
+                _format_metrika_paid(mk_day, "Вчера"),
+                _format_metrika_paid(mk_week, "7 дней"),
+                "Цель формы и корзина не подтверждают оплату заказа; "
+                "Ecommerce-покупка требует отдельной сверки с заказами.",
+            ]
+        except Exception as exc:
+            # Never interpolate exception detail: secrets or visited URLs must
+            # not appear in a Telegram notification.
+            lines.append("\nМетрика: агрегированные цели пока недоступны")
+            print("Метрика: ошибка получения агрегированных целей",
+                  type(exc).__name__)
     try:
         query_report = _report(token, {"params": {
             "SelectionCriteria": {
