@@ -18,8 +18,8 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip -q install -r requirements.txt
-      - name: Read, publish exact attributes and verify
-        run: python -m scripts.publish_ozon_package_copy_nov21
+      - name: Read outcomes for all affected offers
+        run: python -m scripts.inspect_ozon_package_copy_nov21
         env:
           OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
           OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
