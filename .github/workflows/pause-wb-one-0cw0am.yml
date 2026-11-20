@@ -1,0 +1,23 @@
+name: Pause one WB gasket offer
+on:
+  push:
+    branches: ['ops/pause-one-wb-0cw0am-20261120']
+    paths: ['.github/workflows/pause-wb-one-0cw0am.yml']
+permissions:
+  contents: read
+jobs:
+  pause:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip -q install requests
+      - name: Pause exact offer and verify WB availability
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: python scripts/pause-one-wb-0cw0am.py
