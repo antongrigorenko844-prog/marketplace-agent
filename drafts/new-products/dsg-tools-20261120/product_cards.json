@@ -2,7 +2,7 @@
   "schema_version": 1,
   "created_on_local_date": "2026-11-20",
   "timezone": "Asia/Shanghai",
-  "status": "canonical_prices_and_approved_media_saved_pending_logistics",
+  "status": "user_confirmed_stock_and_temporary_packaging_pending_category_and_publication",
   "publication_authorized_by_user": true,
   "publication_ready": false,
   "non_executable_draft": true,
@@ -174,11 +174,11 @@
       },
       "commercial_inputs": {
         "base_selling_price_rub": 38800,
-        "available_sets": null,
-        "packed_weight_g": null,
-        "package_length_mm": null,
-        "package_width_mm": null,
-        "package_height_mm": null,
+        "available_sets": 3,
+        "packed_weight_g": 3000,
+        "package_length_mm": 400,
+        "package_width_mm": 300,
+        "package_height_mm": 150,
         "prices_rub": {
           "ozon": 38800,
           "wildberries": 38800,
@@ -187,7 +187,8 @@
           "avito": 24800
         },
         "site_avito_price_fixed": true,
-        "price_authority": "owner message 2026-11-20; canonical master and fixed channel-price workbook"
+        "price_authority": "owner message 2026-11-20; canonical master and fixed channel-price workbook",
+        "logistics_source": "Owner accepted estimates 2026-11-20; temporary values, measure real packaged sets upon arrival"
       },
       "manufacturer_brand": null,
       "exact_kit_contents": null,
@@ -261,8 +262,6 @@
         }
       },
       "publication_blockers": [
-        "sellable_stock",
-        "actual_package_weight_and_dimensions",
         "correct_tool_category_and_required_attributes"
       ],
       "pending_technical_facts": [
@@ -277,9 +276,10 @@
         "Допустимые газовые соединения, наличие и тип редуктора",
         "Точная применимость к исполнениям гидроаккумулятора DSG7 DQ200; обозначение DQ200 согласовано пользователем. Не расширять совместимость на 0CW.",
         "Инструкция и допустимая методика обслуживания",
-        "Габариты, масса, материалы, гарантия и документы",
-        "Розничная цена, фактический остаток и условия доставки"
-      ]
+        "Габариты, масса, материалы, гарантия и документы"
+      ],
+      "stock_confirmation": "Owner confirmed 3 units 2026-11-20",
+      "logistics_confidence": "estimate_not_measured"
     },
     {
       "draft_id": "dsg_pressure_test_high_pressure",
@@ -453,11 +453,11 @@
       },
       "commercial_inputs": {
         "base_selling_price_rub": 28800,
-        "available_sets": null,
-        "packed_weight_g": null,
-        "package_length_mm": null,
-        "package_width_mm": null,
-        "package_height_mm": null,
+        "available_sets": 3,
+        "packed_weight_g": 2000,
+        "package_length_mm": 350,
+        "package_width_mm": 250,
+        "package_height_mm": 150,
         "prices_rub": {
           "ozon": 28800,
           "wildberries": 28800,
@@ -466,7 +466,8 @@
           "avito": 18800
         },
         "site_avito_price_fixed": true,
-        "price_authority": "owner message 2026-11-20; canonical master and fixed channel-price workbook"
+        "price_authority": "owner message 2026-11-20; canonical master and fixed channel-price workbook",
+        "logistics_source": "Owner accepted estimates 2026-11-20; temporary values, measure real packaged sets upon arrival"
       },
       "manufacturer_brand": null,
       "exact_kit_contents": null,
@@ -571,8 +572,6 @@
         }
       },
       "publication_blockers": [
-        "sellable_stock",
-        "actual_package_weight_and_dimensions",
         "correct_tool_category_and_required_attributes"
       ],
       "pending_technical_facts": [
@@ -587,9 +586,10 @@
         "Типы, размеры и количество переходников и соединений",
         "Полная комплектация и длина шлангов",
         "Вид упаковки: слово «с упаковкой» не подтверждает наличие кейса",
-        "Инструкция, габариты, масса, материалы, гарантия и документы",
-        "Розничная цена, фактический остаток и условия доставки"
-      ]
+        "Инструкция, габариты, масса, материалы, гарантия и документы"
+      ],
+      "stock_confirmation": "Owner confirmed 3 units 2026-11-20",
+      "logistics_confidence": "estimate_not_measured"
     }
   ],
   "updated_on_local_date": "2026-11-20",
