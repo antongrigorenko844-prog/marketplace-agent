@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from playwright.async_api import async_playwright
 
-OUT=Path("data/direct_optimization_20261120/tilda_browser_vin_dom.json")
+OUT=Path("data/direct_optimization_20261120/tilda_browser_vin_post_publish_20261120.json")
 URL="https://leoparts-akpp.ru/mehatronik-dq200"
 async def probe():
     doc={"status":"running","site":URL,"mode":"public_browser_read_only",
@@ -68,6 +68,9 @@ async def probe():
                 ready_state:document.readyState,
                 scripts_count:document.scripts.length,
                 counter_present_in_dom:document.documentElement.innerHTML.includes("113839860"),
+                vin_success_snippet_marker_present:document.documentElement.innerHTML.includes("LEOPARTS_VIN_SUCCESS_5246286101"),
+                vin_success_script_event_present:Array.from(document.scripts).some(s => s.textContent && s.textContent.includes("tildaform:aftersuccess") && s.textContent.includes("LEOPARTS_VIN_SUCCESS_5246286101")),
+                vin_success_form_bound:document.getElementById("form5246286101")?.dataset.leopartsVinGoalBound==="1",
                 tilda_script_loaded:typeof window.t_onReady==="function",
                 t396_success_hook_type:typeof t396,
                 tilda_general_success_handler_type:typeof generic,
@@ -82,7 +85,15 @@ async def probe():
         except Exception as e:
             doc["status"]="failed";doc["errors"].append(type(e).__name__+":"+str(e)[:120])
         finally:
-            doc["status"]="complete" if not doc["errors"] else "failed"
+            if doc.get("errors"):
+                doc["status"]="check_failed"
+            elif doc.get("http_status")!=200:
+                doc["status"]="site_unavailable"
+            elif (doc.get("dom",{}).get("vin_success_script_event_present")
+                  and doc.get("dom",{}).get("vin_success_form_bound")):
+                doc["status"]="deployed_vin_handler_verified_no_form_submission"
+            else:
+                doc["status"]="handler_not_found_in_rendered_page"
             doc["finished_utc"]=datetime.now(timezone.utc).isoformat()
             save()
             await browser.close()
@@ -90,6 +101,6 @@ async def probe():
           "vin_forms",doc.get("dom",{}).get("rec_vin",{}).get("html_form_count"),
           "cart_forms",doc.get("dom",{}).get("rec_cart",{}).get("html_form_count"),
           "errors",doc["errors"],flush=True)
-    return 0 if not doc["errors"] else 1
+    return 0 if doc["status"]!="check_failed" else 1
 
 if __name__=="__main__":sys.exit(asyncio.run(probe()))
