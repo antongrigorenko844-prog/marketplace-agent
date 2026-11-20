@@ -79,6 +79,8 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
           YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          # Separate read-only Metrica token is available only to direct-report.
+          YANDEX_METRIKA_TOKEN: ${{ inputs.command == 'direct-report' && secrets.YANDEX_METRIKA_TOKEN || '' }}
         run: |
           set -o pipefail
           if [ "${{ inputs.save_log }}" = "true" ]; then
