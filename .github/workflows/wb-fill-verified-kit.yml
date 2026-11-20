@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip -q install -r requirements.txt
-      - name: Check the physical kit and verify the one permitted attribute
+      - name: Check the kit bill, card identity and stable field values
         env:
           WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
         run: python scripts/wb_fill_verified_kit.py

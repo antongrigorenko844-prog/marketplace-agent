@@ -37,7 +37,9 @@ before_hash=protected(previous)
 if not all(token in previous["description"].lower() for token in ("2 пыльника","2 сальника","2 крышки")):
     raise ValueError("Live description changed")
 fresh=exact()
-if fresh!=previous:raise ValueError("Concurrent WB change")
+if protected(fresh)!=protected(previous) or get_comp(fresh)!=get_comp(previous) or fresh["updatedAt"]!=previous["updatedAt"]:
+    print("Unstable fields", sorted(k for k in fresh if fresh.get(k)!=previous.get(k)), flush=True)
+    raise ValueError("Concurrent meaningful WB change")
 before=get_comp(fresh)
 if before not in ([],VALUES):raise ValueError("Existing nonempty composition")
 writes=[]
