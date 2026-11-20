@@ -2,9 +2,9 @@
   "status": "complete",
   "mode": "isolated_browser_no_analytics_no_submissions",
   "url": "https://leoparts-akpp.ru/mehatronik-dq200",
-  "started_utc": "2026-11-20T15:58:00.228615+00:00",
+  "started_utc": "2026-11-20T15:59:26.734602+00:00",
   "analytics_requests_blocked": 1,
-  "non_get_requests_blocked": 3,
+  "non_get_requests_blocked": 7,
   "checkout_submit_attempts": 0,
   "payments_attempted": 0,
   "metrika_conversions_sent": 0,
@@ -109,26 +109,37 @@
     "cart_form_present": true,
     "counter_code_present": true
   },
-  "candidate_counts": {
-    ".js-store-prod-btn": 0,
-    ".t-store__card__btn .t-btn": 0,
-    ".t-store__card__btn": 0,
-    ".t-store__card__btn-wrapper .t-btn": 0,
-    ".t-store__prod__btn": 0,
-    ".t-store__prod-popup__btn": 0,
-    ".js-store-prod-buy-btn": 0
+  "clicked_element": {
+    "selector": "a.js-catalog-prod-btn",
+    "label": "купить",
+    "index": 0
   },
-  "product_control_clicked": false,
+  "candidate_counts": {
+    "a.js-catalog-prod-btn": 12
+  },
+  "product_control_clicked": true,
   "after": {
     "data_layer_exists": true,
-    "data_layer_length": 0,
-    "events": [],
+    "data_layer_length": 1,
+    "events": [
+      {
+        "actions": [
+          "add"
+        ],
+        "currency": null,
+        "item_counts": {
+          "add": 1
+        }
+      }
+    ],
     "cart_runtime": true,
     "cart_form_present": true,
     "counter_code_present": true
   },
-  "new_data_layer_actions": [],
-  "add_to_cart_payload_observed": false,
+  "new_data_layer_actions": [
+    "add"
+  ],
+  "add_to_cart_payload_observed": true,
   "purchase_payload_observed": false,
-  "finished_utc": "2026-11-20T15:58:13.866454+00:00"
+  "finished_utc": "2026-11-20T15:59:44.974776+00:00"
 }
