@@ -1,0 +1,30 @@
+name: LEOPARTS Direct remove weekly cap (budget only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/direct-unset-budget-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  guarded-budget-update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Offline safety tests before API mutation
+        run: python -m unittest discover -s tests -p test_direct_unset_budget.py -v
+      - name: Try removing only weekly cap of campaign 716316525
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_unset_budget_20261120.py
+      - name: Persist observed Direct response and verification
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/budget_limit_removal.json
