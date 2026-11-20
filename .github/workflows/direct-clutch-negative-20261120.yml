@@ -18,6 +18,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Compile guarded clutch-only change before testing
+        run: python -m py_compile .github/scripts/direct_clutch_negative_20261120.py
       - name: Offline guard verification, no credentials
         run: python -m unittest discover -s tests -p test_direct_clutch_negative.py -v
       - name: Append only unquoted сцепление to campaign 716316525
