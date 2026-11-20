@@ -1,0 +1,25 @@
+name: Ozon verified package contents and descriptions
+on:
+  push:
+    branches: ['content/ozon-verified-package-copy-20261121']
+    paths: ['scripts/publish_ozon_package_copy_nov21.py', 'data/ozon_package_copy_nov21.json', '.github/workflows/ozon-package-copy-nov21.yml']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip -q install -r requirements.txt
+      - name: Read, publish exact attributes and verify
+        run: python -m scripts.publish_ozon_package_copy_nov21
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
