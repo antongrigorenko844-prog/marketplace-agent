@@ -1,0 +1,28 @@
+name: LEOPARTS Direct two exact negatives verified
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/direct-two-exact-negatives-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  negative-phrases:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Live guarded exact negative append for campaign 716316525
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_two_exact_negatives_20261120.py
+      - name: Save only exact operation proof
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/exact_negatives_apply.json
