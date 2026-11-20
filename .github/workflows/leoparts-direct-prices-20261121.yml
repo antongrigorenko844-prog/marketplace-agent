@@ -1,0 +1,68 @@
+name: LEOPARTS approved Avito and Tilda prices 20261121
+on:
+  push:
+    branches: [main]
+    paths: [data/approved_direct_prices_20261121.json]
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q --disable-pip-version-check -r requirements.txt
+      - name: Publish the reviewed cells in the stable Avito feed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/leoparts_publish_leoparts_feed_20261121_nov21.py
+      - name: Publish the seven approved card prices on Tilda
+        if: ${{ !cancelled() }}
+        env:
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+        run: python -u scripts/leoparts_direct_operation_nov21.py --channel tilda --mode apply
+      - name: Publish the smooth 0BH Tilda prices
+        if: ${{ !cancelled() }}
+        env:
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+        run: python -u scripts/leoparts_direct_0bh_nov21.py --channel tilda --mode apply
+      - name: Update the seven matched Avito ads
+        if: ${{ !cancelled() }}
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: python -u scripts/leoparts_direct_operation_nov21.py --channel avito --mode apply
+      - name: Update the smooth 0BH filter kit on Avito
+        if: ${{ !cancelled() }}
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: python -u scripts/leoparts_direct_0bh_nov21.py --channel avito --mode apply
+      - name: Read the final prices for all 16 offers
+        if: ${{ !cancelled() }}
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: |
+          python -u scripts/leoparts_direct_readback_nov21.py | tee direct-final-prices.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: direct-price-readback-20261121
+          path: |
+            direct-final-prices.log
+            reports/approved-direct-prices/
+            reports/approved-0bh-prices/
+          retention-days: 14
