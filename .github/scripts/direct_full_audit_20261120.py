@@ -94,7 +94,7 @@ def api_get(service, params, collection):
         if not isinstance(result.get(collection), list):
             raise RuntimeError(service + ".get missing collection")
         id_field = "Id" if collection == "Campaigns" else "CampaignId"
-        if any(item.get(id_field) != CID for item in result[collection]):
+        if collection != "SitelinksSets" and any(item.get(id_field) != CID for item in result[collection]):
             raise RuntimeError(service + ".get returned an object outside the campaign")
         items.extend(result[collection])
         if "LimitedBy" not in result:
@@ -380,7 +380,7 @@ def run():
     save()
     section("campaign", lambda: api_get("campaigns", {
         "SelectionCriteria": {"Ids": [CID]},
-        "FieldNames": ["Id", "Name", "Type", "State", "Status", "Currency"],
+        "FieldNames": ["Id", "Name", "Type", "State", "Status", "Currency", "NegativeKeywords"],
         "UnifiedCampaignFieldNames": ["CounterIds", "PriorityGoals", "AttributionModel", "BiddingStrategy", "Settings"]}, "Campaigns"))
     section("thematic_verification", thematic_verification)
     section("adgroups", lambda: api_get("adgroups", {"SelectionCriteria": {"CampaignIds": [CID]}, "FieldNames": ["Id","Name","CampaignId","Status","ServingStatus","RegionIds","NegativeKeywords","Type"]}, "AdGroups"))
@@ -416,6 +416,7 @@ def run():
 # Further read-only diagnostics. The original audited requests and error handling
 # above remain intact; extra functions only use method get or Reports.
 from collections import defaultdict
+from datetime import timedelta
 
 def extra_report(name, kind, fields, fallback=None):
     def issue(columns, suffix):
