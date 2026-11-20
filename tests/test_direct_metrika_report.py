@@ -13,9 +13,9 @@ class MetricaSummarySafetyTests(unittest.TestCase):
         response.json.return_value={
             "data":[
                 {"dimensions":[{"id":"direct","name":"Прямые заходы"}],
-                 "metrics":[11,4,7,1,0,0,0]},
+                 "metrics":[11,4,7,1,0,0,0,0]},
                 {"dimensions":[{"id":"ad","name":"Переходы по рекламе"}],
-                 "metrics":[22,1,8,0,0,0,2]},
+                 "metrics":[22,1,8,0,0,0,2,1]},
             ],"sampled":False}
         with patch.object(direct_tools.requests,"get",return_value=response) as get:
             r=direct_tools._metrika_paid_summary("placeholder-secret",date(2026,11,19),
@@ -25,6 +25,7 @@ class MetricaSummarySafetyTests(unittest.TestCase):
         self.assertEqual(r["goal_visits"][675487735],8)
         self.assertEqual(r["goal_visits"][682257540],0)
         self.assertEqual(r["goal_visits"][685988392],2)
+        self.assertEqual(r["goal_visits"][686020680],1)
         self.assertEqual(r["goal_visits"][675506966],0)
         self.assertEqual(r["attribution"],"all_ads_sitewide")
         self.assertEqual(get.call_args.kwargs["headers"]["Authorization"],
@@ -35,7 +36,7 @@ class MetricaSummarySafetyTests(unittest.TestCase):
     def test_empty_paid_visits_is_valid_zero(self):
         response=Mock(status_code=200)
         response.json.return_value={"data":[{"dimensions":[{"id":"organic"}],
-                                               "metrics":[5,0,0,0,0,0,0]}]}
+                                               "metrics":[5,0,0,0,0,0,0,0]}]}
         with patch.object(direct_tools.requests,"get",return_value=response):
             result=direct_tools._metrika_paid_summary("token",date(2026,11,19),
                                                       date(2026,11,19))
@@ -57,7 +58,7 @@ class MetricaSummarySafetyTests(unittest.TestCase):
             return [{"CampaignId":str(CID),"Query":"мехатроник dq200",
                      "Clicks":"2","Cost":"40"}]
         metrika={"visits":22,"goal_visits":{675272284:1,675487735:7,
-                682257540:0,675506966:0,675507028:0,685988392:2},
+                682257540:0,675506966:0,675507028:0,685988392:2,686020680:1},
                  "attribution":"all_ads_sitewide","sampled":False}
         with patch.dict(direct_tools.os.environ,{"YANDEX_DIRECT_TOKEN":"d",
                                                  "YANDEX_METRIKA_TOKEN":"m"}), \
@@ -74,7 +75,8 @@ class MetricaSummarySafetyTests(unittest.TestCase):
         self.assertIn("все рекламные визиты сайта",m)
         self.assertIn("только визиты с UTM dq200_feed_search",m)
         self.assertIn("приоритетных URL-целей VIN и заказа",m)
-        self.assertIn("Форма VIN 1",m)
+        self.assertIn("Форма VIN (общая) 1",m)
+        self.assertIn("VIN успешно (новая цель) 1",m)
         self.assertIn("Ecommerce-покупка 0",m)
         self.assertIn("Заказ-URL 0",m)
         self.assertIn("Начало оплаты (не покупка) 2",m)
@@ -85,13 +87,13 @@ class MetricaSummarySafetyTests(unittest.TestCase):
         response = Mock(status_code=200)
         response.json.return_value = {"data":[
             {"dimensions":[{"name":"yandex"},{"name":"dq200_feed_search"}],
-             "metrics":[50,1,2,0,0,0,2]},
+             "metrics":[50,1,2,0,0,0,2,1]},
             {"dimensions":[{"name":"ya"},{"name":"dq200_feed_search"}],
-             "metrics":[3,0,1,0,0,0,0]},
+             "metrics":[3,0,1,0,0,0,0,0]},
             {"dimensions":[{"name":"yandex"},{"name":"unrelated_campaign"}],
-             "metrics":[45,30,20,10,10,10,10]},
+             "metrics":[45,30,20,10,10,10,10,10]},
             {"dimensions":[{"name":"google"},{"name":"dq200_feed_search"}],
-             "metrics":[90,50,60,80,10,10,10]},
+             "metrics":[90,50,60,80,10,10,10,10]},
         ],"sampled":False,"total_rows":4}
         with patch.object(direct_tools.requests,"get",return_value=response) as call:
             out=direct_tools._metrika_utm_campaign_summary(
@@ -101,6 +103,7 @@ class MetricaSummarySafetyTests(unittest.TestCase):
         self.assertEqual(out["goal_visits"][675487735],3)
         self.assertEqual(out["goal_visits"][682257540],0)
         self.assertEqual(out["goal_visits"][685988392],2)
+        self.assertEqual(out["goal_visits"][686020680],1)
         self.assertEqual(out["rows_matched"],2)
         self.assertEqual(out["attribution"],"campaign_utm_only")
         self.assertEqual(call.call_args.kwargs["params"]["dimensions"],
