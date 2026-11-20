@@ -95,29 +95,82 @@ def pause_offer(title):
     print("Tilda confirmed import of the single availability offer.", flush=True)
 
 
-def public_ui(url):
+def public_ui(product):
+    from urllib.parse import urljoin
     from playwright.sync_api import sync_playwright
-    with sync_playwright() as pw:
-        browser = pw.chromium.launch(headless=True, executable_path=shutil.which("google-chrome") or shutil.which("chromium"), args=["--no-sandbox"])
-        page = browser.new_page(locale="ru-RU")
-        page.route("**/*", lambda route: route.continue_() if route.request.method in ("GET", "HEAD") else route.abort())
-        response = page.goto(url, wait_until="domcontentloaded", timeout=50000)
-        require(response is not None and response.ok, "Public card failed to load")
-        page.wait_for_timeout(4000)
-        data = page.evaluate("""() => {
-            const vis = e => e.getClientRects().length > 0 && getComputedStyle(e).visibility !== 'hidden';
-            const scope = document.querySelector('.t-store__product-snippet, .js-store-product.t-store__product-popup, .t-store__product-popup') || document.body;
-            const controls = Array.from(scope.querySelectorAll('.js-store-prod-buy-btn, .t-store__prod-popup__btn, a[href="#order"], button'))
-              .filter(vis).map(e => ({text:e.innerText.trim(), cls:e.className, disabled:e.disabled || e.getAttribute('aria-disabled')==='true' || /disabled|soldout/.test(String(e.className))}));
-            const body = scope.innerText.replace(/\\s+/g,' ');
-            return {soldout:/нет в наличии|нет на складе|закончился|распродан|сообщить о поступлении|товар закончился/i.test(body), controls};
-        }""")
-        browser.close()
-    active = [x["text"] for x in data["controls"] if not x["disabled"] and re.search(r"в корзину|добавить в корзину|купить|оформить заказ", x["text"], re.I)]
-    print("PUBLIC_CARD", response.status, "sold_out_text=", data["soldout"], "active_buy_controls=", active, flush=True)
-    require(not active and (data["soldout"] or any(x["disabled"] for x in data["controls"])),
-            "Catalog zero confirmed, but public purchase controls were not conclusively disabled")
 
+    canonical = product["url"]
+    suffix = canonical.split("/tproduct/", 1)[1]
+    base = "https://leoparts-akpp.ru"
+    urls = {canonical, base + "/tproduct/" + suffix}
+    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"}
+    try:
+        sm = requests.get(base + "/sitemap-store.xml", headers=headers, timeout=12)
+        if sm.ok:
+            for node in ET.fromstring(sm.content).iter():
+                loc = node.text or ""
+                if node.tag.endswith("loc") and urlsplit(loc).hostname == "leoparts-akpp.ru" and "/tproduct/" + UID + "-" in loc:
+                    urls.add(loc)
+    except (ET.ParseError, requests.RequestException):
+        pass
+    print("EXACT public product routes", sorted(urls), flush=True)
+
+    js = """(uid) => {
+        const vis=e=>e.getClientRects().length>0 && getComputedStyle(e).visibility!=='hidden';
+        const norm=s=>String(s||'').replace(/\\s+/g,' ').trim();
+        const title=(document.title||'').toLowerCase();
+        const own=[...document.querySelectorAll('[data-product-gen-uid],[data-product-uid]')].find(e=>[e.getAttribute('data-product-gen-uid'),e.getAttribute('data-product-uid')].includes(uid)&&vis(e));
+        const scope=own || document.querySelector('.t-store__product-snippet, .js-store-product.t-store__product-popup, .t-store__product-popup') || document.body;
+        const txt=norm(scope.innerText);
+        const exact=Boolean(own) || (title.includes('прокладк')&&title.includes('плат')) || (txt.toLowerCase().includes('прокладка электронной платы'));
+        const controls=[...scope.querySelectorAll('.js-store-prod-buy-btn,.t-store__prod-popup__btn,a[href="#order"],button')].filter(vis).map(e=>({txt:norm(e.innerText),dis:!!e.disabled||e.getAttribute('aria-disabled')==='true'||/disabled|soldout/i.test(String(e.className)),cls:String(e.className)}));
+        const buttons=controls.filter(c=>/корзин|купить|заказать|оформить заказ/i.test(c.txt));
+        const sold=/нет в наличии|нет на складе|закончился|закончились|распродан|сообщить о поступлении|временно отсутствует|нет в продаже|out of stock|sold out/i.test(txt);
+        return {exact:exact,sold:sold,active:buttons.filter(x=>!x.dis).map(x=>x.txt).slice(0,4),disabled:controls.some(x=>x.dis),
+                shownButtons:controls.map(x=>x.txt).filter(Boolean).slice(0,5),title:title.slice(0,100)};
+    }"""
+    results = []
+    with sync_playwright() as pw:
+        browser = pw.chromium.launch(headless=True, executable_path=shutil.which("google-chrome") or shutil.which("chromium"),
+                                     args=["--no-sandbox"])
+        page = browser.new_page(locale="ru-RU", user_agent=headers["User-Agent"])
+        page.route("**/*", lambda route: route.continue_() if route.request.method in ("GET", "HEAD") else route.abort())
+        for url in sorted(urls):
+            try:
+                res = page.goto(url, wait_until="domcontentloaded", timeout=48000)
+                status = res.status if res else None
+                page.wait_for_timeout(3500)
+                evidence = page.evaluate(js, UID)
+                print("PUBLIC_ROUTE", urlsplit(url).path, "HTTP", status, evidence, flush=True)
+                if status in (404, 410):
+                    results.append("not_public")
+                elif status == 200 and evidence["exact"] and not evidence["active"] and (evidence["sold"] or evidence["disabled"]):
+                    results.append("sold_out")
+                elif status == 200 and evidence["exact"] and evidence["active"]:
+                    results.append("active")
+                else:
+                    results.append("inconclusive")
+            except Exception as exc:
+                print("PUBLIC_ROUTE", urlsplit(url).path, type(exc).__name__, flush=True)
+                results.append("inconclusive")
+        browser.close()
+    if all(x == "not_public" for x in results):
+        # A 404 on the neighboring live product would make a generic gateway catch-all inconclusive.
+        guard_url = "https://leoparts-akpp.ru/tproduct/431429802703-uplotnenie-elektromotora-gidrobloka-meha"
+        guard = requests.get(guard_url, headers=headers, timeout=25)
+        print("PUBLIC_CONTROL", guard.status_code, flush=True)
+        require(guard.ok, "Public gateway returned missing pages for the control as well")
+    require(results and all(x in ("sold_out", "not_public") for x in results),
+            "Public offer quantity is zero; some storefront routes could not confirm the purchase controls")
+    print("STOREFRONT", results, flush=True)
+
+
+def verify_only():
+    product, neighbor = inspect(site_records())
+    q = quantities(product)
+    print("READ_ONLY", SKU, UID, q, "editions", len(product.get("editions", [])), "control", neighbor["uid"], flush=True)
+    require(zero(q), "Public quantity is not zero")
+    public_ui(product)
 
 def main():
     start, guard = inspect(site_records())
@@ -134,7 +187,7 @@ def main():
         q = quantities(after)
         if zero(q):
             print("VERIFIED", SKU, UID, "public offer and editions quantity", q, "price and protected neighbor unchanged", flush=True)
-            public_ui(after["url"])
+            public_ui(after)
             return
         if attempt < 11:
             time.sleep(8)
@@ -142,4 +195,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    if sys.argv[1:] == ["--verify-only"]:
+        verify_only()
+    elif not sys.argv[1:]:
+        main()
+    else:
+        raise SystemExit("Unsupported invocation")
