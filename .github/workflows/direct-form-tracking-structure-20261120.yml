@@ -1,0 +1,28 @@
+name: LEOPARTS Tilda form tracking structure check (read only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/scripts/direct_form_tracking_structure_20261120.py
+      - .github/workflows/direct-form-tracking-structure-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: No-submit public Tilda and read-only Metrica goal schema
+        env:
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: python .github/scripts/direct_form_tracking_structure_20261120.py
+      - name: Save sanitized tracking structure evidence
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/form_tracking_structure.json
