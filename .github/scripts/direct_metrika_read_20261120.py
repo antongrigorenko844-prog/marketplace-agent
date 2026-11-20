@@ -105,7 +105,7 @@ def goal_setup():
         result.append({"id":goal.get("id"),"name":goal.get("name"),"type":goal.get("type"),
             "conditions_count":len(conditions),
             "conditions_operator_types":[{"type":str(x.get("type",""))[:90],
-                 "operator":str(x.get("type",""))[:90]} for x in conditions if isinstance(x,dict)]})
+                 "operator":str(x.get("operator",""))[:90]} for x in conditions if isinstance(x,dict)]})
     return {"requested_count":len(GOALS),"goals_found":result,"missing_ids":[g for g in GOALS if g not in [x["id"] for x in result]]}
 METRICS=["ym:s:visits","ym:s:goal675506966visits","ym:s:goal675507028visits"]
 if __name__=="__main__":sys.exit(run())
