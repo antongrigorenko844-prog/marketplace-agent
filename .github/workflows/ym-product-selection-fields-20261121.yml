@@ -1,0 +1,142 @@
+name: Publish verified applications and part-selection details for Market
+on:
+  push:
+    branches: ['audit/ym-content-rating-20261120']
+    paths: ['.github/workflows/ym-product-selection-fields-20261121.yml']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip --quiet install requests PyNaCl==1.5.0
+      - name: Publish confirmed fields and re-read Market cards
+        env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python - <<'PY'
+          import base64, collections, copy, hashlib, json, sys, time, datetime
+          import requests
+          from nacl.public import Box, PrivateKey, PublicKey
+          from nacl.utils import random
+          import yandex_market_client as ym
+          from market_content import read_rows
+          from content_updates import load
+          PLAN={"02E927770AL":{"id":"6244979769","category":71380208,"title":"Мехатроник DSG6 DQ250 в сборе с электронной платой 02E927770AL","description_hash":"2b62e8f2a225692835bed1c9f7a20302014a20a56e3723f7cbc221fdfb505195","composition":"Мехатроник — 1 шт.","attributes":[{"parameterId":7351754,"value":"электронная плата 02E927770AL уже установлена в мехатронике DSG6 DQ250"}]},"0AM325443D":{"id":"4348864364","category":76968421,"title":"Усиленная прокладка крышки мехатроника DSG7 DQ200 0AM325443D","description_hash":"3c4c86250b1bb67019c056fe8ad60d08e7fb16f453d05d966d777a2021b36a7d","composition":"Усиленная прокладка крышки — 1 шт.","attributes":[{"parameterId":7351754,"value":"устанавливается между крышкой и корпусом мехатроника DQ200 для уплотнения их соединения"}]},"0am325025H":{"id":"4817587494","category":71380208,"title":"Мехатроник DSG7 DQ200 0AM/0CW ПРОВЕРЕН НА АВТО","description_hash":"66abca12a7edfe59a551b28ee893822eb6303938baac402d750785b81edb3846","composition":"Мехатроник — 1 шт.","attributes":[{"parameterId":7351754,"value":"в поставку входит гидравлическая часть мехатроника DQ200 в сборе, электронная плата в этот вариант не входит"}],"card_title":"Мехатроник DSG7 DQ200 0AM/0CW проверен на авто"},"0am325025HX":{"id":"5698368883","category":4953550,"title":"Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769D","description_hash":"e8a7cf16e8b3bdef72ee2a85bfd9bc67bc35f295c7ac340f65cf7598addbfdd1","composition":"Мехатроник — 1 шт.","attributes":[{"parameterId":7351754,"value":"версия мехатроника DQ200 в сборе с электронной платой, обозначение платы в этом исполнении — 0AM927769D"}]},"WHT001922":{"id":"5887588650","category":70954320,"title":"Болт мехатроника длинный DSG7 DQ200 0AM 0CW WHT001922","description_hash":"82c4af9c403bd1c2038f32cc24d3aeb24ede23bba0b3a70dd4aba31f26e63396","composition":"Болт — 1 шт.","attributes":[{"parameterId":7351754,"value":"длинный болт для крепления крышки мехатроника DQ200, поштучная поставка"}],"card_title":"Болт мехатроника DSG7 DQ200 0AM 0CW Длинный"},"filtr-dsg7-dq200":{"id":"229050599717945344","category":90442,"title":"Масляный фильтр мехатроника DSG7 DQ200 0AM 0CW","description_hash":"85799e500f986053a712f98326e89efeceb4e1ba2534221b2cfdfb0412874411","composition":"Масляный фильтр — 1 шт.","attributes":[{"parameterId":7351754,"value":"стандартное исполнение масляного фильтра для обслуживания гидравлической части мехатроника DQ200"}]},"gidroakkumulyator-orig":{"id":"6245057523","category":71391178,"title":"Восстановленный гидроаккумулятор мехатроника DSG7 DQ200 VAG","description_hash":"c9d7e88ed5cb7213b053b957c78f2c59a1cd4008ee1586761c62797bc7713f8b","composition":"Восстановленный гидроаккумулятор — 1 шт.","attributes":[{"parameterId":7351754,"value":"восстановленный гидроаккумулятор для поддержания рабочего давления в гидросистеме мехатроника DQ200"}]},"kryshka-mehatronika-dq200":{"id":"229050604427853824","category":71380208,"title":"Крышка мехатроника DSG7 DQ200 0AM 0CW","description_hash":"03c87b9528a879a38b8b7c9a755f0a8e9ebef70feddf2b047957ef988158d275","composition":"Крышка — 1 шт.","attributes":[{"parameterId":7351754,"value":"крышка выполняет роль поддона и закрывает гидроблок мехатроника DQ200"},{"parameterId":21194330,"valueId":23090250}]},"plita-filtr-pylniki-orig":{"id":"6244924346","category":17701923,"title":"Усиленная плита + фильтр + 2 оригинальных пыльника VAG DSG7 DQ200, комплект","description_hash":"d931e6ec08816822c7d916ad0b9fe513d92107ab97b403f5a703e5b45d7e4116","composition":"Усиленная гидроплита — 1 шт.; фильтр — 1 шт.; оригинальные пыльники штоков VAG — 2 шт.","attributes":[{"parameterId":7351754,"value":"в этом варианте гидроплиты с фильтром и пыльниками сальники штоков и электронная плата в комплект не входят"}]},"prokladka-kryshki-dq200":{"id":"229050600334118912","category":71380208,"title":"Прокладка крышки мехатроника DSG7 DQ200 0AM 0CW","description_hash":"e286b4cbd8bd57209b7fc3a790cfba086cbd2b18ea2ee37db429fbcd7d22aac7","composition":"Прокладка крышки — 1 шт.","attributes":[{"parameterId":7351754,"value":"устанавливается в месте соединения поддона мехатроника DQ200 с его корпусом"}]},"pylniki-shtokov-orig":{"id":"6245057801","category":71340918,"title":"Оригинальные пыльники штоков VAG, 2 шт, DSG7 DQ200","description_hash":"5fc53ff4429707e3439882a0d9cff828a65416284efff91a428426cac01ff649","composition":"Пыльник штока оригинальный VAG — 2 шт.","attributes":[{"parameterId":7351754,"value":"комплект для защиты обоих штоков одного мехатроника DQ200"}]},"salnik-shtoka-orig":{"id":"6245047828","category":71380208,"title":"Оригинальный сальник штока VAG, 1 шт, DSG7 DQ200","description_hash":"23371d7e5800a214ca4ea21a41a6f47b206b73d1a363ec026939b630b8df8a08","composition":"Сальник штока оригинальный VAG — 1 шт.","attributes":[{"parameterId":7351754,"value":"поштучная поставка для замены уплотнения на одном штоке мехатроника DQ200"}]},"salnik-shtoka-orig-v2":{"id":"6250197304","category":71380208,"title":"Оригинальный сальник штока VAG, 1 шт, DQ200 DSG7","description_hash":"23371d7e5800a214ca4ea21a41a6f47b206b73d1a363ec026939b630b8df8a08","composition":"Сальник штока оригинальный VAG — 1 шт.","attributes":[{"parameterId":7351754,"value":"поштучная поставка для замены уплотнения на одном штоке мехатроника DQ200"}]},"salnik-tolkatelya-alum":{"id":"6245077748","category":71380208,"title":"Усиленные алюминиевые сальники толкателя с гальваническим покрытием, комплект 4 шт, DSG7 DQ200","description_hash":"63a87cd7425a8c069ac96c0749fcf4c7b308e4ffd5b1bf6963e74f7a0e49bcea","composition":"Сальник толкателя алюминиевый усиленный — 4 шт.","attributes":[{"parameterId":7351754,"value":"сальники на алюминиевой основе с гальваническим покрытием для замены на всех толкателях мехатроника DQ200"}]},"salniki-shtokov-2sht":{"id":"6244856120","category":71380208,"title":"Сальники штоков мехатроника DSG7 DQ200, комплект 2 шт","description_hash":"3cb0d91fc210036bf970a058278d542041c9ff8cafd64e456a9052c78abaf908","composition":"Сальник штока — 2 шт.","attributes":[{"parameterId":7351754,"value":"комплект для одновременной замены уплотнений на обоих штоках одного мехатроника DQ200"}]},"salniki-shtokov-orig":{"id":"6244950836","category":71380208,"title":"Оригинальные сальники штоков VAG, 2 шт, DSG7 DQ200","description_hash":"1485fa328544435e762cd8e97a02564d47beed9f3c10a55f99c717405dbcd979","composition":"Сальник штока оригинальный VAG — 2 шт.","attributes":[{"parameterId":7351754,"value":"комплект для одновременной замены уплотнений на обоих штоках одного мехатроника DQ200"}]},"salnikprivod-l":{"id":"6244876340","category":76973709,"title":"Сальник привода левый DSG7 DQ200","description_hash":"c9c61599b78ecf636970163d03e9032dcf29ccd5423ce574994320bcc8ee48f4","composition":"Сальник привода левый — 1 шт.","attributes":[{"parameterId":7351754,"value":"сторона установки — левая, уплотняет место выхода левого приводного вала из коробки"}]},"salnikprivod-r":{"id":"6244999088","category":76973709,"title":"Сальник привода правый DSG7 DQ200","description_hash":"3897ccc8c217804eff7f1cd76405ec6dd8a0097646345c0f82588df42b8f5c85","composition":"Сальник привода правый — 1 шт.","attributes":[{"parameterId":7351754,"value":"сторона установки — правая, для уплотнения правого приводного вала коробки"}]},"salnikvhod":{"id":"6244884638","category":76973709,"title":"Сальник входного вала DSG7 DQ200","description_hash":"b977a5b11bf5c4a6f461fcfc8f9dce77e7bdaf3b9e33481bb7e64c82c73d460e","composition":"Сальник входного вала — 1 шт.","attributes":[{"parameterId":7351754,"value":"место установки — вход первичного вала в коробку передач со стороны двигателя"}]},"salnikvihod":{"id":"6244941588","category":71380208,"title":"Сальник выходного вала DSG7 DQ200","description_hash":"3f3ed2383af7e35c560902ea0b5daf4f4cb1610a9019e3f99429f521ac308ceb","composition":"Сальник выходного вала — 1 шт.","attributes":[{"parameterId":7351754,"value":"место установки — выходной, или вторичный, вал коробки передач DQ200"}]},"vtulki-shtokov-2sht":{"id":"6245047590","category":71426048,"title":"Втулки (гильзы) штоков мехатроника DSG7 DQ200, комплект 2 шт","description_hash":"d97af13591ebc2cf35f16f47fed07f8799c038ff69e4bdf9df906d30b089f557","composition":"Втулки (гильзы) штоков — 2 шт.","attributes":[{"parameterId":7351754,"value":"комплект гильз для обоих штоков одного мехатроника DQ200"}]}}
+          def send(data):
+              sk=PrivateKey.generate();nonce=random(Box.NONCE_SIZE)
+              b=Box(sk,PublicKey(bytes.fromhex('56733be408e5d7af5d16424320949128b3ff20e898dea8ba263dd4b85579e338'))).encrypt(json.dumps(data,ensure_ascii=False,separators=(',',':')).encode(),nonce).ciphertext
+              print('YM3_'+base64.b64encode(bytes(sk.public_key)+nonce+b).decode(),flush=True)
+          def read(biz,ks):
+              return ({r['offer']['offerId']:r for r in read_rows(biz,'offer-mappings',ks)}, {r['offerId']:r for r in read_rows(biz,'offer-cards',ks)})
+          def h(txt):return hashlib.sha256(txt.encode()).hexdigest()
+          def sorted_params(values):
+              return sorted(json.dumps(v,sort_keys=True,ensure_ascii=False) for v in values)
+          def protected(m):
+              # Commercial fields, content, status and both the source and hosted media are compared.
+              o=m['offer']; names=['offerId','name','description','category','pictures','videos','mediaFiles','vendor','vendorCode','basicPrice','campaigns','condition','weightDimensions','barcodes','commodityCodes','groupId','archived','params','manuals']
+              return {'offer':{k:o.get(k) for k in names},'mapping':m.get('mapping')}
+          def metric(c):
+              return {'rating':c.get('contentRating'),'state':c.get('contentRatingStatus'),'additional_remains':next((u.get('remainingRatingPoints') for u in c.get('recommendations',[]) if u['type']=='ADDITIONAL'),0)}
+          HISTORICAL = {'0am325025q': {'parameterId': 21194330, 'valueId': 23090250}, 'podshipnik-vilki-6': {'parameterId': 14805583, 'value': '1', 'unitId': 6145205}}
+          def has(values, expected):
+              return any(all(v.get(key) == value for key, value in expected.items()) for v in values)
+          def actual(card):
+              return card.get('parameterValues') or []
+          def status_of_previous(cards):
+              return {k: {'field_confirmed':has(actual(cards[k]), attr),'rating':metric(cards[k])} for k, attr in HISTORICAL.items()}
+          def schema_is_valid(schema, item):
+              if not schema or 'ADDITIONAL' not in schema.get('recommendationTypes', []):
+                  return False
+              if 'valueId' in item:
+                  return (schema['name']=='Тип' and schema['type']=='ENUM' and any(v['id']==item['valueId'] and v['value']=='крышка' for v in schema['values']))
+              return schema['name']=='Дополнительная информация' and schema['type']=='TEXT' and len(item['value']) <= schema['constraints']['maxLength']
+          def explain_skip(k,spec,offer_record,card,links,canonical,defs):
+              if not (offer_record and card): return 'not found'
+              if links[spec['id']] != {k}: return 'shared or different Market SKU'
+              if not all(str(row['mapping'].get('marketSku'))==spec['id'] and row['mapping'].get('marketCategoryId')==spec['category'] for row in [offer_record,card]): return 'mapping changed'
+              offer=offer_record['offer']
+              if not any(c.get('status')=='PUBLISHED' for c in offer.get('campaigns',[])): return 'inactive'
+              if card.get('cardStatus')!='HAS_CARD_CAN_UPDATE' or card.get('errors') or card.get('warnings'): return 'moderation'
+              if metric(card)['state']!='ACTUAL' or not metric(card)['additional_remains']: return 'no current rating recommendation'
+              if offer['name']!=spec['title'] or card['mapping']['marketSkuName']!=spec.get('card_title',spec['title']): return 'title changed'
+              if h(offer.get('description','')) != spec['description_hash']: return 'source description changed'
+              if canonical.get(k,{}).get('composition')!=spec['composition']: return 'master composition changed'
+              if [v.get('value') for v in offer.get('params',[]) if v.get('name')=='Комплектация']!=[spec['composition']]: return 'seller composition changed'
+              for item in spec['attributes']:
+                  if not schema_is_valid(defs[spec['category']].get(item['parameterId']),item): return 'dictionary changed'
+                  present=[v for v in actual(card) if v['parameterId']==item['parameterId']]
+                  if present and not has(present,item): return 'seller already supplied another value'
+              return None
+
+          def run():
+              keys=list(PLAN)
+              biz=ym.get_business_id()
+              links=collections.defaultdict(set)
+              for offer in ym.get_all_offers(False)+ym.get_all_offers(True):
+                  links[str(offer['market_sku'])].add(offer['sku'])
+              defs={}
+              for cat in sorted({row['category'] for row in PLAN.values()}):
+                  status,data=ym._request('POST',f'/v2/category/{cat}/parameters',params={'businessId':biz},json_body={})
+                  assert status==200 and data.get('status')=='OK'
+                  defs[cat]={v['id']:v for v in data['result']['parameters']}
+              ms,cs=read(biz,keys+list(HISTORICAL))
+              canonical=load()
+              approved={}
+              skipped={}
+              payload=[]
+              for k,spec in PLAN.items():
+                  why=explain_skip(k,spec,ms.get(k),cs.get(k),links,canonical,defs)
+                  if why: skipped[k]=why; continue
+                  prior=actual(cs[k])
+                  missing=[item for item in spec['attributes'] if not has(prior,item)]
+                  if not missing: skipped[k]='already confirmed'; continue
+                  approved[k]=missing
+                  payload.append({'offer':{'offerId':k,'marketCategoryId':spec['category'],'parameterValues':prior+missing}})
+              send({'step':'preflight','approved':approved,'skipped':skipped,'before':{k:metric(cs[k]) for k in approved},'prior_two':status_of_previous(cs)})
+              if not payload: return
+              token,_=ym._creds()
+              try:
+                  resp=requests.post(ym.BASE_URL+f'/v2/businesses/{biz}/offer-mappings/update',headers=ym._headers(token),json={'offerMappings':payload},timeout=60)
+                  status=resp.json()
+                  send({'step':'submission','http':resp.status_code,'status':status.get('status'),'results':status.get('results',[]),'errors':status.get('errors',[])})
+                  if not resp.ok or status.get('status') != 'OK': return
+              except (ValueError, requests.RequestException):
+                  send({'step':'unknown_submission_outcome'})
+              ids=list(approved)
+              started=time.monotonic()
+              for interval in (0,20,55,100,175):
+                  time.sleep(max(0,interval-(time.monotonic()-started)))
+                  now_offers,now_cards=read(biz,ids+list(HISTORICAL))
+                  verify={}
+                  drift={}
+                  for k,adds in approved.items():
+                      vals=actual(now_cards[k]); refs={a['parameterId'] for a in adds}
+                      verify[k]=[a['parameterId'] for a in adds if has(vals,a)]
+                      before_other=[a for a in actual(cs[k]) if a['parameterId'] not in refs]
+                      after_other=[a for a in vals if a['parameterId'] not in refs]
+                      diffs=[]
+                      if sorted_params(before_other)!=sorted_params(after_other): diffs.append('other_typed_parameters')
+                      prior=protected(ms[k]); current=protected(now_offers[k])
+                      diffs.extend(v for v in prior['offer'] if current['offer'].get(v)!=prior['offer'][v])
+                      if prior['mapping'] != current['mapping']: diffs.append('mapping')
+                      if diffs: drift[k]=diffs
+                  all_done=all(len(verify[k])==len(approved[k]) for k in ids)
+                  if all_done or interval in (20,175) or drift:
+                      send({'step':'readback','utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'confirmed':verify,'score':{k:metric(now_cards[k]) for k in ids},'prior_two':status_of_previous(now_cards),'companion_changes':drift,'notes':{k:[now_cards[k].get('cardStatus'),now_cards[k].get('warnings',[]),now_cards[k].get('errors',[])] for k in ids if now_cards[k].get('warnings') or now_cards[k].get('errors') or now_cards[k].get('cardStatus')!='HAS_CARD_CAN_UPDATE'}})
+                  if all_done or drift: return
+          try:
+              run()
+          except Exception as error:
+              send({'step':'error','kind':type(error).__name__,'message':str(error)[:700] if isinstance(error,(ValueError,KeyError)) else None})
+              raise
+          PY
