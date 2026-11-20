@@ -1,0 +1,29 @@
+name: LEOPARTS Direct targeting and product feed structure read-only
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/scripts/direct_structure_review_20261120.py
+      - .github/workflows/direct-structure-review-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  read-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: GET campaign keyword targeting and active shopping ad filters
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_structure_review_20261120.py
+      - name: Save read-only targeting and feed evidence
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/structure_review.json
