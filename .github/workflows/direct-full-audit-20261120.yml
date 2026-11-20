@@ -1,0 +1,36 @@
+name: LEOPARTS Direct full audit Nov 20 read-only
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/direct-full-audit-20261120.yml
+      - .github/scripts/direct_full_audit_20261120.py
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 28
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read-only Direct and Metrika campaign audit
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: python .github/scripts/direct_full_audit_20261120.py
+      - name: Save audit evidence only
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_audit_20261120/
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: direct-full-audit-20261120
+          path: data/direct_audit_20261120/
+          retention-days: 15
