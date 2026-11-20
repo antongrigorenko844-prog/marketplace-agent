@@ -1,0 +1,26 @@
+name: Publish nine reviewed Avito descriptions
+on:
+  push:
+    branches: ['content/avito-reviewed-part-descriptions-20261121']
+    paths: [.github/workflows/avito-reviewed-part-descriptions.yml]
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Install requirements
+        run: python -m pip install -q --disable-pip-version-check -r requirements.txt
+      - name: Publish only the reviewed descriptions and read back the active listings
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: python -u scripts/publish_avito_part_descriptions_20261121.py
