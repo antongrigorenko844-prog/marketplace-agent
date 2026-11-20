@@ -1,0 +1,22 @@
+name: Validate exact Direct negative operation offline
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/scripts/direct_two_exact_negatives_20261120.py
+      - tests/test_direct_safe_negatives.py
+      - .github/workflows/direct-safe-negatives-check.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile script and check mutation guard (no secrets)
+        run: python -m unittest discover -s tests -p test_direct_safe_negatives.py -v
