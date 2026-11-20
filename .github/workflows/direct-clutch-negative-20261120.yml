@@ -1,0 +1,30 @@
+name: LEOPARTS Clutch campaign negative safe append
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/direct-clutch-negative-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  apply-clutch-exclusion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Offline guard verification, no credentials
+        run: python -m unittest discover -s tests -p test_direct_clutch_negative.py -v
+      - name: Append only unquoted сцепление to campaign 716316525
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_clutch_negative_20261120.py
+      - name: Save API verification and one-attempt proof
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/clutch_negative_apply.json
