@@ -1,0 +1,29 @@
+name: LEOPARTS verify real VIN test goal in Metrica (read-only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/metrika-vin-test-verify-20261120.yml
+      - .github/scripts/metrika_vin_test_verification_20261120.py
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  verify-vin-goal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read new VIN goal and daily goal visits (no mutation)
+        env:
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: python .github/scripts/metrika_vin_test_verification_20261120.py
+      - name: Save only aggregate goal status
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/vin_test_metrika_verification.json
