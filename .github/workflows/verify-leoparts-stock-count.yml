@@ -1,0 +1,262 @@
+name: Read seller stock for the LEOPARTS recount
+on:
+  push:
+    branches: [verify/stock-count-20261120]
+    paths: ['.github/workflows/verify-leoparts-stock-count.yml']
+permissions: {}
+jobs:
+  read-count:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Read available stock for the counted items
+        shell: python
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          OZON_WAREHOUSE_ID: ${{ secrets.OZON_WAREHOUSE_ID }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: |
+          """Read-only seller stock for the LEOPARTS physical count (33cbe639).
+          
+          Run with Python 3.10+ and the usual seller credentials/warehouse IDs in env.
+          Outputs one sanitized JSON line per requested SKU and channel. Exit 2 means
+          at least one exact SKU is missing, ambiguous, or differs from the count.
+          No dependencies, data files, command arguments, or mutation endpoints.
+          """
+          import json
+          import os
+          import sys
+          from collections import defaultdict
+          from urllib.error import HTTPError, URLError
+          from urllib.parse import urlencode
+          from urllib.request import HTTPRedirectHandler, Request, build_opener
+          
+          
+          EXPECTED = {
+              "0am325066ae": 15, "plita-filtr-pylniki-sal-orig": 15, "0am325025": 15,
+              "plita-filtr-orig": 15, "plita-pylniki-salniki": 15, "plita-pylniki-salniki-orig": 15,
+              "0am325025x": 0, "remkomplekt-shtokov-orig": 50,
+          }
+          # Separate catalog card with the same documented composition. Observe only.
+          EXTRA = {"plita-pylniki-salniki-orig-v2": "plita-pylniki-salniki-orig"}
+          EXACT = [*EXPECTED, *EXTRA]
+          # Size IDs from the eight exact-case vendorCode records in wb_cards.json.
+          WB_SIZES = {
+              "0am325066ae": 901817136, "plita-filtr-pylniki-sal-orig": 2522889497,
+              "0am325025": 901719277, "plita-filtr-orig": 2522889341,
+              "plita-pylniki-salniki": 2522890186, "plita-pylniki-salniki-orig": 3423007033,
+              "0am325025x": 3423259126, "remkomplekt-shtokov-orig": 3423010789,
+          }
+          # Active, manually managed listings can coexist with autoload listings.
+          # Include only owner-linked IDs or historical exact feed IDs. Title similarity
+          # alone is not evidence that a listing belongs to a particular SKU.
+          AVITO_LINKS = {"0am325025": {4220978299, 8416131684},
+                         "plita-filtr-pylniki-sal-orig": {8326892857}}
+          
+          
+          class Unknown(Exception):
+              pass
+          
+          
+          class NoRedirect(HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, headers, newurl):
+                  return None
+          
+          
+          def api(url, headers, body=None, form=False):
+              payload = None if body is None else (
+                  urlencode(body).encode() if form else json.dumps(body).encode())
+              content_type = "application/x-www-form-urlencoded" if form else "application/json"
+              request = Request(url, data=payload, headers={**headers, "Content-Type": content_type})
+              try:
+                  with build_opener(NoRedirect).open(request, timeout=20) as response:
+                      return json.load(response)
+              except HTTPError as err:
+                  raise Unknown("http_" + str(err.code)) from None
+              except (URLError, TimeoutError, OSError):
+                  raise Unknown("connection_error") from None
+          
+          
+          def env(key):
+              value = os.getenv(key, "").strip()
+              if not value:
+                  raise Unknown("configuration_missing")
+              return value
+          
+          
+          def number(value):
+              return value if type(value) is int and value >= 0 else None
+          
+          
+          def identifier(value):
+              if isinstance(value, (int, str)) and str(value).isascii() and str(value).isdigit() and int(value) > 0:
+                  return int(value)
+              raise Unknown("invalid_config_or_schema")
+          
+          
+          def single(rows, field):
+              if len(rows) != 1:
+                  return "missing" if not rows else "ambiguous"
+              value = number(rows[0].get(field))
+              return value if value is not None else "quantity_unknown"
+          
+          
+          def ozon():
+              headers = {"Client-Id": env("OZON_CLIENT_ID"), "Api-Key": env("OZON_API_KEY")}
+              warehouse = identifier(env("OZON_WAREHOUSE_ID"))
+              by_sku = defaultdict(list)
+              cursor = ""
+              for _ in range(50):
+                  data = api("https://api-seller.ozon.ru/v2/product/info/stocks-by-warehouse/fbs",
+                             headers, {"offer_id": EXACT, "limit": 100, "cursor": cursor})
+                  for r in data["products"]:
+                      if r["offer_id"] in EXACT and identifier(r["warehouse_id"]) == warehouse:
+                          by_sku[r["offer_id"]].append(r)
+                  if data.get("has_next") is False:
+                      return {sku: single(by_sku[sku], "free_stock") for sku in EXACT}
+                  if not data.get("cursor") or data["cursor"] == cursor:
+                      break
+                  cursor = data["cursor"]
+              raise Unknown("pagination_unconfirmed")
+          
+          
+          def wb():
+              headers = {"Authorization": env("WB_API_TOKEN")}
+              warehouse = identifier(env("WB_WAREHOUSE_ID"))
+              data = api(f"https://marketplace-api.wildberries.ru/api/v3/stocks/{warehouse}",
+                         headers, {"chrtIds": list(WB_SIZES.values())})
+              by_size = defaultdict(list)
+              for row in data["stocks"]:
+                  by_size[identifier(row["chrtId"])].append(row)
+              return {sku: single(by_size[size], "amount") for sku, size in WB_SIZES.items()}
+          
+          
+          def market():
+              token = env("YANDEX_MARKET_API_KEY")
+              headers = {"Authorization": "Bearer " + token} if token.startswith("y0_") else {"Api-Key": token}
+              campaign = identifier(env("YANDEX_MARKET_CAMPAIGN_ID"))
+              base = "https://api.partner.market.yandex.ru"
+              campaign_info = api(f"{base}/v2/campaigns/{campaign}", headers)["campaign"]
+              business = identifier(campaign_info["business"]["id"])
+              seller_warehouses = set()
+              query = ""
+              for _ in range(50):
+                  result = api(f"{base}/v3/businesses/{business}/warehouses" + query, headers, {})
+                  if result.get("status") != "OK":
+                      raise Unknown("warehouse_lookup_failed")
+                  for row in result["result"]["warehouses"]:
+                      if any(m.get("placementType") == "FBS" and str(m.get("campaignId")) == str(campaign)
+                             for m in row.get("models", [])):
+                          seller_warehouses.add(identifier(row["id"]))
+                  nxt = result["result"].get("paging", {}).get("nextPageToken")
+                  if not nxt:
+                      break
+                  query = "?" + urlencode({"pageToken": nxt})
+              else:
+                  raise Unknown("warehouse_pagination_incomplete")
+              if os.getenv("YANDEX_MARKET_WAREHOUSE_ID"):
+                  seller_warehouses &= {identifier(env("YANDEX_MARKET_WAREHOUSE_ID"))}
+              if len(seller_warehouses) != 1:
+                  raise Unknown("seller_warehouse_unconfirmed")
+              warehouse = seller_warehouses.pop()
+              data = api(f"{base}/v2/campaigns/{campaign}/offers/stocks", headers, {"offerIds": EXACT})
+              if data.get("status") != "OK" or data["result"].get("paging", {}).get("nextPageToken"):
+                  raise Unknown("stock_response_incomplete")
+              by_sku = defaultdict(list)
+              for w in data["result"]["warehouses"]:
+                  if identifier(w["warehouseId"]) == warehouse:
+                      for item in w["offers"]:
+                          by_sku[item["offerId"]].append(item)
+              out = {}
+              for sku in EXACT:
+                  matches = by_sku[sku]
+                  if len(matches) == 1:
+                      available = [s for s in matches[0]["stocks"] if s.get("type") == "AVAILABLE"]
+                      out[sku] = single(available, "count") if available else "available_not_reported"
+                  else:
+                      out[sku] = "ambiguous" if matches else "missing"
+              return out
+          
+          
+          def avito_count(records):
+              if len(records) != 1:
+                  return "ambiguous" if records else "missing"
+              r = records[0]
+              if r.get("is_unlimited") is True:
+                  return "unlimited"
+              qty = number(r.get("quantity"))
+              if (r.get("is_unlimited") is not False or r.get("is_multiple") is not True
+                      or qty is None or r.get("is_out_of_stock") is not (qty == 0)):
+                  return "quantity_unconfirmed"
+              return qty
+          
+          
+          def avito():
+              base = "https://api.avito.ru"
+              auth = api(base + "/token", {}, {"grant_type": "client_credentials",
+                         "client_id": env("AVITO_CLIENT_ID"), "client_secret": env("AVITO_CLIENT_SECRET")}, form=True)
+              headers = {"Authorization": "Bearer " + auth["access_token"]}
+              ids = {sku: set(AVITO_LINKS.get(sku, ())) for sku in EXACT}
+              feed_keys = {key: sku for sku in EXACT for key in (sku, sku + "-av")}
+              links = api(base + "/autoload/v2/items/avito_ids?" + urlencode({"query": ",".join(feed_keys)}), headers)
+              for r in links["items"]:
+                  if r["ad_id"] in feed_keys and r.get("avito_id"):
+                      ids[feed_keys[r["ad_id"]]].add(identifier(r["avito_id"]))
+              active = set()
+              for page in range(1, 51):
+                  args = urlencode({"page": page, "per_page": 100, "status": "active"})
+                  data = api(base + "/core/v1/items?" + args, headers)
+                  rows = data["resources"]
+                  active.update(identifier(r["id"]) for r in rows if r.get("status") == "active")
+                  if len(rows) < 100:
+                      break
+              else:
+                  raise Unknown("active_pagination_incomplete")
+              wanted = sorted(active.intersection(set().union(*ids.values())))
+              by_id = defaultdict(list)
+              for i in range(0, len(wanted), 10):
+                  stocks = api(base + "/stock-management/1/info", headers,
+                               {"item_ids": wanted[i:i + 10], "strong_consistency": True})
+                  for r in stocks["stocks"]:
+                      by_id[identifier(r["item_id"])].append(r)
+              out = {}
+              for sku, mapped in ids.items():
+                  values = [avito_count(by_id[n]) for n in sorted(mapped & active)]
+                  out[sku] = values or ["no_active_listing" if mapped else "unmapped"]
+              return out
+          
+          
+          def main():
+              ok = True
+              for channel, read in [("Ozon", ozon), ("WB", wb), ("YM", market), ("Avito", avito)]:
+                  try:
+                      found = read()
+                  except Unknown as err:
+                      found = dict.fromkeys(EXPECTED, str(err))
+                  except (KeyError, ValueError, TypeError, AttributeError):
+                      found = dict.fromkeys(EXPECTED, "schema_unconfirmed")
+                  for sku, value in found.items():
+                      if sku in EXTRA and value in ("missing", "unmapped", ["unmapped"], ["no_active_listing"]):
+                          continue
+                      parent = EXTRA.get(sku, sku)
+                      values = value if isinstance(value, list) else [value]
+                      for i, amount in enumerate(values, 1):
+                          line = {"channel": channel, "sku": parent, "observed": amount}
+                          if sku in EXTRA:
+                              line["variant"] = "separate_v2"
+                          elif len(values) > 1:
+                              line["variant"] = "listing_" + str(i)
+                          if sku in EXPECTED:
+                              ok &= amount == EXPECTED[sku]
+                          print(json.dumps(line, ensure_ascii=False), flush=True)
+              return 0 if ok else 2
+          
+          
+          if __name__ == "__main__":
+              sys.exit(main())
