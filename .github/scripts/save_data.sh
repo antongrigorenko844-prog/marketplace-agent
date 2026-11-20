@@ -43,7 +43,7 @@ for i in 1 2 3 4 5; do
 
   # A catalog and its journal describe one inventory state. Retrying against a
   # fresh checkout is safer than combining one half of each revision.
-  inventory_files=(data/orders_seen.db data/ozon_catalog.xlsx data/kits.xlsx)
+  inventory_files=(data/orders_seen.db data/ozon_catalog.xlsx data/kits.xlsx data/avito_stock_state.json)
   if ! git diff --quiet "$START" "$SNAP" -- "${inventory_files[@]}" &&
      ! git diff --quiet "$START" "$REMOTE" -- "${inventory_files[@]}"; then
     echo "::error::Склад или состав комплектов изменён одновременно. Нужен повтор со свежей версии."

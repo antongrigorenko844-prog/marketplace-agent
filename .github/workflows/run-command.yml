@@ -41,6 +41,8 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.command == 'sync-orders' && github.ref == 'refs/heads/main' && 'main' || github.sha }}
 
       - uses: actions/setup-python@v5
         with:
@@ -93,6 +95,15 @@ jobs:
               --article "${{ inputs.article }}" \
               --seed-phrase "${{ inputs.seed_phrase }}"
           fi
+
+      - name: Обновить шесть остатков Авито после учёта заказов
+        if: success() && inputs.command == 'sync-orders' && github.ref == 'refs/heads/main'
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: |
+          bash .github/scripts/save_data.sh data/
+          bash .github/scripts/publish_avito_stock.sh
 
       - name: Сообщить владельцу в Telegram о сбое (раз в день на команду)
         # владелец логи Actions не читает — любой упавший запуск должен дойти до него через бота
