@@ -2,6 +2,8 @@
 import hashlib
 import json
 import time
+
+import requests
 from pathlib import Path
 
 import ozon_client as oz
@@ -47,7 +49,15 @@ def main():
         raise ValueError('Seller gallery has changed since review')
     if not video(before) or before.get('images360') or before.get('images_360') or before.get('color_image'):
         raise ValueError('Different special media on this card; recheck before writing')
-    url = photo_host.upload_file(str(PHOTO), filename='0am325025H_rear_' + DIGEST[:10] + '.jpg')
+    filename = '0am325025H_rear_' + DIGEST[:10] + '.jpg'
+    url = 'https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/' + filename + '?v=' + DIGEST[:10]
+    cached = requests.get(url, timeout=45)
+    if cached.status_code == 404:
+        url = photo_host.upload_file(str(PHOTO), filename=filename)
+    else:
+        cached.raise_for_status()
+        if hashlib.sha256(cached.content).hexdigest() != DIGEST:
+            raise ValueError('Public photo differs from the verified source')
     if any(same_picture(old, url) for old in gallery[:4]):
         raise ValueError('Duplicate of an existing gallery image')
     desired = gallery[:4] + [url]
@@ -55,7 +65,8 @@ def main():
     if len(gallery) == 5 and not equal_gallery(gallery, desired):
         raise ValueError('A different fifth image already exists')
     if len(gallery) == 4:
-        response = oz._post('/v1/product/pictures/import', {'product_id':PRODUCT, 'images':desired}, retries=1)
+        payload = {'offer_id': OFFER, 'primary_image': desired[0], 'images': desired[1:], 'color_image': before.get('color_image') or ''}
+        response = oz._post('/v2/product/pictures/import', {'items': [payload]}, retries=1)
         if not response or response.get('error'):
             raise RuntimeError('Seller did not acknowledge the gallery update')
         print('Seller acknowledged the single-product gallery request', flush=True)
