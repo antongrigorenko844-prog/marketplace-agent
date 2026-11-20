@@ -500,6 +500,57 @@ def _metrika_paid_summary(token: str, d_from: date, d_to: date) -> dict:
             "attribution": "all_ads_sitewide", "sampled":payload.get("sampled")}
 
 
+# Exact UTM tag found in the verified 16–20 November LEOPARTS site reports.
+# It describes tracked UTM visitors rather than all Direct traffic; visitors
+# without such UTM tags are outside this breakdown.
+DIRECT_UTM_CAMPAIGN = "dq200_feed_search"
+DIRECT_UTM_SOURCES = frozenset({"yandex", "ya"})
+
+
+def _metrika_utm_campaign_summary(token: str, d_from: date, d_to: date) -> dict:
+    """Read only aggregated goal VISITS for this specific campaign UTM label."""
+    if not token:
+        raise ValueError("Empty Metrica token")
+    metrics = ["ym:s:visits"] + [f"ym:s:goal{x}visits" for x in METRIKA_GOAL_IDS]
+    response = requests.get(
+        "https://api-metrika.yandex.net/stat/v1/data",
+        params={"ids": METRIKA_COUNTER_ID, "date1": d_from.isoformat(),
+                "date2": d_to.isoformat(),
+                "dimensions": "ym:s:lastUTMSource,ym:s:lastUTMCampaign",
+                "metrics": ",".join(metrics), "accuracy": "full", "limit": 1000},
+        headers={"Authorization": "OAuth " + token}, timeout=35,
+    )
+    if response.status_code != 200:
+        raise RuntimeError(f"Метрика UTM HTTP {response.status_code}")
+    payload = response.json()
+    records = payload.get("data")
+    if (not isinstance(records, list) or len(records) > 1000
+            or payload.get("total_rows", 0) > 1000):
+        raise RuntimeError("Метрика: список UTM неполный или неверный")
+    visits = 0
+    counts = {goal: 0 for goal in METRIKA_GOAL_IDS}
+    rows_matched = 0
+    for row in records:
+        dims = row.get("dimensions") or []
+        if not isinstance(dims, list) or len(dims) != 2:
+            raise RuntimeError("Метрика: неожиданные измерения UTM")
+        source = str(dims[0].get("name") or "").strip().lower()
+        campaign = str(dims[1].get("name") or "").strip()
+        if source not in DIRECT_UTM_SOURCES or campaign != DIRECT_UTM_CAMPAIGN:
+            continue
+        values = row.get("metrics")
+        if (not isinstance(values, list) or len(values) != len(metrics)
+                or any(not isinstance(x, (int, float)) or x < 0 for x in values)):
+            raise RuntimeError("Метрика: неполные числовые значения UTM")
+        visits += values[0]
+        for goal, value in zip(METRIKA_GOAL_IDS, values[1:]):
+            counts[goal] += value
+        rows_matched += 1
+    return {"visits": visits, "goal_visits": counts, "rows_matched": rows_matched,
+            "attribution": "campaign_utm_only",
+            "campaign": DIRECT_UTM_CAMPAIGN, "sampled": payload.get("sampled")}
+
+
 def _format_metrika_paid(data: dict, caption: str) -> str:
     vals = data["goal_visits"]
     return (
@@ -544,6 +595,19 @@ def cmd_direct_report() -> int:
                 "Цель формы и корзина не подтверждают оплату заказа; "
                 "Ecommerce-покупка требует отдельной сверки с заказами.",
             ]
+            try:
+                campaign_day = _metrika_utm_campaign_summary(metr_token, yesterday, yesterday)
+                campaign_week = _metrika_utm_campaign_summary(
+                    metr_token, yesterday - timedelta(days=6), yesterday)
+                lines += [
+                    "\nМетрика — только визиты с UTM dq200_feed_search (yandex/ya):",
+                    _format_metrika_paid(campaign_day, "Вчера"),
+                    _format_metrika_paid(campaign_week, "7 дней"),
+                    "UTM не охватывает визиты без метки и не подтверждает оплаты.",
+                ]
+            except Exception as exc:
+                lines.append("Метрика UTM: детализация кампании пока недоступна")
+                print("Метрика UTM: ошибка агрегирования", type(exc).__name__)
         except Exception as exc:
             # Never interpolate exception detail: secrets or visited URLs must
             # not appear in a Telegram notification.
