@@ -1,0 +1,57 @@
+name: Read back two Market fields and moderation details
+on:
+  push:
+    branches: ['audit/ym-content-rating-20261120']
+    paths: ['.github/workflows/ym-verify-types-status-20261121.yml']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip --quiet install requests PyNaCl==1.5.0
+      - name: Read typed fields and current card status
+        env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python - <<'PY'
+          import base64, collections, copy, hashlib, json, sys, time, datetime
+          import requests
+          from nacl.public import Box, PrivateKey, PublicKey
+          from nacl.utils import random
+          import yandex_market_client as ym
+          from market_content import read_rows
+          from content_updates import load
+          PLAN={"0am325025q":{"id":"4390301546","cat":71380208,"title":"Крышка штока мехатроника DSG7 DQ200","composition":"Крышка штока — 1 шт.","value":"крышка","attr":{"parameterId":21194330,"valueId":23090250}},"podshipnik-vilki-6":{"id":"6244865322","cat":71391178,"title":"Подшипник вилки 6-й передачи и заднего хода DSG7 DQ200, 1 шт","composition":"Подшипник вилки 6-й передачи и заднего хода — 1 шт.","value":"1","attr":{"parameterId":14805583,"unitId":6145205,"value":"1"}}}
+          def send(data):
+              sk=PrivateKey.generate();nonce=random(Box.NONCE_SIZE)
+              b=Box(sk,PublicKey(bytes.fromhex('56733be408e5d7af5d16424320949128b3ff20e898dea8ba263dd4b85579e338'))).encrypt(json.dumps(data,ensure_ascii=False,separators=(',',':')).encode(),nonce).ciphertext
+              print('YM3_'+base64.b64encode(bytes(sk.public_key)+nonce+b).decode(),flush=True)
+          def read(biz,ks):
+              return ({r['offer']['offerId']:r for r in read_rows(biz,'offer-mappings',ks)}, {r['offerId']:r for r in read_rows(biz,'offer-cards',ks)})
+          def h(txt):return hashlib.sha256(txt.encode()).hexdigest()
+          def sorted_params(values):
+              return sorted(json.dumps(v,sort_keys=True,ensure_ascii=False) for v in values)
+          def protected(m):
+              # Commercial fields, content, status and both the source and hosted media are compared.
+              o=m['offer']; names=['offerId','name','description','category','pictures','videos','mediaFiles','vendor','vendorCode','basicPrice','campaigns','condition','weightDimensions','barcodes','commodityCodes','groupId','archived','params','manuals']
+              return {'offer':{k:o.get(k) for k in names},'mapping':m.get('mapping')}
+          def metric(c):
+              return {'rating':c.get('contentRating'),'state':c.get('contentRatingStatus'),'additional_remains':next((u.get('remainingRatingPoints') for u in c.get('recommendations',[]) if u['type']=='ADDITIONAL'),0)}
+          keys=list(PLAN)
+          business=ym.get_business_id()
+          offers,cards=read(business,keys)
+          for sku in keys:
+              c=cards[sku]
+              m=offers[sku]
+              send({'step':'fresh_read','utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'sku':sku,'marketSku':m['mapping']['marketSku'],'category':c['mapping']['marketCategoryId'],'card_status':c.get('cardStatus'),'ratings':metric(c),'fields':c.get('parameterValues',[]),'errors':c.get('errors',[]),'warnings':c.get('warnings',[]),'suggestions':[v for v in c.get('recommendations',[]) if v['type']=='ADDITIONAL']})
+          PY
