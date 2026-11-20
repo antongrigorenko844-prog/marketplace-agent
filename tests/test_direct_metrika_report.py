@@ -62,18 +62,53 @@ class MetricaSummarySafetyTests(unittest.TestCase):
                                                  "YANDEX_METRIKA_TOKEN":"m"}), \
              patch.object(direct_tools,"_report",side_effect=fake_direct), \
              patch.object(direct_tools,"_metrika_paid_summary",return_value=metrika) as read, \
+             patch.object(direct_tools,"_metrika_utm_campaign_summary",return_value=metrika) as read_utm, \
              patch.object(direct_tools,"_tg_owner") as send:
             ok=direct_tools.cmd_direct_report()
         self.assertEqual(ok,0)
         self.assertEqual(read.call_count,2)
+        self.assertEqual(read_utm.call_count,2)
         m=send.call_args.args[0]
         self.assertIn("Метрика",m)
         self.assertIn("все рекламные визиты сайта",m)
+        self.assertIn("только визиты с UTM dq200_feed_search",m)
         self.assertIn("Форма VIN 1",m)
         self.assertIn("Ecommerce-покупка 0",m)
         self.assertIn("Заказ-URL 0",m)
         self.assertIn("не подтверждают оплату",m)
         self.assertNotIn("(заявка ",m)
+    def test_utm_campaign_aggregates_only_expected_yandex_traffic(self):
+        response = Mock(status_code=200)
+        response.json.return_value = {"data":[
+            {"dimensions":[{"name":"yandex"},{"name":"dq200_feed_search"}],
+             "metrics":[50,1,2,0,0,0]},
+            {"dimensions":[{"name":"ya"},{"name":"dq200_feed_search"}],
+             "metrics":[3,0,1,0,0,0]},
+            {"dimensions":[{"name":"yandex"},{"name":"unrelated_campaign"}],
+             "metrics":[45,30,20,10,10,10]},
+            {"dimensions":[{"name":"google"},{"name":"dq200_feed_search"}],
+             "metrics":[90,50,60,80,10,10]},
+        ],"sampled":False,"total_rows":4}
+        with patch.object(direct_tools.requests,"get",return_value=response) as call:
+            out=direct_tools._metrika_utm_campaign_summary(
+                "dummy-secret",date(2026,11,19),date(2026,11,19))
+        self.assertEqual(out["visits"],53)
+        self.assertEqual(out["goal_visits"][675272284],1)
+        self.assertEqual(out["goal_visits"][675487735],3)
+        self.assertEqual(out["goal_visits"][682257540],0)
+        self.assertEqual(out["rows_matched"],2)
+        self.assertEqual(out["attribution"],"campaign_utm_only")
+        self.assertEqual(call.call_args.kwargs["params"]["dimensions"],
+                         "ym:s:lastUTMSource,ym:s:lastUTMCampaign")
+
+    def test_utm_campaign_rejects_truncated_data(self):
+        response=Mock(status_code=200)
+        response.json.return_value={"data":[],"total_rows":1001}
+        with patch.object(direct_tools.requests,"get",return_value=response):
+            with self.assertRaisesRegex(RuntimeError,"неполный"):
+                direct_tools._metrika_utm_campaign_summary(
+                    "token",date(2026,11,19),date(2026,11,19))
+
     def test_daily_bot_handles_metrika_failure_without_token_leak(self):
         def fake_report(token,payload):
             p=payload["params"]
