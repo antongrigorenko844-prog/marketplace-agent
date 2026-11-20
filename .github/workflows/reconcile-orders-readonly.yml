@@ -1,0 +1,62 @@
+name: Reconcile old Ozon and open Avito orders (read only)
+on:
+  push:
+    branches: [verify/stock-count-20261120]
+    paths: ['.github/workflows/reconcile-orders-readonly.yml']
+permissions:
+  contents: read
+jobs:
+  fbo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/fbo_reconcile_probe.py
+            /scripts/recount-report-public.crt
+            /data/orders_seen.db
+            /config.py
+            /ozon_client.py
+      - run: python3 -m pip install --quiet requests python-dotenv
+      - name: Identify the changed FBO entry
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python3 -B scripts/fbo_reconcile_probe.py --cutoff 2026-11-20T17:00:57Z --private-output "$RUNNER_TEMP/changed.json" > "$RUNNER_TEMP/summary.json"
+          openssl cms -encrypt -aes-256-cbc -binary -outform DER -in "$RUNNER_TEMP/changed.json" -out "$RUNNER_TEMP/fbo-changes.cms" scripts/recount-report-public.crt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fbo-changes
+          path: ${{ runner.temp }}/fbo-changes.cms
+          retention-days: 1
+          if-no-files-found: error
+  avito:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /scripts/avito_order_preview_readonly.py
+            /scripts/avito_open_reconciliation.py
+            /scripts/recount-report-public.crt
+            /data/master_control.xlsx
+            /data/avito_links.json
+            /data/avito_autoload.json
+      - name: Aggregate open delivery lines by catalog SKU
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: python3 -B scripts/avito_open_reconciliation.py --live --data-dir data --recipient-cert scripts/recount-report-public.crt --output "$RUNNER_TEMP/avito-open.cms"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: avito-open
+          path: ${{ runner.temp }}/avito-open.cms
+          retention-days: 1
+          if-no-files-found: error
