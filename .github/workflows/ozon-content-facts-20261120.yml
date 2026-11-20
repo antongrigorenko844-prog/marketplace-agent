@@ -28,3 +28,9 @@ jobs:
           OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
           OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
         run: python scripts/ozon_content_facts_20261120.py apply
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verified-ozon-content-facts
+          path: /tmp/ozon-publication/*.json
+          retention-days: 30
