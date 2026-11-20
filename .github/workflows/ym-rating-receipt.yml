@@ -1,0 +1,68 @@
+name: Verify selected Market content scores
+on:
+  push:
+    branches: ['audit/ym-content-rating-20261120']
+    paths: ['.github/workflows/ym-rating-receipt.yml']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip --quiet install requests PyNaCl==1.5.0
+      - name: Check seller content ratings
+        env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python - <<'PY'
+          import base64, contextlib, datetime, hashlib, io, json, os, sys
+          from nacl.public import Box, PrivateKey, PublicKey
+          from nacl.utils import random
+          import yandex_market_client as ym
+          from market_content import read_rows
+          chosen = ['0am325025u', '01X301127C','0AM325587E','0am325025H','0am325025x','0AM325473','plastina-solenoid-dq200','solenoid-02e-0b5-bolshoy']
+          def seal(payload):
+              secret = PrivateKey.generate()
+              nonce = random(Box.NONCE_SIZE)
+              box = Box(secret,PublicKey(bytes.fromhex('a3967aa41a9355bb8e0b90a7a26da3ed30908731d7c6ffceb175723436354f3b')))
+              plain = json.dumps(payload,ensure_ascii=False,separators=(',',':')).encode()
+              cipher = box.encrypt(plain,nonce).ciphertext
+              encoded=base64.b64encode(bytes(secret.public_key)+nonce+cipher).decode()
+              print('YMR_'+encoded)
+          def do_read():
+              biz=ym.get_business_id()
+              maps={r['offer']['offerId']:r for r in read_rows(biz,'offer-mappings',chosen)}
+              cards={r['offerId']:r for r in read_rows(biz,'offer-cards',chosen)}
+              out={}
+              for sku in chosen:
+                  r=maps[sku]
+                  o=r['offer']; c=cards[sku]
+                  desc=o.get('description','')
+                  photo=(o.get('mediaFiles') or {}).get('pictures') or []
+                  first=photo[0].get('marketUrl') if photo else None
+                  out[sku]={'marketSku':str(r['mapping']['marketSku']),'card':c.get('cardStatus'),'rating':c.get('contentRating'),
+                    'rating_status':c.get('contentRatingStatus'),'average':c.get('averageContentRating'),
+                    'points':{x.get('type'):x.get('remainingRatingPoints') for x in c.get('recommendations',[])},
+                    'photo_count':len(photo),'video_count':len((o.get('mediaFiles') or {}).get('videos',[])),
+                    'desc_len':len(desc),'description_sha256':hashlib.sha256(desc.encode()).hexdigest(),
+                    'first':first,'description':desc if sku in ('0am325025u','01X301127C') else None,
+                    'store':next((p.get('status') for p in o.get('campaigns',[])),None)}
+              return {'captured_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'rows':out}
+          try:
+              with contextlib.redirect_stdout(io.StringIO()),contextlib.redirect_stderr(io.StringIO()):
+                  result=do_read()
+              for sku,row in result['rows'].items():
+                  seal({'time':result['captured_at'],'sku':sku,**row})
+          except Exception as e:
+              seal({'error':type(e).__name__})
+              sys.exit(1)
+          PY
