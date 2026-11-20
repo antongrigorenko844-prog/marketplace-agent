@@ -1,0 +1,298 @@
+{
+  "status": "complete",
+  "mode": "strict_read_only",
+  "started_utc": "2026-11-20T13:41:38.486001+00:00",
+  "campaign_id": 716316525,
+  "counter_id": 113839860,
+  "report_period": [
+    "2026-11-16",
+    "2026-11-20"
+  ],
+  "mutations": 0,
+  "sections": {
+    "metrika_goal_definitions": {
+      "status": "ok",
+      "result": [
+        {
+          "id": 682257540,
+          "name": "Ecommerce: покупка",
+          "type": "e_purchase",
+          "status": "Active",
+          "conditions": [],
+          "condition_count": 0,
+          "other_condition_keys": []
+        },
+        {
+          "id": 675272284,
+          "name": "Форма VIN",
+          "type": "form",
+          "status": "Active",
+          "conditions": [],
+          "condition_count": 0,
+          "other_condition_keys": []
+        },
+        {
+          "id": 675487735,
+          "name": "Ecommerce: добавление в корзину",
+          "type": "e_cart",
+          "status": "Active",
+          "conditions": [],
+          "condition_count": 0,
+          "other_condition_keys": []
+        },
+        {
+          "id": 675506966,
+          "name": "Заявка по VIN",
+          "type": "url",
+          "status": "Active",
+          "conditions": [
+            {
+              "type": "contain",
+              "url": "/tilda/form5246286101/submitted/"
+            }
+          ],
+          "condition_count": 1,
+          "other_condition_keys": [
+            []
+          ]
+        },
+        {
+          "id": 675507028,
+          "name": "Заказ с сайта",
+          "type": "url",
+          "status": "Active",
+          "conditions": [
+            {
+              "type": "contain",
+              "url": "/tilda/form5260805101/submitted/"
+            }
+          ],
+          "condition_count": 1,
+          "other_condition_keys": [
+            []
+          ]
+        }
+      ]
+    },
+    "direct_goal_specific_report": {
+      "status": "ok",
+      "result": {
+        "status": "ok",
+        "report_type": "ADGROUP_PERFORMANCE_REPORT",
+        "requested_goals": [
+          675272284,
+          675487735,
+          675506966,
+          675507028,
+          682257540
+        ],
+        "attribution": "LC",
+        "rows": 16,
+        "columns": [
+          "Date",
+          "CampaignId",
+          "AdGroupId",
+          "Impressions",
+          "Clicks",
+          "Cost",
+          "Conversions_675272284_LC",
+          "Conversions_675487735_LC",
+          "Conversions_675506966_LC",
+          "Conversions_675507028_LC",
+          "Conversions_682257540_LC"
+        ],
+        "totals": {
+          "Impressions": {
+            "numeric_total": "6094",
+            "nonmissing_cells": 16,
+            "missing_cells": 0
+          },
+          "Clicks": {
+            "numeric_total": "141",
+            "nonmissing_cells": 16,
+            "missing_cells": 0
+          },
+          "Cost": {
+            "numeric_total": "3701.70",
+            "nonmissing_cells": 16,
+            "missing_cells": 0
+          },
+          "Conversions_675272284_LC": {
+            "numeric_total": "1",
+            "nonmissing_cells": 1,
+            "missing_cells": 15
+          },
+          "Conversions_675487735_LC": {
+            "numeric_total": "6",
+            "nonmissing_cells": 5,
+            "missing_cells": 11
+          },
+          "Conversions_675506966_LC": {
+            "numeric_total": null,
+            "nonmissing_cells": 0,
+            "missing_cells": 16
+          },
+          "Conversions_675507028_LC": {
+            "numeric_total": null,
+            "nonmissing_cells": 0,
+            "missing_cells": 16
+          },
+          "Conversions_682257540_LC": {
+            "numeric_total": null,
+            "nonmissing_cells": 0,
+            "missing_cells": 16
+          }
+        },
+        "sample_rows": [
+          {
+            "Date": "2026-11-16",
+            "AdGroupId": "5826171512",
+            "Conversions_675272284_LC": "--",
+            "Conversions_675487735_LC": "--",
+            "Conversions_675506966_LC": "--",
+            "Conversions_675507028_LC": "--",
+            "Conversions_682257540_LC": "--"
+          },
+          {
+            "Date": "2026-11-16",
+            "AdGroupId": "5826183946",
+            "Conversions_675272284_LC": "--",
+            "Conversions_675487735_LC": "--",
+            "Conversions_675506966_LC": "--",
+            "Conversions_675507028_LC": "--",
+            "Conversions_682257540_LC": "--"
+          },
+          {
+            "Date": "2026-11-16",
+            "AdGroupId": "5826320196",
+            "Conversions_675272284_LC": "--",
+            "Conversions_675487735_LC": "--",
+            "Conversions_675506966_LC": "--",
+            "Conversions_675507028_LC": "--",
+            "Conversions_682257540_LC": "--"
+          },
+          {
+            "Date": "2026-11-17",
+            "AdGroupId": "5826171512",
+            "Conversions_675272284_LC": "--",
+            "Conversions_675487735_LC": "--",
+            "Conversions_675506966_LC": "--",
+            "Conversions_675507028_LC": "--",
+            "Conversions_682257540_LC": "--"
+          },
+          {
+            "Date": "2026-11-17",
+            "AdGroupId": "5826183946",
+            "Conversions_675272284_LC": "--",
+            "Conversions_675487735_LC": "1",
+            "Conversions_675506966_LC": "--",
+            "Conversions_675507028_LC": "--",
+            "Conversions_682257540_LC": "--"
+          },
+          {
+            "Date": "2026-11-17",
+            "AdGroupId": "5826320196",
+            "Conversions_675272284_LC": "1",
+            "Conversions_675487735_LC": "1",
+            "Conversions_675506966_LC": "--",
+            "Conversions_675507028_LC": "--",
+            "Conversions_682257540_LC": "--"
+          },
+          {
+            "Date": "2026-11-18",
+            "AdGroupId": "5826171512",
+            "Conversions_675272284_LC": "--",
+            "Conversions_675487735_LC": "--",
+            "Conversions_675506966_LC": "--",
+            "Conversions_675507028_LC": "--",
+            "Conversions_682257540_LC": "--"
+          },
+          {
+            "Date": "2026-11-18",
+            "AdGroupId": "5826183946",
+            "Conversions_675272284_LC": "--",
+            "Conversions_675487735_LC": "1",
+            "Conversions_675506966_LC": "--",
+            "Conversions_675507028_LC": "--",
+            "Conversions_682257540_LC": "--"
+          },
+          {
+            "Date": "2026-11-18",
+            "AdGroupId": "5826320196",
+            "Conversions_675272284_LC": "--",
+            "Conversions_675487735_LC": "--",
+            "Conversions_675506966_LC": "--",
+            "Conversions_675507028_LC": "--",
+            "Conversions_682257540_LC": "--"
+          },
+          {
+            "Date": "2026-11-19",
+            "AdGroupId": "5826171512",
+            "Conversions_675272284_LC": "--",
+            "Conversions_675487735_LC": "--",
+            "Conversions_675506966_LC": "--",
+            "Conversions_675507028_LC": "--",
+            "Conversions_682257540_LC": "--"
+          },
+          {
+            "Date": "2026-11-19",
+            "AdGroupId": "5826183946",
+            "Conversions_675272284_LC": "--",
+            "Conversions_675487735_LC": "1",
+            "Conversions_675506966_LC": "--",
+            "Conversions_675507028_LC": "--",
+            "Conversions_682257540_LC": "--"
+          },
+          {
+            "Date": "2026-11-19",
+            "AdGroupId": "5826320196",
+            "Conversions_675272284_LC": "--",
+            "Conversions_675487735_LC": "--",
+            "Conversions_675506966_LC": "--",
+            "Conversions_675507028_LC": "--",
+            "Conversions_682257540_LC": "--"
+          },
+          {
+            "Date": "2026-11-20",
+            "AdGroupId": "5826171512",
+            "Conversions_675272284_LC": "--",
+            "Conversions_675487735_LC": "--",
+            "Conversions_675506966_LC": "--",
+            "Conversions_675507028_LC": "--",
+            "Conversions_682257540_LC": "--"
+          },
+          {
+            "Date": "2026-11-20",
+            "AdGroupId": "5826183946",
+            "Conversions_675272284_LC": "--",
+            "Conversions_675487735_LC": "2",
+            "Conversions_675506966_LC": "--",
+            "Conversions_675507028_LC": "--",
+            "Conversions_682257540_LC": "--"
+          },
+          {
+            "Date": "2026-11-20",
+            "AdGroupId": "5826320196",
+            "Conversions_675272284_LC": "--",
+            "Conversions_675487735_LC": "--",
+            "Conversions_675506966_LC": "--",
+            "Conversions_675507028_LC": "--",
+            "Conversions_682257540_LC": "--"
+          },
+          {
+            "Date": "2026-11-20",
+            "AdGroupId": "5828476541",
+            "Conversions_675272284_LC": "--",
+            "Conversions_675487735_LC": "--",
+            "Conversions_675506966_LC": "--",
+            "Conversions_675507028_LC": "--",
+            "Conversions_682257540_LC": "--"
+          }
+        ],
+        "include_vat": true
+      }
+    }
+  },
+  "errors": [],
+  "finished_utc": "2026-11-20T13:41:43.332676+00:00"
+}
