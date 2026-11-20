@@ -1,0 +1,28 @@
+{
+  "status": "readable_and_account_edit_permission",
+  "counter_id": 113839860,
+  "started_utc": "2026-11-20T14:01:12.667849+00:00",
+  "token_present": true,
+  "mutation_attempts": 0,
+  "checks": {
+    "counter": {
+      "status": "ok",
+      "permission": "own",
+      "active": "Active",
+      "site_matches": true
+    },
+    "goals": {
+      "status": "ok",
+      "total_count": 12,
+      "priority_goals_present": true,
+      "checkout_start_goal_present": false
+    },
+    "grants": {
+      "status": "ok",
+      "list_access": true
+    }
+  },
+  "errors": [],
+  "write_scope_note": "GET permission indicates counter rights, but metrika:write OAuth scope is confirmed only by an authorized write operation.",
+  "finished_utc": "2026-11-20T14:01:15.233587+00:00"
+}
