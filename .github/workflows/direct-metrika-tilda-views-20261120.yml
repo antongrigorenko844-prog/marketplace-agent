@@ -1,0 +1,28 @@
+name: LEOPARTS Tilda Metrica virtual pageviews (read only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/scripts/direct_metrika_tilda_views_20261120.py
+      - .github/workflows/direct-metrika-tilda-views-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check Tilda virtual form pageviews with read-only Metrica
+        env:
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: python .github/scripts/direct_metrika_tilda_views_20261120.py
+      - name: Save only grouped URL pageview totals
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/metrika_tilda_virtual_pageviews.json
