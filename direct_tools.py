@@ -455,13 +455,14 @@ def _fmt(t: dict) -> str:
 # Read-only Yandex Metrica data: only aggregated paid-source visits.
 # Not tied to a particular Direct campaign without matching UTM/session IDs.
 METRIKA_COUNTER_ID = 113839860
-METRIKA_GOAL_IDS = (675272284, 675487735, 682257540, 675506966, 675507028)
+METRIKA_GOAL_IDS = (675272284, 675487735, 682257540, 675506966, 675507028, 685988392)
 METRIKA_GOAL_LABELS = {
     675272284: "Форма VIN (автоцель)",
     675487735: "Добавления в корзину",
     682257540: "Ecommerce-покупка",
     675506966: "VIN — приоритетная URL-цель",
     675507028: "Заказ — приоритетная URL-цель",
+    685988392: "Начало оплаты (не покупка)",
 }
 
 
@@ -559,7 +560,8 @@ def _format_metrika_paid(data: dict, caption: str) -> str:
         f"Корзина {vals[675487735]:,.0f} · "
         f"Ecommerce-покупка {vals[682257540]:,.0f} · "
         f"VIN-URL {vals[675506966]:,.0f} · "
-        f"Заказ-URL {vals[675507028]:,.0f}"
+        f"Заказ-URL {vals[675507028]:,.0f} · "
+        f"Начало оплаты (не покупка) {vals[685988392]:,.0f}"
     ).replace(",", " ")
 
 
@@ -604,6 +606,7 @@ def cmd_direct_report() -> int:
                     _format_metrika_paid(campaign_day, "Вчера"),
                     _format_metrika_paid(campaign_week, "7 дней"),
                     "UTM не охватывает визиты без метки и не подтверждает оплаты.",
+                    "Начало оплаты — промежуточное событие, не Ecommerce-покупка.",
                 ]
                 if (campaign_week["visits"] > 0
                         and campaign_week["goal_visits"][675506966] == 0
