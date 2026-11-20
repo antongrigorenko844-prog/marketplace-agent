@@ -1,0 +1,29 @@
+name: LEOPARTS checkout purchase readiness audit (read only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/leoparts-purchase-readiness.yml
+      - .github/scripts/leoparts_purchase_readiness.py
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  purchase-readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read e-commerce setup and aggregate order signals, no checkout actions
+        env:
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: python .github/scripts/leoparts_purchase_readiness.py
+      - name: Persist aggregate read-only audit
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/purchase_readiness_audit.json
