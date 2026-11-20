@@ -72,6 +72,7 @@ class MetricaSummarySafetyTests(unittest.TestCase):
         self.assertIn("Метрика",m)
         self.assertIn("все рекламные визиты сайта",m)
         self.assertIn("только визиты с UTM dq200_feed_search",m)
+        self.assertIn("приоритетных URL-целей VIN и заказа",m)
         self.assertIn("Форма VIN 1",m)
         self.assertIn("Ecommerce-покупка 0",m)
         self.assertIn("Заказ-URL 0",m)
