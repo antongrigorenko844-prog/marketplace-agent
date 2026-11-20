@@ -1,0 +1,29 @@
+name: LEOPARTS Metrica read-only conversion audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/scripts/direct_metrika_read_20261120.py
+      - .github/workflows/direct-metrika-read-20261120.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  metrika-read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read only aggregate visits and goal setup
+        env:
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: python .github/scripts/direct_metrika_read_20261120.py
+      - name: Save read-only result (no credentials)
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/metrika_read_audit.json
