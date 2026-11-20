@@ -2,15 +2,17 @@
 Only reads get/report endpoints, never updates bids, campaign, negatives or ads.
 """
 import csv,io,json,time,os,sys,hashlib
-from datetime import datetime,timezone
+from datetime import datetime,timezone,timedelta
+from zoneinfo import ZoneInfo
 from decimal import Decimal
 from collections import defaultdict
 from pathlib import Path
 import direct_preflight_20261120 as direct
 
 CID=716316525
-FROM="2026-11-16"
-THRU="2026-11-20"
+TODAY=datetime.now(ZoneInfo("Europe/Moscow")).date()
+FROM=(TODAY-timedelta(days=6)).isoformat()
+THRU=TODAY.isoformat()
 OUT=Path("data/direct_optimization_20261120/live_traffic_review.json")
 def stamp():return datetime.now(timezone.utc).isoformat()
 def amount(text):
@@ -69,7 +71,8 @@ def run():
     try:
         c=direct.campaign()
         negatives=(c.get("NegativeKeywords") or {}).get("Items") or []
-        if len(negatives)!=132:raise RuntimeError("Expected current 132 negatives; review concurrently applied changes")
+        if len(negatives)<136 or not {"сцепление","замена масла"}.issubset(set(negatives)):
+            raise RuntimeError("Missing reviewed negatives (clutch / oil change) or too few current negatives")
         keys=direct.keywords();groups=direct.groups()
         if len(keys)!=272 or len(groups)!=6:raise RuntimeError("Keywords/group inventory changed")
         daily=report("CAMPAIGN_PERFORMANCE_REPORT",["Date","CampaignId","Impressions","Clicks","Cost","Conversions"],"daily")
