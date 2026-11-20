@@ -1,0 +1,28 @@
+name: LEOPARTS Metrica attributed goal visits (read only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/scripts/direct_metrika_goal_attribution_20261120.py
+      - .github/workflows/direct-metrika-goal-attribution-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read Metrica goals by traffic source, day and UTM (aggregate only)
+        env:
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: python .github/scripts/direct_metrika_goal_attribution_20261120.py
+      - name: Persist read-only Metrica aggregate report
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/metrika_goal_attribution_20261120.json
