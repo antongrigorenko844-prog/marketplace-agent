@@ -1,0 +1,80 @@
+name: Check approved Market copy across the active catalog
+on:
+  push:
+    branches: ['audit/ym-content-rating-20261120']
+    paths: ['.github/workflows/ym-compare-approved-copy.yml']
+permissions:
+  contents: read
+concurrency:
+  group: market-content-rating-readonly
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip --quiet install requests PyNaCl==1.5.0
+      - name: Compare source copy and official rating recommendations
+        env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python - <<'PY'
+          import collections, datetime, hashlib, html, json, re, sys
+          from nacl.public import Box, PrivateKey, PublicKey
+          from nacl.utils import random
+          import yandex_market_client as ym
+          from market_content import read_rows
+          from content_updates import description_for, load as source_load
+          def send(data):
+              sk=PrivateKey.generate()
+              nonce=random(Box.NONCE_SIZE)
+              ciphertext=Box(sk,PublicKey(bytes.fromhex('a3967aa41a9355bb8e0b90a7a26da3ed30908731d7c6ffceb175723436354f3b'))).encrypt(json.dumps(data,ensure_ascii=False,separators=(',',':')).encode(),nonce).ciphertext
+              import base64
+              print('YMR_'+base64.b64encode(bytes(sk.public_key)+nonce+ciphertext).decode(),flush=True)
+          def norm(x):
+              return ' '.join(html.unescape(re.sub(r'<[^>]*>', ' ', str(x or ''))).split())
+          def run():
+              biz=ym.get_business_id()
+              active=ym.get_all_offers(False)
+              archives=ym.get_all_offers(True)
+              keys=[k['sku'] for k in active];group=collections.defaultdict(set)
+              for r in active+archives:group[str(r['market_sku'])].add(r['sku'])
+              maps={};cards={}
+              for i in range(0,len(keys),100):
+                  maps.update({r['offer']['offerId']:r for r in read_rows(biz,'offer-mappings',keys[i:i+100])})
+                  cards.update({r['offerId']:r for r in read_rows(biz,'offer-cards',keys[i:i+100])})
+              assert set(maps)==set(cards)==set(keys)
+              source=source_load()
+              buckets=collections.Counter();ratings=collections.Counter();scorelist=[];points=collections.Counter(); candid=[];availability=collections.Counter()
+              for k in keys:
+                  r=maps[k];o=r['offer'];c=cards[k];score=c.get('contentRating');mid=str(r['mapping']['marketSku']);status=next((v.get('status') for v in o.get('campaigns',[])),None)
+                  ratings['нет рейтинга' if score is None else '<40' if score<40 else '40–59' if score<60 else '60–79' if score<80 else '80–100']+=1
+                  if score is not None:scorelist.append(score)
+                  availability[status]+=1
+                  rec={v['type']:v.get('remainingRatingPoints') for v in c.get('recommendations',[])}
+                  points.update(rec.keys())
+                  srow=source.get(k,{})
+                  src=srow.get('market_description') or ''
+                  if len(src)<500:result='no_preapproved_market_description_500'
+                  elif description_for(k,'fallback','market')!=src:result='different_pinned_manifest'
+                  elif norm(src)==norm(o.get('description')):result='already_matches_after_whitespace_html'
+                  elif rec.get('DESCRIPTION_LENGTH',0)<=0:result='no_description_recommendation'
+                  elif len(group[mid])!=1:result='shared_market_sku'
+                  elif status!='PUBLISHED':result='not_published'
+                  elif c.get('contentRatingStatus')!='ACTUAL' or c.get('cardStatus')!='HAS_CARD_CAN_UPDATE':result='rating_or_card_not_stable'
+                  else:
+                      result='candidate_for_manual_review'
+                      candid.append({'sku':k,'id':mid,'title':o.get('name'),'old':o.get('description'),'new':src,'composition':srow.get('composition'),'evidence':srow.get('source'),'rating':score,'rating_points':rec['DESCRIPTION_LENGTH']})
+                  buckets[result]+=1
+              import statistics
+              send({'kind':'summary','utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'active':len(active),'archived':len(archives),'evaluated':len(keys),'shelf':dict(availability),'buckets':dict(buckets),'ratings':dict(ratings),'rating_median':statistics.median(scorelist) if scorelist else None,'rating_mean':round(statistics.mean(scorelist),2) if scorelist else None,'recommendation_counts':dict(points),'candidates':len(candid)})
+              for item in candid:send({'kind':'candidate',**item})
+          try:run()
+          except Exception as e:
+              send({'error':type(e).__name__});sys.exit(1)
+          PY
