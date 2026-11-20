@@ -1,0 +1,30 @@
+name: Publish audited Ozon attributes and verify the official scores
+on:
+  push:
+    branches: [ops/ozon-content-facts-20261120]
+    paths: [scripts/ozon_content_facts_20261120.py]
+permissions:
+  contents: read
+concurrency:
+  group: ozon-verified-card-fields
+  cancel-in-progress: false
+jobs:
+  cards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests python-dotenv
+      - name: Check facts against live schema and score recommendations
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: python scripts/ozon_content_facts_20261120.py check
+      - name: Apply still eligible fields and verify
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: python scripts/ozon_content_facts_20261120.py apply
