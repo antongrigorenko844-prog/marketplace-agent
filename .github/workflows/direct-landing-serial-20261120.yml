@@ -1,0 +1,26 @@
+name: LEOPARTS Direct landing serial recheck
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/scripts/direct_landing_serial_20261120.py
+      - .github/workflows/direct-landing-serial-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Four paced GET checks on landing page
+        run: python .github/scripts/direct_landing_serial_20261120.py
+      - name: Save only result
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_audit_20261120/landing_serial_recheck.json
