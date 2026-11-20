@@ -1,0 +1,99 @@
+name: Hold the exact approved Market offer in every store
+on:
+  push:
+    branches: ['audit/ym-content-rating-20261120']
+    paths: ['.github/workflows/ym-hold-exact-0cw0am.yml']
+permissions:
+  contents: read
+concurrency:
+  group: market-hold-one-offer
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip --quiet install requests PyNaCl==1.5.0
+      - name: Hide one seller offer and verify its neighbor
+        env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python - <<'PY'
+          import base64, datetime, json, sys, time
+          import requests
+          from nacl.public import Box, PrivateKey, PublicKey
+          from nacl.utils import random
+          import yandex_market_client as ym
+          from market_content import read_rows
+          TARGET='0cw0am'
+          CONTROL='0cw0amdsgdq200'
+          def seal(p):
+              sk=PrivateKey.generate(); nonce=random(Box.NONCE_SIZE)
+              blob=Box(sk,PublicKey(bytes.fromhex('a3967aa41a9355bb8e0b90a7a26da3ed30908731d7c6ffceb175723436354f3b'))).encrypt(json.dumps(p,ensure_ascii=False,separators=(',',':')).encode(),nonce).ciphertext
+              print('YMR_'+base64.b64encode(bytes(sk.public_key)+nonce+blob).decode(),flush=True)
+          def req(method,path,body=None,params=None):
+              st,d=ym._request(method,path,params=params,json_body=body)
+              if st!=200 or d.get('status') not in (None,'OK') or d.get('errors'):raise ValueError('read failed '+str(st))
+              return d
+          def campaigns(biz):
+              camps=set();seen=set();page=1
+              for _ in range(100):
+                  d=req('GET','/v2/campaigns',params={'page':page,'pageSize':50})
+                  for c in d['campaigns']:
+                      if str((c.get('business') or {}).get('id'))==str(biz):camps.add(int(c['id']))
+                  pager=d.get('pager') or {}
+                  if int(pager.get('pagesCount') or pager.get('pagesTotal') or 1)<=page:break
+                  page+=1
+              required=int(ym._creds()[1])
+              if required not in camps:raise ValueError('configured store was not listed')
+              return sorted(camps)
+          def state(camp):
+              path='/v2/campaigns/'+str(camp)
+              r=req('POST',path+'/offers',{'offerIds':[TARGET,CONTROL]},{'limit':100})
+              sales={v['offerId']:v.get('status') for v in r['result'].get('offers',[])}
+              hidden=set();tok=None;seen=set()
+              for _ in range(100):
+                  p={'limit':100}
+                  if tok:p['pageToken']=tok
+                  d=req('GET',path+'/hidden-offers',params=p)['result']
+                  hidden.update(v['offerId'] for v in d.get('hiddenOffers',[]))
+                  tok=(d.get('paging') or {}).get('nextPageToken')
+                  if not tok:break
+                  if tok in seen:raise ValueError('nonterminating hidden pagination')
+                  seen.add(tok)
+              return {k:{'present':k in sales,'status':sales.get(k),'hidden':k in hidden} for k in (TARGET,CONTROL)}
+          def run():
+              biz=ym.get_business_id(); cs=campaigns(biz)
+              mp={r['offer']['offerId']:r.get('mapping',{}).get('marketSku') for r in read_rows(biz,'offer-mappings',[TARGET,CONTROL])}
+              if TARGET in mp and str(mp[TARGET])!='4858753907':raise ValueError('exact offer mapping changed')
+              initial={c:state(c) for c in cs}
+              seal({'phase':'before','at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'mappings':mp,'campaigns':initial})
+              for c,z in initial.items():
+                  if not z[TARGET]['present'] or z[TARGET]['hidden']:continue
+                  if TARGET not in mp:raise ValueError('campaign mapping not confirmed')
+                  token,_=ym._creds()
+                  # POST a single case-sensitive vendor offerId, preserve stock, price and catalog record.
+                  try:
+                      resp=requests.post(ym.BASE_URL+f'/v2/campaigns/{c}/hidden-offers',headers=ym._headers(token),json={'hiddenOffers':[{'offerId':TARGET}]},timeout=55)
+                      j=resp.json();seal({'phase':'request','campaign':c,'http':resp.status_code,'status':j.get('status'),'error_codes':[a.get('code') for a in j.get('errors',[])]})
+                  except requests.RequestException:
+                      seal({'phase':'unknown_after_send','campaign':c})
+              for n in range(40):
+                  last={c:state(c) for c in cs}
+                  neighbor=all(last[c][CONTROL]==initial[c][CONTROL] for c in cs)
+                  hidden=all(not v[TARGET]['present'] or v[TARGET]['hidden'] for v in last.values())
+                  off=all(not v[TARGET]['present'] or v[TARGET]['status'] not in (None,'PUBLISHED') for v in last.values())
+                  if n in (0,3,12,24,39) or (neighbor and hidden and off):
+                      seal({'phase':'verify','at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'attempt':n,'campaigns':last,'control_unchanged':neighbor,'hidden_everywhere':hidden,'off_sale':off})
+                  if not neighbor:raise ValueError('control changed')
+                  if hidden and off:return
+                  if n<39:time.sleep(10)
+              raise ValueError('seller storefront status still pending')
+          try:run()
+          except Exception as e:seal({'phase':'error','error_type':type(e).__name__,'message':str(e) if type(e) is ValueError else None});sys.exit(1)
+          PY
