@@ -5,6 +5,7 @@ in the inventory system stay in place. Safe to rerun against the same UID.
 """
 import os
 import re
+import shutil
 import time
 from decimal import Decimal, InvalidOperation
 from urllib.parse import urlsplit
@@ -108,7 +109,7 @@ def pause_offer(title):
 def public_ui(url):
     from playwright.sync_api import sync_playwright
     with sync_playwright() as pw:
-        browser = pw.chromium.launch(headless=True, args=["--no-sandbox"])
+        browser = pw.chromium.launch(headless=True, executable_path=shutil.which("google-chrome") or shutil.which("chromium"), args=["--no-sandbox"])
         page = browser.new_page(locale="ru-RU")
         page.route("**/*", lambda route: route.continue_() if route.request.method in ("GET", "HEAD") else route.abort())
         response = page.goto(url, wait_until="domcontentloaded", timeout=50000)
