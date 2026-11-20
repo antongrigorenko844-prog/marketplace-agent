@@ -14,6 +14,8 @@ from playwright.async_api import async_playwright
 URL = "https://leoparts-akpp.ru/mehatronik-dq200"
 OUT = Path("data/direct_optimization_20261120/tilda_cart_datalayer_readonly.json")
 SELECTORS = (
+    "a.js-catalog-prod-btn",
+    ".t-catalog__card__btn",
     ".js-store-prod-btn",
     ".t-store__card__btn .t-btn",
     ".t-store__card__btn",
@@ -136,7 +138,7 @@ async def run():
                         continue
                     # Only product-card controls; no forms, buy-now or payment buttons.
                     is_card = await btn.evaluate("""el => !!el.closest(
-                      '.t-store__card, .js-store-prod-btn, .t-store__card__btn-wrapper'
+                      '.t-store__card, .js-store-prod-btn, .t-store__card__btn-wrapper, .t-catalog__card, .js-catalog-prod-btn'
                     )""")
                     if not is_card:
                         continue
