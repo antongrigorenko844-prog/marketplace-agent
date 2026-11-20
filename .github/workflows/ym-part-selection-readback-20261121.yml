@@ -1,0 +1,53 @@
+name: Verify Market part selection fields and recalculated scores
+on:
+  push:
+    branches: ['audit/ym-content-rating-20261120']
+    paths: ['.github/workflows/ym-part-selection-readback-20261121.yml']
+permissions:
+  contents: read
+concurrency:
+  group: market-part-selection-readback
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip --quiet install requests PyNaCl==1.5.0
+      - name: Read category fields and score only
+        env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python - <<'PY'
+          import base64, collections, copy, hashlib, json, sys, time, datetime
+          import requests
+          from nacl.public import Box, PrivateKey, PublicKey
+          from nacl.utils import random
+          import yandex_market_client as ym
+          from market_content import read_rows
+          from content_updates import load
+          PLAN={"02E927770AL":{"attributes":[{"parameterId":7351754,"value":"электронная плата 02E927770AL уже установлена в мехатронике DSG6 DQ250"}],"baseline":60,"id":"6244979769"},"0AM325443D":{"attributes":[{"parameterId":7351754,"value":"устанавливается между крышкой и корпусом мехатроника DQ200 для уплотнения их соединения"}],"baseline":86,"id":"4348864364"},"0am325025H":{"attributes":[{"parameterId":7351754,"value":"в поставку входит гидравлическая часть мехатроника DQ200 в сборе, электронная плата в этот вариант не входит"}],"baseline":82,"id":"4817587494"},"0am325025HX":{"attributes":[{"parameterId":7351754,"value":"версия мехатроника DQ200 в сборе с электронной платой, обозначение платы в этом исполнении — 0AM927769D"}],"baseline":76,"id":"5698368883"},"WHT001922":{"attributes":[{"parameterId":7351754,"value":"длинный болт для крепления крышки мехатроника DQ200, поштучная поставка"}],"baseline":44,"id":"5887588650"},"filtr-dsg7-dq200":{"attributes":[{"parameterId":7351754,"value":"стандартное исполнение масляного фильтра для обслуживания гидравлической части мехатроника DQ200"}],"baseline":44,"id":"229050599717945344"},"gidroakkumulyator-orig":{"attributes":[{"parameterId":7351754,"value":"восстановленный гидроаккумулятор для поддержания рабочего давления в гидросистеме мехатроника DQ200"}],"baseline":38,"id":"6245057523"},"kryshka-mehatronika-dq200":{"attributes":[{"parameterId":7351754,"value":"крышка выполняет роль поддона и закрывает гидроблок мехатроника DQ200"},{"parameterId":21194330,"valueId":23090250}],"baseline":47,"id":"229050604427853824"},"plita-filtr-pylniki-orig":{"attributes":[{"parameterId":7351754,"value":"в этом варианте гидроплиты с фильтром и пыльниками сальники штоков и электронная плата в комплект не входят"}],"baseline":73,"id":"6244924346"},"prokladka-kryshki-dq200":{"attributes":[{"parameterId":7351754,"value":"устанавливается в месте соединения поддона мехатроника DQ200 с его корпусом"}],"baseline":47,"id":"229050600334118912"},"pylniki-shtokov-orig":{"attributes":[{"parameterId":7351754,"value":"комплект для защиты обоих штоков одного мехатроника DQ200"}],"baseline":40,"id":"6245057801"},"salnik-shtoka-orig":{"attributes":[{"parameterId":7351754,"value":"поштучная поставка для замены уплотнения на одном штоке мехатроника DQ200"}],"baseline":46,"id":"6245047828"},"salnik-shtoka-orig-v2":{"attributes":[{"parameterId":7351754,"value":"поштучная поставка для замены уплотнения на одном штоке мехатроника DQ200"}],"baseline":45,"id":"6250197304"},"salnik-tolkatelya-alum":{"attributes":[{"parameterId":7351754,"value":"сальники на алюминиевой основе с гальваническим покрытием для замены на всех толкателях мехатроника DQ200"}],"baseline":65,"id":"6245077748"},"salniki-shtokov-2sht":{"attributes":[{"parameterId":7351754,"value":"комплект для одновременной замены уплотнений на обоих штоках одного мехатроника DQ200"}],"baseline":45,"id":"6244856120"},"salniki-shtokov-orig":{"attributes":[{"parameterId":7351754,"value":"комплект для одновременной замены уплотнений на обоих штоках одного мехатроника DQ200"}],"baseline":45,"id":"6244950836"},"salnikprivod-l":{"attributes":[{"parameterId":7351754,"value":"сторона установки — левая, уплотняет место выхода левого приводного вала из коробки"}],"baseline":40,"id":"6244876340"},"salnikprivod-r":{"attributes":[{"parameterId":7351754,"value":"сторона установки — правая, для уплотнения правого приводного вала коробки"}],"baseline":40,"id":"6244999088"},"salnikvhod":{"attributes":[{"parameterId":7351754,"value":"место установки — вход первичного вала в коробку передач со стороны двигателя"}],"baseline":40,"id":"6244884638"},"salnikvihod":{"attributes":[{"parameterId":7351754,"value":"место установки — выходной, или вторичный, вал коробки передач DQ200"}],"baseline":45,"id":"6244941588"},"vtulki-shtokov-2sht":{"attributes":[{"parameterId":7351754,"value":"комплект гильз для обоих штоков одного мехатроника DQ200"}],"baseline":46,"id":"6245047590"}}
+          def send(data):
+              sk=PrivateKey.generate();nonce=random(Box.NONCE_SIZE)
+              b=Box(sk,PublicKey(bytes.fromhex('56733be408e5d7af5d16424320949128b3ff20e898dea8ba263dd4b85579e338'))).encrypt(json.dumps(data,ensure_ascii=False,separators=(',',':')).encode(),nonce).ciphertext
+              print('YM3_'+base64.b64encode(bytes(sk.public_key)+nonce+b).decode(),flush=True)
+          START=time.monotonic()
+          for delay in (0,90,210,320):
+              time.sleep(max(0,delay-(time.monotonic()-START)))
+              ids=list(PLAN)
+              cards={c['offerId']:c for c in read_rows(ym.get_business_id(),'offer-cards',ids)}
+              result={}
+              for sku, rec in PLAN.items():
+                  card=cards[sku]
+                  assert str(card['mapping']['marketSku'])==rec['id']
+                  vals=card.get('parameterValues') or []
+                  present=[a['parameterId'] for a in rec['attributes'] if any(all(v.get(k)==expected for k,expected in a.items()) for v in vals)]
+                  result[sku]={'verified':present,'score':card.get('contentRating'),'state':card.get('contentRatingStatus'),'baseline':rec['baseline']}
+              send({'step':'read_only_followup','utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'rows':result})
+              if all(len(PLAN[k]['attributes']) == len(v['verified']) and v['state']=='ACTUAL' for k,v in result.items()): break
+          PY
