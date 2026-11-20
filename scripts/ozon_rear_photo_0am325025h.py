@@ -47,37 +47,23 @@ def main():
     gallery = ozon_gallery(before)
     if len(gallery) not in (4, 5) or not equal_gallery(gallery[:4], EXPECTED):
         raise ValueError('Seller gallery has changed since review')
-    if not video(before) or before.get('images360') or before.get('images_360') or before.get('color_image'):
-        raise ValueError('Different special media on this card; recheck before writing')
+    print('SELLER_VIDEO', json.dumps(video(before), ensure_ascii=False), flush=True)
     filename = '0am325025H_rear_' + DIGEST[:10] + '.jpg'
     url = 'https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/' + filename + '?v=' + DIGEST[:10]
-    cached = requests.get(url, timeout=45)
-    if cached.status_code == 404:
-        url = photo_host.upload_file(str(PHOTO), filename=filename)
-    else:
-        cached.raise_for_status()
-        if hashlib.sha256(cached.content).hexdigest() != DIGEST:
-            raise ValueError('Public photo differs from the verified source')
-    if any(same_picture(old, url) for old in gallery[:4]):
-        raise ValueError('Duplicate of an existing gallery image')
     desired = gallery[:4] + [url]
     previous = rating()
     if len(gallery) == 5 and not equal_gallery(gallery, desired):
         raise ValueError('A different fifth image already exists')
-    if len(gallery) == 4:
-        payload = {'offer_id': OFFER, 'primary_image': desired[0], 'images': desired[1:], 'color_image': before.get('color_image') or ''}
-        response = oz._post('/v2/product/pictures/import', {'items': [payload]}, retries=1)
-        if not response or response.get('error'):
-            raise RuntimeError('Seller did not acknowledge the gallery update')
-        print('Seller acknowledged the single-product gallery request', flush=True)
+    print('READ_ONLY', json.dumps({'photos': len(gallery), 'rating':previous}), flush=True)
     for attempt in range(28):
         after = card()
         observed = ozon_gallery(after)
         if len(observed) == 5 and equal_gallery(observed, desired):
-            if video(after) != video(before):
-                raise RuntimeError('Video verification failed')
+            media = [a for a in video(after) if a.get('id') == 21841]
+            print('VIDEO_READBACK', json.dumps(media), flush=True)
+            has_video = any(v.get('value') for a in media for v in a.get('values', []))
             result = dict(offer_id=OFFER, product_id=PRODUCT, sku=SKU, total_photos=5,
-                          cover_and_order_verified=True, video_verified=True,
+                          cover_and_order_verified=True, video_verified=has_video, video_fields=media,
                           photos=observed, source=url, rating_before=previous, rating_after=rating())
             print('GALLERY_RECEIPT ' + json.dumps(result, ensure_ascii=False), flush=True)
             return
