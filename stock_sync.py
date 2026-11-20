@@ -1,12 +1,13 @@
 """Reconcile Ozon FBS/FBO, WB, Yandex Market and Tilda orders against the shared catalog.
 
-Avito orders require a confirmed SKU mapping and have no automatic debit here.
+Avito Delivery joins the same transaction after its explicit cutover.
 Publishing the updated catalog is a separate command. The ledger/projection
 transaction and crash recovery live in stock_transaction.py.
 """
 import datetime
 import os
 import sqlite3
+from pathlib import Path
 from typing import Dict, List, Optional
 
 from config import config
@@ -147,6 +148,10 @@ def sync_all_orders(
         summary["wb"] = _sync_wb(batch, since.date().isoformat())
         if yandex_market_client.is_configured():
             summary["yandex_market"] = _sync_yandex(batch)
+        from avito_debit import sync_if_enabled
+        avito = sync_if_enabled(batch, Path(catalog_path).parent)
+        if avito is not None:
+            summary["avito_delivery"] = avito
     return summary
 
 

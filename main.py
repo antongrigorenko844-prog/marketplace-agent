@@ -2097,9 +2097,7 @@ def cmd_sync_orders() -> int:
     отмен — если заказ отменили, остаток вернётся обратно), и НЕ задвоить
     списание при повторном запуске (data/orders_seen.db).
 
-    Avito сюда пока не входит — там сопоставление объявление->артикул
-    требует подтверждения человеком (см. build-avito-item-map), а для новых
-    объявлений такая карта ещё не собрана.
+    После явной активации сюда входят также заказы Авито Доставки.
 
     Это только СЧИТАЕТ и правит локальный xlsx. Рассылка обновлённого
     остатка обратно в Ozon/WB — отдельный следующий шаг.
@@ -2114,6 +2112,10 @@ def cmd_sync_orders() -> int:
         return 1
 
     print("Заказов разобрано:")
+    if "avito_delivery" in summary:
+        avito = summary["avito_delivery"]
+        print("  Avito Delivery, заказы по результату обработки:", avito["orders"])
+        print("  Avito Delivery, единицы по результату обработки:", avito["observed_units_by_decision"])
     print(f"  Ozon FBS: {summary.get('ozon_fbs', 'ошибка — см. ниже')}")
     if "ozon_fbs_error" in summary:
         print(f"    ОШИБКА Ozon FBS: {summary['ozon_fbs_error']}")
@@ -4358,7 +4360,9 @@ def main() -> int:
     parser.add_argument("--update-cards", action="store_true", help="ОДНА команда \"обновить всё везде\": проверка + sync-master-control + карточки/фото/цены/остатки на Ozon и WB + Яндекс Маркет (если подключён) + фид Avito + сайт Tilda (если подключена)")
     parser.add_argument("--push-wb-price-dryrun", action="store_true", help="Показать, у каких товаров изменится цена на WB (колонка 'Цена WB' в wb_catalog.xlsx), БЕЗ реальной отправки")
     parser.add_argument("--push-wb-price", action="store_true", help="Реально отправить новую цену на WB для существующих товаров (сначала всегда делайте dryrun!)")
-    parser.add_argument("--sync-orders", action="store_true", help="Общий учёт остатков: списать заказы Ozon+WB за 30 дней из 'Кол-во к продаже' в data/ozon_catalog.xlsx")
+    parser.add_argument("--sync-orders", action="store_true", help="Общий складской учёт заказов подключённых площадок")
+    parser.add_argument("--preview-avito-activation", action="store_true", help="Проверить включение учёта Avito на копии склада")
+    parser.add_argument("--activate-avito-orders", action="store_true", help="Включить учёт Avito с подтверждённого заказа")
     parser.add_argument("--sync-tilda-order", action="store_true", help="Списать остаток по заказу с сайта (Тильда) — вызывается автоматически по вебхуку через repository_dispatch, вручную не запускать")
     parser.add_argument("--build-kits-template", action="store_true", help="Создать пустой data/kits.xlsx для описания состава комплектов (наборов из тех же деталей, что продаются отдельно)")
     parser.add_argument("--recompute-kit-stock", action="store_true", help="Пересчитать 'Кол-во к продаже' у комплектов по текущему остатку деталей (data/kits.xlsx)")
@@ -4632,6 +4636,10 @@ def main() -> int:
         return cmd_push_wb_price_dryrun(article=args.article)
     if args.push_wb_price:
         return cmd_push_wb_price(article=args.article)
+    if args.preview_avito_activation or args.activate_avito_orders:
+        from pathlib import Path
+        from avito_debit import activation_command
+        return activation_command(Path(_data_path("ozon_catalog.xlsx")).parent, preview=args.preview_avito_activation)
     if args.sync_orders:
         return cmd_sync_orders()
     if args.sync_tilda_order:

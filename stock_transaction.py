@@ -77,7 +77,7 @@ def _project_pending(conn, path):
 
 
 class OrderBatch:
-    def __init__(self, conn, path):
+    def __init__(self, conn, path, kits_path=None):
         self.conn = conn
         self.path = path
         self.original = path.read_bytes()
@@ -92,7 +92,8 @@ class OrderBatch:
                 raise StockSyncError(f"Дублирующийся SKU в каталоге: {sku}")
             self.cells[sku] = row[qty_index]
         self.bom = {}
-        for kit, components in kits.load_bom(strict=True).items():
+        bom = kits.load_bom(strict=True) if kits_path is None else kits.load_bom(kits_path, strict=True)
+        for kit, components in bom.items():
             recipe = Counter()
             for component, qty in components:
                 recipe[component] += qty
@@ -204,7 +205,7 @@ class OrderBatch:
 
 
 @contextmanager
-def order_batch(db_path, catalog_path, ensure_db):
+def order_batch(db_path, catalog_path, ensure_db, *, kits_path=None):
     """The committed ledger always contains a replayable workbook until replacement succeeds."""
     path = Path(catalog_path)
     if not path.is_file():
@@ -224,7 +225,7 @@ def order_batch(db_path, catalog_path, ensure_db):
         with conn:
             conn.execute("BEGIN IMMEDIATE")
             _project_pending(conn, path)
-            batch = OrderBatch(conn, path)
+            batch = OrderBatch(conn, path, kits_path)
             try:
                 yield batch
                 batch.stage()
