@@ -6,6 +6,9 @@ on:
       - .github/workflows/leoparts-purchase-readiness.yml
       - .github/scripts/leoparts_purchase_readiness.py
   workflow_dispatch:
+  # Daily at 06:30 UTC (09:30 Moscow): aggregate goals only, no payments or mutations.
+  schedule:
+    - cron: '30 6 * * *'
 permissions:
   contents: write
 concurrency:
