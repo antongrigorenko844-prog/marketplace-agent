@@ -1,0 +1,22 @@
+name: Read Direct campaign and search terms for the current day
+on:
+  push:
+    branches: ['audit/direct-live-search-nov20-evening']
+    paths: ['.github/scripts/direct_live_search_snapshot.py', '.github/workflows/direct-live-search-snapshot.yml']
+permissions:
+  contents: read
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip -q install cryptography
+      - name: Read current campaign, account and reports
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_live_search_snapshot.py
