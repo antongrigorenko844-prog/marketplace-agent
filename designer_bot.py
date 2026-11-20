@@ -9,12 +9,13 @@ Telegram-бот для дизайнера: отправка заданий и п
   2) designer-collect: каждые 30 минут бот забирает присланные дизайнером картинки и кладёт их в
      social/<№ поста>/1.png, 2.png … (посты публикует дизайнер).
 
-НАСТРОЙКА (один раз):
-  а) в Telegram найти @BotFather -> /newbot -> получить токен; добавить в GitHub Secrets как TELEGRAM_BOT_TOKEN;
-  б) дизайнер открывает бота и нажимает Start;
-  в) (для себя) откройте бота, нажмите Start и запустите designer-link с article=owner: макеты будут приходить вам в Telegram сразу, а «стоп 12» / «старт 12» ставит пост на паузу;
-  г) запустить Actions -> marketplace-agent-designer -> designer-link: бот запомнит чат дизайнера
-     (data/designer_chat.json). Имя напечатается в логе — проверьте, что это он.
+Для первичной привязки или смены роли администратор задаёт DESIGNER_LINK_TARGET
+в секретах Actions и запускает designer-link (article=owner для владельца).
+Обе действующие привязки используются автоматически.
+
+Карточки товаров: «Правка SKU слайд N», «Сдать ID v1», «Мои правки».
+Альбомы исходников подписываются «Карточка SKU». Сводка открытых правок
+поступает дизайнеру по понедельникам с 09:05 МСК.
 
 КАК ДИЗАЙНЕР СДАЁТ РАБОТУ: присылает ВСЕ слайды поста одним альбомом (лучше как «Файл», без сжатия),
 в подписи пишет номер поста (например «12»). Порядок в альбоме = порядок слайдов. Если пришлёт ещё раз с тем же номером —
@@ -34,9 +35,16 @@ import os
 import re
 from typing import List, Optional
 
+from hashlib import sha256
+from pathlib import Path
+
 import requests
 
 import social_publish as sp
+from designer_card_media import CardArchive, atomic_write, identity
+from designer_card_tasks import CardTasks, CardTaskError
+from designer_card_routes import archive_caption, looks_like_card_change, receive, submission_caption
+from designer_checkpoint import checkpoint as persist_designer
 
 logger = logging.getLogger(__name__)
 
@@ -65,13 +73,16 @@ def _tg(method: str, files=None, **params) -> dict:
     token = _token()
     if not token:
         raise DesignerBotError("TELEGRAM_BOT_TOKEN не задан")
-    r = requests.post(f"https://api.telegram.org/bot{token}/{method}", data=params, files=files, timeout=120)
+    try:
+        r = requests.post(f"https://api.telegram.org/bot{token}/{method}", data=params, files=files, timeout=120)
+    except requests.RequestException:
+        raise DesignerBotError(f"Telegram {method}: ошибка соединения") from None
     try:
         data = r.json()
     except ValueError:
         raise DesignerBotError(f"Telegram {method}: не JSON ({r.status_code})")
     if not data.get("ok"):
-        raise DesignerBotError(f"Telegram {method}: {data.get('description')}")
+        raise DesignerBotError(f"Telegram {method}: запрос отклонён ({r.status_code})")
     return data["result"]
 
 
@@ -231,6 +242,12 @@ def _send_images(chat, paths: List[str], as_files: bool = False) -> None:
                 for _, (_, h) in fh.items():
                     h.close()
         return
+    if not paths:
+        return
+    if len(paths) > 10:
+        for start in range(0, len(paths), 10):
+            _send_images(chat, paths[start:start + 10])
+        return
     if len(paths) == 1:
         with open(paths[0], "rb") as f:
             _tg("sendPhoto", chat_id=chat, files={"photo": (os.path.basename(paths[0]), f)})
@@ -248,6 +265,7 @@ def _send_images(chat, paths: List[str], as_files: bool = False) -> None:
         finally:
             for _, (_, h) in fh.items():
                 h.close()
+    raise DesignerBotError("Не удалось доставить альбом в Telegram.")
 
 
 def _draft_text(r: dict) -> str:
@@ -281,20 +299,29 @@ def cmd_link(role_arg: str = "") -> int:
         m = u.get("message") or {}
         c = m.get("chat") or {}
         if c.get("type") == "private":
-            seen[c["id"]] = f"{c.get('first_name', '')} {c.get('last_name', '')} @{c.get('username', '')}".strip()
+            seen[c["id"]] = True
     other = _chat_id() if owner_mode else _owner_id()
     cands = {k: v for k, v in seen.items() if k != other}
     if not cands:
         print("Бот пока не получил личных сообщений от нужного человека. Пусть откроет бота, нажмёт Start, и повторите команду.")
         return 1
-    print("Личные чаты с ботом:")
-    for cid, name in seen.items():
-        print(f"  {cid}: {name}")
-    cid = list(cands)[-1]
+    previous = _owner_id() if owner_mode else _chat_id()
+    target = os.environ.get("DESIGNER_LINK_TARGET", "").strip()
+    if target:
+        if not target.isdecimal() or int(target) not in cands:
+            print("Подтверждённый адресат не найден среди ожидающих личных чатов.")
+            return 1
+        cid = int(target)
+    elif previous in cands:
+        cid = previous
+    else:
+        print("Для новой привязки или смены получателя укажите адресат в секрете DESIGNER_LINK_TARGET и повторите designer-link.")
+        return 1
     path = OWNER_PATH if owner_mode else CHAT_PATH
-    _save(path, {"chat_id": cid, "name": cands[cid], "linked_at": dt.datetime.now(sp.MSK).isoformat(timespec="seconds")})
+    _save(path, {"chat_id": cid, "linked_at": dt.datetime.now(sp.MSK).isoformat(timespec="seconds")})
     who = "владельца" if owner_mode else "дизайнера"
-    print(f"Запомнил чат {who}: {cands[cid]} (id {cid}). Если это не тот человек — пусть напишет боту ещё раз и повторите команду.")
+    persist_designer()
+    print(f"Чат {who} привязан.")
     if owner_mode:
         _tg("sendMessage", chat_id=cid, text="Готово: буду присылать сюда макеты от дизайнера. Чтобы остановить пост — напишите «стоп 12» (номер поста), вернуть — «старт 12».")
     else:
@@ -304,10 +331,8 @@ def cmd_link(role_arg: str = "") -> int:
 
 def cmd_send(dry_run: bool, article: str = "") -> int:
     if not dry_run and _token() and _chat_id():
-        try:  # сначала забираем свежие сообщения (например, «стоп N» от владельца), потом отправляем
-            cmd_collect()
-        except Exception as exc:  # noqa: BLE001 — сбой приёма не должен мешать отправке
-            print(f"(перед отправкой: приём сообщений не удался: {exc})")
+        # A failed poll may contain the owner's stop instruction.
+        cmd_collect()
     rows = _plan_rows()
     nums = re.findall(r"\d+", article or "")
     if nums:
@@ -321,7 +346,8 @@ def cmd_send(dry_run: bool, article: str = "") -> int:
         if not targets:
             print(f"На ближайшие {DAYS_AHEAD} дн. в плане нет постов — нечего отправлять.")
             return 0
-    return _send_targets(targets, bool(nums), dry_run)
+    _send_targets(targets, bool(nums), dry_run)
+    return 0
 
 
 def _send_targets(targets: List[dict], forced: bool, dry_run: bool) -> int:
@@ -514,8 +540,11 @@ def _last_sent(state: dict) -> Optional[int]:
 
 def _download(file_id: str) -> bytes:
     info = _tg("getFile", file_id=file_id)
-    r = requests.get(f"https://api.telegram.org/file/bot{_token()}/{info['file_path']}", timeout=120)
-    r.raise_for_status()
+    try:
+        r = requests.get(f"https://api.telegram.org/file/bot{_token()}/{info['file_path']}", timeout=120)
+        r.raise_for_status()
+    except requests.RequestException:
+        raise DesignerBotError("Telegram не передал вложение.") from None
     return r.content
 
 
@@ -526,38 +555,87 @@ def _plan_arts(n: int) -> List[str]:
     return []
 
 
-def _save_set(n: int, files: List[tuple], append: bool) -> int:
-    """files: [(bytes, ext)]. Заменяет набор картинок поста или добавляет к текущему."""
-    import shutil
-    folder = os.path.join(sp.IMAGES_DIR, str(n))
-    os.makedirs(folder, exist_ok=True)
-    cur = [f for f in os.listdir(folder) if f.lower().endswith(sp.IMG_EXT) and not f.startswith(".")]
-    if append and not cur:
-        # материализуем текущий набор (готовые картинки из каталога), чтобы добавить к нему
-        for k, src in enumerate(sp.auto_images(_plan_arts(n)), start=1):
-            shutil.copyfile(src, os.path.join(folder, f"{k}{os.path.splitext(src)[1].lower()}"))
-    elif not append:
-        for f in cur:
-            os.remove(os.path.join(folder, f))
-    existing = [f for f in os.listdir(folder) if f.lower().endswith(sp.IMG_EXT) and not f.startswith(".")]
-    k0 = len(existing)
-    total = 0
-    for k, (data, ext) in enumerate(files, start=1):
-        if k0 + k > 10:
-            break
-        if ext not in sp.IMG_EXT:
-            ext = ".png"
-        with open(os.path.join(folder, f"{k0 + k}{ext}"), "wb") as fh:
-            fh.write(data)
-        total += 1
-    return k0 + total
+def _save_set(n, chat, messages, append):
+    """Finish an interrupted write before assigning new numbered slots to a post."""
+    import fcntl
+    folder = Path(sp.IMAGES_DIR) / str(n)
+    folder.mkdir(parents=True, exist_ok=True)
+    journal = folder / ".designer-receipts.json"
+    staging = folder / ".designer-pending"
+
+    def visible():
+        return {p.name for p in folder.iterdir() if not p.name.startswith(".")
+                and p.suffix.lower() in sp.IMG_EXT and p.is_file()}
+
+    def save(book):
+        atomic_write(journal, json.dumps(book, sort_keys=True).encode())
+
+    def finish(book):
+        pending = book.get("pending")
+        if pending:
+            for name, digest in pending["write"].items():
+                data = (staging / digest).read_bytes()
+                if sha256(data).hexdigest() != digest:
+                    raise DesignerBotError("Не совпала контрольная сумма вложения соцпоста.")
+                atomic_write(folder / name, data)
+            for name in pending["remove"]:
+                (folder / name).unlink(missing_ok=True)
+            book["done"].extend(pending["events"])
+            del book["pending"]
+            save(book)
+        if staging.is_dir():
+            # Includes unused blobs from a failure before a transaction was prepared.
+            for blob in staging.iterdir():
+                blob.unlink()
+            staging.rmdir()
+
+    fd = os.open(folder, os.O_RDONLY)
+    try:
+        fcntl.flock(fd, fcntl.LOCK_EX)
+        book = json.loads(journal.read_bytes()) if journal.exists() else {"done": []}
+        recovered = set(book.get("pending", {}).get("events", []))
+        finish(book)
+        seen = set(book["done"])
+        events = {identity("social", chat, mid): (fid, ext) for mid, fid, ext in sorted(messages)}
+        existing = visible()
+        # A previously saved prefix may return with new members of the same album.
+        append = append or bool(events.keys() & seen)
+        fresh = {k: v for k, v in events.items() if k not in seen}
+        recovered_count = len(events.keys() & recovered)
+        if not fresh:
+            return len(existing), recovered_count
+        start = max((int(Path(p).stem) for p in existing if Path(p).stem.isdecimal()), default=0) if append else 0
+        writes = {}
+
+        def stage(data, ext):
+            if not data:
+                raise DesignerBotError("Получен пустой файл для соцпоста.")
+            digest = sha256(data).hexdigest()
+            if not (staging / digest).exists():
+                atomic_write(staging / digest, data)
+            writes[f"{start + len(writes) + 1}{ext if ext in sp.IMG_EXT else '.png'}"] = digest
+
+        if append and not existing:
+            for src in sp.auto_images(_plan_arts(n)):
+                source = Path(src)
+                stage(source.read_bytes(), source.suffix.lower())
+        for fid, ext in fresh.values():
+            stage(_download(fid), ext)
+        book["pending"] = {"events": list(fresh), "write": writes,
+                           "remove": sorted(existing - writes.keys()) if not append else []}
+        save(book)
+        finish(book)
+        return len(visible()), len(fresh) + recovered_count
+    finally:
+        os.close(fd)
 
 
 OUTBOX_DIR = "data/outbox"
 OUTBOX_DONE = "data/outbox_done.json"
 
 
-CARD_RE = re.compile(r"^\s*(?:карточк\w*|card)\s*[:\-–—]?\s*([A-Za-z0-9][A-Za-z0-9 _.\-]*?)\s*(авито|avito)?\s*$", re.I)
+CARD_RE = re.compile(r"^\s*(?:карточк\w*|card)\b\s*[:\-–—]?\s*(.*?)\s*$", re.I)
+POST_CAPTION = re.compile(r"(?:пост\s*)?№?\s*([1-9]\d*)\s*(\+|добав(?:ить)?)?", re.I)
 AVITO_DIR = os.path.join(_ROOT, "photos_avito")
 
 
@@ -566,27 +644,109 @@ def _card_target(art_raw: str, avito: bool):
     Артикул должен уже существовать в photos/ (папку создаёт Claude, когда шлёт задание) — иначе None."""
     if not os.path.isdir(PHOTOS_DIR):
         return None, None
-    folders = {d.lower(): d for d in os.listdir(PHOTOS_DIR) if os.path.isdir(os.path.join(PHOTOS_DIR, d))}
-    art = folders.get(art_raw.strip().lower())
+    requested = art_raw.strip()
+    folders = [d for d in os.listdir(PHOTOS_DIR) if os.path.isdir(os.path.join(PHOTOS_DIR, d))]
+    matches = [d for d in folders if d.casefold() == requested.casefold()]
+    art = requested if requested in folders else (matches[0] if len(matches) == 1 else None)
     if not art:
         return None, None
     return art, os.path.join(AVITO_DIR if avito else PHOTOS_DIR, art)
 
 
-def _save_card(art: str, folder: str, files: List[tuple]) -> List[str]:
-    """Заменяет картинки карточки на присланные дизайнером: <арт>_1.., порядок = порядок в альбоме. Видео не трогаем."""
-    os.makedirs(folder, exist_ok=True)
-    for f in os.listdir(folder):
-        if re.fullmatch(re.escape(art) + r"_\d+\.(png|jpe?g|webp)", f, re.I):
-            os.remove(os.path.join(folder, f))
-    out = []
-    for i, (data, ext) in enumerate(files, start=1):
-        ext = ext if ext in (".png", ".jpg", ".jpeg", ".webp") else ".png"
-        path = os.path.join(folder, f"{art}_{i}{ext}")
-        with open(path, "wb") as fh:
-            fh.write(data)
-        out.append(path)
-    return out
+def _card_route(label):
+    suffix = re.search(r"\s+(?:авито|avito)$", label.strip(), re.I)
+    sku = label.strip()[:suffix.start()] if suffix else label.strip()
+    art, _ = _card_target(sku, bool(suffix))
+    return {"sku": art, "channel": "avito" if suffix else "catalog"} if art else None
+
+
+def _card_notice(archive, code, row, chat, owner):
+    if row["notice"] == [row["target"], len(row["messages"])]:
+        return
+    count = len(row["messages"])
+    target = row["target"]
+    if target:
+        channel = "Авито" if target["channel"] == "avito" else "каталог"
+        total = len(archive.files_for(target["sku"], target["channel"]))
+        text = f"Принял оригиналы для {target['sku']} ({channel}). В группе {count}, всего по карточке {total}."
+    else:
+        text = (f"Сохранил файлы без привязки ({count}). Пришлите «Привязать {code} АРТИКУЛ». "
+                "Для Авито добавьте в конце «Авито».")
+    persist_designer()
+    result = _tg("sendMessage", chat_id=chat, text=text)
+    archive.remember_receipt(row, chat, result)
+    if target and owner and owner != chat:
+        try:
+            _tg("sendMessage", chat_id=owner, text=text)
+        except DesignerBotError:
+            logger.warning("Не удалось отправить владельцу уведомление о принятых оригиналах.")
+
+
+def _route_images(archive, items, state, owner):
+    groups = {}
+    for item in items:
+        groups.setdefault((item["chat"], item["gid"]), []).append(item)
+    by_post = {}
+    for (chat, gid), group in groups.items():
+        group.sort(key=lambda item: item["mid"])
+        code = identity("group", chat, gid)[:16]
+        known = archive.lookup(code)
+        cards, posts, other_caption = [], set(), False
+        for item in group:
+            caption = item["caption"].strip()
+            card, post = CARD_RE.fullmatch(caption), POST_CAPTION.fullmatch(caption)
+            if card:
+                cards.append(_card_route(card.group(1)))
+            elif post:
+                posts.add((int(post.group(1)), bool(post.group(2))))
+            elif caption:
+                other_caption = True
+            if item["reply"] is not None:
+                route = archive.reply(chat, item["reply"])
+                if route:
+                    cards.append(route)
+        references = {tuple(sorted(c.items())) for c in cards if c}
+        conflict = (None in cards or len(references) > 1 or bool((cards or known) and posts)
+                    or other_caption or len(posts) > 1)
+        card_route = dict(next(iter(references))) if len(references) == 1 and not conflict else None
+        social_routes = state.setdefault("post_media_groups", {})
+        remembered = social_routes.get(code)
+        if not cards and not known and not conflict:
+            post = next(iter(posts), None)
+            if post is None and remembered:
+                post = (remembered, True)
+            if post is None and group[0]["post"] is not None:
+                post = (group[0]["post"], False)
+            if post:
+                n, append = post
+                if group[0]["album"]:
+                    social_routes[code] = n
+                by_post.setdefault((n, append, chat), []).extend(
+                    (i["mid"], i["fid"], i["ext"]) for i in group)
+                continue
+        files = [(i["mid"], i["fid"], i["ext"]) for i in group]
+        code, record = archive.accept(chat, gid, files, card_route, _download, conflict=bool(conflict))
+        _card_notice(archive, code, record, chat, owner)
+    return by_post
+
+
+def _send_plain(chat, text):
+    part, size = [], 0
+    for char in text:
+        units = len(char.encode("utf-16-le")) // 2
+        if size + units > 4000:
+            _tg("sendMessage", chat_id=chat, text="".join(part))
+            part, size = [], 0
+        part.append(char)
+        size += units
+    if part:
+        _tg("sendMessage", chat_id=chat, text="".join(part))
+
+
+def _flush_tasks(store, designer, owner):
+    report = store.flush(_tg, designer=designer, owner=owner, checkpoint=persist_designer)
+    if report["uncertain"] or report["unlinked"]:
+        print("::warning::В реестре есть уведомления с неподтверждённой доставкой. Откройте задачу по ID.")
 
 
 def _process_outbox(designer, owner) -> int:
@@ -595,22 +755,55 @@ def _process_outbox(designer, owner) -> int:
     if not os.path.isdir(OUTBOX_DIR):
         return 0
     done = _load(OUTBOX_DONE, [])
+    store = CardTasks(_ROOT)
     sent = 0
     for name in sorted(os.listdir(OUTBOX_DIR)):
-        if not name.endswith(".json") or name in done:
+        if not name.endswith(".json"):
             continue
-        msg = _load(os.path.join(OUTBOX_DIR, name), {})
+        packet_path = os.path.join(OUTBOX_DIR, name)
+        msg = _load(packet_path, {})
+        if not isinstance(msg, dict):
+            msg = {}
+        def flag(reason):
+            with open(packet_path, "rb") as packet_file:
+                signature = sha256(packet_file.read()).hexdigest()
+            store.outbox_problem(name, signature, reason)
+        if "card_task" in msg:
+            packet = msg["card_task"]
+            # An edit in the original file is a new event only when it explicitly
+            # names its target and prior revision. Replay of the same edit is safe.
+            event = name
+            if isinstance(packet, dict) and packet.get("action") == "edit":
+                event = f"{name}#edit-{packet.get('id')}-v{packet.get('version')}"
+            try:
+                store.ingest_outbox(event, packet)
+            except CardTaskError:
+                flag("invalid_card_task")
+                print("::warning::Одно задание из outbox требует уточнения.")
+            continue
+        if name in done:
+            continue
+        if not msg or msg.get("to") not in ("owner", "designer"):
+            flag("invalid_packet")
+            continue
+        if (msg["to"] == "designer" and msg.get("kind") not in ("note", "social_post", "video")
+                and not msg.get("mark_sent") and looks_like_card_change(str(msg.get("text") or ""), msg.get("images") or [])):
+            flag("missing_kind")
+            continue
         chat = owner if msg.get("to") == "owner" else designer
         if not chat:
             print(f"outbox {name}: получатель не привязан — пропуск.")
             continue
+        imgs = msg.get("images", [])
+        if not isinstance(imgs, list) or any(not isinstance(x, str) or not os.path.isfile(x) for x in imgs):
+            flag("missing_attachment")
+            continue
         if msg.get("text"):
-            _tg("sendMessage", chat_id=chat, text=msg["text"][:4000])
-        imgs = [x for x in msg.get("images", []) if os.path.exists(x)]
+            _send_plain(chat, msg["text"])
         if imgs:
             _send_images(chat, imgs, as_files=bool(msg.get("as_files")))
         for extra in msg.get("texts", []):
-            _tg("sendMessage", chat_id=chat, text=str(extra)[:4000])
+            _send_plain(chat, str(extra))
         if msg.get("mark_sent"):  # посты, задание по которым уже ушло этим сообщением (чтобы 09:15 не отправило повторно)
             st = _load(STATE_PATH, {})
             for n in msg["mark_sent"]:
@@ -620,10 +813,9 @@ def _process_outbox(designer, owner) -> int:
             head = (msg.get("text") or "").strip().splitlines()[0][:80] if msg.get("text") else "(только картинки)"
             _tg("sendMessage", chat_id=owner, text=f"✅ Отправил дизайнеру: {head}" + (f" (+{len(imgs)} карт.)" if imgs else ""))
         done.append(name)
+        _save(OUTBOX_DONE, done)
         sent += 1
         print(f"outbox {name}: отправлено ({msg.get('to')}).")
-    if sent:
-        _save(OUTBOX_DONE, done)
     return sent
 
 
@@ -638,6 +830,7 @@ def cmd_collect() -> int:
         print("Дизайнер не привязан (нет data/designer_chat.json) — запустите designer-link.")
         return 0
     owner = _owner_id()
+    store = CardTasks(_ROOT)
     _process_outbox(designer, owner)
     state = _load(STATE_PATH, {})
     params = {"timeout": 0, "allowed_updates": json.dumps(["message"])}
@@ -645,31 +838,77 @@ def cmd_collect() -> int:
         params["offset"] = state["offset"]
     ups = _tg("getUpdates", **params)
     if not ups:
+        _flush_tasks(store, designer, owner)
         print("Новых сообщений нет.")
         return 0
-    last_number = None  # номер, присланный отдельным сообщением в этой же пачке
+    last_number = {}  # привязка только к предшествующему сообщению этого чата
+    archive = CardArchive(_ROOT, _token())
+    checkpoint = int(state.get("offset", 0))
+    next_offset = checkpoint
     texts_new = []
-    group_cap = {}      # gid -> (номер, добавить?)
-    group_card = {}     # gid -> (артикул, авито?) — подпись «Карточка <артикул> [авито]»
     fwd_groups = set()  # альбомы владельца, которые надо переслать дизайнеру
     items = []          # (sender_chat, message_id, gid, file_id, ext)
+    task_albums = {}
+    for update in ups:
+        item = update.get("message") or {}
+        label = submission_caption(item)
+        if label and item.get("media_group_id"):
+            group = ((item.get("chat") or {}).get("id"), item["media_group_id"])
+            task_albums.setdefault(group, set()).add(label)
+    rejected_albums = set()
     for u in ups:
-        state["offset"] = u["update_id"] + 1
+        if u["update_id"] < checkpoint:
+            continue
+        next_offset = max(next_offset, u["update_id"] + 1)
         m = u.get("message") or {}
         mchat = (m.get("chat") or {}).get("id")
-        if mchat not in (designer, owner):
+        if mchat is None or mchat not in (designer, owner):
             continue
         is_owner = mchat == owner and mchat != designer
         raw = m.get("text") or m.get("caption") or ""
         gid = m.get("media_group_id") or f"single{m['message_id']}"
         low = raw.strip().lower().replace("ё", "е")
+        role = "owner" if is_owner else "designer"
+        group_key = (mchat, m.get("media_group_id"))
+        label = submission_caption(m)
+        if group_key in task_albums or (label and m.get("photo") and not m.get("document")):
+            msg_group = group_key if m.get("media_group_id") else (mchat, m["message_id"])
+            if msg_group not in rejected_albums:
+                _tg("sendMessage", chat_id=mchat, text="Сохраню эти изображения как исходники. На проверку сдайте один слайд файлом без сжатия с подписью «Сдать ID vN».")
+                rejected_albums.add(msg_group)
+            m = {**m, "caption": archive_caption(store, task_albums.get(group_key, {label}))}
+            label = None
+        if label:
+            try:
+                receive(store, role, u["update_id"], m, label, _download)
+            except CardTaskError as exc:
+                _tg("sendMessage", chat_id=mchat, text=str(exc))
+            continue
+        if m.get("text"):
+            command_text = "Помощь по карточкам" if low in ("/start", "/help") else raw
+            if store.handle_text(role, command_text, u["update_id"]):
+                continue
+        if m.get("text") and re.match(r"^\s*привязать\b", raw, re.I):
+            command = re.fullmatch(r"\s*Привязать\s+([0-9a-f]{16})\s+(.+?)\s*", raw, re.I)
+            route = _card_route(command.group(2)) if command else None
+            if not route:
+                _tg("sendMessage", chat_id=mchat, text="Укажите код альбома и известный точный артикул. Для Авито добавьте «Авито».")
+                continue
+            code = command.group(1).lower()
+            try:
+                row = archive.bind(mchat, is_owner, code, route)
+            except ValueError as exc:
+                _tg("sendMessage", chat_id=mchat, text=str(exc))
+            else:
+                _card_notice(archive, code, row, mchat, owner)
+            continue
         # --- дизайнер просит задания наперёд: «ещё» / «ещё 5»
         me = re.fullmatch(r"(?:еще|дальше|следующ\w*)\s*(\d+)?", low)
         if not is_owner and me and not (m.get("photo") or m.get("document")):
             k = min(int(me.group(1) or 3), 10)
             _save(STATE_PATH, state)
             got = _send_more(k)
-            state = {**_load(STATE_PATH, {}), "offset": state["offset"]}
+            state = _load(STATE_PATH, {})
             if not got:
                 _tg("sendMessage", chat_id=mchat, text="Следующие посты сейчас на проверке у владельца — задания придут, как только пройдёт проверка (обычно на следующий день) 👍")
             print(f"Дизайнер попросил задания наперёд: отправлено {got}.")
@@ -682,7 +921,7 @@ def cmd_collect() -> int:
         if is_owner and ms:
             _save(STATE_PATH, state)
             cmd_owner_preview(ms.group(1))
-            state = {**_load(STATE_PATH, {}), "offset": state["offset"]}
+            state = _load(STATE_PATH, {})
             continue
         if is_owner:
             mm = re.fullmatch(r"\s*(стоп|старт)\s*№?\s*(\d+)\s*", raw.lower())
@@ -699,9 +938,12 @@ def cmd_collect() -> int:
                 _tg("sendMessage", chat_id=mchat, text=reply)
                 print(reply)
                 continue
-            fw = re.match(r"^\s*дизайнер\w*\s*№?\s*(\d+)?\s*[:\-–—]?\s*(.*)$", raw, re.S | re.I)
+            fw = re.match(r"^\s*дизайнер\w*\b\s*(?:№?\s*([1-9]\d*)(?=\s|[:\-–—]|$))?\s*[:\-–—]?\s*(.*)$", raw, re.S | re.I)
             if fw and (fw.group(2).strip() or m.get("photo") or m.get("document")):
                 num = fw.group(1)
+                if num is None and looks_like_card_change(raw):
+                    _tg("sendMessage", chat_id=owner, text="Для правки товара укажите «Правка SKU слайд N». Со следующей строки напишите, что изменить, и «Текст:» с текстом макета. Для дополнения к соцпосту укажите «Дизайнеру 12: …».")
+                    continue
                 head = f"📩 ДОПОЛНИТЕЛЬНОЕ ЗАДАНИЕ от владельца" + (f" · пост №{num}" if num else "")
                 _tg("sendMessage", chat_id=designer, text=head)
                 _tg("copyMessage", chat_id=designer, from_chat_id=mchat, message_id=m["message_id"])
@@ -731,7 +973,7 @@ def cmd_collect() -> int:
             continue
         text = (m.get("text") or "").strip()
         if text and re.fullmatch(r"№?\s*\d+", text):
-            last_number = int(re.findall(r"\d+", text)[0])
+            last_number[mchat] = int(re.findall(r"\d+", text)[0])
             continue
         # --- картинки
         fid, ext = None, None
@@ -744,87 +986,27 @@ def cmd_collect() -> int:
         if not fid:
             continue
         cap = m.get("caption") or ""
-        if mchat == designer and cap.strip().casefold() == "ozon 0am325025 слайд 2":
-            from io import BytesIO
-            from PIL import Image
-
-            if not m.get("document") or m.get("media_group_id"):
-                _tg("sendMessage", chat_id=mchat, text="Пришлите один PNG или JPEG как файл с подписью Ozon 0am325025 слайд 2.")
-                continue
-            data = _download(fid)
-            try:
-                with Image.open(BytesIO(data)) as img:
-                    fmt = img.format
-                    width, height = img.size
-                    img.verify()
-                if fmt not in ("PNG", "JPEG") or width * 4 != height * 3 or width < 900:
-                    raise ValueError("Expected PNG/JPEG 3:4")
-            except (OSError, ValueError):
-                _tg("sendMessage", chat_id=mchat, text="Нужен PNG или JPEG 3:4 шириной от 900 px.")
-                continue
-            folder = os.path.join(_ROOT, "data", "designer_returns")
-            os.makedirs(folder, exist_ok=True)
-            ext = "png" if fmt == "PNG" else "jpg"
-            path = os.path.join(folder, f"ozon-0am325025-slide-2-{m['message_id']}.{ext}")
-            with open(path, "wb") as fh:
-                fh.write(data)
-            _tg("sendMessage", chat_id=mchat, text="Принял слайд 2 для ремкомплекта 0am325025 на Ozon.")
-            print(f"Принят отдельный слайд: {path}")
-            continue
-        mc = CARD_RE.match(cap) if cap else None
-        if mc:
-            group_card[gid] = (mc.group(1), bool(mc.group(2)))
-        elif cap and re.search(r"\d+", cap):
-            group_cap[gid] = (int(re.findall(r"\d+", cap)[0]), bool(re.search(r"(\+|добав)", cap, re.I)))
-        items.append((mchat, m["message_id"], gid, fid, ext))
-    cards = {}
-    rest = []
-    for it in items:
-        if it[2] in group_card:
-            cards.setdefault((it[2], it[0]), []).append(it)
-        else:
-            rest.append(it)
-    items = rest
-    for (gid, mchat), lst in cards.items():
-        art_raw, avito = group_card[gid]
-        art, folder = _card_target(art_raw, avito)
-        if not art:
-            _tg("sendMessage", chat_id=mchat, text=f"Не нашёл товар с артикулом «{art_raw}». Скопируйте подпись из задания (например: Карточка chip-0am927769d) и пришлите ещё раз.")
-            continue
-        lst.sort(key=lambda x: x[1])
-        files = [(_download(fid), ext) for _, _, _, fid, ext in lst[:10]]
-        saved = _save_card(art, folder, files)
-        where = "Авито" if avito else "маркетплейсы и сайт"
-        _tg("sendMessage", chat_id=mchat, text=f"✅ Принял карточку {art} ({where}): файлов {len(saved)}. Спасибо!")
-        print(f"Карточка {art} ({where}): сохранено {len(saved)} в {os.path.relpath(folder, _ROOT)}/")
-        if owner and mchat != owner:
-            try:
-                _tg("sendMessage", chat_id=owner, text=f"🖼 Дизайнер сдал карточку {art} ({where}, {len(saved)} файл.). Сохранил в репозиторий; на площадки уйдёт после вашего «да» Claude.")
-                _send_images(owner, saved)
-            except Exception as exc:  # noqa
-                print(f"Не удалось уведомить владельца о карточке {art}: {exc}")
-    by_post = {}
-    for mchat, mid, gid, fid, ext in items:
-        n, app = group_cap.get(gid, (None, False))
-        n = n or last_number or _single_open(state, "img")
-        if not n:
-            _tg("sendMessage", chat_id=mchat, text="Не понял, к какому посту картинки. Напишите номер поста в подписи (например: 12; чтобы добавить к текущим — 12 добавить) и пришлите ещё раз.")
-            continue
-        e = by_post.setdefault((n, app, mchat), [])
-        e.append((mid, fid, ext))
-        last_number = n
+        if cap and not POST_CAPTION.fullmatch(cap.strip()):
+            last_number.pop(mchat, None)
+        items.append({"chat": mchat, "gid": gid, "mid": m["message_id"], "fid": fid,
+                      "ext": ext, "caption": cap, "post": last_number.get(mchat),
+                      "album": bool(m.get("media_group_id")),
+                      "reply": (m.get("reply_to_message") or {}).get("message_id")})
+    by_post = _route_images(archive, items, state, owner)
     state.pop("last_number", None)
     for tn in texts_new:
         _notify_owner_text(tn)
     for (n, app, mchat), lst in by_post.items():
-        lst.sort()
-        files = [(_download(fid), ext) for _, fid, ext in lst[:10]]
-        total = _save_set(n, files, app)
+        total, added = _save_set(n, mchat, lst, app)
+        if not added:
+            continue
         who = "владельца" if mchat == owner and mchat != designer else "дизайнера"
-        _tg("sendMessage", chat_id=mchat, text=f"✅ Принял пост №{n}: {'добавлено ' + str(len(files)) + ', всего ' + str(total) if app else 'файлов ' + str(total)}. Спасибо!")
-        print(f"Пост №{n} ({who}): {'добавлено' if app else 'заменено'} файлов {len(files)}, всего {total} в social/{n}/")
+        _tg("sendMessage", chat_id=mchat, text=f"✅ Принял пост №{n}: {'добавлено ' + str(added) + ', всего ' + str(total) if app else 'файлов ' + str(total)}. Спасибо!")
+        print(f"Пост №{n} ({who}): {'добавлено' if app else 'заменено'} файлов {added}, всего {total} в social/{n}/")
         if mchat == designer and mchat != owner:
             _notify_owner(n)
+    _flush_tasks(store, designer, owner)
+    state["offset"] = next_offset
     _save(STATE_PATH, state)
     return 0
 

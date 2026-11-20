@@ -1,0 +1,28 @@
+name: Проверка заданий и альбомов дизайнера
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'designer_bot.py'
+      - 'designer_card_*.py'
+      - 'designer_checkpoint.py'
+      - 'tests/test_designer_card_*.py'
+      - 'tests/test_designer_checkpoint.py'
+      - '.github/workflows/designer*.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Два альбома, правки, приёмка и сводка без отправки в Telegram
+        run: python -m unittest discover -s tests -p 'test_designer*.py' -v

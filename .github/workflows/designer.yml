@@ -1,29 +1,23 @@
-# Telegram-бот для дизайнера (см. designer_bot.py).
-# Расписание (будни):
-#   09:15 МСК (06:15 UTC)  -> designer-send: задание на пост следующего рабочего дня + исходные фото
-#   09:45 МСК (06:45 UTC)  -> запасной designer-send (дубль не уходит)
-#   после Push файлов в data/outbox/ -> designer-collect сразу
-#   каждые 30 минут днём   -> designer-collect: забирает присланные макеты в social/<№>/
-# Без секрета TELEGRAM_BOT_TOKEN и без designer-link команды ничего не делают.
-# Вручную: Actions -> marketplace-agent-designer -> Run workflow.
-
 name: marketplace-agent-designer
-
 on:
   schedule:
-    - cron: "41 5 * * *"        # 08:41 МСК ЕЖЕДНЕВНО — владельцу на проверку посты на 8 дней вперёд (новые)
-    - cron: "15 6 * * 1-5"      # 09:15 МСК — задание дизайнеру
-    - cron: "45 6 * * 1-5"      # 09:45 МСК — запасной запуск (повтор не отправляется: бот помнит отправленное)
-    - cron: "*/30 5-17 * * 1-5"
-  push:                         # после Commit+Push сообщений для дизайнера бот отправляет их сразу
+    - cron: "41 5 * * *"           # предпросмотр владельцу
+    - cron: "15 6 * * 1-5"         # выдача соцпостов
+    - cron: "45 6 * * 1-5"         # резервная выдача
+    - cron: "*/30 5-17 * * 1-5"    # входящие в будни
+    - cron: "17 7,15 * * 0,6"      # входящие в выходные, до истечения хранения Telegram
+    - cron: "5 6 * * 1"            # сводка, понедельник 09:05 МСК
+  push:
+    branches: [main]
     paths:
-      - "data/outbox/**"
+      - "data/outbox/*.json"
+      - "data/outbox/img/**"
       - "data/post_texts/**"
       - "data/content_plan.xlsx"
   workflow_dispatch:
     inputs:
       command:
-        description: "Что сделать"
+        description: "Действие бота дизайнера"
         required: true
         default: "designer-send-dryrun"
         type: choice
@@ -33,20 +27,74 @@ on:
           - designer-send
           - designer-collect
           - owner-preview
+          - card-digest-preview
       article:
-        description: "Номер поста (пусто — пост следующего рабочего дня). Для designer-link: слово owner — привязать ВАШ чат"
+        description: "Номер поста, либо owner для привязки чата владельца"
         required: false
         default: ""
         type: string
 
+permissions:
+  contents: write
 concurrency:
-  group: marketplace-agent
-  cancel-in-progress: false
-
+  group: leoparts-designer-inbox
+  queue: max
 jobs:
   designer:
-    uses: ./.github/workflows/run-command.yml
-    secrets: inherit
-    with:
-      command: ${{ github.event.inputs.command || (github.event.schedule == '41 5 * * *' && 'owner-preview' || ((github.event.schedule == '15 6 * * 1-5' || github.event.schedule == '45 6 * * 1-5') && 'designer-send' || 'designer-collect')) }}
-      article: ${{ github.event.inputs.article || '' }}
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      DESIGNER_PERSIST: '1'
+      COMMAND: ${{ inputs.command || (github.event.schedule == '41 5 * * *' && 'owner-preview' || ((github.event.schedule == '15 6 * * 1-5' || github.event.schedule == '45 6 * * 1-5') && 'designer-send' || 'designer-collect')) }}
+      ARTICLE: ${{ inputs.article }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Проверить актуальность состояния
+        run: python designer_checkpoint.py
+      - name: Задания и входящие сообщения
+        env:
+          DESIGNER_LINK_TARGET: ${{ inputs.command == 'designer-link' && secrets.DESIGNER_LINK_TARGET || '' }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: |
+          case "$COMMAND" in
+            designer-link|designer-send|designer-collect|owner-preview|designer-send-dryrun)
+              python main.py "--$COMMAND" --article "$ARTICLE" ;;
+            card-digest-preview) python designer_card_digest.py preview ;;
+            *) exit 2 ;;
+          esac
+      - name: Сохранить задания, вложения и состояние приёма
+        if: always() && env.COMMAND != 'designer-send-dryrun' && env.COMMAND != 'card-digest-preview'
+        run: python designer_checkpoint.py
+      - name: Понедельничная сводка дизайнеру
+        if: success() && github.event_name == 'schedule'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: python designer_card_digest.py send
+
+      - name: Сообщить владельцу о сбое один раз за день
+        if: failure() && env.COMMAND != 'designer-send-dryrun' && env.COMMAND != 'card-digest-preview'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: |
+          python - <<'PYTHON'
+          import os
+          from datetime import datetime
+          from pathlib import Path
+          from designer_bot import _owner_id, _token, _tg, sp
+          from designer_checkpoint import checkpoint
+          command = os.environ['COMMAND']
+          stamp = Path('data/alert_state') / (command + '.txt')
+          today = datetime.now(sp.MSK).date().isoformat()
+          if _owner_id() and _token() and (not stamp.exists() or stamp.read_text().strip() != today):
+              stamp.parent.mkdir(parents=True, exist_ok=True)
+              stamp.write_text(today)
+              checkpoint()
+              _tg('sendMessage', chat_id=_owner_id(), text=f'Требуется проверка бота дизайнера. Команда {command} завершилась ошибкой.')
+          PYTHON
