@@ -72,23 +72,23 @@ def fetch(url):
                     return context
                 contexts={key:context_for(key) for key in specids}
                 # Analyze published Tilda rec blocks without persisting raw HTML.
-                rec_pattern=re.compile(r'<div[^>]+id=["\\\']rec(\\d+)["\\\'][^>]*>',re.I)
+                rec_pattern=re.compile(r'<div[^>]*id="rec([0-9]{7,12})"[^>]*>',re.I)
                 boundaries=list(rec_pattern.finditer(html))
                 recs=[]
                 for n,m in enumerate(boundaries):
                     rid=m.group(1)
                     section=html[m.start():boundaries[n+1].start() if n+1<len(boundaries) else len(html)]
-                    meta=re.search(r'data-record-type=["\\\'](\\d+)["\\\']',m.group(0))
-                    is_form=('tn-atom__inputs-data' in section or
-                             bool(re.search(r'<form\\b',section,re.I)) or
-                             'data-elem-type="form"' in section)
-                    if rid in specids or is_form:
-                        recs.append({"recid":rid,"type":meta.group(1) if meta else None,
-                            "has_zero_block_form_inputs":'tn-atom__inputs-data' in section,
-                            "has_html_form":bool(re.search(r'<form\\b',section,re.I)),
-                            "has_form_element":'data-elem-type="form"' in section,
-                            "contains_vin_text":bool(re.search(r'\\bvin\\b|вин.{0,10}код',section,re.I)),
-                            "form_html_ids":sorted(set(re.findall(r'id=["\\\']form(\\d+)["\\\']',section,re.I)))[:8]})
+                    meta=re.search(r'data-record-type="([0-9]+)"',m.group(0))
+                    has_inputs=('tn-atom__inputs-data' in section)
+                    has_form=('<form' in section.lower())
+                    has_elem=('data-elem-type="form"' in section)
+                    if rid in specids or has_inputs or has_form or has_elem:
+                        recs.append({'recid':rid,'type':meta.group(1) if meta else None,
+                            'has_zero_block_form_inputs':has_inputs,
+                            'has_html_form':has_form,
+                            'has_form_element':has_elem,
+                            'contains_vin_text':bool(re.search('vin|вин|введите vin',section,re.I)),
+                            'form_html_ids':sorted(set(re.findall(r'id="form([0-9]{7,12})"',section,re.I)))[:8]})
                 recs=recs[:40]
                 return {"status":"ok","http":res.status,"length":len(html),
                         "form_id_context":contexts,"rec_form_inventory":recs,"forms_count":len(frm.forms),
