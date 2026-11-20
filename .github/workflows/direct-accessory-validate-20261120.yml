@@ -1,0 +1,21 @@
+name: Validate LEOPARTS accessory targeting experiment offline
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/scripts/direct_accessory_test_20261120.py
+      - tests/test_direct_accessory_safe.py
+      - .github/workflows/direct-accessory-validate-20261120.yml
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate one-group targeting mutation offline, no secrets
+        run: python -m unittest discover -s tests -p test_direct_accessory_safe.py -v
