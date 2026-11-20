@@ -1,0 +1,27 @@
+name: LEOPARTS Tilda VIN test submission route audit (read-only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/metrika-vin-form-route-audit.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read Tilda form virtual pages and VIN goal totals, no submission
+        env:
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: python .github/scripts/metrika_vin_form_route_audit.py
+      - name: Save aggregate URL evidence, no customer data
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/metrika_vin_form_route_audit.json
