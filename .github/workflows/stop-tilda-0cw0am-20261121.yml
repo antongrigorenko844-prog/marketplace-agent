@@ -10,15 +10,15 @@ concurrency:
   cancel-in-progress: false
 jobs:
   pause:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 14
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install --quiet requests playwright==1.56.0
-      - run: python -m playwright install chromium
+      - run: pip install --quiet requests openpyxl playwright==1.56.0
+      - run: command -v google-chrome || command -v chromium || python -m playwright install chromium
       - run: python -m py_compile scripts/stop_tilda_0cw0am_20261121.py
       - name: Stop one public SKU and check its product card
         env:
