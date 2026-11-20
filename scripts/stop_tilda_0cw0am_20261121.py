@@ -74,36 +74,25 @@ def pause_offer(title):
     root = ET.fromstring(tc.build_offers_xml([{"id": SKU, "title": title, "price": None, "qty": 0}]))
     pack = root.find("ПакетПредложений")
     pack.set("СодержитТолькоИзменения", "true")
-    # No price types are needed for an availability-only exchange.
-    pack.remove(pack.find("ТипыЦен"))
     offers = root.findall(".//Предложение")
     require(len(offers) == 1 and offers[0].findtext("Ид") == SKU and offers[0].findtext("Артикул") == SKU
             and offers[0].findtext("Количество") == "0" and root.find(".//Цена") is None,
             "Unexpected offer payload")
-    path = os.environ["TILDA_COMMERCEML_URL"]
-    with requests.Session() as session:
-        session.auth = (os.environ["TILDA_COMMERCEML_USER"], os.environ["TILDA_COMMERCEML_PASSWORD"])
-        def get(mode, **kwargs):
-            response = session.get(tc._url(path, type="catalog", mode=mode, **kwargs), timeout=60)
-            return tc._check(response, "import offers0_1.xml" if mode == "import" else mode)
-        lines = get("checkauth").strip().splitlines()
-        require(lines and lines[0].strip().lower() == "success", "Exchange authorization failed")
-        if len(lines) >= 3 and lines[1].strip() not in session.cookies:
-            session.cookies.set(lines[1].strip(), lines[2].strip())
-        get("init")
-        name = "offers0_1.xml"
-        response = session.post(tc._url(path, type="catalog", mode="file", filename=name),
-                                data=ET.tostring(root, encoding="utf-8", xml_declaration=True),
-                                headers={"Content-Type": "application/octet-stream"}, timeout=60)
-        tc._check(response, "file")
-        for attempt in range(36):
-            state = get("import", filename=name).strip().splitlines()[0].lower()
-            if state == "success":
-                print("Tilda confirmed import of the single availability offer.", flush=True)
-                return
-            require(state == "progress", "Unexpected CommerceML import status")
-            time.sleep(4)
-        raise RuntimeError("Tilda import did not finish within the verification window")
+    imp = ET.Element("КоммерческаяИнформация", root.attrib)
+    catalog = ET.SubElement(imp, "Каталог", {"СодержитТолькоИзменения": "true"})
+    ET.SubElement(catalog, "Ид").text = tc.CATALOG_ID
+    ET.SubElement(catalog, "ИдКлассификатора").text = tc.CLASSIFIER_ID
+    entry = ET.SubElement(ET.SubElement(catalog, "Товары"), "Товар")
+    for tag, value in (("Ид", SKU), ("Артикул", SKU), ("Наименование", title)):
+        ET.SubElement(entry, tag).text = value
+    # Tilda validates the product descriptor and offer file as one CommerceML session.
+    # Supply the same existing title/identity as the proven price-only exchange.
+    def xml(doc):
+        return ET.tostring(doc, encoding="utf-8", xml_declaration=True).decode()
+    progress = tc.push(os.environ["TILDA_COMMERCEML_URL"], os.environ["TILDA_COMMERCEML_USER"],
+                       os.environ["TILDA_COMMERCEML_PASSWORD"], xml(imp), xml(root), timeout=70)
+    require(any(x.startswith("import offers0_1.xml: success") for x in progress), "Missing offer import confirmation")
+    print("Tilda confirmed import of the single availability offer.", flush=True)
 
 
 def public_ui(url):
