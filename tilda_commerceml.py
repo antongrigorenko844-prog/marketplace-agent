@@ -44,6 +44,7 @@ import openpyxl
 import requests
 
 from content_updates import description_for, title_for
+from sales_availability import quantity_for_sale
 
 logger = logging.getLogger("marketplace-agent.tilda_commerceml")
 
@@ -88,7 +89,7 @@ def load_items(catalog_path: str, photos_dir: str, raw_base_url: str, price_over
             continue
         offer_id = str(row[0]).strip()
         price = overrides.get(offer_id, _num_or_none(row[3]))
-        qty = _num_or_none(row[7])
+        qty = quantity_for_sale(offer_id, _num_or_none(row[7]))
         if not price or price <= 0:
             # Без цены карточку не заводим; если она уже есть на сайте — остаток всё равно
             # можно обнулить (см. ниже), поэтому передаём как "только остаток".

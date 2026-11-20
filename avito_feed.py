@@ -58,6 +58,7 @@ import openpyxl
 from openpyxl.utils import get_column_letter
 
 from content_updates import description_for, title_for
+from sales_availability import quantity_for_sale
 
 logger = logging.getLogger("marketplace-agent.avito_feed")
 
@@ -481,7 +482,7 @@ def build_avito_feed(
             continue
 
         # The same quantity column is updated by order reconciliation.
-        raw_stock = row[7].value
+        raw_stock = quantity_for_sale(offer_id, row[7].value)
         try:
             stock = float(raw_stock)
         except (TypeError, ValueError):

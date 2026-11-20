@@ -2308,6 +2308,7 @@ def _load_stock_items(warehouse_id=None, skip_ozon_off=False):
     import catalog_editor
     import ozon_new_products
 
+    from sales_availability import quantity_for_sale
     from stock_transaction import assert_stock_ready
 
     assert_stock_ready(config.db_path)
@@ -2317,7 +2318,7 @@ def _load_stock_items(warehouse_id=None, skip_ozon_off=False):
     if os.path.exists(catalog_path):
         edits = catalog_editor.load_catalog_edits(catalog_path)
         for offer_id, e in edits.items():
-            raw = e.get("quantity_to_sell")
+            raw = quantity_for_sale(offer_id, e.get("quantity_to_sell"))
             if raw in (None, ""):
                 continue
             try:
@@ -2337,7 +2338,7 @@ def _load_stock_items(warehouse_id=None, skip_ozon_off=False):
         for offer_id, e in new_edits.items():
             if offer_id in already:
                 continue  # артикул уже есть в основном каталоге — не отправляем остаток дважды (Ozon: TOO_MANY_REQUESTS)
-            raw = e.get("quantity_to_sell")
+            raw = quantity_for_sale(offer_id, e.get("quantity_to_sell"))
             if raw in (None, ""):
                 continue
             try:
