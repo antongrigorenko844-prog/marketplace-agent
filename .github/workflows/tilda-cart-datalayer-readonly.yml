@@ -1,0 +1,31 @@
+name: LEOPARTS cart dataLayer isolated check (no live tracking)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/tilda-cart-datalayer-readonly.yml
+      - .github/scripts/tilda_cart_datalayer_readonly.py
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install browser
+        run: |
+          pip install playwright==1.56.0
+          python -m playwright install chromium
+      - name: Inspect public dataLayer without submitting an order
+        run: python .github/scripts/tilda_cart_datalayer_readonly.py
+      - name: Save aggregate safe diagnostics
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/tilda_cart_datalayer_readonly.json
