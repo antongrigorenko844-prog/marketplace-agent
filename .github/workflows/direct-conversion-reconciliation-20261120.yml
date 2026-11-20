@@ -1,0 +1,30 @@
+name: LEOPARTS Direct Metrica goal reconciliation (read only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/direct-conversion-reconciliation-20261120.yml
+      - .github/scripts/direct_conversion_reconciliation_20261120.py
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Only read Direct goal stats and Metrica goal config
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: python .github/scripts/direct_conversion_reconciliation_20261120.py
+      - name: Save read-only evidence
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/conversion_reconciliation.json
