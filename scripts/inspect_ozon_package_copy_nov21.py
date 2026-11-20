@@ -18,6 +18,11 @@ for key, rule in PLAN.items():
             status[field] = {'actual': actual[:1200], 'similarity': round(difflib.SequenceMatcher(None, actual, wanted).ratio(),2)}
     print('LIVE ' + json.dumps({'offer':key,'fields':status,'rating':scores.get(rule['sku'])},ensure_ascii=False),flush=True)
 
-job = oz.get_import_status(6091072751)
-for item in job.get('result',{}).get('items',[]):
-    print('IMPORT ' + json.dumps({'offer':item.get('offer_id'), 'status':item.get('status'),'errors':[(e.get('code'),e.get('field'),e.get('attribute_id')) for e in item.get('errors',[])]},ensure_ascii=False),flush=True)
+for info in oz.get_product_info_list(list(PLAN)):
+    st = info.get('statuses',{})
+    print('STATUS ' + json.dumps({'offer':info.get('offer_id'),'status_name':st.get('status_name'),'moderation':st.get('moderate_status'),'warning':st.get('status_description'),'archived':info.get('is_archived'),'problems':[e.get('code') for e in info.get('errors',[])]},ensure_ascii=False), flush=True)
+row=rows['0AM325413A']
+for k in ['name','height','depth','width','weight','primary_image','images','description_category_id','type_id','complex_attributes']:
+    print('ORIGINAL ' + json.dumps({'field':k,'value':row.get(k)},ensure_ascii=False), flush=True)
+for a in row.get('attributes',[]):
+    if a['id']!=4191: print('OTHER ' + json.dumps(a,ensure_ascii=False),flush=True)
