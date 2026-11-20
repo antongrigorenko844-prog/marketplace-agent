@@ -1,0 +1,32 @@
+name: LEOPARTS Direct oil-change query exclusion (single minus phrase)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/direct-oil-change-negative-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  one-campaign-one-phrase:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify update code syntax
+        run: python -m py_compile .github/scripts/direct_oil_change_negative_20261120.py
+      - name: Verify strict minus-phrase scope (offline)
+        run: python -m unittest discover -s tests -p test_direct_oil_negative.py -v
+      - name: Append only замена масла to campaign 716316525
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_oil_change_negative_20261120.py
+      - name: Save write and readback verification
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/oil_change_negative_apply.json
