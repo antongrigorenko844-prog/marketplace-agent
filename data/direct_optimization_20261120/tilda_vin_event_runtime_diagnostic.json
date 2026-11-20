@@ -1,0 +1,45 @@
+{
+  "status": "local_success_event_invokes_metrika_correctly",
+  "site": "https://leoparts-akpp.ru/mehatronik-dq200",
+  "counter": 113839860,
+  "goal": "LEOPARTS_VIN_SUCCESS_5246286101",
+  "started_utc": "2026-11-20T14:56:44.895918+00:00",
+  "mode": "isolated_browser_no_user_data",
+  "real_form_submissions": 0,
+  "real_goal_hits_allowed": false,
+  "analytics_collection_requests_blocked": 3,
+  "errors": [],
+  "http_status": 200,
+  "runtime": {
+    "baseline": {
+      "form_present": true,
+      "script_marker_present": true,
+      "listener_bound": true,
+      "metrika_function_present": true,
+      "original_metrika_has_queue": true,
+      "script_count": 57
+    },
+    "synthetic_event_test_only": true,
+    "isolated_calls_to_ym": [
+      {
+        "counter": 113839860,
+        "command": "reachGoal",
+        "goal_identifier": "LEOPARTS_VIN_SUCCESS_5246286101"
+      }
+    ],
+    "correctly_emitted": true
+  },
+  "metrika_tag_responses": [
+    {
+      "host": "mc.yandex.ru",
+      "path": "/metrika/tag.js",
+      "status": 200
+    },
+    {
+      "host": "mc.yandex.com",
+      "path": "/metrika/advert.gif",
+      "status": 200
+    }
+  ],
+  "finished_utc": "2026-11-20T14:56:58.598034+00:00"
+}
