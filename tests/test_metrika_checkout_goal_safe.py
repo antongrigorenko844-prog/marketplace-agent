@@ -37,7 +37,7 @@ class MetricaCheckoutSafetyTests(unittest.TestCase):
                          for i in range(10)]
         self.assertIsNone(mod.verify_prior(goals))
         changed=json.loads(json.dumps(goals))
-        changed[1]["conditions"][0]["url"]="/tilda/form5260805101/payment/"
+        changed[1]["conditions"][0]["url"]="/tilda/form5260805101/some-other-event/"
         with self.assertRaisesRegex(RuntimeError,"Primary goal"):
             mod.verify_prior(changed)
     def test_observed_event_and_preflight(self):
