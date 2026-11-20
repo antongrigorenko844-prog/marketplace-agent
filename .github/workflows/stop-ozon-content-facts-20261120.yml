@@ -1,0 +1,15 @@
+name: Cancel Ozon batch for narrowed owner scope
+on:
+  push:
+    branches: [ops/ozon-content-facts-20261120]
+    paths: [.github/workflows/stop-ozon-content-facts-20261120.yml]
+permissions:
+  contents: read
+concurrency:
+  group: ozon-verified-card-fields
+  cancel-in-progress: true
+jobs:
+  stop:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Owner narrowed the approved catalog. Previous batch cancelled.'
