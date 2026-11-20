@@ -1,0 +1,31 @@
+name: LEOPARTS Direct health and weekly budget read-only
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/direct-health-20261120.yml
+      - .github/scripts/direct_health_20261120.py
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Only GET campaign state and report spend
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: python .github/scripts/direct_health_20261120.py
+      - name: Save read-only proof
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/health_current.json
