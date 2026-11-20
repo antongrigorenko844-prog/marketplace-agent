@@ -84,7 +84,7 @@ def pause_offer(title):
         session.auth = (os.environ["TILDA_COMMERCEML_USER"], os.environ["TILDA_COMMERCEML_PASSWORD"])
         def get(mode, **kwargs):
             response = session.get(tc._url(path, type="catalog", mode=mode, **kwargs), timeout=60)
-            return tc._check(response, mode)
+            return tc._check(response, "import offers0_1.xml" if mode == "import" else mode)
         lines = get("checkauth").strip().splitlines()
         require(lines and lines[0].strip().lower() == "success", "Exchange authorization failed")
         if len(lines) >= 3 and lines[1].strip() not in session.cookies:
