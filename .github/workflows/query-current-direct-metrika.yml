@@ -1,0 +1,18 @@
+name: Read campaign-attributed visits and purchases
+on:
+  push:
+    branches: ['audit/direct-metrika-current-20261121']
+    paths: ['.github/scripts/query_current_direct_metrika.py','.github/workflows/query-current-direct-metrika.yml']
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -m pip -q install cryptography
+      - name: Read aggregate Metrika reports
+        env:
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: python .github/scripts/query_current_direct_metrika.py
