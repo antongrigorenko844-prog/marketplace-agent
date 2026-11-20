@@ -1,0 +1,30 @@
+name: LEOPARTS apply exact diagnostic negative queries (two only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/direct-info-negatives-apply-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  protected-update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify exact query and campaign guards offline
+        run: python -m unittest discover -s tests -p test_direct_info_negatives_safe.py -v
+      - name: Apply only 2 exact exclusions to one Direct campaign
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_info_service_negatives_20261120.py
+      - name: Persist API verification and no-retry proof
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/info_service_negatives_apply.json
