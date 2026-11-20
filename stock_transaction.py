@@ -105,10 +105,30 @@ class OrderBatch:
         if not key or not sku or quantity <= 0:
             raise StockSyncError("Отсутствует идентификатор заказа, артикул или положительное количество.")
         row = self.conn.execute(
-            """SELECT p.offer_id, p.decremented, r.components
+            """SELECT p.offer_id, p.decremented, r.components, p.status
                FROM processed_orders p LEFT JOIN stock_order_recipe r USING(source, order_key)
                WHERE p.source=? AND p.order_key=?""", (source, key),
         ).fetchone()
+        held = self.conn.execute(
+            "SELECT offer_id,quantity,components FROM stock_deferred_release WHERE source=? AND order_key=?",
+            (source, key),
+        ).fetchone()
+        if held or (row and row[3] == "cancelled_pending_count"):
+            # Only the explicitly registered cancellation may replay without a movement.
+            # A missing half of the hold must also stop an otherwise identical active replay.
+            if (not held or not row or row[3] != "cancelled_pending_count" or source != "ozon_fbo"
+                    or cancelled is not True or type(quantity) is not int or quantity != 1
+                    or held != row[:3] or row[0] != sku or row[1] != quantity):
+                raise StockSyncError("Изменилось удержанное списание FBO. Нужна сверка.")
+            try:
+                recipe = json.loads(row[2])
+            except (TypeError, ValueError):
+                recipe = None
+            if not isinstance(recipe, dict) or not recipe or not all(
+                k.strip() and type(v) is int and v > 0 for k, v in recipe.items()
+            ):
+                raise StockSyncError("У удержанного списания FBO нет подтверждённого состава. Нужна сверка.")
+            return
         previous = row[1] if row else 0
         target = 0 if cancelled else quantity
         # Old WB records used vendorCode verbatim. An identical replay has no stock effect.
@@ -196,6 +216,10 @@ def order_batch(db_path, catalog_path, ensure_db):
                      id INTEGER PRIMARY KEY CHECK(id=1), before_hash TEXT NOT NULL, workbook BLOB NOT NULL)""")
         conn.execute("""CREATE TABLE IF NOT EXISTS stock_order_recipe(
                      source TEXT NOT NULL, order_key TEXT NOT NULL, components TEXT NOT NULL,
+                     PRIMARY KEY(source,order_key))""")
+        conn.execute("""CREATE TABLE IF NOT EXISTS stock_deferred_release(
+                     source TEXT NOT NULL, order_key TEXT NOT NULL, offer_id TEXT NOT NULL,
+                     quantity INTEGER NOT NULL CHECK(quantity > 0), components TEXT NOT NULL,
                      PRIMARY KEY(source,order_key))""")
         with conn:
             conn.execute("BEGIN IMMEDIATE")
