@@ -71,8 +71,27 @@ def fetch(url):
                         context.append(snippet[:240])
                     return context
                 contexts={key:context_for(key) for key in specids}
+                # Analyze published Tilda rec blocks without persisting raw HTML.
+                rec_pattern=re.compile(r'<div[^>]+id=["\\\']rec(\\d+)["\\\'][^>]*>',re.I)
+                boundaries=list(rec_pattern.finditer(html))
+                recs=[]
+                for n,m in enumerate(boundaries):
+                    rid=m.group(1)
+                    section=html[m.start():boundaries[n+1].start() if n+1<len(boundaries) else len(html)]
+                    meta=re.search(r'data-record-type=["\\\'](\\d+)["\\\']',m.group(0))
+                    is_form=('tn-atom__inputs-data' in section or
+                             bool(re.search(r'<form\\b',section,re.I)) or
+                             'data-elem-type="form"' in section)
+                    if rid in specids or is_form:
+                        recs.append({"recid":rid,"type":meta.group(1) if meta else None,
+                            "has_zero_block_form_inputs":'tn-atom__inputs-data' in section,
+                            "has_html_form":bool(re.search(r'<form\\b',section,re.I)),
+                            "has_form_element":'data-elem-type="form"' in section,
+                            "contains_vin_text":bool(re.search(r'\\bvin\\b|вин.{0,10}код',section,re.I)),
+                            "form_html_ids":sorted(set(re.findall(r'id=["\\\']form(\\d+)["\\\']',section,re.I)))[:8]})
+                recs=recs[:40]
                 return {"status":"ok","http":res.status,"length":len(html),
-                        "form_id_context":contexts,"forms_count":len(frm.forms),
+                        "form_id_context":contexts,"rec_form_inventory":recs,"forms_count":len(frm.forms),
                         "forms":frm.forms,"virtual_form_identifiers":numbered[:80],
                         "tracked_form_id_mentions":matches,"tilda_marker":"tilda" in html.lower()}
         except urllib.error.HTTPError as e:
