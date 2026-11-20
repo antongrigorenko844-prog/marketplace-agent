@@ -605,6 +605,14 @@ def cmd_direct_report() -> int:
                     _format_metrika_paid(campaign_week, "7 дней"),
                     "UTM не охватывает визиты без метки и не подтверждает оплаты.",
                 ]
+                if (campaign_week["visits"] > 0
+                        and campaign_week["goal_visits"][675506966] == 0
+                        and campaign_week["goal_visits"][675507028] == 0):
+                    lines.append(
+                        "⚠️ В UTM-трафике DQ200 за 7 дней нет достижений "
+                        "приоритетных URL-целей VIN и заказа. "
+                        "Это не равно нулю реальных продаж; проверяйте успешные "
+                        "отправки в Tilda и оплаченные заказы.")
             except Exception as exc:
                 lines.append("Метрика UTM: детализация кампании пока недоступна")
                 print("Метрика UTM: ошибка агрегирования", type(exc).__name__)
