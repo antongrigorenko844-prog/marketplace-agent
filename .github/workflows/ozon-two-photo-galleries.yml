@@ -1,0 +1,25 @@
+name: Ozon reviewed separator and filter gallery photos
+on:
+  push:
+    branches: ['content/ozon-two-galleries-20261121']
+    paths: ['scripts/publish_ozon_two_photo_galleries.py','.github/workflows/ozon-two-photo-galleries.yml']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  gallery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip -q install -r requirements.txt
+      - name: Append and verify the reviewed photos
+        run: python -m scripts.publish_ozon_two_photo_galleries
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
