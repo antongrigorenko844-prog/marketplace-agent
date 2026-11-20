@@ -10,7 +10,7 @@ spec=importlib.util.spec_from_file_location("read_metrika",HERE/"direct_metrika_
 mt=importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mt)
 
-GOALS=[675272154,675272284,675487735,678989864,678989865,675506966,675507028,682257540]
+GOALS=[675272154,675272284,675487735,678989864,678989865,675506966,675507028,682257540,685988392]
 COUNTER=113839860
 OUT=Path("data/direct_optimization_20261120/metrika_goal_attribution_20261120.json")
 METRICS=["ym:s:visits"]+["ym:s:goal"+str(n)+"visits" for n in GOALS]
@@ -56,6 +56,7 @@ def main():
     result["status"]="complete" if not result["errors"] else "partial"
     result["end_utc"]=now()
     result["caution"]="Goal visits can overlap; clicks and form goals are not verified paid orders."
+    result["new_checkout_goal_note"]="Goal 685988392 tracks Tilda payment-start pageviews, not confirmed purchases; created on Nov 20, no retroactive counts."
     save(result)
     print("LEOPARTS Metrica attributed goals",result["status"],result["errors"],flush=True)
     return 0 if result["status"] in ("complete","partial") else 1
