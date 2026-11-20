@@ -1,0 +1,30 @@
+name: LEOPARTS VIN event runtime check (isolated, no analytics hits)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/tilda-vin-event-runtime.yml
+      - .github/scripts/tilda_vin_event_runtime_diagnostic.py
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  local-event-check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install supported headless Chromium
+        run: |
+          pip install playwright==1.56.0
+          python -m playwright install chromium
+      - name: Diagnose local VIN event, block any real Metrica data collection
+        run: python .github/scripts/tilda_vin_event_runtime_diagnostic.py
+      - name: Save sanitized browser evidence
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/tilda_vin_event_runtime_diagnostic.json
