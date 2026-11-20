@@ -1,0 +1,25 @@
+name: LEOPARTS Tilda published form mapping (read-only)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/tilda-public-form-map-20261120.yml
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  site-form-read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read only public Tilda pages (no form submissions)
+        run: python .github/scripts/tilda_public_form_map_20261120.py
+      - name: Save only sanitized form ID inventory
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_optimization_20261120/tilda_public_form_map.json
