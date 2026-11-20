@@ -5,6 +5,8 @@ on:
     paths:
       - direct_tools.py
       - tests/test_direct_report_scope.py
+      - tests/test_direct_metrika_report.py
+      - .github/workflows/run-command.yml
       - .github/workflows/direct-report-tests.yml
   workflow_dispatch:
 permissions:
@@ -21,3 +23,5 @@ jobs:
       - run: pip install requests
       - name: Run offline regression tests (no API credentials)
         run: python -m unittest discover -s tests -p test_direct_report_scope.py -v
+      - name: Test Metrica aggregate reporting and secrets redaction
+        run: python -m unittest discover -s tests -p test_direct_metrika_report.py -v
