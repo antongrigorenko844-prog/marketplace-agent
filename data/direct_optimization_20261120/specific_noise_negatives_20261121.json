@@ -1,0 +1,55 @@
+{
+  "status": "applied_verified",
+  "mode": "guarded_three_exact_negative_phrases",
+  "campaign_id": 716316525,
+  "new_phrases": [
+    "\"сколько стоит плата от машины\"",
+    "\"момент затяжки мехатроника dq200\"",
+    "\"дром запчасти\""
+  ],
+  "started_utc": "2026-11-20T16:06:11.026553+00:00",
+  "write_attempted": true,
+  "mutations": 1,
+  "workflow_sha": "b628cc31a84f248ebd8bd3ab20ad6d7ffa1158f5",
+  "errors": [],
+  "evidence": [
+    {
+      "query": "сколько стоит плата от машины",
+      "historical_cost_rub": "107.80",
+      "historical_clicks": "3",
+      "observed_conversions": "0"
+    },
+    {
+      "query": "момент затяжки мехатроника dq200",
+      "historical_cost_rub": "36.18",
+      "historical_clicks": "1",
+      "observed_conversions": "0"
+    },
+    {
+      "query": "дром запчасти",
+      "historical_cost_rub": "33.89",
+      "historical_clicks": "1",
+      "observed_conversions": "0"
+    }
+  ],
+  "before_count": 136,
+  "before_fingerprint": "f4b5c7a938ec04aa3025e57f7505a46ec07f6804b10d8efe17af2c12af7f6c03",
+  "proposed_count": 139,
+  "proposed_fingerprint": "e59b7abb7d64dc1814809e00cf7da56f7e8e16fcde54781701184286803861ab",
+  "protected_inventory": {
+    "manual_keywords": 266,
+    "all_keywords": 272,
+    "groups": 6
+  },
+  "scope_note": "Append only 3 exact zero-conversion irrelevant phrases; preserve 266 manual keywords and all bidding/ads.",
+  "attempt_started_utc": "2026-11-20T16:06:17.141623+00:00",
+  "api_accepted": true,
+  "after_count": 139,
+  "after_fingerprint": "226a87782ef91be1407d85f95bab18f9ead5dc0be57d1e6dc51dc5a440d63f2e",
+  "all_previous_136_preserved": true,
+  "all_three_new_present": true,
+  "no_extras": true,
+  "all_other_campaign_fields_unchanged": true,
+  "verified_utc": "2026-11-20T16:06:23.114781+00:00",
+  "finished_utc": "2026-11-20T16:06:23.114800+00:00"
+}
