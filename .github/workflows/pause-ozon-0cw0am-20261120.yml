@@ -1,0 +1,26 @@
+name: Pause exact Ozon offer 0cw0am
+on:
+  push:
+    branches: [ops/ozon-pause-0cw0am-20261120]
+    paths: [scripts/pause_ozon_0cw0am_20261120.py]
+permissions:
+  contents: read
+concurrency:
+  group: ozon-pause-0cw0am
+  cancel-in-progress: false
+jobs:
+  pause:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests python-dotenv
+      - name: Pause and read back one offer
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          OZON_WAREHOUSE_ID: ${{ secrets.OZON_WAREHOUSE_ID }}
+        run: python scripts/pause_ozon_0cw0am_20261120.py
