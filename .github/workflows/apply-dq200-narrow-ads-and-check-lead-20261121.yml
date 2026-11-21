@@ -1,0 +1,177 @@
+name: Tune one DQ200 group for narrower purchase traffic
+on:
+  push:
+    branches: ['ops/dq200-narrow-and-qualified-vin-20261121']
+    paths: ['.github/workflows/apply-dq200-narrow-ads-and-check-lead-20261121.yml']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Update the one approved group and ad and verify the existing VIN goal
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: |
+          PYTHONPATH=.github/scripts python - <<'PY'
+          from copy import deepcopy
+          from datetime import datetime, timezone
+          import json
+          import os
+          import time
+          from urllib import error, request
+          
+          import direct_accessory_test_20261120 as autos
+          import direct_specific_noise_negatives_20261121 as campaign
+          import direct_full_audit_20261120 as reader
+          
+          ad_id = 1927466206584354174
+          url = "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi"
+          title = "Мехатроник DSG7 DQ200 в сборе с платой"
+          text = "Подбор по VIN. Проверен на авто. Гарантия. Доставка по РФ и СНГ."
+          before_categories = {"Exact":"YES","Narrow":"YES","Alternative":"YES","Accessory":"NO","Broader":"YES"}
+          intended_categories = {"Exact":"NO","Narrow":"YES","Alternative":"NO","Accessory":"NO","Broader":"NO"}
+          
+          def audit_ad():
+              records = reader.api_get("ads", {
+                  "SelectionCriteria":{"Ids":[ad_id]},
+                  "FieldNames":["Id","CampaignId","AdGroupId","Type","State","Status"],
+                  "ResponsiveAdFieldNames":["Titles","Texts","Href"],
+              },"Ads")
+              if len(records) != 1:
+                  raise RuntimeError("The target ad was not returned")
+              ad = records[0]
+              if ad["Id"] != ad_id or ad["AdGroupId"] != autos.GROUP or ad["Type"] != "RESPONSIVE_AD":
+                  raise RuntimeError("Ad identity does not match the approved group")
+              return ad
+          
+          def ad_action(method):
+              if method == "update":
+                  params = {"Ads":[{"Id":ad_id,"ResponsiveAd":{"Titles":[title],"Texts":[text],"Href":url}}]}
+                  result_key = "UpdateResults"
+              elif method == "moderate":
+                  params = {"SelectionCriteria":{"Ids":[ad_id]}}
+                  result_key = "ModerateResults"
+              else:
+                  raise RuntimeError("Operation outside the approved ad scope")
+              headers = {"Authorization":"Bearer "+os.environ["YANDEX_DIRECT_TOKEN"],
+                         "Content-Type":"application/json; charset=utf-8","Accept-Language":"ru"}
+              if os.environ.get("YANDEX_DIRECT_LOGIN"):
+                  headers["Client-Login"] = os.environ["YANDEX_DIRECT_LOGIN"]
+              msg = request.Request(reader.BASE+"ads", data=json.dumps({"method":method,"params":params},ensure_ascii=False).encode(),
+                                    method="POST", headers=headers)
+              with request.urlopen(msg, timeout=45) as response:
+                  obj = json.load(response)
+              result = obj.get("result",{}).get(result_key,[])
+              print("AD_API", method, json.dumps(result or obj.get("error",{}),ensure_ascii=False),flush=True)
+              if len(result) != 1 or result[0].get("Id") != ad_id or result[0].get("Errors"):
+                  raise RuntimeError("Direct rejected the target ad operation")
+          
+          def messages(ad):
+              d = ad["ResponsiveAd"]
+              return [x["Title"] for x in d["Titles"]], [x["Text"] for x in d["Texts"]], d["Href"]
+          
+          def current_goal():
+              token = os.environ.get("YANDEX_METRIKA_TOKEN")
+              if not token:
+                  return {"error":"Metrika token unavailable"}
+              msg = request.Request("https://api-metrika.yandex.net/management/v1/counter/113839860/goal/686020680",
+                                    headers={"Authorization":"OAuth "+token})
+              try:
+                  with request.urlopen(msg,timeout=15) as res:
+                      goal = json.load(res)["goal"]
+                  return {k:goal.get(k) for k in ("id","name","type","status","conditions")}
+              except error.HTTPError as exc:
+                  return {"error":"HTTP "+str(exc.code)}
+              except Exception as exc:
+                  return {"error":type(exc).__name__}
+          
+          before_campaign = campaign.read_campaign()
+          before_rules = autos.read_autos()
+          if not before_rules:
+              raise RuntimeError("The six live targeting criteria were not returned")
+          target = next(row for row in before_rules if row["Id"] == autos.TARGET)
+          if target["AdGroupId"] != autos.GROUP or target["State"] != "ON":
+              raise RuntimeError("The target criterion identity or state changed")
+          settings = target["AutotargetingSettings"]
+          if settings["Categories"] not in (before_categories,intended_categories):
+              raise RuntimeError("The live category baseline differs from the reviewed settings")
+          if target["Keyword"] != "---autotargeting" or settings["BrandOptions"].keys() != {"WithoutBrands","WithAdvertiserBrand","WithCompetitorsBrand"}:
+              raise RuntimeError("Targeting settings are incomplete")
+          
+          before_ad = audit_ad()
+          old_titles, old_texts, old_url = messages(before_ad)
+          if old_url != url or old_titles not in (["Мехатроник DSG7 DQ200"],[title]) or before_ad["State"] != "ON":
+              raise RuntimeError("Ad copy or destination differs from the reviewed baseline")
+          before_keywords = autos.api("keywords","get",autos.KEYWORDS_GET)["Keywords"]
+          manual_before = {x["Id"]:x["Keyword"] for x in before_keywords if x["Keyword"] != "---autotargeting"}
+          target_manual = sum(x["AdGroupId"]==autos.GROUP and x["Keyword"]!="---autotargeting" for x in before_keywords)
+          print("PREFLIGHT",json.dumps({"campaign":autos.CID,"group":autos.GROUP,"categories":settings["Categories"],
+                "manual_in_group":target_manual,"ad":ad_id,"ad_status":before_ad["Status"],"title":old_titles},ensure_ascii=False),flush=True)
+          
+          requested = deepcopy(settings)
+          requested["Categories"] = intended_categories
+          summary = {"campaign":autos.CID,"group":autos.GROUP,"goal":current_goal(),"errors":[]}
+          try:
+              if requested != settings:
+                  if autos.read_autos() != before_rules:
+                      raise RuntimeError("Live targeting changed during preflight")
+                  payload = {"Keywords":[{"Id":autos.TARGET,"AutotargetingSettings":requested}]}
+                  autos.UPDATE_ALLOWED = payload
+                  result = autos.api("keywords","update",payload)
+                  print("KEYWORDS_API",json.dumps(result.get("UpdateResults"),ensure_ascii=False),flush=True)
+              for delay in (0,2,5,8):
+                  time.sleep(delay)
+                  after_rules = autos.read_autos()
+                  after_target = next(row for row in after_rules if row["Id"] == autos.TARGET)
+                  if after_target.get("AutotargetingSettings") == requested:
+                      if [x for x in before_rules if x["Id"]!=autos.TARGET] != [x for x in after_rules if x["Id"]!=autos.TARGET]:
+                          raise RuntimeError("Another group's targeting changed during the update")
+                      summary["categories"] = after_target["AutotargetingSettings"]["Categories"]
+                      break
+              else:
+                  raise RuntimeError("Narrow-only targeting readback differs from the requested settings")
+          except Exception as exc:
+              summary["errors"].append("targeting: "+campaign.safe_error(exc))
+          
+          try:
+              if messages(before_ad) != ([title],[text],url):
+                  if audit_ad() != before_ad:
+                      raise RuntimeError("Ad changed during preflight")
+                  ad_action("update")
+              ad_after = audit_ad()
+              for pause in (2,4,8):
+                  if messages(ad_after) == ([title],[text],url):
+                      break
+                  time.sleep(pause)
+                  ad_after = audit_ad()
+              if messages(ad_after) != ([title],[text],url):
+                  raise RuntimeError("The new copy was not returned by Direct")
+              if ad_after["Status"] == "DRAFT":
+                  ad_action("moderate")
+                  ad_after = audit_ad()
+              summary["ad"] = {"id":ad_id,"copy":messages(ad_after),"state":ad_after["State"],"status":ad_after["Status"],
+                              "title_status":[x["Status"] for x in ad_after["ResponsiveAd"]["Titles"]],
+                              "text_status":[x["Status"] for x in ad_after["ResponsiveAd"]["Texts"]]}
+          except Exception as exc:
+              summary["errors"].append("ad: "+campaign.safe_error(exc))
+          
+          after_keywords = autos.api("keywords","get",autos.KEYWORDS_GET)["Keywords"]
+          summary["manual_count"] = len(manual_before)
+          summary["manual_group_count"] = target_manual
+          summary["manual_verified"] = manual_before == {x["Id"]:x["Keyword"] for x in after_keywords if x["Keyword"]!="---autotargeting"}
+          summary["campaign_verified"] = campaign.nonnegative(before_campaign) == campaign.nonnegative(campaign.read_campaign())
+          summary["confirmed_utc"] = datetime.now(timezone.utc).isoformat()
+          print("RESULT",json.dumps(summary,ensure_ascii=False),flush=True)
+          if summary["errors"] or not summary["manual_verified"] or not summary["campaign_verified"]:
+              raise SystemExit(1)
+          PY
