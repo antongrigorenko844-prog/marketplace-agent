@@ -1,0 +1,107 @@
+name: Ozon seal discount requests readback
+on:
+  push:
+    branches: ['ops/ozon-seal-3245425193-price-check-20261121']
+    paths: ['.github/workflows/ozon-seal-3245425193-discount-check-20261121.yml']
+permissions:
+  contents: read
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check discount requests without changing prices
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python -u - <<'PY'
+          import json
+          import os
+          import re
+          import urllib.error
+          import urllib.request
+
+          OFFER = "0сц"
+          SKU = "3245425193"
+          FIELDS = {"id", "sku", "offer_id", "status", "created_at", "end_at", "edited_till", "requested_price",
+                    "requested_price_with_fee", "approved_price", "approved_price_with_fee", "original_price",
+                    "base_price", "min_auto_price", "requested_quantity_min", "requested_quantity_max", "is_purchased"}
+
+          def get(version, body):
+              request = urllib.request.Request(
+                  f"https://api-seller.ozon.ru/{version}/actions/discounts-task/list",
+                  data=json.dumps(body).encode("utf-8"),
+                  headers={"Client-Id": os.environ["OZON_CLIENT_ID"], "Api-Key": os.environ["OZON_API_KEY"],
+                           "Content-Type": "application/json"},
+                  method="POST",
+              )
+              try:
+                  with urllib.request.urlopen(request, timeout=30) as response:
+                      return json.load(response), None
+              except urllib.error.HTTPError as error:
+                  try:
+                      details = json.load(error)
+                  except (ValueError, OSError):
+                      details = {}
+                  finally:
+                      error.close()
+                  msg = str(details.get("message", ""))[:300]
+                  for env_name in ("OZON_CLIENT_ID", "OZON_API_KEY"):
+                      msg = msg.replace(os.environ[env_name], "[redacted]")
+                  return {}, {"http": error.code, "code": details.get("code"), "message": msg}
+              except (OSError, ValueError):
+                  return {}, {"request_failed": True}
+
+          def parse(response):
+              result = response.get("result", response)
+              if isinstance(result, list):
+                  return result, response
+              if isinstance(result, dict):
+                  for field in ("tasks", "items", "discount_tasks", "discounts_tasks", "discounts", "discount_requests"):
+                      if isinstance(result.get(field), list):
+                          return result[field], result
+                  for values in result.values():
+                      if isinstance(values, list) and all(isinstance(v, dict) for v in values):
+                          return values, result
+              return None, result
+
+          def main():
+              for status in ("NEW", "SEEN", "APPROVED", "PARTLY_APPROVED"):
+                  matched = []
+                  for version, pagination in (("v2", {"limit": 25}), ("v2", {"limit": 25, "page": 1}),
+                                              ("v1", {"limit": 25, "page": 1})):
+                      body = {"status": status, **pagination}
+                      resp, error = get(version, body)
+                      rows, meta = parse(resp)
+                      if rows is None:
+                          print("TASK_CHECK_ERROR", json.dumps({"status": status, "version": version, "page": body.get("page"),
+                               "error": error, "top_keys": list(resp), "nested_keys": list(meta) if isinstance(meta, dict) else []}, ensure_ascii=False))
+                          continue
+                      pages = 0
+                      complete = False
+                      while rows is not None and pages < 5:
+                          pages += 1
+                          matched.extend({k: v for k, v in item.items() if k in FIELDS} for item in rows
+                                         if item.get("offer_id") == OFFER or str(item.get("sku")) == SKU)
+                          cursor = meta.get("next_cursor") or meta.get("cursor") or meta.get("last_id")
+                          if not cursor and len(rows) < body["limit"]:
+                              complete = True
+                              break
+                          if meta.get("has_next") is False or meta.get("has_next_page") is False:
+                              complete = True
+                              break
+                          if cursor and version == "v2":
+                              body["cursor"] = cursor
+                          elif version == "v1" or "page" in body:
+                              body["page"] += 1
+                          else:
+                              break
+                          resp, error = get(version, body)
+                          rows, meta = parse(resp)
+                      print("TASK_CHECK_RESULT", json.dumps({"status": status, "version": version, "complete": complete,
+                                                             "pages": pages, "matches": matched}, ensure_ascii=False))
+                      break
+
+          main()
+          PY
