@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Leoparts — Ozon Delivery demo</title>
+<style>
+body{font-family:system-ui,Arial,sans-serif;background:#f5f6f8;margin:0;padding:24px;color:#202632}
+main{max-width:520px;margin:auto;background:white;border-radius:16px;padding:24px;box-shadow:0 4px 25px #0001}
+h1{font-size:24px;margin:0 0 12px} .warn{background:#fff2dc;border-radius:8px;padding:12px;margin:14px 0}
+label{display:block;border:1px solid #ddd;padding:14px;border-radius:10px;margin:8px 0}
+button{border:0;background:#2869e8;color:white;padding:13px 18px;border-radius:9px;font-size:16px}
+button:disabled{background:#aeb8c8} .muted{color:#667085;font-size:14px}
+</style></head><body><main>
+<h1>Leoparts — выбор доставки</h1>
+<div class="warn"><strong>Тестовый макет.</strong> Не подключён к Ozon, Tilda и оплате. Реальные заказы не создаются.</div>
+<p>Город: <strong>Москва</strong> (пример)</p>
+<fieldset><legend>Способ доставки</legend>
+<label><input type="radio" name="carrier" value="yandex"> Яндекс Доставка (существующая)</label>
+<label><input type="radio" name="carrier" value="cdek"> СДЭК (существующая)</label>
+<label><input type="radio" name="carrier" value="ozon" checked> Ozon Доставка (новая)</label>
+</fieldset>
+<section id="ozon">
+<h2>Пункт выдачи Ozon</h2>
+<p class="muted">Здесь появятся ПВЗ, адреса, сроки и тарифы после подключения подтверждённых методов API.</p>
+<button disabled>Выбрать ПВЗ (ожидает API)</button>
+<p id="status" class="muted">Проверка демонстрационного сервера…</p>
+</section>
+<button disabled>Оформить заказ (недоступно в демо)</button>
+</main><script>
+const radios=document.querySelectorAll('input[name=carrier]');
+function update(){document.getElementById('ozon').hidden=document.querySelector('input[name=carrier]:checked').value!=='ozon'}
+radios.forEach(x=>x.addEventListener('change',update));update();
+fetch('/api/status').then(r=>r.json()).then(x=>document.getElementById('status').textContent=x.message).catch(()=>document.getElementById('status').textContent='Демо-сервер недоступен');
+</script></body></html>

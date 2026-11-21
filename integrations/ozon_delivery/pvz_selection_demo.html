@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Leoparts — макет Ozon ПВЗ</title>
+<style>
+*{box-sizing:border-box}body{font:16px system-ui,Arial,sans-serif;background:#f5f6f8;color:#202632;margin:0;padding:24px}
+main{max-width:660px;margin:auto;background:#fff;border-radius:16px;padding:24px;box-shadow:0 6px 30px #0001}
+h1{font-size:24px;margin:0 0 8px}h2{font-size:19px}.notice{padding:14px;border-radius:8px;background:#fff2d7;margin:16px 0}
+fieldset{border:1px solid #ddd;border-radius:12px;margin:16px 0}label.option{display:block;padding:12px;border-bottom:1px solid #eee}
+label.option:last-child{border:0}input[type=search]{padding:12px;width:100%;border:1px solid #aab2bf;border-radius:8px;font:inherit}
+ul{list-style:none;padding:0;margin:12px 0}li{margin:8px 0}button{padding:12px;border-radius:8px;border:1px solid #aab2bf;background:white;font:inherit;cursor:pointer;text-align:left;width:100%}
+button[aria-pressed=true]{border:2px solid #2165db;background:#edf4ff}button:disabled{background:#e7e9ed;color:#777;cursor:not-allowed}
+.muted{color:#677085;font-size:14px}.selected{background:#eef7f0;padding:12px;border-radius:8px}
+</style></head><body><main>
+<h1>Доставка Leoparts</h1>
+<div class="notice"><strong>ДЕМО — тестовые ПВЗ.</strong> Адреса вымышлены, тарифы и сроки не рассчитываются. Не подключено к Tilda, Ozon или оплате. Заказы не создаются.</div>
+<fieldset><legend>Выберите доставку</legend>
+<label class="option"><input type="radio" name="delivery" value="yandex"> Яндекс Доставка — существующая</label>
+<label class="option"><input type="radio" name="delivery" value="cdek"> СДЭК — существующая</label>
+<label class="option"><input type="radio" name="delivery" value="ozon" checked> Ozon Доставка — прототип</label>
+</fieldset>
+<section id="ozon">
+<h2>Выберите пункт выдачи Ozon</h2>
+<label for="city">Город или улица (демонстрационный поиск)</label>
+<input type="search" id="city" placeholder="Например, Москва" autocomplete="off">
+<p class="muted">Пункты ниже — только примеры интерфейса. Настоящие ПВЗ появятся после подключения API.</p>
+<ul id="points"></ul>
+<p id="selection" aria-live="polite" class="muted">ПВЗ не выбран</p>
+<p id="quote" aria-live="polite"><strong>Стоимость и срок:</strong> выберите тестовый ПВЗ</p>
+<p id="checkout-note" class="muted">Расчёт демонстрационный. Оформление и оплата отключены.</p>
+</section>
+<p id="other" hidden class="muted">В рабочей Tilda эта доставка уже реализована. Макет не заменяет существующую интеграцию.</p>
+<button disabled>Оформить заказ — отключено в демо</button>
+</main>
+<script>
+'use strict';
+const DEMO_POINTS=Object.freeze([
+ {id:'demo-msk-1',city:'Москва',address:'Демонстрационная улица, 1'},
+ {id:'demo-msk-2',city:'Москва',address:'Тестовый проспект, 2'},
+ {id:'demo-spb-1',city:'Санкт-Петербург',address:'Примерная улица, 3'}
+]);
+let selected=null;
+const $=id=>document.getElementById(id);
+function render(){
+ const q=$('city').value.trim().toLocaleLowerCase('ru');
+ $('points').replaceChildren();
+ for(const point of DEMO_POINTS.filter(p=>(p.city+' '+p.address).toLocaleLowerCase('ru').includes(q))){
+  const li=document.createElement('li'),button=document.createElement('button');
+  button.type='button';button.textContent=point.city+', '+point.address+' (ДЕМО)';
+  button.setAttribute('aria-pressed',String(selected===point.id));
+  button.addEventListener('click',()=>{selected=point.id;$('selection').textContent='Выбран тестовый ПВЗ: '+point.city+', '+point.address;$('quote').textContent='ДЕМО: 199 ₽, 3–6 дней. Это вымышленные стоимость и срок, не предложение Ozon.';render()});
+  li.append(button);$('points').append(li);
+ }
+ if(!$('points').children.length){const li=document.createElement('li');li.textContent='В демонстрационном списке ничего не найдено';$('points').append(li)}
+}
+$('city').addEventListener('input',()=>{selected=null;$('selection').textContent='ПВЗ не выбран';$('quote').textContent='Стоимость и срок: выберите тестовый ПВЗ';render()});
+document.querySelectorAll('input[name=delivery]').forEach(el=>el.addEventListener('change',()=>{
+ const ozon=document.querySelector('input[name=delivery]:checked').value==='ozon';
+ $('ozon').hidden=!ozon;$('other').hidden=ozon;
+}));
+render();
+</script></body></html>
