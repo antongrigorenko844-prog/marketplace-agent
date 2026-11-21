@@ -1,0 +1,175 @@
+name: Inspect current DQ200 queries, settings and goals
+on:
+  push:
+    branches: ['audit/direct-current-query-review-20261121']
+    paths: ['.github/workflows/read-current-dq200-queries-20261121.yml']
+permissions:
+  contents: read
+jobs:
+  read-current:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip -q install cryptography
+      - name: Read Direct reports and Metrika goals
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: |
+          python - <<'PY'
+          from concurrent.futures import ThreadPoolExecutor
+          import base64
+          import csv
+          from datetime import datetime, timedelta, timezone
+          import gzip
+          import importlib.util
+          import io
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import time
+          from urllib.error import HTTPError
+          from urllib.parse import urlencode
+          from urllib.request import Request, urlopen
+          from zoneinfo import ZoneInfo
+          
+          from cryptography.hazmat.primitives import hashes, serialization
+          from cryptography.hazmat.primitives.asymmetric import padding
+          from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+          
+          spec = importlib.util.spec_from_file_location("direct", ".github/scripts/direct_full_audit_20261120.py")
+          direct = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(direct)
+          now = datetime.now(timezone.utc)
+          today = now.astimezone(ZoneInfo("Europe/Moscow")).date()
+          last_week = today - timedelta(days=7)
+          goals = ("675487735", "682257540", "686020680", "675507028")
+          
+          def get_campaign():
+              return direct.api_get("campaigns", {
+                  "SelectionCriteria": {"Ids": [direct.CID]},
+                  "FieldNames": ["Id", "Name", "Type", "Status", "State", "TimeZone", "NegativeKeywords"],
+                  "UnifiedCampaignFieldNames": ["BiddingStrategy", "CounterIds", "AttributionModel"],
+              }, "Campaigns")
+          
+          def get_groups():
+              return direct.api_get("adgroups", {
+                  "SelectionCriteria": {"CampaignIds": [direct.CID]},
+                  "FieldNames": ["Id", "Name", "CampaignId", "Status", "ServingStatus", "NegativeKeywords"],
+              }, "AdGroups")
+          
+          def scrub_query(query):
+              return re.sub(r"\b[A-HJ-NPR-Z0-9]{17}\b|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|(?<!\w)\+?\d[\d ()-]{10,}\d(?!\w)", "[удалено]", query, flags=re.I)
+          
+          def report(kind, field_sets, start, purpose, specific_goals=False):
+              for idx, fields in enumerate(field_sets):
+                  payload = {
+                      "SelectionCriteria": {
+                          "DateFrom": str(start), "DateTo": str(today),
+                          "Filter": [{"Field": "CampaignId", "Operator": "IN", "Values": [str(direct.CID)]}],
+                      },
+                      "FieldNames": fields,
+                      "ReportType": kind,
+                      "ReportName": "LEOPARTS-now-" + purpose + "-" + str(idx) + "-" + now.strftime("%Y%m%d-%H%M%S-%f"),
+                      "DateRangeType": "CUSTOM_DATE",
+                      "Format": "TSV", "IncludeVAT": "YES", "IncludeDiscount": "NO",
+                  }
+                  if specific_goals:
+                      payload.update(Goals=list(goals), AttributionModels=["LC"])
+                  for _ in range(15):
+                      status, body, headers = direct.request(direct.BASE + "reports", {"params": payload}, reports=True)
+                      if status == 200:
+                          reader = csv.DictReader(io.StringIO(body), delimiter="\t")
+                          rows = list(reader)
+                          if not reader.fieldnames or not {"Date", "CampaignId"}.issubset(reader.fieldnames):
+                              raise RuntimeError("Incomplete report headers")
+                          for row in rows:
+                              if row.get("CampaignId") != str(direct.CID) or not str(start) <= row.get("Date", "") <= str(today) or None in row:
+                                  raise RuntimeError("Unexpected report scope")
+                              if "Query" in row:
+                                  row["Query"] = scrub_query(row["Query"])
+                          return {"fields": reader.fieldnames, "rows": rows,
+                                   "captured_utc": datetime.now(timezone.utc).isoformat()}
+                      if status == 400:
+                          break
+                      if status not in (201, 202):
+                          raise RuntimeError("Report HTTP " + str(status))
+                      delay = next((v for k, v in headers.items() if k.lower() == "retryin"), "4")
+                      time.sleep(min(10, max(1, int(delay))))
+                  else:
+                      raise RuntimeError("Report still processing")
+              raise RuntimeError("No supported report field set")
+          
+          daily_fields = ["Date", "CampaignId", "Impressions", "Clicks", "Cost", "Conversions"]
+          query_fields = ["Date", "CampaignId", "AdGroupId", "Query", "CriterionType", "TargetingCategory", "Impressions", "Clicks", "Cost", "Conversions"]
+          query_fallback = [f for f in query_fields if f != "TargetingCategory"]
+          
+          def metrika():
+              metrics = ["ym:s:visits", "ym:s:ecommercePurchases", "ym:s:ecommerceRUBConvertedRevenue"]
+              metrics.extend("ym:s:goal" + goal + "visits" for goal in goals)
+              query = {
+                  "ids": 113839860, "date1": str(today - timedelta(days=1)), "date2": str(today),
+                  "dimensions": "ym:s:date", "metrics": ",".join(metrics), "accuracy": "full",
+                  "limit": 20, "filters": "ym:s:lastDirectClickOrder=='716316525'",
+              }
+              request = Request("https://api-metrika.yandex.net/stat/v1/data?" + urlencode(query),
+                                headers={"Authorization": "OAuth " + os.environ["YANDEX_METRIKA_TOKEN"]})
+              with urlopen(request, timeout=28) as response:
+                  data = json.load(response)
+              return {"metrics":metrics, "sampled":data.get("sampled"),
+                      "rows":[{"date":entry["dimensions"][0]["name"],"values":entry["metrics"]} for entry in data.get("data",[])]}
+          
+          tasks = {
+              "campaign": get_campaign,
+              "groups": get_groups,
+              "daily": lambda:report("CAMPAIGN_PERFORMANCE_REPORT", [daily_fields], last_week, "daily"),
+              "query": lambda:report("SEARCH_QUERY_PERFORMANCE_REPORT", [query_fields,query_fallback], today - timedelta(days=1), "search"),
+              "query_goals": lambda:report("SEARCH_QUERY_PERFORMANCE_REPORT", [query_fields,query_fallback], today, "search-goals", True),
+              "metrika": metrika,
+          }
+          
+          def obtain(entry):
+              name, fn = entry
+              try:
+                  return name, fn()
+              except HTTPError as exc:
+                  return name, {"error": "HTTP " + str(exc.code)}
+              except Exception as exc:
+                  return name, {"error": type(exc).__name__ + (": " + direct.clean(exc) if type(exc) is RuntimeError else "")}
+          
+          with ThreadPoolExecutor(max_workers=6) as pool:
+              sections = dict(pool.map(obtain, tasks.items()))
+          audit_data = {"started":now.isoformat(), "finished":datetime.now(timezone.utc).isoformat(),
+                        "today_moscow":str(today), "campaign_id":direct.CID, "sections":sections}
+          
+          pub = serialization.load_pem_public_key(b"""-----BEGIN PUBLIC KEY-----
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA+AtzRXxOOe/q628uyD08
+          9mVugM9AVecCdogo8cTKr1SvDRowk0NvPD9SJ+ka8Iqdk9xlHqFae1NCt+CFk3Vi
+          Mbo1Vr7Bhc7W0GHSc0eKPytnmQKHdGsoUTt7CoXK6OokYcCuPdcc1FDimIx10Y34
+          d7cV8TyN+PHLc99/bOyXjGl2rtHBrLNgmUEw5p9VZ2oOk9BKhIRxPVQqSoOEmogq
+          HUTzEHac3XFS58EFntSyWpK/JltOM82Aq5xPaEtANw+dNRAFzSe08E34JXV06fag
+          yoMSdWyXNbCLzw/zsc6s+T8+5IKHRka+Nw/0L46RPFMF9e+ig+67Tb9SPBxF4qSd
+          PQIDAQAB
+          -----END PUBLIC KEY-----""")
+          key, nonce = AESGCM.generate_key(bit_length=256), os.urandom(12)
+          key_blob = pub.encrypt(key, padding.OAEP(mgf=padding.MGF1(hashes.SHA256()),algorithm=hashes.SHA256(),label=None))
+          encrypted = AESGCM(key).encrypt(nonce, gzip.compress(json.dumps(audit_data,ensure_ascii=False).encode()), None)
+          encode = lambda blob: base64.b64encode(blob).decode()
+          Path(os.environ["RUNNER_TEMP"], "current-dq200-audit.enc").write_text(
+              json.dumps({"key":encode(key_blob), "nonce":encode(nonce), "data":encode(encrypted)}))
+          print("Sections", {name:("failed" if isinstance(item,dict) and "error" in item else "ok") for name,item in sections.items()})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: current-dq200-audit
+          path: ${{ runner.temp }}/current-dq200-audit.enc
+          if-no-files-found: error
+          retention-days: 1
