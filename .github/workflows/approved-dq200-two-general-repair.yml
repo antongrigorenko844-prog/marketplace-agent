@@ -1,0 +1,28 @@
+name: Verify two approved exact general repair exclusions
+on:
+  push:
+    branches: ['ops/dq200-two-general-repair-20261121']
+    paths: ['.github/workflows/approved-dq200-two-general-repair.yml']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Reconcile approved exclusions and verify Direct settings
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: |
+          PYTHONPATH=.github/scripts python - <<'PY'
+          import dq200_approved_nine_20261121 as reconcile
+          reconcile.TERMS = ('"ремонт dsg dq200"', '"ремонт dsg"')
+          reconcile.main()
+          PY
