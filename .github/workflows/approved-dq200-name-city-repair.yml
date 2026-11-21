@@ -1,0 +1,53 @@
+name: Apply and verify approved DQ200 repair phrasing
+on:
+  push:
+    branches: ['ops/dq200-name-city-repair-20261121']
+    paths: ['.github/workflows/approved-dq200-name-city-repair.yml']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Add only approved DQ200 repair phrases and verify by reading Direct
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: |
+          PYTHONPATH=.github/scripts python - <<'PY'
+          import dq200_approved_nine_20261121 as reconcile
+
+          cities = (
+              ("москва", "москве"),
+              ("санкт петербург", "санкт петербурге"),
+              ("новосибирск", "новосибирске"),
+              ("екатеринбург", "екатеринбурге"),
+              ("казань", "казани"),
+              ("нижний новгород", "нижнем новгороде"),
+              ("красноярск", "красноярске"),
+              ("челябинск", "челябинске"),
+              ("уфа", "уфе"),
+              ("самара", "самаре"),
+              ("омск", "омске"),
+              ("ростов +на дону", "ростове +на дону"),
+              ("краснодар", "краснодаре"),
+              ("воронеж", "воронеже"),
+              ("пермь", "перми"),
+              ("волгоград", "волгограде"),
+              ("спб", "спб"),
+          )
+          base = "ремонт dq200"
+          phrases = [base]
+          for city, location in cities:
+              phrases.extend((f"{base} {city}", f"{base} +в {location}"))
+          assert len(phrases) == len(set(phrases)) == 35
+          reconcile.TERMS = tuple(f'"{phrase}"' for phrase in phrases)
+          reconcile.main()
+          PY
