@@ -1,0 +1,82 @@
+name: Ozon seal price and active discounts readback
+on:
+  push:
+    branches: ['ops/ozon-seal-3245425193-price-check-20261121']
+    paths: ['.github/workflows/ozon-seal-3245425193-price-check-20261121.yml']
+permissions:
+  contents: read
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check identity, current seller price and discount requests
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python -u - <<'PY'
+          import json
+          import os
+          import urllib.error
+          import urllib.request
+
+          OFFER = "0сц"
+          PRODUCT_ID = 3243151010
+          SKU = 3245425193
+
+          def read(path, body):
+              request = urllib.request.Request(
+                  "https://api-seller.ozon.ru" + path,
+                  data=json.dumps(body, ensure_ascii=False).encode("utf-8"),
+                  headers={"Client-Id": os.environ["OZON_CLIENT_ID"], "Api-Key": os.environ["OZON_API_KEY"],
+                           "Content-Type": "application/json"},
+                  method="POST",
+              )
+              try:
+                  with urllib.request.urlopen(request, timeout=35) as response:
+                      return json.load(response)
+              except urllib.error.HTTPError as error:
+                  error.close()
+                  return {"http_error": error.code}
+              except (OSError, ValueError):
+                  return {"transport_error": True}
+
+          def show(kind, data):
+              print(kind, json.dumps(data, ensure_ascii=False, separators=(",", ":")), flush=True)
+
+          def main():
+              info = read("/v3/product/info/list", {"product_id": [str(PRODUCT_ID)]})
+              items = info.get("items", [])
+              assert len(items) == 1 and items[0]["id"] == PRODUCT_ID and items[0]["offer_id"] == OFFER, "Unexpected product identity"
+              item = items[0]
+              show("OZON_SEAL_CARD", {k: item[k] for k in ("id", "offer_id", "name", "sources", "is_archived", "stocks") if k in item})
+              price_info = read("/v5/product/info/prices", {"filter": {"product_id": [PRODUCT_ID]}, "limit": 1})
+              rows = price_info.get("items", [])
+              assert len(rows) == 1 and rows[0]["product_id"] == PRODUCT_ID and rows[0]["offer_id"] == OFFER, "Unexpected price identity"
+              row = rows[0]
+              show("OZON_SEAL_PRICE", {k: row[k] for k in ("product_id", "offer_id", "price", "marketing_actions", "commissions", "price_indexes") if k in row})
+              for status in ("NEW", "SEEN", "APPROVED", "PARTLY_APPROVED"):
+                  matches = []
+                  complete = False
+                  for page in range(1, 6):
+                      tasks = read("/v1/actions/discounts-task/list", {"status": status, "page": page, "limit": 100})
+                      result = tasks.get("result")
+                      if not isinstance(result, list):
+                          show("OZON_SEAL_TASKS_UNAVAILABLE", {"status": status, "http_error": tasks.get("http_error"),
+                                "api_error": tasks.get("code"), "transport_error": tasks.get("transport_error")})
+                          break
+                      for task in result:
+                          if task.get("offer_id") == OFFER or str(task.get("sku")) == str(SKU):
+                              fields = ("id", "sku", "offer_id", "status", "created_at", "end_at", "edited_till", "requested_price",
+                                        "requested_price_with_fee", "approved_price", "approved_price_with_fee", "original_price",
+                                        "base_price", "min_auto_price", "discount_percent", "approved_discount_percent",
+                                        "requested_quantity_min", "requested_quantity_max", "is_purchased")
+                              matches.append({k: task[k] for k in fields if k in task})
+                      if len(result) < 100:
+                          complete = True
+                          break
+                  show("OZON_SEAL_TASKS", {"status": status, "complete": complete, "matches": matches[:15]})
+
+          main()
+          PY
