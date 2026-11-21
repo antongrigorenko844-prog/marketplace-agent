@@ -69,8 +69,7 @@ jobs:
           def main():
               for status in ("NEW", "SEEN", "APPROVED", "PARTLY_APPROVED"):
                   matched = []
-                  for version, pagination in (("v2", {"limit": 25}), ("v2", {"limit": 25, "page": 1}),
-                                              ("v1", {"limit": 25, "page": 1})):
+                  for version, pagination in (("v1", {"limit": 50, "page": 1}), ("v2", {"limit": 50, "page": 1})):
                       body = {"status": status, **pagination}
                       resp, error = get(version, body)
                       rows, meta = parse(resp)
