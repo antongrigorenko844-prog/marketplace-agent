@@ -1,0 +1,199 @@
+name: Direct DQ200 group exclusions
+on:
+  push:
+    branches:
+      - 'ops/dq200-group-intent-exclusions-20261121'
+    paths:
+      - '.github/workflows/direct-dq200-group-intent-exclusions-20261121.yml'
+permissions:
+  contents: read
+concurrency:
+  group: direct-716316525-group-intent-exclusions
+  cancel-in-progress: false
+jobs:
+  apply-and-verify:
+    if: ${{ github.run_attempt == 1 }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Apply only the scoped AdGroups exclusions and verify
+        env:
+          PYTHONPATH: .github/scripts
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import re
+          import time
+          import urllib.error
+          import urllib.request
+          from collections import Counter
+          from statistics import median
+
+          import direct_full_audit_20261120 as reader
+          import direct_specific_noise_negatives_20261121 as campaign_reader
+
+          CID = 716316525
+          CHANGES = {
+              5826171512: ("мехатроники без платы", ("дром запчасти", "drom запчасти")),
+              5826183946: ("мехатроники с платой", ("дром запчасти", "drom запчасти")),
+              5826320196: ("электронные платы", ('"плата управления"',)),
+          }
+          GROUP_PARAMS = {
+              "SelectionCriteria": {"CampaignIds": [CID]},
+              "FieldNames": ["Id", "Name", "CampaignId", "NegativeKeywords", "NegativeKeywordSharedSetIds", "RegionIds"],
+          }
+
+          def groups():
+              rows = reader.api_get("adgroups", GROUP_PARAMS, "AdGroups")
+              inventory = {row["Id"]: row for row in rows}
+              if len(rows) != len(inventory) or not CHANGES.keys() <= inventory.keys():
+                  raise RuntimeError("Scope check failed for ad groups")
+              for group_id, (label, _) in CHANGES.items():
+                  if label not in inventory[group_id]["Name"].casefold():
+                      raise RuntimeError(f"Group name mismatch for {group_id}")
+              return inventory
+
+          def terms(row):
+              return (row.get("NegativeKeywords") or {}).get("Items") or []
+
+          def keywords(fields):
+              return reader.api_get("keywords", {
+                  "SelectionCriteria": {"CampaignIds": [CID]},
+                  "FieldNames": ["Id", "CampaignId", "AdGroupId", "Keyword", "State", "Status", *fields],
+              }, "Keywords")
+
+          def manual_overlaps(rows):
+              for row in rows:
+                  if row["AdGroupId"] not in CHANGES or row["Keyword"] == "---autotargeting":
+                      continue
+                  phrase = re.sub(r"\s+-\S+", "", row["Keyword"].casefold())
+                  words = re.findall(r"[a-zа-яё\d]+", phrase)
+                  for negative in CHANGES[row["AdGroupId"]][1]:
+                      negative_words = negative.strip('"').split()
+                      if negative.startswith('"'):
+                          overlap = Counter(words) == Counter(negative_words)
+                      else:
+                          overlap = any(w in words for w in ("дром", "drom")) and any(
+                              w.startswith(("запчаст", "запчасть")) for w in words
+                          )
+                      if overlap:
+                          raise RuntimeError(f"Review required for manual keyword ID {row['Id']}")
+
+          def update_adgroups(payload):
+              headers = {
+                  "Authorization": "Bearer " + os.environ["YANDEX_DIRECT_TOKEN"],
+                  "Content-Type": "application/json; charset=utf-8",
+              }
+              login = os.environ.get("YANDEX_DIRECT_LOGIN")
+              if login:
+                  headers["Client-Login"] = login
+              request = urllib.request.Request(
+                  reader.BASE + "adgroups",
+                  data=json.dumps({"method": "update", "params": {"AdGroups": payload}}, ensure_ascii=False).encode("utf-8"),
+                  headers=headers,
+                  method="POST",
+              )
+              try:
+                  with urllib.request.urlopen(request, timeout=35) as response:
+                      result = json.load(response)
+              except urllib.error.HTTPError as error:
+                  error.close()
+                  return {"http_error": error.code}
+              except (OSError, ValueError):
+                  return {"transport_or_decode_error": True}
+              if result.get("error"):
+                  return {"api_error": result["error"].get("error_code")}
+              return {"results": [
+                  {"id": row.get("Id"), "errors": [err.get("Code") for err in row.get("Errors", [])],
+                   "warnings": [warn.get("Code") for warn in row.get("Warnings", [])]}
+                  for row in result.get("result", {}).get("UpdateResults", [])
+              ]}
+
+          def summarize_bids(rows, inventory):
+              summary = {}
+              for group_id in inventory:
+                  matching = [row for row in rows if row["AdGroupId"] == group_id]
+                  active = [
+                      row["Bid"] / 1_000_000 for row in matching
+                      if row["Keyword"] != "---autotargeting" and row["State"] == "ON"
+                      and row["Status"] == "ACCEPTED" and isinstance(row.get("Bid"), int)
+                  ]
+                  summary[group_id] = {
+                      "name": inventory[group_id]["Name"],
+                      "manual_active_count_with_bid": len(active),
+                      "manual_min_median_max": [min(active), median(active), max(active)] if active else [],
+                      "auto": [
+                          {"id": row["Id"], "state": row["State"], "automatic_bid": row.get("AutotargetingSearchBidIsAuto"),
+                           "bid": row["Bid"] / 1_000_000 if isinstance(row.get("Bid"), int) else None}
+                          for row in matching if row["Keyword"] == "---autotargeting"
+                      ],
+                  }
+              return summary
+
+          def main():
+              campaign_before = campaign_reader.read_campaign()
+              before = groups()
+              manual_overlaps(keywords([]))
+              expected = {group_id: list(terms(row)) for group_id, row in before.items()}
+              payload = []
+              for group_id, (_, proposed) in CHANGES.items():
+                  actual = expected[group_id]
+                  result = list(dict.fromkeys([*actual, *proposed]))
+                  if actual != result:
+                      expected[group_id] = result
+                      payload.append({"Id": group_id, "NegativeKeywords": {"Items": result}})
+              print("PREFLIGHT", json.dumps({
+                  "campaign_id": CID,
+                  "campaign_negatives": len(campaign_before["NegativeKeywords"]["Items"]),
+                  "groups_to_update": [row["Id"] for row in payload],
+                  "existing_group_negatives": {group_id: terms(before[group_id]) for group_id in CHANGES},
+              }, ensure_ascii=False), flush=True)
+              if payload:
+                  result = update_adgroups(payload)
+                  print("UPDATE_RESPONSE", json.dumps(result, ensure_ascii=False), flush=True)
+
+              for delay in (0, 2, 5, 10):
+                  if delay:
+                      time.sleep(delay)
+                  after = groups()
+                  if after.keys() == before.keys() and all(
+                      Counter(terms(after[group_id])) == Counter(negative_terms)
+                      for group_id, negative_terms in expected.items()
+                  ):
+                      break
+              else:
+                  print("READBACK_MISMATCH", json.dumps(
+                      {group_id: terms(row) for group_id, row in after.items()}, ensure_ascii=False), flush=True)
+                  raise RuntimeError("Live group exclusions differ from the expected state")
+
+              for group_id, row in after.items():
+                  for field in ("Name", "NegativeKeywordSharedSetIds", "RegionIds"):
+                      if row.get(field) != before[group_id].get(field):
+                          raise RuntimeError(f"Unexpected concurrent group change: {group_id} {field}")
+              if campaign_reader.read_campaign() != campaign_before:
+                  raise RuntimeError("Unexpected concurrent campaign settings change")
+              print("VERIFIED", json.dumps({
+                  "campaign_id": CID,
+                  "verified_at_utc": reader.now(),
+                  "groups": {group_id: {"name": after[group_id]["Name"], "negative_keywords": terms(after[group_id])}
+                             for group_id in CHANGES},
+                  "other_groups_verified": len(after) - len(CHANGES),
+                  "campaign_negatives": len(campaign_before["NegativeKeywords"]["Items"]),
+                  "update_count": len(payload),
+              }, ensure_ascii=False), flush=True)
+
+              try:
+                  bid_rows = keywords(["Bid", "AutotargetingSearchBidIsAuto"])
+                  print("BIDS", json.dumps(summarize_bids(bid_rows, after), ensure_ascii=False), flush=True)
+              except RuntimeError as error:
+                  print("BIDS_UNAVAILABLE", reader.clean(error), flush=True)
+
+          if __name__ == "__main__":
+              main()
+          PY
