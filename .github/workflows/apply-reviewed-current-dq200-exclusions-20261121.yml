@@ -1,0 +1,142 @@
+name: Verify focused DQ200 corrections from today's search report
+on:
+  push:
+    branches: ['audit/direct-current-query-review-20261121']
+    paths: ['.github/workflows/apply-reviewed-current-dq200-exclusions-20261121.yml']
+permissions:
+  contents: read
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Apply the reviewed exclusions and verify live settings
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: |
+          PYTHONPATH=.github/scripts python - <<'PY'
+          from collections import Counter
+          import hashlib
+          import json
+          import re
+          import time
+          
+          import direct_specific_noise_negatives_20261121 as direct
+          
+          terms = [
+            "\"купить коробку дсг 7 dq200\"",
+            "\"детали машин симферополь\"",
+            "\"запчасти\"",
+            "\"ремонт акпп купить\"",
+            "\"автозапчасти купить\"",
+            "\"запчасти +на авто ру\"",
+            "\"купить запчасти +по вину\"",
+            "\"купить запчасти +по vin\"",
+            "\"контрактные запчасти +в улан\"",
+            "\"рынок автозапчасти +в москве\"",
+            "\"сколько стоит ремонт dsg dq200 сухая\"",
+            "\"сколько стоит ремонт dsg дк200 сухая\"",
+            "\"сколько стоит ремонт дсг dq200 сухая\"",
+            "\"сколько стоит ремонт дсг дк200 сухая\"",
+            "\"dsg 7 контрактная\"",
+            "\"дсг 7 контрактная\"",
+            "\"dsg7 контрактная\"",
+            "\"дсг7 контрактная\"",
+            "\"кпп dsg купить\"",
+            "\"кпп дсг купить\"",
+            "\"кпп dsg 7 dq200 цена\"",
+            "\"кпп dsg 7 дк200 цена\"",
+            "\"кпп дсг 7 dq200 цена\"",
+            "\"кпп дсг 7 дк200 цена\"",
+            "\"кпп dsg7 dq200 цена\"",
+            "\"кпп dsg7 дк200 цена\"",
+            "\"кпп дсг7 dq200 цена\"",
+            "\"кпп дсг7 дк200 цена\"",
+            "\"dsg 7 +вместо aisin 09g\"",
+            "\"dsg 7 +вместо aisin 09г\"",
+            "\"dsg 7 +вместо айсин 09g\"",
+            "\"dsg 7 +вместо айсин 09г\"",
+            "\"дсг 7 +вместо aisin 09g\"",
+            "\"дсг 7 +вместо aisin 09г\"",
+            "\"дсг 7 +вместо айсин 09g\"",
+            "\"дсг 7 +вместо айсин 09г\"",
+            "\"dsg7 +вместо aisin 09g\"",
+            "\"dsg7 +вместо aisin 09г\"",
+            "\"dsg7 +вместо айсин 09g\"",
+            "\"dsg7 +вместо айсин 09г\"",
+            "\"дсг7 +вместо aisin 09g\"",
+            "\"дсг7 +вместо aisin 09г\"",
+            "\"дсг7 +вместо айсин 09g\"",
+            "\"дсг7 +вместо айсин 09г\"",
+            "\"ремонт мехатроника dq200 ставрополь\"",
+            "\"ремонт мехатроника dq200 +в ставрополе\"",
+            "\"ремонт мехатроника дк200 ставрополь\"",
+            "\"ремонт мехатроника дк200 +в ставрополе\"",
+            "!где +в старом осколе !ремонтируют dsg мехатроник",
+            "!где +в старом осколе !ремонтируют дсг мехатроник"
+          ]
+          local_service = ["!где +в старом осколе !ремонтируют dsg мехатроник","!где +в старом осколе !ремонтируют дсг мехатроник"]
+          old = "купить коробку дсг 7 dq200"
+          baseline_hash = "abe9ff27ad0b6b4a6eb917810554e60ff23f5ed773565ca51f72b29ac3f2a8c4"
+          
+          def tokens(text):
+              return Counter(re.findall(r"[a-zа-яё0-9]+", text.casefold()))
+          
+          if len(terms) != 50 or len(set(terms)) != len(terms) or f'"{old}"' not in terms:
+              raise RuntimeError("The reviewed exclusion batch is incomplete")
+          exact = [tokens(term) for term in terms if term.startswith('"') and term.endswith('"')]
+          local = [tokens(term) for term in local_service]
+          if len(exact) != 48 or any(sum(tokens(t).values()) not in range(1,8) for t in terms):
+              raise RuntimeError("Only the reviewed exact queries and two local-service phrases are permitted")
+          if set(local_service) != {t for t in terms if not t.startswith('"')}:
+              raise RuntimeError("Unexpected unquoted phrase")
+          
+          before = direct.read_campaign()
+          previous = before["NegativeKeywords"]["Items"]
+          fingerprint = hashlib.sha256(json.dumps(sorted(previous),ensure_ascii=False,separators=(",",":")).encode()).hexdigest()
+          if fingerprint != baseline_hash:
+              raise RuntimeError("Campaign settings changed since the fresh audit. Reconcile before writing.")
+          
+          keywords = direct.request("keywords", "get", direct.KEYWORDS_PARAMS)
+          manual = [row["Keyword"] for row in keywords.get("Keywords",[]) if row.get("Keyword")!="---autotargeting"]
+          if keywords.get("LimitedBy") or len(manual) != 266:
+              raise RuntimeError("Live manual keyword inventory differs from the reviewed list")
+          for phrase in manual:
+              words = tokens(phrase)
+              if words in exact or any(words >= required for required in local):
+                  raise RuntimeError("A new exclusion would match a manual keyword")
+          
+          expected = [term for term in previous if term != old]
+          expected += [term for term in terms if term not in expected]
+          if len(set(expected)) != 626 or sum(sum(len(word)*n for word,n in tokens(term).items()) for term in expected) > 20000:
+              raise RuntimeError("Unexpected proposed exclusions or length limit")
+          if direct.read_campaign() != before:
+              raise RuntimeError("Campaign settings changed during preflight")
+          
+          payload = {"Campaigns":[{"Id":direct.CID,"NegativeKeywords":{"Items":expected}}]}
+          direct.ALLOWED_WRITE = payload
+          try:
+              response = direct.request("campaigns","update",payload)
+              print("API",json.dumps(response.get("UpdateResults"),ensure_ascii=False))
+          except Exception as exc:
+              print("Uncertain API response:",direct.safe_error(exc))
+          
+          for delay in (0,2,5,10,20):
+              time.sleep(delay)
+              after = direct.read_campaign()
+              observed = after["NegativeKeywords"]["Items"]
+              if Counter(observed) == Counter(expected) and direct.nonnegative(before) == direct.nonnegative(after):
+                  print("VERIFIED",json.dumps({"campaign":direct.CID, "before":len(previous), "after":len(observed),
+                      "rules_added":len(set(observed)-set(previous)), "replaced":old,
+                      "quoted_replacement":f'"{old}"', "verified_utc":direct.now()},ensure_ascii=False))
+                  break
+          else:
+              raise RuntimeError("Readback mismatch. No second write sent.")
+          PY
