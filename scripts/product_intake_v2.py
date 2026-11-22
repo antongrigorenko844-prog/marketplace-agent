@@ -295,13 +295,9 @@ def run_wb(items: list[dict], plans: dict, media: dict, old: dict, apply: bool) 
         observed_price = variants[0].get("discountedPrice") if len(variants) == 1 else None
         problems = []
         if different(observed_price, expected):
-            problems.append("price_not_confirmed")
-            if apply:
-                try:
-                    wb.update_prices([{"nmID":nm,"price":expected,"discount":0}])
-                    problems[-1] = "price_submitted_pending_readback"
-                except Exception as exc:
-                    problems[-1] = "price_update_error:" + type(exc).__name__
+            # Existing cards may have legitimate owner edits since manifest approval.
+            # Never overwrite an existing listing's price from a stale intake batch.
+            problems.append("existing_price_mismatch_manual_review")
         if actual_images < len(item["media"]):
             if media.get(sku) and apply:
                 try:
@@ -322,13 +318,9 @@ def run_wb(items: list[dict], plans: dict, media: dict, old: dict, apply: bool) 
                 sample = next((x for x in data if int(x.get("chrtId") or x.get("chrtID") or 0)==int(chrt)),None)
                 observed_stock = sample.get("amount") if sample else None
                 if observed_stock != item["stock"]:
-                    if apply:
-                        wb._request("PUT", config.config.wb_marketplace_base,
-                            f"/api/v3/stocks/{warehouse}",
-                            {"stocks":[{"chrtId":int(chrt),"amount":item["stock"]}]})
-                        problems.append("stock_submitted_pending_readback")
-                    else:
-                        problems.append("stock_mismatch")
+                    # Operational stock is owned by the 3-hour shared-stock sync,
+                    # not a catalog manifest that may already be stale.
+                    problems.append("existing_stock_mismatch_do_not_overwrite")
             except Exception as exc:
                 problems.append("stock_error:" + type(exc).__name__)
         else:
@@ -397,15 +389,9 @@ def run_market(items: list[dict], plans: dict, media: dict, old: dict, apply: bo
             actual = raw_price.get("value")
             problems = []
             if different(actual, expected):
-                if apply:
-                    code, result = ym._request("POST", f"/v2/businesses/{business}/offer-prices/updates",
-                         json_body={"offers":[{"offerId":sku,"price":{"value":expected,"currencyId":"RUR"}}]})
-                    if code == 200 and result.get("status") == "OK" and not result.get("errors"):
-                        problems.append("price_submitted_pending_readback")
-                    else:
-                        problems.append("price_rejected")
-                else:
-                    problems.append("price_mismatch")
+                # Existing Market prices are read-only in catalog onboarding.
+                # Explicit owner price revisions must use a separate reviewed job.
+                problems.append("existing_price_mismatch_manual_review")
             plans[sku]["channels"]["yandex_market"] = status(
                 "verified" if not problems else "partial", expected_price=expected,
                 observed_price=actual, issues=problems, business_catalog=True)
@@ -428,6 +414,11 @@ def run_tilda(items: list[dict], plans: dict, media_files: dict, apply: bool) ->
             plans[sku]["channels"]["tilda"] = status("blocked_duplicate")
             continue
         found = matches[0] if matches else None
+        if found and different(found.get("price"), expected):
+            plans[sku]["channels"]["tilda"] = status(
+                "existing_price_mismatch_manual_review",
+                observed_price=found.get("price"), expected_price=expected)
+            continue
         if found and not different(found.get("price"), expected):
             gal = found.get("gallery") or "[]"
             try:
@@ -438,9 +429,15 @@ def run_tilda(items: list[dict], plans: dict, media_files: dict, apply: bool) ->
                 plans[sku]["channels"]["tilda"] = status(
                     "verified", uid=found.get("uid"), price=expected, image_count=count)
                 continue
+        if found:
+            # No destructive product+stock reimport for existing Tilda cards.
+            # A media-only update requires a separate guarded step.
+            plans[sku]["channels"]["tilda"]=status(
+                "existing_media_incomplete_requires_safe_media_only_update", uid=found.get("uid"))
+            continue
         if not media_files.get(sku):
             plans[sku]["channels"]["tilda"] = status("blocked_missing_approved_images",
-                existing=bool(found))
+                existing=False)
             continue
         if not apply:
             plans[sku]["channels"]["tilda"] = status("ready_to_update" if found else "ready_to_create")
