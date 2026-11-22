@@ -82,7 +82,13 @@ def run():
     typ=ozon_client.search_attribute_values(NEW_CAT,NEW_TYPE,8229,TYPE_NAME,limit=30)
     if not any(z.get("id")==NEW_TYPE and z.get("value")==TYPE_NAME for z in typ):
         raise ValueError("Metiz automotive Ozon type not confirmed")
-    count=ozon_client.search_attribute_values(NEW_CAT,NEW_TYPE,7202,"1",limit=20)
+    # Ozon values/search requires at least two Unicode characters; the
+    # required count value is "1". Use the official unfiltered values endpoint.
+    qty_data=ozon_client._post(
+        "/v1/description-category/attribute/values",
+        {"attribute_id":7202,"description_category_id":NEW_CAT,"type_id":NEW_TYPE,
+         "language":"RU","last_value_id":0,"limit":200})
+    count=qty_data.get("result") or []
     count_match=[z for z in count if str(z.get("value")).strip() in ("1","1 шт.","1 штука")]
     if not count_match:
         # Do not invent a dictionary ID for mandatory quantity.
