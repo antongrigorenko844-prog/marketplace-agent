@@ -28,5 +28,61 @@
     ],
     "api_message": "Ozon /v1/description-category/attribute/values/search вернул 400: {\"code\":3,\"message\":\"Request validation error: invalid SearchAttributeValuesRequest.Value: value length must be at least 2 runes\"}"
   },
-  "updated_utc": "2026-11-22T19:14:37.601984+00:00"
+  "updated_utc": "2026-11-22T19:17:00.736762+00:00",
+  "preflight": {
+    "sku": "vint-kollektora-ea888",
+    "product_id": 6950936854,
+    "before_category": 17028751,
+    "before_type": 970863591,
+    "new_category": 74606916,
+    "new_type": 970858643,
+    "old_oem_removed": [
+      7324,
+      11031
+    ],
+    "old_gearbox_code_removed": "8708409909",
+    "tnved": "7318159008",
+    "price_preserved": 950.0,
+    "photo_count": 3,
+    "required_attribute_ids": [
+      85,
+      7202,
+      8229,
+      22232,
+      23536
+    ]
+  },
+  "submission": {
+    "status": "accepted",
+    "task_id": 6103153580,
+    "sku": "vint-kollektora-ea888"
+  },
+  "import_result": {
+    "status": "imported",
+    "errors": [],
+    "product_id": 6950936854,
+    "task_id": 6103153580
+  },
+  "catalog_source": {
+    "data/master_control.xlsx": {
+      "before": "8708409909",
+      "after": "7318159008"
+    },
+    "data/ozon_catalog.xlsx": {
+      "before": "8708409909",
+      "after": "7318159008"
+    }
+  },
+  "readback": {
+    "category": 74606916,
+    "type": 970858643,
+    "correct_type": true,
+    "is_created": false,
+    "moderation": "",
+    "status_name": "Не продаётся",
+    "errors": []
+  },
+  "overall": {
+    "status": "imported_moderation_or_category_change_pending"
+  }
 }
