@@ -7,7 +7,7 @@ on:
         required: true
         type: choice
         default: status
-        options: [status, media, stock, avito, tilda, tests]
+        options: [status, media, stock, stock_dryrun, avito, tilda, tests]
       sku:
         description: Exact existing product SKU
         type: string
@@ -79,12 +79,14 @@ jobs:
               python media_fast.py --sku 6t30 --mode inspect --channels ozon,wb,market
               python tilda_cover_csv.py --sku 6t30
               python stock_preflight.py --live
+              python stock_sync_dryrun.py
               python avito_fast_cover.py --sku 6t30 --mode plan --check-release
               ;;
             media)
               python media_fast.py --sku "$SKU" --mode "$MODE" --channels "$CHANNELS"
               ;;
             stock) python stock_preflight.py --live ;;
+            stock_dryrun) python stock_sync_dryrun.py ;;
             tilda)
               if [ "$MODE" = "apply" ]; then
                 echo "::error::Tilda has no verified automatic cover-replace endpoint; CSV preparation is read-only."
@@ -114,6 +116,7 @@ jobs:
           bash .github/scripts/save_data.sh \
             data/media_fast_report.json \
             data/stock_preflight_report.json \
+            data/stock_sync_dryrun_report.json \
             data/tilda_cover_plan_report.json \
             data/tilda_cover_patch.csv \
             data/avito_fast_cover_report.json \
