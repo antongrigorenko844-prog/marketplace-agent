@@ -1,0 +1,27 @@
+name: LEOPARTS set EA888 Gen3 new complete kit unified Market price
+on:
+  push:
+    branches: [main]
+    paths: ['data/ea888_gen3_full_kit_market_price_20261123_request.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  market:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Set owner approved price 7850 for one new kit at business level and read back
+        env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python -m py_compile scripts/ea888_gen3_full_kit_market_price_20261123.py
+          python -u scripts/ea888_gen3_full_kit_market_price_20261123.py
+      - name: Save verified business price
+        if: always()
+        run: bash .github/scripts/save_data.sh data/ea888_gen3_full_kit_market_price_result_20261123.json
