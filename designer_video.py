@@ -1,4 +1,4 @@
-"""Send the next scheduled product video and its publication text as one Telegram album."""
+"""Send a product video, backup copy file and visible Telegram publication text."""
 import argparse
 import hashlib
 from io import BytesIO
@@ -127,8 +127,9 @@ def deliver(phase, operation, root=Path(".")):
     if phase != "send" or record is None or record.get("digest") != digest:
         raise DeliveryError("Сначала нужно сохранить резервирование этой версии материалов.")
     caption = (f"Видео {index} из {len(queue)} для YouTube, RuTube и TikTok.\n"
-               "Проверьте, где ролик уже опубликован. Для остальных площадок возьмите заголовок, "
-               "описание и хештеги из publication.txt. После публикации пришлите ссылки.")
+               "Готовые заголовки, описания и хештеги — в следующем сообщении. "
+               "Файл publication.txt приложен как резервная копия. "
+               "После публикации пришлите ссылки.")
     media = [{"type": "document", "media": "attach://video", "caption": caption},
              {"type": "document", "media": "attach://copy"}]
     plain = text.decode("utf-8").rstrip()
