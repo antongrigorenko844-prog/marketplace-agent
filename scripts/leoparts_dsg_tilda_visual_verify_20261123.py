@@ -14,7 +14,7 @@ LIST={
 }
 def get_urls(obj):
     if isinstance(obj,list):return [u for item in obj for u in get_urls(item)]
-    if isinstance(obj,dict):return [u for key,v in obj.items() for u in get_urls(v) if key in ("url","src","link","original","gallery","image","images","photos")]
+    if isinstance(obj,dict):return [u for key,v in obj.items() for u in get_urls(v) if key in ("url","src","img","link","original","gallery","image","images","photos")]
     if isinstance(obj,str):
         if obj.startswith("http"):return [obj]
         for decoder in (json.loads,ast.literal_eval):
