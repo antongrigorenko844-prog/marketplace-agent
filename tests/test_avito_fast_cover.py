@@ -116,14 +116,15 @@ class AvitoFastCoverTests(unittest.TestCase):
     def test_unpaid_or_unconfirmed_never_contacts_release(self):
         with TemporaryDirectory() as td:
             local = Path(td) / "avito_feed.xlsx"
-            local.write_bytes(workbook_bytes())
+            initial = workbook_bytes()
+            local.write_bytes(initial)
             with patch.object(fast, "LOCAL_FEED", local), \
                  patch.object(fast, "_approved_image", return_value=NEW), \
                  patch.dict(os.environ, {"AVITO_AUTOLOAD_READY": "false"}), \
                  patch.object(fast, "_get_release") as network:
                 result = fast.run("6t30", "apply", check_release=True)
                 self.assertEqual(result["result"], "skipped_autoload_not_confirmed_ready")
-                self.assertEqual(local.read_bytes(), workbook_bytes())
+                self.assertEqual(local.read_bytes(), initial)
                 network.assert_not_called()
 
     def test_remote_digest_noop_skips_publishing(self):
