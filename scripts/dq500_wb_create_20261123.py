@@ -93,18 +93,14 @@ def payload(barcode,sample):
     }
     return int(sample["subjectID"]),result
 def check_photo_urls():
-    import requests
-    urls=[]
-    for filename in PHOTO_NAMES:
-        if not (SITE/filename).is_file():continue
-        url="https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/photos_avito/"+filename
-        try:
-            r=requests.head(url,timeout=20,allow_redirects=True)
-            if r.status_code!=200 or (r.headers.get("Content-Type") and not r.headers["Content-Type"].lower().startswith("image/")):
-                continue
-        except requests.RequestException:continue
-        urls.append(url)
-    return urls
+    # Same exact-case Dq500 photos are already published as public GitHub
+    # release assets "product-photos" and verified through the release API.
+    # raw.githubusercontent HEAD is not reliable for this account; WB's media
+    # import uses the public release asset URLs, like other LEOPARTS listings.
+    return [
+        "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/"+filename
+        for filename in PHOTO_NAMES if (SITE/filename).is_file()
+    ]
 def publish_or_verify():
     validate_manifest()
     catalog=master()
