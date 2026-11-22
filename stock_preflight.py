@@ -13,6 +13,8 @@ from pathlib import Path
 import sqlite3
 import sys
 
+from stock_transaction import units
+
 ROOT = Path(__file__).resolve().parent
 DB = ROOT / "data/orders_seen.db"
 OUT = ROOT / "data/stock_preflight_report.json"
@@ -31,8 +33,8 @@ def _rows(posting):
     quantities = Counter()
     for item in posting.get("products") or []:
         sku = str(item.get("offer_id") or "").strip()
-        qty = item.get("quantity")
-        if not sku or type(qty) is not int or qty < 1:
+        qty = units(item.get("quantity"))
+        if not sku or qty < 1:
             raise ValueError("Ozon returned invalid SKU or quantity")
         quantities[sku] += qty
     if not quantities:
