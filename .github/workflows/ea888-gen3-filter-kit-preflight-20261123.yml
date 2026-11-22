@@ -1,0 +1,28 @@
+name: LEOPARTS new EA888 Gen3 filter kit audit
+on:
+  push:
+    branches: [main]
+    paths: ['data/ea888_gen3_filter_kit_preflight_20261123_request.json']
+permissions: {contents: write}
+concurrency: {group: leoparts-ea888-readonly, cancel-in-progress: false}
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Check sample exact SKUs and possible category
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: python -u scripts/ea888_gen3_filter_kit_preflight_20261123.py
+      - name: Persist audit
+        if: always()
+        run: bash .github/scripts/save_data.sh data/ea888_gen3_filter_kit_preflight_20261123.json
