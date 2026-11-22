@@ -1,0 +1,50 @@
+{
+  "approved_on": "2026-11-23",
+  "status": "owner_approved_prices_recorded_in_unpublished_three_sku_drafts",
+  "related_source": "data/supplier_batch_20261123_card_drafts.json",
+  "site_avito_policy": "manual commercial override for these three SKUs; avoid generic 70% reprice. 6T30 solenoid Gen2 keeps same 8000 RUB absolute channel delta as existing Gen1 solenoid listing. Blocks use approx 60% of MP price.",
+  "marketplace_channels": [
+    "ozon",
+    "wildberries",
+    "yandex_market"
+  ],
+  "direct_channels": [
+    "avito",
+    "tilda"
+  ],
+  "prices": {
+    "6t30-solenoids-gen2": {
+      "marketplace": 19880,
+      "avito": 11880,
+      "site": 11880
+    },
+    "6t30-tcm-gen1": {
+      "marketplace": 58850,
+      "avito": 35350,
+      "site": 35350
+    },
+    "6t30-tcm-gen2": {
+      "marketplace": 58850,
+      "avito": 35350,
+      "site": 35350
+    }
+  },
+  "existing_gen1_solenoids_do_not_change": {
+    "sku": "6t30",
+    "marketplace": 19850,
+    "site": 11850,
+    "avito": 11850
+  },
+  "identity": "Gen1 and Gen2 control blocks include solenoids; not bare electronic TCM boards. Verify markings and actual assembly before live listing.",
+  "sku_prices_are_prepublication_not_live": true,
+  "missing_for_live_publication": [
+    "Photos of actual Gen-specific parts",
+    "Exact OEM and generation labels",
+    "Confirmed quantity of each generation in LEOPARTS inventory",
+    "Complete set contents",
+    "Purchase costs",
+    "Weights and dimensions",
+    "Category-specific mandatory attributes and TN VED"
+  ],
+  "supplier_quantities_are_not_owned_stock": true
+}
