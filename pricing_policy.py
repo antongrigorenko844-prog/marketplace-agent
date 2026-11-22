@@ -39,7 +39,12 @@ def auto_repricing_enabled(path=None):
 
 
 def auto_repricing_frozen(path=None):
-    return not auto_repricing_enabled(path)
+    # Invalid/missing policy is a FREEZE, not a reason to crash existing-card
+    # maintenance or silently enable the old ratio calculation.
+    try:
+        return not auto_repricing_enabled(path)
+    except PricingFrozenError:
+        return True
 
 
 def require_legacy_new_product_prices(skus, avito_prices, site_prices, fixed):
