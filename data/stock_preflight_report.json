@@ -1,0 +1,93 @@
+{
+  "read_only": true,
+  "checked_utc": "2026-11-22T20:21:28.844024+00:00",
+  "lookback_days": 30,
+  "inventory_writes": 0,
+  "recipe_writes": 0,
+  "status": "historical_corrections_need_evidence",
+  "live_orders_checked": true,
+  "ledger": {
+    "by_source": [
+      {
+        "source": "avito_delivery",
+        "orders": 1,
+        "active_missing_recipes": 0
+      },
+      {
+        "source": "ozon_fbo",
+        "orders": 268,
+        "active_missing_recipes": 201
+      },
+      {
+        "source": "ozon_fbs",
+        "orders": 1025,
+        "active_missing_recipes": 806
+      },
+      {
+        "source": "wb",
+        "orders": 109,
+        "active_missing_recipes": 71
+      },
+      {
+        "source": "yandex_market",
+        "orders": 41,
+        "active_missing_recipes": 21
+      }
+    ],
+    "pending_projection": 0
+  },
+  "channels": {
+    "ozon_fbs": {
+      "counts": {
+        "checked": 279,
+        "unchanged": 268,
+        "blocked_legacy": 3,
+        "can_reconcile_from_saved_recipe": 1,
+        "new_or_unrecorded": 7
+      },
+      "blocked_examples": [
+        {
+          "order_ref_hash": "649e0907036956",
+          "sku": "tolkateli-4-salniki-4",
+          "source": "ozon_fbs",
+          "previous_units": 1,
+          "requested_units": 0,
+          "reason": "historical_recipe_missing",
+          "prior_status": "active",
+          "latest_status": "cancelled"
+        },
+        {
+          "order_ref_hash": "3f87b73efe050c",
+          "sku": "0cw0amdsgdq200",
+          "source": "ozon_fbs",
+          "previous_units": 1,
+          "requested_units": 0,
+          "reason": "historical_recipe_missing",
+          "prior_status": "active",
+          "latest_status": "cancelled"
+        },
+        {
+          "order_ref_hash": "bfe41cc93372a4",
+          "sku": "kryshka-platy-dq200",
+          "source": "ozon_fbs",
+          "previous_units": 1,
+          "requested_units": 0,
+          "reason": "historical_recipe_missing",
+          "prior_status": "active",
+          "latest_status": "cancelled"
+        }
+      ]
+    },
+    "ozon_fbo": {
+      "counts": {
+        "checked": 62,
+        "unchanged": 60,
+        "can_reconcile_from_saved_recipe": 1,
+        "new_or_unrecorded": 1
+      },
+      "blocked_examples": []
+    }
+  },
+  "historical_recipes_auto_filled": 0,
+  "ledger_modified": false
+}

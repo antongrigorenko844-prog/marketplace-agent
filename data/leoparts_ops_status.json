@@ -1,0 +1,63 @@
+{
+  "generated_utc": "2026-11-22T20:21:33.830819+00:00",
+  "policy": "verified requires a live readback; submission is not publication",
+  "checks": {
+    "ozon": {
+      "status": "not_applied",
+      "sku": "6t30",
+      "reason": "",
+      "source_verified": false,
+      "price_written": false,
+      "stock_written": false
+    },
+    "wb": {
+      "status": "verified",
+      "sku": "6t30",
+      "reason": "",
+      "source_verified": true,
+      "price_written": false,
+      "stock_written": false
+    },
+    "market": {
+      "status": "verified",
+      "sku": "6t30",
+      "reason": "",
+      "source_verified": true,
+      "price_written": false,
+      "stock_written": false
+    },
+    "avito": {
+      "status": "feed_published_listing_unverified",
+      "sku": "6t30",
+      "source_verified": true,
+      "live_listing_photo_confirmed": false,
+      "needs_autoload_check": true,
+      "reason": "",
+      "price_written": false,
+      "stock_written": false
+    },
+    "tilda": {
+      "status": "manual_csv_import_needed",
+      "sku": "6t30",
+      "source_verified": false,
+      "reason": "",
+      "price_written": false,
+      "stock_written": false
+    },
+    "stock_orders": {
+      "status": "historical_corrections_need_evidence",
+      "read_only": true,
+      "old_debits_without_recipes": 1099,
+      "unfinished_projection_count": 0,
+      "live_order_conflicts": 3,
+      "no_stock_mutation_by_this_check": true
+    }
+  },
+  "sources": {
+    "media": true,
+    "avito": true,
+    "tilda": true,
+    "stock": true
+  },
+  "commercial_fields_changed_by_status_tool": false
+}
