@@ -1,0 +1,28 @@
+name: LEOPARTS Ozon FBS delivery and cancellations diagnosis Nov22
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/ozon-delivery-cancellations-20261122.yml']
+permissions:
+  contents: write
+concurrency:
+  group: leoparts-ozon-audit-readonly
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -r requirements.txt
+      - name: Aggregate cancellation reasons and order ages without personal data
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: python ozon_delivery_cancellation_20261122.py
+      - name: Save non-personal diagnostics
+        if: always()
+        run: bash .github/scripts/save_data.sh data/ozon_recovery_20261122/delivery_cancellation_diagnosis.json
