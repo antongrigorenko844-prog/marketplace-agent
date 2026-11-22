@@ -1,0 +1,38 @@
+name: LEOPARTS two DSG tools to Ozon WB Market Tilda Avito
+on:
+  push:
+    branches: [main]
+    paths: ['data/dsg_tools_all_channels_20261123_request.json']
+permissions: {contents: write}
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  two-approved-products:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Safe exact-two-SKU publishing / preflight only
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+        run: |
+          python -m py_compile scripts/dsg_tools_all_channels_20261123.py
+          python -u scripts/dsg_tools_all_channels_20261123.py
+      - name: Save independent channel statuses / photo upload cache
+        if: always()
+        run: |
+          bash .github/scripts/save_data.sh data/dsg_tools_all_channels_20261123_result.json data/photo_upload_cache.json
