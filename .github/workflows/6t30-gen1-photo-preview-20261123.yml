@@ -1,0 +1,21 @@
+name: LEOPARTS inspect existing Gen1 catalog source photos
+on:
+  push:
+    branches: [main]
+    paths: ['data/6t30_gen1_preview_20261123_request.json']
+permissions: {contents: write}
+concurrency: {group: leoparts-gen1-image-readonly, cancel-in-progress: false}
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q pillow
+      - name: Export small thumbnails from real photos/6t30 Gen1 listing
+        run: python scripts/6t30_gen1_photo_preview_20261123.py
+      - name: Save preview text for exact product verification
+        run: bash .github/scripts/save_data.sh data/6t30_gen1_preview_20261123/
