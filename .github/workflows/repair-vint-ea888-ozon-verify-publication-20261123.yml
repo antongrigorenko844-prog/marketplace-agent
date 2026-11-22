@@ -1,0 +1,33 @@
+name: LEOPARTS verify repaired EA888 intake screw published on Ozon
+on:
+  push:
+    branches: [main]
+    paths: ['data/repair_vint_ea888_ozon_verify_publication_20261123_request.json']
+permissions:
+  contents: write
+concurrency:
+  group: leoparts-vint-ea888-moderation-readonly
+  cancel-in-progress: false
+jobs:
+  readback:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Verify new category type moderation and unchanged sale price
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python -m py_compile scripts/repair_vint_ea888_ozon_verify_publication_20261123.py
+          python -u scripts/repair_vint_ea888_ozon_verify_publication_20261123.py
+      - name: Save actual Ozon Seller readback
+        if: always()
+        run: |
+          if [ -f data/repair_vint_ea888_ozon_verify_publication_20261123.json ]; then
+            bash .github/scripts/save_data.sh data/repair_vint_ea888_ozon_verify_publication_20261123.json
+          fi
