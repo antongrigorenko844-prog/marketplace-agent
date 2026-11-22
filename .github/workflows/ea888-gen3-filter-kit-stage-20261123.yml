@@ -1,0 +1,32 @@
+name: LEOPARTS stage EA888 Gen3 complete filter kit in canonical catalogs
+on:
+  push:
+    branches: [main]
+    paths: ['data/ea888_gen3_full_kit_catalog_stage_20261123_request.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Stage exactly one new SKU in Ozon WB master and fixed site/Avito price sources
+        run: |
+          python -m py_compile scripts/ea888_gen3_full_kit_stage_catalog_20261123.py
+          python -u scripts/ea888_gen3_full_kit_stage_catalog_20261123.py
+      - name: Persist only exact source files
+        if: always()
+        run: |
+          if [ -f data/ea888_gen3_full_kit_catalog_stage_20261123_result.json ]; then
+            bash .github/scripts/save_data.sh \
+              data/master_control.xlsx \
+              data/ozon_catalog.xlsx \
+              data/wb_catalog.xlsx \
+              data/avito_site_price_overrides.xlsx \
+              data/ea888_gen3_full_kit_catalog_stage_20261123_result.json
+          fi
