@@ -1,0 +1,31 @@
+name: LEOPARTS check if Dq500 smooth housing card exists WB
+on:
+  push:
+    branches: [main]
+    paths:
+      - data/dq500_wb_scan_20261123_request.json
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -q -r requirements.txt
+      - name: Read live WB cards and prices without writes
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: python scripts/dq500_wb_scan_20261123.py
+      - name: Persist verification
+        if: always()
+        run: |
+          if [ -f data/dq500_wb_scan_20261123.json ]; then
+            bash .github/scripts/save_data.sh data/dq500_wb_scan_20261123.json
+          fi
