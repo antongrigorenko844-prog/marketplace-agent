@@ -1,33 +1,4 @@
 {
-  "fatal": {
-    "status": "failed",
-    "type": "OzonApiError",
-    "file": "ozon_client.py",
-    "line": 69,
-    "frames": [
-      {
-        "file": "repair_vint_ea888_ozon_apply_20261123.py",
-        "line": 216,
-        "fn": "<module>"
-      },
-      {
-        "file": "repair_vint_ea888_ozon_apply_20261123.py",
-        "line": 85,
-        "fn": "run"
-      },
-      {
-        "file": "ozon_client.py",
-        "line": 480,
-        "fn": "search_attribute_values"
-      },
-      {
-        "file": "ozon_client.py",
-        "line": 69,
-        "fn": "_post"
-      }
-    ],
-    "api_message": "Ozon /v1/description-category/attribute/values/search вернул 400: {\"code\":3,\"message\":\"Request validation error: invalid SearchAttributeValuesRequest.Value: value length must be at least 2 runes\"}"
-  },
   "updated_utc": "2026-11-22T19:17:00.736762+00:00",
   "preflight": {
     "sku": "vint-kollektora-ea888",
@@ -42,7 +13,7 @@
     ],
     "old_gearbox_code_removed": "8708409909",
     "tnved": "7318159008",
-    "price_preserved": 950.0,
+    "price_preserved": 950,
     "photo_count": 3,
     "required_attribute_ids": [
       85,
@@ -84,5 +55,36 @@
   },
   "overall": {
     "status": "imported_moderation_or_category_change_pending"
-  }
+  },
+  "superseded_error": {
+    "status": "failed",
+    "type": "OzonApiError",
+    "file": "ozon_client.py",
+    "line": 69,
+    "frames": [
+      {
+        "file": "repair_vint_ea888_ozon_apply_20261123.py",
+        "line": 216,
+        "fn": "<module>"
+      },
+      {
+        "file": "repair_vint_ea888_ozon_apply_20261123.py",
+        "line": 85,
+        "fn": "run"
+      },
+      {
+        "file": "ozon_client.py",
+        "line": 480,
+        "fn": "search_attribute_values"
+      },
+      {
+        "file": "ozon_client.py",
+        "line": 69,
+        "fn": "_post"
+      }
+    ],
+    "api_message": "Ozon /v1/description-category/attribute/values/search вернул 400: {\"code\":3,\"message\":\"Request validation error: invalid SearchAttributeValuesRequest.Value: value length must be at least 2 runes\"}",
+    "resolved_by_successful_import_task": 6103153580
+  },
+  "workflow_status": "OZON_CORRECT_CATEGORY_AND_TYPE_ACCEPTED_MODERATION_PENDING"
 }
