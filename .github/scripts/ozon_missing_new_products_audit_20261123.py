@@ -68,32 +68,33 @@ if p.exists():
     r["draft_status"]={"status":d.get("status"),"publication_ready":d.get("publication_ready"),"non_executable_draft":d.get("non_executable_draft")}
     r["drafts"]={x.get("seller_sku_candidate"):{"publication_blockers":x.get("publication_blockers"),"media_status":x.get("media",{}).get("status"),"cover_verified_as_product_photograph":x.get("media",{}).get("cover_verified_as_product_photograph"),"price_ozon":x.get("commercial_inputs",{}).get("prices_rub",{}).get("ozon")} for x in d.get("products",[])}
 
-# Try to identify the correct Ozon tool category without creating a product.
-# Do NOT copy categories of transmission components onto workshop equipment.
+# Discover Ozon category and type suggestions, not automatic assignment.
 try:
-    tree = oz.get_category_tree()
-    queue=list(tree)
-    selected=[]
+    tree=oz.get_category_tree()
+    queue=[(item, [], None) for item in tree]
+    found=[]
     seen=0
-    while queue and seen < 35000:
-        item=queue.pop(0);seen+=1
+    needles=("инструмент","манометр","давлен","диагност","оснаст","ремонт","автосервис","оборудован","тестер")
+    while queue and seen<35000:
+        item,parents,category=queue.pop(0);seen+=1
         if not isinstance(item,dict):continue
-        name=str(item.get("category_name") or item.get("name") or item.get("title") or "").strip()
-        low=name.casefold()
-        if any(term in low for term in (
-            "набор инструмен", "инструмент для ремонт", "специальный инструмент",
-            "диагностическ", "манометр", "проверки давлен", "автомобильные инструменты",
-            "оборудование для автосервиса", "автомобильный инструмент",
-            "инструмент для автомобил")):
-            selected.append({k:v for k,v in item.items() if k in (
-                "category_name","name","title","description_category_id","category_id",
-                "type_id","type_name","disabled")})
-        for key in ("children","categories","types","childrens"):
-            more=item.get(key)
-            if isinstance(more,list):queue.extend(more)
+        label=str(item.get("type_name") or item.get("category_name") or item.get("name") or item.get("title") or "")
+        context=parents+[label]
+        cat=item.get("description_category_id") or category
+        if label and any(k in label.casefold() for k in needles):
+            score=sum(10 for k in ("манометр","автосервис","инструмент","оснаст","диагност","давлен") if k in label.casefold())
+            score+=sum(2 for k in ("авто","набор","комплект") if k in label.casefold())
+            if item.get("type_id"):score+=3
+            found.append({"score":score,"name":label,"category_path":" / ".join(context[-5:]),
+                         "description_category_id":cat,"type_id":item.get("type_id"),
+                         "disabled":item.get("disabled")})
+        for more in (item.get("children") or [],item.get("categories") or [],item.get("types") or []):
+            if isinstance(more,list):
+                for child in more:queue.append((child,context,cat))
+    found.sort(key=lambda x:(-x["score"],not bool(x["type_id"]),x["category_path"]))
     r["ozon_category_probe"]={"status":"ok","nodes_scanned":seen,
-       "candidate_count":len(selected),"candidates":selected[:50],
-       "note":"Candidates only; not validated for these exact products."}
+       "candidate_count":len(found),"candidates":found[:120],
+       "note":"Category labels and type IDs are suggestions, not publication approvals. Check mandatory attributes for exact toolkit."}
 except Exception as e:
     r["ozon_category_probe"]={"status":"unavailable","error_type":type(e).__name__,
                               "error":str(e)[:170]}
