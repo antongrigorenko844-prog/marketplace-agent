@@ -1,0 +1,30 @@
+{
+  "purpose": "Exact user-approved cover mapping for three separate 6T30/6T40/6T45/6T50 Ozon offers",
+  "confirmed_date": "2026-11-23",
+  "source": "User supplied images in ChatGPT conversation and explicitly labeled each image",
+  "mapping": [
+    {
+      "offer_id": "6t30-solenoids-gen2",
+      "product": "7 loose second-generation solenoids only, no control module",
+      "uploaded_filename": "Комплект соленоидов Gen2 для АКПП(1).png",
+      "label": "Комплект соленоидов Gen2",
+      "confuse_with": "NOT the Gen2 TCM or first-generation kit"
+    },
+    {
+      "offer_id": "6t30-tcm-gen2",
+      "product": "Second-generation block with solenoids and electronic control module",
+      "uploaded_filename": "LEOPARTS_ Блок АКПП Gen2.png",
+      "label": "Блок управления АКПП с соленоидами Gen2",
+      "confuse_with": "NOT loose Gen2 solenoids or first generation block"
+    },
+    {
+      "offer_id": "6t30-tcm-gen1",
+      "product": "First-generation block with solenoids and electronic control module",
+      "uploaded_filename": "Блок управления АКПП LEOPARTS(1).png",
+      "label": "Блок управления АКПП с соленоидами Gen1",
+      "confuse_with": "NOT loose Gen1 solenoids"
+    }
+  ],
+  "asset_delivery_status": "Images are conversation attachments, not yet committed as binaries to GitHub and not yet uploaded to Ozon",
+  "publication_guard": "Do not substitute another generation, use non-matching objects, or claim card created without API readback"
+}
