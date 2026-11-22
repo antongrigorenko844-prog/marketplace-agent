@@ -2131,6 +2131,27 @@ def cmd_sync_orders() -> int:
         if "yandex_market_error" in summary:
             print(f"    ОШИБКА Яндекс Маркет: {summary['yandex_market_error']}")
 
+    # Legacy Ozon FBS cancellations without historical BOM are NOT released
+    # into stock. The rest of the independently valid orders can proceed.
+    # Publish a separate visible status instead of a false clean-success claim.
+    deferred = summary.get("deferred_legacy_cancellations") or []
+    from datetime import datetime, timezone
+    deferred_status = {
+        "checked_at_utc": datetime.now(timezone.utc).isoformat(),
+        "status": "partial_success_manual_reconciliation_required" if deferred else "no_deferred_fbs_cancellations",
+        "deferred_count": len(deferred),
+        "items": deferred,
+        "stock_added_back_for_these_items": False,
+    }
+    with open(_data_path("stock_deferred_cancellations.json"), "w", encoding="utf-8") as f:
+        json.dump(deferred_status, f, ensure_ascii=False, indent=2)
+    if deferred:
+        print(f"\n::warning::Отложено {len(deferred)} отмен Ozon FBS без исходного состава. "
+              "Остаток по ним НЕ возвращён; остальные заказы обработаны.")
+        for row in deferred[:12]:
+            print(f"  НЕ РАЗБЛОКИРОВАНО {row['sku']} / {row['order_ref_hash']} — "
+                  "нужна сверка исторического состава заказа.")
+
     incomplete = any(key.endswith("_error") for key in summary) or bool(summary.get("unmatched"))
     deltas = summary.get("deltas") or {}
     if not deltas:
