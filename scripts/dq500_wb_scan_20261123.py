@@ -1,7 +1,8 @@
 """Read-only live Wildberries card identity scan for smooth DQ500 housing."""
-import json,re,time
+import json,re,time,sys
 from pathlib import Path
 from datetime import datetime, timezone
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import wb_client
 from openpyxl import load_workbook
 
