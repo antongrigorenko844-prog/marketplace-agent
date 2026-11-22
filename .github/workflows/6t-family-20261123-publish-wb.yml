@@ -1,0 +1,35 @@
+name: LEOPARTS create three 6T30 family products on Wildberries
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/6t_family_20261123_publish_wb_request.json'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install project requirements
+        run: pip install -q -r requirements.txt
+      - name: Validate and submit only owner-approved three WB cards, price and stock
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+        run: |
+          python -m py_compile scripts/6t_family_20261123_publish_wb.py
+          python -u scripts/6t_family_20261123_publish_wb.py
+      - name: Persist created card IDs and live readback
+        if: always()
+        run: |
+          if [ -f data/6t_family_20261123_publish_wb_result.json ]; then
+            bash .github/scripts/save_data.sh data/6t_family_20261123_publish_wb_result.json
+          fi
