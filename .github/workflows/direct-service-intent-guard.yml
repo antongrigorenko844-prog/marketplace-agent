@@ -1,0 +1,35 @@
+name: LEOPARTS Direct campaign-wide service-intent negatives (guarded)
+on:
+  push:
+    branches: [main]
+    paths: ['data/direct_service_intent_request.json']
+permissions: {contents: write}
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  direct:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Test safe word-count, product-intent exclusion and immutable-group constraints
+        run: |
+          python -m py_compile .github/scripts/direct_service_intent_guard.py
+          python -m unittest discover -s tests -p 'test_direct_service_intent_guard.py' -v
+      - name: Inspect or add strictly scoped campaign negatives
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: |
+          mode=$(python -c 'import json;print(json.load(open("data/direct_service_intent_request.json"))["mode"])')
+          case "$mode" in plan|apply) python -u .github/scripts/direct_service_intent_guard.py "$mode" ;; *) echo "::error::Unsupported mode"; exit 1 ;; esac
+      - name: Save complete before/after/coverage and change-proof
+        if: always()
+        run: |
+          if [ -f data/direct_service_intent_result.json ]; then
+            bash .github/scripts/save_data.sh data/direct_service_intent_result.json
+          fi
