@@ -6,7 +6,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: marketplace-agent
+  group: leoparts-wb-errors-readonly
   cancel-in-progress: false
 jobs:
   diagnostics:
