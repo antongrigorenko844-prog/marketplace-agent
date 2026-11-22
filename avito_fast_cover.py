@@ -162,7 +162,7 @@ def _api(token: str, method: str, path: str, **kwargs):
         headers["Authorization"] = "Bearer " + token
     r = requests.request(method, url, headers=headers, timeout=18, **kwargs)
     r.raise_for_status()
-    return r.json()
+    return r.json() if r.content else {}
 
 
 def _get_release(token: str):
