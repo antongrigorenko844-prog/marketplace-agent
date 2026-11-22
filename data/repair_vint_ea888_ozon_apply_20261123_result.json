@@ -3,7 +3,30 @@
     "status": "failed",
     "type": "OzonApiError",
     "file": "ozon_client.py",
-    "line": 69
+    "line": 69,
+    "frames": [
+      {
+        "file": "repair_vint_ea888_ozon_apply_20261123.py",
+        "line": 216,
+        "fn": "<module>"
+      },
+      {
+        "file": "repair_vint_ea888_ozon_apply_20261123.py",
+        "line": 85,
+        "fn": "run"
+      },
+      {
+        "file": "ozon_client.py",
+        "line": 480,
+        "fn": "search_attribute_values"
+      },
+      {
+        "file": "ozon_client.py",
+        "line": 69,
+        "fn": "_post"
+      }
+    ],
+    "api_message": "Ozon /v1/description-category/attribute/values/search вернул 400: {\"code\":3,\"message\":\"Request validation error: invalid SearchAttributeValuesRequest.Value: value length must be at least 2 runes\"}"
   },
-  "updated_utc": "2026-11-22T19:13:30.137643+00:00"
+  "updated_utc": "2026-11-22T19:14:37.601984+00:00"
 }
