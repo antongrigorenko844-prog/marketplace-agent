@@ -39,10 +39,23 @@ class MediaFastTests(unittest.TestCase):
         cover = {"offer_id": "ABC", "primary_image": "https://example.com/old.jpg",
                  "images": ["https://example.com/extra.jpg"]}
         with patch.object(oz, "get_product_names", return_value=[cover]), \
+                patch("media_fast._jpg_compare", return_value=60.0), \
                 patch.object(oz, "_post") as send:
             result = media_fast._ozon("ABC", URL, "inspect")
             self.assertEqual(result["status"], "needs_update")
             self.assertEqual(result["preserved_secondary_count"], 1)
+            send.assert_not_called()
+
+    def test_ozon_cdn_same_pixels_is_verified_without_reupload(self):
+        import ozon_client as oz
+        cover = {"offer_id": "ABC", "primary_image": "https://ir.ozone.ru/cdn-new.jpg",
+                 "images": ["https://example.com/detail.jpg"]}
+        with patch.object(oz, "get_product_names", return_value=[cover]), \
+                patch("media_fast._jpg_compare", return_value=2.1), \
+                patch.object(oz, "_post") as send:
+            result = media_fast._ozon("ABC", URL, "inspect")
+            self.assertEqual(result["status"], "verified")
+            self.assertLess(result["mean_pixel_difference"], 16)
             send.assert_not_called()
 
     def test_ozon_apply_only_pictures_exact_sku(self):
