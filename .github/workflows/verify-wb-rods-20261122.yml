@@ -1,0 +1,63 @@
+name: LEOPARTS verify WB rod prices after upload 20261122
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/verify_wb_rods_20261122_request.json'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Check WB live prices and quarantine, absolutely read only
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import wb_client,config
+          targets=json.loads(Path('data/approved_rods_filters_20261122.json').read_text())['marketplace_prices']
+          rows={r['vendorCode']:r for r in wb_client.get_prices(limit=1000) if r.get('vendorCode') in targets}
+          result={'read_only':True,'goods':{},'quarantine':{},'verified_all':True}
+          for sku,target in targets.items():
+              row=rows.get(sku)
+              sizes=(row or {}).get('sizes') or []
+              live=float(sizes[0]['discountedPrice']) if len(sizes)==1 else None
+              ok=live is not None and abs(live-target)<=1
+              result['goods'][sku]={'target':target,'observed':live,'verified':ok,'nmID':(row or {}).get('nmID')}
+              result['verified_all']&=ok
+          if not result['verified_all']:
+              try:
+                  quarantined=[]
+                  for offset in range(0,1000,100):
+                      b=wb_client._request('GET',config.wb_prices_base,
+                          '/api/v2/quarantine/goods?limit=100&offset='+str(offset))
+                      a=(b.get('data') or {}).get('quarantineGoods') or []
+                      quarantined.extend(a)
+                      if len(a)<100:break
+                  for sku, row in rows.items():
+                      found=[x for x in quarantined if x.get('nmID')==row.get('nmID')]
+                      if found:
+                          result['quarantine'][sku]=[{k:v for k,v in e.items() if k in ('nmID','oldPrice','newPrice','oldDiscount','newDiscount')} for e in found]
+              except Exception as e:result['quarantine_read_error']=type(e).__name__
+          path=Path('data/verify_wb_rods_20261122_result.json')
+          path.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
+          print(json.dumps(result,ensure_ascii=False))
+          PY
+      - name: Save read-only verification
+        if: always()
+        run: |
+          if [ -f data/verify_wb_rods_20261122_result.json ]; then
+            bash .github/scripts/save_data.sh data/verify_wb_rods_20261122_result.json
+          fi
