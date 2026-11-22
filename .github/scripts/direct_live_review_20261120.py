@@ -1,3 +1,4 @@
+# Read-only current status after narrowed autotargeting, 2026-11-22.
 # Post-fix 2026-11-22 verification: Yandex Direct read-only, no writes.
 # Read-only campaign snapshot rerun requested 2026-11-22 to inspect current-day spend and search-query quality.
 """LEOPARTS campaign 716316525 fresh read-only optimization review, 20 Nov.
