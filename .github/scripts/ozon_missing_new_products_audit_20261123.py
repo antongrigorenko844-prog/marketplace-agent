@@ -67,5 +67,36 @@ if p.exists():
     d=json.loads(p.read_text())
     r["draft_status"]={"status":d.get("status"),"publication_ready":d.get("publication_ready"),"non_executable_draft":d.get("non_executable_draft")}
     r["drafts"]={x.get("seller_sku_candidate"):{"publication_blockers":x.get("publication_blockers"),"media_status":x.get("media",{}).get("status"),"cover_verified_as_product_photograph":x.get("media",{}).get("cover_verified_as_product_photograph"),"price_ozon":x.get("commercial_inputs",{}).get("prices_rub",{}).get("ozon")} for x in d.get("products",[])}
+
+# Try to identify the correct Ozon tool category without creating a product.
+# Do NOT copy categories of transmission components onto workshop equipment.
+try:
+    tree = oz.get_category_tree()
+    queue=list(tree)
+    selected=[]
+    seen=0
+    while queue and seen < 35000:
+        item=queue.pop(0);seen+=1
+        if not isinstance(item,dict):continue
+        name=str(item.get("category_name") or item.get("name") or item.get("title") or "").strip()
+        low=name.casefold()
+        if any(term in low for term in (
+            "набор инструмен", "инструмент для ремонт", "специальный инструмент",
+            "диагностическ", "манометр", "проверки давлен", "автомобильные инструменты",
+            "оборудование для автосервиса", "автомобильный инструмент",
+            "инструмент для автомобил")):
+            selected.append({k:v for k,v in item.items() if k in (
+                "category_name","name","title","description_category_id","category_id",
+                "type_id","type_name","disabled")})
+        for key in ("children","categories","types","childrens"):
+            more=item.get(key)
+            if isinstance(more,list):queue.extend(more)
+    r["ozon_category_probe"]={"status":"ok","nodes_scanned":seen,
+       "candidate_count":len(selected),"candidates":selected[:50],
+       "note":"Candidates only; not validated for these exact products."}
+except Exception as e:
+    r["ozon_category_probe"]={"status":"unavailable","error_type":type(e).__name__,
+                              "error":str(e)[:170]}
+
 OUT.write_text(json.dumps(r,ensure_ascii=False,indent=2,default=str)+"\n")
 print(json.dumps({"items":r["items"],"drafts":r.get("drafts"),"errors":r["errors"]},ensure_ascii=False),flush=True)
