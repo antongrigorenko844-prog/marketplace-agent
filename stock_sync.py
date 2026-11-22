@@ -69,7 +69,7 @@ def _sync_wb(batch, date_from_iso):
     import wb_client
     import sync_master_control
 
-    vendor_to_offer = {vendor: offer for offer, vendor in sync_master_control._WB_FORCED_OZON_TO_VENDOR.items()}
+    vendor_to_offer = {vendor: offer for offer, vendor in {**sync_master_control._WB_ALIAS_OZON_TO_VENDOR, **sync_master_control._WB_FORCED_OZON_TO_VENDOR}.items()}
     rows = wb_client.get_orders_since(date_from_iso)
     for row in rows:
         vendor = str(row.get("supplierArticle") or "").strip()
