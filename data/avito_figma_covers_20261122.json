@@ -1,0 +1,49 @@
+{
+  "date": "2026-11-22",
+  "purpose": "Figma-to-Avito cover migration; images only",
+  "figma_file": "https://www.figma.com/design/jWr55uqOSFAHfXcTQIPBmi/LEO.parts?node-id=29-2",
+  "status": "staged_for_review_not_published",
+  "changes": [
+    {
+      "sku": "plita-filtr-salniki-orig",
+      "figma_node": "3029:233",
+      "source_size": [
+        1600,
+        1200
+      ],
+      "before": "photos_avito/plita-filtr-salniki-orig/plita-filtr-salniki-orig_1.jpg",
+      "before_size": [
+        1200,
+        1200
+      ],
+      "after": "photos_avito/plita-filtr-salniki-orig/plita-filtr-salniki-orig_1.png",
+      "avito_item_id": 8276249624,
+      "avito_status_as_of_20261121": "old",
+      "composition": "hydraulic plate + filter + 2 original VAG shaft seals"
+    },
+    {
+      "sku": "plita-filtr-pylniki-orig",
+      "figma_node": "3029:271",
+      "source_size": [
+        1600,
+        1200
+      ],
+      "before": "photos_avito/plita-filtr-pylniki-orig/plita-filtr-pylniki-orig_1.jpg",
+      "before_size": [
+        1200,
+        1200
+      ],
+      "after": "photos_avito/plita-filtr-pylniki-orig/plita-filtr-pylniki-orig_1.png",
+      "avito_item_id": 8395189204,
+      "avito_status_as_of_20261121": "old",
+      "composition": "hydraulic plate + filter + 2 original VAG dust boots"
+    }
+  ],
+  "cautions": [
+    "Do not imply hydraulic plate or filter is OEM Volkswagen; 'original' applies to seals / boots only.",
+    "Both Avito listings are expired in 2026-11-21 autoload report; changing repository alone does not renew or republish them.",
+    "Existing data/avito_photos.xlsx URLs remain unchanged until an approved photo attach + feed rebuild after tariff renewal.",
+    "The manifest-pinned plita-filtr-pylniki-sal-orig gallery is excluded because repository photo edits would be overridden."
+  ],
+  "publication": "Not applied to Avito or master catalog; no prices, stocks, descriptions, orders touched."
+}
