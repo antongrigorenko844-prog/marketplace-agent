@@ -1,0 +1,27 @@
+name: LEOPARTS Avito Pricing Rules Audit 20261123 (read-only)
+on:
+  push:
+    branches: [main]
+    paths: ['data/avito_pricing_live_audit_20261123_request.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Inspect actual master and Avito pricing formula without any writes
+        run: |
+          python -m py_compile scripts/avito_pricing_live_audit_20261123.py
+          python -u scripts/avito_pricing_live_audit_20261123.py
+      - name: Save read-only pricing settings and plan
+        if: always()
+        run: |
+          if [ -f data/avito_pricing_live_audit_20261123.json ]; then
+            bash .github/scripts/save_data.sh data/avito_pricing_live_audit_20261123.json
+          fi
