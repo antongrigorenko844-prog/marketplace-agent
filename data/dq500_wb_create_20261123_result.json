@@ -28,16 +28,35 @@
     ],
     "subjectID": 7850,
     "category": "Корпусы топливных фильтров",
-    "new_barcode_last4": "4598",
-    "photos_available": 0,
-    "photo_filenames": []
+    "new_barcode_last4": "0042",
+    "photos_available": 4,
+    "photo_filenames": [
+      "Dq500_1.jpg",
+      "Dq500_2.jpg",
+      "Dq500_3.jpg",
+      "Dq500_4.jpg"
+    ]
   },
-  "checked_utc": "2026-11-22T16:17:37.667988+00:00",
+  "checked_utc": "2026-11-22T16:22:36.077417+00:00",
   "error": {
     "status": "blocked_or_unverified",
     "type": "ValueError",
     "line": 129,
     "file": "dq500_wb_create_20261123.py",
     "safe_note": "No matching Dq500 image accessible; unsafe to create empty product"
+  },
+  "submitted": {
+    "accepted": true,
+    "sku": "Dq500",
+    "subject": 7850,
+    "response_error": false,
+    "barcode_last4": "0042"
+  },
+  "creation_result": {
+    "status": "pending_or_rejected",
+    "errors": [
+      "{'Dq500': [\"Указанный Артикул продавца 'Dq500' используется в другой карточке\"]}"
+    ],
+    "nmID": null
   }
 }
