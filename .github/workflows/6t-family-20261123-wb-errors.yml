@@ -1,0 +1,30 @@
+name: LEOPARTS diagnose three WB asynchronous product creation errors
+on:
+  push:
+    branches: [main]
+    paths: ['data/6t_family_20261123_wb_errors_request.json']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  diagnostics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Read new-card WB errors and current card list, no writes
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: python -u scripts/6t_family_20261123_wb_errors.py
+      - name: Save diagnostics
+        if: always()
+        run: |
+          if [ -f data/6t_family_20261123_wb_errors_result.json ]; then
+            bash .github/scripts/save_data.sh data/6t_family_20261123_wb_errors_result.json
+          fi
