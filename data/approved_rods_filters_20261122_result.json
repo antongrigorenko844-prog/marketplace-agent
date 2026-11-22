@@ -441,5 +441,172 @@
       ]
     }
   },
-  "external_writes": 0
+  "external_writes": 0,
+  "channels": {
+    "ozon": {
+      "0am325091e": {
+        "status": "accepted",
+        "actual": 1990.0,
+        "verified": true
+      },
+      "0am325091f": {
+        "status": "accepted",
+        "actual": 1990.0,
+        "verified": true
+      },
+      "0am325025D": {
+        "status": "accepted",
+        "actual": 1490.0,
+        "verified": true
+      },
+      "0am325025u": {
+        "status": "accepted",
+        "actual": 2690.0,
+        "verified": true
+      },
+      "0am325025z": {
+        "status": "accepted",
+        "actual": 2690.0,
+        "verified": true
+      },
+      "0am325091e-set": {
+        "status": "accepted",
+        "actual": 4990.0,
+        "verified": true
+      },
+      "0am325091f-set": {
+        "status": "accepted",
+        "actual": 4990.0,
+        "verified": true
+      }
+    },
+    "wildberries": {
+      "status": "failed_or_unverified",
+      "error_type": "AttributeError"
+    },
+    "yandex_market": {
+      "0am325025D": {
+        "status": "ready",
+        "actual": 3350.0,
+        "verified": false
+      },
+      "0am325025u": {
+        "status": "ready",
+        "actual": 3490.0,
+        "verified": false
+      },
+      "0am325025z": {
+        "status": "ready",
+        "actual": 3490.0,
+        "verified": false
+      },
+      "0am325091e": {
+        "status": "ready",
+        "actual": 3850.0,
+        "verified": false
+      },
+      "0am325091e-set": {
+        "status": "ready",
+        "actual": 8850.0,
+        "verified": false
+      },
+      "0am325091f": {
+        "status": "ready",
+        "actual": 3350.0,
+        "verified": false
+      },
+      "0am325091f-set": {
+        "status": "ready",
+        "actual": 8850.0,
+        "verified": false
+      },
+      "api_result": {
+        "accepted": 0,
+        "failed_skus": [
+          "0am325025D",
+          "0am325025u",
+          "0am325025z",
+          "0am325091e",
+          "0am325091e-set",
+          "0am325091f",
+          "0am325091f-set"
+        ]
+      }
+    },
+    "tilda": {
+      "0am325091e": {
+        "status": "ready",
+        "actual": 1240.0,
+        "verified": true
+      },
+      "0am325091f": {
+        "status": "ready",
+        "actual": 1240.0,
+        "verified": true
+      },
+      "0am325025D": {
+        "status": "ready",
+        "actual": 950.0,
+        "verified": true
+      },
+      "0am325025u": {
+        "status": "ready",
+        "actual": 1880.0,
+        "verified": true
+      },
+      "0am325025z": {
+        "status": "ready",
+        "actual": 1880.0,
+        "verified": true
+      },
+      "0am325091e-set": {
+        "status": "ready",
+        "actual": 3450.0,
+        "verified": true
+      },
+      "0am325091f-set": {
+        "status": "ready",
+        "actual": 3450.0,
+        "verified": true
+      }
+    },
+    "avito": {
+      "0am325091e": {
+        "status": "accepted",
+        "actual": 1240.0,
+        "verified": true
+      },
+      "0am325091f": {
+        "status": "accepted",
+        "actual": 1240.0,
+        "verified": true
+      },
+      "0am325025D": {
+        "status": "no_active_identified_listing",
+        "actual": null,
+        "verified": false
+      },
+      "0am325025u": {
+        "status": "accepted",
+        "actual": 1880.0,
+        "verified": true
+      },
+      "0am325025z": {
+        "status": "accepted",
+        "actual": 1880.0,
+        "verified": true
+      },
+      "0am325091e-set": {
+        "status": "accepted",
+        "actual": 3450.0,
+        "verified": true
+      },
+      "0am325091f-set": {
+        "status": "accepted",
+        "actual": 3450.0,
+        "verified": true
+      }
+    }
+  },
+  "checked_at_utc": "2026-11-22T15:38:01.222757+00:00"
 }
