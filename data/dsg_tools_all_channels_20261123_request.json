@@ -1,5 +1,5 @@
 {
-  "mode": "inspect",
+  "mode": "apply",
   "owner_approved": true,
   "skus": [
     "tool-dq200-acc-restore",
@@ -22,5 +22,7 @@
     "avito",
     "tilda"
   ],
-  "guard": "No Ozon TNVED guess; Avito autoload unpaid; skip unsupported classification, no unrelated SKU writes"
+  "guard": "No Ozon TNVED guess; Avito autoload unpaid; skip unsupported classification, no unrelated SKU writes",
+  "phase": "publish_approved_photos_and_create_exact_two_SKUs_where_required_fields_are_verified",
+  "note": "User explicitly ordered add these two kits on all platforms, preserve two different channel price tiers; Ozon block if TNVED missing, Avito defer if tariff/category not enabled"
 }
