@@ -41,9 +41,8 @@ def run():
     for k,v in req.items():
         if m.get(k)!=v:raise ValueError("Unapproved correction scope: "+k)
     code=str(m.get("tnved_code") or "")
-    code_id=int(m.get("tnved_dictionary_id") or 0)
-    if not re.fullmatch(r"731815\d{4}",code) or code_id<1:
-        raise ValueError("Verified fastener customs code/id not provided")
+    if code!="7318159008":
+        raise ValueError("Unapproved code, expected generic headed screw category 7318159008")
     names=ozon_client.get_product_names(offer_ids=[SKU],limit=25)
     if len(names)!=1 or names[0].get("offer_id")!=SKU:
         raise ValueError("Target product absent/duplicate in Ozon attributes")
@@ -74,14 +73,17 @@ def run():
     if not {85,8229,22232,23536,7202}.issubset(mandatory):
         raise ValueError("Ozon category requirements changed")
     vals=ozon_client.search_attribute_values(NEW_CAT,NEW_TYPE,22232,code,limit=60)
-    matches=[z for z in vals if str(z.get("value") or "").startswith(code+" ") and int(z.get("id") or 0)==code_id]
-    if len(matches)!=1:raise ValueError("Verified code dictionary entry changed")
+    matches=[z for z in vals if str(z.get("value") or "").startswith(code+" ") and int(z.get("id") or 0)>0]
+    if len(matches)!=1:raise ValueError("Exact approved code 7318159008 missing from Ozon dictionary")
     tnved_value=matches[0]["value"]
+    code_id=int(matches[0]["id"])
+    if "винт" not in tnved_value.lower() and "болт" not in tnved_value.lower():
+        raise ValueError("TN VED description not for threaded screws")
     typ=ozon_client.search_attribute_values(NEW_CAT,NEW_TYPE,8229,TYPE_NAME,limit=30)
     if not any(z.get("id")==NEW_TYPE and z.get("value")==TYPE_NAME for z in typ):
         raise ValueError("Metiz automotive Ozon type not confirmed")
     count=ozon_client.search_attribute_values(NEW_CAT,NEW_TYPE,7202,"1",limit=20)
-    count_match=[z for z in count if str(z.get("value")).strip()=="1"]
+    count_match=[z for z in count if str(z.get("value")).strip() in ("1","1 шт.","1 штука")]
     if not count_match:
         # Do not invent a dictionary ID for mandatory quantity.
         raise ValueError("Ozon quantity of one has no verified dictionary entry")
