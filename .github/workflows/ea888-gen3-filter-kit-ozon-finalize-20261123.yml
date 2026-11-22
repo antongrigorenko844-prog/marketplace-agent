@@ -1,0 +1,26 @@
+name: LEOPARTS finish new EA888 Gen3 full filter kit on Ozon
+on:
+  push:
+    branches: [main]
+    paths: ['data/ea888_gen3_full_kit_ozon_finalize_20261123_request.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Verify original Ozon task then attach owner filter photo gallery to new exact SKU
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          OZON_WAREHOUSE_ID: ${{ secrets.OZON_WAREHOUSE_ID }}
+        run: python -u scripts/ea888_gen3_full_kit_ozon_finalize_20261123.py
+      - name: Save result
+        if: always()
+        run: bash .github/scripts/save_data.sh data/ea888_gen3_full_kit_ozon_finalize_20261123_result.json
