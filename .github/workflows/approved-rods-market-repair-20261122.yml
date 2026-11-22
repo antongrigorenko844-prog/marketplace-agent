@@ -1,0 +1,31 @@
+name: LEOPARTS complete approved WB and YM rod prices 20261122
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/approved_rods_market_repair_20261122.json'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - run: python -m py_compile scripts/approved_rods_market_repair_20261122.py
+      - name: Repair only seven previously approved DQ200 prices
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: python scripts/approved_rods_market_repair_20261122.py
+      - name: Persist independent post-write readback
+        if: always()
+        run: bash .github/scripts/save_data.sh data/approved_rods_market_repair_20261122_result.json
