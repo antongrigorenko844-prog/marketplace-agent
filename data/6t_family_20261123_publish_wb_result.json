@@ -115,7 +115,7 @@
       }
     }
   },
-  "overall_status": "THREE_CARDS_CREATED_PRICE_AND_PHOTOS_UNVERIFIED",
+  "overall_status": "THREE_CARDS_CREATED_PRICE_VERIFIED_PHOTOS_PENDING",
   "user_note": "WB created 3 exact new cards after fixing Model to one value. All three price API calls failed because new cards were not yet indexed; stock API accepted 20/3/3. Photos not yet uploaded.",
   "needs_wb_error_diagnostics": false,
   "preflight": {
@@ -147,6 +147,22 @@
       "barcode_last4": "3210",
       "catalog_photo_count": 0,
       "dimensions_are_estimates": true
+    }
+  },
+  "price_reverified_at": "2026-11-22T17:59:39.330497+00:00",
+  "owner_note": "WB accepts all three card IDs and confirms requested prices 19880, 58850, 58850. Stock updates sent for 20/3/3, but stock readback not included. Photos not attached and other channels not published yet.",
+  "price_confirmation": {
+    "6t30-solenoids-gen2": {
+      "status": "verified",
+      "observed_price_rub": 19880
+    },
+    "6t30-tcm-gen1": {
+      "status": "verified",
+      "observed_price_rub": 58850
+    },
+    "6t30-tcm-gen2": {
+      "status": "verified",
+      "observed_price_rub": 58850
     }
   }
 }
