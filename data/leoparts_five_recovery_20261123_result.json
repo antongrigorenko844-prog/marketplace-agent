@@ -1,0 +1,207 @@
+{
+  "source": "owner-approved-five-SKU-scoped-recovery",
+  "channels": {
+    "wb": {
+      "6t30-solenoids-gen2": {
+        "status": "existing",
+        "nmID": 2338952761,
+        "photo_count": 0,
+        "media": "approved image remains in ChatGPT Library, not yet transferred to public GitHub host"
+      },
+      "6t30-tcm-gen1": {
+        "status": "existing",
+        "nmID": 2338952880,
+        "photo_count": 0,
+        "media": "approved image remains in ChatGPT Library, not yet transferred to public GitHub host"
+      },
+      "6t30-tcm-gen2": {
+        "status": "existing",
+        "nmID": 2338953074,
+        "photo_count": 0,
+        "media": "approved image remains in ChatGPT Library, not yet transferred to public GitHub host"
+      },
+      "tool-dq200-acc-restore": {
+        "status": "creation_submitted",
+        "subject": 6370,
+        "barcode_last4": "5870"
+      },
+      "tool-dsg-pressure-hp": {
+        "status": "creation_submitted",
+        "subject": 6370,
+        "barcode_last4": "7355"
+      }
+    },
+    "wb_media": {
+      "tool-dq200-acc-restore": {
+        "status": "submitted_pending_readback",
+        "nmID": 2340040049,
+        "source_photo_urls": [
+          "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/tool-dq200-acc-restore_1.png?v=0ba3a8ae02"
+        ],
+        "error": false
+      },
+      "tool-dsg-pressure-hp": {
+        "status": "submitted_pending_readback",
+        "nmID": 2340040122,
+        "source_photo_urls": [
+          "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/tool-dsg-pressure-hp_1.png?v=ed59977ea0",
+          "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/tool-dsg-pressure-hp_2.png?v=0e8d01b2ef"
+        ],
+        "error": false
+      }
+    },
+    "wb_price": {
+      "tool-dq200-acc-restore": {
+        "status": "error",
+        "type": "WbApiError",
+        "reason": "WB /api/v2/upload/task вернул 400: {\"data\":null,\"error\":true,\"errorText\":\"All item Nos. are specified incorrectly, or the specified prices and discounts are already set\"}"
+      },
+      "tool-dsg-pressure-hp": {
+        "status": "error",
+        "type": "WbApiError",
+        "reason": "WB /api/v2/upload/task вернул 400: {\"data\":null,\"error\":true,\"errorText\":\"All item Nos. are specified incorrectly, or the specified prices and discounts are already set\"}"
+      }
+    },
+    "wb_stock": {
+      "tool-dq200-acc-restore": {
+        "status": "error",
+        "type": "WbApiError",
+        "reason": "WB /api/v3/stocks/1627258 вернул 409: [{\"data\":[{\"sku\":\"2062706615870\",\"chrtId\":0,\"amount\":3}],\"code\":\"NotFound\",\"message\":\"Not found\"}]"
+      },
+      "tool-dsg-pressure-hp": {
+        "status": "error",
+        "type": "WbApiError",
+        "reason": "WB /api/v3/stocks/1627258 вернул 409: [{\"data\":[{\"sku\":\"2062706617355\",\"chrtId\":0,\"amount\":3}],\"code\":\"NotFound\",\"message\":\"Not found\"}]"
+      }
+    },
+    "wb_final": {
+      "tool-dq200-acc-restore": {
+        "status": "created",
+        "nmID": 2340040049,
+        "photo_count": 0,
+        "photo_status": "readback"
+      },
+      "tool-dsg-pressure-hp": {
+        "status": "created",
+        "nmID": 2340040122,
+        "photo_count": 0,
+        "photo_status": "readback"
+      }
+    },
+    "market": {
+      "6t30-solenoids-gen2": {
+        "status": "blocked_missing_public_approved_image",
+        "count": 0
+      },
+      "6t30-tcm-gen1": {
+        "status": "blocked_missing_public_approved_image",
+        "count": 0
+      },
+      "6t30-tcm-gen2": {
+        "status": "blocked_missing_public_approved_image",
+        "count": 0
+      },
+      "tool-dq200-acc-restore": {
+        "status": "business_catalog_confirmed"
+      },
+      "tool-dsg-pressure-hp": {
+        "status": "business_catalog_confirmed"
+      }
+    },
+    "market_price": {
+      "tool-dq200-acc-restore": {
+        "status": "submitted_pending_readback",
+        "target": 38800,
+        "previous_price": 0.0
+      },
+      "tool-dsg-pressure-hp": {
+        "status": "submitted_pending_readback",
+        "target": 28800,
+        "previous_price": 0.0
+      }
+    },
+    "market_price_final": {
+      "tool-dq200-acc-restore": {
+        "status": "verified",
+        "observed": 38800.0,
+        "target": 38800
+      },
+      "tool-dsg-pressure-hp": {
+        "status": "verified",
+        "observed": 28800.0,
+        "target": 28800
+      }
+    },
+    "tilda": {
+      "6t30-solenoids-gen2": {
+        "status": "missing_approved_public_images_or_duplicate",
+        "matches": 0
+      },
+      "6t30-tcm-gen1": {
+        "status": "missing_approved_public_images_or_duplicate",
+        "matches": 0
+      },
+      "6t30-tcm-gen2": {
+        "status": "missing_approved_public_images_or_duplicate",
+        "matches": 0
+      },
+      "tool-dq200-acc-restore": {
+        "status": "price_verified",
+        "uid": 853151429903,
+        "observed_price": 24800.0,
+        "expected_price": 24800
+      },
+      "tool-dsg-pressure-hp": {
+        "status": "price_verified",
+        "uid": 513639943843,
+        "observed_price": 18800.0,
+        "expected_price": 18800
+      }
+    },
+    "ozon": {
+      "6t30-solenoids-gen2": {
+        "status": "not_published_by_this_recovery",
+        "reason": "Need verified exact technical/customs attributes; 6T30 covers also need public image URLs"
+      },
+      "6t30-tcm-gen1": {
+        "status": "not_published_by_this_recovery",
+        "reason": "Need verified exact technical/customs attributes; 6T30 covers also need public image URLs"
+      },
+      "6t30-tcm-gen2": {
+        "status": "not_published_by_this_recovery",
+        "reason": "Need verified exact technical/customs attributes; 6T30 covers also need public image URLs"
+      },
+      "tool-dq200-acc-restore": {
+        "status": "not_published_by_this_recovery",
+        "reason": "Need verified exact technical/customs attributes; 6T30 covers also need public image URLs"
+      },
+      "tool-dsg-pressure-hp": {
+        "status": "not_published_by_this_recovery",
+        "reason": "Need verified exact technical/customs attributes; 6T30 covers also need public image URLs"
+      }
+    },
+    "avito": {
+      "6t30-solenoids-gen2": {
+        "status": "not_published_by_this_recovery",
+        "reason": "Autoload/category processing not safely confirmed"
+      },
+      "6t30-tcm-gen1": {
+        "status": "not_published_by_this_recovery",
+        "reason": "Autoload/category processing not safely confirmed"
+      },
+      "6t30-tcm-gen2": {
+        "status": "not_published_by_this_recovery",
+        "reason": "Autoload/category processing not safely confirmed"
+      },
+      "tool-dq200-acc-restore": {
+        "status": "not_published_by_this_recovery",
+        "reason": "Autoload/category processing not safely confirmed"
+      },
+      "tool-dsg-pressure-hp": {
+        "status": "not_published_by_this_recovery",
+        "reason": "Autoload/category processing not safely confirmed"
+      }
+    }
+  },
+  "updated_utc": "2026-11-22T22:11:54.944386+00:00"
+}
