@@ -24,15 +24,9 @@
     "urls_count": 4,
     "api_error": false
   },
-  "error": {
-    "status": "blocked_or_unverified",
-    "type": "WbApiError",
-    "file": "wb_client.py",
-    "line": 61
-  },
   "price_submission": {
     "status": "already_correct",
-    "observed": 1980.0
+    "observed": 1980
   },
   "stock": {
     "status": "submitted",
@@ -41,7 +35,7 @@
   "final_readback": {
     "exists": true,
     "nmID": 2338475459,
-    "price_rub": 1980.0,
+    "price_rub": 1980,
     "target_price_verified": true,
     "photos_count": 4,
     "master_sku": "Dq500",
@@ -52,5 +46,14 @@
     "sku": "Dq500",
     "wb_vendor_code": "dq500-korpus-gladkiy",
     "price": 1980
-  }
+  },
+  "prior_attempt_error": {
+    "status": "blocked_or_unverified",
+    "type": "WbApiError",
+    "file": "wb_client.py",
+    "line": 61,
+    "resolution": "resolved_by_subsequent_verified_price_stock_media_run"
+  },
+  "status": "created_and_verified",
+  "status_note": "One new separate WB listing; 1980 RUB price, 4 photos, inventory PUT 69 accepted; canonical master SKU Dq500 linked to WB vendorCode dq500-korpus-gladkiy."
 }
