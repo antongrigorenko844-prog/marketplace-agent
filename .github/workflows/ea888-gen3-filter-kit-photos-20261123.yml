@@ -1,0 +1,29 @@
+name: LEOPARTS EA888 Gen3 oil filter kit real-photo gallery
+on:
+  push:
+    branches: [main]
+    paths: ['data/ea888_gen3_full_kit_photos_20261123_request.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  images:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          pip install -q -r requirements.txt
+          pip install -q pillow
+      - name: Decode verified owner photo and compose kit gallery with existing kit photo
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -m py_compile scripts/ea888_gen3_full_kit_prepare_photos_20261123.py
+          python -u scripts/ea888_gen3_full_kit_prepare_photos_20261123.py
+      - name: Save three owner-photo based product photos and public URLs
+        if: always()
+        run: |
+          bash .github/scripts/save_data.sh photos/EA888gen3-filter-kit data/ea888_gen3_full_kit_photos_20261123_result.json data/photo_upload_cache.json
