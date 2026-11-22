@@ -1,0 +1,34 @@
+name: LEOPARTS Unified Product Intake - Safe Review
+on:
+  push:
+    branches: [main]
+    paths: ['data/product_intake_v2/requests/*.json']
+  workflow_dispatch:
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  inspect-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Validate approved request without any seller API keys or product mutations
+        run: |
+          set -euo pipefail
+          mkdir -p data/product_intake_v2/status
+          for request in data/product_intake_v2/requests/*.json; do
+            [ -f "$request" ] || continue
+            stem="$(basename "$request" .json)"
+            python scripts/product_intake_v2.py --request "$request" --mode inspect > "data/product_intake_v2/status/$stem.json"
+            python -c 'import json,sys; d=json.load(open(sys.argv[1],encoding="utf-8")); print(d["batch_id"], d["summary"])' "data/product_intake_v2/status/$stem.json"
+          done
+      - name: Preserve one report per approved batch, no catalog writes
+        if: always()
+        run: |
+          if [ -d data/product_intake_v2/status ]; then
+            bash .github/scripts/save_data.sh data/product_intake_v2/status/
+          fi
