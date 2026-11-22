@@ -101,6 +101,7 @@ class ProductIntakeV2Tests(unittest.TestCase):
              patch.object(intake, "read_ozon", side_effect=AssertionError("Live Ozon called")):
             result=intake.run(self.batch,mode="inspect",offline=True)
         self.assertEqual(result["summary"]["total"],25)
+        self.assertEqual(result["summary"]["blocked"],15)
         self.assertEqual(len(result["items"]),5)
         self.assertEqual(result["items"]["6t30-solenoids-gen2"]["media"]["state"],"blocked")
         self.assertEqual(result["items"]["tool-dq200-acc-restore"]["media"]["state"],"verified")
