@@ -1,10 +1,12 @@
 {
-  "status": "plan_safe_no_write",
-  "mode": "plan",
+  "status": "applied_verified",
+  "mode": "apply",
   "campaign_id": 716316525,
-  "started_utc": "2026-11-22T20:53:23.853239+00:00",
-  "write_attempted": false,
-  "mutated_fields": [],
+  "started_utc": "2026-11-22T20:54:23.739243+00:00",
+  "write_attempted": true,
+  "mutated_fields": [
+    "campaign.NegativeKeywords.Items"
+  ],
   "candidate_additions": [
     "\"ремонт дсг 7 фольксваген\"",
     "\"ремонт дсг оренбург\"",
@@ -759,5 +761,16 @@
   "group_negative_total": 11,
   "manual_keywords": 266,
   "autotargeting_conditions": 6,
-  "finished_utc": "2026-11-22T20:53:28.665637+00:00"
+  "write_started_utc": "2026-11-22T20:54:32.159720+00:00",
+  "api_accepted": true,
+  "api_warnings": [],
+  "after_count": 638,
+  "after_digest": "fbd0da36652a11cf3a036efead557d13135ef1e164639d257af4e51533312a28",
+  "original_negatives_preserved": true,
+  "only_expected_negatives_present": true,
+  "campaign_other_fields_unchanged": true,
+  "group_fields_unchanged": true,
+  "keywords_unchanged": true,
+  "verified_utc": "2026-11-22T20:54:40.208616+00:00",
+  "finished_utc": "2026-11-22T20:54:40.208633+00:00"
 }
