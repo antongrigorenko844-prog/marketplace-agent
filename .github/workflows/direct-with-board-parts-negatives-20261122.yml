@@ -1,0 +1,29 @@
+name: LEOPARTS with-board generic parts exclusions Nov 22
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-with-board-parts-negatives-20261122.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  refine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Syntax check
+        run: python -m py_compile .github/scripts/direct_with_board_parts_negatives_20261122.py
+      - name: Protect manual keywords then exclude only two generic words in with-board group
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_with_board_parts_negatives_20261122.py
+      - name: Persist exact group-level verification
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_recovery_20261122/with_board_generic_parts_exclusion.json
