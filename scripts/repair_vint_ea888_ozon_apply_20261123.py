@@ -217,5 +217,8 @@ if __name__=="__main__":
     except Exception as e:
         t=traceback.extract_tb(e.__traceback__)
         last=t[-1] if t else None
-        note("fatal",{"status":"failed","type":type(e).__name__,"file":Path(last.filename).name if last else None,"line":last.lineno if last else None})
+        where=[{"file":Path(fr.filename).name,"line":fr.lineno,"fn":fr.name} for fr in t if Path(fr.filename).name in ("repair_vint_ea888_ozon_apply_20261123.py","ozon_client.py")]
+        # Error body from seller API is necessary to target the fix, do not log request headers or credentials.
+        note("fatal",{"status":"failed","type":type(e).__name__,"file":Path(last.filename).name if last else None,
+             "line":last.lineno if last else None,"frames":where[-4:],"api_message":str(e)[:750]})
         sys.exit(1)
