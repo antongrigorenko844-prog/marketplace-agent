@@ -22,6 +22,7 @@
     3,
     3
   ],
-  "revision": 1,
-  "guard": "Never edit other SKU; only create DSG WB cards if absent; Market use business-default prices for the exact two DSG SKUs; no substitution of approved user photos."
+  "revision": 2,
+  "guard": "Never edit other SKU; only create DSG WB cards if absent; Market use business-default prices for the exact two DSG SKUs; no substitution of approved user photos.",
+  "reason": "First run created DSG WB cards 2340040049 / 2340040122; retry photo readback and exact prices/stocks after new-card indexing; Market price already verified. No unrelated writes."
 }
