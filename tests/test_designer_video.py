@@ -167,7 +167,7 @@ class VideoDeliveryTests(unittest.TestCase):
         for op in ("703:2", "704:1"):
             with self.assertRaises(video.DeliveryError):
                 self.run_phase("prepare", op)
-        self.wire.assert_called_once()
+        self.assertEqual(self.wire.call_count, 2)
 
     def test_inline_text_failure_does_not_resend_already_accepted_video(self):
         self.run_phase("prepare")
