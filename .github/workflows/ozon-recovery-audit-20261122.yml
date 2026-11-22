@@ -1,0 +1,31 @@
+name: LEOPARTS Ozon last 28 days sales delivery fees read-only Nov 22
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/ozon-recovery-audit-20261122.yml']
+permissions:
+  contents: write
+concurrency:
+  group: leoparts-ozon-audit-readonly
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install standard Ozon dependencies
+        run: pip install -r requirements.txt
+      - name: Read orders, finance, promotions and inventory without Ozon mutations
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: python ozon_recovery_audit_20261122.py
+      - name: Persist sanitized aggregated audit (no buyer records)
+        if: always()
+        run: bash .github/scripts/save_data.sh data/ozon_recovery_20261122/live_diagnosis.json
