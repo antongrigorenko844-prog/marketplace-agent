@@ -33,6 +33,7 @@ SHA_PATTERN = re.compile(r"^[0-9a-f]{64}$")
 ALLOWED_MEDIA_HOSTS = {
     "github.com", "raw.githubusercontent.com", "static.tildacdn.com",
     "user-images.githubusercontent.com", "objects.githubusercontent.com",
+    "release-assets.githubusercontent.com",
 }
 STATUS_DIR = ROOT / "data" / "product_intake_v2" / "status"
 
@@ -137,6 +138,15 @@ def verified_file(path: Path, digest: str) -> bool:
     return hasher.hexdigest() == digest
 
 
+class AllowlistedRedirect(urllib.request.HTTPRedirectHandler):
+    """Prevent redirects from approved media URLs into arbitrary/internal hosts."""
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        parsed = urllib.parse.urlparse(newurl)
+        if parsed.scheme != "https" or parsed.hostname not in ALLOWED_MEDIA_HOSTS:
+            raise GuardError("Redirect from approved image host is not allowed")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
 def media_preflight(item: dict) -> tuple[list[Path], list[str]]:
     paths, blockers = [], []
     for index, m in enumerate(item["media"], 1):
@@ -157,7 +167,8 @@ def media_preflight(item: dict) -> tuple[list[Path], list[str]]:
             # Only download public approved hosts; hash-check before publication.
             url = m["url"]
             try:
-                with urllib.request.urlopen(
+                opener = urllib.request.build_opener(AllowlistedRedirect())
+                with opener.open(
                     urllib.request.Request(url, headers={"User-Agent": "LEOPARTS-intake/2.0"}),
                     timeout=24,
                 ) as resp:
@@ -526,12 +537,22 @@ def run(manifest: dict, *, mode: str = "inspect", offline: bool = True) -> dict:
                     blockers[sku].append("Media release upload failed: "+type(exc).__name__)
             else:
                 public[sku]=[]
-        # Read existing cards even when media is blocked so statuses do not lie.
+        # Isolate unexpected errors: one failing seller API must not abort other channels.
         chosen=lambda c:[it for it in manifest["items"] if c in it.get("channels",list(CHANNELS))]
-        run_wb(chosen("wildberries"),plans,public,prev,mode=="apply")
-        run_market(chosen("yandex_market"),plans,public,prev,mode=="apply")
-        run_tilda(chosen("tilda"),plans,files,mode=="apply")
-        read_ozon(chosen("ozon"),plans)
+        operations=[
+            ("wildberries",lambda:run_wb(chosen("wildberries"),plans,public,prev,mode=="apply")),
+            ("yandex_market",lambda:run_market(chosen("yandex_market"),plans,public,prev,mode=="apply")),
+            ("tilda",lambda:run_tilda(chosen("tilda"),plans,files,mode=="apply")),
+            ("ozon",lambda:read_ozon(chosen("ozon"),plans)),
+        ]
+        for channel, task in operations:
+            try:
+                task()
+            except Exception as exc:
+                for item in chosen(channel):
+                    plans[item["sku"]]["channels"][channel]=status(
+                        "unexpected_channel_error",
+                        error_type=type(exc).__name__, reason=str(exc)[:150])
         for item in chosen("avito"):
             plans[item["sku"]]["channels"]["avito"]=status("blocked_category_specific_feed",
               reason="Avito tools require verified tool/part template and autoload readback; no wrong category")
