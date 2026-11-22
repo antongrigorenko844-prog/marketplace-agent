@@ -99,5 +99,24 @@ except Exception as e:
     r["ozon_category_probe"]={"status":"unavailable","error_type":type(e).__name__,
                               "error":str(e)[:170]}
 
+
+# Mandatory field candidates for toolkit types (never publish based on a guess).
+r["tool_category_attributes"]=[]
+for title,description_category_id,type_id in [
+    ("Специнструмент для авто",83250454,97469),
+    ("Набор инструментов для автомобиля",83250454,971437067),
+    ("Манометр автомобильный",83250454,92176),
+]:
+    try:
+        attrs=oz.get_category_attributes(description_category_id,type_id)
+        short=[]
+        for a in attrs:
+            if a.get("is_required") or a.get("is_aspect") or a.get("is_collection"):
+                short.append({k:a.get(k) for k in ("id","name","description","is_required","is_collection","type","dictionary_id","max_value_count") if k in a})
+        r["tool_category_attributes"].append({"type_name":title,"description_category_id":description_category_id,
+           "type_id":type_id,"attribute_count":len(attrs),"mandatory_or_special":short[:45]})
+    except Exception as e:
+        r["tool_category_attributes"].append({"type_name":title,"error_type":type(e).__name__})
+
 OUT.write_text(json.dumps(r,ensure_ascii=False,indent=2,default=str)+"\n")
 print(json.dumps({"items":r["items"],"drafts":r.get("drafts"),"errors":r["errors"]},ensure_ascii=False),flush=True)
