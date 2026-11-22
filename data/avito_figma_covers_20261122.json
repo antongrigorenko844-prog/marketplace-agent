@@ -1,49 +1,144 @@
 {
   "date": "2026-11-22",
-  "purpose": "Figma-to-Avito cover migration; images only",
+  "purpose": "Replace only wrong-size or fallback Avito cover images with corresponding 1600x1200 Figma assets",
   "figma_file": "https://www.figma.com/design/jWr55uqOSFAHfXcTQIPBmi/LEO.parts?node-id=29-2",
-  "status": "staged_for_review_not_published",
-  "changes": [
+  "status": "staged_on_branch_not_published",
+  "staged_images": [
     {
       "sku": "plita-filtr-salniki-orig",
-      "figma_node": "3029:233",
-      "source_size": [
-        1600,
-        1200
-      ],
-      "before": "photos_avito/plita-filtr-salniki-orig/plita-filtr-salniki-orig_1.jpg",
-      "before_size": [
+      "node": "3029:233",
+      "avito": 8276249624,
+      "status": "old",
+      "old_px": [
         1200,
         1200
       ],
-      "after": "photos_avito/plita-filtr-salniki-orig/plita-filtr-salniki-orig_1.png",
-      "avito_item_id": 8276249624,
-      "avito_status_as_of_20261121": "old",
-      "composition": "hydraulic plate + filter + 2 original VAG shaft seals"
+      "mode": "replace",
+      "path": "photos_avito/plita-filtr-salniki-orig/plita-filtr-salniki-orig_1.png",
+      "note": "Original VAG refers to seals only, not plate/filter",
+      "figma_px": [
+        1600,
+        1200
+      ]
     },
     {
       "sku": "plita-filtr-pylniki-orig",
-      "figma_node": "3029:271",
-      "source_size": [
-        1600,
-        1200
-      ],
-      "before": "photos_avito/plita-filtr-pylniki-orig/plita-filtr-pylniki-orig_1.jpg",
-      "before_size": [
+      "node": "3029:271",
+      "avito": 8395189204,
+      "status": "old",
+      "old_px": [
         1200,
         1200
       ],
-      "after": "photos_avito/plita-filtr-pylniki-orig/plita-filtr-pylniki-orig_1.png",
-      "avito_item_id": 8395189204,
-      "avito_status_as_of_20261121": "old",
-      "composition": "hydraulic plate + filter + 2 original VAG dust boots"
+      "mode": "replace",
+      "path": "photos_avito/plita-filtr-pylniki-orig/plita-filtr-pylniki-orig_1.png",
+      "note": "Original VAG refers to boots only, not plate/filter",
+      "figma_px": [
+        1600,
+        1200
+      ]
+    },
+    {
+      "sku": "0am325091e-set",
+      "node": "3259:199",
+      "avito": 8345137262,
+      "status": "active",
+      "old_px": null,
+      "mode": "new_override",
+      "path": "photos_avito/0am325091e-set/0am325091e-set_1.png",
+      "figma_px": [
+        1600,
+        1200
+      ]
+    },
+    {
+      "sku": "0am325091f-set",
+      "node": "2745:452",
+      "avito": 8415982473,
+      "status": "active",
+      "old_px": null,
+      "mode": "new_override",
+      "path": "photos_avito/0am325091f-set/0am325091f-set_1.png",
+      "figma_px": [
+        1600,
+        1200
+      ]
+    },
+    {
+      "sku": "pylniki-shtokov-orig",
+      "node": "3330:1860",
+      "avito": 8312384063,
+      "status": "active",
+      "old_px": null,
+      "mode": "new_override",
+      "path": "photos_avito/pylniki-shtokov-orig/pylniki-shtokov-orig_1.png",
+      "figma_px": [
+        1600,
+        1200
+      ]
+    },
+    {
+      "sku": "122390AKAF",
+      "node": "3330:1828",
+      "avito": 8403680263,
+      "status": "active",
+      "old_px": null,
+      "mode": "new_override",
+      "path": "photos_avito/122390AKAF/122390AKAF_1.png",
+      "figma_px": [
+        1600,
+        1200
+      ]
+    },
+    {
+      "sku": "0am325477ae",
+      "node": "3029:372",
+      "avito": 8449035864,
+      "status": "active",
+      "old_px": null,
+      "mode": "new_override",
+      "path": "photos_avito/0am325477ae/0am325477ae_1.png",
+      "note": "Figma says 'Планка соленоидов', Avito says 'Пластина соленоидов': check exact hardware before publishing",
+      "figma_px": [
+        1600,
+        1200
+      ]
     }
   ],
-  "cautions": [
-    "Do not imply hydraulic plate or filter is OEM Volkswagen; 'original' applies to seals / boots only.",
-    "Both Avito listings are expired in 2026-11-21 autoload report; changing repository alone does not renew or republish them.",
-    "Existing data/avito_photos.xlsx URLs remain unchanged until an approved photo attach + feed rebuild after tariff renewal.",
-    "The manifest-pinned plita-filtr-pylniki-sal-orig gallery is excluded because repository photo edits would be overridden."
+  "active_avito_ids_without_dedicated_photos_avito_folder": 31,
+  "remaining_candidates": [
+    {
+      "sku": "plastiny-solenoid-dq200-2sht",
+      "node": "3029:365",
+      "status": "needs_export_once_figma_api_unblocked"
+    },
+    {
+      "sku": "02E 305 045",
+      "node": "3029:336",
+      "status": "needs_export_once_figma_api_unblocked"
+    },
+    {
+      "sku": "salnik-shtoka-orig-v2",
+      "node": "3330:1886",
+      "status": "needs_export_once_figma_api_unblocked"
+    },
+    {
+      "sku": "separatornaya-plastiny-solenoid-dq200",
+      "node": "3325:127",
+      "status": "needs_export_once_figma_api_unblocked"
+    },
+    {
+      "sku": "remkomplekt-shtokov-orig",
+      "node": "3326:586",
+      "status": "needs_export_once_figma_api_unblocked"
+    }
   ],
-  "publication": "Not applied to Avito or master catalog; no prices, stocks, descriptions, orders touched."
+  "critical_checks": [
+    "No pricing, stocks, descriptions, or orders changed.",
+    "Verify exact item composition and wording before applying content. 'Original Volkswagen' may describe only seals and boots, not the hydraulic plate or filter.",
+    "Avito autoload report 2026-11-21: 102 unchanged active, 16 expired, 6 blocked. A file commit does not itself change live photos or renew expired items.",
+    "When approved and tariff restored, run only photo attach+Avito feed update and verify item ID/cover; do not run update-photos because it touches other channels.",
+    "Figma export rate limit reached on linked Starter seat; remaining candidate images not exported.",
+    "Files in photos_avito do not override data/avito_photos.xlsx or any content_manifest pinned image URL until content-only pipeline validates and rehosts them."
+  ]
 }
