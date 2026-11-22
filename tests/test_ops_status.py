@@ -31,6 +31,14 @@ class StatusTests(unittest.TestCase):
         self.assertEqual(x["old_debits_without_recipes"],1007)
         self.assertEqual(x["live_order_conflicts"],7)
 
+    def test_rehearsal_success_is_not_live_stock_update(self):
+        data=op.normalize_stock_dryrun({"status":"dryrun_success",
+            "production_hashes_unchanged":True,"deferred_count":3})
+        self.assertEqual(data["status"],"simulated_success")
+        self.assertTrue(data["read_only"])
+        self.assertTrue(data["production_inputs_unchanged"])
+        self.assertEqual(data["deferred_legacy_cancellations"],3)
+
     def test_report_no_fake_channels(self):
         r=op.build({"media":{"sku":"x","channels":{"ozon":{"status":"verified"}}},
                     "avito":{},"tilda":{},"stock":{}})
