@@ -1,0 +1,49 @@
+name: LEOPARTS Avito fast cover (one SKU, no commercial edits)
+on:
+  push:
+    branches: [main]
+    paths: ['data/avito_fast_cover_check_20261123_request.json']
+  workflow_dispatch:
+    inputs:
+      sku:
+        description: Exact catalog SKU, e.g. 6t30
+        type: string
+        required: true
+        default: '6t30'
+      mode:
+        description: plan is read-only; apply changes only the Avito media feed
+        type: choice
+        required: true
+        default: plan
+        options: [plan, apply]
+      autoload_ready:
+        description: Confirm Avito tariff and auto-upload are active before apply
+        type: boolean
+        required: false
+        default: false
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  single-sku-media:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install minimum dependencies
+        run: pip install -q openpyxl requests
+      - name: Validate no unrelated Avito or stock fields can change
+        run: python -m unittest discover -s tests -p 'test_avito_fast_cover.py' -v
+      - name: Check published release SHA, plan or apply one approved cover
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AVITO_AUTOLOAD_READY: ${{ github.event_name == 'workflow_dispatch' && inputs.autoload_ready || 'false' }}
+          INPUT_SKU: ${{ github.event_name == 'workflow_dispatch' && inputs.sku || '6t30' }}
+          INPUT_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'plan' }}
+        run: |
+          python -u avito_fast_cover.py --sku "$INPUT_SKU" --mode "$INPUT_MODE" --check-release
+      - name: Save only single-SKU report and (if changed) Avito feed
+        if: always()
+        run: bash .github/scripts/save_data.sh data/avito_fast_cover_report.json data/avito_feed.xlsx
