@@ -3,15 +3,13 @@
   "batch_id": "leoparts-five-20261123",
   "mode": "inspect",
   "offline": false,
-  "generated_at_utc": "2026-11-22T23:03:23.544551+00:00",
+  "generated_at_utc": "2026-11-22T23:42:31.548501+00:00",
   "items": {
     "6t30-solenoids-gen2": {
       "media": {
-        "state": "blocked",
-        "count": 0,
-        "issues": [
-          "image 1: ChatGPT Library original exists, but GitHub runner has no binary-file bridge; do not substitute another image"
-        ]
+        "state": "verified",
+        "count": 1,
+        "issues": []
       },
       "channels": {
         "ozon": {
@@ -19,38 +17,40 @@
           "reason": "Missing confirmed category-specific payload including TN VED"
         },
         "wildberries": {
-          "state": "partial",
+          "state": "verified",
           "nmID": 2338952761,
-          "photo_count": 0,
+          "photo_count": 1,
           "expected_photo_count": 1,
           "price": 19880,
           "expected_price": 19880,
           "stock": 20,
           "expected_stock": 20,
-          "issues": [
-            "approved_media_missing"
-          ]
+          "issues": []
         },
         "yandex_market": {
-          "state": "blocked_missing_approved_images"
+          "state": "verified",
+          "expected_price": 19880,
+          "observed_price": 19880,
+          "issues": [],
+          "business_catalog": true
         },
         "avito": {
           "state": "blocked_category_specific_feed",
           "reason": "Avito tools require verified tool/part template and autoload readback; no wrong category"
         },
         "tilda": {
-          "state": "blocked_missing_approved_images",
-          "existing": false
+          "state": "verified",
+          "uid": 607233388413,
+          "price": 11880,
+          "image_count": 1
         }
       }
     },
     "6t30-tcm-gen1": {
       "media": {
-        "state": "blocked",
-        "count": 0,
-        "issues": [
-          "image 1: ChatGPT Library original exists, but GitHub runner has no binary-file bridge; do not substitute another image"
-        ]
+        "state": "verified",
+        "count": 1,
+        "issues": []
       },
       "channels": {
         "ozon": {
@@ -58,38 +58,40 @@
           "reason": "Missing confirmed category-specific payload including TN VED"
         },
         "wildberries": {
-          "state": "partial",
+          "state": "verified",
           "nmID": 2338952880,
-          "photo_count": 0,
+          "photo_count": 1,
           "expected_photo_count": 1,
           "price": 58850,
           "expected_price": 58850,
           "stock": 3,
           "expected_stock": 3,
-          "issues": [
-            "approved_media_missing"
-          ]
+          "issues": []
         },
         "yandex_market": {
-          "state": "blocked_missing_approved_images"
+          "state": "verified",
+          "expected_price": 58850,
+          "observed_price": 58850,
+          "issues": [],
+          "business_catalog": true
         },
         "avito": {
           "state": "blocked_category_specific_feed",
           "reason": "Avito tools require verified tool/part template and autoload readback; no wrong category"
         },
         "tilda": {
-          "state": "blocked_missing_approved_images",
-          "existing": false
+          "state": "verified",
+          "uid": 200181618243,
+          "price": 35350,
+          "image_count": 1
         }
       }
     },
     "6t30-tcm-gen2": {
       "media": {
-        "state": "blocked",
-        "count": 0,
-        "issues": [
-          "image 1: ChatGPT Library original exists, but GitHub runner has no binary-file bridge; do not substitute another image"
-        ]
+        "state": "verified",
+        "count": 1,
+        "issues": []
       },
       "channels": {
         "ozon": {
@@ -97,28 +99,32 @@
           "reason": "Missing confirmed category-specific payload including TN VED"
         },
         "wildberries": {
-          "state": "partial",
+          "state": "verified",
           "nmID": 2338953074,
-          "photo_count": 0,
+          "photo_count": 1,
           "expected_photo_count": 1,
           "price": 58850,
           "expected_price": 58850,
           "stock": 3,
           "expected_stock": 3,
-          "issues": [
-            "approved_media_missing"
-          ]
+          "issues": []
         },
         "yandex_market": {
-          "state": "blocked_missing_approved_images"
+          "state": "verified",
+          "expected_price": 58850,
+          "observed_price": 58850,
+          "issues": [],
+          "business_catalog": true
         },
         "avito": {
           "state": "blocked_category_specific_feed",
           "reason": "Avito tools require verified tool/part template and autoload readback; no wrong category"
         },
         "tilda": {
-          "state": "blocked_missing_approved_images",
-          "existing": false
+          "state": "verified",
+          "uid": 432307044523,
+          "price": 35350,
+          "image_count": 1
         }
       }
     },
@@ -207,8 +213,8 @@
   },
   "summary": {
     "total": 25,
-    "verified": 6,
-    "blocked": 16,
+    "verified": 15,
+    "blocked": 10,
     "pending": 0
   }
 }
