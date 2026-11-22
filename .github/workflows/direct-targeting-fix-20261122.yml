@@ -1,0 +1,29 @@
+name: LEOPARTS precise DQ200 targeting cleanup Nov 22
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-targeting-fix-20261122.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  narrow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Syntax safety check
+        run: python -m py_compile .github/scripts/direct_targeting_fix_20261122.py
+      - name: Narrow active DQ200 autotargeting and verify unchanged inventory
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_targeting_fix_20261122.py
+      - name: Save before-after evidence
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_recovery_20261122/targeting_fix.json
