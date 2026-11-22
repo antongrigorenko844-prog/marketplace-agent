@@ -1,0 +1,27 @@
+name: LEOPARTS weekly budget safety guard Nov 22
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-budget-guard-20261122.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Restore former 4000 RUB weekly budget with guarded readback
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_budget_guard_20261122.py
+      - name: Save execution evidence
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_recovery_20261122/budget_guard.json
