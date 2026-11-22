@@ -1,0 +1,31 @@
+name: LEOPARTS Frozen Pricing Regression Tests
+on:
+  push:
+    branches:
+      - fix/freeze-auto-avito-site-repricing-20261123
+  pull_request:
+    paths:
+      - 'pricing_policy.py'
+      - 'site_pricing.py'
+      - 'main.py'
+      - 'data/pricing_policy.json'
+      - 'tests/test_pricing_freeze_20261123.py'
+permissions: {contents: read}
+jobs:
+  frozen-prices:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q openpyxl
+      - name: Compile (no marketplace credentials)
+        run: |
+          python -m py_compile main.py site_pricing.py pricing_policy.py
+      - name: Run price-safety regression checks
+        run: |
+          python -m unittest discover -s tests -p "test_pricing_freeze_20261123.py" -v
+      - name: Confirm checkout price files remain byte-identical
+        run: |
+          git diff --exit-code -- data/master_control.xlsx data/avito_site_price_overrides.xlsx data/ozon_catalog.xlsx
