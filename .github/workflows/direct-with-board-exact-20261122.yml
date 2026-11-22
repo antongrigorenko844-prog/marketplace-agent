@@ -1,0 +1,29 @@
+name: LEOPARTS narrow with-board DQ200 targeting to Exact Nov22
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-with-board-exact-20261122.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile-check single criterion update script
+        run: python -m py_compile .github/scripts/direct_with_board_exact_20261122.py
+      - name: Guarded Exact ON Narrow OFF only for with-board
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_with_board_exact_20261122.py
+      - name: Save narrow change evidence
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_recovery_20261122/with_board_exact_fix.json
