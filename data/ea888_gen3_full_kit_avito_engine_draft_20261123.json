@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-11-23",
+  "sku": "EA888gen3-filter-kit",
+  "external_id": "EA888gen3-filter-kit",
+  "title": "Комплект масляного фильтра EA888 Gen3 корпус клапан фильтр",
+  "description": "Комплект масляного фильтра двигателя EA888 Gen3 1.8/2.0 TSI. В набор входят алюминиевый корпус масляного фильтра 06L115401S, обратный клапан 06L115678AD, сменный фильтрующий элемент и уплотнительное кольцо. Перед покупкой сверьте код двигателя, посадочные места и маркировку старых деталей. Набор из корпуса, клапана и фильтра; не путайте с двухкомпонентным комплектом EA888gen3.",
+  "price_rub": 4350,
+  "stock": 40,
+  "photos": [
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/EA888gen3-filter-kit_1.jpg?v=9b83405558",
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/EA888gen3-filter-kit_2.jpg?v=c1c791294f",
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/EA888gen3-filter-kit_3.jpg?v=693d9bcdad25"
+  ],
+  "category_hierarchy": [
+    "Запчасти и аксессуары",
+    "Запчасти",
+    "Для автомобилей",
+    "Двигатель"
+  ],
+  "oem_refs": [
+    "06L115401S",
+    "06L115678AD"
+  ],
+  "filter_oem": "не подтверждён",
+  "status": "not_published",
+  "blocker": "The repository's active XLSX autoload feed is category-specific for Трансмиссия и привод; avito_feed.py intentionally skips EA888 engine products. Current official template under data/avito_template.xlsx only contains transmission heading, not engine category fields. Do not inject this engine kit as a gearbox part or replace the stable whole-shop feed. An engine-specific Avito template / schema is needed to publish safely.",
+  "existing_autoload_url_must_remain_unchanged": true,
+  "protected_original_sku": "EA888gen3",
+  "need_external_manual_category_setup": true
+}
