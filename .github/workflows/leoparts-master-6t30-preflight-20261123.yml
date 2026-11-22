@@ -1,0 +1,20 @@
+name: LEOPARTS Read Master Exact Five SKU Mapping
+on:
+  push:
+    branches: [main]
+    paths: ['data/leoparts_master_6t30_preflight_request.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q openpyxl
+      - run: python scripts/leoparts_master_6t30_preflight_20261123.py
+      - if: always()
+        run: |
+          test ! -f data/leoparts_master_6t30_preflight_20261123.json || bash .github/scripts/save_data.sh data/leoparts_master_6t30_preflight_20261123.json
