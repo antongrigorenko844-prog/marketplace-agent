@@ -108,6 +108,19 @@ class ProductIntakeV2Tests(unittest.TestCase):
         self.assertEqual(baseline,
             {str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in files if p.exists()})
 
+    def test_offline_review_ignores_incomplete_previous_report(self):
+        # Reproduce the first CI failure: shell output redirection opens an
+        # existing report as an empty file before Python starts.
+        import tempfile
+        with tempfile.TemporaryDirectory() as t:
+            folder = Path(t)
+            stale = folder / (self.batch["batch_id"] + ".json")
+            stale.write_text("", encoding="utf-8")
+            with patch.object(intake, "STATUS_DIR", folder):
+                report = intake.run(self.batch, mode="inspect", offline=True)
+            self.assertEqual(report["summary"]["total"], 25)
+            self.assertEqual(stale.read_text(encoding="utf-8"), "")
+
     def test_rejects_offline_apply(self):
         with self.assertRaises(intake.GuardError):
             intake.run(self.batch,mode="apply",offline=True)
