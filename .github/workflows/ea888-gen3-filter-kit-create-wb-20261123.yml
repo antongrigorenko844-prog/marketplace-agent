@@ -1,0 +1,30 @@
+name: LEOPARTS create full EA888 Gen3 oil filter kit on WB
+on:
+  push:
+    branches: [main]
+    paths: ['data/ea888_gen3_full_kit_wb_create_20261123_request.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  newkit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Create new EA888 Gen3 housing valve filter WB item with exact 7850 price and 40 stock
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+        run: |
+          python -m py_compile scripts/ea888_gen3_full_kit_wb_create_20261123.py
+          python -u scripts/ea888_gen3_full_kit_wb_create_20261123.py
+      - name: Save verified ID, price and stock result
+        if: always()
+        run: |
+          if [ -f data/ea888_gen3_full_kit_wb_result_20261123.json ]; then
+            bash .github/scripts/save_data.sh data/ea888_gen3_full_kit_wb_result_20261123.json
+          fi
