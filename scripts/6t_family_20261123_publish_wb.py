@@ -53,7 +53,7 @@ def card_payload(sku,p,barcode):
         "sizes":[{"techSize":"0","wbSize":"","price":int(p["prices_rub"]["wildberries"]),"skus":[str(barcode)]}],
         "characteristics":[
             {"id":15003115,"value":["легковые автомобили"]},
-            {"id":5023,"value":["6T30"]} # Wildberries restricts Model to exactly one value; all four remain in title+description,
+            {"id":5023,"value":["6T30"]},  # WB allows only one Model value; four models remain in title and description
             {"id":378533,"value":[completeness]}
         ]
     }
