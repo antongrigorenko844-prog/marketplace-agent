@@ -102,7 +102,8 @@ def update_cell(ws, r, col, desired, before_allowed, changed, label):
     c = ws.cell(r, col)
     prev = money(c.value) if isinstance(desired, (int, float)) else c.value
     allowed = set(before_allowed) | {desired}
-    if prev not in allowed:
+    wb_rounding = ("master WB" in label or "WB catalog" in label) and prev is not None and any(abs(prev-float(v)) <= 1 for v in allowed if isinstance(v,(int,float)))
+    if prev not in allowed and not wb_rounding:
         raise ValueError("Unexpected current " + label + " at " + c.coordinate + ": " + str(prev))
     if prev != desired:
         changed.append({"cell": c.coordinate, "what": label, "old": prev, "new": desired})
