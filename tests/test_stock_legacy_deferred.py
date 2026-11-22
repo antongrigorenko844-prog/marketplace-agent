@@ -93,6 +93,11 @@ class LegacyCancellationQuarantineTest(unittest.TestCase):
 
     def test_deferred_only_for_matching_active_sku(self):
         self.seed_legacy()
+        # An incoming order line can match an old composite key but have a
+        # conflicting stored SKU. This must fail closed, never be deferred.
+        with closing(sqlite3.connect(self.db)) as con:
+            con.execute("UPDATE processed_orders SET order_key='legacy:A' WHERE order_key='legacy:KIT'")
+            con.commit()
         postings = [{"posting_number":"legacy","status":"cancelled",
                      "products":[{"offer_id":"A","quantity":1}]}]
         with self.assertRaisesRegex(StockSyncError,"сверка"):
