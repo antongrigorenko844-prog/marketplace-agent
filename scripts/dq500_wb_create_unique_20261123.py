@@ -152,22 +152,32 @@ def run():
             emit("media",{"submitted":True,"urls_count":len(PHOTO_URLS),
                 "api_error":media.get("error") if isinstance(media,dict) else None})
         except Exception as e:emit("media",{"submitted":False,"error_type":type(e).__name__})
-    price_rows=[p for p in wb_client.get_prices(limit=1000) if p.get("vendorCode")==SKU]
-    if len(price_rows)>1:raise ValueError("WB new card has duplicate price rows")
-    if price_rows:
-        row=price_rows[0]
-        sizes=row.get("sizes") or []
-        if len(sizes)!=1:raise ValueError("WB card has multiple prices")
-        cur=float(sizes[0].get("discountedPrice") or 0)
-        if abs(cur-PRICE)>1:
-            pct=int(row.get("discount") or 0)
-            if pct<0 or pct>=100:raise ValueError("WB new card discount invalid")
-            base=int(PRICE*100/(100-pct)+0.5)
-            answer=wb_client.update_prices([{"nmID":nmid,"price":base,"discount":pct}])
+    # WB Prices API may reject a just-created nmID until its index is populated.
+    # Price failure must not suppress the independent stock operation.
+    try:
+        price_rows=[p for p in wb_client.get_prices(limit=1000) if p.get("vendorCode")==SKU]
+        if len(price_rows)>1:raise ValueError("WB new card has duplicate price rows")
+        if price_rows:
+            row=price_rows[0]
+            sizes=row.get("sizes") or []
+            if len(sizes)!=1:raise ValueError("WB card has multiple prices")
+            cur=float(sizes[0].get("discountedPrice") or 0)
+            if abs(cur-PRICE)>1:
+                pct=int(row.get("discount") or 0)
+                if pct<0 or pct>=100:raise ValueError("WB new card discount invalid")
+                base=int(PRICE*100/(100-pct)+0.5)
+                answer=wb_client.update_prices([{"nmID":nmid,"price":base,"discount":pct}])
+                emit("price_submission",{"submitted":True,"task_id":(answer.get("data") or {}).get("id")})
+            else:emit("price_submission",{"status":"already_correct","observed":cur})
+        else:
+            answer=wb_client.update_prices([{"nmID":nmid,"price":PRICE,"discount":0}])
             emit("price_submission",{"submitted":True,"task_id":(answer.get("data") or {}).get("id")})
-    else:
-        answer=wb_client.update_prices([{"nmID":nmid,"price":PRICE,"discount":0}])
-        emit("price_submission",{"submitted":True,"task_id":(answer.get("data") or {}).get("id")})
+    except wb_client.WbApiError as e:
+        import re
+        msg=str(e)
+        matched=re.search(r"\b(400|401|403|404|409|420|429|500|502|503)\b",msg)
+        emit("price_submission",{"status":"wb_price_api_not_ready","error_type":type(e).__name__,
+            "http_status":matched.group(1) if matched else "unavailable"})
     codes=[str(v) for size in (found.get("sizes") or []) for v in (size.get("skus") or []) if str(v).isdigit()]
     if len(codes)==1 and os.environ.get("WB_WAREHOUSE_ID"):
         qty_now=master_row()["qty"]
@@ -181,7 +191,11 @@ def run():
     else:emit("stock",{"status":"not_verified_no_unique_barcode_or_warehouse"})
     time.sleep(10)
     _,last=cards()
-    priced=[p for p in wb_client.get_prices(limit=1000) if p.get("vendorCode")==SKU]
+    try:
+        priced=[p for p in wb_client.get_prices(limit=1000) if p.get("vendorCode")==SKU]
+    except wb_client.WbApiError as e:
+        priced=[]
+        emit("price_readback_error",{"status":"WB_price_API_unavailable","type":type(e).__name__})
     live=None
     if len(priced)==1 and len(priced[0].get("sizes") or [])==1:
         live=float(priced[0]["sizes"][0].get("discountedPrice"))
