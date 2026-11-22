@@ -2,7 +2,7 @@ name: LEOPARTS linked BOM price consistency audit 20261122
 on:
   push:
     branches: [main]
-    paths: ['.github/workflows/related-price-audit-20261122.yml']
+    paths: ['.github/workflows/related-price-audit-20261122.yml', 'scripts/related_price_audit_20261122.py']
 permissions:
   contents: write
 concurrency:
