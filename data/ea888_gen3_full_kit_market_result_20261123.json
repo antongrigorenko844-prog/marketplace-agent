@@ -11,9 +11,51 @@
       "name": "Обратный клапан масляного фильтра EA888 Gen3 06L115678AD для двигателей 1.8 2.0 TSI"
     }
   },
-  "checked_at_utc": "2026-11-22T18:32:42.325904+00:00",
+  "checked_at_utc": "2026-11-22T18:34:47.260331+00:00",
   "blocker": {
     "status": "NO_CONFIRMED_OIL_FILTER_CATEGORY",
     "source_ref": "Ea888gen3"
+  },
+  "category_candidates": [
+    {
+      "id": 90442,
+      "name": "Масляные фильтры",
+      "path": [
+        "Все товары",
+        "Авто",
+        "Запчасти",
+        "Фильтры",
+        "Масляные фильтры"
+      ]
+    }
+  ],
+  "creation": {
+    "status": "api_accepted",
+    "category_id": 90442,
+    "response_status": "OK",
+    "warnings": null
+  },
+  "verification": {
+    "status": "catalog_found",
+    "sku": "EA888gen3-filter-kit",
+    "market_sku": "",
+    "name": "EA888 Gen3 комплект: корпус фильтра + обратный клапан + фильтр",
+    "category": ""
+  },
+  "price_submission": {
+    "accepted": 0,
+    "failed": {
+      "EA888gen3-filter-kit": "HTTP 423: LOCKED: Partner use only default price"
+    }
+  },
+  "stock_submission": {
+    "accepted": 1,
+    "failed": {}
+  },
+  "final_readback": {
+    "observed_price": null,
+    "verified_price": false,
+    "offer_in_campaign": true,
+    "offer_status": "DISABLED_AUTOMATICALLY"
   }
 }
