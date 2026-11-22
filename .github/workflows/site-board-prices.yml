@@ -28,4 +28,6 @@ jobs:
       - name: Persist only price readback and site-only source overrides
         if: always()
         run: |
-          bash .github/scripts/save_data.sh data/site_board_prices_result.json data/site_price_only_overrides.json data/site_prices.json
+          files=(data/site_board_prices_result.json data/site_prices.json)
+          if [ -f data/site_price_only_overrides.json ]; then files+=(data/site_price_only_overrides.json); fi
+          bash .github/scripts/save_data.sh "${files[@]}"
