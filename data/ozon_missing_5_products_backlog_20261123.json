@@ -77,5 +77,31 @@
     "WB cards of Gen2 and two TCM already created",
     "vint-kollektora-ea888 declaration handling"
   ],
-  "publication_guard": "Do not call Ozon product import on a SKU until the user-approved actual product image, correct category/attributes and verified commercial inputs are available."
+  "publication_guard": "Do not call Ozon product import on a SKU until the user-approved actual product image, correct category/attributes and verified commercial inputs are available.",
+  "ozon_category_research": {
+    "verified_live_at_utc": "2026-11-22T21:18:02Z",
+    "note": "Official category endpoint repaired in ozon_client.py to /v1/description-category/tree. Types below confirmed in Ozon catalog API but NOT yet linked to photos/actual kit and hence not published.",
+    "candidate_category_id": 83250454,
+    "possible_tool_types": [
+      {
+        "name": "Специнструмент для авто",
+        "type_id": 97469
+      },
+      {
+        "name": "Набор инструментов для автомобиля",
+        "type_id": 971437067
+      },
+      {
+        "name": "Манометр автомобильный",
+        "type_id": 92176
+      }
+    ],
+    "mandatory_attribute_ids": [
+      85,
+      8229,
+      22232,
+      23536
+    ],
+    "full_report": "data/ozon_missing_new_products_audit_20261123.json"
+  }
 }
