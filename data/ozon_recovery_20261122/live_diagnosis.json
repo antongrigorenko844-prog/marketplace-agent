@@ -1,0 +1,2887 @@
+{
+  "status": "complete",
+  "mode": "read_only",
+  "generated_utc": "2026-11-22T12:21:21.694611+00:00",
+  "time_zone": "Europe/Moscow",
+  "period": [
+    "2026-10-25",
+    "2026-11-21"
+  ],
+  "week_comparisons": {
+    "prior_14": [
+      "2026-10-25",
+      "2026-11-07"
+    ],
+    "recent_14": [
+      "2026-11-08",
+      "2026-11-21"
+    ],
+    "prior_7": [
+      "2026-11-08",
+      "2026-11-14"
+    ],
+    "recent_7": [
+      "2026-11-15",
+      "2026-11-21"
+    ]
+  },
+  "external_mutations": 0,
+  "errors": [],
+  "sections": {
+    "orders_fbs": {
+      "status": "ok",
+      "data": {
+        "scheme": "FBS",
+        "total_returned": 246,
+        "posting_field_names": [
+          "addressee",
+          "analytics_data",
+          "available_actions",
+          "barcodes",
+          "cancellation",
+          "container",
+          "container_sort_type",
+          "customer",
+          "delivering_date",
+          "delivery_method",
+          "delivery_schema",
+          "external_order",
+          "financial_data",
+          "in_process_at",
+          "integration_type_flow",
+          "is_click_and_collect",
+          "is_express",
+          "is_multibox",
+          "is_presortable",
+          "legal_info",
+          "multi_box_qty",
+          "optional",
+          "order_id",
+          "order_number",
+          "parent_posting_number",
+          "pickup_code_verified_at",
+          "posting_number",
+          "products",
+          "prr_option",
+          "quantum_id",
+          "received_at_sorting_center",
+          "require_blr_traceable_attrs",
+          "requirements",
+          "scanit",
+          "shipment_date",
+          "shipment_date_without_delay",
+          "sorting_center",
+          "status",
+          "substatus",
+          "tariffication",
+          "tariffication_fact",
+          "tariffication_steps",
+          "tariffication_tariffs",
+          "tpl_integration_type",
+          "tracking_number",
+          "volume_weight"
+        ],
+        "by_day": {
+          "2026-10-25": {
+            "orders": 12,
+            "units": 13,
+            "statuses": {
+              "delivered": 10,
+              "cancelled": 2
+            },
+            "cancelled": 2,
+            "delivered": 10,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-10-26": {
+            "orders": 7,
+            "units": 16,
+            "statuses": {
+              "delivered": 7
+            },
+            "cancelled": 0,
+            "delivered": 7,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-10-27": {
+            "orders": 22,
+            "units": 31,
+            "statuses": {
+              "delivered": 16,
+              "cancelled": 6
+            },
+            "cancelled": 6,
+            "delivered": 16,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-10-28": {
+            "orders": 6,
+            "units": 6,
+            "statuses": {
+              "delivered": 6
+            },
+            "cancelled": 0,
+            "delivered": 6,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-10-29": {
+            "orders": 7,
+            "units": 12,
+            "statuses": {
+              "delivered": 6,
+              "cancelled": 1
+            },
+            "cancelled": 1,
+            "delivered": 6,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-10-30": {
+            "orders": 7,
+            "units": 9,
+            "statuses": {
+              "cancelled": 2,
+              "delivered": 5
+            },
+            "cancelled": 2,
+            "delivered": 5,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-10-31": {
+            "orders": 9,
+            "units": 13,
+            "statuses": {
+              "delivered": 7,
+              "cancelled": 2
+            },
+            "cancelled": 2,
+            "delivered": 7,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-01": {
+            "orders": 6,
+            "units": 9,
+            "statuses": {
+              "delivered": 6
+            },
+            "cancelled": 0,
+            "delivered": 6,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-02": {
+            "orders": 4,
+            "units": 4,
+            "statuses": {
+              "delivered": 3,
+              "cancelled": 1
+            },
+            "cancelled": 1,
+            "delivered": 3,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-03": {
+            "orders": 9,
+            "units": 10,
+            "statuses": {
+              "delivered": 9
+            },
+            "cancelled": 0,
+            "delivered": 9,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-04": {
+            "orders": 7,
+            "units": 7,
+            "statuses": {
+              "delivered": 6,
+              "delivering": 1
+            },
+            "cancelled": 0,
+            "delivered": 6,
+            "in_transit": 1,
+            "pending_seller": 0
+          },
+          "2026-11-05": {
+            "orders": 18,
+            "units": 21,
+            "statuses": {
+              "delivered": 15,
+              "cancelled": 2,
+              "delivering": 1
+            },
+            "cancelled": 2,
+            "delivered": 15,
+            "in_transit": 1,
+            "pending_seller": 0
+          },
+          "2026-11-06": {
+            "orders": 9,
+            "units": 9,
+            "statuses": {
+              "delivering": 1,
+              "delivered": 7,
+              "cancelled": 1
+            },
+            "cancelled": 1,
+            "delivered": 7,
+            "in_transit": 1,
+            "pending_seller": 0
+          },
+          "2026-11-07": {
+            "orders": 8,
+            "units": 10,
+            "statuses": {
+              "delivered": 7,
+              "cancelled": 1
+            },
+            "cancelled": 1,
+            "delivered": 7,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-08": {
+            "orders": 8,
+            "units": 11,
+            "statuses": {
+              "delivered": 5,
+              "cancelled": 3
+            },
+            "cancelled": 3,
+            "delivered": 5,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-09": {
+            "orders": 4,
+            "units": 6,
+            "statuses": {
+              "delivered": 4
+            },
+            "cancelled": 0,
+            "delivered": 4,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-10": {
+            "orders": 11,
+            "units": 11,
+            "statuses": {
+              "delivered": 4,
+              "cancelled": 5,
+              "delivering": 2
+            },
+            "cancelled": 5,
+            "delivered": 4,
+            "in_transit": 2,
+            "pending_seller": 0
+          },
+          "2026-11-11": {
+            "orders": 11,
+            "units": 14,
+            "statuses": {
+              "delivered": 5,
+              "delivering": 2,
+              "cancelled": 4
+            },
+            "cancelled": 4,
+            "delivered": 5,
+            "in_transit": 2,
+            "pending_seller": 0
+          },
+          "2026-11-12": {
+            "orders": 9,
+            "units": 9,
+            "statuses": {
+              "delivered": 8,
+              "cancelled": 1
+            },
+            "cancelled": 1,
+            "delivered": 8,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-13": {
+            "orders": 9,
+            "units": 12,
+            "statuses": {
+              "delivered": 5,
+              "delivering": 2,
+              "cancelled": 2
+            },
+            "cancelled": 2,
+            "delivered": 5,
+            "in_transit": 2,
+            "pending_seller": 0
+          },
+          "2026-11-14": {
+            "orders": 6,
+            "units": 8,
+            "statuses": {
+              "delivering": 4,
+              "delivered": 2
+            },
+            "cancelled": 0,
+            "delivered": 2,
+            "in_transit": 4,
+            "pending_seller": 0
+          },
+          "2026-11-15": {
+            "orders": 9,
+            "units": 9,
+            "statuses": {
+              "delivering": 7,
+              "cancelled": 1,
+              "delivered": 1
+            },
+            "cancelled": 1,
+            "delivered": 1,
+            "in_transit": 7,
+            "pending_seller": 0
+          },
+          "2026-11-16": {
+            "orders": 13,
+            "units": 15,
+            "statuses": {
+              "delivering": 9,
+              "delivered": 3,
+              "cancelled": 1
+            },
+            "cancelled": 1,
+            "delivered": 3,
+            "in_transit": 9,
+            "pending_seller": 0
+          },
+          "2026-11-17": {
+            "orders": 8,
+            "units": 9,
+            "statuses": {
+              "delivered": 2,
+              "delivering": 5,
+              "cancelled": 1
+            },
+            "cancelled": 1,
+            "delivered": 2,
+            "in_transit": 5,
+            "pending_seller": 0
+          },
+          "2026-11-18": {
+            "orders": 5,
+            "units": 7,
+            "statuses": {
+              "cancelled": 2,
+              "delivering": 3
+            },
+            "cancelled": 2,
+            "delivered": 0,
+            "in_transit": 3,
+            "pending_seller": 0
+          },
+          "2026-11-19": {
+            "orders": 7,
+            "units": 8,
+            "statuses": {
+              "delivering": 6,
+              "cancelled": 1
+            },
+            "cancelled": 1,
+            "delivered": 0,
+            "in_transit": 6,
+            "pending_seller": 0
+          },
+          "2026-11-20": {
+            "orders": 9,
+            "units": 11,
+            "statuses": {
+              "delivering": 9
+            },
+            "cancelled": 0,
+            "delivered": 0,
+            "in_transit": 9,
+            "pending_seller": 0
+          },
+          "2026-11-21": {
+            "orders": 6,
+            "units": 11,
+            "statuses": {
+              "delivering": 5,
+              "cancelled": 1
+            },
+            "cancelled": 1,
+            "delivered": 0,
+            "in_transit": 5,
+            "pending_seller": 0
+          }
+        },
+        "periods": {
+          "prior_14": {
+            "orders": 131,
+            "units": 170,
+            "cancelled": 18,
+            "delivered_current_status": 110,
+            "in_transit_current_status": 3,
+            "pending_seller_current_status": 0,
+            "statuses": {
+              "delivered": 110,
+              "cancelled": 18,
+              "delivering": 3
+            }
+          },
+          "recent_14": {
+            "orders": 115,
+            "units": 141,
+            "cancelled": 22,
+            "delivered_current_status": 39,
+            "in_transit_current_status": 54,
+            "pending_seller_current_status": 0,
+            "statuses": {
+              "delivered": 39,
+              "cancelled": 22,
+              "delivering": 54
+            }
+          },
+          "prior_7": {
+            "orders": 58,
+            "units": 71,
+            "cancelled": 15,
+            "delivered_current_status": 33,
+            "in_transit_current_status": 10,
+            "pending_seller_current_status": 0,
+            "statuses": {
+              "delivered": 33,
+              "cancelled": 15,
+              "delivering": 10
+            }
+          },
+          "recent_7": {
+            "orders": 57,
+            "units": 70,
+            "cancelled": 7,
+            "delivered_current_status": 6,
+            "in_transit_current_status": 44,
+            "pending_seller_current_status": 0,
+            "statuses": {
+              "delivering": 44,
+              "cancelled": 7,
+              "delivered": 6
+            }
+          }
+        },
+        "top_declining_skus": [
+          {
+            "offer_id": "podshipnik-vilki-6",
+            "prior_14_units": 11,
+            "recent_14_units": 0,
+            "delta_units": -11
+          },
+          {
+            "offer_id": "0am325025",
+            "prior_14_units": 15,
+            "recent_14_units": 8,
+            "delta_units": -7
+          },
+          {
+            "offer_id": "0am325025l",
+            "prior_14_units": 8,
+            "recent_14_units": 1,
+            "delta_units": -7
+          },
+          {
+            "offer_id": "0am325025H",
+            "prior_14_units": 8,
+            "recent_14_units": 4,
+            "delta_units": -4
+          },
+          {
+            "offer_id": "0am325091f-set",
+            "prior_14_units": 5,
+            "recent_14_units": 1,
+            "delta_units": -4
+          },
+          {
+            "offer_id": "122390AK-AF",
+            "prior_14_units": 4,
+            "recent_14_units": 0,
+            "delta_units": -4
+          },
+          {
+            "offer_id": "0AM325587E",
+            "prior_14_units": 17,
+            "recent_14_units": 14,
+            "delta_units": -3
+          },
+          {
+            "offer_id": "0am325025С",
+            "prior_14_units": 4,
+            "recent_14_units": 1,
+            "delta_units": -3
+          },
+          {
+            "offer_id": "0am325025G",
+            "prior_14_units": 3,
+            "recent_14_units": 0,
+            "delta_units": -3
+          },
+          {
+            "offer_id": "filtr-dsg7-dq200",
+            "prior_14_units": 3,
+            "recent_14_units": 0,
+            "delta_units": -3
+          },
+          {
+            "offer_id": "0am325091f",
+            "prior_14_units": 4,
+            "recent_14_units": 2,
+            "delta_units": -2
+          },
+          {
+            "offer_id": "0сц",
+            "prior_14_units": 2,
+            "recent_14_units": 0,
+            "delta_units": -2
+          },
+          {
+            "offer_id": "DQ500",
+            "prior_14_units": 2,
+            "recent_14_units": 0,
+            "delta_units": -2
+          },
+          {
+            "offer_id": "02e305045",
+            "prior_14_units": 2,
+            "recent_14_units": 0,
+            "delta_units": -2
+          },
+          {
+            "offer_id": "0AM325025B",
+            "prior_14_units": 2,
+            "recent_14_units": 0,
+            "delta_units": -2
+          },
+          {
+            "offer_id": "Dq500",
+            "prior_14_units": 9,
+            "recent_14_units": 8,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "0AM927769N",
+            "prior_14_units": 8,
+            "recent_14_units": 7,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "0am325025ae",
+            "prior_14_units": 4,
+            "recent_14_units": 3,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "0cw325025h",
+            "prior_14_units": 3,
+            "recent_14_units": 2,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "0am325025hfe",
+            "prior_14_units": 3,
+            "recent_14_units": 2,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "0am325025x",
+            "prior_14_units": 2,
+            "recent_14_units": 1,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "0am325091e-set",
+            "prior_14_units": 2,
+            "recent_14_units": 1,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "0am325066ae",
+            "prior_14_units": 2,
+            "recent_14_units": 1,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "WHT001922",
+            "prior_14_units": 1,
+            "recent_14_units": 0,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "salniki-shtokov-orig",
+            "prior_14_units": 1,
+            "recent_14_units": 0,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "plita-filtr-v2",
+            "prior_14_units": 1,
+            "recent_14_units": 0,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "salniki-shtokov-2sht",
+            "prior_14_units": 1,
+            "recent_14_units": 0,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "0AM325467J",
+            "prior_14_units": 1,
+            "recent_14_units": 0,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "salnikprivod-r",
+            "prior_14_units": 1,
+            "recent_14_units": 0,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "salnikprivod-l",
+            "prior_14_units": 1,
+            "recent_14_units": 0,
+            "delta_units": -1
+          }
+        ],
+        "top_rising_skus": [
+          {
+            "offer_id": "0am325025z",
+            "prior_14_units": 0,
+            "recent_14_units": 10,
+            "delta_units": 10
+          },
+          {
+            "offer_id": "0AM325443D",
+            "prior_14_units": 9,
+            "recent_14_units": 14,
+            "delta_units": 5
+          },
+          {
+            "offer_id": "separatornaya-plastina-dq200",
+            "prior_14_units": 0,
+            "recent_14_units": 4,
+            "delta_units": 4
+          },
+          {
+            "offer_id": "0AM301212A",
+            "prior_14_units": 0,
+            "recent_14_units": 4,
+            "delta_units": 4
+          },
+          {
+            "offer_id": "porshni-usil-pylniki-kryshki-v2",
+            "prior_14_units": 1,
+            "recent_14_units": 4,
+            "delta_units": 3
+          },
+          {
+            "offer_id": "0am325025u",
+            "prior_14_units": 0,
+            "recent_14_units": 2,
+            "delta_units": 2
+          },
+          {
+            "offer_id": "0am325025f",
+            "prior_14_units": 2,
+            "recent_14_units": 4,
+            "delta_units": 2
+          },
+          {
+            "offer_id": "prokladka-vtulki-dq200",
+            "prior_14_units": 2,
+            "recent_14_units": 4,
+            "delta_units": 2
+          },
+          {
+            "offer_id": "0am325025m",
+            "prior_14_units": 3,
+            "recent_14_units": 5,
+            "delta_units": 2
+          },
+          {
+            "offer_id": "0AM325433E",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "gidroakkumulyator-orig",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "kryshka-platy-dq200",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0cw0amdsgdq200",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "6t30",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "02E927770AL",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0BH325183 B",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0am325025HX",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "prokladka-kryshki-dq200",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "55565480",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0am325025D",
+            "prior_14_units": 1,
+            "recent_14_units": 2,
+            "delta_units": 1
+          }
+        ],
+        "current_pending_with_known_deadline": 0,
+        "overdue_pending_with_known_deadline": 0,
+        "pending_deadlines": [],
+        "date_definition": "Order creation/in_process_at in Moscow; delivered_current_status is NOT delivery date"
+      }
+    },
+    "orders_fbo": {
+      "status": "ok",
+      "data": {
+        "scheme": "FBO",
+        "total_returned": 61,
+        "posting_field_names": [
+          "additional_data",
+          "analytics_data",
+          "cancel_reason_id",
+          "cancellation",
+          "created_at",
+          "external_order",
+          "financial_data",
+          "in_process_at",
+          "is_extra_packed",
+          "is_sealed",
+          "legal_info",
+          "order_id",
+          "order_number",
+          "posting_number",
+          "products",
+          "status",
+          "storage_type",
+          "substatus"
+        ],
+        "by_day": {
+          "2026-10-25": {
+            "orders": 2,
+            "units": 2,
+            "statuses": {
+              "delivered": 2
+            },
+            "cancelled": 0,
+            "delivered": 2,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-10-26": {
+            "orders": 4,
+            "units": 4,
+            "statuses": {
+              "cancelled": 1,
+              "delivered": 3
+            },
+            "cancelled": 1,
+            "delivered": 3,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-10-27": {
+            "orders": 1,
+            "units": 1,
+            "statuses": {
+              "cancelled": 1
+            },
+            "cancelled": 1,
+            "delivered": 0,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-10-31": {
+            "orders": 2,
+            "units": 2,
+            "statuses": {
+              "delivered": 2
+            },
+            "cancelled": 0,
+            "delivered": 2,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-01": {
+            "orders": 1,
+            "units": 1,
+            "statuses": {
+              "delivered": 1
+            },
+            "cancelled": 0,
+            "delivered": 1,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-02": {
+            "orders": 4,
+            "units": 4,
+            "statuses": {
+              "delivered": 3,
+              "cancelled": 1
+            },
+            "cancelled": 1,
+            "delivered": 3,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-03": {
+            "orders": 4,
+            "units": 4,
+            "statuses": {
+              "delivered": 3,
+              "cancelled": 1
+            },
+            "cancelled": 1,
+            "delivered": 3,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-04": {
+            "orders": 1,
+            "units": 1,
+            "statuses": {
+              "cancelled": 1
+            },
+            "cancelled": 1,
+            "delivered": 0,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-05": {
+            "orders": 2,
+            "units": 2,
+            "statuses": {
+              "delivered": 2
+            },
+            "cancelled": 0,
+            "delivered": 2,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-06": {
+            "orders": 2,
+            "units": 2,
+            "statuses": {
+              "delivered": 2
+            },
+            "cancelled": 0,
+            "delivered": 2,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-07": {
+            "orders": 6,
+            "units": 6,
+            "statuses": {
+              "delivered": 4,
+              "cancelled": 2
+            },
+            "cancelled": 2,
+            "delivered": 4,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-08": {
+            "orders": 2,
+            "units": 2,
+            "statuses": {
+              "delivered": 2
+            },
+            "cancelled": 0,
+            "delivered": 2,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-09": {
+            "orders": 2,
+            "units": 2,
+            "statuses": {
+              "delivered": 1,
+              "delivering": 1
+            },
+            "cancelled": 0,
+            "delivered": 1,
+            "in_transit": 1,
+            "pending_seller": 0
+          },
+          "2026-11-10": {
+            "orders": 6,
+            "units": 6,
+            "statuses": {
+              "cancelled": 4,
+              "delivered": 1,
+              "delivering": 1
+            },
+            "cancelled": 4,
+            "delivered": 1,
+            "in_transit": 1,
+            "pending_seller": 0
+          },
+          "2026-11-12": {
+            "orders": 2,
+            "units": 2,
+            "statuses": {
+              "delivered": 2
+            },
+            "cancelled": 0,
+            "delivered": 2,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-13": {
+            "orders": 2,
+            "units": 2,
+            "statuses": {
+              "delivered": 1,
+              "cancelled": 1
+            },
+            "cancelled": 1,
+            "delivered": 1,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-14": {
+            "orders": 1,
+            "units": 1,
+            "statuses": {
+              "delivered": 1
+            },
+            "cancelled": 0,
+            "delivered": 1,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-15": {
+            "orders": 2,
+            "units": 2,
+            "statuses": {
+              "delivering": 1,
+              "delivered": 1
+            },
+            "cancelled": 0,
+            "delivered": 1,
+            "in_transit": 1,
+            "pending_seller": 0
+          },
+          "2026-11-16": {
+            "orders": 3,
+            "units": 3,
+            "statuses": {
+              "cancelled": 2,
+              "delivered": 1
+            },
+            "cancelled": 2,
+            "delivered": 1,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-17": {
+            "orders": 4,
+            "units": 4,
+            "statuses": {
+              "delivering": 2,
+              "delivered": 2
+            },
+            "cancelled": 0,
+            "delivered": 2,
+            "in_transit": 2,
+            "pending_seller": 0
+          },
+          "2026-11-18": {
+            "orders": 2,
+            "units": 2,
+            "statuses": {
+              "delivered": 1,
+              "cancelled": 1
+            },
+            "cancelled": 1,
+            "delivered": 1,
+            "in_transit": 0,
+            "pending_seller": 0
+          },
+          "2026-11-19": {
+            "orders": 2,
+            "units": 2,
+            "statuses": {
+              "delivering": 2
+            },
+            "cancelled": 0,
+            "delivered": 0,
+            "in_transit": 2,
+            "pending_seller": 0
+          },
+          "2026-11-20": {
+            "orders": 1,
+            "units": 1,
+            "statuses": {
+              "delivering": 1
+            },
+            "cancelled": 0,
+            "delivered": 0,
+            "in_transit": 1,
+            "pending_seller": 0
+          },
+          "2026-11-21": {
+            "orders": 3,
+            "units": 3,
+            "statuses": {
+              "cancelled": 2,
+              "delivering": 1
+            },
+            "cancelled": 2,
+            "delivered": 0,
+            "in_transit": 1,
+            "pending_seller": 0
+          }
+        },
+        "periods": {
+          "prior_14": {
+            "orders": 29,
+            "units": 29,
+            "cancelled": 7,
+            "delivered_current_status": 22,
+            "in_transit_current_status": 0,
+            "pending_seller_current_status": 0,
+            "statuses": {
+              "delivered": 22,
+              "cancelled": 7
+            }
+          },
+          "recent_14": {
+            "orders": 32,
+            "units": 32,
+            "cancelled": 10,
+            "delivered_current_status": 13,
+            "in_transit_current_status": 9,
+            "pending_seller_current_status": 0,
+            "statuses": {
+              "delivered": 13,
+              "delivering": 9,
+              "cancelled": 10
+            }
+          },
+          "prior_7": {
+            "orders": 15,
+            "units": 15,
+            "cancelled": 5,
+            "delivered_current_status": 8,
+            "in_transit_current_status": 2,
+            "pending_seller_current_status": 0,
+            "statuses": {
+              "delivered": 8,
+              "delivering": 2,
+              "cancelled": 5
+            }
+          },
+          "recent_7": {
+            "orders": 17,
+            "units": 17,
+            "cancelled": 5,
+            "delivered_current_status": 5,
+            "in_transit_current_status": 7,
+            "pending_seller_current_status": 0,
+            "statuses": {
+              "delivering": 7,
+              "delivered": 5,
+              "cancelled": 5
+            }
+          }
+        },
+        "top_declining_skus": [
+          {
+            "offer_id": "0am325025q",
+            "prior_14_units": 4,
+            "recent_14_units": 0,
+            "delta_units": -4
+          },
+          {
+            "offer_id": "0AM325587E",
+            "prior_14_units": 4,
+            "recent_14_units": 1,
+            "delta_units": -3
+          },
+          {
+            "offer_id": "0am325091e-set",
+            "prior_14_units": 2,
+            "recent_14_units": 0,
+            "delta_units": -2
+          },
+          {
+            "offer_id": "0am325025u",
+            "prior_14_units": 2,
+            "recent_14_units": 0,
+            "delta_units": -2
+          },
+          {
+            "offer_id": "0am325025ae",
+            "prior_14_units": 3,
+            "recent_14_units": 2,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "0am325025hfe",
+            "prior_14_units": 2,
+            "recent_14_units": 1,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "0AM325025B",
+            "prior_14_units": 2,
+            "recent_14_units": 1,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "salnik-tolkatelya-alum",
+            "prior_14_units": 1,
+            "recent_14_units": 0,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "0am325025j",
+            "prior_14_units": 1,
+            "recent_14_units": 0,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "0AM301212A",
+            "prior_14_units": 1,
+            "recent_14_units": 0,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "02e305045",
+            "prior_14_units": 1,
+            "recent_14_units": 0,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "0am325025С",
+            "prior_14_units": 1,
+            "recent_14_units": 0,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "0am325025z",
+            "prior_14_units": 2,
+            "recent_14_units": 2,
+            "delta_units": 0
+          },
+          {
+            "offer_id": "prokladka-vtulki-dq200",
+            "prior_14_units": 1,
+            "recent_14_units": 1,
+            "delta_units": 0
+          },
+          {
+            "offer_id": "0am325025H",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0BH325183",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0am325025f",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "plita-filtr-v2",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0AM325219C",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0BH325183 B",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0am325066AC",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0сц",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0am325025",
+            "prior_14_units": 2,
+            "recent_14_units": 4,
+            "delta_units": 2
+          },
+          {
+            "offer_id": "0AM927769N",
+            "prior_14_units": 0,
+            "recent_14_units": 2,
+            "delta_units": 2
+          },
+          {
+            "offer_id": "0AM927769D",
+            "prior_14_units": 0,
+            "recent_14_units": 2,
+            "delta_units": 2
+          },
+          {
+            "offer_id": "0am325066ad",
+            "prior_14_units": 0,
+            "recent_14_units": 2,
+            "delta_units": 2
+          },
+          {
+            "offer_id": "0am325091f-set",
+            "prior_14_units": 0,
+            "recent_14_units": 2,
+            "delta_units": 2
+          },
+          {
+            "offer_id": "0AM325443D",
+            "prior_14_units": 0,
+            "recent_14_units": 4,
+            "delta_units": 4
+          }
+        ],
+        "top_rising_skus": [
+          {
+            "offer_id": "0AM325443D",
+            "prior_14_units": 0,
+            "recent_14_units": 4,
+            "delta_units": 4
+          },
+          {
+            "offer_id": "0am325091f-set",
+            "prior_14_units": 0,
+            "recent_14_units": 2,
+            "delta_units": 2
+          },
+          {
+            "offer_id": "0am325066ad",
+            "prior_14_units": 0,
+            "recent_14_units": 2,
+            "delta_units": 2
+          },
+          {
+            "offer_id": "0AM927769D",
+            "prior_14_units": 0,
+            "recent_14_units": 2,
+            "delta_units": 2
+          },
+          {
+            "offer_id": "0AM927769N",
+            "prior_14_units": 0,
+            "recent_14_units": 2,
+            "delta_units": 2
+          },
+          {
+            "offer_id": "0am325025",
+            "prior_14_units": 2,
+            "recent_14_units": 4,
+            "delta_units": 2
+          },
+          {
+            "offer_id": "0сц",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0am325066AC",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0BH325183 B",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0AM325219C",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "plita-filtr-v2",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0am325025f",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0BH325183",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "0am325025H",
+            "prior_14_units": 0,
+            "recent_14_units": 1,
+            "delta_units": 1
+          },
+          {
+            "offer_id": "prokladka-vtulki-dq200",
+            "prior_14_units": 1,
+            "recent_14_units": 1,
+            "delta_units": 0
+          },
+          {
+            "offer_id": "0am325025z",
+            "prior_14_units": 2,
+            "recent_14_units": 2,
+            "delta_units": 0
+          },
+          {
+            "offer_id": "0am325025С",
+            "prior_14_units": 1,
+            "recent_14_units": 0,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "02e305045",
+            "prior_14_units": 1,
+            "recent_14_units": 0,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "0AM301212A",
+            "prior_14_units": 1,
+            "recent_14_units": 0,
+            "delta_units": -1
+          },
+          {
+            "offer_id": "0am325025j",
+            "prior_14_units": 1,
+            "recent_14_units": 0,
+            "delta_units": -1
+          }
+        ],
+        "current_pending_with_known_deadline": 0,
+        "overdue_pending_with_known_deadline": 0,
+        "pending_deadlines": [],
+        "date_definition": "Order creation/in_process_at in Moscow; delivered_current_status is NOT delivery date"
+      }
+    },
+    "finance_progress": {
+      "days_checked": 28,
+      "through": "2026-11-21",
+      "status": "in_progress"
+    },
+    "finance": {
+      "status": "ok",
+      "data": {
+        "method": "/v1/finance/accrual/by-day",
+        "days_checked": 28,
+        "accruals_by_day": {
+          "2026-10-25": 67,
+          "2026-10-26": 43,
+          "2026-10-27": 54,
+          "2026-10-28": 30,
+          "2026-10-29": 52,
+          "2026-10-30": 56,
+          "2026-10-31": 46,
+          "2026-11-01": 58,
+          "2026-11-02": 92,
+          "2026-11-03": 40,
+          "2026-11-04": 36,
+          "2026-11-05": 53,
+          "2026-11-06": 43,
+          "2026-11-07": 43,
+          "2026-11-08": 48,
+          "2026-11-09": 75,
+          "2026-11-10": 57,
+          "2026-11-11": 58,
+          "2026-11-12": 22,
+          "2026-11-13": 63,
+          "2026-11-14": 71,
+          "2026-11-15": 56,
+          "2026-11-16": 42,
+          "2026-11-17": 28,
+          "2026-11-18": 77,
+          "2026-11-19": 18,
+          "2026-11-20": 45,
+          "2026-11-21": 38
+        },
+        "fees_by_day": {
+          "2026-10-25": {
+            "Превышение индекса ошибок": -374.58,
+            "Эквайринг": -2024.88,
+            "Подписка Управление отзывами": -554.39,
+            "Звёздные товары": -639.69,
+            "Обеспечение материалами для упаковки товара": -10.0,
+            "Упаковка товара партнёрами": -20.0,
+            "Размещение товаров на складах Ozon": -3.21,
+            "Ускоренный сбор отзывов": -305.0
+          },
+          "2026-10-26": {
+            "Эквайринг": 155.14,
+            "Превышение индекса ошибок": -1089.16,
+            "Звёздные товары": -782.13,
+            "Подписка Управление отзывами": -581.63,
+            "Гибкий график выплат": -2402.65,
+            "Продвижение бренда": -89.4,
+            "Отгрузка в нерекомендованный слот": -89.4,
+            "Ускоренный сбор отзывов": -610.0,
+            "Размещение товаров на складах Ozon": -3.21
+          },
+          "2026-10-27": {
+            "Превышение индекса ошибок": -668.7,
+            "Звёздные товары": -802.72,
+            "Подписка Управление отзывами": -695.68,
+            "Эквайринг": -1571.72,
+            "Гибкий график выплат": -788.09,
+            "Обеспечение материалами для упаковки товара": -5.0,
+            "Упаковка товара партнёрами": -10.0,
+            "Размещение товаров на складах Ozon": -3.21
+          },
+          "2026-10-28": {
+            "Дополнительная упаковка на складе Ozon": -15.0,
+            "Эквайринг": -285.89,
+            "Гибкий график выплат": -737.9,
+            "Звёздные товары": -400.02,
+            "Подписка Управление отзывами": -346.68,
+            "Временное размещение товара партнерами": -36.0,
+            "Размещение товаров на складах Ozon": -3.21
+          },
+          "2026-10-29": {
+            "Превышение индекса ошибок": -230.32,
+            "Эквайринг": -774.42,
+            "Звёздные товары": -1833.11,
+            "Подписка Управление отзывами": -1588.69,
+            "Гибкий график выплат": -442.11,
+            "Продвижение бренда": -94.79,
+            "Размещение товаров на складах Ozon": -3.21,
+            "Ускоренный сбор отзывов": -305.0
+          },
+          "2026-10-30": {
+            "Подписка Управление отзывами": -1015.81,
+            "Звёздные товары": -1172.09,
+            "Эквайринг": -1136.97,
+            "Гибкий график выплат": -2109.96,
+            "Обеспечение материалами для упаковки товара": -10.0,
+            "Упаковка товара партнёрами": -20.0,
+            "Размещение товаров на складах Ozon": -3.21
+          },
+          "2026-10-31": {
+            "Подписка Управление отзывами": -705.17,
+            "Звёздные товары": -813.67,
+            "Эквайринг": -1483.0,
+            "Отгрузка в нерекомендованный слот": -9.79,
+            "Продвижение бренда": -99.2,
+            "Размещение товаров на складах Ozon": -3.21
+          },
+          "2026-11-01": {
+            "Превышение индекса ошибок": -77.0,
+            "Подписка Управление отзывами": -769.55,
+            "Звёздные товары": -887.95,
+            "Эквайринг": -551.45,
+            "Размещение товаров на складах Ozon": -3.21,
+            "Ускоренный сбор отзывов": -305.0
+          },
+          "2026-11-02": {
+            "Превышение индекса ошибок": -234.0,
+            "Звёздные товары": -2228.45,
+            "Обеспечение материалами для упаковки товара": -35.0,
+            "Упаковка товара партнёрами": -70.0,
+            "Подписка Управление отзывами": -1931.3,
+            "Эквайринг": -196.34,
+            "Гибкий график выплат": -2678.51,
+            "Отгрузка в нерекомендованный слот": -34.79,
+            "Дополнительная упаковка на складе Ozon": -15.0,
+            "Размещение товаров на складах Ozon": -3.21,
+            "Ускоренный сбор отзывов": -305.0
+          },
+          "2026-11-03": {
+            "Превышение индекса ошибок": -632.0,
+            "Подписка Управление отзывами": -1736.66,
+            "Звёздные товары": -2003.82,
+            "Эквайринг": -632.26,
+            "Гибкий график выплат": -1566.95,
+            "Размещение товаров на складах Ozon": -3.21
+          },
+          "2026-11-04": {
+            "Превышение индекса ошибок": -124.0,
+            "Эквайринг": -2345.07,
+            "Обеспечение материалами для упаковки товара": -5.0,
+            "Упаковка товара партнёрами": -10.0,
+            "Звёздные товары": -1769.25,
+            "Подписка Управление отзывами": -1533.35,
+            "Продвижение бренда": -18.5,
+            "Размещение товаров на складах Ozon": -3.21
+          },
+          "2026-11-05": {
+            "Эквайринг": -278.04,
+            "Подписка Управление отзывами": -445.25,
+            "Звёздные товары": -513.75,
+            "Продвижение бренда": -18.5,
+            "Обеспечение материалами для упаковки товара": -5.0,
+            "Упаковка товара партнёрами": -10.0,
+            "Гибкий график выплат": -4447.91,
+            "Размещение товаров на складах Ozon": -3.21
+          },
+          "2026-11-06": {
+            "Эквайринг": -994.0,
+            "Превышение индекса ошибок": -3978.24,
+            "Подписка Управление отзывами": -189.15,
+            "Звёздные товары": -218.25,
+            "Гибкий график выплат": -363.68,
+            "Размещение товаров на складах Ozon": -3.21
+          },
+          "2026-11-07": {
+            "Превышение индекса ошибок": -1320.66,
+            "Обеспечение материалами для упаковки товара": -20.0,
+            "Упаковка товара партнёрами": -40.0,
+            "Подписка Управление отзывами": -1386.45,
+            "Звёздные товары": -1599.75,
+            "Эквайринг": -1038.24,
+            "Продвижение бренда": -18.5,
+            "Размещение товаров на складах Ozon": -2.63
+          },
+          "2026-11-08": {
+            "Превышение индекса ошибок": -198.0,
+            "Эквайринг": 710.28,
+            "Подписка Управление отзывами": -560.54,
+            "Звёздные товары": -646.78,
+            "Обеспечение материалами для упаковки товара": -5.0,
+            "Упаковка товара партнёрами": -10.0,
+            "Продвижение бренда": -187.0,
+            "Размещение товаров на складах Ozon": -2.63
+          },
+          "2026-11-09": {
+            "Превышение индекса ошибок": -197.0,
+            "Подписка Управление отзывами": -2141.96,
+            "Эквайринг": -903.71,
+            "Звёздные товары": -2471.5,
+            "Гибкий график выплат": -2540.13,
+            "Ускоренный сбор отзывов": -305.0,
+            "Размещение товаров на складах Ozon": -2.63
+          },
+          "2026-11-10": {
+            "Превышение индекса ошибок": -682.0,
+            "Подписка Управление отзывами": -646.5,
+            "Звёздные товары": -953.72,
+            "Эквайринг": -1909.01,
+            "Гибкий график выплат": -2895.1,
+            "Обеспечение материалами для упаковки товара": -5.0,
+            "Упаковка товара партнёрами": -10.0,
+            "Размещение товаров на складах Ozon": -2.63
+          },
+          "2026-11-11": {
+            "Эквайринг": -770.88,
+            "Звёздные товары": -2053.25,
+            "Подписка Управление отзывами": -1332.28,
+            "Отгрузка в нерекомендованный слот": -38.5,
+            "Гибкий график выплат": -928.9,
+            "Размещение товаров на складах Ozon": -2.63
+          },
+          "2026-11-12": {
+            "Подписка Управление отзывами": -1247.12,
+            "Звёздные товары": -1438.98,
+            "Эквайринг": -124.94,
+            "Утилизация": -75.0,
+            "Гибкий график выплат": -2396.41,
+            "Размещение товаров на складах Ozon": -2.63,
+            "Ускоренный сбор отзывов": -305.0
+          },
+          "2026-11-13": {
+            "Подписка Управление отзывами": -380.29,
+            "Звёздные товары": -1471.55,
+            "Эквайринг": -472.06,
+            "Утилизация": -210.0,
+            "Обеспечение материалами для упаковки товара": -10.0,
+            "Упаковка товара партнёрами": -20.0,
+            "Гибкий график выплат": -1589.99,
+            "Размещение товаров на складах Ozon": -2.63
+          },
+          "2026-11-14": {
+            "Превышение индекса ошибок": -515.6,
+            "Подписка Управление отзывами": -1940.92,
+            "Звёздные товары": -2239.52,
+            "Эквайринг": -376.58,
+            "Обеспечение материалами для упаковки товара": -10.0,
+            "Упаковка товара партнёрами": -20.0,
+            "Размещение товаров на складах Ozon": -2.63
+          },
+          "2026-11-15": {
+            "Превышение индекса ошибок": -763.04,
+            "Звёздные товары": -879.75,
+            "Подписка Управление отзывами": -701.35,
+            "Эквайринг": -415.4,
+            "Отгрузка в нерекомендованный слот": -98.5,
+            "Обеспечение материалами для упаковки товара": -5.0,
+            "Упаковка товара партнёрами": -10.0,
+            "Размещение товаров на складах Ozon": -2.63,
+            "Ускоренный сбор отзывов": -305.0
+          },
+          "2026-11-16": {
+            "Эквайринг": -631.04,
+            "Превышение индекса ошибок": -499.14,
+            "Гибкий график выплат": -5465.34,
+            "Звёздные товары": -420.47,
+            "Подписка Управление отзывами": -364.4,
+            "Обеспечение материалами для упаковки товара": -5.0,
+            "Упаковка товара партнёрами": -10.0,
+            "Размещение товаров на складах Ozon": -2.63
+          },
+          "2026-11-17": {
+            "Эквайринг": -184.98,
+            "Звёздные товары": -689.25,
+            "Подписка Управление отзывами": -597.35,
+            "Размещение товаров на складах Ozon": -2.63
+          },
+          "2026-11-18": {
+            "Эквайринг": -1446.06,
+            "Превышение индекса ошибок": -535.44,
+            "Звёздные товары": -2100.61,
+            "Подписка Управление отзывами": -1692.47,
+            "Продвижение бренда": -93.5,
+            "Гибкий график выплат": -529.28,
+            "Дополнительная упаковка на складе Ozon": -15.0,
+            "Размещение товаров на складах Ozon": -2.63,
+            "Ускоренный сбор отзывов": -305.0
+          },
+          "2026-11-19": {
+            "Превышение индекса ошибок": -421.0,
+            "Эквайринг": -69.71,
+            "Гибкий график выплат": -2442.78,
+            "Звёздные товары": -1032.75,
+            "Подписка Управление отзывами": -895.05,
+            "Размещение товаров на складах Ozon": -2.63
+          },
+          "2026-11-20": {
+            "Превышение индекса ошибок": -2119.12,
+            "Звёздные товары": -514.5,
+            "Подписка Управление отзывами": -445.9,
+            "Эквайринг": -179.33,
+            "Гибкий график выплат": -1207.38,
+            "Обеспечение материалами для упаковки товара": -5.0,
+            "Упаковка товара партнёрами": -10.0,
+            "Размещение товаров на складах Ozon": -2.63
+          },
+          "2026-11-21": {
+            "Превышение индекса ошибок": -2957.52,
+            "Подписка Управление отзывами": -412.75,
+            "Звёздные товары": -919.5,
+            "Эквайринг": -432.83,
+            "Размещение товаров на складах Ozon": -2.63
+          }
+        },
+        "fees": {
+          "Гибкий график выплат": {
+            "debits_rub": 35533.07,
+            "credits_rub": 0.0,
+            "net_rub": -35533.07
+          },
+          "Звёздные товары": {
+            "debits_rub": 33496.78,
+            "credits_rub": 0.0,
+            "net_rub": -33496.78
+          },
+          "Подписка Управление отзывами": {
+            "debits_rub": 26838.64,
+            "credits_rub": 0.0,
+            "net_rub": -26838.64
+          },
+          "Эквайринг": {
+            "debits_rub": 23723.9,
+            "credits_rub": 3360.51,
+            "net_rub": -20363.39
+          },
+          "Превышение индекса ошибок": {
+            "debits_rub": 17616.52,
+            "credits_rub": 0.0,
+            "net_rub": -17616.52
+          },
+          "Ускоренный сбор отзывов": {
+            "debits_rub": 3050.0,
+            "credits_rub": 0.0,
+            "net_rub": -3050.0
+          },
+          "Продвижение бренда": {
+            "debits_rub": 619.39,
+            "credits_rub": 0.0,
+            "net_rub": -619.39
+          },
+          "Утилизация": {
+            "debits_rub": 285.0,
+            "credits_rub": 0.0,
+            "net_rub": -285.0
+          },
+          "Отгрузка в нерекомендованный слот": {
+            "debits_rub": 270.98,
+            "credits_rub": 0.0,
+            "net_rub": -270.98
+          },
+          "Упаковка товара партнёрами": {
+            "debits_rub": 270.0,
+            "credits_rub": 0.0,
+            "net_rub": -270.0
+          },
+          "Обеспечение материалами для упаковки товара": {
+            "debits_rub": 135.0,
+            "credits_rub": 0.0,
+            "net_rub": -135.0
+          },
+          "Размещение товаров на складах Ozon": {
+            "debits_rub": 81.18,
+            "credits_rub": 0.0,
+            "net_rub": -81.18
+          },
+          "Дополнительная упаковка на складе Ozon": {
+            "debits_rub": 45.0,
+            "credits_rub": 0.0,
+            "net_rub": -45.0
+          },
+          "Временное размещение товара партнерами": {
+            "debits_rub": 36.0,
+            "credits_rub": 0.0,
+            "net_rub": -36.0
+          }
+        },
+        "paid_costs": {
+          "Звёздные товары": {
+            "debits_rub": 33496.78,
+            "credits_rub": 0.0,
+            "net_rub": -33496.78
+          },
+          "Ускоренный сбор отзывов": {
+            "debits_rub": 3050.0,
+            "credits_rub": 0.0,
+            "net_rub": -3050.0
+          },
+          "Подписка Управление отзывами": {
+            "debits_rub": 26838.64,
+            "credits_rub": 0.0,
+            "net_rub": -26838.64
+          },
+          "Продвижение бренда": {
+            "debits_rub": 619.39,
+            "credits_rub": 0.0,
+            "net_rub": -619.39
+          },
+          "Гибкий график выплат": {
+            "debits_rub": 35533.07,
+            "credits_rub": 0.0,
+            "net_rub": -35533.07
+          },
+          "Превышение индекса ошибок": {
+            "debits_rub": 17616.52,
+            "credits_rub": 0.0,
+            "net_rub": -17616.52
+          },
+          "Отгрузка в нерекомендованный слот": {
+            "debits_rub": 270.98,
+            "credits_rub": 0.0,
+            "net_rub": -270.98
+          }
+        },
+        "periods": {
+          "prior_14": {
+            "Дополнительная упаковка на складе Ozon": -30.0,
+            "Эквайринг": -13157.14,
+            "Обеспечение материалами для упаковки товара": -90.0,
+            "Подписка Управление отзывами": -13479.76,
+            "Гибкий график выплат": -15537.76,
+            "Упаковка товара партнёрами": -180.0,
+            "Ускоренный сбор отзывов": -1830.0,
+            "Продвижение бренда": -338.89,
+            "Превышение индекса ошибок": -8728.66,
+            "Звёздные товары": -15664.65,
+            "Размещение товаров на складах Ozon": -44.36,
+            "Отгрузка в нерекомендованный слот": -133.98,
+            "Временное размещение товара партнерами": -36.0
+          },
+          "recent_14": {
+            "Дополнительная упаковка на складе Ozon": -15.0,
+            "Эквайринг": -7206.25,
+            "Обеспечение материалами для упаковки товара": -45.0,
+            "Подписка Управление отзывами": -13358.88,
+            "Гибкий график выплат": -19995.31,
+            "Упаковка товара партнёрами": -90.0,
+            "Ускоренный сбор отзывов": -1220.0,
+            "Продвижение бренда": -280.5,
+            "Превышение индекса ошибок": -8887.86,
+            "Звёздные товары": -17832.13,
+            "Размещение товаров на складах Ozon": -36.82,
+            "Утилизация": -285.0,
+            "Отгрузка в нерекомендованный слот": -137.0
+          },
+          "prior_7": {
+            "Эквайринг": -3846.9,
+            "Обеспечение материалами для упаковки товара": -30.0,
+            "Подписка Управление отзывами": -8249.61,
+            "Гибкий график выплат": -10350.53,
+            "Упаковка товара партнёрами": -60.0,
+            "Ускоренный сбор отзывов": -610.0,
+            "Продвижение бренда": -187.0,
+            "Превышение индекса ошибок": -1592.6,
+            "Звёздные товары": -11275.3,
+            "Размещение товаров на складах Ozon": -18.41,
+            "Утилизация": -285.0,
+            "Отгрузка в нерекомендованный слот": -38.5
+          },
+          "recent_7": {
+            "Дополнительная упаковка на складе Ozon": -15.0,
+            "Эквайринг": -3359.35,
+            "Обеспечение материалами для упаковки товара": -15.0,
+            "Подписка Управление отзывами": -5109.27,
+            "Гибкий график выплат": -9644.78,
+            "Упаковка товара партнёрами": -30.0,
+            "Ускоренный сбор отзывов": -610.0,
+            "Продвижение бренда": -93.5,
+            "Превышение индекса ошибок": -7295.26,
+            "Звёздные товары": -6556.83,
+            "Размещение товаров на складах Ozon": -18.41,
+            "Отгрузка в нерекомендованный слот": -98.5
+          }
+        },
+        "top_skus_for_paid_programs": {
+          "Звёздные товары": [
+            {
+              "sku": "3190533531",
+              "net_rub": -10319.73
+            },
+            {
+              "sku": "1945722947",
+              "net_rub": -4826.6
+            },
+            {
+              "sku": "1950714942",
+              "net_rub": -3827.79
+            },
+            {
+              "sku": "4166152715",
+              "net_rub": -1782.75
+            },
+            {
+              "sku": "3260518430",
+              "net_rub": -1182.75
+            },
+            {
+              "sku": "1947306632",
+              "net_rub": -664.63
+            },
+            {
+              "sku": "5753725265",
+              "net_rub": -663.75
+            },
+            {
+              "sku": "5753723143",
+              "net_rub": -656.67
+            },
+            {
+              "sku": "2367419515",
+              "net_rub": -589.35
+            },
+            {
+              "sku": "1996546333",
+              "net_rub": -584.25
+            },
+            {
+              "sku": "1947273007",
+              "net_rub": -562.94
+            },
+            {
+              "sku": "2169581289",
+              "net_rub": -558.57
+            },
+            {
+              "sku": "2092749373",
+              "net_rub": -449.35
+            },
+            {
+              "sku": "5753726787",
+              "net_rub": -442.5
+            },
+            {
+              "sku": "1950713046",
+              "net_rub": -433.63
+            },
+            {
+              "sku": "1950688200",
+              "net_rub": -347.82
+            },
+            {
+              "sku": "2153044349",
+              "net_rub": -347.82
+            },
+            {
+              "sku": "1947292186",
+              "net_rub": -295.5
+            },
+            {
+              "sku": "2384682253",
+              "net_rub": -295.2
+            },
+            {
+              "sku": "1950704555",
+              "net_rub": -273.26
+            }
+          ],
+          "Подписка Управление отзывами": [
+            {
+              "sku": "3190533531",
+              "net_rub": -8048.72
+            },
+            {
+              "sku": "1945722947",
+              "net_rub": -3822.95
+            },
+            {
+              "sku": "1950714942",
+              "net_rub": -2805.22
+            },
+            {
+              "sku": "4166152715",
+              "net_rub": -1545.05
+            },
+            {
+              "sku": "3260518430",
+              "net_rub": -1025.05
+            },
+            {
+              "sku": "1947306632",
+              "net_rub": -576.01
+            },
+            {
+              "sku": "5753725265",
+              "net_rub": -575.25
+            },
+            {
+              "sku": "5753723143",
+              "net_rub": -569.11
+            },
+            {
+              "sku": "2367419515",
+              "net_rub": -510.77
+            },
+            {
+              "sku": "1996546333",
+              "net_rub": -506.35
+            },
+            {
+              "sku": "1947273007",
+              "net_rub": -487.88
+            },
+            {
+              "sku": "2169581289",
+              "net_rub": -484.09
+            },
+            {
+              "sku": "2092749373",
+              "net_rub": -358.88
+            },
+            {
+              "sku": "1950713046",
+              "net_rub": -345.26
+            },
+            {
+              "sku": "1950688200",
+              "net_rub": -301.44
+            },
+            {
+              "sku": "2153044349",
+              "net_rub": -301.44
+            },
+            {
+              "sku": "5753726787",
+              "net_rub": -287.3
+            },
+            {
+              "sku": "1947292186",
+              "net_rub": -256.1
+            },
+            {
+              "sku": "1950704555",
+              "net_rub": -236.82
+            },
+            {
+              "sku": "5753724798",
+              "net_rub": -231.4
+            }
+          ],
+          "Продвижение бренда": [
+            {
+              "sku": "1947273007",
+              "net_rub": -375.29
+            },
+            {
+              "sku": "5753727927",
+              "net_rub": -154.7
+            },
+            {
+              "sku": "3245375133",
+              "net_rub": -89.4
+            }
+          ]
+        },
+        "note": "Finance accrual date differs from order date, and services may post after sale"
+      }
+    },
+    "analytics_orders": {
+      "status": "ok",
+      "data": {
+        "metric_order": [
+          "ordered_units",
+          "revenue"
+        ],
+        "rows": [
+          {
+            "day": "2026-10-25",
+            "ordered_units": 15,
+            "revenue": 214697
+          },
+          {
+            "day": "2026-10-26",
+            "ordered_units": 20,
+            "revenue": 76787
+          },
+          {
+            "day": "2026-10-27",
+            "ordered_units": 32,
+            "revenue": 231748
+          },
+          {
+            "day": "2026-10-28",
+            "ordered_units": 6,
+            "revenue": 34825
+          },
+          {
+            "day": "2026-10-29",
+            "ordered_units": 12,
+            "revenue": 38200
+          },
+          {
+            "day": "2026-10-30",
+            "ordered_units": 9,
+            "revenue": 118312
+          },
+          {
+            "day": "2026-10-31",
+            "ordered_units": 15,
+            "revenue": 127750
+          },
+          {
+            "day": "2026-11-01",
+            "ordered_units": 10,
+            "revenue": 58659
+          },
+          {
+            "day": "2026-11-02",
+            "ordered_units": 8,
+            "revenue": 41300
+          },
+          {
+            "day": "2026-11-03",
+            "ordered_units": 14,
+            "revenue": 84864
+          },
+          {
+            "day": "2026-11-04",
+            "ordered_units": 8,
+            "revenue": 235332
+          },
+          {
+            "day": "2026-11-05",
+            "ordered_units": 23,
+            "revenue": 133056
+          },
+          {
+            "day": "2026-11-06",
+            "ordered_units": 11,
+            "revenue": 110314
+          },
+          {
+            "day": "2026-11-07",
+            "ordered_units": 16,
+            "revenue": 132335
+          },
+          {
+            "day": "2026-11-08",
+            "ordered_units": 13,
+            "revenue": 52650
+          },
+          {
+            "day": "2026-11-09",
+            "ordered_units": 8,
+            "revenue": 32881
+          },
+          {
+            "day": "2026-11-10",
+            "ordered_units": 17,
+            "revenue": 316450
+          },
+          {
+            "day": "2026-11-11",
+            "ordered_units": 14,
+            "revenue": 99900
+          },
+          {
+            "day": "2026-11-12",
+            "ordered_units": 11,
+            "revenue": 62350
+          },
+          {
+            "day": "2026-11-13",
+            "ordered_units": 14,
+            "revenue": 96900
+          },
+          {
+            "day": "2026-11-14",
+            "ordered_units": 9,
+            "revenue": 99214
+          },
+          {
+            "day": "2026-11-15",
+            "ordered_units": 11,
+            "revenue": 46776
+          },
+          {
+            "day": "2026-11-16",
+            "ordered_units": 18,
+            "revenue": 265558
+          },
+          {
+            "day": "2026-11-17",
+            "ordered_units": 13,
+            "revenue": 209030
+          },
+          {
+            "day": "2026-11-18",
+            "ordered_units": 9,
+            "revenue": 35731
+          },
+          {
+            "day": "2026-11-19",
+            "ordered_units": 10,
+            "revenue": 126727
+          },
+          {
+            "day": "2026-11-20",
+            "ordered_units": 12,
+            "revenue": 101200
+          },
+          {
+            "day": "2026-11-21",
+            "ordered_units": 14,
+            "revenue": 62140
+          }
+        ]
+      }
+    },
+    "sale_promotions": {
+      "status": "ok",
+      "data": {
+        "source": "/v1/actions",
+        "count": 7,
+        "participating": [
+          {
+            "id": 1977747,
+            "title": "Эластичный бустинг. Без ограничения срока действия",
+            "action_type": "ELASTIC_BOOSTING",
+            "is_participating": true,
+            "participating_products_count": 32,
+            "date_start": "2025-03-19T21:00:44Z",
+            "date_end": "2026-12-31T20:59:59Z"
+          },
+          {
+            "id": 4465756,
+            "title": "Супербустинг 11.11",
+            "action_type": "STOCK_DISCOUNT",
+            "is_participating": true,
+            "participating_products_count": 13,
+            "date_start": "2026-11-10T21:00:00Z",
+            "date_end": "2026-12-02T20:59:59Z"
+          },
+          {
+            "id": 4400847,
+            "title": "Максимальный бустинг 11.11 и Чёрная пятница",
+            "action_type": "STOCK_DISCOUNT",
+            "is_participating": true,
+            "participating_products_count": 16,
+            "date_start": "2026-10-21T21:00:00Z",
+            "date_end": "2026-12-02T20:59:59Z"
+          },
+          {
+            "id": 4410985,
+            "title": "Максимальный бустинг: усиление 11.11 и Чёрная пятница",
+            "action_type": "STOCK_DISCOUNT",
+            "is_participating": true,
+            "participating_products_count": 11,
+            "date_start": "2026-10-27T21:00:00Z",
+            "date_end": "2026-12-02T20:59:59Z"
+          },
+          {
+            "id": 4470585,
+            "title": "Лайт бустинг 11.11 и Чёрная пятница",
+            "action_type": "STOCK_DISCOUNT",
+            "is_participating": true,
+            "participating_products_count": 16,
+            "date_start": "2026-11-11T21:00:00Z",
+            "date_end": "2026-12-02T20:59:59Z"
+          }
+        ],
+        "note": "This API lists sales promotions; absence does not prove paid subscriptions disabled"
+      }
+    },
+    "stocks_top_sellers": {
+      "status": "ok",
+      "data": {
+        "focus_skus": 40,
+        "returned_skus": 40,
+        "data": [
+          {
+            "offer_id": "0am325025",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 1,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 14,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0AM325025B",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 3,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 11,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325066ae",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 15,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325025hfe",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 59,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325025m",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 151,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325025l",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 5,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 83,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325025f",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 30,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325091f",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 2,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 173,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325025D",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 2,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 131,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "Dq500",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 63,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "02e305045",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 1,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 21,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0AM325587E",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 52,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0AM325433E",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 155,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "122390AK-AF",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 118,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325025ae",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 2,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 20,
+                "reserved": 1
+              }
+            ]
+          },
+          {
+            "offer_id": "0AM325443D",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 2,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 39,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325025G",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 59,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325025q",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 2,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 247,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325066AC",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 3,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 26,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0AM927769N",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 172,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325025z",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 1,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 131,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325025u",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 1,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 131,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325025H",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 1,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 14,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0cw325025h",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 148,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0cw0am",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 0,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "122390AKAF",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 2,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 100,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325025x",
+            "stock_types": [
+              {
+                "type": "fbs",
+                "present": 0,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325025HX",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 9,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "DQ500",
+            "stock_types": [
+              {
+                "type": "fbs",
+                "present": 63,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325091e-set",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 65,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "0am325091f-set",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 1,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 65,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "6t30",
+            "stock_types": [
+              {
+                "type": "fbs",
+                "present": 20,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "tolkateli-4-salniki-4",
+            "stock_types": [
+              {
+                "type": "fbs",
+                "present": 20,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "plita-filtr-salniki-orig",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 8,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "podshipnik-vilki-6",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 6,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 31,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "vtulki-shtokov-2sht",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 1,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 65,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "tolkateli-salniki-alum-komplekt",
+            "stock_types": [
+              {
+                "type": "fbs",
+                "present": 20,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "salnik-tolkatelya-alum",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 32,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "plita-filtr-v2",
+            "stock_types": [
+              {
+                "type": "fbo",
+                "present": 0,
+                "reserved": 0
+              },
+              {
+                "type": "fbs",
+                "present": 44,
+                "reserved": 0
+              }
+            ]
+          },
+          {
+            "offer_id": "kryshka-mehatronika-dq200",
+            "stock_types": [
+              {
+                "type": "fbs",
+                "present": 19,
+                "reserved": 0
+              }
+            ]
+          }
+        ],
+        "note": "Ozon stock snapshot; compare against master only after confirming type semantics"
+      }
+    }
+  },
+  "finished_utc": "2026-11-22T12:21:46.383107+00:00"
+}
