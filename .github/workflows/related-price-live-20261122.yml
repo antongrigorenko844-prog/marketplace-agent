@@ -1,0 +1,34 @@
+name: LEOPARTS live related prices read-only 20261122
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/related-price-live-20261122.yml'
+      - 'scripts/related_price_live_verify_20261122.py'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  check:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Read Ozon WB YM and public Tilda prices without any updates
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: python scripts/related_price_live_verify_20261122.py
+      - name: Save sanitized price-only verification
+        if: always()
+        run: bash .github/scripts/save_data.sh data/related_price_audit_20261122/live_verify.json
