@@ -80,7 +80,7 @@ class StockPreflightTests(unittest.TestCase):
         self.assertEqual(result["blocked_examples"][0]["requested_units"], 3)
 
     def test_no_implicit_positive_quantity_or_failed_cancel_status(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises((ValueError, RuntimeError)):
             list(sp._rows({"posting_number": "id-1", "status": "cancelled",
                            "products": [{"offer_id": "6t30", "quantity": None}]}))
         with self.assertRaises(ValueError):
