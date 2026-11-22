@@ -1,0 +1,32 @@
+name: LEOPARTS verify and finalize three new 6T family WB prices
+on:
+  push:
+    branches: [main]
+    paths: ['data/6t_family_20261123_wb_price_verify_request.json']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Verify only 3 new WB cards and set approved prices when indexed
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: |
+          python -m py_compile scripts/6t_family_20261123_wb_price_verify.py
+          python -u scripts/6t_family_20261123_wb_price_verify.py
+      - name: Save readback
+        if: always()
+        run: |
+          if [ -f data/6t_family_20261123_wb_price_verify_result.json ]; then
+            bash .github/scripts/save_data.sh data/6t_family_20261123_wb_price_verify_result.json
+          fi
