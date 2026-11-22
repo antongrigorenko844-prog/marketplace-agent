@@ -74,11 +74,18 @@ class ProductIntakeV2Tests(unittest.TestCase):
         with self.assertRaises(intake.GuardError):
             intake.validate(change)
 
-    def test_fails_closed_on_unknown_media_and_unknown_market_category(self):
+    def test_pinned_release_media_and_unknown_market_category(self):
         for item in self.batch["items"][:3]:
-            paths,reasons=intake.media_preflight(item)
-            self.assertEqual(paths,[])
-            self.assertTrue(reasons and "ChatGPT Library" in reasons[0])
+            media=item["media"][0]
+            self.assertEqual(media["source"], "public_url")
+            self.assertTrue(media["url"].startswith(
+                "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/"))
+            self.assertEqual(media["url"].split("?v=")[-1], media["sha256"][:10])
+            self.assertNotIn("yandex_market", item.get("categories") or {})
+        # Offline reviews must stay offline, not fetch public URLs.
+        plan=intake.run(self.batch, mode="inspect", offline=True)
+        for item in self.batch["items"][:3]:
+            self.assertEqual(plan["items"][item["sku"]]["media"]["state"], "blocked")
 
     def test_exact_two_dsg_image_hashes_are_present(self):
         for item in self.batch["items"][3:]:
