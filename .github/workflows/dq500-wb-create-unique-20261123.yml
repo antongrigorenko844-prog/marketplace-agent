@@ -1,0 +1,42 @@
+name: LEOPARTS create standalone smooth DQ500 WB via unique vendor code
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/dq500_wb_create_unique_20261123_request.json'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install dependencies
+        run: pip install -q -r requirements.txt
+      - name: Verify alias mapping and script syntax
+        run: |
+          python -m py_compile scripts/dq500_wb_create_unique_20261123.py
+          python - <<'PY'
+          import build_master_control, sync_master_control, stock_sync
+          assert build_master_control.WB_ALIAS['dq500-korpus-gladkiy']=='Dq500'
+          assert sync_master_control._WB_ALIAS_OZON_TO_VENDOR['Dq500']=='dq500-korpus-gladkiy'
+          print('ALIAS_AND_ORDER_MAPPING_OK')
+          PY
+      - name: Create only unique WB smooth housing and verify exact SKU, price, media and stock
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+        run: python -u scripts/dq500_wb_create_unique_20261123.py
+      - name: Save result and exact one-price master update
+        if: always()
+        run: |
+          if [ -f data/dq500_wb_create_unique_20261123_result.json ]; then
+            bash .github/scripts/save_data.sh data/dq500_wb_create_unique_20261123_result.json data/master_control.xlsx
+          fi
