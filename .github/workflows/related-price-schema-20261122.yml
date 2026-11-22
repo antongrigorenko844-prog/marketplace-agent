@@ -1,0 +1,21 @@
+name: LEOPARTS inspect kit and channel price schemas 20261122
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/related-price-schema-20261122.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: python scripts/related_price_inspect_20261122.py
+      - run: bash .github/scripts/save_data.sh data/related_price_audit_20261122/schema_inspection.json
