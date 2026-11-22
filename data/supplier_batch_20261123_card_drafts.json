@@ -1,0 +1,152 @@
+{
+  "created_at": "2026-11-23",
+  "owner_request": "create missing listings across Ozon, Wildberries, Yandex Market, Avito and site for eight pictured Chinese supplier items",
+  "source": "user-uploaded Chinese supplier table",
+  "supplier_quantities_are_not_warehouse_stock": true,
+  "confirmed_missing_product_drafts": [
+    {
+      "sku": "6t30-solenoids-gen2",
+      "source_row": 5,
+      "cn": "6t30电磁阀二代",
+      "pinyin": "6T30 diàncífá èr dài",
+      "supplier_list_quantity": 20,
+      "supplier_unit": "комплектов",
+      "identification": "новая отдельная номенклатурная позиция; НЕ объединять с 6t30 (первое поколение)",
+      "name_ru": "Комплект соленоидов АКПП 6T30, второе поколение (Gen 2)",
+      "channel_titles": {
+        "ozon": "Соленоиды АКПП 6T30, 2 поколение, комплект Gen 2",
+        "wildberries": "Соленоиды АКПП 6T30, 2 поколение, комплект Gen 2",
+        "yandex_market": "Комплект соленоидов АКПП 6T30, второе поколение Gen 2",
+        "avito": "Соленоиды АКПП 6T30, 2 поколение, комплект",
+        "tilda": "Комплект соленоидов АКПП 6T30, 2 поколение"
+      },
+      "description": "Комплект электромагнитных клапанов (соленоидов) гидроблока автоматической коробки передач 6T30, второе поколение (Gen 2). Не путать с комплектом первого поколения: конструкция и маркировки могут отличаться. Перед покупкой необходимо сверить поколение, номер трансмиссии, маркировки соленоидов и комплектацию по фотографиям. Совместимость с 6T40, 6T45, 6T50 устанавливается по конкретному исполнению, а не только по названию семейства. Количество соленоидов внутри набора, артикулы, производитель, состояние и гарантия должны быть подтверждены перед публикацией.",
+      "prices_rub": {
+        "ozon": null,
+        "wildberries": null,
+        "yandex_market": null,
+        "avito": null,
+        "tilda": null
+      },
+      "purchase_cost_rub": null,
+      "stock_LEOPARTS": null,
+      "photos": [],
+      "oem_part_numbers": [],
+      "confirm": [
+        "закупочная себестоимость за 1 комплект",
+        "точное количество и маркировки соленоидов в комплекте",
+        "полноразмерные фото именно комплекта Gen 2",
+        "производитель и состояние",
+        "фактический продаваемый остаток",
+        "OEM-номер или референс для проверки поколения"
+      ],
+      "status": "draft_unpublished"
+    },
+    {
+      "sku": "6t30-tcm-module",
+      "source_row": 6,
+      "cn": "6T30变速箱电子控制模块",
+      "pinyin": "6T30 biànsùxiāng diànzǐ kòngzhì mókuài",
+      "supplier_list_quantity": 6,
+      "supplier_unit": "штук",
+      "identification": "новая отдельная номенклатурная позиция — модуль управления АКПП, не набор соленоидов",
+      "name_ru": "Электронный модуль управления АКПП 6T30 (TCM)",
+      "channel_titles": {
+        "ozon": "Электронный модуль управления АКПП 6T30 TCM",
+        "wildberries": "Электронный блок управления АКПП 6T30 TCM",
+        "yandex_market": "Электронный модуль управления АКПП 6T30 TCM",
+        "avito": "Электронный блок управления АКПП 6T30 TCM",
+        "tilda": "Электронный модуль управления АКПП 6T30 (TCM)"
+      },
+      "description": "Электронный модуль управления коробкой передач 6T30 (TCM). Точный номер детали, ревизию блока, поколение и совместимость с автомобилем необходимо проверить по маркировке исходного модуля и данным трансмиссии. В зависимости от версии модулю могут требоваться программирование, клонирование или адаптация — никаких обещаний о работе без настройки. Комплектация, производитель, состояние, программное обеспечение, проверка и гарантия уточняются перед публикацией.",
+      "prices_rub": {
+        "ozon": null,
+        "wildberries": null,
+        "yandex_market": null,
+        "avito": null,
+        "tilda": null
+      },
+      "purchase_cost_rub": null,
+      "stock_LEOPARTS": null,
+      "photos": [],
+      "oem_part_numbers": [],
+      "confirm": [
+        "фото маркировки с читаемыми цифрами OEM/GM/ACDelco",
+        "поколение и аппаратная ревизия",
+        "входит ли гидроблок или только модуль",
+        "состояние новый/б.у./восстановленный",
+        "проверка и гарантия",
+        "закупочная себестоимость",
+        "фактический продаваемый остаток",
+        "фото со всех сторон"
+      ],
+      "status": "draft_unpublished"
+    }
+  ],
+  "ambiguous_items_needing_identity_check": [
+    {
+      "sku_proposal": "dq200-fork-pushrod-aux-seal-single",
+      "source_row": 8,
+      "cn": "DQ200机电单元拨叉推杆附加油封",
+      "pinyin": "DQ200 jīdiàn dānyuán bōchā tuīgǎn fùjiā yóufēng",
+      "supplier_qty": 300,
+      "existing_related": [
+        "0AM325413A",
+        "salnik-tolkatelya-alum",
+        "salniki-tolkatelya-4sht"
+      ],
+      "why_not_create": "Дополнительный сальник на фото может быть именно одной из уже продаваемых конструкций либо одиночной позицией из комплекта; нужен артикул или четкое сравнительное фото."
+    },
+    {
+      "sku_proposal": "0am-solenoid-unspecified",
+      "source_row": 7,
+      "cn": "0am 电磁阀",
+      "pinyin": "0AM diàncífá",
+      "supplier_qty": 40,
+      "existing_related": [
+        "0AM325025B",
+        "0am325025n",
+        "0AM325473"
+      ],
+      "why_not_create": "В продаже уже есть регулятор давления, соленоид переключения и набор; по подписи 0am 电磁阀 нельзя определить, какой это тип."
+    }
+  ],
+  "existing_items_not_to_duplicate": [
+    {
+      "source_row": 1,
+      "matched": [
+        "salnik-shtoka-orig",
+        "0am325066ad",
+        "0сц"
+      ]
+    },
+    {
+      "source_row": 2,
+      "matched": [
+        "0am325091e",
+        "0am325091f"
+      ]
+    },
+    {
+      "source_row": 3,
+      "matched": [
+        "0AM325587E"
+      ]
+    },
+    {
+      "source_row": 4,
+      "matched": [
+        "6t30"
+      ]
+    }
+  ],
+  "missing_existing_channel_offer": [
+    {
+      "sku": "0AM325587E",
+      "channel": "avito",
+      "state": "existing canonical SKU; no active confirmed Avito listing; do not recreate restored accumulator product"
+    }
+  ],
+  "publish_enabled": false,
+  "publish_blocker": "No supplier costs, verified original product photos, exact part numbers or confirmed owned stock for two truly missing products. No arbitrary storefront price will be invented."
+}
