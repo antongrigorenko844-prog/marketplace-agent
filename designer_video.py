@@ -134,6 +134,10 @@ def deliver(phase, operation, root=Path(".")):
     plain = text.decode("utf-8").rstrip()
     if len(plain.encode("utf-16-le")) // 2 <= 1024:
         media[1]["caption"] = plain
+    # Publication text must be visible directly in Telegram, not only inside
+    # an attached .txt document. Never truncate any platform section.
+    if len(plain) > 4096:
+        raise DeliveryError("Полный текст не помещается в одно сообщение Telegram.")
     # The workflow has already pushed the reservation. A new Actions attempt
     # cannot reuse it, including after remote acceptance and a runner crash.
     record["status"] = "sending"
@@ -144,11 +148,18 @@ def deliver(phase, operation, root=Path(".")):
                              files={"video": (path.name, video, "video/mp4"),
                                     "copy": (COPY_NAME, copy_file, "text/plain")})
         ids = receipt_ids(result, chat, ((path.name, path.stat().st_size), (COPY_NAME, len(text))))
+        visible = bot._tg("sendMessage", chat_id=chat, text=plain,
+                          disable_web_page_preview="true")
+        text_id = visible.get("message_id") if isinstance(visible, dict) else None
+        peer = visible.get("chat") if isinstance(visible, dict) else None
+        if (type(text_id) is not int or text_id <= 0 or
+                not isinstance(peer, dict) or str(peer.get("id")) != str(chat) or text_id in ids):
+            raise DeliveryError("Telegram не подтвердил видимый текст для трёх площадок.")
     except Exception:
         record["status"] = "needs_review"
         bot._save(str(state_path), state)
         raise DeliveryError("Ответ Telegram не подтвердил полную отправку. Нужна сверка перед повтором.") from None
-    state[key] = {**record, "status": "sent", "message_ids": ids}
+    state[key] = {**record, "status": "sent", "message_ids": ids, "text_message_id": text_id}
     bot._save(str(state_path), state)
     return "sent"
 
