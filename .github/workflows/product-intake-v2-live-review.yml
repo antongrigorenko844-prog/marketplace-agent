@@ -1,0 +1,55 @@
+name: LEOPARTS Product Intake v2 - LIVE Read Only
+on:
+  push:
+    branches: [main]
+    paths: ['data/product_intake_v2/live_review_request.json']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  verify-live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Read live statuses; no seller writes or pricing changes
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          set -euo pipefail
+          mkdir -p data/product_intake_v2/live_status
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from scripts import product_intake_v2 as intake
+          req = Path('data/product_intake_v2/live_review_request.json')
+          config = json.loads(req.read_text(encoding='utf-8'))
+          batches = config.get('batches', [])
+          assert isinstance(batches, list) and 0 < len(batches) <= 5
+          for batch_id in batches:
+              assert isinstance(batch_id,str) and batch_id and '/' not in batch_id and '..' not in batch_id
+              req_path=Path('data/product_intake_v2/requests') / (batch_id+'.json')
+              assert req_path.exists()
+              report=intake.run(intake.read_json(req_path),mode='inspect',offline=False)
+              target=Path('data/product_intake_v2/live_status')/(batch_id+'.json')
+              draft=target.with_suffix('.tmp')
+              draft.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+              draft.replace(target)
+              print('LIVE VERIFIED STATUS',batch_id,report['summary'])
+          PY
+      - name: Publish live read-only status JSON, not catalog data
+        if: success()
+        run: |
+          bash .github/scripts/save_data.sh data/product_intake_v2/live_status/
