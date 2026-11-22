@@ -1,0 +1,26 @@
+name: LEOPARTS single landing SEO and checkout readiness Nov 22
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-landing-single-20261122.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Syntax check
+        run: python -m py_compile .github/scripts/direct_landing_single_20261122.py
+      - name: Audit only shared LEOPARTS DQ200 landing
+        run: python .github/scripts/direct_landing_single_20261122.py
+      - name: Save read-only landing evidence
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_recovery_20261122/landing_readiness.json
