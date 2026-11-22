@@ -23,11 +23,18 @@ jobs:
           for request in data/product_intake_v2/requests/*.json; do
             [ -f "$request" ] || continue
             stem="$(basename "$request" .json)"
-            python scripts/product_intake_v2.py --request "$request" --mode inspect > "data/product_intake_v2/status/$stem.json"
-            python -c 'import json,sys; d=json.load(open(sys.argv[1],encoding="utf-8")); print(d["batch_id"], d["summary"])' "data/product_intake_v2/status/$stem.json"
+            temp_report="$(mktemp)"
+            if python scripts/product_intake_v2.py --request "$request" --mode inspect > "$temp_report"; then
+              python -c 'import json,sys; d=json.load(open(sys.argv[1],encoding="utf-8")); print(d["batch_id"], d["summary"])' "$temp_report"
+              mv "$temp_report" "data/product_intake_v2/status/$stem.json"
+            else
+              rm -f "$temp_report"
+              echo "Проверка не прошла, существующий отчёт оставлен без изменений: $request" >&2
+              exit 1
+            fi
           done
-      - name: Preserve one report per approved batch, no catalog writes
-        if: always()
+      - name: Preserve only verified JSON reports, no catalog writes
+        if: success()
         run: |
           if [ -d data/product_intake_v2/status ]; then
             bash .github/scripts/save_data.sh data/product_intake_v2/status/
