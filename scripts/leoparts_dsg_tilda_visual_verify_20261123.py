@@ -34,6 +34,8 @@ def main():
             row["price_actual"]=float(p.get("price") or 0)
             row["price_verified"]=row["price_actual"]==spec["price"]
             row["stock_raw"]=str(p.get("quantity") or p.get("inv") or "")[:120]
+            row["gallery_type"]=type(p.get("gallery")).__name__
+            row["gallery_raw_sample"]=str(p.get("gallery"))[:650]
             urls=get_urls(p.get("gallery") or [])
             row["public_gallery_count"]=len(urls)
             row["public_gallery_first_urls"]=urls[:4]
