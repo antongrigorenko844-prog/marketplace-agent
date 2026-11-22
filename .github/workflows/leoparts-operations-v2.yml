@@ -34,7 +34,9 @@ on:
     paths: ['data/leoparts_ops_v2_smoke_request.json']
 permissions: {contents: write}
 concurrency:
-  group: marketplace-agent
+  # Media-only checks cannot block warehouse jobs. Avito feed writes still
+  # serialize with the existing marketplace-agent writer.
+  group: ${{ inputs.operation == 'avito' && 'marketplace-agent' || format('leoparts-v2-{0}-{1}', inputs.operation || 'smoke', inputs.sku || '6t30') }}
   cancel-in-progress: false
 jobs:
   operation:
@@ -52,6 +54,7 @@ jobs:
           set -e
           python -m unittest discover -s tests -p 'test_media_fast.py' -v
           python -m unittest discover -s tests -p 'test_stock_preflight.py' -v
+          python -m unittest discover -s tests -p 'test_stock_legacy_deferred.py' -v
           python -m unittest discover -s tests -p 'test_tilda_cover_csv.py' -v
           python -m unittest discover -s tests -p 'test_ops_status.py' -v
           python -m unittest discover -s tests -p 'test_avito_fast_cover.py' -v
