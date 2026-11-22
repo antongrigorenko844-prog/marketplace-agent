@@ -1,0 +1,25 @@
+name: LEOPARTS linked BOM price consistency audit 20261122
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/related-price-audit-20261122.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Verify BOM versus individual and combined kit prices, prices read only
+        run: python scripts/related_price_audit_20261122.py
+      - name: Persist analysis reports without changing business settings
+        if: always()
+        run: bash .github/scripts/save_data.sh data/related_price_audit_20261122/audit.json data/related_price_audit_20261122/REPORT_RU.md
