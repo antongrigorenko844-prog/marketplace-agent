@@ -1,0 +1,43 @@
+name: LEOPARTS Exact 6T30 Library Bridge and Channel Publication
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'assets/product-intake-v2/leoparts-five-20261123/**'
+      - 'assets/product-intake-v2/bridge/**'
+      - 'scripts/restore_approved_6t30_media_from_library.py'
+  workflow_dispatch:
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  exact-approved-photos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 38
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Reassemble originals and validate exact SHA256 before any seller writes
+        run: |
+          python -m py_compile scripts/restore_approved_6t30_media_from_library.py
+          python -u scripts/restore_approved_6t30_media_from_library.py
+      - name: Upload original images and publish WB Market Tilda using existing guarded pipeline
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+        run: |
+          python -u scripts/leoparts_6t30_photo_upload_and_publish.py
+      - name: Persist independently verified channel outcomes; do not touch prices master
+        if: always()
+        run: |
+          if [ -f data/leoparts_6t30_photo_upload_and_publish_result.json ]; then
+            bash .github/scripts/save_data.sh data/leoparts_6t30_photo_upload_and_publish_result.json data/photo_upload_cache.json
+          fi
