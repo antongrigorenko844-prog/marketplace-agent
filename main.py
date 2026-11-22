@@ -1083,24 +1083,30 @@ def _cmd_update_cards_impl() -> int:
     except Exception as exc:  # noqa: BLE001 — не должно ронять update-cards
         print(f"(обновление карточек WB пропущено: {exc})")
 
-    # Новые товары мастера, которых нет на WB, создаются здесь же (до WB_AUTO_CREATE_MAX за запуск),
-    # затем карточки перечитываются — и фото/цена/остаток доезжают в этом же запуске.
-    print("\n=== Шаг 0а-2: создать недостающие карточки WB ===")
-    try:
-        _WB_LAST_CREATED.clear()
-        cmd_wb_create_missing(dry_run=False, auto=True)
-        if _WB_LAST_CREATED:
-            print(f"Создано на WB: {', '.join(_WB_LAST_CREATED)} — перечитываю карточки WB.")
-            _refresh_wb_cards()
-    except Exception as exc:  # noqa: BLE001 — не должно ронять update-cards
-        print(f"(автосоздание карточек WB пропущено: {exc})")
+    # While direct prices are frozen, generic update-cards must not create NEW
+    # offers from unreviewed master rows (blank Avito/site price could default
+    # to marketplace price). Existing listing refresh/sync keeps working.
+    import pricing_policy
+    if pricing_policy.auto_repricing_frozen():
+        print("FREEZE: автосоздание новых WB/Ozon карточек в update-cards отключено.")
+        print("Существующие товары и остатки продолжают обновляться; новые SKU идут через утверждённую заявку.")
+    else:
+        print("\n=== Шаг 0а-2: создать недостающие карточки WB ===")
+        try:
+            _WB_LAST_CREATED.clear()
+            cmd_wb_create_missing(dry_run=False, auto=True)
+            if _WB_LAST_CREATED:
+                print(f"Создано на WB: {', '.join(_WB_LAST_CREATED)} — перечитываю карточки WB.")
+                _refresh_wb_cards()
+        except Exception as exc:
+            print(f"(автосоздание карточек WB пропущено: {exc})")
 
-    print("\n=== Шаг 0а-3: создать недостающие карточки Ozon ===")
-    try:
-        _OZON_LAST_CREATED.clear()
-        cmd_ozon_create_missing(dry_run=False, auto=True)
-    except Exception as exc:  # noqa: BLE001 — не должно ронять update-cards
-        print(f"(автосоздание карточек Ozon пропущено: {exc})")
+        print("\n=== Шаг 0а-3: создать недостающие карточки Ozon ===")
+        try:
+            _OZON_LAST_CREATED.clear()
+            cmd_ozon_create_missing(dry_run=False, auto=True)
+        except Exception as exc:
+            print(f"(автосоздание карточек Ozon пропущено: {exc})")
 
     # Новые карточки, уже созданные на Ozon, должны попасть в общий каталог (ozon_catalog.xlsx) — иначе им не
     # уходят фото/остаток на Ozon и они не появляются на Авито и сайте (найдено 2026-10-28 на 0AM927769F).
