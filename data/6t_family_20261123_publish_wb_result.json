@@ -22,50 +22,131 @@
       "dimensions_are_estimates": true
     }
   },
-  "updated_utc": "2026-11-22T17:50:41.984571+00:00",
+  "updated_utc": "2026-11-22T17:56:48.109532+00:00",
   "creation": {
     "6t30-solenoids-gen2": {
-      "status": "not_visible_yet",
-      "need_creation_errors": true
+      "status": "card_created",
+      "nmID": 2338952761,
+      "title": "Соленоиды АКПП 6T30 6T40 6T45 6T50 Gen2, 7 шт",
+      "photos_count": 0,
+      "category_id": 7807,
+      "price_target": 19880,
+      "stock_target": 20
     },
     "6t30-tcm-gen1": {
-      "status": "not_visible_yet",
-      "need_creation_errors": true
+      "status": "card_created",
+      "nmID": 2338952880,
+      "title": "Блок АКПП 6T30 6T40 6T45 6T50 с соленоидами Gen1",
+      "photos_count": 0,
+      "category_id": 7845,
+      "price_target": 58850,
+      "stock_target": 3
     },
     "6t30-tcm-gen2": {
-      "status": "not_visible_yet",
-      "need_creation_errors": true
+      "status": "card_created",
+      "nmID": 2338953074,
+      "title": "Блок АКПП 6T30 6T40 6T45 6T50 с соленоидами Gen2",
+      "photos_count": 0,
+      "category_id": 7845,
+      "price_target": 58850,
+      "stock_target": 3
     }
   },
-  "prices": {},
-  "stocks": {},
-  "final_readback": {
+  "prices": {
     "6t30-solenoids-gen2": {
-      "card_created": false,
-      "nmID": null,
-      "photo_count": 0,
-      "price": null,
-      "price_verified": false,
-      "stock_submission": null
+      "status": "api_error",
+      "error_type": "WbApiError"
     },
     "6t30-tcm-gen1": {
-      "card_created": false,
-      "nmID": null,
-      "photo_count": 0,
-      "price": null,
-      "price_verified": false,
-      "stock_submission": null
+      "status": "api_error",
+      "error_type": "WbApiError"
     },
     "6t30-tcm-gen2": {
-      "card_created": false,
-      "nmID": null,
+      "status": "api_error",
+      "error_type": "WbApiError"
+    }
+  },
+  "stocks": {
+    "6t30-solenoids-gen2": {
+      "status": "submitted",
+      "quantity": 20
+    },
+    "6t30-tcm-gen1": {
+      "status": "submitted",
+      "quantity": 3
+    },
+    "6t30-tcm-gen2": {
+      "status": "submitted",
+      "quantity": 3
+    }
+  },
+  "final_readback": {
+    "6t30-solenoids-gen2": {
+      "card_created": true,
+      "nmID": 2338952761,
       "photo_count": 0,
       "price": null,
       "price_verified": false,
-      "stock_submission": null
+      "stock_submission": {
+        "status": "submitted",
+        "quantity": 20
+      }
+    },
+    "6t30-tcm-gen1": {
+      "card_created": true,
+      "nmID": 2338952880,
+      "photo_count": 0,
+      "price": null,
+      "price_verified": false,
+      "stock_submission": {
+        "status": "submitted",
+        "quantity": 3
+      }
+    },
+    "6t30-tcm-gen2": {
+      "card_created": true,
+      "nmID": 2338953074,
+      "photo_count": 0,
+      "price": null,
+      "price_verified": false,
+      "stock_submission": {
+        "status": "submitted",
+        "quantity": 3
+      }
     }
   },
   "overall_status": "NOT_CREATED_AFTER_WB_ASYNC_UPLOAD",
   "user_note": "GitHub Action success means only that script completed. WB accepted card uploads but did not create any of the three products; no price, stock or media was confirmed.",
-  "needs_wb_error_diagnostics": true
+  "needs_wb_error_diagnostics": true,
+  "preflight": {
+    "already_present": [],
+    "confirmed_model_rejections": [
+      "6t30-solenoids-gen2",
+      "6t30-tcm-gen1",
+      "6t30-tcm-gen2"
+    ]
+  },
+  "corrected_model_retry": {
+    "6t30-solenoids-gen2": {
+      "accepted": true,
+      "subject": 7807,
+      "barcode_last4": "8233",
+      "catalog_photo_count": 0,
+      "dimensions_are_estimates": true
+    },
+    "6t30-tcm-gen1": {
+      "accepted": true,
+      "subject": 7845,
+      "barcode_last4": "1223",
+      "catalog_photo_count": 0,
+      "dimensions_are_estimates": true
+    },
+    "6t30-tcm-gen2": {
+      "accepted": true,
+      "subject": 7845,
+      "barcode_last4": "3210",
+      "catalog_photo_count": 0,
+      "dimensions_are_estimates": true
+    }
+  }
 }
