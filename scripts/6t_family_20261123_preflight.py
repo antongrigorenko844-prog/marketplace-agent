@@ -33,9 +33,12 @@ def main():
         import re
         rx=re.compile(r"(6t30|6t40|6t45|6t50|блок.{0,20}управлен|электронн.{0,12}модул|гидроблок)",re.I)
         for x in attrs:
-            if rx.search(str(x.get("name",""))+" "+str(x.get("offer_id",""))):
+            if x.get("offer_id") in ("6t30","0am325025HX") or rx.search(str(x.get("name",""))+" "+str(x.get("offer_id",""))):
                 d={key:x.get(key) for key in ("offer_id","name","description_category_id","type_id","weight","weight_unit","depth","width","height","dimension_unit","images")}
                 d["attribute_ids"]=[z.get("id") for z in (x.get("attributes") or [])][:30]
+                if x.get("offer_id") in ("6t30","0am325025HX"):
+                    d["attributes"]=[{"id":a.get("id"),"values":[str(v.get("value"))[:70] for v in (a.get("values") or [])[:4]]}
+                        for a in (x.get("attributes") or [])]
                 selected.append(d)
         return {"count":len(attrs),"collisions":collisions,"samples":selected[:35]}
     r["ozon"]=safe(oz);dump(r)
