@@ -1,0 +1,173 @@
+{
+  "read_only": true,
+  "source": "repository snapshot, not live Ozon API",
+  "checked_utc": "2026-11-22T20:04:24.107724+00:00",
+  "db_exists": true,
+  "targets": {
+    "0cw0amdsgdq200": [
+      {
+        "source": "ozon_fbs",
+        "records": 3,
+        "positive_missing_recipes": 3,
+        "positive_debits": 3,
+        "newest_update": "2026-11-18T02:44:19.968992+00:00"
+      }
+    ],
+    "tolkateli-4-salniki-4": [
+      {
+        "source": "ozon_fbs",
+        "records": 7,
+        "positive_missing_recipes": 7,
+        "positive_debits": 7,
+        "newest_update": "2026-11-19T11:09:58.167322+00:00"
+      }
+    ]
+  },
+  "tables_present": {
+    "processed_orders": true,
+    "stock_order_recipe": true,
+    "stock_pending": true,
+    "stock_deferred_release": true
+  },
+  "total_records": 1444,
+  "by_source": [
+    {
+      "source": "avito_delivery",
+      "rows": 1,
+      "positive_debits": 1,
+      "positive_missing_recipes": 0,
+      "positive_with_recipes": 1
+    },
+    {
+      "source": "ozon_fbo",
+      "rows": 268,
+      "positive_debits": 203,
+      "positive_missing_recipes": 201,
+      "positive_with_recipes": 2
+    },
+    {
+      "source": "ozon_fbs",
+      "rows": 1025,
+      "positive_debits": 818,
+      "positive_missing_recipes": 806,
+      "positive_with_recipes": 12
+    },
+    {
+      "source": "wb",
+      "rows": 109,
+      "positive_debits": 71,
+      "positive_missing_recipes": 71,
+      "positive_with_recipes": 0
+    },
+    {
+      "source": "yandex_market",
+      "rows": 41,
+      "positive_debits": 21,
+      "positive_missing_recipes": 21,
+      "positive_with_recipes": 0
+    }
+  ],
+  "top_legacy_skus": [
+    {
+      "source": "ozon_fbs",
+      "sku": "0am325025",
+      "missing_active_recipes": 69
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "0AM325587E",
+      "missing_active_recipes": 52
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "0AM325443D",
+      "missing_active_recipes": 51
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "0am325066AC",
+      "missing_active_recipes": 33
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "122390AK-AF",
+      "missing_active_recipes": 31
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "0AM927769N",
+      "missing_active_recipes": 26
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "0am325025ae",
+      "missing_active_recipes": 25
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "WHT001922",
+      "missing_active_recipes": 25
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "0am325025z",
+      "missing_active_recipes": 24
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "0AM301212A",
+      "missing_active_recipes": 23
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "0am325025H",
+      "missing_active_recipes": 21
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "0am325025f",
+      "missing_active_recipes": 20
+    },
+    {
+      "source": "ozon_fbo",
+      "sku": "0am325025",
+      "missing_active_recipes": 19
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "0cw325025h",
+      "missing_active_recipes": 19
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "0am325025m",
+      "missing_active_recipes": 18
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "0am325025q",
+      "missing_active_recipes": 18
+    },
+    {
+      "source": "ozon_fbo",
+      "sku": "0AM325587E",
+      "missing_active_recipes": 17
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "0am325025hfe",
+      "missing_active_recipes": 17
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "0am325025l",
+      "missing_active_recipes": 17
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "0cw0am",
+      "missing_active_recipes": 17
+    }
+  ],
+  "unfinished_projection_rows": 0
+}
