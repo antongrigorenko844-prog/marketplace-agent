@@ -1,0 +1,4692 @@
+{
+  "status": "verified_read_only",
+  "generated_at_utc": "2026-11-22T14:00:37.756213+00:00",
+  "source": "repository master and channel feeds/snapshots; marketplace and site are not live verified",
+  "changed_product_prices": false,
+  "changed_stock": false,
+  "count": {
+    "master_unique_skus": 155,
+    "kits": 41,
+    "bom_rows": 84,
+    "comparable_by_channel": {
+      "ozon": 39,
+      "wb": 36,
+      "market_intended": 39,
+      "avito_config": 41,
+      "site_config": 41,
+      "avito_feed": 26,
+      "avito_live": 19
+    },
+    "issues": 27,
+    "issues_by_type": {
+      "kit_more_than_parts": 5,
+      "two_small_kits_cheaper": 14,
+      "site_snapshot_mismatch": 8
+    },
+    "issues_by_channel": {
+      "avito_config": 3,
+      "avito_feed": 3,
+      "avito_live": 3,
+      "site_config": 4,
+      "wb": 2,
+      "market_intended": 2,
+      "ozon": 2,
+      "site_snapshot": 8
+    },
+    "bom_coverage_missing_prices": 32,
+    "data_quality": 4
+  },
+  "issues": [
+    {
+      "kind": "kit_more_than_parts",
+      "channel": "avito_config",
+      "sku": "klipsy-shtokov-2sht",
+      "title": "Клипсы штоков мехатроника DSG7 DQ200, комплект 2 шт",
+      "price": 950.0,
+      "comparison": 900.0,
+      "delta": 50.0,
+      "parts": [
+        {
+          "sku": "0am325025P",
+          "qty": 2,
+          "unit": 450.0,
+          "subtotal": 900.0
+        }
+      ],
+      "other": null,
+      "comment": "Набор дороже тех же деталей по отдельности",
+      "fixed": false,
+      "recently_changed_related": true
+    },
+    {
+      "kind": "kit_more_than_parts",
+      "channel": "avito_feed",
+      "sku": "klipsy-shtokov-2sht",
+      "title": "Клипсы штоков мехатроника DSG7 DQ200, комплект 2 шт",
+      "price": 950.0,
+      "comparison": 900.0,
+      "delta": 50.0,
+      "parts": [
+        {
+          "sku": "0am325025P",
+          "qty": 2,
+          "unit": 450.0,
+          "subtotal": 900.0
+        }
+      ],
+      "other": null,
+      "comment": "Набор дороже тех же деталей по отдельности",
+      "fixed": false,
+      "recently_changed_related": true
+    },
+    {
+      "kind": "kit_more_than_parts",
+      "channel": "avito_live",
+      "sku": "klipsy-shtokov-2sht",
+      "title": "Клипсы штоков мехатроника DSG7 DQ200, комплект 2 шт",
+      "price": 950.0,
+      "comparison": 900.0,
+      "delta": 50.0,
+      "parts": [
+        {
+          "sku": "0am325025P",
+          "qty": 2,
+          "unit": 450.0,
+          "subtotal": 900.0
+        }
+      ],
+      "other": null,
+      "comment": "Набор дороже тех же деталей по отдельности",
+      "fixed": false,
+      "recently_changed_related": true
+    },
+    {
+      "kind": "kit_more_than_parts",
+      "channel": "site_config",
+      "sku": "DQ500",
+      "title": "Корпус фильтра + фильтр мехатроника DSG7 DQ500, комплект",
+      "price": 1450.0,
+      "comparison": 1400.0,
+      "delta": 50.0,
+      "parts": [
+        {
+          "sku": "Dq500",
+          "qty": 1,
+          "unit": 950.0,
+          "subtotal": 950.0
+        },
+        {
+          "sku": "filtr-dsg7-dq500",
+          "qty": 1,
+          "unit": 450.0,
+          "subtotal": 450.0
+        }
+      ],
+      "other": null,
+      "comment": "Набор дороже тех же деталей по отдельности",
+      "fixed": true,
+      "recently_changed_related": true
+    },
+    {
+      "kind": "kit_more_than_parts",
+      "channel": "site_config",
+      "sku": "klipsy-shtokov-2sht",
+      "title": "Клипсы штоков мехатроника DSG7 DQ200, комплект 2 шт",
+      "price": 950.0,
+      "comparison": 900.0,
+      "delta": 50.0,
+      "parts": [
+        {
+          "sku": "0am325025P",
+          "qty": 2,
+          "unit": 450.0,
+          "subtotal": 900.0
+        }
+      ],
+      "other": null,
+      "comment": "Набор дороже тех же деталей по отдельности",
+      "fixed": false,
+      "recently_changed_related": true
+    },
+    {
+      "kind": "two_small_kits_cheaper",
+      "channel": "wb",
+      "sku": "0am325091e-set",
+      "title": "Комплект 2 усиленных штока 101мм 0AM325091E + 2 втулки DSG7 DQ200",
+      "price": 8850.28,
+      "comparison": 6980.0,
+      "delta": 1870.28,
+      "parts": [
+        {
+          "sku": "0am325025u",
+          "qty": 2,
+          "unit": 3490.0
+        }
+      ],
+      "other": "0am325025u",
+      "comment": "Состав совпадает с двумя малыми наборами",
+      "fixed": false,
+      "recently_changed_related": false
+    },
+    {
+      "kind": "two_small_kits_cheaper",
+      "channel": "wb",
+      "sku": "0am325091f-set",
+      "title": "Комплект 2 усиленных штока 99мм 0AM325091F + 2 втулки DSG7 DQ200",
+      "price": 8850.28,
+      "comparison": 6980.0,
+      "delta": 1870.28,
+      "parts": [
+        {
+          "sku": "0am325025z",
+          "qty": 2,
+          "unit": 3490.0
+        }
+      ],
+      "other": "0am325025z",
+      "comment": "Состав совпадает с двумя малыми наборами",
+      "fixed": false,
+      "recently_changed_related": false
+    },
+    {
+      "kind": "two_small_kits_cheaper",
+      "channel": "market_intended",
+      "sku": "0am325091e-set",
+      "title": "Комплект 2 усиленных штока 101мм 0AM325091E + 2 втулки DSG7 DQ200",
+      "price": 8850.0,
+      "comparison": 6980.0,
+      "delta": 1870.0,
+      "parts": [
+        {
+          "sku": "0am325025u",
+          "qty": 2,
+          "unit": 3490.0
+        }
+      ],
+      "other": "0am325025u",
+      "comment": "Состав совпадает с двумя малыми наборами",
+      "fixed": false,
+      "recently_changed_related": false
+    },
+    {
+      "kind": "two_small_kits_cheaper",
+      "channel": "market_intended",
+      "sku": "0am325091f-set",
+      "title": "Комплект 2 усиленных штока 99мм 0AM325091F + 2 втулки DSG7 DQ200",
+      "price": 8850.0,
+      "comparison": 6980.0,
+      "delta": 1870.0,
+      "parts": [
+        {
+          "sku": "0am325025z",
+          "qty": 2,
+          "unit": 3490.0
+        }
+      ],
+      "other": "0am325025z",
+      "comment": "Состав совпадает с двумя малыми наборами",
+      "fixed": false,
+      "recently_changed_related": false
+    },
+    {
+      "kind": "two_small_kits_cheaper",
+      "channel": "ozon",
+      "sku": "0am325091e-set",
+      "title": "Комплект 2 усиленных штока 101мм 0AM325091E + 2 втулки DSG7 DQ200",
+      "price": 8850.0,
+      "comparison": 6980.0,
+      "delta": 1870.0,
+      "parts": [
+        {
+          "sku": "0am325025u",
+          "qty": 2,
+          "unit": 3490.0
+        }
+      ],
+      "other": "0am325025u",
+      "comment": "Состав совпадает с двумя малыми наборами",
+      "fixed": false,
+      "recently_changed_related": false
+    },
+    {
+      "kind": "two_small_kits_cheaper",
+      "channel": "ozon",
+      "sku": "0am325091f-set",
+      "title": "Комплект 2 усиленных штока 99мм 0AM325091F + 2 втулки DSG7 DQ200",
+      "price": 8850.0,
+      "comparison": 6980.0,
+      "delta": 1870.0,
+      "parts": [
+        {
+          "sku": "0am325025z",
+          "qty": 2,
+          "unit": 3490.0
+        }
+      ],
+      "other": "0am325025z",
+      "comment": "Состав совпадает с двумя малыми наборами",
+      "fixed": false,
+      "recently_changed_related": false
+    },
+    {
+      "kind": "two_small_kits_cheaper",
+      "channel": "avito_config",
+      "sku": "0am325091e-set",
+      "title": "Комплект 2 усиленных штока 101мм 0AM325091E + 2 втулки DSG7 DQ200",
+      "price": 5800.0,
+      "comparison": 4700.0,
+      "delta": 1100.0,
+      "parts": [
+        {
+          "sku": "0am325025u",
+          "qty": 2,
+          "unit": 2350.0
+        }
+      ],
+      "other": "0am325025u",
+      "comment": "Состав совпадает с двумя малыми наборами",
+      "fixed": true,
+      "recently_changed_related": false
+    },
+    {
+      "kind": "two_small_kits_cheaper",
+      "channel": "avito_config",
+      "sku": "0am325091f-set",
+      "title": "Комплект 2 усиленных штока 99мм 0AM325091F + 2 втулки DSG7 DQ200",
+      "price": 5800.0,
+      "comparison": 4700.0,
+      "delta": 1100.0,
+      "parts": [
+        {
+          "sku": "0am325025z",
+          "qty": 2,
+          "unit": 2350.0
+        }
+      ],
+      "other": "0am325025z",
+      "comment": "Состав совпадает с двумя малыми наборами",
+      "fixed": true,
+      "recently_changed_related": false
+    },
+    {
+      "kind": "two_small_kits_cheaper",
+      "channel": "avito_feed",
+      "sku": "0am325091e-set",
+      "title": "Комплект 2 усиленных штока 101мм 0AM325091E + 2 втулки DSG7 DQ200",
+      "price": 5800.0,
+      "comparison": 4700.0,
+      "delta": 1100.0,
+      "parts": [
+        {
+          "sku": "0am325025u",
+          "qty": 2,
+          "unit": 2350.0
+        }
+      ],
+      "other": "0am325025u",
+      "comment": "Состав совпадает с двумя малыми наборами",
+      "fixed": true,
+      "recently_changed_related": false
+    },
+    {
+      "kind": "two_small_kits_cheaper",
+      "channel": "avito_feed",
+      "sku": "0am325091f-set",
+      "title": "Комплект 2 усиленных штока 99мм 0AM325091F + 2 втулки DSG7 DQ200",
+      "price": 5800.0,
+      "comparison": 4700.0,
+      "delta": 1100.0,
+      "parts": [
+        {
+          "sku": "0am325025z",
+          "qty": 2,
+          "unit": 2350.0
+        }
+      ],
+      "other": "0am325025z",
+      "comment": "Состав совпадает с двумя малыми наборами",
+      "fixed": true,
+      "recently_changed_related": false
+    },
+    {
+      "kind": "two_small_kits_cheaper",
+      "channel": "avito_live",
+      "sku": "0am325091e-set",
+      "title": "Комплект 2 усиленных штока 101мм 0AM325091E + 2 втулки DSG7 DQ200",
+      "price": 5800.0,
+      "comparison": 4700.0,
+      "delta": 1100.0,
+      "parts": [
+        {
+          "sku": "0am325025u",
+          "qty": 2,
+          "unit": 2350.0
+        }
+      ],
+      "other": "0am325025u",
+      "comment": "Состав совпадает с двумя малыми наборами",
+      "fixed": true,
+      "recently_changed_related": false
+    },
+    {
+      "kind": "two_small_kits_cheaper",
+      "channel": "avito_live",
+      "sku": "0am325091f-set",
+      "title": "Комплект 2 усиленных штока 99мм 0AM325091F + 2 втулки DSG7 DQ200",
+      "price": 5800.0,
+      "comparison": 4700.0,
+      "delta": 1100.0,
+      "parts": [
+        {
+          "sku": "0am325025z",
+          "qty": 2,
+          "unit": 2350.0
+        }
+      ],
+      "other": "0am325025z",
+      "comment": "Состав совпадает с двумя малыми наборами",
+      "fixed": true,
+      "recently_changed_related": false
+    },
+    {
+      "kind": "two_small_kits_cheaper",
+      "channel": "site_config",
+      "sku": "0am325091e-set",
+      "title": "Комплект 2 усиленных штока 101мм 0AM325091E + 2 втулки DSG7 DQ200",
+      "price": 4850.0,
+      "comparison": 4700.0,
+      "delta": 150.0,
+      "parts": [
+        {
+          "sku": "0am325025u",
+          "qty": 2,
+          "unit": 2350.0
+        }
+      ],
+      "other": "0am325025u",
+      "comment": "Состав совпадает с двумя малыми наборами",
+      "fixed": true,
+      "recently_changed_related": false
+    },
+    {
+      "kind": "two_small_kits_cheaper",
+      "channel": "site_config",
+      "sku": "0am325091f-set",
+      "title": "Комплект 2 усиленных штока 99мм 0AM325091F + 2 втулки DSG7 DQ200",
+      "price": 4850.0,
+      "comparison": 4700.0,
+      "delta": 150.0,
+      "parts": [
+        {
+          "sku": "0am325025z",
+          "qty": 2,
+          "unit": 2350.0
+        }
+      ],
+      "other": "0am325025z",
+      "comment": "Состав совпадает с двумя малыми наборами",
+      "fixed": true,
+      "recently_changed_related": false
+    },
+    {
+      "kind": "site_snapshot_mismatch",
+      "channel": "site_snapshot",
+      "sku": "02E 305 045",
+      "title": "Корпус фильтра + фильтр мехатроника DSG6 DQ250 02E305045",
+      "price": 2350.0,
+      "comparison": 1450.0,
+      "delta": 900.0,
+      "parts": [],
+      "other": null,
+      "comment": "Снимок Tilda отличается от управляющей цены; проверить актуальность снимка",
+      "fixed": true,
+      "recently_changed_related": true
+    },
+    {
+      "kind": "site_snapshot_mismatch",
+      "channel": "site_snapshot",
+      "sku": "02e305045",
+      "title": "Корпус масляного фильтра мехатроника DSG6 DQ250 02E305045",
+      "price": 1850.0,
+      "comparison": 950.0,
+      "delta": 900.0,
+      "parts": [],
+      "other": null,
+      "comment": "Снимок Tilda отличается от управляющей цены; проверить актуальность снимка",
+      "fixed": true,
+      "recently_changed_related": true
+    },
+    {
+      "kind": "site_snapshot_mismatch",
+      "channel": "site_snapshot",
+      "sku": "0AM325219C",
+      "title": "Оригинальная крышка мехатроника VAG DSG7 DQ200 0AM325219C",
+      "price": 2350.0,
+      "comparison": 1850.0,
+      "delta": 500.0,
+      "parts": [],
+      "other": null,
+      "comment": "Снимок Tilda отличается от управляющей цены; проверить актуальность снимка",
+      "fixed": false,
+      "recently_changed_related": true
+    },
+    {
+      "kind": "site_snapshot_mismatch",
+      "channel": "site_snapshot",
+      "sku": "0am325025P",
+      "title": "Клипса штока мехатроника DSG7 DQ200",
+      "price": 950.0,
+      "comparison": 450.0,
+      "delta": 500.0,
+      "parts": [],
+      "other": null,
+      "comment": "Снимок Tilda отличается от управляющей цены; проверить актуальность снимка",
+      "fixed": false,
+      "recently_changed_related": true
+    },
+    {
+      "kind": "site_snapshot_mismatch",
+      "channel": "site_snapshot",
+      "sku": "0am325025ae",
+      "title": "Оригинальная крышка + усиленная прокладка мехатроника DSG7 DQ200",
+      "price": 2850.0,
+      "comparison": 2350.0,
+      "delta": 500.0,
+      "parts": [],
+      "other": null,
+      "comment": "Снимок Tilda отличается от управляющей цены; проверить актуальность снимка",
+      "fixed": false,
+      "recently_changed_related": true
+    },
+    {
+      "kind": "site_snapshot_mismatch",
+      "channel": "site_snapshot",
+      "sku": "0am325025u",
+      "title": "Ремкомплект: Усиленный длинный шток 0AM325091E 101мм + втулка мехатроника DSG7 DQ200",
+      "price": 2850.0,
+      "comparison": 2350.0,
+      "delta": 500.0,
+      "parts": [],
+      "other": null,
+      "comment": "Снимок Tilda отличается от управляющей цены; проверить актуальность снимка",
+      "fixed": false,
+      "recently_changed_related": true
+    },
+    {
+      "kind": "site_snapshot_mismatch",
+      "channel": "site_snapshot",
+      "sku": "0AM325120A",
+      "title": "Транспортная заглушка мехатроника DSG7 DQ200 0AM325120A",
+      "price": 500.0,
+      "comparison": 950.0,
+      "delta": -450.0,
+      "parts": [],
+      "other": null,
+      "comment": "Снимок Tilda отличается от управляющей цены; проверить актуальность снимка",
+      "fixed": false,
+      "recently_changed_related": false
+    },
+    {
+      "kind": "site_snapshot_mismatch",
+      "channel": "site_snapshot",
+      "sku": "filtr-setka-0b5-orig",
+      "title": "Оригинальная фильтр-сетка на соленоиды DSG7 0B5 DL501",
+      "price": 1350.0,
+      "comparison": 950.0,
+      "delta": 400.0,
+      "parts": [],
+      "other": null,
+      "comment": "Снимок Tilda отличается от управляющей цены; проверить актуальность снимка",
+      "fixed": false,
+      "recently_changed_related": true
+    }
+  ],
+  "all_kit_comparisons": [
+    {
+      "sku": "plita-filtr",
+      "channel": "ozon",
+      "kit": 9350.0,
+      "parts_sum": 11200.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "plita-filtr",
+      "channel": "wb",
+      "kit": 9350.11,
+      "parts_sum": 11200.09,
+      "delta": -1849.98
+    },
+    {
+      "sku": "plita-filtr",
+      "channel": "market_intended",
+      "kit": 9350.0,
+      "parts_sum": 11200.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "plita-filtr",
+      "channel": "avito_config",
+      "kit": 5850.0,
+      "parts_sum": 6300.0,
+      "delta": -450.0
+    },
+    {
+      "sku": "plita-filtr",
+      "channel": "site_config",
+      "kit": 5850.0,
+      "parts_sum": 6300.0,
+      "delta": -450.0
+    },
+    {
+      "sku": "plita-filtr",
+      "channel": "avito_feed",
+      "kit": 5850.0,
+      "parts_sum": 6300.0,
+      "delta": -450.0
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal",
+      "channel": "ozon",
+      "kit": 11850.0,
+      "parts_sum": 15720.0,
+      "delta": -3870.0
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal",
+      "channel": "wb",
+      "kit": 11850.3,
+      "parts_sum": 15720.09,
+      "delta": -3869.79
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal",
+      "channel": "market_intended",
+      "kit": 11850.0,
+      "parts_sum": 15720.0,
+      "delta": -3870.0
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal",
+      "channel": "avito_config",
+      "kit": 6850.0,
+      "parts_sum": 10100.0,
+      "delta": -3250.0
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal",
+      "channel": "site_config",
+      "kit": 6850.0,
+      "parts_sum": 10100.0,
+      "delta": -3250.0
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig",
+      "channel": "ozon",
+      "kit": 11850.0,
+      "parts_sum": 17250.0,
+      "delta": -5400.0
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig",
+      "channel": "wb",
+      "kit": 11850.3,
+      "parts_sum": 17250.95,
+      "delta": -5400.65
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig",
+      "channel": "market_intended",
+      "kit": 11850.0,
+      "parts_sum": 17250.0,
+      "delta": -5400.0
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig",
+      "channel": "avito_config",
+      "kit": 6850.0,
+      "parts_sum": 9150.0,
+      "delta": -2300.0
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig",
+      "channel": "site_config",
+      "kit": 6850.0,
+      "parts_sum": 9150.0,
+      "delta": -2300.0
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig",
+      "channel": "avito_feed",
+      "kit": 6850.0,
+      "parts_sum": 9150.0,
+      "delta": -2300.0
+    },
+    {
+      "sku": "0am325025G",
+      "channel": "ozon",
+      "kit": 3850.0,
+      "parts_sum": 7220.0,
+      "delta": -3370.0
+    },
+    {
+      "sku": "0am325025G",
+      "channel": "wb",
+      "kit": 3849.77,
+      "parts_sum": 7219.9,
+      "delta": -3370.13
+    },
+    {
+      "sku": "0am325025G",
+      "channel": "market_intended",
+      "kit": 3850.0,
+      "parts_sum": 7220.0,
+      "delta": -3370.0
+    },
+    {
+      "sku": "0am325025G",
+      "channel": "avito_config",
+      "kit": 2350.0,
+      "parts_sum": 5700.0,
+      "delta": -3350.0
+    },
+    {
+      "sku": "0am325025G",
+      "channel": "site_config",
+      "kit": 2350.0,
+      "parts_sum": 5700.0,
+      "delta": -3350.0
+    },
+    {
+      "sku": "0am325025hfe",
+      "channel": "ozon",
+      "kit": 3850.0,
+      "parts_sum": 7220.0,
+      "delta": -3370.0
+    },
+    {
+      "sku": "0am325025hfe",
+      "channel": "wb",
+      "kit": 3850.08,
+      "parts_sum": 7219.9,
+      "delta": -3369.82
+    },
+    {
+      "sku": "0am325025hfe",
+      "channel": "market_intended",
+      "kit": 3850.0,
+      "parts_sum": 7220.0,
+      "delta": -3370.0
+    },
+    {
+      "sku": "0am325025hfe",
+      "channel": "avito_config",
+      "kit": 2350.0,
+      "parts_sum": 5700.0,
+      "delta": -3350.0
+    },
+    {
+      "sku": "0am325025hfe",
+      "channel": "site_config",
+      "kit": 2350.0,
+      "parts_sum": 5700.0,
+      "delta": -3350.0
+    },
+    {
+      "sku": "0am325025f",
+      "channel": "ozon",
+      "kit": 3850.0,
+      "parts_sum": 8750.0,
+      "delta": -4900.0
+    },
+    {
+      "sku": "0am325025f",
+      "channel": "wb",
+      "kit": 3850.22,
+      "parts_sum": 8750.0,
+      "delta": -4899.78
+    },
+    {
+      "sku": "0am325025f",
+      "channel": "market_intended",
+      "kit": 3850.0,
+      "parts_sum": 8750.0,
+      "delta": -4900.0
+    },
+    {
+      "sku": "0am325025f",
+      "channel": "avito_config",
+      "kit": 2350.0,
+      "parts_sum": 6650.0,
+      "delta": -4300.0
+    },
+    {
+      "sku": "0am325025f",
+      "channel": "site_config",
+      "kit": 2350.0,
+      "parts_sum": 6650.0,
+      "delta": -4300.0
+    },
+    {
+      "sku": "0am325025f",
+      "channel": "avito_live",
+      "kit": 2350.0,
+      "parts_sum": 6650.0,
+      "delta": -4300.0
+    },
+    {
+      "sku": "remkomplekt-shtokov-orig",
+      "channel": "ozon",
+      "kit": 2850.0,
+      "parts_sum": 10100.0,
+      "delta": -7250.0
+    },
+    {
+      "sku": "remkomplekt-shtokov-orig",
+      "channel": "wb",
+      "kit": 2849.86,
+      "parts_sum": 10100.68,
+      "delta": -7250.82
+    },
+    {
+      "sku": "remkomplekt-shtokov-orig",
+      "channel": "market_intended",
+      "kit": 2850.0,
+      "parts_sum": 10100.0,
+      "delta": -7250.0
+    },
+    {
+      "sku": "remkomplekt-shtokov-orig",
+      "channel": "avito_config",
+      "kit": 1850.0,
+      "parts_sum": 5700.0,
+      "delta": -3850.0
+    },
+    {
+      "sku": "remkomplekt-shtokov-orig",
+      "channel": "site_config",
+      "kit": 1850.0,
+      "parts_sum": 5700.0,
+      "delta": -3850.0
+    },
+    {
+      "sku": "remkomplekt-shtokov-orig",
+      "channel": "avito_feed",
+      "kit": 1850.0,
+      "parts_sum": 5700.0,
+      "delta": -3850.0
+    },
+    {
+      "sku": "remkomplekt-shtokov-orig",
+      "channel": "avito_live",
+      "kit": 1850.0,
+      "parts_sum": 5700.0,
+      "delta": -3850.0
+    },
+    {
+      "sku": "porshni-usil-pylniki-kryshki",
+      "channel": "ozon",
+      "kit": 3850.0,
+      "parts_sum": 8180.0,
+      "delta": -4330.0
+    },
+    {
+      "sku": "porshni-usil-pylniki-kryshki",
+      "channel": "wb",
+      "kit": 3850.42,
+      "parts_sum": 8179.9,
+      "delta": -4329.48
+    },
+    {
+      "sku": "porshni-usil-pylniki-kryshki",
+      "channel": "market_intended",
+      "kit": 3850.0,
+      "parts_sum": 8180.0,
+      "delta": -4330.0
+    },
+    {
+      "sku": "porshni-usil-pylniki-kryshki",
+      "channel": "avito_config",
+      "kit": 2350.0,
+      "parts_sum": 5700.0,
+      "delta": -3350.0
+    },
+    {
+      "sku": "porshni-usil-pylniki-kryshki",
+      "channel": "site_config",
+      "kit": 2350.0,
+      "parts_sum": 5700.0,
+      "delta": -3350.0
+    },
+    {
+      "sku": "porshni-usil-pylniki-kryshki",
+      "channel": "avito_feed",
+      "kit": 2350.0,
+      "parts_sum": 5700.0,
+      "delta": -3350.0
+    },
+    {
+      "sku": "porshni-usil-pylniki-kryshki",
+      "channel": "avito_live",
+      "kit": 2350.0,
+      "parts_sum": 5700.0,
+      "delta": -3350.0
+    },
+    {
+      "sku": "0am325025u",
+      "channel": "ozon",
+      "kit": 3490.0,
+      "parts_sum": 7200.0,
+      "delta": -3710.0
+    },
+    {
+      "sku": "0am325025u",
+      "channel": "wb",
+      "kit": 3490.0,
+      "parts_sum": 7199.91,
+      "delta": -3709.91
+    },
+    {
+      "sku": "0am325025u",
+      "channel": "market_intended",
+      "kit": 3490.0,
+      "parts_sum": 7200.0,
+      "delta": -3710.0
+    },
+    {
+      "sku": "0am325025u",
+      "channel": "avito_config",
+      "kit": 2350.0,
+      "parts_sum": 4200.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "0am325025u",
+      "channel": "site_config",
+      "kit": 2350.0,
+      "parts_sum": 4200.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "0am325025z",
+      "channel": "ozon",
+      "kit": 3490.0,
+      "parts_sum": 6700.0,
+      "delta": -3210.0
+    },
+    {
+      "sku": "0am325025z",
+      "channel": "wb",
+      "kit": 3490.0,
+      "parts_sum": 6700.15,
+      "delta": -3210.15
+    },
+    {
+      "sku": "0am325025z",
+      "channel": "market_intended",
+      "kit": 3490.0,
+      "parts_sum": 6700.0,
+      "delta": -3210.0
+    },
+    {
+      "sku": "0am325025z",
+      "channel": "avito_config",
+      "kit": 2350.0,
+      "parts_sum": 3700.0,
+      "delta": -1350.0
+    },
+    {
+      "sku": "0am325025z",
+      "channel": "site_config",
+      "kit": 2350.0,
+      "parts_sum": 3700.0,
+      "delta": -1350.0
+    },
+    {
+      "sku": "0am325091e-set",
+      "channel": "ozon",
+      "kit": 8850.0,
+      "parts_sum": 14400.0,
+      "delta": -5550.0
+    },
+    {
+      "sku": "0am325091e-set",
+      "channel": "wb",
+      "kit": 8850.28,
+      "parts_sum": 14399.82,
+      "delta": -5549.54
+    },
+    {
+      "sku": "0am325091e-set",
+      "channel": "market_intended",
+      "kit": 8850.0,
+      "parts_sum": 14400.0,
+      "delta": -5550.0
+    },
+    {
+      "sku": "0am325091e-set",
+      "channel": "avito_config",
+      "kit": 5800.0,
+      "parts_sum": 8400.0,
+      "delta": -2600.0
+    },
+    {
+      "sku": "0am325091e-set",
+      "channel": "site_config",
+      "kit": 4850.0,
+      "parts_sum": 8400.0,
+      "delta": -3550.0
+    },
+    {
+      "sku": "0am325091f-set",
+      "channel": "ozon",
+      "kit": 8850.0,
+      "parts_sum": 13400.0,
+      "delta": -4550.0
+    },
+    {
+      "sku": "0am325091f-set",
+      "channel": "wb",
+      "kit": 8850.28,
+      "parts_sum": 13400.3,
+      "delta": -4550.02
+    },
+    {
+      "sku": "0am325091f-set",
+      "channel": "market_intended",
+      "kit": 8850.0,
+      "parts_sum": 13400.0,
+      "delta": -4550.0
+    },
+    {
+      "sku": "0am325091f-set",
+      "channel": "avito_config",
+      "kit": 5800.0,
+      "parts_sum": 7400.0,
+      "delta": -1600.0
+    },
+    {
+      "sku": "0am325091f-set",
+      "channel": "site_config",
+      "kit": 4850.0,
+      "parts_sum": 7400.0,
+      "delta": -2550.0
+    },
+    {
+      "sku": "02E 305 045",
+      "channel": "ozon",
+      "kit": 2490.0,
+      "parts_sum": 4200.0,
+      "delta": -1710.0
+    },
+    {
+      "sku": "02E 305 045",
+      "channel": "wb",
+      "kit": 2490.0,
+      "parts_sum": 4200.24,
+      "delta": -1710.24
+    },
+    {
+      "sku": "02E 305 045",
+      "channel": "market_intended",
+      "kit": 2490.0,
+      "parts_sum": 4200.0,
+      "delta": -1710.0
+    },
+    {
+      "sku": "02E 305 045",
+      "channel": "avito_config",
+      "kit": 1450.0,
+      "parts_sum": 1900.0,
+      "delta": -450.0
+    },
+    {
+      "sku": "02E 305 045",
+      "channel": "site_config",
+      "kit": 1450.0,
+      "parts_sum": 1900.0,
+      "delta": -450.0
+    },
+    {
+      "sku": "02E 305 045",
+      "channel": "avito_feed",
+      "kit": 1450.0,
+      "parts_sum": 1900.0,
+      "delta": -450.0
+    },
+    {
+      "sku": "02E 305 045",
+      "channel": "avito_live",
+      "kit": 1450.0,
+      "parts_sum": 1900.0,
+      "delta": -450.0
+    },
+    {
+      "sku": "DQ500",
+      "channel": "ozon",
+      "kit": 3850.0,
+      "parts_sum": 4200.0,
+      "delta": -350.0
+    },
+    {
+      "sku": "DQ500",
+      "channel": "market_intended",
+      "kit": 3850.0,
+      "parts_sum": 4200.0,
+      "delta": -350.0
+    },
+    {
+      "sku": "DQ500",
+      "channel": "avito_config",
+      "kit": 1450.0,
+      "parts_sum": 2300.0,
+      "delta": -850.0
+    },
+    {
+      "sku": "DQ500",
+      "channel": "site_config",
+      "kit": 1450.0,
+      "parts_sum": 1400.0,
+      "delta": 50.0
+    },
+    {
+      "sku": "DQ500",
+      "channel": "avito_feed",
+      "kit": 1450.0,
+      "parts_sum": 2300.0,
+      "delta": -850.0
+    },
+    {
+      "sku": "DQ500",
+      "channel": "avito_live",
+      "kit": 1450.0,
+      "parts_sum": 2300.0,
+      "delta": -850.0
+    },
+    {
+      "sku": "EA888gen3",
+      "channel": "ozon",
+      "kit": 6850.0,
+      "parts_sum": 7091.0,
+      "delta": -241.0
+    },
+    {
+      "sku": "EA888gen3",
+      "channel": "market_intended",
+      "kit": 6850.0,
+      "parts_sum": 7091.0,
+      "delta": -241.0
+    },
+    {
+      "sku": "EA888gen3",
+      "channel": "avito_config",
+      "kit": 3850.0,
+      "parts_sum": 4200.0,
+      "delta": -350.0
+    },
+    {
+      "sku": "EA888gen3",
+      "channel": "site_config",
+      "kit": 3850.0,
+      "parts_sum": 4200.0,
+      "delta": -350.0
+    },
+    {
+      "sku": "0am325025ae",
+      "channel": "ozon",
+      "kit": 4490.0,
+      "parts_sum": 5340.0,
+      "delta": -850.0
+    },
+    {
+      "sku": "0am325025ae",
+      "channel": "wb",
+      "kit": 4490.0,
+      "parts_sum": 5340.04,
+      "delta": -850.04
+    },
+    {
+      "sku": "0am325025ae",
+      "channel": "market_intended",
+      "kit": 4490.0,
+      "parts_sum": 5340.0,
+      "delta": -850.0
+    },
+    {
+      "sku": "0am325025ae",
+      "channel": "avito_config",
+      "kit": 2350.0,
+      "parts_sum": 3200.0,
+      "delta": -850.0
+    },
+    {
+      "sku": "0am325025ae",
+      "channel": "site_config",
+      "kit": 2350.0,
+      "parts_sum": 3200.0,
+      "delta": -850.0
+    },
+    {
+      "sku": "0am325025ae",
+      "channel": "avito_feed",
+      "kit": 2350.0,
+      "parts_sum": 3200.0,
+      "delta": -850.0
+    },
+    {
+      "sku": "0am325025ae",
+      "channel": "avito_live",
+      "kit": 2350.0,
+      "parts_sum": 3200.0,
+      "delta": -850.0
+    },
+    {
+      "sku": "0am325025j",
+      "channel": "ozon",
+      "kit": 2850.0,
+      "parts_sum": 6808.0,
+      "delta": -3958.0
+    },
+    {
+      "sku": "0am325025j",
+      "channel": "wb",
+      "kit": 2850.12,
+      "parts_sum": 6808.64,
+      "delta": -3958.52
+    },
+    {
+      "sku": "0am325025j",
+      "channel": "market_intended",
+      "kit": 2850.0,
+      "parts_sum": 6808.0,
+      "delta": -3958.0
+    },
+    {
+      "sku": "0am325025j",
+      "channel": "avito_config",
+      "kit": 1350.0,
+      "parts_sum": 3650.0,
+      "delta": -2300.0
+    },
+    {
+      "sku": "0am325025j",
+      "channel": "site_config",
+      "kit": 1350.0,
+      "parts_sum": 3650.0,
+      "delta": -2300.0
+    },
+    {
+      "sku": "0am325025j",
+      "channel": "avito_feed",
+      "kit": 1350.0,
+      "parts_sum": 3650.0,
+      "delta": -2300.0
+    },
+    {
+      "sku": "0am325025j",
+      "channel": "avito_live",
+      "kit": 1350.0,
+      "parts_sum": 3650.0,
+      "delta": -2300.0
+    },
+    {
+      "sku": "klipsy-shtokov-2sht",
+      "channel": "ozon",
+      "kit": 1350.0,
+      "parts_sum": 1980.0,
+      "delta": -630.0
+    },
+    {
+      "sku": "klipsy-shtokov-2sht",
+      "channel": "wb",
+      "kit": 1349.8,
+      "parts_sum": 1980.0,
+      "delta": -630.2
+    },
+    {
+      "sku": "klipsy-shtokov-2sht",
+      "channel": "market_intended",
+      "kit": 1350.0,
+      "parts_sum": 1980.0,
+      "delta": -630.0
+    },
+    {
+      "sku": "klipsy-shtokov-2sht",
+      "channel": "avito_config",
+      "kit": 950.0,
+      "parts_sum": 900.0,
+      "delta": 50.0
+    },
+    {
+      "sku": "klipsy-shtokov-2sht",
+      "channel": "site_config",
+      "kit": 950.0,
+      "parts_sum": 900.0,
+      "delta": 50.0
+    },
+    {
+      "sku": "klipsy-shtokov-2sht",
+      "channel": "avito_feed",
+      "kit": 950.0,
+      "parts_sum": 900.0,
+      "delta": 50.0
+    },
+    {
+      "sku": "klipsy-shtokov-2sht",
+      "channel": "avito_live",
+      "kit": 950.0,
+      "parts_sum": 900.0,
+      "delta": 50.0
+    },
+    {
+      "sku": "planka-solenoid-2sht",
+      "channel": "ozon",
+      "kit": 2850.0,
+      "parts_sum": 4700.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "planka-solenoid-2sht",
+      "channel": "wb",
+      "kit": 2849.84,
+      "parts_sum": 4700.5,
+      "delta": -1850.66
+    },
+    {
+      "sku": "planka-solenoid-2sht",
+      "channel": "market_intended",
+      "kit": 2850.0,
+      "parts_sum": 4700.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "planka-solenoid-2sht",
+      "channel": "avito_config",
+      "kit": 1350.0,
+      "parts_sum": 2700.0,
+      "delta": -1350.0
+    },
+    {
+      "sku": "planka-solenoid-2sht",
+      "channel": "site_config",
+      "kit": 1350.0,
+      "parts_sum": 2700.0,
+      "delta": -1350.0
+    },
+    {
+      "sku": "planka-solenoid-2sht",
+      "channel": "avito_feed",
+      "kit": 1350.0,
+      "parts_sum": 2700.0,
+      "delta": -1350.0
+    },
+    {
+      "sku": "salnik-tolkatelya-alum",
+      "channel": "ozon",
+      "kit": 2350.0,
+      "parts_sum": 7400.0,
+      "delta": -5050.0
+    },
+    {
+      "sku": "salnik-tolkatelya-alum",
+      "channel": "wb",
+      "kit": 2350.04,
+      "parts_sum": 7400.96,
+      "delta": -5050.92
+    },
+    {
+      "sku": "salnik-tolkatelya-alum",
+      "channel": "market_intended",
+      "kit": 2350.0,
+      "parts_sum": 7400.0,
+      "delta": -5050.0
+    },
+    {
+      "sku": "salnik-tolkatelya-alum",
+      "channel": "avito_config",
+      "kit": 1350.0,
+      "parts_sum": 3800.0,
+      "delta": -2450.0
+    },
+    {
+      "sku": "salnik-tolkatelya-alum",
+      "channel": "site_config",
+      "kit": 1350.0,
+      "parts_sum": 3800.0,
+      "delta": -2450.0
+    },
+    {
+      "sku": "salnik-tolkatelya-alum",
+      "channel": "avito_feed",
+      "kit": 1350.0,
+      "parts_sum": 3800.0,
+      "delta": -2450.0
+    },
+    {
+      "sku": "salnik-tolkatelya-alum",
+      "channel": "avito_live",
+      "kit": 1350.0,
+      "parts_sum": 3800.0,
+      "delta": -2450.0
+    },
+    {
+      "sku": "salniki-shtokov-2sht",
+      "channel": "ozon",
+      "kit": 1850.0,
+      "parts_sum": 2540.0,
+      "delta": -690.0
+    },
+    {
+      "sku": "salniki-shtokov-2sht",
+      "channel": "wb",
+      "kit": 1849.76,
+      "parts_sum": 2540.0,
+      "delta": -690.24
+    },
+    {
+      "sku": "salniki-shtokov-2sht",
+      "channel": "market_intended",
+      "kit": 1850.0,
+      "parts_sum": 2540.0,
+      "delta": -690.0
+    },
+    {
+      "sku": "salniki-shtokov-2sht",
+      "channel": "avito_config",
+      "kit": 950.0,
+      "parts_sum": 1900.0,
+      "delta": -950.0
+    },
+    {
+      "sku": "salniki-shtokov-2sht",
+      "channel": "site_config",
+      "kit": 950.0,
+      "parts_sum": 1900.0,
+      "delta": -950.0
+    },
+    {
+      "sku": "salniki-tolkatelya-4sht",
+      "channel": "ozon",
+      "kit": 1850.0,
+      "parts_sum": 5400.0,
+      "delta": -3550.0
+    },
+    {
+      "sku": "salniki-tolkatelya-4sht",
+      "channel": "wb",
+      "kit": 1850.24,
+      "parts_sum": 5400.0,
+      "delta": -3549.76
+    },
+    {
+      "sku": "salniki-tolkatelya-4sht",
+      "channel": "market_intended",
+      "kit": 1850.0,
+      "parts_sum": 5400.0,
+      "delta": -3550.0
+    },
+    {
+      "sku": "salniki-tolkatelya-4sht",
+      "channel": "avito_config",
+      "kit": 950.0,
+      "parts_sum": 3800.0,
+      "delta": -2850.0
+    },
+    {
+      "sku": "salniki-tolkatelya-4sht",
+      "channel": "site_config",
+      "kit": 950.0,
+      "parts_sum": 3800.0,
+      "delta": -2850.0
+    },
+    {
+      "sku": "salniki-tolkatelya-4sht",
+      "channel": "avito_feed",
+      "kit": 950.0,
+      "parts_sum": 3800.0,
+      "delta": -2850.0
+    },
+    {
+      "sku": "salniki-tolkatelya-4sht",
+      "channel": "avito_live",
+      "kit": 950.0,
+      "parts_sum": 3800.0,
+      "delta": -2850.0
+    },
+    {
+      "sku": "tolkateli-4-salniki-4",
+      "channel": "ozon",
+      "kit": 7350.0,
+      "parts_sum": 12800.0,
+      "delta": -5450.0
+    },
+    {
+      "sku": "tolkateli-4-salniki-4",
+      "channel": "wb",
+      "kit": 7349.69,
+      "parts_sum": 12800.92,
+      "delta": -5451.23
+    },
+    {
+      "sku": "tolkateli-4-salniki-4",
+      "channel": "market_intended",
+      "kit": 7350.0,
+      "parts_sum": 12800.0,
+      "delta": -5450.0
+    },
+    {
+      "sku": "tolkateli-4-salniki-4",
+      "channel": "avito_config",
+      "kit": 4350.0,
+      "parts_sum": 7600.0,
+      "delta": -3250.0
+    },
+    {
+      "sku": "tolkateli-4-salniki-4",
+      "channel": "site_config",
+      "kit": 4350.0,
+      "parts_sum": 7600.0,
+      "delta": -3250.0
+    },
+    {
+      "sku": "tolkateli-4-salniki-4",
+      "channel": "avito_feed",
+      "kit": 4350.0,
+      "parts_sum": 7600.0,
+      "delta": -3250.0
+    },
+    {
+      "sku": "tolkateli-4-salniki-4",
+      "channel": "avito_live",
+      "kit": 4350.0,
+      "parts_sum": 7600.0,
+      "delta": -3250.0
+    },
+    {
+      "sku": "tolkateli-salniki-alum-komplekt",
+      "channel": "ozon",
+      "kit": 8850.0,
+      "parts_sum": 20200.0,
+      "delta": -11350.0
+    },
+    {
+      "sku": "tolkateli-salniki-alum-komplekt",
+      "channel": "wb",
+      "kit": 8850.28,
+      "parts_sum": 20201.88,
+      "delta": -11351.6
+    },
+    {
+      "sku": "tolkateli-salniki-alum-komplekt",
+      "channel": "market_intended",
+      "kit": 8850.0,
+      "parts_sum": 20200.0,
+      "delta": -11350.0
+    },
+    {
+      "sku": "tolkateli-salniki-alum-komplekt",
+      "channel": "avito_config",
+      "kit": 4850.0,
+      "parts_sum": 11400.0,
+      "delta": -6550.0
+    },
+    {
+      "sku": "tolkateli-salniki-alum-komplekt",
+      "channel": "site_config",
+      "kit": 4850.0,
+      "parts_sum": 11400.0,
+      "delta": -6550.0
+    },
+    {
+      "sku": "tolkateli-salniki-alum-komplekt",
+      "channel": "avito_feed",
+      "kit": 4850.0,
+      "parts_sum": 11400.0,
+      "delta": -6550.0
+    },
+    {
+      "sku": "tolkateli-salniki-alum-komplekt",
+      "channel": "avito_live",
+      "kit": 4850.0,
+      "parts_sum": 11400.0,
+      "delta": -6550.0
+    },
+    {
+      "sku": "vtulki-shtokov-2sht",
+      "channel": "ozon",
+      "kit": 4850.0,
+      "parts_sum": 6700.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "vtulki-shtokov-2sht",
+      "channel": "wb",
+      "kit": 4850.02,
+      "parts_sum": 6700.26,
+      "delta": -1850.24
+    },
+    {
+      "sku": "vtulki-shtokov-2sht",
+      "channel": "market_intended",
+      "kit": 4850.0,
+      "parts_sum": 6700.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "vtulki-shtokov-2sht",
+      "channel": "avito_config",
+      "kit": 2850.0,
+      "parts_sum": 3700.0,
+      "delta": -850.0
+    },
+    {
+      "sku": "vtulki-shtokov-2sht",
+      "channel": "site_config",
+      "kit": 2850.0,
+      "parts_sum": 3700.0,
+      "delta": -850.0
+    },
+    {
+      "sku": "plita-filtr-orig",
+      "channel": "ozon",
+      "kit": 10850.0,
+      "parts_sum": 11200.0,
+      "delta": -350.0
+    },
+    {
+      "sku": "plita-filtr-orig",
+      "channel": "wb",
+      "kit": 10850.14,
+      "parts_sum": 11200.17,
+      "delta": -350.03
+    },
+    {
+      "sku": "plita-filtr-orig",
+      "channel": "market_intended",
+      "kit": 10850.0,
+      "parts_sum": 11200.0,
+      "delta": -350.0
+    },
+    {
+      "sku": "plita-filtr-orig",
+      "channel": "avito_config",
+      "kit": 5850.0,
+      "parts_sum": 6300.0,
+      "delta": -450.0
+    },
+    {
+      "sku": "plita-filtr-orig",
+      "channel": "site_config",
+      "kit": 5850.0,
+      "parts_sum": 6300.0,
+      "delta": -450.0
+    },
+    {
+      "sku": "plita-filtr-orig",
+      "channel": "avito_feed",
+      "kit": 5850.0,
+      "parts_sum": 6300.0,
+      "delta": -450.0
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal-orig",
+      "channel": "ozon",
+      "kit": 11850.0,
+      "parts_sum": 18600.0,
+      "delta": -6750.0
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal-orig",
+      "channel": "wb",
+      "kit": 11850.24,
+      "parts_sum": 18600.95,
+      "delta": -6750.71
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal-orig",
+      "channel": "market_intended",
+      "kit": 11850.0,
+      "parts_sum": 18600.0,
+      "delta": -6750.0
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal-orig",
+      "channel": "avito_config",
+      "kit": 8350.0,
+      "parts_sum": 10100.0,
+      "delta": -1750.0
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal-orig",
+      "channel": "site_config",
+      "kit": 8350.0,
+      "parts_sum": 10100.0,
+      "delta": -1750.0
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal-orig",
+      "channel": "avito_feed",
+      "kit": 8350.0,
+      "parts_sum": 10100.0,
+      "delta": -1750.0
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal-orig",
+      "channel": "avito_live",
+      "kit": 8350.0,
+      "parts_sum": 10100.0,
+      "delta": -1750.0
+    },
+    {
+      "sku": "plita-pylniki-salniki",
+      "channel": "ozon",
+      "kit": 10850.0,
+      "parts_sum": 14370.0,
+      "delta": -3520.0
+    },
+    {
+      "sku": "plita-pylniki-salniki",
+      "channel": "wb",
+      "kit": 10850.02,
+      "parts_sum": 14370.17,
+      "delta": -3520.15
+    },
+    {
+      "sku": "plita-pylniki-salniki",
+      "channel": "market_intended",
+      "kit": 10850.0,
+      "parts_sum": 14370.0,
+      "delta": -3520.0
+    },
+    {
+      "sku": "plita-pylniki-salniki",
+      "channel": "avito_config",
+      "kit": 6350.0,
+      "parts_sum": 9150.0,
+      "delta": -2800.0
+    },
+    {
+      "sku": "plita-pylniki-salniki",
+      "channel": "site_config",
+      "kit": 6350.0,
+      "parts_sum": 9150.0,
+      "delta": -2800.0
+    },
+    {
+      "sku": "plastiny-solenoid-orig",
+      "channel": "ozon",
+      "kit": 1850.0,
+      "parts_sum": 4958.0,
+      "delta": -3108.0
+    },
+    {
+      "sku": "plastiny-solenoid-orig",
+      "channel": "wb",
+      "kit": 1849.77,
+      "parts_sum": 4958.64,
+      "delta": -3108.87
+    },
+    {
+      "sku": "plastiny-solenoid-orig",
+      "channel": "market_intended",
+      "kit": 1850.0,
+      "parts_sum": 4958.0,
+      "delta": -3108.0
+    },
+    {
+      "sku": "plastiny-solenoid-orig",
+      "channel": "avito_config",
+      "kit": 950.0,
+      "parts_sum": 2700.0,
+      "delta": -1750.0
+    },
+    {
+      "sku": "plastiny-solenoid-orig",
+      "channel": "site_config",
+      "kit": 950.0,
+      "parts_sum": 2700.0,
+      "delta": -1750.0
+    },
+    {
+      "sku": "plastiny-solenoid-orig",
+      "channel": "avito_feed",
+      "kit": 950.0,
+      "parts_sum": 2700.0,
+      "delta": -1750.0
+    },
+    {
+      "sku": "plastiny-solenoid-orig",
+      "channel": "avito_live",
+      "kit": 950.0,
+      "parts_sum": 2700.0,
+      "delta": -1750.0
+    },
+    {
+      "sku": "plastiny-solenoid-dq200-2sht",
+      "channel": "ozon",
+      "kit": 1350.0,
+      "parts_sum": 2700.0,
+      "delta": -1350.0
+    },
+    {
+      "sku": "plastiny-solenoid-dq200-2sht",
+      "channel": "wb",
+      "kit": 1350.1,
+      "parts_sum": 2700.0,
+      "delta": -1349.9
+    },
+    {
+      "sku": "plastiny-solenoid-dq200-2sht",
+      "channel": "market_intended",
+      "kit": 1350.0,
+      "parts_sum": 2700.0,
+      "delta": -1350.0
+    },
+    {
+      "sku": "plastiny-solenoid-dq200-2sht",
+      "channel": "avito_config",
+      "kit": 950.0,
+      "parts_sum": 1900.0,
+      "delta": -950.0
+    },
+    {
+      "sku": "plastiny-solenoid-dq200-2sht",
+      "channel": "site_config",
+      "kit": 950.0,
+      "parts_sum": 1900.0,
+      "delta": -950.0
+    },
+    {
+      "sku": "plastiny-solenoid-dq200-2sht",
+      "channel": "avito_feed",
+      "kit": 950.0,
+      "parts_sum": 1900.0,
+      "delta": -950.0
+    },
+    {
+      "sku": "plastiny-solenoid-dq200-2sht",
+      "channel": "avito_live",
+      "kit": 950.0,
+      "parts_sum": 1900.0,
+      "delta": -950.0
+    },
+    {
+      "sku": "separatornaya-plastiny-solenoid-dq200",
+      "channel": "ozon",
+      "kit": 2350.0,
+      "parts_sum": 3950.0,
+      "delta": -1600.0
+    },
+    {
+      "sku": "separatornaya-plastiny-solenoid-dq200",
+      "channel": "wb",
+      "kit": 2350.04,
+      "parts_sum": 3950.0,
+      "delta": -1599.96
+    },
+    {
+      "sku": "separatornaya-plastiny-solenoid-dq200",
+      "channel": "market_intended",
+      "kit": 2350.0,
+      "parts_sum": 3950.0,
+      "delta": -1600.0
+    },
+    {
+      "sku": "separatornaya-plastiny-solenoid-dq200",
+      "channel": "avito_config",
+      "kit": 1350.0,
+      "parts_sum": 2850.0,
+      "delta": -1500.0
+    },
+    {
+      "sku": "separatornaya-plastiny-solenoid-dq200",
+      "channel": "site_config",
+      "kit": 1350.0,
+      "parts_sum": 2850.0,
+      "delta": -1500.0
+    },
+    {
+      "sku": "separatornaya-plastiny-solenoid-dq200",
+      "channel": "avito_feed",
+      "kit": 1350.0,
+      "parts_sum": 2850.0,
+      "delta": -1500.0
+    },
+    {
+      "sku": "separatornaya-plastiny-solenoid-dq200",
+      "channel": "avito_live",
+      "kit": 1350.0,
+      "parts_sum": 2850.0,
+      "delta": -1500.0
+    },
+    {
+      "sku": "plita-filtr-pylniki",
+      "channel": "ozon",
+      "kit": 10850.0,
+      "parts_sum": 13180.0,
+      "delta": -2330.0
+    },
+    {
+      "sku": "plita-filtr-pylniki",
+      "channel": "wb",
+      "kit": 10850.25,
+      "parts_sum": 13180.09,
+      "delta": -2329.84
+    },
+    {
+      "sku": "plita-filtr-pylniki",
+      "channel": "market_intended",
+      "kit": 10850.0,
+      "parts_sum": 13180.0,
+      "delta": -2330.0
+    },
+    {
+      "sku": "plita-filtr-pylniki",
+      "channel": "avito_config",
+      "kit": 6350.0,
+      "parts_sum": 8200.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "plita-filtr-pylniki",
+      "channel": "site_config",
+      "kit": 6350.0,
+      "parts_sum": 8200.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "plita-filtr-pylniki",
+      "channel": "avito_feed",
+      "kit": 6350.0,
+      "parts_sum": 8200.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "plita-filtr-pylniki-orig",
+      "channel": "ozon",
+      "kit": 10850.0,
+      "parts_sum": 14900.0,
+      "delta": -4050.0
+    },
+    {
+      "sku": "plita-filtr-pylniki-orig",
+      "channel": "wb",
+      "kit": 10850.25,
+      "parts_sum": 14900.55,
+      "delta": -4050.3
+    },
+    {
+      "sku": "plita-filtr-pylniki-orig",
+      "channel": "market_intended",
+      "kit": 10850.0,
+      "parts_sum": 14900.0,
+      "delta": -4050.0
+    },
+    {
+      "sku": "plita-filtr-pylniki-orig",
+      "channel": "avito_config",
+      "kit": 6350.0,
+      "parts_sum": 8200.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "plita-filtr-pylniki-orig",
+      "channel": "site_config",
+      "kit": 6350.0,
+      "parts_sum": 8200.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "plita-filtr-pylniki-orig",
+      "channel": "avito_feed",
+      "kit": 6350.0,
+      "parts_sum": 8200.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "plita-filtr-salniki-orig",
+      "channel": "ozon",
+      "kit": 10850.0,
+      "parts_sum": 14900.0,
+      "delta": -4050.0
+    },
+    {
+      "sku": "plita-filtr-salniki-orig",
+      "channel": "wb",
+      "kit": 10850.25,
+      "parts_sum": 14900.41,
+      "delta": -4050.16
+    },
+    {
+      "sku": "plita-filtr-salniki-orig",
+      "channel": "market_intended",
+      "kit": 10850.0,
+      "parts_sum": 14900.0,
+      "delta": -4050.0
+    },
+    {
+      "sku": "plita-filtr-salniki-orig",
+      "channel": "avito_config",
+      "kit": 6350.0,
+      "parts_sum": 8200.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "plita-filtr-salniki-orig",
+      "channel": "site_config",
+      "kit": 6350.0,
+      "parts_sum": 8200.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "plita-filtr-salniki-orig",
+      "channel": "avito_feed",
+      "kit": 6350.0,
+      "parts_sum": 8200.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "pylniki-shtokov-orig",
+      "channel": "ozon",
+      "kit": 2850.0,
+      "parts_sum": 3700.0,
+      "delta": -850.0
+    },
+    {
+      "sku": "pylniki-shtokov-orig",
+      "channel": "wb",
+      "kit": 2850.0,
+      "parts_sum": 3700.46,
+      "delta": -850.46
+    },
+    {
+      "sku": "pylniki-shtokov-orig",
+      "channel": "market_intended",
+      "kit": 2850.0,
+      "parts_sum": 3700.0,
+      "delta": -850.0
+    },
+    {
+      "sku": "pylniki-shtokov-orig",
+      "channel": "avito_config",
+      "kit": 1350.0,
+      "parts_sum": 1900.0,
+      "delta": -550.0
+    },
+    {
+      "sku": "pylniki-shtokov-orig",
+      "channel": "site_config",
+      "kit": 1350.0,
+      "parts_sum": 1900.0,
+      "delta": -550.0
+    },
+    {
+      "sku": "pylniki-shtokov-orig",
+      "channel": "avito_feed",
+      "kit": 1350.0,
+      "parts_sum": 1900.0,
+      "delta": -550.0
+    },
+    {
+      "sku": "pylniki-shtokov-orig",
+      "channel": "avito_live",
+      "kit": 1350.0,
+      "parts_sum": 1900.0,
+      "delta": -550.0
+    },
+    {
+      "sku": "salniki-shtokov-orig",
+      "channel": "ozon",
+      "kit": 1850.0,
+      "parts_sum": 3700.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "salniki-shtokov-orig",
+      "channel": "wb",
+      "kit": 1850.24,
+      "parts_sum": 3700.32,
+      "delta": -1850.08
+    },
+    {
+      "sku": "salniki-shtokov-orig",
+      "channel": "market_intended",
+      "kit": 1850.0,
+      "parts_sum": 3700.0,
+      "delta": -1850.0
+    },
+    {
+      "sku": "salniki-shtokov-orig",
+      "channel": "avito_config",
+      "kit": 950.0,
+      "parts_sum": 1900.0,
+      "delta": -950.0
+    },
+    {
+      "sku": "salniki-shtokov-orig",
+      "channel": "site_config",
+      "kit": 950.0,
+      "parts_sum": 1900.0,
+      "delta": -950.0
+    },
+    {
+      "sku": "salniki-shtokov-orig",
+      "channel": "avito_feed",
+      "kit": 950.0,
+      "parts_sum": 1900.0,
+      "delta": -950.0
+    },
+    {
+      "sku": "salniki-shtokov-orig",
+      "channel": "avito_live",
+      "kit": 950.0,
+      "parts_sum": 1900.0,
+      "delta": -950.0
+    },
+    {
+      "sku": "salnik-shtoka-orig",
+      "channel": "ozon",
+      "kit": 1850.0,
+      "parts_sum": 1850.0,
+      "delta": 0.0
+    },
+    {
+      "sku": "salnik-shtoka-orig",
+      "channel": "wb",
+      "kit": 1850.16,
+      "parts_sum": 1850.16,
+      "delta": 0.0
+    },
+    {
+      "sku": "salnik-shtoka-orig",
+      "channel": "market_intended",
+      "kit": 1850.0,
+      "parts_sum": 1850.0,
+      "delta": 0.0
+    },
+    {
+      "sku": "salnik-shtoka-orig",
+      "channel": "avito_config",
+      "kit": 950.0,
+      "parts_sum": 950.0,
+      "delta": 0.0
+    },
+    {
+      "sku": "salnik-shtoka-orig",
+      "channel": "site_config",
+      "kit": 950.0,
+      "parts_sum": 950.0,
+      "delta": 0.0
+    },
+    {
+      "sku": "salnik-shtoka-orig",
+      "channel": "avito_feed",
+      "kit": 950.0,
+      "parts_sum": 950.0,
+      "delta": 0.0
+    },
+    {
+      "sku": "salnik-shtoka-orig",
+      "channel": "avito_live",
+      "kit": 950.0,
+      "parts_sum": 950.0,
+      "delta": 0.0
+    },
+    {
+      "sku": "0am325025",
+      "channel": "ozon",
+      "kit": 13850.0,
+      "parts_sum": 18700.0,
+      "delta": -4850.0
+    },
+    {
+      "sku": "0am325025",
+      "channel": "wb",
+      "kit": 13849.8,
+      "parts_sum": 18699.92,
+      "delta": -4850.12
+    },
+    {
+      "sku": "0am325025",
+      "channel": "market_intended",
+      "kit": 13850.0,
+      "parts_sum": 18700.0,
+      "delta": -4850.0
+    },
+    {
+      "sku": "0am325025",
+      "channel": "avito_config",
+      "kit": 7850.0,
+      "parts_sum": 10200.0,
+      "delta": -2350.0
+    },
+    {
+      "sku": "0am325025",
+      "channel": "site_config",
+      "kit": 7850.0,
+      "parts_sum": 10200.0,
+      "delta": -2350.0
+    },
+    {
+      "sku": "nabor-chip-0am927769d",
+      "channel": "avito_config",
+      "kit": 13800.0,
+      "parts_sum": 11800.0,
+      "delta": 2000.0
+    },
+    {
+      "sku": "nabor-chip-0am927769d",
+      "channel": "site_config",
+      "kit": 13800.0,
+      "parts_sum": 11800.0,
+      "delta": 2000.0
+    },
+    {
+      "sku": "nabor-chip-02e927770",
+      "channel": "avito_config",
+      "kit": 14800.0,
+      "parts_sum": 12800.0,
+      "delta": 2000.0
+    },
+    {
+      "sku": "nabor-chip-02e927770",
+      "channel": "site_config",
+      "kit": 14800.0,
+      "parts_sum": 12800.0,
+      "delta": 2000.0
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig-v2",
+      "channel": "ozon",
+      "kit": 11850.0,
+      "parts_sum": 17250.0,
+      "delta": -5400.0
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig-v2",
+      "channel": "market_intended",
+      "kit": 11850.0,
+      "parts_sum": 17250.0,
+      "delta": -5400.0
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig-v2",
+      "channel": "avito_config",
+      "kit": 6850.0,
+      "parts_sum": 9150.0,
+      "delta": -2300.0
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig-v2",
+      "channel": "site_config",
+      "kit": 6850.0,
+      "parts_sum": 9150.0,
+      "delta": -2300.0
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig-v2",
+      "channel": "avito_feed",
+      "kit": 6850.0,
+      "parts_sum": 9150.0,
+      "delta": -2300.0
+    }
+  ],
+  "missing": [
+    {
+      "sku": "plita-filtr",
+      "channel": "avito_live",
+      "missing_parts": [
+        "filtr-dsg7-dq200"
+      ]
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal",
+      "channel": "avito_feed",
+      "missing_parts": [
+        "0am325066ad"
+      ]
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal",
+      "channel": "avito_live",
+      "missing_parts": [
+        "filtr-dsg7-dq200",
+        "0am325066ad"
+      ]
+    },
+    {
+      "sku": "0am325025G",
+      "channel": "avito_feed",
+      "missing_parts": [
+        "0am325066ad"
+      ]
+    },
+    {
+      "sku": "0am325025G",
+      "channel": "avito_live",
+      "missing_parts": [
+        "0am325066ad"
+      ]
+    },
+    {
+      "sku": "0am325025hfe",
+      "channel": "avito_feed",
+      "missing_parts": [
+        "0am325066ad"
+      ]
+    },
+    {
+      "sku": "0am325025hfe",
+      "channel": "avito_live",
+      "missing_parts": [
+        "0am325066ad"
+      ]
+    },
+    {
+      "sku": "0am325025f",
+      "channel": "avito_feed",
+      "missing_parts": [
+        "01X301127C"
+      ]
+    },
+    {
+      "sku": "0am325025u",
+      "channel": "avito_feed",
+      "missing_parts": [
+        "0am325025D"
+      ]
+    },
+    {
+      "sku": "0am325025u",
+      "channel": "avito_live",
+      "missing_parts": [
+        "0am325025D"
+      ]
+    },
+    {
+      "sku": "0am325025z",
+      "channel": "avito_feed",
+      "missing_parts": [
+        "0am325025D"
+      ]
+    },
+    {
+      "sku": "0am325025z",
+      "channel": "avito_live",
+      "missing_parts": [
+        "0am325025D"
+      ]
+    },
+    {
+      "sku": "0am325091e-set",
+      "channel": "avito_feed",
+      "missing_parts": [
+        "0am325025D"
+      ]
+    },
+    {
+      "sku": "0am325091e-set",
+      "channel": "avito_live",
+      "missing_parts": [
+        "0am325025D"
+      ]
+    },
+    {
+      "sku": "0am325091f-set",
+      "channel": "avito_feed",
+      "missing_parts": [
+        "0am325025D"
+      ]
+    },
+    {
+      "sku": "0am325091f-set",
+      "channel": "avito_live",
+      "missing_parts": [
+        "0am325025D"
+      ]
+    },
+    {
+      "sku": "DQ500",
+      "channel": "wb",
+      "missing_parts": [
+        "Dq500"
+      ]
+    },
+    {
+      "sku": "EA888gen3",
+      "channel": "wb",
+      "missing_parts": [
+        "Ea888gen3",
+        "EA888"
+      ]
+    },
+    {
+      "sku": "EA888gen3",
+      "channel": "avito_feed",
+      "missing_parts": [
+        "Ea888gen3",
+        "EA888"
+      ]
+    },
+    {
+      "sku": "EA888gen3",
+      "channel": "avito_live",
+      "missing_parts": [
+        "Ea888gen3",
+        "EA888"
+      ]
+    },
+    {
+      "sku": "planka-solenoid-2sht",
+      "channel": "avito_live",
+      "missing_parts": [
+        "0am325477"
+      ]
+    },
+    {
+      "sku": "salniki-shtokov-2sht",
+      "channel": "avito_feed",
+      "missing_parts": [
+        "0am325066ad"
+      ]
+    },
+    {
+      "sku": "salniki-shtokov-2sht",
+      "channel": "avito_live",
+      "missing_parts": [
+        "0am325066ad"
+      ]
+    },
+    {
+      "sku": "vtulki-shtokov-2sht",
+      "channel": "avito_feed",
+      "missing_parts": [
+        "0am325025D"
+      ]
+    },
+    {
+      "sku": "vtulki-shtokov-2sht",
+      "channel": "avito_live",
+      "missing_parts": [
+        "0am325025D"
+      ]
+    },
+    {
+      "sku": "plita-pylniki-salniki",
+      "channel": "avito_feed",
+      "missing_parts": [
+        "0am325066ad"
+      ]
+    },
+    {
+      "sku": "plita-pylniki-salniki",
+      "channel": "avito_live",
+      "missing_parts": [
+        "0am325066ad"
+      ]
+    },
+    {
+      "sku": "plita-filtr-pylniki",
+      "channel": "avito_live",
+      "missing_parts": [
+        "filtr-dsg7-dq200"
+      ]
+    },
+    {
+      "sku": "plita-filtr-pylniki-orig",
+      "channel": "avito_live",
+      "missing_parts": [
+        "filtr-dsg7-dq200"
+      ]
+    },
+    {
+      "sku": "plita-filtr-salniki-orig",
+      "channel": "avito_live",
+      "missing_parts": [
+        "filtr-dsg7-dq200"
+      ]
+    },
+    {
+      "sku": "0am325025",
+      "channel": "avito_feed",
+      "missing_parts": [
+        "0am325025m"
+      ]
+    },
+    {
+      "sku": "0am325025",
+      "channel": "avito_live",
+      "missing_parts": [
+        "0am325025m"
+      ]
+    }
+  ],
+  "quality": [
+    {
+      "type": "kit_not_in_master",
+      "sku": "nabor-chip-0am927769d"
+    },
+    {
+      "type": "kit_not_in_master",
+      "sku": "nabor-chip-02e927770"
+    },
+    {
+      "type": "case_collision",
+      "key": "dq500",
+      "skus": [
+        "DQ500",
+        "Dq500"
+      ]
+    },
+    {
+      "type": "case_collision",
+      "key": "ea888gen3",
+      "skus": [
+        "EA888gen3",
+        "Ea888gen3"
+      ]
+    }
+  ],
+  "bom": {
+    "plita-filtr": {
+      "0am325066ae": 1,
+      "filtr-dsg7-dq200": 1
+    },
+    "plita-filtr-pylniki-sal": {
+      "0am325066ae": 1,
+      "filtr-dsg7-dq200": 1,
+      "122390AK-AF": 2,
+      "0am325066ad": 2
+    },
+    "plita-pylniki-salniki-orig": {
+      "0am325066ae": 1,
+      "122390AKAF": 2,
+      "0сц": 2
+    },
+    "0am325025G": {
+      "122390AK-AF": 2,
+      "0am325066ad": 2,
+      "0am325025q": 2
+    },
+    "0am325025hfe": {
+      "0am325066ad": 2,
+      "122390AK-AF": 2,
+      "0am325025q": 2
+    },
+    "0am325025f": {
+      "01X301127C": 3,
+      "WHT001922": 4
+    },
+    "remkomplekt-shtokov-orig": {
+      "122390AKAF": 2,
+      "0сц": 2,
+      "0am325025q": 2
+    },
+    "porshni-usil-pylniki-kryshki": {
+      "0am325066AC": 2,
+      "122390AK-AF": 2,
+      "0am325025q": 2
+    },
+    "0am325025u": {
+      "0am325091e": 1,
+      "0am325025D": 1
+    },
+    "0am325025z": {
+      "0am325091f": 1,
+      "0am325025D": 1
+    },
+    "0am325091e-set": {
+      "0am325091e": 2,
+      "0am325025D": 2
+    },
+    "0am325091f-set": {
+      "0am325091f": 2,
+      "0am325025D": 2
+    },
+    "02E 305 045": {
+      "02e305045": 1,
+      "02E305051C": 1
+    },
+    "DQ500": {
+      "Dq500": 1,
+      "filtr-dsg7-dq500": 1
+    },
+    "EA888gen3": {
+      "Ea888gen3": 1,
+      "EA888": 1
+    },
+    "0am325025ae": {
+      "0AM325219C": 1,
+      "0AM325443D": 1
+    },
+    "0am325025j": {
+      "0AM325467J": 1,
+      "0am325477ae": 2
+    },
+    "klipsy-shtokov-2sht": {
+      "0am325025P": 2
+    },
+    "planka-solenoid-2sht": {
+      "0am325477": 2
+    },
+    "salnik-tolkatelya-alum": {
+      "0am325025r": 4
+    },
+    "salniki-shtokov-2sht": {
+      "0am325066ad": 2
+    },
+    "salniki-tolkatelya-4sht": {
+      "0AM325413A": 4
+    },
+    "tolkateli-4-salniki-4": {
+      "0am325025l": 4,
+      "0AM325413A": 4
+    },
+    "tolkateli-salniki-alum-komplekt": {
+      "0am325025l": 4,
+      "0AM325413A": 4,
+      "0am325025r": 4
+    },
+    "vtulki-shtokov-2sht": {
+      "0am325025D": 2
+    },
+    "plita-filtr-orig": {
+      "0am325066ae": 1,
+      "0AM325433E": 1
+    },
+    "plita-filtr-pylniki-sal-orig": {
+      "0am325066ae": 1,
+      "0AM325433E": 1,
+      "122390AKAF": 2,
+      "0сц": 2
+    },
+    "plita-pylniki-salniki": {
+      "0am325066ae": 1,
+      "122390AK-AF": 2,
+      "0am325066ad": 2
+    },
+    "plastiny-solenoid-orig": {
+      "0am325477ae": 2
+    },
+    "plastiny-solenoid-dq200-2sht": {
+      "plastina-solenoid-dq200": 2
+    },
+    "separatornaya-plastiny-solenoid-dq200": {
+      "separatornaya-plastina-dq200": 1,
+      "plastina-solenoid-dq200": 2
+    },
+    "plita-filtr-pylniki": {
+      "0am325066ae": 1,
+      "filtr-dsg7-dq200": 1,
+      "122390AK-AF": 2
+    },
+    "plita-filtr-pylniki-orig": {
+      "0am325066ae": 1,
+      "filtr-dsg7-dq200": 1,
+      "122390AKAF": 2
+    },
+    "plita-filtr-salniki-orig": {
+      "0am325066ae": 1,
+      "filtr-dsg7-dq200": 1,
+      "0сц": 2
+    },
+    "pylniki-shtokov-orig": {
+      "122390AKAF": 2
+    },
+    "salniki-shtokov-orig": {
+      "0сц": 2
+    },
+    "salnik-shtoka-orig": {
+      "0сц": 1
+    },
+    "0am325025": {
+      "0am325066ae": 1,
+      "0am325025m": 1
+    },
+    "nabor-chip-0am927769d": {
+      "chip-0am927769d": 1
+    },
+    "nabor-chip-02e927770": {
+      "chip-02e927770": 1
+    },
+    "plita-pylniki-salniki-orig-v2": {
+      "0am325066ae": 1,
+      "122390AKAF": 2,
+      "0сц": 2
+    }
+  },
+  "recent_price_change_skus": [
+    "01X301127C",
+    "02E 305 045",
+    "02e305045",
+    "0AM325219C",
+    "0am325025P",
+    "0am325025ae",
+    "0am325025u",
+    "0am325025z",
+    "0am325066AC",
+    "0am325066ad",
+    "122390AK-AF",
+    "DQ500",
+    "Dq500",
+    "WHT001922",
+    "filtr-setka-0b5-orig",
+    "separatornaya-plastina-dq200"
+  ],
+  "price_matrix": {
+    "01X301127C": {
+      "name": "Болт мехатроника короткий DSG7 DQ200 0AM 0CW 01X301127C",
+      "cost": 50.0,
+      "fixed_avito": false,
+      "ozon": 1250.0,
+      "wb": 1250.0,
+      "market_intended": 1250.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": null,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "02E 305 045": {
+      "name": "Корпус фильтра + фильтр мехатроника DSG6 DQ250 02E305045",
+      "cost": 500.0,
+      "fixed_avito": true,
+      "ozon": 2490.0,
+      "wb": 2490.0,
+      "market_intended": 2490.0,
+      "avito_config": 1450.0,
+      "site_config": 1450.0,
+      "avito_feed": 1450.0,
+      "avito_live": 1450.0,
+      "site_snapshot": 2350.0
+    },
+    "02E305045E": {
+      "name": "Корпус фильтра DSG6 DQ250 02E305045",
+      "cost": 350.0,
+      "fixed_avito": false,
+      "ozon": null,
+      "wb": 1570.94,
+      "market_intended": null,
+      "avito_config": null,
+      "site_config": null,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": null
+    },
+    "02E305051C": {
+      "name": "Фильтр мехатроника DSG6 DQ250 02E305051C",
+      "cost": 150.0,
+      "fixed_avito": true,
+      "ozon": 1850.0,
+      "wb": 1850.24,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "02E927770AL": {
+      "name": "Мехатроник DSG6 DQ250 в сборе с электронной платой 02E927770AL",
+      "cost": 30500.0,
+      "fixed_avito": false,
+      "ozon": 118850.0,
+      "wb": 118849.92,
+      "market_intended": 118850.0,
+      "avito_config": 68500.0,
+      "site_config": 68500.0,
+      "avito_feed": 68500.0,
+      "avito_live": 68500.0,
+      "site_snapshot": 68500.0
+    },
+    "02e305045": {
+      "name": "Корпус масляного фильтра мехатроника DSG6 DQ250 02E305045",
+      "cost": 350.0,
+      "fixed_avito": true,
+      "ozon": 2350.0,
+      "wb": 2350.0,
+      "market_intended": 2350.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 1850.0
+    },
+    "0AM301212A": {
+      "name": "Заглушка корпуса КПП мехатроника DSG7 DQ200 0AM301212A",
+      "cost": 100.0,
+      "fixed_avito": false,
+      "ozon": 1350.0,
+      "wb": 1350.18,
+      "market_intended": 1350.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "0AM325025B": {
+      "name": "Соленоид регулятор давления DSG7 DQ200",
+      "cost": 1350.0,
+      "fixed_avito": false,
+      "ozon": 9350.0,
+      "wb": 9350.0,
+      "market_intended": 9350.0,
+      "avito_config": 5350.0,
+      "site_config": 5350.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 5350.0
+    },
+    "0AM325091E / 0AM325091F": {
+      "name": "Сальник штока DSG7 DQ200 0AM 0CW оригинал Volkswagen",
+      "cost": null,
+      "fixed_avito": false,
+      "ozon": null,
+      "wb": 1319.7,
+      "market_intended": null,
+      "avito_config": null,
+      "site_config": null,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": null
+    },
+    "0AM325120A": {
+      "name": "Транспортная заглушка мехатроника DSG7 DQ200 0AM325120A",
+      "cost": 60.0,
+      "fixed_avito": false,
+      "ozon": 1350.0,
+      "wb": 1350.0,
+      "market_intended": 1350.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": null,
+      "site_snapshot": 500.0
+    },
+    "0AM325219C": {
+      "name": "Оригинальная крышка мехатроника VAG DSG7 DQ200 0AM325219C",
+      "cost": 500.0,
+      "fixed_avito": false,
+      "ozon": 2990.0,
+      "wb": 2990.0,
+      "market_intended": 2990.0,
+      "avito_config": 1850.0,
+      "site_config": 1850.0,
+      "avito_feed": 1850.0,
+      "avito_live": 1850.0,
+      "site_snapshot": 2350.0
+    },
+    "0AM325413A": {
+      "name": "Сальник толкателя вилки мехатроника DSG7 DQ200 0AM325413A",
+      "cost": 70.0,
+      "fixed_avito": false,
+      "ozon": 1350.0,
+      "wb": 1350.0,
+      "market_intended": 1350.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "0AM325433E": {
+      "name": "Фильтр мехатроника DSG7 DQ200 0AM325433E",
+      "cost": 180.0,
+      "fixed_avito": false,
+      "ozon": 1350.0,
+      "wb": 1350.0,
+      "market_intended": 1350.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "0AM325443D": {
+      "name": "Усиленная прокладка крышки мехатроника DSG7 DQ200 0AM325443D",
+      "cost": 180.0,
+      "fixed_avito": false,
+      "ozon": 2350.0,
+      "wb": 2350.04,
+      "market_intended": 2350.0,
+      "avito_config": 1350.0,
+      "site_config": 1350.0,
+      "avito_feed": 1350.0,
+      "avito_live": 1350.0,
+      "site_snapshot": 1350.0
+    },
+    "0AM325467J": {
+      "name": "Оригинальная сепараторная пластина мехатроника VAG DSG7 DQ200 0AM325467J",
+      "cost": 180.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1850.0,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "0AM325473": {
+      "name": "Соленоиды мехатроника DSG7 DQ200 0AM325473 Hiltie, комплект 4 шт (1 половинка)",
+      "cost": 3000.0,
+      "fixed_avito": false,
+      "ozon": 12850.0,
+      "wb": 12849.82,
+      "market_intended": 12850.0,
+      "avito_config": 7850.0,
+      "site_config": 7850.0,
+      "avito_feed": 7850.0,
+      "avito_live": null,
+      "site_snapshot": 7850.0
+    },
+    "0AM325587E": {
+      "name": "Гидроаккумулятор мехатроника DSG7 DQ200 Оригинал VAG 0AM325587E",
+      "cost": 1800.0,
+      "fixed_avito": false,
+      "ozon": 9850.0,
+      "wb": 9850.1,
+      "market_intended": 9850.0,
+      "avito_config": 5350.0,
+      "site_config": 5350.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 5350.0
+    },
+    "0AM927769D": {
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769D",
+      "cost": 17500.0,
+      "fixed_avito": true,
+      "ozon": 74850.0,
+      "wb": 78800.15,
+      "market_intended": 74850.0,
+      "avito_config": 39500.0,
+      "site_config": 39500.0,
+      "avito_feed": 39500.0,
+      "avito_live": 39500.0,
+      "site_snapshot": 39500.0
+    },
+    "0AM927769D-plata": {
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769D",
+      "cost": null,
+      "fixed_avito": false,
+      "ozon": null,
+      "wb": 74850.0,
+      "market_intended": null,
+      "avito_config": null,
+      "site_config": null,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": null
+    },
+    "0AM927769E": {
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769E",
+      "cost": null,
+      "fixed_avito": false,
+      "ozon": 74850.0,
+      "wb": 74850.0,
+      "market_intended": 74850.0,
+      "avito_config": 44910.0,
+      "site_config": 44910.0,
+      "avito_feed": 44910.0,
+      "avito_live": 44910.0,
+      "site_snapshot": 44910.0
+    },
+    "0AM927769F": {
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769F",
+      "cost": 17500.0,
+      "fixed_avito": true,
+      "ozon": 74850.0,
+      "wb": 74850.44,
+      "market_intended": 74850.0,
+      "avito_config": 39500.0,
+      "site_config": 39500.0,
+      "avito_feed": 39500.0,
+      "avito_live": 39500.0,
+      "site_snapshot": 39500.0
+    },
+    "0AM927769G": {
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769G",
+      "cost": null,
+      "fixed_avito": false,
+      "ozon": 74850.0,
+      "wb": 74850.0,
+      "market_intended": 74850.0,
+      "avito_config": 44910.0,
+      "site_config": 44910.0,
+      "avito_feed": 44910.0,
+      "avito_live": 44910.0,
+      "site_snapshot": 44910.0
+    },
+    "0AM927769K": {
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769K",
+      "cost": null,
+      "fixed_avito": false,
+      "ozon": 74850.0,
+      "wb": 74850.0,
+      "market_intended": 74850.0,
+      "avito_config": 44910.0,
+      "site_config": 44910.0,
+      "avito_feed": 44910.0,
+      "avito_live": 44910.0,
+      "site_snapshot": 44910.0
+    },
+    "0AM927769N": {
+      "name": "Прокладки электронной платы мехатроника DSG7 DQ200 0AM927769N",
+      "cost": 250.0,
+      "fixed_avito": false,
+      "ozon": 3350.0,
+      "wb": 3349.64,
+      "market_intended": 3350.0,
+      "avito_config": 1850.0,
+      "site_config": 1850.0,
+      "avito_feed": 1850.0,
+      "avito_live": 1850.0,
+      "site_snapshot": 1850.0
+    },
+    "0BH325": {
+      "name": "Корпус фильтра мехатроника DSG7 DQ500 0BH325183B",
+      "cost": 350.0,
+      "fixed_avito": false,
+      "ozon": 3850.0,
+      "wb": null,
+      "market_intended": 3850.0,
+      "avito_config": 2850.0,
+      "site_config": 2850.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 2850.0
+    },
+    "0BH325183": {
+      "name": "Корпус фильтра ребристый мехатроника DSG7 DQ500 0BH325183B",
+      "cost": 1000.0,
+      "fixed_avito": true,
+      "ozon": 4350.0,
+      "wb": 4350.0,
+      "market_intended": 4350.0,
+      "avito_config": 3850.0,
+      "site_config": 3850.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 3850.0
+    },
+    "0BH325183 B": {
+      "name": "Корпус фильтра ребристый мехатроника DSG7 DQ500 0BH325183B, красный",
+      "cost": 1000.0,
+      "fixed_avito": true,
+      "ozon": 4350.0,
+      "wb": 4350.0,
+      "market_intended": 4350.0,
+      "avito_config": 3850.0,
+      "site_config": 3850.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 3850.0
+    },
+    "0BH325183B": {
+      "name": "Корпус фильтра DQ500 DSG7 0BH325183B",
+      "cost": null,
+      "fixed_avito": false,
+      "ozon": null,
+      "wb": 5000.0,
+      "market_intended": null,
+      "avito_config": null,
+      "site_config": null,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": null
+    },
+    "0BH325183BB": {
+      "name": "Корпус фильтра DQ500 DSG7 0BH325183B",
+      "cost": null,
+      "fixed_avito": false,
+      "ozon": null,
+      "wb": 2732.24,
+      "market_intended": null,
+      "avito_config": null,
+      "site_config": null,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": null
+    },
+    "0am3250066AE": {
+      "name": "Ремкомплект мехатроник DQ200 DSG7+оригинал пыльник сальник W",
+      "cost": null,
+      "fixed_avito": false,
+      "ozon": null,
+      "wb": 15032.1,
+      "market_intended": null,
+      "avito_config": null,
+      "site_config": null,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": null
+    },
+    "0am325025": {
+      "name": "Ремкомплект мехатроника DSG7 DQ200 (гидроплита, сальники, прокладки) 0AM325025",
+      "cost": 3000.0,
+      "fixed_avito": false,
+      "ozon": 13850.0,
+      "wb": 13849.8,
+      "market_intended": 13850.0,
+      "avito_config": 7850.0,
+      "site_config": 7850.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 7850.0
+    },
+    "0am325025D": {
+      "name": "Втулка (гильза) штока мехатроника DSG7 DQ200",
+      "cost": 400.0,
+      "fixed_avito": false,
+      "ozon": 3350.0,
+      "wb": 3350.13,
+      "market_intended": 3350.0,
+      "avito_config": 1850.0,
+      "site_config": 1850.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 1850.0
+    },
+    "0am325025G": {
+      "name": "Ремкомплект 2 штоков мехатроника DSG7 DQ200: пыльники, сальники, крышки",
+      "cost": 200.0,
+      "fixed_avito": false,
+      "ozon": 3850.0,
+      "wb": 3849.77,
+      "market_intended": 3850.0,
+      "avito_config": 2350.0,
+      "site_config": 2350.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 2350.0
+    },
+    "0am325025H": {
+      "name": "Мехатроник DSG7 DQ200 0AM/0CW ПРОВЕРЕН НА АВТО",
+      "cost": 13800.0,
+      "fixed_avito": true,
+      "ozon": 68850.0,
+      "wb": 68850.3,
+      "market_intended": 68850.0,
+      "avito_config": 33500.0,
+      "site_config": 33500.0,
+      "avito_feed": 33500.0,
+      "avito_live": 33500.0,
+      "site_snapshot": 33500.0
+    },
+    "0am325025HC": {
+      "name": "Ремкомплект мехатроник DSG7 DQ200+пыльник сальник Оригинал",
+      "cost": null,
+      "fixed_avito": false,
+      "ozon": null,
+      "wb": 9743.5,
+      "market_intended": null,
+      "avito_config": null,
+      "site_config": null,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": null
+    },
+    "0am325025HX": {
+      "name": "Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769D",
+      "cost": 31000.0,
+      "fixed_avito": true,
+      "ozon": 118850.0,
+      "wb": 118849.9,
+      "market_intended": 118850.0,
+      "avito_config": 64500.0,
+      "site_config": 64500.0,
+      "avito_feed": 64500.0,
+      "avito_live": 64500.0,
+      "site_snapshot": 64500.0
+    },
+    "0am325025HXE": {
+      "name": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769E",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 118850.0,
+      "wb": 118850.0,
+      "market_intended": 118850.0,
+      "avito_config": 68500.0,
+      "site_config": 68500.0,
+      "avito_feed": 68500.0,
+      "avito_live": 68500.0,
+      "site_snapshot": 68500.0
+    },
+    "0am325025HXF": {
+      "name": "Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769F",
+      "cost": 31000.0,
+      "fixed_avito": true,
+      "ozon": 118850.0,
+      "wb": 118850.48,
+      "market_intended": 118850.0,
+      "avito_config": 68500.0,
+      "site_config": 68500.0,
+      "avito_feed": 68500.0,
+      "avito_live": 68500.0,
+      "site_snapshot": 68500.0
+    },
+    "0am325025HXG": {
+      "name": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769G",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 118850.0,
+      "wb": 118850.0,
+      "market_intended": 118850.0,
+      "avito_config": 68500.0,
+      "site_config": 68500.0,
+      "avito_feed": 68500.0,
+      "avito_live": 68500.0,
+      "site_snapshot": 68500.0
+    },
+    "0am325025HXK": {
+      "name": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769K",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 118850.0,
+      "wb": 118850.0,
+      "market_intended": 118850.0,
+      "avito_config": 68500.0,
+      "site_config": 68500.0,
+      "avito_feed": 68500.0,
+      "avito_live": 68500.0,
+      "site_snapshot": 68500.0
+    },
+    "0am325025P": {
+      "name": "Клипса штока мехатроника DSG7 DQ200",
+      "cost": 40.0,
+      "fixed_avito": false,
+      "ozon": 990.0,
+      "wb": 990.0,
+      "market_intended": 990.0,
+      "avito_config": 450.0,
+      "site_config": 450.0,
+      "avito_feed": 450.0,
+      "avito_live": 450.0,
+      "site_snapshot": 950.0
+    },
+    "0am325025ae": {
+      "name": "Оригинальная крышка + усиленная прокладка мехатроника DSG7 DQ200",
+      "cost": 700.0,
+      "fixed_avito": false,
+      "ozon": 4490.0,
+      "wb": 4490.0,
+      "market_intended": 4490.0,
+      "avito_config": 2350.0,
+      "site_config": 2350.0,
+      "avito_feed": 2350.0,
+      "avito_live": 2350.0,
+      "site_snapshot": 2850.0
+    },
+    "0am325025f": {
+      "name": "Комплект болтов мехатроника DSG7 DQ200, 7 шт",
+      "cost": 400.0,
+      "fixed_avito": false,
+      "ozon": 3850.0,
+      "wb": 3850.22,
+      "market_intended": 3850.0,
+      "avito_config": 2350.0,
+      "site_config": 2350.0,
+      "avito_feed": 2350.0,
+      "avito_live": 2350.0,
+      "site_snapshot": 2350.0
+    },
+    "0am325025hfe": {
+      "name": "Ремкомплект 2 штоков мехатроника DSG7 DQ200: 2 сальника, 2 пыльника, 2 крышки",
+      "cost": 100.0,
+      "fixed_avito": false,
+      "ozon": 3850.0,
+      "wb": 3850.08,
+      "market_intended": 3850.0,
+      "avito_config": 2350.0,
+      "site_config": 2350.0,
+      "avito_feed": 2350.0,
+      "avito_live": 2350.0,
+      "site_snapshot": 2350.0
+    },
+    "0am325025j": {
+      "name": "Сепараторная пластина + пластины на соленоиды мехатроника DSG7 DQ200, оригинал VAG",
+      "cost": 250.0,
+      "fixed_avito": false,
+      "ozon": 2850.0,
+      "wb": 2850.12,
+      "market_intended": 2850.0,
+      "avito_config": 1350.0,
+      "site_config": 1350.0,
+      "avito_feed": 1350.0,
+      "avito_live": 1350.0,
+      "site_snapshot": 1350.0
+    },
+    "0am325025l": {
+      "name": "Поршень (толкатель) вилки мехатроника DSG7 DQ200",
+      "cost": 250.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1850.23,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "0am325025m": {
+      "name": "Ремкомплект прокладок мехатроника DSG7 DQ200",
+      "cost": 700.0,
+      "fixed_avito": false,
+      "ozon": 8850.0,
+      "wb": 8849.75,
+      "market_intended": 8850.0,
+      "avito_config": 4850.0,
+      "site_config": 4850.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 4850.0
+    },
+    "0am325025n": {
+      "name": "Соленоид переключения (Shift) мехатроника DSG7 DQ200",
+      "cost": 1350.0,
+      "fixed_avito": false,
+      "ozon": 8850.0,
+      "wb": 8849.75,
+      "market_intended": 8850.0,
+      "avito_config": 4850.0,
+      "site_config": 4850.0,
+      "avito_feed": 4850.0,
+      "avito_live": 4850.0,
+      "site_snapshot": 4850.0
+    },
+    "0am325025q": {
+      "name": "Крышка штока мехатроника DSG7 DQ200",
+      "cost": 25.0,
+      "fixed_avito": false,
+      "ozon": 1350.0,
+      "wb": 1349.95,
+      "market_intended": 1350.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "0am325025r": {
+      "name": "Усиленное опорное кольцо толкателя мехатроника DSG7 DQ200",
+      "cost": 100.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1850.24,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "0am325025u": {
+      "name": "Ремкомплект: Усиленный длинный шток 0AM325091E 101мм + втулка мехатроника DSG7 DQ200",
+      "cost": 800.0,
+      "fixed_avito": false,
+      "ozon": 3490.0,
+      "wb": 3490.0,
+      "market_intended": 3490.0,
+      "avito_config": 2350.0,
+      "site_config": 2350.0,
+      "avito_feed": 2350.0,
+      "avito_live": 2350.0,
+      "site_snapshot": 2850.0
+    },
+    "0am325025x": {
+      "name": "Мехатроник DSG7 DQ200 0AM с новыми соленоидами Bosch",
+      "cost": 15000.0,
+      "fixed_avito": true,
+      "ozon": 78850.0,
+      "wb": 78849.6,
+      "market_intended": 78850.0,
+      "avito_config": 38500.0,
+      "site_config": 38500.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 38500.0
+    },
+    "0am325025z": {
+      "name": "Ремкомплект: Усиленный короткий шток 0AM325091F 99мм + втулка мехатроника DSG7 DQ200",
+      "cost": 900.0,
+      "fixed_avito": false,
+      "ozon": 3490.0,
+      "wb": 3490.0,
+      "market_intended": 3490.0,
+      "avito_config": 2350.0,
+      "site_config": 2350.0,
+      "avito_feed": 2350.0,
+      "avito_live": 2350.0,
+      "site_snapshot": 2350.0
+    },
+    "0am325025ze": {
+      "name": "Мехатроник DQ200 DSG7 0AM Новые соленоиды Bosch",
+      "cost": null,
+      "fixed_avito": false,
+      "ozon": null,
+      "wb": 69302.22,
+      "market_intended": null,
+      "avito_config": null,
+      "site_config": null,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": null
+    },
+    "0am325025С": {
+      "name": "Кольцо гидроаккумулятора мехатроника DSG7 DQ200",
+      "cost": 65.0,
+      "fixed_avito": false,
+      "ozon": 1350.0,
+      "wb": 1349.95,
+      "market_intended": 1350.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": null,
+      "site_snapshot": 950.0
+    },
+    "0am325066AC": {
+      "name": "Усиленный поршень штока мехатроника DSG7 DQ200 0AM325066AC",
+      "cost": 200.0,
+      "fixed_avito": false,
+      "ozon": 1750.0,
+      "wb": 1750.0,
+      "market_intended": 1750.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "0am325066ad": {
+      "name": "Сальник-манжета штока сцепления мехатроника DSG7 DQ200 0AM325066AD",
+      "cost": 30.0,
+      "fixed_avito": false,
+      "ozon": 1270.0,
+      "wb": 1270.0,
+      "market_intended": 1270.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 950.0
+    },
+    "0am325066ae": {
+      "name": "Усиленная гидроплита мехатроника DSG7 DQ200 0AM325066AE",
+      "cost": 1900.0,
+      "fixed_avito": false,
+      "ozon": 9850.0,
+      "wb": 9850.17,
+      "market_intended": 9850.0,
+      "avito_config": 5350.0,
+      "site_config": 5350.0,
+      "avito_feed": 5350.0,
+      "avito_live": 5350.0,
+      "site_snapshot": 5350.0
+    },
+    "0am325091e": {
+      "name": "Усиленный шток мехатроника DSG7 DQ200 101мм 0AM325091E",
+      "cost": 400.0,
+      "fixed_avito": false,
+      "ozon": 3850.0,
+      "wb": 3849.78,
+      "market_intended": 3850.0,
+      "avito_config": 2350.0,
+      "site_config": 2350.0,
+      "avito_feed": 2350.0,
+      "avito_live": 2350.0,
+      "site_snapshot": 2350.0
+    },
+    "0am325091e-set": {
+      "name": "Комплект 2 усиленных штока 101мм 0AM325091E + 2 втулки DSG7 DQ200",
+      "cost": 1000.0,
+      "fixed_avito": true,
+      "ozon": 8850.0,
+      "wb": 8850.28,
+      "market_intended": 8850.0,
+      "avito_config": 5800.0,
+      "site_config": 4850.0,
+      "avito_feed": 5800.0,
+      "avito_live": 5800.0,
+      "site_snapshot": 4850.0
+    },
+    "0am325091f": {
+      "name": "Усиленный шток мехатроника DSG7 DQ200 99мм короткий 0AM325091F",
+      "cost": 500.0,
+      "fixed_avito": false,
+      "ozon": 3350.0,
+      "wb": 3350.02,
+      "market_intended": 3350.0,
+      "avito_config": 1850.0,
+      "site_config": 1850.0,
+      "avito_feed": 1850.0,
+      "avito_live": 1850.0,
+      "site_snapshot": 1850.0
+    },
+    "0am325091f-set": {
+      "name": "Комплект 2 усиленных штока 99мм 0AM325091F + 2 втулки DSG7 DQ200",
+      "cost": 1000.0,
+      "fixed_avito": true,
+      "ozon": 8850.0,
+      "wb": 8850.28,
+      "market_intended": 8850.0,
+      "avito_config": 5800.0,
+      "site_config": 4850.0,
+      "avito_feed": 5800.0,
+      "avito_live": 5800.0,
+      "site_snapshot": 4850.0
+    },
+    "0am325477": {
+      "name": "Планка соленоидов мехатроника DSG7 DQ200 0AM 0CW, пластик, 1 шт",
+      "cost": 5.0,
+      "fixed_avito": false,
+      "ozon": 2350.0,
+      "wb": 2350.25,
+      "market_intended": 2350.0,
+      "avito_config": 1350.0,
+      "site_config": 1350.0,
+      "avito_feed": 1350.0,
+      "avito_live": null,
+      "site_snapshot": 1350.0
+    },
+    "0am325477ae": {
+      "name": "Пластина соленоидов мехатроника DSG7 DQ200 0AM325477AE ОРИГИНАЛ VAG",
+      "cost": 150.0,
+      "fixed_avito": false,
+      "ozon": 2479.0,
+      "wb": 2479.32,
+      "market_intended": 2479.0,
+      "avito_config": 1350.0,
+      "site_config": 1350.0,
+      "avito_feed": 1350.0,
+      "avito_live": 1350.0,
+      "site_snapshot": 1350.0
+    },
+    "0ambset": {
+      "name": "Комплект подшипников мехатроника DSG7 DQ200, 10 шт, оригинал NSK",
+      "cost": 1800.0,
+      "fixed_avito": true,
+      "ozon": 11850.0,
+      "wb": null,
+      "market_intended": 11850.0,
+      "avito_config": 5850.0,
+      "site_config": 5850.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 5850.0
+    },
+    "0cw0am": {
+      "name": "Прокладка электронной платы мехатроника DSG7 DQ200",
+      "cost": 150.0,
+      "fixed_avito": false,
+      "ozon": 931.0,
+      "wb": 931.26,
+      "market_intended": 931.0,
+      "avito_config": 931.0,
+      "site_config": 931.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 931.0
+    },
+    "0cw0am325025": {
+      "name": "Ремкомплект мехатроника DSG7 DQ200 + оригинальные пыльники и сальники VAG",
+      "cost": 2500.0,
+      "fixed_avito": false,
+      "ozon": 17850.0,
+      "wb": 17849.65,
+      "market_intended": 17850.0,
+      "avito_config": 10850.0,
+      "site_config": 10850.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 10850.0
+    },
+    "0cw0amdsgdq200": {
+      "name": "Уплотнение электромотора гидроблока мехатроника DSG7 DQ200",
+      "cost": 30.0,
+      "fixed_avito": false,
+      "ozon": 1350.0,
+      "wb": 1349.93,
+      "market_intended": 1350.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": null,
+      "site_snapshot": 950.0
+    },
+    "0cw325025h": {
+      "name": "Прокладка электронной платы мехатроника DSG7 DQ200 0AM927769N",
+      "cost": 130.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1849.68,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "0сц": {
+      "name": "Оригинальный сальник штока мехатроника DSG7 DQ200 Volkswagen",
+      "cost": 120.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1850.16,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "122390AK-AF": {
+      "name": "Пыльник штока мехатроника DSG7 DQ200 122390AK-AF",
+      "cost": 100.0,
+      "fixed_avito": false,
+      "ozon": 990.0,
+      "wb": 990.0,
+      "market_intended": 990.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "122390AKAF": {
+      "name": "Оригинальный пыльник штока мехатроника DSG7 DQ200 Volkswagen (Германия) 122390AKAF",
+      "cost": 90.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1850.23,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "123014‑AF": {
+      "name": "Фильтр-сетка соленоидов DSG7 0B5 DL501 123014AF (аналог 0B5325421)",
+      "cost": 100.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1850.24,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 950.0
+    },
+    "31705-1XF0C": {
+      "name": "Гидроблок вариатора JF011E (RE0F10A), 2 датчика, 31705-1XF0C",
+      "cost": 10000.0,
+      "fixed_avito": false,
+      "ozon": 58850.0,
+      "wb": 58849.92,
+      "market_intended": 58850.0,
+      "avito_config": 32500.0,
+      "site_config": 32500.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 32500.0
+    },
+    "31705-1XF1A": {
+      "name": "Гидроблок JF011E Старое поколение Nissan Mitsubishi Renault",
+      "cost": null,
+      "fixed_avito": false,
+      "ozon": null,
+      "wb": 40052.0,
+      "market_intended": null,
+      "avito_config": null,
+      "site_config": null,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": null
+    },
+    "31705-X428B": {
+      "name": "Гидроблок вариатора JF015E 1.6л (RE0F11A) новый, 31705-X428B",
+      "cost": 10000.0,
+      "fixed_avito": false,
+      "ozon": 58850.0,
+      "wb": 58849.92,
+      "market_intended": 58850.0,
+      "avito_config": 32500.0,
+      "site_config": 32500.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 32500.0
+    },
+    "317053TX0C": {
+      "name": "Гидроблок вариатора JF015E 1.8л (RE0F11A) 317053TX0C",
+      "cost": 10000.0,
+      "fixed_avito": false,
+      "ozon": 58850.0,
+      "wb": 58849.92,
+      "market_intended": 58850.0,
+      "avito_config": 32500.0,
+      "site_config": 32500.0,
+      "avito_feed": 32500.0,
+      "avito_live": 32500.0,
+      "site_snapshot": 32500.0
+    },
+    "55565480": {
+      "name": "Импульсное кольцо распредвала GM 55565480 (5636119)",
+      "cost": 150.0,
+      "fixed_avito": false,
+      "ozon": 950.0,
+      "wb": 950.11,
+      "market_intended": 950.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "6t30": {
+      "name": "Соленоиды АКПП 6T30/6T40/6T45/6T50",
+      "cost": 3500.0,
+      "fixed_avito": false,
+      "ozon": 19850.0,
+      "wb": 19850.0,
+      "market_intended": 19850.0,
+      "avito_config": 11850.0,
+      "site_config": 11850.0,
+      "avito_feed": 11850.0,
+      "avito_live": 11850.0,
+      "site_snapshot": 11850.0
+    },
+    "DQ500": {
+      "name": "Корпус фильтра + фильтр мехатроника DSG7 DQ500, комплект",
+      "cost": 500.0,
+      "fixed_avito": true,
+      "ozon": 3850.0,
+      "wb": 3850.0,
+      "market_intended": 3850.0,
+      "avito_config": 1450.0,
+      "site_config": 1450.0,
+      "avito_feed": 1450.0,
+      "avito_live": 1450.0,
+      "site_snapshot": 1850.0
+    },
+    "Dq200dsg7": {
+      "name": "Уплотнение насоса гидроблока мехатроника DSG7 DQ200",
+      "cost": 20.0,
+      "fixed_avito": false,
+      "ozon": 1350.0,
+      "wb": 1350.3,
+      "market_intended": 1350.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "Dq200dsg70am0cw": {
+      "name": "Прокладки + сальники + пыльники мехатроника DSG7 DQ200, оригинал Германия",
+      "cost": 900.0,
+      "fixed_avito": false,
+      "ozon": 8850.0,
+      "wb": 8850.28,
+      "market_intended": 8850.0,
+      "avito_config": 4850.0,
+      "site_config": 4850.0,
+      "avito_feed": 4850.0,
+      "avito_live": 4850.0,
+      "site_snapshot": 4850.0
+    },
+    "Dq500": {
+      "name": "Корпус фильтра мехатроника DSG7 DQ500 0BH325183B",
+      "cost": 350.0,
+      "fixed_avito": true,
+      "ozon": 2350.0,
+      "wb": null,
+      "market_intended": 2350.0,
+      "avito_config": 1850.0,
+      "site_config": 950.0,
+      "avito_feed": 1850.0,
+      "avito_live": 1850.0,
+      "site_snapshot": 1850.0
+    },
+    "EA888": {
+      "name": "Алюминиевый корпус масляного фильтра EA888 Gen3 (крышка, колба, корпус обратного клапана) 06L115401S для 1.8 2.0 TSI",
+      "cost": 600.0,
+      "fixed_avito": false,
+      "ozon": 4741.0,
+      "wb": null,
+      "market_intended": 4741.0,
+      "avito_config": 2850.0,
+      "site_config": 2850.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 2850.0
+    },
+    "EA888gen3": {
+      "name": "Комплект: алюминиевый корпус (крышка) масляного фильтра + обратный клапан EA888 Gen3 06L115401S 06L115678AD",
+      "cost": 700.0,
+      "fixed_avito": false,
+      "ozon": 6850.0,
+      "wb": null,
+      "market_intended": 6850.0,
+      "avito_config": 3850.0,
+      "site_config": 3850.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 1350.0
+    },
+    "Ea888gen3": {
+      "name": "Обратный клапан масляного фильтра EA888 Gen3 06L115678AD для двигателей 1.8 2.0 TSI",
+      "cost": 150.0,
+      "fixed_avito": false,
+      "ozon": 2350.0,
+      "wb": null,
+      "market_intended": 2350.0,
+      "avito_config": 1350.0,
+      "site_config": 1350.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 1350.0
+    },
+    "TEST001": {
+      "name": "Тестовый товар не публикуется",
+      "cost": null,
+      "fixed_avito": false,
+      "ozon": 100.0,
+      "wb": null,
+      "market_intended": 100.0,
+      "avito_config": 100.0,
+      "site_config": 100.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 100.0
+    },
+    "TESTWB001": {
+      "name": "Тестовый товар — не публикуется",
+      "cost": null,
+      "fixed_avito": false,
+      "ozon": null,
+      "wb": 100.0,
+      "market_intended": null,
+      "avito_config": null,
+      "site_config": null,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": null
+    },
+    "WHT001922": {
+      "name": "Болт мехатроника длинный DSG7 DQ200 0AM 0CW WHT001922",
+      "cost": 50.0,
+      "fixed_avito": false,
+      "ozon": 1250.0,
+      "wb": 1250.0,
+      "market_intended": 1250.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "chip-02e927770": {
+      "name": "Чип электронной платы мехатроника 02E927770AL/AM/AT",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 24800.0,
+      "wb": 24800.0,
+      "market_intended": 24800.0,
+      "avito_config": 12800.0,
+      "site_config": 12800.0,
+      "avito_feed": 12800.0,
+      "avito_live": 12800.0,
+      "site_snapshot": 12800.0
+    },
+    "chip-0am927769d": {
+      "name": "Чип электронной платы мехатроника DSG7 DQ200 0AM927769D",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 19500.0,
+      "wb": 19500.0,
+      "market_intended": 19500.0,
+      "avito_config": 11800.0,
+      "site_config": 11800.0,
+      "avito_feed": 11800.0,
+      "avito_live": 11800.0,
+      "site_snapshot": 11800.0
+    },
+    "datchik-peredach-dq200": {
+      "name": "Датчик положения передач DQ200 для плат 0AM927769D/G/K",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 8850.0,
+      "wb": 8850.0,
+      "market_intended": 8850.0,
+      "avito_config": 4850.0,
+      "site_config": 4850.0,
+      "avito_feed": 4850.0,
+      "avito_live": 4850.0,
+      "site_snapshot": 4850.0
+    },
+    "datchik-scepleniya-dq200": {
+      "name": "Датчик сцепления DSG7 DQ200 для плат 0AM927769D/G/K",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 8850.0,
+      "wb": 8850.0,
+      "market_intended": 8850.0,
+      "avito_config": 4850.0,
+      "site_config": 4850.0,
+      "avito_feed": 4850.0,
+      "avito_live": 4850.0,
+      "site_snapshot": 4850.0
+    },
+    "derzhatel-datchikov-dq200": {
+      "name": "Держатель датчиков DQ200 для плат 0AM927769D/G/K",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 1350.0,
+      "wb": 1350.0,
+      "market_intended": 1350.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "filtr-dsg7-dq200": {
+      "name": "Масляный фильтр мехатроника DSG7 DQ200 0AM 0CW",
+      "cost": 150.0,
+      "fixed_avito": false,
+      "ozon": 1350.0,
+      "wb": 1349.92,
+      "market_intended": 1350.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": null,
+      "site_snapshot": 950.0
+    },
+    "filtr-dsg7-dq500": {
+      "name": "Масляный фильтр мехатроника DSG7 DQ500 0BH325183B",
+      "cost": 150.0,
+      "fixed_avito": true,
+      "ozon": 1850.0,
+      "wb": 1850.16,
+      "market_intended": 1850.0,
+      "avito_config": 450.0,
+      "site_config": 450.0,
+      "avito_feed": 450.0,
+      "avito_live": 450.0,
+      "site_snapshot": 450.0
+    },
+    "filtr-setka-0b5-orig": {
+      "name": "Оригинальная фильтр-сетка на соленоиды DSG7 0B5 DL501",
+      "cost": 200.0,
+      "fixed_avito": false,
+      "ozon": 1990.0,
+      "wb": 1990.0,
+      "market_intended": 1990.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": null,
+      "site_snapshot": 1350.0
+    },
+    "fpc-shleif-dq200": {
+      "name": "FPC-шлейф электронной платы DQ200 для 0AM927769D/G/K",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 3350.0,
+      "wb": 3350.0,
+      "market_intended": 3350.0,
+      "avito_config": 1850.0,
+      "site_config": 1850.0,
+      "avito_feed": 1850.0,
+      "avito_live": 1850.0,
+      "site_snapshot": 1850.0
+    },
+    "gidroakkumulyator-orig": {
+      "name": "Восстановленный гидроаккумулятор мехатроника DSG7 DQ200 VAG",
+      "cost": 1800.0,
+      "fixed_avito": false,
+      "ozon": 8850.0,
+      "wb": 8850.28,
+      "market_intended": 8850.0,
+      "avito_config": 4850.0,
+      "site_config": 4850.0,
+      "avito_feed": 4850.0,
+      "avito_live": 4850.0,
+      "site_snapshot": 4850.0
+    },
+    "jf011e": {
+      "name": "Комплект подшипников вариатора JF011E (RE0F10A), 4 шт, оригинал NSK",
+      "cost": 1500.0,
+      "fixed_avito": false,
+      "ozon": 12850.0,
+      "wb": 12850.0,
+      "market_intended": 12850.0,
+      "avito_config": 7350.0,
+      "site_config": 7350.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 7350.0
+    },
+    "klipsa-datchika-peredach-dq200": {
+      "name": "Клипса датчика положения передач мехатроника DSG7 DQ200",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 1350.0,
+      "wb": 1350.0,
+      "market_intended": 1350.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "klipsy-shtokov-2sht": {
+      "name": "Клипсы штоков мехатроника DSG7 DQ200, комплект 2 шт",
+      "cost": 25.0,
+      "fixed_avito": false,
+      "ozon": 1350.0,
+      "wb": 1349.8,
+      "market_intended": 1350.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "kolodka-solenoidov-dq200": {
+      "name": "Колодка разъёмов соленоидов DQ200 для плат 0AM927769D/G/K",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 6850.0,
+      "wb": 6850.0,
+      "market_intended": 6850.0,
+      "avito_config": 3850.0,
+      "site_config": 3850.0,
+      "avito_feed": 3850.0,
+      "avito_live": 3850.0,
+      "site_snapshot": 3850.0
+    },
+    "korpus-filtra-0bh325159": {
+      "name": "Корпус масляного фильтра мехатроника DSG7 DQ500 0BH325159 (без фильтра)",
+      "cost": 350.0,
+      "fixed_avito": true,
+      "ozon": 3850.0,
+      "wb": 3850.42,
+      "market_intended": 3850.0,
+      "avito_config": 1850.0,
+      "site_config": 1850.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 1850.0
+    },
+    "kryshka-mehatronika-dq200": {
+      "name": "Крышка мехатроника DSG7 DQ200 0AM 0CW",
+      "cost": 350.0,
+      "fixed_avito": false,
+      "ozon": 2350.0,
+      "wb": 2350.08,
+      "market_intended": 2350.0,
+      "avito_config": 1350.0,
+      "site_config": 1350.0,
+      "avito_feed": 1350.0,
+      "avito_live": 1350.0,
+      "site_snapshot": 1350.0
+    },
+    "kryshka-platy-dq200": {
+      "name": "Металлическая крышка электронной платы DSG7 DQ200",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 1850.0,
+      "wb": 1850.0,
+      "market_intended": 1850.0,
+      "avito_config": 1350.0,
+      "site_config": 1350.0,
+      "avito_feed": 1350.0,
+      "avito_live": 1350.0,
+      "site_snapshot": 1350.0
+    },
+    "osnovanie-platy-dq200": {
+      "name": "Основание платы мехатроника DQ200 для 0AM927769D/G/K",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 4850.0,
+      "wb": 4850.0,
+      "market_intended": 4850.0,
+      "avito_config": 2850.0,
+      "site_config": 2850.0,
+      "avito_feed": 2850.0,
+      "avito_live": 2850.0,
+      "site_snapshot": 2850.0
+    },
+    "planka-solenoid-2sht": {
+      "name": "Планки соленоидов мехатроника DSG7 DQ200, комплект 2 шт",
+      "cost": 500.0,
+      "fixed_avito": false,
+      "ozon": 2850.0,
+      "wb": 2849.84,
+      "market_intended": 2850.0,
+      "avito_config": 1350.0,
+      "site_config": 1350.0,
+      "avito_feed": 1350.0,
+      "avito_live": 1350.0,
+      "site_snapshot": 1350.0
+    },
+    "plastina-solenoid-dq200": {
+      "name": "Пластина на соленоиды мехатроника DSG7 DQ200, 1 шт",
+      "cost": 80.0,
+      "fixed_avito": false,
+      "ozon": 1350.0,
+      "wb": 1350.0,
+      "market_intended": 1350.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "plastiny-solenoid-dq200-2sht": {
+      "name": "Пластины на соленоиды мехатроника DSG7 DQ200, комплект 2 шт",
+      "cost": 100.0,
+      "fixed_avito": false,
+      "ozon": 1350.0,
+      "wb": 1350.1,
+      "market_intended": 1350.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "plastiny-solenoid-orig": {
+      "name": "Оригинальные пластины на соленоиды VAG мехатроника DSG7 DQ200 (без сепараторной пластины)",
+      "cost": 200.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1849.77,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "plita-filtr": {
+      "name": "Усиленная гидроплита + фильтр мехатроника DSG7 DQ200, комплект",
+      "cost": 2000.0,
+      "fixed_avito": false,
+      "ozon": 9350.0,
+      "wb": 9350.11,
+      "market_intended": 9350.0,
+      "avito_config": 5850.0,
+      "site_config": 5850.0,
+      "avito_feed": 5850.0,
+      "avito_live": null,
+      "site_snapshot": 5850.0
+    },
+    "plita-filtr-orig": {
+      "name": "Усиленная плита + улучшенный фильтр мехатроника DSG7 DQ200, комплект",
+      "cost": 2100.0,
+      "fixed_avito": false,
+      "ozon": 10850.0,
+      "wb": 10850.14,
+      "market_intended": 10850.0,
+      "avito_config": 5850.0,
+      "site_config": 5850.0,
+      "avito_feed": 5850.0,
+      "avito_live": null,
+      "site_snapshot": 5850.0
+    },
+    "plita-filtr-pylniki": {
+      "name": "Усиленная гидроплита + фильтр + 2 пыльника штоков DSG7 DQ200, комплект",
+      "cost": 2000.0,
+      "fixed_avito": false,
+      "ozon": 10850.0,
+      "wb": 10850.25,
+      "market_intended": 10850.0,
+      "avito_config": 6350.0,
+      "site_config": 6350.0,
+      "avito_feed": 6350.0,
+      "avito_live": 6350.0,
+      "site_snapshot": 6350.0
+    },
+    "plita-filtr-pylniki-orig": {
+      "name": "Усиленная плита + фильтр + 2 оригинальных пыльника VAG DSG7 DQ200, комплект",
+      "cost": 2100.0,
+      "fixed_avito": false,
+      "ozon": 10850.0,
+      "wb": 10850.25,
+      "market_intended": 10850.0,
+      "avito_config": 6350.0,
+      "site_config": 6350.0,
+      "avito_feed": 6350.0,
+      "avito_live": null,
+      "site_snapshot": 6350.0
+    },
+    "plita-filtr-pylniki-sal": {
+      "name": "Усиленная гидроплита + фильтр + 2 пыльника + 2 сальника DSG7 DQ200, полный комплект",
+      "cost": 2100.0,
+      "fixed_avito": false,
+      "ozon": 11850.0,
+      "wb": 11850.3,
+      "market_intended": 11850.0,
+      "avito_config": 6850.0,
+      "site_config": 6850.0,
+      "avito_feed": 6850.0,
+      "avito_live": 6850.0,
+      "site_snapshot": 6850.0
+    },
+    "plita-filtr-pylniki-sal-orig": {
+      "name": "Плита + фильтр + 2 пыльника + 2 сальника ориг VAG DSG7 DQ200, полный комплект",
+      "cost": 2200.0,
+      "fixed_avito": false,
+      "ozon": 11850.0,
+      "wb": 11850.24,
+      "market_intended": 11850.0,
+      "avito_config": 8350.0,
+      "site_config": 8350.0,
+      "avito_feed": 8350.0,
+      "avito_live": 8350.0,
+      "site_snapshot": 8350.0
+    },
+    "plita-filtr-salniki-orig": {
+      "name": "Усиленная плита + фильтр + 2 оригинальных сальника VAG DSG7 DQ200, комплект",
+      "cost": 2100.0,
+      "fixed_avito": false,
+      "ozon": 10850.0,
+      "wb": 10850.25,
+      "market_intended": 10850.0,
+      "avito_config": 6350.0,
+      "site_config": 6350.0,
+      "avito_feed": 6350.0,
+      "avito_live": null,
+      "site_snapshot": 6350.0
+    },
+    "plita-filtr-v2": {
+      "name": "Усиленная гидроплита + фильтр мехатроника DQ200 DSG7, комплект",
+      "cost": 2000.0,
+      "fixed_avito": true,
+      "ozon": 9850.0,
+      "wb": null,
+      "market_intended": 9850.0,
+      "avito_config": 5850.0,
+      "site_config": 5850.0,
+      "avito_feed": 5850.0,
+      "avito_live": null,
+      "site_snapshot": 5850.0
+    },
+    "plita-pylniki-salniki": {
+      "name": "Усиленная гидроплита + 2 пыльника + 2 сальника DSG7 DQ200, комплект без фильтра",
+      "cost": 1900.0,
+      "fixed_avito": false,
+      "ozon": 10850.0,
+      "wb": 10850.02,
+      "market_intended": 10850.0,
+      "avito_config": 6350.0,
+      "site_config": 6350.0,
+      "avito_feed": 6350.0,
+      "avito_live": null,
+      "site_snapshot": 6350.0
+    },
+    "plita-pylniki-salniki-orig": {
+      "name": "Усиленная гидроплита + 2 оригинальных пыльника + 2 оригинальных сальника DSG7 DQ200",
+      "cost": 2100.0,
+      "fixed_avito": false,
+      "ozon": 11850.0,
+      "wb": 11850.3,
+      "market_intended": 11850.0,
+      "avito_config": 6850.0,
+      "site_config": 6850.0,
+      "avito_feed": 6850.0,
+      "avito_live": null,
+      "site_snapshot": 6850.0
+    },
+    "plita-pylniki-salniki-orig-v2": {
+      "name": "Усиленная гидроплита + 2 оригинальных пыльника + 2 оригинальных сальника DQ200 DSG7",
+      "cost": 2100.0,
+      "fixed_avito": false,
+      "ozon": 11850.0,
+      "wb": null,
+      "market_intended": 11850.0,
+      "avito_config": 6850.0,
+      "site_config": 6850.0,
+      "avito_feed": 6850.0,
+      "avito_live": null,
+      "site_snapshot": 6850.0
+    },
+    "podshipnik-vilki-6": {
+      "name": "Подшипник вилки 6-й передачи и заднего хода DSG7 DQ200, 1 шт",
+      "cost": 280.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": null,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": null,
+      "site_snapshot": 950.0
+    },
+    "porshni-usil-pylniki-kryshki": {
+      "name": "Ремкомплект штоков DSG7 DQ200: 2 усиленных поршня + 2 пыльника + 2 крышки",
+      "cost": 400.0,
+      "fixed_avito": false,
+      "ozon": 3850.0,
+      "wb": 3850.42,
+      "market_intended": 3850.0,
+      "avito_config": 2350.0,
+      "site_config": 2350.0,
+      "avito_feed": 2350.0,
+      "avito_live": 2350.0,
+      "site_snapshot": 2350.0
+    },
+    "porshni-usil-pylniki-kryshki-v2": {
+      "name": "Ремкомплект штоков DQ200 DSG7: 2 усиленных поршня + 2 пыльника + 2 крышки",
+      "cost": 400.0,
+      "fixed_avito": false,
+      "ozon": 3850.0,
+      "wb": null,
+      "market_intended": 3850.0,
+      "avito_config": 2350.0,
+      "site_config": 2350.0,
+      "avito_feed": 2350.0,
+      "avito_live": 2350.0,
+      "site_snapshot": 2350.0
+    },
+    "prokladka-kryshki-dq200": {
+      "name": "Прокладка крышки мехатроника DSG7 DQ200 0AM 0CW",
+      "cost": 150.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1849.92,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "prokladka-vtulki-dq200": {
+      "name": "2 кольца-прокладки на 1 втулку мехатроника DSG7 DQ200",
+      "cost": 50.0,
+      "fixed_avito": false,
+      "ozon": 1350.0,
+      "wb": 1349.95,
+      "market_intended": 1350.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "prokladka-vtulki-niz-dq200": {
+      "name": "Черное кольцо-прокладка втулки мехатроника DSG7 DQ200",
+      "cost": 25.0,
+      "fixed_avito": true,
+      "ozon": 950.0,
+      "wb": 950.04,
+      "market_intended": 950.0,
+      "avito_config": 650.0,
+      "site_config": 650.0,
+      "avito_feed": 650.0,
+      "avito_live": 650.0,
+      "site_snapshot": 650.0
+    },
+    "prokladka-vtulki-verh-dq200": {
+      "name": "Зеленое кольцо-прокладка втулки мехатроника DSG7 DQ200",
+      "cost": 25.0,
+      "fixed_avito": true,
+      "ozon": 950.0,
+      "wb": 950.04,
+      "market_intended": 950.0,
+      "avito_config": 650.0,
+      "site_config": 650.0,
+      "avito_feed": 650.0,
+      "avito_live": 650.0,
+      "site_snapshot": 650.0
+    },
+    "pylniki-shtokov-orig": {
+      "name": "Оригинальные пыльники штоков VAG, 2 шт, DSG7 DQ200",
+      "cost": 150.0,
+      "fixed_avito": false,
+      "ozon": 2850.0,
+      "wb": 2850.0,
+      "market_intended": 2850.0,
+      "avito_config": 1350.0,
+      "site_config": 1350.0,
+      "avito_feed": 1350.0,
+      "avito_live": 1350.0,
+      "site_snapshot": 1350.0
+    },
+    "pylniki-shtokov-orig-v2": {
+      "name": "Оригинальные пыльники штоков VAG, 2 шт, DQ200 DSG7",
+      "cost": 150.0,
+      "fixed_avito": false,
+      "ozon": 2850.0,
+      "wb": null,
+      "market_intended": 2850.0,
+      "avito_config": 1350.0,
+      "site_config": 1350.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 1350.0
+    },
+    "remkomplekt-shtokov-orig": {
+      "name": "Оригинальный ремкомплект 2 штоков VAG: пыльники, сальники, крышки DSG7 DQ200",
+      "cost": 500.0,
+      "fixed_avito": false,
+      "ozon": 2850.0,
+      "wb": 2849.86,
+      "market_intended": 2850.0,
+      "avito_config": 1850.0,
+      "site_config": 1850.0,
+      "avito_feed": 1850.0,
+      "avito_live": 1850.0,
+      "site_snapshot": 1850.0
+    },
+    "remkomplekt-shtokov-orig-v2": {
+      "name": "Оригинальный ремкомплект 2 штоков VAG: пыльники, сальники, крышки DQ200 DSG7",
+      "cost": 500.0,
+      "fixed_avito": false,
+      "ozon": 2850.0,
+      "wb": null,
+      "market_intended": 2850.0,
+      "avito_config": 1850.0,
+      "site_config": 1850.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 1850.0
+    },
+    "salnik-shtoka-orig": {
+      "name": "Оригинальный сальник штока VAG, 1 шт, DSG7 DQ200",
+      "cost": 120.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1850.16,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "salnik-shtoka-orig-v2": {
+      "name": "Оригинальный сальник штока VAG, 1 шт, DQ200 DSG7",
+      "cost": 120.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": null,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "salnik-tolkatelya-alum": {
+      "name": "Усиленные алюминиевые сальники толкателя с гальваническим покрытием, комплект 4 шт, DSG7 DQ200",
+      "cost": 100.0,
+      "fixed_avito": false,
+      "ozon": 2350.0,
+      "wb": 2350.04,
+      "market_intended": 2350.0,
+      "avito_config": 1350.0,
+      "site_config": 1350.0,
+      "avito_feed": 1350.0,
+      "avito_live": 1350.0,
+      "site_snapshot": 1350.0
+    },
+    "salniki-shtokov-2sht": {
+      "name": "Сальники штоков мехатроника DSG7 DQ200, комплект 2 шт",
+      "cost": 50.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1849.76,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": null,
+      "site_snapshot": 950.0
+    },
+    "salniki-shtokov-orig": {
+      "name": "Оригинальные сальники штоков VAG, 2 шт, DSG7 DQ200",
+      "cost": 250.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1850.24,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "salniki-tolkatelya-4sht": {
+      "name": "Полный комплект сальников толкателей вилок мехатроника DSG7 DQ200, 4 шт",
+      "cost": 200.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1850.24,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "salnikprivod-l": {
+      "name": "Сальник привода левый DSG7 DQ200",
+      "cost": 250.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1850.16,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "salnikprivod-r": {
+      "name": "Сальник привода правый DSG7 DQ200",
+      "cost": 250.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1850.16,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "salnikvhod": {
+      "name": "Сальник входного вала DSG7 DQ200",
+      "cost": 250.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1850.16,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "salnikvihod": {
+      "name": "Сальник выходного вала DSG7 DQ200",
+      "cost": 250.0,
+      "fixed_avito": false,
+      "ozon": 1850.0,
+      "wb": 1850.16,
+      "market_intended": 1850.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "separatornaya-plastina-dq200": {
+      "name": "Сепараторная пластина мехатроника DSG7 DQ200",
+      "cost": 100.0,
+      "fixed_avito": false,
+      "ozon": 1250.0,
+      "wb": 1250.0,
+      "market_intended": 1250.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": 950.0,
+      "avito_live": 950.0,
+      "site_snapshot": 950.0
+    },
+    "separatornaya-plastiny-solenoid-dq200": {
+      "name": "Сепараторная пластина + пластины на соленоиды мехатроника DSG7 DQ200",
+      "cost": 200.0,
+      "fixed_avito": false,
+      "ozon": 2350.0,
+      "wb": 2350.04,
+      "market_intended": 2350.0,
+      "avito_config": 1350.0,
+      "site_config": 1350.0,
+      "avito_feed": 1350.0,
+      "avito_live": 1350.0,
+      "site_snapshot": 1350.0
+    },
+    "shleif-platy-dq200": {
+      "name": "Шлейф платы мехатроника DSG7 DQ200 для 0AM927769E/N/P",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 6850.0,
+      "wb": 6850.0,
+      "market_intended": 6850.0,
+      "avito_config": 3850.0,
+      "site_config": 3850.0,
+      "avito_feed": 3850.0,
+      "avito_live": 3850.0,
+      "site_snapshot": 3850.0
+    },
+    "solenoid-02e-0b5-bolshoy": {
+      "name": "Восстановленный соленоид 02E 0B5 DQ250 DQ500, большой",
+      "cost": null,
+      "fixed_avito": false,
+      "ozon": 5850.0,
+      "wb": 5850.0,
+      "market_intended": 5850.0,
+      "avito_config": 4350.0,
+      "site_config": 4350.0,
+      "avito_feed": 4350.0,
+      "avito_live": 4350.0,
+      "site_snapshot": 4350.0
+    },
+    "stalnaya-vstavka-plity": {
+      "name": "Стальная вставка гидроплиты мехатроника DSG7 DQ200",
+      "cost": 600.0,
+      "fixed_avito": false,
+      "ozon": 2850.0,
+      "wb": 2849.88,
+      "market_intended": 2850.0,
+      "avito_config": 1850.0,
+      "site_config": 1850.0,
+      "avito_feed": 1850.0,
+      "avito_live": 1850.0,
+      "site_snapshot": 1850.0
+    },
+    "tolkateli-4-salniki-4": {
+      "name": "Комплект 4 толкателей вилок + 4 сальника DSG7 DQ200, на весь мехатроник",
+      "cost": 1300.0,
+      "fixed_avito": false,
+      "ozon": 7350.0,
+      "wb": 7349.69,
+      "market_intended": 7350.0,
+      "avito_config": 4350.0,
+      "site_config": 4350.0,
+      "avito_feed": 4350.0,
+      "avito_live": 4350.0,
+      "site_snapshot": 4350.0
+    },
+    "tolkateli-salniki-alum-komplekt": {
+      "name": "Толкатели вилок + сальники + усиленные алюминиевые сальники DSG7 DQ200, комплект 4+4+4",
+      "cost": 1000.0,
+      "fixed_avito": false,
+      "ozon": 8850.0,
+      "wb": 8850.28,
+      "market_intended": 8850.0,
+      "avito_config": 4850.0,
+      "site_config": 4850.0,
+      "avito_feed": 4850.0,
+      "avito_live": 4850.0,
+      "site_snapshot": 4850.0
+    },
+    "vint-kollektora-ea888": {
+      "name": "Винт впускного коллектора EA888 M6 65, цена за 1 шт.",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 950.0,
+      "wb": null,
+      "market_intended": 950.0,
+      "avito_config": 650.0,
+      "site_config": 650.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 650.0
+    },
+    "vtulki-shtokov-2sht": {
+      "name": "Втулки (гильзы) штоков мехатроника DSG7 DQ200, комплект 2 шт",
+      "cost": 600.0,
+      "fixed_avito": false,
+      "ozon": 4850.0,
+      "wb": 4850.02,
+      "market_intended": 4850.0,
+      "avito_config": 2850.0,
+      "site_config": 2850.0,
+      "avito_feed": 2850.0,
+      "avito_live": 2850.0,
+      "site_snapshot": 2850.0
+    },
+    "nakladki-pedali": {
+      "name": "Накладки на педали автомобиля, 3 шт, резиновые",
+      "cost": null,
+      "fixed_avito": false,
+      "ozon": 950.0,
+      "wb": null,
+      "market_intended": 950.0,
+      "avito_config": 950.0,
+      "site_config": 950.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": 950.0
+    },
+    "tool-dq200-acc-restore": {
+      "name": "Набор для восстановления гидроаккумулятора DSG7 DQ200",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 38800.0,
+      "wb": 38800.0,
+      "market_intended": 38800.0,
+      "avito_config": 24800.0,
+      "site_config": 24800.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": null
+    },
+    "tool-dsg-pressure-hp": {
+      "name": "Набор для проверки давления DSG, исполнение высокого давления",
+      "cost": null,
+      "fixed_avito": true,
+      "ozon": 28800.0,
+      "wb": 28800.0,
+      "market_intended": 28800.0,
+      "avito_config": 18800.0,
+      "site_config": 18800.0,
+      "avito_feed": null,
+      "avito_live": null,
+      "site_snapshot": null
+    }
+  }
+}
