@@ -1,0 +1,29 @@
+name: LEOPARTS with-board exact ad title and text Nov22
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-with-board-copy-20261122.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  refine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify script syntax
+        run: python -m py_compile .github/scripts/direct_with_board_copy_20261122.py
+      - name: Guarded one-ad text-only change and readback
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python .github/scripts/direct_with_board_copy_20261122.py
+      - name: Save campaign-specific evidence
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_recovery_20261122/with_board_copy_fix.json
