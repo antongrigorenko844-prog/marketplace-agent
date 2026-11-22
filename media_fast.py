@@ -98,8 +98,19 @@ def _ozon(sku, url, mode):
     existing = before.get("images") or []
     extras = other_images(existing, primary, url)
     if mode in READ_ONLY:
-        return {"status": "needs_update", "changed": False, "old_cover_present": True,
-                "preserved_secondary_count": len(extras)}
+        # Ozon often returns its own CDN URL rather than the uploaded GitHub
+        # address. A different URL is not proof that the product photo is old.
+        try:
+            difference = _jpg_compare(primary, url)
+            return {"status": "verified" if difference < 16 else "needs_update",
+                    "changed": False, "live_primary": primary,
+                    "mean_pixel_difference": difference,
+                    "preserved_secondary_count": len(extras)}
+        except Exception as exc:
+            return {"status": "unverified", "changed": False,
+                    "live_primary": primary,
+                    "reason": "Could not inspect CDN pixels: " + type(exc).__name__,
+                    "preserved_secondary_count": len(extras)}
     response = oz._post("/v2/product/pictures/import", {
         "items": [{"offer_id": sku, "primary_image": url, "images": extras,
                    "color_image": before.get("color_image") or ""}]
