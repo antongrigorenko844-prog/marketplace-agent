@@ -1,0 +1,35 @@
+name: LEOPARTS inspect original EA888 screw photograph and TNVED codes
+on:
+  push:
+    branches: [main]
+    paths: ['data/repair_vint_ea888_photo_and_code_20261123_request.json']
+permissions:
+  contents: write
+concurrency:
+  group: leoparts-vint-photo-code-readonly
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: |
+          pip install -q -r requirements.txt
+          pip install -q pillow
+      - name: Inspect real screw photo and identify correct official fastener tariff code
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python -m py_compile scripts/repair_vint_ea888_ozon_photo_and_code_20261123.py
+          python -u scripts/repair_vint_ea888_ozon_photo_and_code_20261123.py
+      - name: Save read-only evidence
+        if: always()
+        run: |
+          bash .github/scripts/save_data.sh \
+            data/repair_vint_ea888_photo_and_code_20261123.json \
+            data/repair_vint_ea888_photo_20261123.b64
