@@ -1,0 +1,26 @@
+name: LEOPARTS publish new EA888 Gen3 complete filter kit on Tilda
+on:
+  push:
+    branches: [main]
+    paths: ['data/ea888_gen3_full_kit_tilda_publish_20261123_request.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Publish single new oil filter kit 4350 rub 40 units 3 images via Tilda CommerceML
+        env:
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+        run: python -u scripts/ea888_gen3_full_kit_tilda_publish_20261123.py
+      - name: Persist site readback
+        if: always()
+        run: bash .github/scripts/save_data.sh data/ea888_gen3_full_kit_tilda_result_20261123.json
