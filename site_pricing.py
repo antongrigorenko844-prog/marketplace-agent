@@ -269,6 +269,7 @@ def set_price_override(
     price: float,
     path: str = OVERRIDES_PATH,
     overwrite: bool = False,
+    *, owner_approved: bool = False,
 ) -> bool:
     """
     Добавляет/обновляет цену для Avito/сайта для одного товара. По
@@ -277,6 +278,14 @@ def set_price_override(
     которую пользователь мог поправить вручную. Возвращает True, если
     запись реально была добавлена/изменена.
     """
+    # The old auto-onboarding formula must never write new prices while frozen.
+    # Explicit, owner-approved setter calls may still update one SKU.
+    import pricing_policy
+    if pricing_policy.auto_repricing_frozen() and owner_approved is not True:
+        raise pricing_policy.PricingFrozenError(
+            "Автоматический расчёт/запись цены Авито и сайта отключён. "
+            "Нужна явная цена владельца, owner_approved=True."
+        )
     overrides = load_price_overrides(path)
     if offer_id in overrides and not overwrite:
         return False
@@ -310,10 +319,11 @@ def half_price(price) -> Optional[float]:
 
 
 def recalc_from_master(master_path: str, path: str = OVERRIDES_PATH, dry_run: bool = False):
-    """
-    Пересчитать цены Авито/сайта для ВСЕХ товаров мастера: цена «Цена, ₽» * доля (округление до 10 ₽),
-    кроме строк с «да» в колонке «фикс». Возвращает список (offer_id, было, стало) по изменившимся.
-    """
+    """Legacy calculator: live writes are disabled by pricing_policy; previews still work."""
+    import pricing_policy
+    if not dry_run and pricing_policy.auto_repricing_frozen():
+        logger.info("Pricing freeze: no automatic Avito/Tilda repricing and no workbook writes")
+        return []
     from openpyxl import load_workbook
 
     share, fixed = _read_meta(path)

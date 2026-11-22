@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "mode": "manual_prices_only",
+  "automatic_avito_site_repricing": false,
+  "legacy_ratio_rule": "disabled_for_writes",
+  "legacy_equal_profit_rule": "disabled_for_writes",
+  "future_price_models": "dry_run_only",
+  "new_product_price_requirement": "explicit_existing_avito_and_site_prices_marked_fixed",
+  "preserve_existing_prices": true,
+  "protect_channels": [
+    "avito",
+    "tilda"
+  ],
+  "not_in_scope": [
+    "ozon",
+    "wildberries",
+    "yandex_market",
+    "inventory",
+    "ads",
+    "delivery"
+  ],
+  "owner_decision_date": "2026-11-23",
+  "note": "Leave all existing marketplace and direct prices untouched. Calculators may analyze but cannot auto-apply."
+}
