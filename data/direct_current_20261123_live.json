@@ -1,0 +1,2662 @@
+{
+  "status": "complete",
+  "campaign_id": 716316525,
+  "mode": "read_only",
+  "start_utc": "2026-11-22T20:38:13.443336+00:00",
+  "moscow_date": "2026-11-22",
+  "period_from": "2026-11-16",
+  "period_through": "2026-11-22",
+  "changes_at": "2026-11-22",
+  "read_errors": {},
+  "sections": {
+    "campaign": {
+      "status": "ok",
+      "data": {
+        "name": "Leoparts | DQ200 | Товарная ЕПК | Поиск | Тест",
+        "state": "ON",
+        "status": "ACCEPTED",
+        "type": "UNIFIED_CAMPAIGN",
+        "negative_count": 626,
+        "critical_negatives": {
+          "сцепление": true,
+          "замена масла": true,
+          "запчасти": false,
+          "автозапчасти": false,
+          "ремонт дсг": false
+        },
+        "negatives_hash": "87a896b05065a2f1af5b4ebf3976657b0ed76c0e6845eaad24287aa08f1647e8",
+        "search_strategy": "HIGHEST_POSITION",
+        "weekly_limit_rub": 4000.0,
+        "network_strategy": "SERVING_OFF",
+        "priority_goals": {
+          "Items": [
+            {
+              "GoalId": 675506966,
+              "Value": 500000000,
+              "IsMetrikaSourceOfValue": "NO"
+            },
+            {
+              "GoalId": 675507028,
+              "Value": 3000000000,
+              "IsMetrikaSourceOfValue": "NO"
+            }
+          ]
+        },
+        "counter_ids": {
+          "Items": [
+            113839860
+          ]
+        },
+        "groups_count": 6,
+        "manual_keywords": 266,
+        "autotargeting_count": 6,
+        "groups": [
+          {
+            "id": 5826171512,
+            "name": "DQ200 | Мехатроники без платы | Поиск",
+            "status": "ACCEPTED",
+            "group_negative_count": 4,
+            "group_negative_samples": [
+              "drom запчасти",
+              "автозапчасти",
+              "дром запчасти",
+              "запчасти"
+            ]
+          },
+          {
+            "id": 5826183946,
+            "name": "DQ200 | Мехатроники с платой | Поиск",
+            "status": "ACCEPTED",
+            "group_negative_count": 4,
+            "group_negative_samples": [
+              "drom запчасти",
+              "автозапчасти",
+              "дром запчасти",
+              "запчасти"
+            ]
+          },
+          {
+            "id": 5826320196,
+            "name": "Название: DQ200 | Электронные платы | Поиск.",
+            "status": "ACCEPTED",
+            "group_negative_count": 3,
+            "group_negative_samples": [
+              "\"плата управления\"",
+              "автозапчасти",
+              "запчасти"
+            ]
+          },
+          {
+            "id": 5828476541,
+            "name": "DQ200 | Мехатроники общий запрос | Поиск",
+            "status": "ACCEPTED",
+            "group_negative_count": 0,
+            "group_negative_samples": []
+          },
+          {
+            "id": 5828501772,
+            "name": "DQ200 | Гидроплита и гидроблок | Поиск",
+            "status": "ACCEPTED",
+            "group_negative_count": 0,
+            "group_negative_samples": []
+          },
+          {
+            "id": 5828501773,
+            "name": "DQ200 | Втулка штока 0AM325025D | Поиск",
+            "status": "ACCEPTED",
+            "group_negative_count": 0,
+            "group_negative_samples": []
+          }
+        ],
+        "autotargeting": [
+          {
+            "id": 205826171512,
+            "group": 5826171512,
+            "name": "DQ200 | Мехатроники без платы | Поиск",
+            "state": "ON",
+            "categories": {
+              "Exact": "YES",
+              "Narrow": "YES",
+              "Alternative": "NO",
+              "Accessory": "NO",
+              "Broader": "NO"
+            },
+            "brands": {
+              "WithoutBrands": "YES",
+              "WithAdvertiserBrand": "YES",
+              "WithCompetitorsBrand": "YES"
+            }
+          },
+          {
+            "id": 205826183946,
+            "group": 5826183946,
+            "name": "DQ200 | Мехатроники с платой | Поиск",
+            "state": "ON",
+            "categories": {
+              "Exact": "YES",
+              "Narrow": "NO",
+              "Alternative": "NO",
+              "Accessory": "NO",
+              "Broader": "NO"
+            },
+            "brands": {
+              "WithoutBrands": "YES",
+              "WithAdvertiserBrand": "YES",
+              "WithCompetitorsBrand": "YES"
+            }
+          },
+          {
+            "id": 205826320196,
+            "group": 5826320196,
+            "name": "Название: DQ200 | Электронные платы | Поиск.",
+            "state": "ON",
+            "categories": {
+              "Exact": "YES",
+              "Narrow": "YES",
+              "Alternative": "YES",
+              "Accessory": "NO",
+              "Broader": "NO"
+            },
+            "brands": {
+              "WithoutBrands": "YES",
+              "WithAdvertiserBrand": "YES",
+              "WithCompetitorsBrand": "YES"
+            }
+          },
+          {
+            "id": 205828476541,
+            "group": 5828476541,
+            "name": "DQ200 | Мехатроники общий запрос | Поиск",
+            "state": "ON",
+            "categories": {
+              "Exact": "YES",
+              "Narrow": "NO",
+              "Alternative": "NO",
+              "Accessory": "NO",
+              "Broader": "NO"
+            },
+            "brands": {
+              "WithoutBrands": "YES",
+              "WithAdvertiserBrand": "YES",
+              "WithCompetitorsBrand": "NO"
+            }
+          },
+          {
+            "id": 205828501772,
+            "group": 5828501772,
+            "name": "DQ200 | Гидроплита и гидроблок | Поиск",
+            "state": "ON",
+            "categories": {
+              "Exact": "YES",
+              "Narrow": "NO",
+              "Alternative": "NO",
+              "Accessory": "NO",
+              "Broader": "NO"
+            },
+            "brands": {
+              "WithoutBrands": "YES",
+              "WithAdvertiserBrand": "YES",
+              "WithCompetitorsBrand": "NO"
+            }
+          },
+          {
+            "id": 205828501773,
+            "group": 5828501773,
+            "name": "DQ200 | Втулка штока 0AM325025D | Поиск",
+            "state": "ON",
+            "categories": {
+              "Exact": "YES",
+              "Narrow": "NO",
+              "Alternative": "NO",
+              "Accessory": "NO",
+              "Broader": "NO"
+            },
+            "brands": {
+              "WithoutBrands": "YES",
+              "WithAdvertiserBrand": "YES",
+              "WithCompetitorsBrand": "NO"
+            }
+          }
+        ],
+        "ads_count": 8,
+        "ads": [
+          {
+            "id": 1927466195846975291,
+            "group": 5826171512,
+            "type": "RESPONSIVE_AD",
+            "state": "ON",
+            "status": "ACCEPTED",
+            "status_details": "Campaign is in progress.",
+            "titles": [
+              {
+                "Title": "Мехатроник DSG7 DQ200",
+                "Status": "ACCEPTED"
+              }
+            ],
+            "text": [
+              {
+                "Text": "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ",
+                "Status": "ACCEPTED"
+              }
+            ],
+            "href": "https://leoparts-akpp.ru/mehatronik-dq200#bez-platy"
+          },
+          {
+            "id": 1927466206584354174,
+            "group": 5826183946,
+            "type": "RESPONSIVE_AD",
+            "state": "ON",
+            "status": "ACCEPTED",
+            "status_details": "Campaign is in progress.",
+            "titles": [
+              {
+                "Title": "Мехатроник DSG7 DQ200 в сборе с платой",
+                "Status": "ACCEPTED"
+              }
+            ],
+            "text": [
+              {
+                "Text": "Подбор по VIN. Проверен на авто. Гарантия. Доставка по РФ и СНГ.",
+                "Status": "ACCEPTED"
+              }
+            ],
+            "href": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi"
+          },
+          {
+            "id": 1927488453443618167,
+            "group": 5828476541,
+            "type": "RESPONSIVE_AD",
+            "state": "ON",
+            "status": "ACCEPTED",
+            "status_details": "Campaign is in progress.",
+            "titles": [
+              {
+                "Title": "Мехатроник DSG7 DQ200",
+                "Status": "ACCEPTED"
+              }
+            ],
+            "text": [
+              {
+                "Text": "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ",
+                "Status": "ACCEPTED"
+              }
+            ],
+            "href": "https://leoparts-akpp.ru/mehatronik-dq200"
+          },
+          {
+            "id": 1927493554789861877,
+            "group": 5828501772,
+            "type": "RESPONSIVE_AD",
+            "state": "SUSPENDED",
+            "status": "ACCEPTED",
+            "status_details": "Stopped.",
+            "titles": [
+              {
+                "Title": "Усиленная гидроплита мехатроника DSG7 DQ200",
+                "Status": "ACCEPTED"
+              }
+            ],
+            "text": [
+              {
+                "Text": "Гидроплита DSG7 DQ200 0AM/0CW. Артикул 0AM325066AE.",
+                "Status": "ACCEPTED"
+              }
+            ],
+            "href": "https://leoparts-akpp.ru/tproduct/838583326453-usilennaya-gidroplita-mehatronika-dsg7-d"
+          },
+          {
+            "id": 1927493554789861878,
+            "group": 5828501773,
+            "type": "RESPONSIVE_AD",
+            "state": "SUSPENDED",
+            "status": "ACCEPTED",
+            "status_details": "Stopped.",
+            "titles": [
+              {
+                "Title": "Втулка (гильза) штока мехатроника DSG7 DQ200",
+                "Status": "ACCEPTED"
+              }
+            ],
+            "text": [
+              {
+                "Text": "Новая втулка для штока мехатроника DSG7 DQ200 (0AM/0CW).",
+                "Status": "ACCEPTED"
+              }
+            ],
+            "href": "https://leoparts-akpp.ru/tproduct/731536345633-vtulka-gilza-shtoka-mehatronika-dsg7-dq2"
+          },
+          {
+            "id": 1927186476439690942,
+            "group": 5826171512,
+            "type": "SHOPPING_AD",
+            "state": "ON",
+            "status": "ACCEPTED",
+            "status_details": "Campaign is in progress.",
+            "titles": [],
+            "text": [],
+            "href": ""
+          },
+          {
+            "id": 1927189770678081700,
+            "group": 5826183946,
+            "type": "SHOPPING_AD",
+            "state": "ON",
+            "status": "ACCEPTED",
+            "status_details": "Campaign is in progress.",
+            "titles": [],
+            "text": [],
+            "href": ""
+          },
+          {
+            "id": 1927190920657966611,
+            "group": 5826320196,
+            "type": "SHOPPING_AD",
+            "state": "ON",
+            "status": "ACCEPTED",
+            "status_details": "Campaign is in progress.",
+            "titles": [],
+            "text": [],
+            "href": ""
+          }
+        ]
+      }
+    },
+    "daily": {
+      "status": "ok",
+      "data": {
+        "by_date": [
+          {
+            "Date": "2026-11-21",
+            "Cost": "2164.21",
+            "Cost_reported_rows": 1,
+            "Clicks": "64",
+            "Clicks_reported_rows": 1,
+            "Impressions": "10681",
+            "Impressions_reported_rows": 1,
+            "Conversions": "1",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-20",
+            "Cost": "1343.54",
+            "Cost_reported_rows": 1,
+            "Clicks": "47",
+            "Clicks_reported_rows": 1,
+            "Impressions": "4672",
+            "Impressions_reported_rows": 1,
+            "Conversions": "4",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-18",
+            "Cost": "1044.67",
+            "Cost_reported_rows": 1,
+            "Clicks": "40",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1455",
+            "Impressions_reported_rows": 1,
+            "Conversions": "1",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-19",
+            "Cost": "943.38",
+            "Cost_reported_rows": 1,
+            "Clicks": "29",
+            "Clicks_reported_rows": 1,
+            "Impressions": "868",
+            "Impressions_reported_rows": 1,
+            "Conversions": "1",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-17",
+            "Cost": "860.70",
+            "Cost_reported_rows": 1,
+            "Clicks": "42",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1569",
+            "Impressions_reported_rows": 1,
+            "Conversions": "2",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-22",
+            "Cost": "727.22",
+            "Cost_reported_rows": 1,
+            "Clicks": "16",
+            "Clicks_reported_rows": 1,
+            "Impressions": "4871",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-16",
+            "Cost": "74.63",
+            "Cost_reported_rows": 1,
+            "Clicks": "3",
+            "Clicks_reported_rows": 1,
+            "Impressions": "200",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          }
+        ]
+      }
+    },
+    "queries": {
+      "status": "ok",
+      "data": {
+        "total_rows": 10723,
+        "paid_rows": 214,
+        "paid": [
+          {
+            "Query": "купить плату мехатроник дсг 0am927769g в спб",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "124.59",
+            "Cost_reported_rows": 1,
+            "Clicks": "5",
+            "Clicks_reported_rows": 1,
+            "Impressions": "6",
+            "Impressions_reported_rows": 1,
+            "Conversions": "1",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "dsg dq 200 купить",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "123.83",
+            "Cost_reported_rows": 1,
+            "Clicks": "2",
+            "Clicks_reported_rows": 1,
+            "Impressions": "5",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "замена корпуса мехатроника",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "119.27",
+            "Cost_reported_rows": 1,
+            "Clicks": "2",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "где в старом осколе ремонтируют дсг мехатроник коробки",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "116.31",
+            "Cost_reported_rows": 1,
+            "Clicks": "4",
+            "Clicks_reported_rows": 1,
+            "Impressions": "4",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник dsg",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "109.16",
+            "Cost_reported_rows": 2,
+            "Clicks": "3",
+            "Clicks_reported_rows": 2,
+            "Impressions": "10",
+            "Impressions_reported_rows": 2,
+            "Conversions": "0",
+            "Conversions_reported_rows": 2
+          },
+          {
+            "Query": "сколько стоит плата от машины",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "107.80",
+            "Cost_reported_rows": 1,
+            "Clicks": "3",
+            "Clicks_reported_rows": 1,
+            "Impressions": "4",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник dq200",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "93.62",
+            "Cost_reported_rows": 3,
+            "Clicks": "4",
+            "Clicks_reported_rows": 3,
+            "Impressions": "25",
+            "Impressions_reported_rows": 3,
+            "Conversions": "0",
+            "Conversions_reported_rows": 3
+          },
+          {
+            "Query": "блок мехатроника dsg 7 dq200",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "84.97",
+            "Cost_reported_rows": 2,
+            "Clicks": "2",
+            "Clicks_reported_rows": 2,
+            "Impressions": "3",
+            "Impressions_reported_rows": 2,
+            "Conversions": "0",
+            "Conversions_reported_rows": 2
+          },
+          {
+            "Query": "детали машин симферополь",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "81.88",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "5",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник dsg 7 dq200 цена",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "76.90",
+            "Cost_reported_rows": 2,
+            "Clicks": "3",
+            "Clicks_reported_rows": 2,
+            "Impressions": "11",
+            "Impressions_reported_rows": 2,
+            "Conversions": "0",
+            "Conversions_reported_rows": 2
+          },
+          {
+            "Query": "0am927769d плата мехатроника",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "76.54",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "12",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "плата мехатроника dsg 7 dq200 купить",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "73.91",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник дку 200 второй генерации",
+            "AdGroupId": "5828476541",
+            "CriterionType": "KEYWORD",
+            "Cost": "72.80",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "эбу мехатроник dsg 7",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "72.74",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "запчасти",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "72.36",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "61",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "dq200 мехатроник купить",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "71.56",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "ремонт dsg",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "69.56",
+            "Cost_reported_rows": 2,
+            "Clicks": "2",
+            "Clicks_reported_rows": 2,
+            "Impressions": "5",
+            "Impressions_reported_rows": 2,
+            "Conversions": "0",
+            "Conversions_reported_rows": 2
+          },
+          {
+            "Query": "ремонт акпп купить",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "68.83",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник на дсг 7 купить",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "67.62",
+            "Cost_reported_rows": 1,
+            "Clicks": "2",
+            "Clicks_reported_rows": 1,
+            "Impressions": "3",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "купить дсг коробку передач цена",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "64.87",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "плата мехатроника dsg цена",
+            "AdGroupId": "5828476541",
+            "CriterionType": "KEYWORD",
+            "Cost": "64.18",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "автозапчасти купить",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "63.17",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "какое масло заливать в мехатроник дсг 7 шкода етти 1 2",
+            "AdGroupId": "5828476541",
+            "CriterionType": "KEYWORD",
+            "Cost": "61.83",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "5",
+            "Impressions_reported_rows": 1,
+            "Conversions": "1",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "ремонт дсг",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "60.68",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "плата мехатроника dsg 7 dq200",
+            "AdGroupId": "5826320196",
+            "CriterionType": "KEYWORD",
+            "Cost": "60.37",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "6",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник шкода октавия а7 1.4",
+            "AdGroupId": "5828476541",
+            "CriterionType": "KEYWORD",
+            "Cost": "58.05",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "поиск запчастей по vin коду автомобиля",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "57.65",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "скачать сайт для покупки авто запчастей",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "57.42",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "акпп dq200 купить",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "56.87",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "автозапчасти пикалево",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "55.06",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "замена мехатроника dsg с гарантией",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "54.54",
+            "Cost_reported_rows": 2,
+            "Clicks": "2",
+            "Clicks_reported_rows": 2,
+            "Impressions": "3",
+            "Impressions_reported_rows": 2,
+            "Conversions": "0",
+            "Conversions_reported_rows": 2
+          },
+          {
+            "Query": "автозапчасти прохладный",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "54.02",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "4",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "запчасти по вин номеру",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "52.80",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "14",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "авито авто запчасти чебоксары",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "52.64",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "5",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "ремонт мехатроника",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "52.45",
+            "Cost_reported_rows": 1,
+            "Clicks": "2",
+            "Clicks_reported_rows": 1,
+            "Impressions": "11",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "запчасти акпп москва",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "51.65",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "5",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "запчасти на авто ру",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "51.48",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "трещина платы дсг",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "50.81",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "признаки износа сцепления дсг 7 dq200",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "49.29",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "abtomat ru запчасти для акпп",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "49.23",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "dsg dq200",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "49.09",
+            "Cost_reported_rows": 2,
+            "Clicks": "2",
+            "Clicks_reported_rows": 2,
+            "Impressions": "20",
+            "Impressions_reported_rows": 2,
+            "Conversions": "0",
+            "Conversions_reported_rows": 2
+          },
+          {
+            "Query": "авито запчасти для авто",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "48.80",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "9",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "где купить деталь оригинал для автомобиля",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "47.59",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник шкода октавия а7 1.8",
+            "AdGroupId": "5828476541",
+            "CriterionType": "KEYWORD",
+            "Cost": "47.46",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник мокрый купить",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "47.37",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "купить мехатроник дсг 7",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "47.28",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "4",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "контрактные запчасти на форпост или евроавто",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "46.75",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "встанет ли мехатроник 0aw вместо 0am",
+            "AdGroupId": "5828476541",
+            "CriterionType": "KEYWORD",
+            "Cost": "46.49",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник цена ауди а6 с8",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "45.22",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "ремонт мехатроника dsg 7",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "43.47",
+            "Cost_reported_rows": 2,
+            "Clicks": "2",
+            "Clicks_reported_rows": 2,
+            "Impressions": "2",
+            "Impressions_reported_rows": 2,
+            "Conversions": "1",
+            "Conversions_reported_rows": 2
+          },
+          {
+            "Query": "купить новый блок мехатроника для dsg 7 dq200",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "43.43",
+            "Cost_reported_rows": 2,
+            "Clicks": "2",
+            "Clicks_reported_rows": 2,
+            "Impressions": "10",
+            "Impressions_reported_rows": 2,
+            "Conversions": "0",
+            "Conversions_reported_rows": 2
+          },
+          {
+            "Query": "коробка робот замена",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "43.22",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "1",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "dq200 купить",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "42.59",
+            "Cost_reported_rows": 2,
+            "Clicks": "2",
+            "Clicks_reported_rows": 2,
+            "Impressions": "3",
+            "Impressions_reported_rows": 2,
+            "Conversions": "0",
+            "Conversions_reported_rows": 2
+          },
+          {
+            "Query": "купить коробку дсг 7 dq200",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "42.06",
+            "Cost_reported_rows": 1,
+            "Clicks": "2",
+            "Clicks_reported_rows": 1,
+            "Impressions": "18",
+            "Impressions_reported_rows": 1,
+            "Conversions": "1",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "купить запчасти по вину",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "41.81",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник фольксваген тигуан 2018 года где расположен и как заменяют плату",
+            "AdGroupId": "5828476541",
+            "CriterionType": "KEYWORD",
+            "Cost": "41.43",
+            "Cost_reported_rows": 1,
+            "Clicks": "2",
+            "Clicks_reported_rows": 1,
+            "Impressions": "3",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник на пассат б6",
+            "AdGroupId": "5828476541",
+            "CriterionType": "KEYWORD",
+            "Cost": "40.79",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "плата управления коробки робот автомат",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "40.37",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "dq200 купить",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "40.13",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "dq200dsg купить",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "39.84",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник dsg 7 dq200 купить",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "39.83",
+            "Cost_reported_rows": 1,
+            "Clicks": "2",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "контрактные запчасти в улан",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "39.15",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "3",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "сколько стоит плата на ноутбук",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "38.76",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "5",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "рынок автозапчасти в москве",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "38.66",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "3",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "плата в коробке передач дсг",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "38.42",
+            "Cost_reported_rows": 1,
+            "Clicks": "2",
+            "Clicks_reported_rows": 1,
+            "Impressions": "30",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "dq200",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "38.29",
+            "Cost_reported_rows": 2,
+            "Clicks": "2",
+            "Clicks_reported_rows": 2,
+            "Impressions": "48",
+            "Impressions_reported_rows": 2,
+            "Conversions": "0",
+            "Conversions_reported_rows": 2
+          },
+          {
+            "Query": "где отремонтировать без автомобиля мехатроник dsg 7 dq 200 в хмао югре",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "37.62",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "1",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "отзывы покупателей заказывавших запчасти для автомашин на яндекс маркете",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "37.23",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "10",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник dq200",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "37.12",
+            "Cost_reported_rows": 2,
+            "Clicks": "2",
+            "Clicks_reported_rows": 2,
+            "Impressions": "9",
+            "Impressions_reported_rows": 2,
+            "Conversions": "0",
+            "Conversions_reported_rows": 2
+          },
+          {
+            "Query": "ремонт дсг",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "37.01",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "yuxiang avto купить мехатроник dq200",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "36.81",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "блок управления мехатроника дсг 7",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "36.60",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "4",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "момент затяжки мехатроника dq200",
+            "AdGroupId": "5828476541",
+            "CriterionType": "KEYWORD",
+            "Cost": "36.18",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "ремонт дсг оренбург",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "36.18",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник дсг 7 цена в сборе",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "35.72",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "14",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "ремонт дсг вологда",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "35.42",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник dsg 7 dq200",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "34.65",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "4",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "коробка дсг 7 цена новой",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "34.57",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "средняя стоимость ремонта снятого мехатроника dq200",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "34.30",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "купить мехатроник dsg 7 dq200 в оренбурге",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "34.18",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "3",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "плата мехатроника dq200 dsg 7",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "34.13",
+            "Cost_reported_rows": 1,
+            "Clicks": "2",
+            "Clicks_reported_rows": 1,
+            "Impressions": "4",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "дром запчасти",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "33.89",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "397",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник шкода октавия а7 1.4 купить",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "33.55",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "электронная плата dq200",
+            "AdGroupId": "5826320196",
+            "CriterionType": "KEYWORD",
+            "Cost": "33.41",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "dsg vag",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "33.20",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник дсг",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "33.10",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "4",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник dsg 7",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "32.79",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "7",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "ремонт dq200 цена",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "32.72",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "куда подходит мехатроник dq200",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "32.52",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "ремонт дсг в калуге адреса",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "32.16",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "3",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "ремонт мехатроника dq200",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "31.82",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "3",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник на поло седан",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "31.73",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "купить плату блока управления мехатроника дсг 7 дк200 люк",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "31.66",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "ремонт мехатроника фольксваген гольф 6 цена в краснодаре",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "31.09",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "автозапчасти для иномарок рядом",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "31.09",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "детали роботизированной коробки передач",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "30.50",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "блок мехатроник",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "30.34",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "купить новый блок мехатроника для dsg 7 dq200",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "29.67",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "автокаталог запчастей",
+            "AdGroupId": "5826183946",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "29.29",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "ремонт дсг 7 фольксваген",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "28.82",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          }
+        ],
+        "after_changes_paid": [
+          {
+            "Query": "купить дсг коробку передач цена",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "64.87",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "2",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "плата мехатроника dsg цена",
+            "AdGroupId": "5828476541",
+            "CriterionType": "KEYWORD",
+            "Cost": "64.18",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "блок мехатроника dsg 7 dq200",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "60.33",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "поиск запчастей по vin коду автомобиля",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "57.65",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "автозапчасти пикалево",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "55.06",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "автозапчасти прохладный",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "54.02",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "4",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "запчасти по вин номеру",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "52.80",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "14",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "авито авто запчасти чебоксары",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "52.64",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "5",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "купить мехатроник дсг 7",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "47.28",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "4",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "контрактные запчасти на форпост или евроавто",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "46.75",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "мехатроник цена ауди а6 с8",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "45.22",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "ремонт дсг оренбург",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "36.18",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "автозапчасти для иномарок рядом",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "31.09",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "ремонт дсг 7 фольксваген",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "28.82",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "дсг дку 200",
+            "AdGroupId": "5826171512",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "19.48",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "3",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Query": "блок управления мехатроника дсг 7",
+            "AdGroupId": "5826320196",
+            "CriterionType": "AUTOTARGETING",
+            "Cost": "10.85",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "14",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          }
+        ],
+        "after_changes_totals": {
+          "Cost": "727.22",
+          "Cost_reported_rows": 16,
+          "Clicks": "16",
+          "Clicks_reported_rows": 16,
+          "Impressions": "55",
+          "Impressions_reported_rows": 16,
+          "Conversions": "0",
+          "Conversions_reported_rows": 16
+        },
+        "after_changes_query_rows": 16,
+        "by_criterion": [
+          {
+            "CriterionType": "AUTOTARGETING",
+            "AdGroupId": "5826183946",
+            "Cost": "3397.86",
+            "Cost_reported_rows": 3978,
+            "Clicks": "129",
+            "Clicks_reported_rows": 3978,
+            "Impressions": "8976",
+            "Impressions_reported_rows": 3978,
+            "Conversions": "6",
+            "Conversions_reported_rows": 3978
+          },
+          {
+            "CriterionType": "AUTOTARGETING",
+            "AdGroupId": "5826171512",
+            "Cost": "1695.51",
+            "Cost_reported_rows": 5890,
+            "Clicks": "46",
+            "Clicks_reported_rows": 5890,
+            "Impressions": "12162",
+            "Impressions_reported_rows": 5890,
+            "Conversions": "0",
+            "Conversions_reported_rows": 5890
+          },
+          {
+            "CriterionType": "AUTOTARGETING",
+            "AdGroupId": "5826320196",
+            "Cost": "1250.97",
+            "Cost_reported_rows": 428,
+            "Clicks": "43",
+            "Clicks_reported_rows": 428,
+            "Impressions": "2171",
+            "Impressions_reported_rows": 428,
+            "Conversions": "2",
+            "Conversions_reported_rows": 428
+          },
+          {
+            "CriterionType": "KEYWORD",
+            "AdGroupId": "5828476541",
+            "Cost": "570.22",
+            "Cost_reported_rows": 335,
+            "Clicks": "14",
+            "Clicks_reported_rows": 335,
+            "Impressions": "534",
+            "Impressions_reported_rows": 335,
+            "Conversions": "1",
+            "Conversions_reported_rows": 335
+          },
+          {
+            "CriterionType": "KEYWORD",
+            "AdGroupId": "5826320196",
+            "Cost": "130.93",
+            "Cost_reported_rows": 80,
+            "Clicks": "4",
+            "Clicks_reported_rows": 80,
+            "Impressions": "144",
+            "Impressions_reported_rows": 80,
+            "Conversions": "0",
+            "Conversions_reported_rows": 80
+          },
+          {
+            "CriterionType": "KEYWORD",
+            "AdGroupId": "5826171512",
+            "Cost": "27.78",
+            "Cost_reported_rows": 2,
+            "Clicks": "1",
+            "Clicks_reported_rows": 2,
+            "Impressions": "3",
+            "Impressions_reported_rows": 2,
+            "Conversions": "0",
+            "Conversions_reported_rows": 2
+          },
+          {
+            "CriterionType": "KEYWORD",
+            "AdGroupId": "5826183946",
+            "Cost": "0.00",
+            "Cost_reported_rows": 6,
+            "Clicks": "0",
+            "Clicks_reported_rows": 6,
+            "Impressions": "7",
+            "Impressions_reported_rows": 6,
+            "Conversions": "0",
+            "Conversions_reported_rows": 6
+          },
+          {
+            "CriterionType": "AUTOTARGETING",
+            "AdGroupId": "5828476541",
+            "Cost": "0.00",
+            "Cost_reported_rows": 4,
+            "Clicks": "0",
+            "Clicks_reported_rows": 4,
+            "Impressions": "6",
+            "Impressions_reported_rows": 4,
+            "Conversions": "0",
+            "Conversions_reported_rows": 4
+          }
+        ]
+      }
+    },
+    "groups": {
+      "status": "ok",
+      "data": {
+        "by_group": [
+          {
+            "AdGroupId": "5826183946",
+            "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+            "Cost": "3445.80",
+            "Cost_reported_rows": 7,
+            "Clicks": "132",
+            "Clicks_reported_rows": 7,
+            "Impressions": "9142",
+            "Impressions_reported_rows": 7,
+            "Conversions": "6",
+            "Conversions_reported_rows": 7
+          },
+          {
+            "AdGroupId": "5826171512",
+            "AdGroupName": "DQ200 | Мехатроники без платы | Поиск",
+            "Cost": "1760.41",
+            "Cost_reported_rows": 7,
+            "Clicks": "48",
+            "Clicks_reported_rows": 7,
+            "Impressions": "12265",
+            "Impressions_reported_rows": 7,
+            "Conversions": "0",
+            "Conversions_reported_rows": 7
+          },
+          {
+            "AdGroupId": "5826320196",
+            "AdGroupName": "Название: DQ200 | Электронные платы | Поиск.",
+            "Cost": "1381.92",
+            "Cost_reported_rows": 7,
+            "Clicks": "47",
+            "Clicks_reported_rows": 7,
+            "Impressions": "2361",
+            "Impressions_reported_rows": 7,
+            "Conversions": "2",
+            "Conversions_reported_rows": 7
+          },
+          {
+            "AdGroupId": "5828476541",
+            "AdGroupName": "DQ200 | Мехатроники общий запрос | Поиск",
+            "Cost": "570.22",
+            "Cost_reported_rows": 3,
+            "Clicks": "14",
+            "Clicks_reported_rows": 3,
+            "Impressions": "548",
+            "Impressions_reported_rows": 3,
+            "Conversions": "1",
+            "Conversions_reported_rows": 3
+          }
+        ],
+        "by_group_date": [
+          {
+            "Date": "2026-11-21",
+            "AdGroupId": "5826171512",
+            "AdGroupName": "DQ200 | Мехатроники без платы | Поиск",
+            "Cost": "780.35",
+            "Cost_reported_rows": 1,
+            "Clicks": "21",
+            "Clicks_reported_rows": 1,
+            "Impressions": "6682",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-21",
+            "AdGroupId": "5826183946",
+            "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+            "Cost": "759.71",
+            "Cost_reported_rows": 1,
+            "Clicks": "25",
+            "Clicks_reported_rows": 1,
+            "Impressions": "3193",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-20",
+            "AdGroupId": "5826183946",
+            "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+            "Cost": "720.02",
+            "Cost_reported_rows": 1,
+            "Clicks": "24",
+            "Clicks_reported_rows": 1,
+            "Impressions": "3124",
+            "Impressions_reported_rows": 1,
+            "Conversions": "3",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-18",
+            "AdGroupId": "5826183946",
+            "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+            "Cost": "645.71",
+            "Cost_reported_rows": 1,
+            "Clicks": "28",
+            "Clicks_reported_rows": 1,
+            "Impressions": "994",
+            "Impressions_reported_rows": 1,
+            "Conversions": "1",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-17",
+            "AdGroupId": "5826183946",
+            "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+            "Cost": "640.71",
+            "Cost_reported_rows": 1,
+            "Clicks": "30",
+            "Clicks_reported_rows": 1,
+            "Impressions": "1165",
+            "Impressions_reported_rows": 1,
+            "Conversions": "1",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-19",
+            "AdGroupId": "5826183946",
+            "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+            "Cost": "634.69",
+            "Cost_reported_rows": 1,
+            "Clicks": "23",
+            "Clicks_reported_rows": 1,
+            "Impressions": "487",
+            "Impressions_reported_rows": 1,
+            "Conversions": "1",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-22",
+            "AdGroupId": "5826171512",
+            "AdGroupName": "DQ200 | Мехатроники без платы | Поиск",
+            "Cost": "591.85",
+            "Cost_reported_rows": 1,
+            "Clicks": "13",
+            "Clicks_reported_rows": 1,
+            "Impressions": "4477",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-21",
+            "AdGroupId": "5828476541",
+            "AdGroupName": "DQ200 | Мехатроники общий запрос | Поиск",
+            "Cost": "423.37",
+            "Cost_reported_rows": 1,
+            "Clicks": "11",
+            "Clicks_reported_rows": 1,
+            "Impressions": "274",
+            "Impressions_reported_rows": 1,
+            "Conversions": "1",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-18",
+            "AdGroupId": "5826320196",
+            "AdGroupName": "Название: DQ200 | Электронные платы | Поиск.",
+            "Cost": "349.58",
+            "Cost_reported_rows": 1,
+            "Clicks": "10",
+            "Clicks_reported_rows": 1,
+            "Impressions": "371",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-20",
+            "AdGroupId": "5826320196",
+            "AdGroupName": "Название: DQ200 | Электронные платы | Поиск.",
+            "Cost": "338.49",
+            "Cost_reported_rows": 1,
+            "Clicks": "14",
+            "Clicks_reported_rows": 1,
+            "Impressions": "566",
+            "Impressions_reported_rows": 1,
+            "Conversions": "1",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-19",
+            "AdGroupId": "5826320196",
+            "AdGroupName": "Название: DQ200 | Электронные платы | Поиск.",
+            "Cost": "275.14",
+            "Cost_reported_rows": 1,
+            "Clicks": "5",
+            "Clicks_reported_rows": 1,
+            "Impressions": "307",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-20",
+            "AdGroupId": "5826171512",
+            "AdGroupName": "DQ200 | Мехатроники без платы | Поиск",
+            "Cost": "202.37",
+            "Cost_reported_rows": 1,
+            "Clicks": "7",
+            "Clicks_reported_rows": 1,
+            "Impressions": "816",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-21",
+            "AdGroupId": "5826320196",
+            "AdGroupName": "Название: DQ200 | Электронные платы | Поиск.",
+            "Cost": "200.78",
+            "Cost_reported_rows": 1,
+            "Clicks": "7",
+            "Clicks_reported_rows": 1,
+            "Impressions": "532",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-17",
+            "AdGroupId": "5826320196",
+            "AdGroupName": "Название: DQ200 | Электронные платы | Поиск.",
+            "Cost": "146.75",
+            "Cost_reported_rows": 1,
+            "Clicks": "9",
+            "Clicks_reported_rows": 1,
+            "Impressions": "311",
+            "Impressions_reported_rows": 1,
+            "Conversions": "1",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-20",
+            "AdGroupId": "5828476541",
+            "AdGroupName": "DQ200 | Мехатроники общий запрос | Поиск",
+            "Cost": "82.67",
+            "Cost_reported_rows": 1,
+            "Clicks": "2",
+            "Clicks_reported_rows": 1,
+            "Impressions": "166",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-17",
+            "AdGroupId": "5826171512",
+            "AdGroupName": "DQ200 | Мехатроники без платы | Поиск",
+            "Cost": "73.24",
+            "Cost_reported_rows": 1,
+            "Clicks": "3",
+            "Clicks_reported_rows": 1,
+            "Impressions": "93",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-22",
+            "AdGroupId": "5826320196",
+            "AdGroupName": "Название: DQ200 | Электронные платы | Поиск.",
+            "Cost": "71.18",
+            "Cost_reported_rows": 1,
+            "Clicks": "2",
+            "Clicks_reported_rows": 1,
+            "Impressions": "264",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-22",
+            "AdGroupId": "5828476541",
+            "AdGroupName": "DQ200 | Мехатроники общий запрос | Поиск",
+            "Cost": "64.18",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "108",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-18",
+            "AdGroupId": "5826171512",
+            "AdGroupName": "DQ200 | Мехатроники без платы | Поиск",
+            "Cost": "49.38",
+            "Cost_reported_rows": 1,
+            "Clicks": "2",
+            "Clicks_reported_rows": 1,
+            "Impressions": "90",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-16",
+            "AdGroupId": "5826183946",
+            "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+            "Cost": "44.96",
+            "Cost_reported_rows": 1,
+            "Clicks": "2",
+            "Clicks_reported_rows": 1,
+            "Impressions": "157",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-19",
+            "AdGroupId": "5826171512",
+            "AdGroupName": "DQ200 | Мехатроники без платы | Поиск",
+            "Cost": "33.55",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "74",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-16",
+            "AdGroupId": "5826171512",
+            "AdGroupName": "DQ200 | Мехатроники без платы | Поиск",
+            "Cost": "29.67",
+            "Cost_reported_rows": 1,
+            "Clicks": "1",
+            "Clicks_reported_rows": 1,
+            "Impressions": "33",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-16",
+            "AdGroupId": "5826320196",
+            "AdGroupName": "Название: DQ200 | Электронные платы | Поиск.",
+            "Cost": "0.00",
+            "Cost_reported_rows": 1,
+            "Clicks": "0",
+            "Clicks_reported_rows": 1,
+            "Impressions": "10",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          },
+          {
+            "Date": "2026-11-22",
+            "AdGroupId": "5826183946",
+            "AdGroupName": "DQ200 | Мехатроники с платой | Поиск",
+            "Cost": "0.00",
+            "Cost_reported_rows": 1,
+            "Clicks": "0",
+            "Clicks_reported_rows": 1,
+            "Impressions": "22",
+            "Impressions_reported_rows": 1,
+            "Conversions": "0",
+            "Conversions_reported_rows": 1
+          }
+        ]
+      }
+    },
+    "metrika": {
+      "status": "ok",
+      "data": {
+        "date": {
+          "rows": [
+            {
+              "dimensions": [
+                "2026-11-21"
+              ],
+              "counts": {
+                "visits": 71.0,
+                "675271839": 0.0,
+                "675271996": 0.0,
+                "675272154": 0.0,
+                "675272284": 0.0,
+                "675487735": 2.0,
+                "675506966": 0.0,
+                "675507028": 0.0,
+                "682257540": 0.0,
+                "686020680": 0.0
+              }
+            },
+            {
+              "dimensions": [
+                "2026-11-18"
+              ],
+              "counts": {
+                "visits": 49.0,
+                "675271839": 0.0,
+                "675271996": 0.0,
+                "675272154": 0.0,
+                "675272284": 0.0,
+                "675487735": 3.0,
+                "675506966": 0.0,
+                "675507028": 0.0,
+                "682257540": 0.0,
+                "686020680": 0.0
+              }
+            },
+            {
+              "dimensions": [
+                "2026-11-20"
+              ],
+              "counts": {
+                "visits": 49.0,
+                "675271839": 0.0,
+                "675271996": 0.0,
+                "675272154": 0.0,
+                "675272284": 1.0,
+                "675487735": 4.0,
+                "675506966": 1.0,
+                "675507028": 0.0,
+                "682257540": 0.0,
+                "686020680": 1.0
+              }
+            },
+            {
+              "dimensions": [
+                "2026-11-17"
+              ],
+              "counts": {
+                "visits": 44.0,
+                "675271839": 0.0,
+                "675271996": 0.0,
+                "675272154": 1.0,
+                "675272284": 1.0,
+                "675487735": 2.0,
+                "675506966": 0.0,
+                "675507028": 0.0,
+                "682257540": 0.0,
+                "686020680": 0.0
+              }
+            },
+            {
+              "dimensions": [
+                "2026-11-22"
+              ],
+              "counts": {
+                "visits": 43.0,
+                "675271839": 1.0,
+                "675271996": 0.0,
+                "675272154": 5.0,
+                "675272284": 0.0,
+                "675487735": 1.0,
+                "675506966": 0.0,
+                "675507028": 0.0,
+                "682257540": 0.0,
+                "686020680": 0.0
+              }
+            },
+            {
+              "dimensions": [
+                "2026-11-19"
+              ],
+              "counts": {
+                "visits": 41.0,
+                "675271839": 0.0,
+                "675271996": 0.0,
+                "675272154": 0.0,
+                "675272284": 1.0,
+                "675487735": 3.0,
+                "675506966": 0.0,
+                "675507028": 0.0,
+                "682257540": 0.0,
+                "686020680": 0.0
+              }
+            },
+            {
+              "dimensions": [
+                "2026-11-16"
+              ],
+              "counts": {
+                "visits": 13.0,
+                "675271839": 0.0,
+                "675271996": 0.0,
+                "675272154": 0.0,
+                "675272284": 1.0,
+                "675487735": 4.0,
+                "675506966": 0.0,
+                "675507028": 0.0,
+                "682257540": 0.0,
+                "686020680": 0.0
+              }
+            }
+          ],
+          "totals": {
+            "visits": 310.0,
+            "675271839": 1.0,
+            "675271996": 0.0,
+            "675272154": 6.0,
+            "675272284": 4.0,
+            "675487735": 19.0,
+            "675506966": 1.0,
+            "675507028": 0.0,
+            "682257540": 0.0,
+            "686020680": 1.0
+          },
+          "sampled": false,
+          "sample_share": 1.0
+        },
+        "utm_campaign": {
+          "rows": [
+            {
+              "dimensions": [
+                "yandex",
+                "dq200_feed_search"
+              ],
+              "counts": {
+                "visits": 196.0,
+                "675271839": 0.0,
+                "675271996": 0.0,
+                "675272154": 0.0,
+                "675272284": 0.0,
+                "675487735": 9.0,
+                "675506966": 0.0,
+                "675507028": 0.0,
+                "682257540": 0.0,
+                "686020680": 0.0
+              }
+            },
+            {
+              "dimensions": [
+                "ya",
+                "dq200_feed_search"
+              ],
+              "counts": {
+                "visits": 8.0,
+                "675271839": 0.0,
+                "675271996": 0.0,
+                "675272154": 0.0,
+                "675272284": 0.0,
+                "675487735": 1.0,
+                "675506966": 0.0,
+                "675507028": 0.0,
+                "682257540": 0.0,
+                "686020680": 0.0
+              }
+            },
+            {
+              "dimensions": [
+                "chatgpt.com",
+                "None"
+              ],
+              "counts": {
+                "visits": 2.0,
+                "675271839": 0.0,
+                "675271996": 0.0,
+                "675272154": 0.0,
+                "675272284": 0.0,
+                "675487735": 1.0,
+                "675506966": 0.0,
+                "675507028": 0.0,
+                "682257540": 0.0,
+                "686020680": 0.0
+              }
+            }
+          ],
+          "totals": {
+            "visits": 206.0,
+            "675271839": 0.0,
+            "675271996": 0.0,
+            "675272154": 0.0,
+            "675272284": 0.0,
+            "675487735": 11.0,
+            "675506966": 0.0,
+            "675507028": 0.0,
+            "682257540": 0.0,
+            "686020680": 0.0
+          },
+          "sampled": false,
+          "sample_share": 1.0
+        }
+      }
+    }
+  },
+  "external_mutations": 0,
+  "finished_utc": "2026-11-22T20:38:33.384049+00:00"
+}
