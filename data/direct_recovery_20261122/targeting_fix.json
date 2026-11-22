@@ -1,9 +1,9 @@
 {
-  "status": "blocked_or_unverified",
+  "status": "applied_verified",
   "mode": "single_bounded_autotargeting_change",
   "campaign": 716316525,
-  "start_utc": "2026-11-22T11:28:23.485602+00:00",
-  "write_attempted": false,
+  "start_utc": "2026-11-22T11:30:33.349282+00:00",
+  "write_attempted": true,
   "targets_before": [
     {
       "keyword_id": 205826171512,
@@ -20,10 +20,120 @@
         "WithAdvertiserBrand": "YES",
         "WithCompetitorsBrand": "YES"
       }
+    },
+    {
+      "keyword_id": 205826183946,
+      "group": 5826183946,
+      "flags": {
+        "Exact": "NO",
+        "Narrow": "YES",
+        "Alternative": "NO",
+        "Accessory": "NO",
+        "Broader": "NO"
+      },
+      "brands": {
+        "WithoutBrands": "YES",
+        "WithAdvertiserBrand": "YES",
+        "WithCompetitorsBrand": "YES"
+      }
+    },
+    {
+      "keyword_id": 205826320196,
+      "group": 5826320196,
+      "flags": {
+        "Exact": "YES",
+        "Narrow": "YES",
+        "Alternative": "YES",
+        "Accessory": "YES",
+        "Broader": "YES"
+      },
+      "brands": {
+        "WithoutBrands": "YES",
+        "WithAdvertiserBrand": "YES",
+        "WithCompetitorsBrand": "YES"
+      }
     }
   ],
-  "errors": [
-    "Current targeted categories differ from expected"
+  "errors": [],
+  "negative_count": 626,
+  "before_campaign_sha": "dbd58f7587bc3f00b7b06ec16b510388701db4997f6f95c835e0adbe679abf87",
+  "before_keyword_sha": "94c3cba1367b2cbe3b5fe0856a03f264eb87748d00f7e5e05f00dfa6c8326d49",
+  "planned_changes": [
+    {
+      "Id": 205826171512,
+      "AutotargetingSettings": {
+        "Categories": {
+          "Exact": "YES",
+          "Narrow": "YES",
+          "Alternative": "NO",
+          "Accessory": "NO",
+          "Broader": "NO"
+        },
+        "BrandOptions": {
+          "WithoutBrands": "YES",
+          "WithAdvertiserBrand": "YES",
+          "WithCompetitorsBrand": "YES"
+        }
+      }
+    },
+    {
+      "Id": 205826320196,
+      "AutotargetingSettings": {
+        "Categories": {
+          "Exact": "YES",
+          "Narrow": "YES",
+          "Alternative": "YES",
+          "Accessory": "NO",
+          "Broader": "NO"
+        },
+        "BrandOptions": {
+          "WithoutBrands": "YES",
+          "WithAdvertiserBrand": "YES",
+          "WithCompetitorsBrand": "YES"
+        }
+      }
+    }
   ],
-  "finished_utc": "2026-11-22T11:28:27.568472+00:00"
+  "write_started_utc": "2026-11-22T11:30:41.891128+00:00",
+  "api_accepted": true,
+  "warnings": [],
+  "campaign_unchanged": true,
+  "other_keywords_unchanged": true,
+  "target_flags_verified": true,
+  "after_campaign_sha": "dbd58f7587bc3f00b7b06ec16b510388701db4997f6f95c835e0adbe679abf87",
+  "after_keyword_sha": "395342315939011eb2396eba43323ef35e566edf2e1010370a7eb05ab1210c22",
+  "after_target_settings": [
+    {
+      "id": 205826171512,
+      "categories": {
+        "Exact": "YES",
+        "Narrow": "YES",
+        "Alternative": "NO",
+        "Accessory": "NO",
+        "Broader": "NO"
+      }
+    },
+    {
+      "id": 205826183946,
+      "categories": {
+        "Exact": "NO",
+        "Narrow": "YES",
+        "Alternative": "NO",
+        "Accessory": "NO",
+        "Broader": "NO"
+      }
+    },
+    {
+      "id": 205826320196,
+      "categories": {
+        "Exact": "YES",
+        "Narrow": "YES",
+        "Alternative": "YES",
+        "Accessory": "NO",
+        "Broader": "NO"
+      }
+    }
+  ],
+  "verified_utc": "2026-11-22T11:30:47.572244+00:00",
+  "finished_utc": "2026-11-22T11:30:47.572268+00:00"
 }
