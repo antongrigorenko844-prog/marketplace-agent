@@ -1,0 +1,30 @@
+name: LEOPARTS Direct NOW 716316525 — read-only campaign review
+on:
+  push:
+    branches: [main]
+    paths: ['data/direct_current_20261123_request.json']
+  workflow_dispatch:
+permissions: {contents: write}
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Read live Direct and Metrika (no writes)
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: |
+          python -m py_compile .github/scripts/direct_current_20261123_live.py
+          python -u .github/scripts/direct_current_20261123_live.py
+      - name: Persist read-only snapshot
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_current_20261123_live.json
