@@ -21,70 +21,61 @@
         "media": "approved image remains in ChatGPT Library, not yet transferred to public GitHub host"
       },
       "tool-dq200-acc-restore": {
-        "status": "creation_submitted",
-        "subject": 6370,
-        "barcode_last4": "5870"
+        "status": "existing",
+        "nmID": 2340040049,
+        "photo_count": 1
       },
       "tool-dsg-pressure-hp": {
-        "status": "creation_submitted",
-        "subject": 6370,
-        "barcode_last4": "7355"
+        "status": "existing",
+        "nmID": 2340040122,
+        "photo_count": 2
       }
     },
     "wb_media": {
       "tool-dq200-acc-restore": {
-        "status": "submitted_pending_readback",
+        "status": "already_has_photos",
         "nmID": 2340040049,
-        "source_photo_urls": [
-          "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/tool-dq200-acc-restore_1.png?v=0ba3a8ae02"
-        ],
-        "error": false
+        "photo_count": 1
       },
       "tool-dsg-pressure-hp": {
-        "status": "submitted_pending_readback",
+        "status": "already_has_photos",
         "nmID": 2340040122,
-        "source_photo_urls": [
-          "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/tool-dsg-pressure-hp_1.png?v=ed59977ea0",
-          "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/tool-dsg-pressure-hp_2.png?v=0e8d01b2ef"
-        ],
-        "error": false
+        "photo_count": 2
       }
     },
     "wb_price": {
       "tool-dq200-acc-restore": {
-        "status": "error",
-        "type": "WbApiError",
-        "reason": "WB /api/v2/upload/task вернул 400: {\"data\":null,\"error\":true,\"errorText\":\"All item Nos. are specified incorrectly, or the specified prices and discounts are already set\"}"
+        "status": "verified",
+        "price": 38800.0
       },
       "tool-dsg-pressure-hp": {
-        "status": "error",
-        "type": "WbApiError",
-        "reason": "WB /api/v2/upload/task вернул 400: {\"data\":null,\"error\":true,\"errorText\":\"All item Nos. are specified incorrectly, or the specified prices and discounts are already set\"}"
+        "status": "verified",
+        "price": 28800.0
       }
     },
     "wb_stock": {
       "tool-dq200-acc-restore": {
-        "status": "error",
-        "type": "WbApiError",
-        "reason": "WB /api/v3/stocks/1627258 вернул 409: [{\"data\":[{\"sku\":\"2062706615870\",\"chrtId\":0,\"amount\":3}],\"code\":\"NotFound\",\"message\":\"Not found\"}]"
+        "status": "submitted",
+        "target": 3,
+        "nmID": 2340040049
       },
       "tool-dsg-pressure-hp": {
-        "status": "error",
-        "type": "WbApiError",
-        "reason": "WB /api/v3/stocks/1627258 вернул 409: [{\"data\":[{\"sku\":\"2062706617355\",\"chrtId\":0,\"amount\":3}],\"code\":\"NotFound\",\"message\":\"Not found\"}]"
+        "status": "submitted",
+        "target": 3,
+        "nmID": 2340040122
       }
     },
     "wb_final": {
       "tool-dq200-acc-restore": {
         "status": "created",
         "nmID": 2340040049,
-        "photo_count": 0,
+        "photo_count": 1,
         "photo_status": "readback"
       },
       "tool-dsg-pressure-hp": {
         "status": "created",
         "nmID": 2340040122,
-        "photo_count": 0,
+        "photo_count": 2,
         "photo_status": "readback"
       }
     },
@@ -110,14 +101,14 @@
     },
     "market_price": {
       "tool-dq200-acc-restore": {
-        "status": "submitted_pending_readback",
-        "target": 38800,
-        "previous_price": 0.0
+        "status": "verified",
+        "price": 38800.0,
+        "source": "business_default"
       },
       "tool-dsg-pressure-hp": {
-        "status": "submitted_pending_readback",
-        "target": 28800,
-        "previous_price": 0.0
+        "status": "verified",
+        "price": 28800.0,
+        "source": "business_default"
       }
     },
     "market_price_final": {
@@ -203,5 +194,5 @@
       }
     }
   },
-  "updated_utc": "2026-11-22T22:11:54.944386+00:00"
+  "updated_utc": "2026-11-22T22:14:41.889658+00:00"
 }
