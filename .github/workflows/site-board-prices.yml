@@ -1,0 +1,31 @@
+name: LEOPARTS Tilda site-only board prices D E F G K
+on:
+  push:
+    branches: [main]
+    paths: ['data/site_board_prices_request.json']
+permissions: {contents: write}
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  tilda:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Exact existing Tilda electronic boards only (site-only prices)
+        env:
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+        run: |
+          python -m py_compile site_board_prices.py
+          python -u site_board_prices.py
+      - name: Persist only price readback and site-only source overrides
+        if: always()
+        run: |
+          bash .github/scripts/save_data.sh data/site_board_prices_result.json data/site_price_only_overrides.json data/site_prices.json
