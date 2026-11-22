@@ -3,7 +3,7 @@ from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 import json, math
-from scripts.related_price_inspect_20261122 import parse
+from related_price_inspect_20261122 import parse
 
 D=Path("data")
 OUT=D/"related_price_audit_20261122"
