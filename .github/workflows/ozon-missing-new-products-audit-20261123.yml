@@ -1,0 +1,31 @@
+name: LEOPARTS Missing Ozon New Products Audit Nov23 (read-only)
+on:
+  push:
+    branches: [main]
+    paths: ['data/ozon_missing_new_products_audit_request_20261123.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Read seller Ozon/WB current catalog without changing items
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: |
+          python -m py_compile .github/scripts/ozon_missing_new_products_audit_20261123.py
+          python -u .github/scripts/ozon_missing_new_products_audit_20261123.py
+      - name: Save read only exact SKU inspection
+        if: always()
+        run: |
+          if [ -f data/ozon_missing_new_products_audit_20261123.json ]; then
+            bash .github/scripts/save_data.sh data/ozon_missing_new_products_audit_20261123.json
+          fi
