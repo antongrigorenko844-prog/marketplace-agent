@@ -88,6 +88,7 @@ def run():
         obj.update(status="complete",started_from=FROM,through=THRU,
             read_utc=stamp(),state=c.get("State"),type=c.get("Type"),
             negatives_count=len(negatives),
+            negative_phrases=negatives,
             negative_fingerprint=hashlib.sha256(json.dumps(negatives,ensure_ascii=False,separators=(",",":")).encode()).hexdigest(),
             autotargeting_conditions=sum(x.get("Keyword")=="---autotargeting" for x in keys),
             manual_keywords=sum(x.get("Keyword")!="---autotargeting" for x in keys),
