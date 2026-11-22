@@ -1,0 +1,39 @@
+name: LEOPARTS Unified Product Intake v2 CI
+on:
+  push:
+    branches:
+      - feat/unified-product-intake-v2
+  pull_request:
+    paths:
+      - 'scripts/product_intake_v2.py'
+      - 'tests/test_product_intake_v2.py'
+      - 'data/product_intake_v2/requests/**'
+      - '.github/workflows/product-intake-v2-ci.yml'
+permissions: {contents: read}
+jobs:
+  safe-intake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Compile, no API access required
+        run: |
+          python -m py_compile scripts/product_intake_v2.py
+      - name: Run offline acceptance regression suite
+        run: |
+          python -m unittest discover -s tests -p 'test_product_intake_v2.py' -v
+      - name: Render the exact five-SKU dry-run
+        run: |
+          python scripts/product_intake_v2.py --request data/product_intake_v2/requests/leoparts-five-20261123.json --mode inspect > /tmp/leoparts-intake-inspect.json
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/leoparts-intake-inspect.json'))
+          print('batch',d['batch_id'],'summary',d['summary'])
+          assert len(d['items'])==5 and d['summary']['total']==25
+          PY
+      - name: Verify pricing and legacy assets remain unchanged
+        run: |
+          git diff --exit-code -- data/master_control.xlsx data/avito_site_price_overrides.xlsx data/ozon_catalog.xlsx
