@@ -1,0 +1,26 @@
+name: LEOPARTS Metrika live goals Nov 22 audit
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-metrika-live-20261122.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read only daily Metrika goals and UTM aggregates
+        env:
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: python .github/scripts/direct_metrika_live_20261122.py
+      - name: Save aggregate goal evidence
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_recovery_20261122/metrika_fresh_goals.json
