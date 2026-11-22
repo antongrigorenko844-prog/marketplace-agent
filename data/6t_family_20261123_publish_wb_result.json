@@ -115,9 +115,9 @@
       }
     }
   },
-  "overall_status": "NOT_CREATED_AFTER_WB_ASYNC_UPLOAD",
-  "user_note": "GitHub Action success means only that script completed. WB accepted card uploads but did not create any of the three products; no price, stock or media was confirmed.",
-  "needs_wb_error_diagnostics": true,
+  "overall_status": "THREE_CARDS_CREATED_PRICE_AND_PHOTOS_UNVERIFIED",
+  "user_note": "WB created 3 exact new cards after fixing Model to one value. All three price API calls failed because new cards were not yet indexed; stock API accepted 20/3/3. Photos not yet uploaded.",
+  "needs_wb_error_diagnostics": false,
   "preflight": {
     "already_present": [],
     "confirmed_model_rejections": [
