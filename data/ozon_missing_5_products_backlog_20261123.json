@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "created_at_utc": "2026-11-22T21:14:00Z",
+  "mode": "tracked_unpublished_skus",
+  "channel": "ozon",
+  "authoritative_live_audit": "data/ozon_missing_new_products_audit_20261123.json",
+  "note": "Five requested products are NOT CREATED in Ozon as of seller API audit. Prepared drafts are not Ozon cards. Do not copy Gen1 images onto Gen2. Do not invent category/TNVED/packaged dimensions.",
+  "products": [
+    {
+      "sku": "6t30-solenoids-gen2",
+      "target_price_rub": 19880,
+      "qty_from_prepared_draft": 20,
+      "known_wb_nm_id": 2338952761,
+      "wb_price_verified_rub": 19880,
+      "ozon_status": "not_created",
+      "blockers": [
+        "verified Gen2 photo source unavailable in repo",
+        "confirm package weight/dimensions, TNVED, Ozon category mandatory attributes",
+        "enter exact SKU into Ozon new product catalog"
+      ]
+    },
+    {
+      "sku": "6t30-tcm-gen1",
+      "target_price_rub": 58850,
+      "qty_from_prepared_draft": 3,
+      "known_wb_nm_id": 2338952880,
+      "wb_price_verified_rub": 58850,
+      "ozon_status": "not_created",
+      "blockers": [
+        "verified block+solenoids Gen1 photo source unavailable in repo",
+        "confirm actual block type, weight/dimensions, TNVED and category required values",
+        "enter exact SKU into Ozon new product catalog"
+      ]
+    },
+    {
+      "sku": "6t30-tcm-gen2",
+      "target_price_rub": 58850,
+      "qty_from_prepared_draft": 3,
+      "known_wb_nm_id": 2338953074,
+      "wb_price_verified_rub": 58850,
+      "ozon_status": "not_created",
+      "blockers": [
+        "verified block+solenoids Gen2 photo source unavailable in repo",
+        "confirm actual block type, weight/dimensions, TNVED and category required values",
+        "enter exact SKU into Ozon new product catalog"
+      ]
+    },
+    {
+      "sku": "tool-dq200-acc-restore",
+      "target_price_rub": 38800,
+      "site_avito_price_rub": 24800,
+      "qty_from_owner_approved_draft": 3,
+      "ozon_status": "not_created",
+      "blockers": [
+        "workshop tool category and required attributes not validated",
+        "photo layout exists but exact product-photo verification remains false"
+      ],
+      "source": "drafts/new-products/dsg-tools-20261120/product_cards.json"
+    },
+    {
+      "sku": "tool-dsg-pressure-hp",
+      "target_price_rub": 28800,
+      "site_avito_price_rub": 18800,
+      "qty_from_owner_approved_draft": 3,
+      "ozon_status": "not_created",
+      "blockers": [
+        "workshop tool category and required attributes not validated",
+        "photo layout exists but exact product-photo verification remains false"
+      ],
+      "source": "drafts/new-products/dsg-tools-20261120/product_cards.json"
+    }
+  ],
+  "do_not_change": [
+    "existing 6t30 Gen1 published image",
+    "seller prices of unrelated SKU",
+    "stock until physical quantity confirmed",
+    "WB cards of Gen2 and two TCM already created",
+    "vint-kollektora-ea888 declaration handling"
+  ],
+  "publication_guard": "Do not call Ozon product import on a SKU until the user-approved actual product image, correct category/attributes and verified commercial inputs are available."
+}
