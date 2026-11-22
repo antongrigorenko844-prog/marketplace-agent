@@ -1,0 +1,111 @@
+{
+  "sku": "6t30",
+  "scope": "only approved Gen1 primary image, no price/stock/text writes",
+  "started": "2026-11-22T19:46:06.690046+00:00",
+  "channels": {
+    "asset_validation": {
+      "status": "verified",
+      "mp_sha": "20cea0c4a021ffd95450112dd4ad41776074519a3be22d37a7d74058d5e33c85",
+      "av_sha": "c63abdb50761d6542dd15b81e283447446a403fb4277ba1382a3eb7bb9c349f3"
+    },
+    "release_assets": {
+      "status": "published_verified",
+      "marketplaces_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30-gen1-approved-cover-20261123.jpg?v=20cea0c4a0",
+      "avito_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30-gen1-approved-avito-20261123.jpg?v=c63abdb507"
+    },
+    "source_manifest": {
+      "status": "updated",
+      "sku": "6t30",
+      "channels": [
+        "ozon",
+        "wb",
+        "avito",
+        "market",
+        "tilda"
+      ],
+      "old_primary": {
+        "ozon": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30_1.png?v=434a7e1a34",
+        "wb": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30_1.png?v=434a7e1a34",
+        "avito": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30_1.jpg?v=eb7c8272e8",
+        "market": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30_1.png?v=434a7e1a34",
+        "tilda": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30_1.png?v=434a7e1a34"
+      }
+    },
+    "ozon_catalog": {
+      "status": "updated",
+      "row": 71,
+      "old_first_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30_1.png?v=434a7e1a34",
+      "new_first_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30-gen1-approved-cover-20261123.jpg?v=20cea0c4a0",
+      "retained_secondary": 1
+    },
+    "wb_catalog": {
+      "status": "updated",
+      "row": 138,
+      "old_first_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30_1.png?v=434a7e1a34",
+      "new_first_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30-gen1-approved-cover-20261123.jpg?v=20cea0c4a0",
+      "retained_secondary": 1
+    },
+    "avito_photo_map": {
+      "status": "updated",
+      "row": 44,
+      "old_first_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30_1.jpg?v=eb7c8272e8",
+      "new_first_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30-gen1-approved-avito-20261123.jpg?v=c63abdb507",
+      "photo_count": 2
+    },
+    "ozon": {
+      "status": "verified",
+      "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30-gen1-approved-cover-20261123.jpg?v=20cea0c4a0",
+      "old_url": "https://ir.ozone.ru/s3/multimedia-1-k/14879274896.jpg",
+      "task_id": 6103259884,
+      "primary_live": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30-gen1-approved-cover-20261123.jpg?v=20cea0c4a0",
+      "extras_preserved_request": 1,
+      "request_accepted": true,
+      "same_commercial_fields": true,
+      "no_price_or_stock_write": true
+    },
+    "wb": {
+      "status": "failed",
+      "reason": "ValueError: WB unrelated field changed: characteristics"
+    },
+    "market": {
+      "status": "verified",
+      "first_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30-gen1-approved-cover-20261123.jpg?v=20cea0c4a0",
+      "old_url": "https://ir.ozone.ru/s3/multimedia-1-k/14879274896.jpg",
+      "photo_count": 2,
+      "same_nonmedia_fields": true,
+      "no_price_or_stock_write": true
+    },
+    "avito": {
+      "status": "stable_feed_updated_verified",
+      "feed_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito_feed.xlsx",
+      "feed_row": 65,
+      "avito_id": null,
+      "retained_other_images": 1,
+      "backup_asset": "avito_feed.backup_6t30_20261123_779620746.xlsx",
+      "old_feed_sha": "a83ae2703f06bbce3dbf68b47883892ae68f10504f7e82dbb65a9ecc03c50706",
+      "new_feed_sha": "b42ce30f076aad183b47ad9135cea2dca4db70400b1664046e85573b3f55f07a",
+      "non_image_cells_unchanged": true,
+      "autoupload_processing": "depends_on_Avito_subscription_schedule"
+    },
+    "tilda": {
+      "status": "import_accepted_live_checked",
+      "tilda_uid": "695009271403",
+      "gallery_count_before": 2,
+      "gallery_count_after": 493,
+      "same_price_stock_title_description": true,
+      "file_count": 2,
+      "steps": [
+        "checkauth: success",
+        "init: zip=no | file_limit=3145728",
+        "фото: отправлено файлов 2",
+        "file import0_1.xml: success",
+        "file offers0_1.xml: success",
+        "import import0_1.xml: success",
+        "import offers0_1.xml: success"
+      ],
+      "no_price_stock_offers": true
+    }
+  },
+  "updated": "2026-11-22T19:51:55.135497+00:00",
+  "finished": "2026-11-22T19:51:55.136317+00:00"
+}
