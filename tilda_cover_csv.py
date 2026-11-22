@@ -101,7 +101,7 @@ def run(sku: str, site_records_fn=None, check_pixels=True):
         "status": status, "live_primary": gallery[0],
         "desired_primary": photos[0], "live_gallery_size": len(gallery),
         "approved_gallery_size": len(photos), "mean_pixel_difference": difference,
-        "csv_path": str(CSV.relative_to(ROOT)),
+        "csv_path": str(CSV.relative_to(ROOT)) if CSV.is_relative_to(ROOT) else str(CSV),
         "csv_identity_and_media_columns_only": True,
         "tilda_writes": 0, "price_writes": 0, "stock_writes": 0,
         "next_step": (
