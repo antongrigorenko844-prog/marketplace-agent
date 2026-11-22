@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'data/dq500_wb_create_unique_20261123_request.json'
+      - 'scripts/dq500_wb_create_unique_20261123.py'
 permissions:
   contents: write
 concurrency:
