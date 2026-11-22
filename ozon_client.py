@@ -407,9 +407,16 @@ def deactivate_action_products(action_id: int, product_ids: List[int]) -> dict:
 
 
 def get_category_tree(language: str = "RU") -> List[dict]:
-    # ENDPOINT: POST /v2/category/tree — дерево категорий Ozon
-    data = _post("/v2/category/tree", {"language": language})
-    return data.get("result", [])
+    """Current Ozon category/type tree (description_category_id + type_id).
+
+    /v2/category/tree was retired by Ozon in June 2024. It now returns 404
+    and must never be used to guess a category for diagnostic tools.
+    """
+    data = _post("/v1/description-category/tree", {"language": language})
+    result = data.get("result", [])
+    if not isinstance(result, list):
+        raise OzonApiError("Ozon category tree response has no category list")
+    return result
 
 
 _category_attribute_working_path: Optional[str] = None
