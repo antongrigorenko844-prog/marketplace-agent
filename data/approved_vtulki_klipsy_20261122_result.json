@@ -179,5 +179,196 @@
       ]
     }
   },
-  "updated_utc": "2026-11-22T16:06:44.449761+00:00"
+  "updated_utc": "2026-11-22T16:08:44.537418+00:00",
+  "ozon": {
+    "0am325025D": {
+      "status": "ready",
+      "before": 1490.0,
+      "accepted": true,
+      "observed": 1880.0,
+      "verified": true
+    },
+    "vtulki-shtokov-2sht": {
+      "status": "ready",
+      "before": 4850.0,
+      "accepted": true,
+      "observed": 2880.0,
+      "verified": true
+    },
+    "0am325025P": {
+      "status": "ready",
+      "before": 990.0,
+      "accepted": true,
+      "observed": 980.0,
+      "verified": true
+    },
+    "klipsy-shtokov-2sht": {
+      "status": "already_correct",
+      "verified": true,
+      "observed": 1350.0
+    }
+  },
+  "wildberries": {
+    "0am325025D": {
+      "status": "ready",
+      "before": 3350.13,
+      "nmID": 670854215,
+      "upload_base": 3547,
+      "observed": 3350.13,
+      "verified": false
+    },
+    "vtulki-shtokov-2sht": {
+      "status": "ready",
+      "before": 4850.02,
+      "nmID": 1949877502,
+      "upload_base": 2939,
+      "observed": 4850.02,
+      "verified": false
+    },
+    "0am325025P": {
+      "status": "ready",
+      "before": 989.8,
+      "nmID": 670861565,
+      "upload_base": 2000,
+      "observed": 980.0,
+      "verified": true
+    },
+    "klipsy-shtokov-2sht": {
+      "status": "already_correct",
+      "observed": 1349.8,
+      "verified": true
+    },
+    "upload": {
+      "acknowledged": true,
+      "id": 230683497
+    },
+    "history": {
+      "task": {
+        "uploadID": 230683497,
+        "status": 5,
+        "uploadDate": "2026-11-22T16:06:59.278639Z",
+        "activationDate": "2026-11-22T16:06:59.278639Z",
+        "overAllGoodsNumber": 3,
+        "successGoodsNumber": 1
+      },
+      "errors": [
+        {
+          "nmID": 670854215,
+          "status": 3,
+          "errorText": "New price is several times lower than the current price. Item has been moved to Price Quarantine"
+        },
+        {
+          "nmID": 1949877502,
+          "status": 3,
+          "errorText": "New price is several times lower than the current price. Item has been moved to Price Quarantine"
+        }
+      ]
+    }
+  },
+  "yandex_market": {
+    "0am325025D": {
+      "status": "ready",
+      "before": 1490.0,
+      "shop": 1880.0,
+      "business": 1880.0,
+      "verified": true
+    },
+    "vtulki-shtokov-2sht": {
+      "status": "ready",
+      "before": 4850.0,
+      "shop": 2880.0,
+      "business": 2880.0,
+      "verified": true
+    },
+    "0am325025P": {
+      "status": "ready",
+      "before": 990.0,
+      "shop": 980.0,
+      "business": 980.0,
+      "verified": true
+    },
+    "klipsy-shtokov-2sht": {
+      "status": "already_correct",
+      "verified": true,
+      "observed": 1350.0,
+      "shop": 1350.0,
+      "business": 1350.0
+    },
+    "upload": {
+      "count": 3,
+      "acknowledged": true
+    }
+  },
+  "tilda": {
+    "0am325025D": {
+      "status": "ready",
+      "before": 950.0,
+      "observed": 980.0,
+      "verified": true
+    },
+    "vtulki-shtokov-2sht": {
+      "status": "ready",
+      "before": 2850.0,
+      "observed": 1650.0,
+      "verified": true
+    },
+    "0am325025P": {
+      "status": "already_correct",
+      "before": 450.0,
+      "observed": 450.0,
+      "verified": true
+    },
+    "klipsy-shtokov-2sht": {
+      "status": "ready",
+      "before": 950.0,
+      "observed": 850.0,
+      "verified": true
+    }
+  },
+  "avito_stable_feed": {
+    "status": "promoted",
+    "price_changes": [
+      {
+        "sku": "klipsy-shtokov-2sht",
+        "cell": "AH82",
+        "before": 950.0,
+        "after": 850
+      },
+      {
+        "sku": "vtulki-shtokov-2sht",
+        "cell": "AH128",
+        "before": 2850.0,
+        "after": 1650
+      }
+    ],
+    "stable_bytes_verified": true
+  },
+  "avito": {
+    "0am325025D": {
+      "status": "no_active_unique_ad",
+      "observed": null,
+      "verified": false
+    },
+    "vtulki-shtokov-2sht": {
+      "status": "accepted",
+      "id": 8349295933,
+      "before": 2850.0,
+      "observed": 1650.0,
+      "verified": true
+    },
+    "0am325025P": {
+      "status": "already_correct",
+      "id": 8274232784,
+      "before": 450.0,
+      "observed": 450.0,
+      "verified": true
+    },
+    "klipsy-shtokov-2sht": {
+      "status": "accepted",
+      "id": 8403438057,
+      "before": 950.0,
+      "observed": 850.0,
+      "verified": true
+    }
+  }
 }
