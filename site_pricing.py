@@ -59,6 +59,20 @@ def load_price_overrides(path: str = OVERRIDES_PATH, channel: str = "avito") -> 
             if price > 0:
                 out[offer_id] = price
                 break
+    # Independent website-only overrides: never inherited by Avito, Ozon, WB,
+    # or Yandex Market. Keeps owner-approved site board prices through later
+    # catalog/CommerceML rebuilds without modifying Avito column B.
+    if channel == "site":
+        import json
+        site_file = os.path.join(os.path.dirname(__file__), "data", "site_price_only_overrides.json")
+        if os.path.isfile(site_file):
+            raw = json.load(open(site_file, encoding="utf-8"))
+            if not isinstance(raw, dict):
+                raise ValueError("Invalid site-only price override")
+            for sku, price in raw.items():
+                if not isinstance(sku, str) or not sku or type(price) not in (int,float) or price <= 0:
+                    raise ValueError("Invalid site-only price mapping")
+                out[sku] = float(price)
     return out
 
 
