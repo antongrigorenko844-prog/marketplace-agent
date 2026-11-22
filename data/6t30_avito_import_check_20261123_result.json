@@ -1,0 +1,39 @@
+{
+  "sku": "6t30",
+  "read_only": true,
+  "avito_id": 8425207775,
+  "autoload_profile": {
+    "accessible": true,
+    "fields": [
+      "feeds_data",
+      "autoload_enabled",
+      "report_email",
+      "allow_pay_over_limit",
+      "schedule",
+      "uploadMode"
+    ],
+    "safe_subset": {
+      "schedule": [
+        {}
+      ]
+    }
+  },
+  "last_completed_report": {
+    "accessible": true,
+    "fields": [
+      "_deprecation",
+      "events",
+      "feeds_urls",
+      "finished_at",
+      "listing_fees",
+      "report_id",
+      "section_stats",
+      "source",
+      "started_at",
+      "status"
+    ],
+    "safe_subset": {
+      "status": "success_warning"
+    }
+  }
+}
