@@ -2,7 +2,9 @@ name: LEOPARTS precise DQ200 targeting cleanup Nov 22
 on:
   push:
     branches: [main]
-    paths: ['.github/workflows/direct-targeting-fix-20261122.yml']
+    paths:
+      - .github/workflows/direct-targeting-fix-20261122.yml
+      - .github/scripts/direct_targeting_fix_20261122.py
 permissions:
   contents: write
 concurrency:
