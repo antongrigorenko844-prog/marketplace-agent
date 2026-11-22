@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-22T20:26:47.592775+00:00",
+  "generated_utc": "2026-11-22T20:29:28.193165+00:00",
   "policy": "verified requires a live readback; submission is not publication",
   "checks": {
     "ozon": {
@@ -51,13 +51,21 @@
       "unfinished_projection_count": 0,
       "live_order_conflicts": 3,
       "no_stock_mutation_by_this_check": true
+    },
+    "stock_dryrun": {
+      "status": "simulated_success",
+      "read_only": true,
+      "deferred_legacy_cancellations": 3,
+      "production_inputs_unchanged": true,
+      "source": "temporary ledger and catalog copies only"
     }
   },
   "sources": {
     "media": true,
     "avito": true,
     "tilda": true,
-    "stock": true
+    "stock": true,
+    "stock_dryrun": true
   },
   "commercial_fields_changed_by_status_tool": false
 }
