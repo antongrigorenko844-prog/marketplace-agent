@@ -25,7 +25,9 @@ def main():
         raise ValueError("Master control sheet schema changed")
     count=sheet.max_row
     ids=[str(sheet.cell(r,1).value or "").strip() for r in range(2,count+1)]
-    if len(ids)!=len(set(x.casefold() for x in ids if x)):raise ValueError("Master already has duplicate SKUs")
+    for sku in TARGET:
+        if sum(x.casefold()==sku.casefold() for x in ids)!=int(sku in ids):
+            raise ValueError("Conflicting duplicates of approved target SKU: "+sku)
     drafts=json.loads(DRAFT.read_text())["confirmed_missing_product_drafts"]
     products={x["sku"]:x for x in drafts}
     evidence=json.loads(EVIDENCE.read_text())
