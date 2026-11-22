@@ -85,7 +85,7 @@ def baseline(k,log):
         brands=state.get("BrandOptions") or {}
         if set(cat)!={"Exact","Narrow","Alternative","Accessory","Broader"} or set(brands)!={"WithoutBrands","WithAdvertiserBrand","WithCompetitorsBrand"}:
             raise RuntimeError("Incomplete current category or brand flags")
-        if cat["Exact"]!="YES" or cat["Narrow"]!="YES" or any(v not in ("YES","NO") for v in list(cat.values())+list(brands.values())):
+        if (cat["Exact"]!="YES" and cat["Narrow"]!="YES") or any(v not in ("YES","NO") for v in list(cat.values())+list(brands.values())):
             raise RuntimeError("Current targeted categories differ from expected")
         next_state=deepcopy(state)
         for flag in config["off"]:next_state["Categories"][flag]="NO"
