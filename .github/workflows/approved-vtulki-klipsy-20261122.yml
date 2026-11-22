@@ -1,0 +1,54 @@
+name: LEOPARTS four approved sleeves and clips prices 20261122
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/approved_vtulki_klipsy_20261122.json'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  approved:
+    runs-on: ubuntu-latest
+    timeout-minutes: 29
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q --disable-pip-version-check -r requirements.txt
+      - name: Validate exact four approved prices and update catalog source only
+        run: |
+          python -m py_compile scripts/approved_vtulki_klipsy_20261122.py
+          python scripts/approved_vtulki_klipsy_20261122.py stage
+      - name: Persist source prices to master and direct channel feed
+        run: |
+          bash .github/scripts/save_data.sh \
+            data/master_control.xlsx \
+            data/ozon_catalog.xlsx \
+            data/wb_catalog.xlsx \
+            data/avito_site_price_overrides.xlsx \
+            data/avito_feed.xlsx \
+            data/approved_vtulki_klipsy_20261122_result.json
+      - name: Publish and independently verify only four approved prices per channel
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/approved_vtulki_klipsy_20261122.py publish
+      - name: Persist live readback and any quarantine status
+        if: always()
+        run: |
+          if [ -f data/approved_vtulki_klipsy_20261122_result.json ]; then
+            bash .github/scripts/save_data.sh data/approved_vtulki_klipsy_20261122_result.json
+          fi
