@@ -344,7 +344,7 @@ _WB_DRAFT_FIELD_MAP = {
 # показана в master_control.xlsx; здесь нужна обратная связка, чтобы найти
 # правильную строку в wb_catalog.xlsx/wb_new_products.xlsx (её ключ —
 # настоящий vendorCode, а не Ozon offer_id).
-_WB_ALIAS_OZON_TO_VENDOR: dict = {}  # устаревшие пары убраны 2026-10-22: все они стали отдельными настоящими карточками WB
+_WB_ALIAS_OZON_TO_VENDOR: dict = {"Dq500": "dq500-korpus-gladkiy"}  # WB-only SKU; исходный товар и склад остаются Dq500
 
 # Принудительная переадресация Ozon-артикул -> vendorCode на WB, даже если Ozon-артикул
 # буквально совпадает с настоящим vendorCode на WB (тогда _WB_ALIAS_OZON_TO_VENDOR не
