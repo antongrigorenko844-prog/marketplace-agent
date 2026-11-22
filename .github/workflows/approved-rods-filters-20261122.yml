@@ -1,0 +1,56 @@
+name: LEOPARTS approved rods prices and DQ250 DQ500 costs 20261122
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/approved_rods_filters_20261122.json'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  approved:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install existing project dependencies
+        run: pip install -q --disable-pip-version-check -r requirements.txt
+      - name: Verify script syntax and modify exact approved catalog cells
+        run: |
+          python -m py_compile scripts/approved_rods_filters_20261122.py
+          python scripts/approved_rods_filters_20261122.py local
+      - name: Save approved prices and costs to canonical source before external calls
+        run: |
+          bash .github/scripts/save_data.sh \
+            data/master_control.xlsx \
+            data/ozon_catalog.xlsx \
+            data/wb_catalog.xlsx \
+            data/avito_site_price_overrides.xlsx \
+            data/avito_feed.xlsx \
+            data/approved_rods_filters_20261122_result.json
+      - name: Publish ONLY seven approved price SKUs to named channels and verify
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+        run: python scripts/approved_rods_filters_20261122.py publish
+      - name: Save post-publication readback report
+        if: always()
+        run: |
+          if [ -f data/approved_rods_filters_20261122_result.json ]; then
+            bash .github/scripts/save_data.sh data/approved_rods_filters_20261122_result.json
+          fi
