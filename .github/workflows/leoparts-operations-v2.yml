@@ -55,6 +55,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_media_fast.py' -v
           python -m unittest discover -s tests -p 'test_stock_preflight.py' -v
           python -m unittest discover -s tests -p 'test_stock_legacy_deferred.py' -v
+          python -m unittest discover -s tests -p 'test_stock_reconcile.py' -v
           python -m unittest discover -s tests -p 'test_tilda_cover_csv.py' -v
           python -m unittest discover -s tests -p 'test_ops_status.py' -v
           python -m unittest discover -s tests -p 'test_avito_fast_cover.py' -v
