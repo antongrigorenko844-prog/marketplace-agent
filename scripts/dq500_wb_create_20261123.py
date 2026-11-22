@@ -93,13 +93,13 @@ def payload(barcode,sample):
     }
     return int(sample["subjectID"]),result
 def check_photo_urls():
-    # Same exact-case Dq500 photos are already published as public GitHub
-    # release assets "product-photos" and verified through the release API.
-    # raw.githubusercontent HEAD is not reliable for this account; WB's media
-    # import uses the public release asset URLs, like other LEOPARTS listings.
+    # Each exact-case Dq500_1..4.jpg asset was verified in the public
+    # product-photos GitHub release, independently of the Actions checkout.
+    # The local photos_avito directory is not guaranteed to be materialized
+    # on the runner even though the released URLs are valid.
     return [
         "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/"+filename
-        for filename in PHOTO_NAMES if (SITE/filename).is_file()
+        for filename in PHOTO_NAMES
     ]
 def publish_or_verify():
     validate_manifest()
