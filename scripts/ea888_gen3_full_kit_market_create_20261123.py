@@ -43,8 +43,36 @@ def run():
     selected=categories.get(REF) or {}
     cat=selected.get("marketCategoryId")
     if not isinstance(cat,int) or cat<1:
-        note("blocker",{"status":"NO_CONFIRMED_OIL_FILTER_CATEGORY","source_ref":REF})
-        return
+        # Existing EA888 offers are legacy and have no marketCategoryId.
+        # Use the official leaf category tree; never clone their incorrect
+        # old categories ("Крепления магнитные"/"Ремкомплект КПП").
+        tree=require("POST","/v2/categories/tree",json_body={"language":"RU"})
+        root=tree.get("result") or {}
+        pending=[(root,[])]
+        candidates=[]
+        while pending:
+            node,parents=pending.pop()
+            if not isinstance(node,dict):continue
+            name=str(node.get("name") or "")
+            children=[x for x in (node.get("children") or []) if isinstance(x,dict)]
+            path=parents+[name]
+            if not children and ("маслян" in name.lower() and "фильтр" in name.lower()):
+                candidates.append({"id":node.get("id"),"name":name,"path":path})
+            pending.extend((x,path) for x in children)
+        note("category_candidates",candidates[:20])
+        def score(c):
+            t=" ".join(c["path"]).lower()
+            return ((4 if "авто" in t else 0)+(3 if "запчаст" in t else 0)
+                    +(2 if "масляные фильтры" in c["name"].lower() else 0))
+        if candidates:
+            candidates.sort(key=score,reverse=True)
+            if len(candidates)>1 and score(candidates[0])==score(candidates[1]) and candidates[0]["id"]!=candidates[1]["id"]:
+                note("blocker",{"status":"AMBIGUOUS_OIL_FILTER_CATEGORY","candidates":candidates[:5]})
+                return
+            cat=candidates[0]["id"]
+        if not isinstance(cat,int) or cat<1:
+            note("blocker",{"status":"NO_OIL_FILTER_LEAF_CATEGORY_CONFIRMED"})
+            return
     if have:
         note("creation",{"status":"already_exists","sku":SKU,"market_sku":have[0].get("market_sku")})
     else:
