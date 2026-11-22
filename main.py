@@ -1129,22 +1129,19 @@ def _cmd_update_cards_impl() -> int:
     except Exception as exc:  # noqa: BLE001 — не должно ронять update-cards
         print(f"(выравнивание цены WB пропущено: {exc})")
 
-    # Цена Авито/сайта = доля (70%) от цены маркетплейсов; доля — в data/avito_site_price_overrides.xlsx (лист «Настройки»).
-    print("\n=== Шаг 0в: цены Авито и сайта = доля от цены маркетплейсов ===")
+    # LEOPARTS 23.11.2026: old Avito/Tilda ratios/equal-profit auto-writes are frozen.
+    # Existing approved price overrides remain unchanged. Calculator stays preview-only.
+    print("\n=== Шаг 0в: цены Авито/сайта (автоматический пересчёт отключён) ===")
     try:
-        import site_pricing
-
-        changed = site_pricing.recalc_from_master(_data_path("master_control.xlsx"))
-        _pm = site_pricing.get_profit_settings()
-        _rule = (f"равная прибыль (налог {_pm['tax']:.0%}, Авито {_pm['avito_fee']:.0%}, эквайринг сайта {_pm['site_fee']:.1%})"
-                 if _pm["mode"] == "прибыль" else f"доля {site_pricing.get_share():.0%}")
-        print(f"Правило: {_rule}; пересчитано цен Авито/сайта: {len(changed)}")
-        for a_, o_, n_ in changed[:15]:
-            print(f"  {a_}: {o_ if o_ is not None else '—'} -> {n_:g}")
-        if len(changed) > 15:
-            print(f"  ... и ещё {len(changed) - 15}")
-    except Exception as exc:  # noqa: BLE001 — не должно ронять update-cards
-        print(f"(пересчёт цен Авито/сайта пропущен: {exc})")
+        import pricing_policy
+        if pricing_policy.auto_repricing_frozen():
+            print("FREEZE: существующие цены Авито/сайта сохранены, формулы 70/60% и 'равная прибыль' не применяются.")
+        else:
+            import site_pricing
+            changed = site_pricing.recalc_from_master(_data_path("master_control.xlsx"))
+            print(f"Пересчитано цен Авито/сайта: {len(changed)}")
+    except Exception as exc:  # noqa: BLE001 — при ошибке политики ничего не пересчитываем
+        print(f"(автоматический пересчёт цен заблокирован: {exc})")
 
     print("\n=== Шаг 1: sync-master-control ===")
     rc_sync = cmd_sync_master_control()
@@ -1597,6 +1594,22 @@ def cmd_push_new_product_all() -> int:
     if edits is None:
         return 1
 
+    # Fail BEFORE creating anything on Ozon/WB when existing approved Avito/site
+    # prices are missing. No silent 70%/60% recalculation or full-price fallback.
+    import pricing_policy
+    if pricing_policy.auto_repricing_frozen():
+        import site_pricing
+        avito_prices = site_pricing.load_price_overrides(channel="avito")
+        site_prices = site_pricing.load_price_overrides(channel="site")
+        _, manually_fixed = site_pricing._read_meta()
+        try:
+            pricing_policy.require_legacy_new_product_prices(
+                edits.keys(), avito_prices, site_prices, manually_fixed
+            )
+        except pricing_policy.PricingFrozenError as exc:
+            print(f"БЕЗОПАСНАЯ ОСТАНОВКА: {exc}")
+            return 1
+
     # --- Ozon ---
     ozon_src_path = _data_path("ozon_products.json")
     ozon_ok = 0
@@ -1655,29 +1668,17 @@ def cmd_push_new_product_all() -> int:
                 except wb_client.WbApiError as exc:
                     print(f"  WB ОШИБКА при создании {group['vendor_code']}: {exc}")
 
-    # Цена для Avito/сайта = половина от цены на маркетплейсах, только для
-    # НОВЫХ товаров (решение пользователя 2026-09-17, см. site_pricing.py).
-    # Пишем оверрайд для каждого товара, который реально ушёл хотя бы на
-    # одну площадку — если посчитать цену не удалось (пустая/некорректная),
-    # не молчим, а прямо просим пользователя проставить её вручную.
+    # Legacy new-product pipeline must NEVER overwrite approved direct prices.
+    # In manual-only mode preflight above proves that direct prices already exist.
     import site_pricing
-
     if ozon_ok or wb_ok:
-        need_manual_price = []
-        for offer_id, e in edits.items():
-            half = site_pricing.half_price(e.get("price"))
-            if half is None:
-                need_manual_price.append(offer_id)
-                continue
-            site_pricing.set_price_override(offer_id, half)
-        if need_manual_price:
-            print(
-                "\nВНИМАНИЕ: не удалось посчитать цену для Avito/сайта (нет/некорректная цена "
-                f"в new_products.xlsx) для: {', '.join(need_manual_price)}. "
-                f"Проставьте цену вручную в data/avito_site_price_overrides.xlsx (offer_id -> цена) "
-                "перед build-avito-catalog/build-tilda-catalog, иначе для них будет использована "
-                "обычная (маркетплейсовая) цена."
-            )
+        if pricing_policy.auto_repricing_frozen():
+            print("Цены Авито/сайта: сохранены утверждённые фиксированные значения; автоформула не выполнялась.")
+        else:
+            for offer_id, e in edits.items():
+                calculated = site_pricing.half_price(e.get("price"))
+                if calculated is not None:
+                    site_pricing.set_price_override(offer_id, calculated)
 
     print(f"\nИтого: Ozon создано {ozon_ok}, WB отправлено на создание {wb_ok} (из {len(edits)} строк(и)).")
     if ozon_ok or wb_ok:
@@ -2638,10 +2639,13 @@ def cmd_launch_new_products() -> int:
     print("=== Шаг 1/3: push-new-product-all ===")
     rc = cmd_push_new_product_all()
     if rc != 0:
-        print(
-            "\npush-new-product-all вернул ошибку (или отправлять было нечего) — "
-            "всё равно пробую доехать до finish-new-product на случай частичного успеха."
-        )
+        # Under price freeze a rejected preflight must not fall through into
+        # automated Avito/Tilda feed publication with wrong fallback prices.
+        import pricing_policy
+        if pricing_policy.auto_repricing_frozen():
+            print("FREEZE: новый товар не опубликован; finish-new-product пропущен до явного утверждения цен.")
+            return 1
+        print("push-new-product-all завершился с ошибкой; прежнее поведение finish оставлено только для legacy mode.")
 
     print("\n=== Шаг 2/3: жду ~3 минуты, пока WB асинхронно обработает создание карточек ===")
     time.sleep(180)
