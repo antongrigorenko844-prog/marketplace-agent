@@ -30,7 +30,9 @@ class VideoDeliveryTests(unittest.TestCase):
         self.patcher(video.bot, "_chat_id", return_value=101)
         self.wire = self.patcher(video.bot.requests, "post", side_effect=self.respond)
         self.response = self.acknowledgement(["part4.mp4", video.COPY_NAME])
+        self.text_response = {"message_id": 205, "chat": {"id": 101}}
         self.attachments = {}
+        self.inline_text = None
 
     def patcher(self, obj, attr, **kwargs):
         p = patch.object(obj, attr, **kwargs)
@@ -42,18 +44,27 @@ class VideoDeliveryTests(unittest.TestCase):
                  "document": {"file_name": name, "file_id": "mock-file-" + str(i)}} for i, name in enumerate(names)]
 
     def respond(self, url, data, files, timeout):
-        self.assertTrue(url.endswith("/sendMediaGroup"))
         self.assertEqual(data["chat_id"], 101)
-        media = json.loads(data["media"])
-        self.assertEqual([x["type"] for x in media], ["document", "document"])
-        self.assertEqual([x["media"] for x in media], ["attach://video", "attach://copy"])
-        self.assertLessEqual(len(media[0]["caption"]), 1024)
         self.assertEqual(timeout, 120)
-        self.attachments = {name: fh.read() for name, fh, _ in files.values()}
-        self.text_caption = media[1].get("caption")
-        if isinstance(self.response, Exception):
-            raise self.response
-        result = self.response
+        if url.endswith("/sendMessage"):
+            self.assertIsNone(files)
+            self.inline_text = data["text"]
+            self.assertTrue(data["text"].strip())
+            self.assertLessEqual(len(data["text"]), 4096)
+            if isinstance(self.text_response, Exception):
+                raise self.text_response
+            result = self.text_response
+        else:
+            self.assertTrue(url.endswith("/sendMediaGroup"))
+            media = json.loads(data["media"])
+            self.assertEqual([x["type"] for x in media], ["document", "document"])
+            self.assertEqual([x["media"] for x in media], ["attach://video", "attach://copy"])
+            self.assertLessEqual(len(media[0]["caption"]), 1024)
+            self.attachments = {name: fh.read() for name, fh, _ in files.values()}
+            self.text_caption = media[1].get("caption")
+            if isinstance(self.response, Exception):
+                raise self.response
+            result = self.response
         class Response:
             def json(self):
                 return {"ok": True, "result": result}
@@ -67,14 +78,16 @@ class VideoDeliveryTests(unittest.TestCase):
         self.wire.assert_not_called()
         self.assertEqual(self.run_phase("send"), "sent")
         self.assertEqual(self.run_phase("send"), "already_sent")
-        self.wire.assert_called_once()
+        self.assertEqual(self.wire.call_count, 2)
         state = json.loads(self.state_path.read_bytes())
         self.assertEqual({k: state[k] for k in self.legacy}, self.legacy)
         self.assertEqual(state[self.keys[4]]["message_ids"], [203, 204])
+        self.assertEqual(state[self.keys[4]]["text_message_id"], 205)
         self.assertNotIn(self.keys[5], state)
         self.assertEqual(self.attachments["part4.mp4"], b"synthetic-video")
         text = self.attachments["publication.txt"].decode("utf-8")
         self.assertEqual(self.text_caption, text.rstrip())
+        self.assertEqual(self.inline_text, text.rstrip())
         for platform, content in COPY.items():
             self.assertIn(platform + "\n", text)
             for value in content.values():
@@ -156,6 +169,18 @@ class VideoDeliveryTests(unittest.TestCase):
                 self.run_phase("prepare", op)
         self.wire.assert_called_once()
 
+    def test_inline_text_failure_does_not_resend_already_accepted_video(self):
+        self.run_phase("prepare")
+        self.text_response = TimeoutError("uncertain inline text acceptance")
+        with self.assertRaises(video.DeliveryError):
+            self.run_phase("send")
+        state = json.loads(self.state_path.read_bytes())
+        self.assertEqual(state[self.keys[4]]["status"], "needs_review")
+        for op in ("703:1", "703:2", "704:1"):
+            with self.assertRaises(video.DeliveryError):
+                self.run_phase("prepare", op)
+        self.assertEqual(self.wire.call_count, 2)
+
     def test_next_run_selects_only_the_next_unsent_item(self):
         self.run_phase("prepare")
         self.run_phase("send")
@@ -164,7 +189,7 @@ class VideoDeliveryTests(unittest.TestCase):
         self.run_phase("send", "704:1")
         self.assertEqual(self.run_phase("prepare", "705:1"), "queue_complete")
         self.assertEqual(self.run_phase("send", "705:1"), "queue_complete")
-        self.assertEqual(self.wire.call_count, 2)
+        self.assertEqual(self.wire.call_count, 4)
 
     def test_missing_or_corrupt_journal_never_restarts_the_queue(self):
         self.state_path.write_text("not JSON")
