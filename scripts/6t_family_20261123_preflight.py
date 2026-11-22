@@ -14,7 +14,10 @@ SKUS=["6t30-solenoids-gen2","6t30-tcm-gen1","6t30-tcm-gen2"]
 def dump(o):OUT.write_text(json.dumps(o,ensure_ascii=False,indent=2,default=str)+"\n")
 def safe(fn):
     try:return fn()
-    except Exception as ex:return {"error":type(ex).__name__}
+    except Exception as ex:
+        import re
+        status=re.search(r"(?:вернул|HTTP|status)\\s*(?:code)?\\s*([45]\\d\\d)",str(ex),re.I)
+        return {"error":type(ex).__name__,"http_status":status.group(1) if status else None,"safe_note":str(ex).split(":")[0][:100]}
 def main():
     manifest=json.loads(DRAFT.read_text())
     spec={x["sku"]:x for x in manifest["confirmed_missing_product_drafts"]}
@@ -22,9 +25,10 @@ def main():
     r={"mode":"read_only","at":datetime.now(timezone.utc).isoformat(),"items":[{"sku":s,"title":spec[s]["name_ru"],"price":spec[s]["prices_rub"]["ozon"],"stock":spec[s]["stock_LEOPARTS"]} for s in SKUS]}
     import ozon_client
     def oz():
-        products=ozon_client.list_products(limit=100)
-        collisions=[{"id":x.get("product_id"),"offer_id":x.get("offer_id")} for x in products if x.get("offer_id") in SKUS]
-        attrs=ozon_client.get_product_names(limit=1000)
+        # Keep the Ozon API query scoped to three target SKUs and two known samples.
+        # A wide v3 product/list request can fail under temporary API limits.
+        attrs=ozon_client.get_product_names(offer_ids=SKUS+["6t30","0am325025HX"],limit=100)
+        collisions=[{"offer_id":x.get("offer_id")} for x in attrs if x.get("offer_id") in SKUS]
         selected=[]
         import re
         rx=re.compile(r"(6t30|6t40|6t45|6t50|блок.{0,20}управлен|электронн.{0,12}модул|гидроблок)",re.I)
@@ -33,7 +37,7 @@ def main():
                 d={key:x.get(key) for key in ("offer_id","name","description_category_id","type_id","weight","weight_unit","depth","width","height","dimension_unit","images")}
                 d["attribute_ids"]=[z.get("id") for z in (x.get("attributes") or [])][:30]
                 selected.append(d)
-        return {"count":len(products),"collisions":collisions,"samples":selected[:35]}
+        return {"count":len(attrs),"collisions":collisions,"samples":selected[:35]}
     r["ozon"]=safe(oz);dump(r)
     import wb_client
     def wb():
