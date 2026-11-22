@@ -60,7 +60,34 @@ def _sync_ozon(batch, postings, source):
         cancelled = status in _OZON_CANCELLED_STATUSES
         quantities = _item_quantities(posting.get("products") or [], "offer_id", "quantity")
         for sku, qty in quantities.items():
-            batch.reconcile(source, f"{number}:{sku}", sku, qty, cancelled)
+            key = f"{number}:{sku}"
+            # Fail-safe legacy recovery: an Ozon FBS cancellation must never add
+            # stock back without the ORIGINAL component recipe. Leave that old
+            # debit untouched and allow unrelated orders to reconcile instead
+            # of aborting the entire shared-stock cycle. Active increases and
+            # any ambiguous record still follow the strict transaction guard.
+            if source == "ozon_fbs" and cancelled:
+                old = batch.conn.execute(
+                    """SELECT p.offer_id,p.decremented,p.status,r.components
+                       FROM processed_orders p
+                       LEFT JOIN stock_order_recipe r
+                         ON p.source=r.source AND p.order_key=r.order_key
+                       WHERE p.source=? AND p.order_key=?""", (source, key)
+                ).fetchone()
+                if (old and old[0] == sku and old[1] > 0
+                        and old[2] == "active" and old[3] is None):
+                    from hashlib import sha256
+                    withheld = batch.summary.setdefault("deferred_legacy_cancellations", [])
+                    withheld.append({
+                        "source": source, "sku": sku,
+                        "order_ref_hash": sha256((source+"|"+key).encode()).hexdigest()[:14],
+                        "previous_units": old[1], "requested_units": 0,
+                        "reason": "historical_recipe_missing",
+                        "stock_release_performed": False,
+                    })
+                    count += 1
+                    continue
+            batch.reconcile(source, key, sku, qty, cancelled)
             count += 1
     return count
 
