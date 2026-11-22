@@ -1,0 +1,22 @@
+name: LEOPARTS inspect correct Avito category for EA888 engine kit
+on:
+  push:
+    branches: [main]
+    paths: ['data/ea888_gen3_avito_category_audit_20261123_request.json']
+permissions: {contents: write}
+concurrency: {group: leoparts-avito-ea888-readonly, cancel-in-progress: false}
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Read installed official Avito template category reference values only
+        run: python scripts/ea888_gen3_avito_category_audit_20261123.py
+      - name: Save read-only category audit
+        if: always()
+        run: bash .github/scripts/save_data.sh data/ea888_gen3_avito_category_audit_20261123_result.json
