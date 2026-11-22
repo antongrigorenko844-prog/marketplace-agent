@@ -509,7 +509,8 @@ def run(manifest: dict, *, mode: str = "inspect", offline: bool = True) -> dict:
     if mode=="apply" and offline:
         raise GuardError("Apply requires explicitly enabled online mode")
     prev_path=STATUS_DIR/(batch+".json")
-    prev=read_json(prev_path) if prev_path.exists() else {}
+    # Offline inspection must never read a status file being atomically replaced by CI.
+    prev=read_json(prev_path) if (not offline and mode=="apply" and prev_path.exists()) else {}
     plans, files, blockers = {}, {}, {}
     for item in manifest["items"]:
         paths, reasons=media_preflight(item) if not offline else (
