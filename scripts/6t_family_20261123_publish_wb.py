@@ -53,7 +53,7 @@ def card_payload(sku,p,barcode):
         "sizes":[{"techSize":"0","wbSize":"","price":int(p["prices_rub"]["wildberries"]),"skus":[str(barcode)]}],
         "characteristics":[
             {"id":15003115,"value":["легковые автомобили"]},
-            {"id":5023,"value":["6T30","6T40","6T45","6T50"]},
+            {"id":5023,"value":["6T30"]} # Wildberries restricts Model to exactly one value; all four remain in title+description,
             {"id":378533,"value":[completeness]}
         ]
     }
@@ -71,16 +71,31 @@ def run():
             if k in seen:raise ValueError("duplicate existing WB SKU")
             seen[k]=r
     out={}
-    # Do not create a duplicate on retry after an asynchronously accepted submission.
+    # A WB upload can be HTTP-accepted and then rejected asynchronously.
+    # Retry only when WB explicitly reports the exact previously observed
+    # single-valued "Модель" validation error, and only once.
     try:prior=json.loads(OUT.read_text())
     except (FileNotFoundError,ValueError):prior={}
+    rejected=set()
+    try:
+        for err in wb_client.get_upload_errors(limit=100):
+            for sku in SKUS:
+                values=(err.get("errors") or {}).get(sku) or []
+                if (sku in (err.get("vendorCodes") or []) and
+                    any("Модель имеет слишком много значений" in str(msg) for msg in values)):
+                    rejected.add(sku)
+    except Exception as e:
+        emit("error_readback",{"status":"not_verified","error_type":type(e).__name__})
+    emit("preflight",{"already_present":list(seen),"confirmed_model_rejections":sorted(rejected)})
     for sku in SKUS:
         x=seen.get(sku.casefold())
         if x:
             out[sku]={"status":"existing_verified","nmID":x.get("nmID")}
             continue
-        if (prior.get("create_submission") or {}).get(sku,{}).get("accepted"):
-            out[sku]={"status":"previously_submitted_skip"};continue
+        if (prior.get("corrected_model_retry") or {}).get(sku,{}).get("accepted"):
+            out[sku]={"status":"corrected_upload_already_accepted_skip"};continue
+        if (prior.get("create_submission") or {}).get(sku,{}).get("accepted") and sku not in rejected:
+            out[sku]={"status":"previous_submission_pending_or_unverified_skip"};continue
         barcodes=wb_client.generate_barcodes(1)
         if not isinstance(barcodes,list) or len(barcodes)!=1 or not str(barcodes[0]).isdigit():
             out[sku]={"status":"failed_to_generate_barcode"};continue
@@ -93,7 +108,7 @@ def run():
                 "catalog_photo_count":0,"dimensions_are_estimates":True}
         except Exception as e:
             out[sku]={"accepted":False,"error_type":type(e).__name__}
-        emit("create_submission",out)
+        emit("corrected_model_retry",out)
     for n in range(12):
         rows=get_all()
         found={str(x.get("vendorCode")):x for x in rows if x.get("vendorCode") in SKUS}
