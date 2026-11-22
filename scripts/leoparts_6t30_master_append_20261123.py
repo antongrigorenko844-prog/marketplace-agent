@@ -72,15 +72,56 @@ def main():
         if row != [sheet.cell(r,c).value for c in range(1,29)]:
             raise ValueError("Existing master cell changed in row "+str(r))
     if created:
+        # openpyxl rewrites/compresses existing embedded images in this workbook.
+        # Patch only the worksheet XML entry, leaving EVERY other ZIP member byte-identical.
+        import re
+        from xml.sax.saxutils import escape as xml_escape
+        from openpyxl.utils import get_column_letter
         temp=PATH.with_name("master_control.next.xlsx")
-        wb.save(temp)
+        template_styles={col:sheet.cell(155,col).style_id for col in range(1,29)}
+        new_xml=[]
+        for item in created:
+            row_number=item["row"]
+            cells=[]
+            for col in range(1,29):
+                val=sheet.cell(row_number,col).value
+                if val is None:continue
+                ref=get_column_letter(col)+str(row_number)
+                style=template_styles[col]
+                style_attr=f' s="{style}"' if style else ""
+                if isinstance(val,(int,float)) and not isinstance(val,bool):
+                    cells.append(f'<c r="{ref}"{style_attr} t="n"><v>{val}</v></c>')
+                else:
+                    txt=xml_escape(str(val).replace("\\x00",""))
+                    cells.append(f'<c r="{ref}"{style_attr} t="inlineStr"><is><t>{txt}</t></is></c>')
+            new_xml.append(f'<row r="{row_number}">'+''.join(cells)+'</row>')
+        with zipfile.ZipFile(PATH,"r") as source,zipfile.ZipFile(temp,"w") as output:
+            target="xl/worksheets/sheet1.xml"
+            if target not in source.namelist():raise ValueError("Unexpected worksheet XML path")
+            for info in source.infolist():
+                payload=source.read(info.filename)
+                if info.filename==target:
+                    xml=payload.decode("utf-8")
+                    close=re.search(r'</(?:[a-zA-Z0-9_]+:)?sheetData>',xml)
+                    if not close:raise ValueError("Worksheet XML has no sheetData closing tag")
+                    xml=xml[:close.start()]+''.join(new_xml)+xml[close.start():]
+                    xml=re.sub(r'(<dimension ref=")[A-Z]+1:[A-Z]+[0-9]+(")',
+                               lambda m:m.group(1)+"A1:AB"+str(count+len(created))+m.group(2),xml,count=1)
+                    payload=xml.encode("utf-8")
+                output.writestr(info,payload)
         with zipfile.ZipFile(temp) as z:
-            if z.testzip() is not None:raise RuntimeError("Corrupt new master")
+            if z.testzip() is not None:raise RuntimeError("Corrupt patched master")
         if media_hash(temp)!=original_media:raise ValueError("Workbook embedded media changed")
         probe=load_workbook(temp,read_only=True,data_only=True)
-        ids2=[str(probe["Товары"].cell(r,1).value or "").strip() for r in range(2,probe["Товары"].max_row+1)]
-        probe.close()
-        if any(ids2.count(s)!=1 for s in TARGET):raise ValueError("New master SKU reconciliation failed")
+        try:
+            sh=probe["Товары"]
+            ids2=[str(sh.cell(i,1).value or "").strip() for i in range(2,sh.max_row+1)]
+            if any(ids2.count(s)!=1 for s in TARGET):raise ValueError("New master SKU reconciliation failed")
+            if sh.max_row!=count+len(created):raise ValueError("Master rows not appended")
+            for i,row in enumerate(old_values,1):
+                if row != [sh.cell(i,j).value for j in range(1,29)]:
+                    raise ValueError("Existing master data changed")
+        finally:probe.close()
         temp.replace(PATH)
     wb.close()
     result={"status":"three_appended" if created else "already_all_present","original_rows":count,
