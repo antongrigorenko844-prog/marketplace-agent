@@ -567,7 +567,8 @@ def run(manifest: dict, *, mode: str = "inspect", offline: bool = True) -> dict:
     report["summary"]={
         "total":sum(len(row["channels"]) for row in plans.values()),
         "verified":sum(c["state"]=="verified" for row in plans.values() for c in row["channels"].values()),
-        "blocked":sum(c["state"].startswith("blocked") for row in plans.values() for c in row["channels"].values()),
+        "blocked":sum(c["state"].startswith("blocked") or c["state"].endswith("_blocked")
+                       for row in plans.values() for c in row["channels"].values()),
         "pending":sum("submitted" in c["state"] or c["state"]=="creation_unverified"
                        for row in plans.values() for c in row["channels"].values()),
     }
