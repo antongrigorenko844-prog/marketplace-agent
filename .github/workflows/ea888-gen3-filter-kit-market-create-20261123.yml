@@ -1,0 +1,25 @@
+name: LEOPARTS publish EA888 Gen3 new full filter kit Yandex Market
+on:
+  push:
+    branches: [main]
+    paths: ['data/ea888_gen3_full_kit_market_create_20261123_request.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  market:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Create new EA888 Gen3 oil filter kit in verified oil filter category
+        env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: python -u scripts/ea888_gen3_full_kit_market_create_20261123.py
+      - name: Save creation and price readback
+        if: always()
+        run: bash .github/scripts/save_data.sh data/ea888_gen3_full_kit_market_result_20261123.json
