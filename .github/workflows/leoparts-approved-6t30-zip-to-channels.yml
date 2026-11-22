@@ -1,0 +1,37 @@
+name: LEOPARTS Approved 6T30 ZIP To GitHub Release WB Market Tilda
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'LEOPARTS_3_approved_6T30_images_exact.zip'
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  publish-three-originals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 28
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Verify exact original images by SHA256 then publish three existing WB and new Market Tilda
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+        run: |
+          python -m py_compile scripts/leoparts_6t30_photo_upload_and_publish.py
+          python -u scripts/leoparts_6t30_photo_upload_and_publish.py
+      - name: Preserve independent publication result and public image cache
+        if: always()
+        run: |
+          if [ -f data/leoparts_6t30_photo_upload_and_publish_result.json ]; then
+            bash .github/scripts/save_data.sh data/leoparts_6t30_photo_upload_and_publish_result.json data/photo_upload_cache.json
+          fi
