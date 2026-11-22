@@ -1,0 +1,47 @@
+name: LEOPARTS approved DQ250 DQ500 marketplace prices 20261122
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/approved_dq250_dq500_market_prices_20261122.json'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  approved:
+    runs-on: ubuntu-latest
+    timeout-minutes: 21
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install existing project requirements
+        run: pip install -q --disable-pip-version-check -r requirements.txt
+      - name: Preflight and update six exact marketplace SKU prices in source catalogs
+        run: |
+          python -m py_compile scripts/approved_dq250_dq500_market_prices_20261122.py
+          python scripts/approved_dq250_dq500_market_prices_20261122.py stage
+      - name: Preserve approved master/Ozon/WB source changes before API
+        run: |
+          bash .github/scripts/save_data.sh \
+            data/master_control.xlsx \
+            data/ozon_catalog.xlsx \
+            data/wb_catalog.xlsx \
+            data/approved_dq250_dq500_market_prices_20261122_result.json
+      - name: Apply and verify only approved six DQ250 DQ500 marketplace prices
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: python scripts/approved_dq250_dq500_market_prices_20261122.py publish
+      - name: Preserve price-only readback from Ozon WB and Market
+        if: always()
+        run: |
+          if [ -f data/approved_dq250_dq500_market_prices_20261122_result.json ]; then
+            bash .github/scripts/save_data.sh data/approved_dq250_dq500_market_prices_20261122_result.json
+          fi
