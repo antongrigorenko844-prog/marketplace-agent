@@ -158,7 +158,21 @@ def run():
                        "price_verified":observed is not None and abs(observed-expected)<1,
                        "stock_submission":stocks.get(sku)}
     emit("final_readback",readback)
-    # Do not signal completed publication until verified photo count >0 + price + stock.
+    # Wildberries import is asynchronous. HTTP accepted != published:
+    # a failed card must make this job fail, never green "Success".
+    incomplete=[sku for sku,row in readback.items() if not row["card_created"]]
+    if incomplete:
+        failures={}
+        try:
+            for row in wb_client.get_upload_errors(limit=100):
+                raw=json.dumps(row,ensure_ascii=False)
+                for sku in incomplete:
+                    if sku in raw:
+                        failures.setdefault(sku,[]).append(str(row.get("errors") or "")[:1300])
+        except Exception as e:
+            failures["_read_error"]=type(e).__name__
+        emit("creation_failures",{"status":"NOT_CREATED","skus":incomplete,"wildberries_errors":failures})
+        raise RuntimeError("WB accepted upload request but did not create product cards")
     return readback
 if __name__=="__main__":
     try:run()
