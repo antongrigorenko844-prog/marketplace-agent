@@ -1,0 +1,64 @@
+{
+  "status": "dryrun_success",
+  "dry_run": true,
+  "checked_at_utc": "2026-11-22T20:26:40.911509+00:00",
+  "read_only_external_apis": true,
+  "before_hashes": {
+    "data/orders_seen.db": "ba10851b11a2bf2f0f35434dd4e755ba2ae2f2af7d4b5c04000a4237a05c7556",
+    "data/ozon_catalog.xlsx": "6d0325bb9f420195fbeb3a05d29320efe6a9b1534aa3768d39e6e7d69ab4b75d"
+  },
+  "production_inventory_writes": 0,
+  "production_ledger_writes": 0,
+  "new_quantity_changes": {
+    "0AM927769N": 0,
+    "0am325025": -1,
+    "0am325025ae": -1,
+    "Dq500": -2,
+    "122390AK-AF": -2,
+    "0AM325443D": -1,
+    "0сц": -1
+  },
+  "would_defer_legacy_cancellations": [
+    {
+      "source": "ozon_fbs",
+      "sku": "tolkateli-4-salniki-4",
+      "order_ref_hash": "649e0907036956",
+      "previous_units": 1,
+      "requested_units": 0,
+      "reason": "historical_recipe_missing",
+      "stock_release_performed": false
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "0cw0amdsgdq200",
+      "order_ref_hash": "3f87b73efe050c",
+      "previous_units": 1,
+      "requested_units": 0,
+      "reason": "historical_recipe_missing",
+      "stock_release_performed": false
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "kryshka-platy-dq200",
+      "order_ref_hash": "bfe41cc93372a4",
+      "previous_units": 1,
+      "requested_units": 0,
+      "reason": "historical_recipe_missing",
+      "stock_release_performed": false
+    }
+  ],
+  "deferred_count": 3,
+  "count_by_channel": {
+    "ozon_fbs": 279,
+    "ozon_fbo": 62,
+    "wb": 33,
+    "yandex_market": 17
+  },
+  "temp_ledger_changed": true,
+  "temp_catalog_changed": true,
+  "after_hashes": {
+    "data/orders_seen.db": "ba10851b11a2bf2f0f35434dd4e755ba2ae2f2af7d4b5c04000a4237a05c7556",
+    "data/ozon_catalog.xlsx": "6d0325bb9f420195fbeb3a05d29320efe6a9b1534aa3768d39e6e7d69ab4b75d"
+  },
+  "production_hashes_unchanged": true
+}
