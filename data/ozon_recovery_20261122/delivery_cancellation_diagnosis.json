@@ -1,0 +1,249 @@
+{
+  "status": "complete",
+  "mode": "read_only",
+  "started_utc": "2026-11-22T12:24:22.778883+00:00",
+  "period": [
+    "2026-10-25",
+    "2026-11-21"
+  ],
+  "errors": [],
+  "sections": {
+    "FBS": {
+      "status": "ok",
+      "data": {
+        "scheme": "FBS",
+        "count_returned": 246,
+        "created": {
+          "prior_14": 131,
+          "recent_14": 115
+        },
+        "delivered_current": {
+          "prior_14": 110,
+          "recent_14": 39
+        },
+        "cancelled_current": {
+          "prior_14": 18,
+          "recent_14": 22
+        },
+        "cancellation_fields_available": [
+          "affect_cancellation_rating",
+          "cancel_reason",
+          "cancel_reason_id",
+          "cancellation_initiator",
+          "cancellation_type",
+          "cancelled_after_ship"
+        ],
+        "cancellation_reason_counts": {
+          "prior_14": {
+            "Покупатель не забрал заказ | Клиент": 1,
+            "Покупатель отменил заказ | Клиент": 5,
+            "Покупатель отказался при вручении: товар не подошел | Клиент": 7,
+            "Покупатель отменил заказ: нашел дешевле | Клиент": 4,
+            "Покупатель отменил заказ: не устроил срок доставки | Клиент": 1
+          },
+          "recent_14": {
+            "Покупатель отменил заказ | Клиент": 7,
+            "Покупатель отказался при вручении: товар не подошел | Клиент": 5,
+            "Покупатель отменил заказ: нашел дешевле | Клиент": 5,
+            "Покупатель отменил заказ: не устроил срок доставки | Клиент": 5
+          }
+        },
+        "cancellation_substatus_counts": {
+          "prior_14": {
+            "posting_canceled": 18
+          },
+          "recent_14": {
+            "posting_canceled": 22
+          }
+        },
+        "cancellation_top_skus": {
+          "prior_14": {
+            "0AM325587E": 2,
+            "0am325025": 1,
+            "0am325025x": 1,
+            "0сц": 1,
+            "0AM927769N": 1,
+            "prokladka-vtulki-dq200": 1,
+            "0am325091e-set": 1,
+            "0am325025С": 1,
+            "0am325025ae": 1,
+            "0AM325443D": 1,
+            "0am325091f-set": 1,
+            "0am325066ae": 1,
+            "0am325025f": 1,
+            "Dq500": 1,
+            "0AM325025B": 1
+          },
+          "recent_14": {
+            "0AM325443D": 7,
+            "0am325025": 2,
+            "porshni-usil-pylniki-kryshki-v2": 1,
+            "vtulki-shtokov-2sht": 1,
+            "0am325066AC": 1,
+            "0am325025ae": 1,
+            "0AM325587E": 1,
+            "prokladka-vtulki-dq200": 1,
+            "0am325025hfe": 1,
+            "0am325025f": 1,
+            "0am325025l": 1,
+            "0am325025H": 1,
+            "0cw0amdsgdq200": 1,
+            "separatornaya-plastina-dq200": 1,
+            "kryshka-platy-dq200": 1
+          }
+        },
+        "delivering_age_buckets": {
+          "prior_14": {
+            "8+days": 3
+          },
+          "recent_14": {
+            "8+days": 10,
+            "0-7days": 44
+          }
+        },
+        "delivering_by_age_days": {
+          "prior_14": {
+            "18": 1,
+            "17": 1,
+            "16": 1
+          },
+          "recent_14": {
+            "12": 2,
+            "11": 2,
+            "9": 2,
+            "8": 4,
+            "7": 7,
+            "6": 9,
+            "5": 5,
+            "4": 3,
+            "3": 6,
+            "2": 9,
+            "1": 5
+          }
+        },
+        "delivering_center_timestamp": {
+          "prior_14": {
+            "center_timestamp_present": 3
+          },
+          "recent_14": {
+            "center_timestamp_present": 54
+          }
+        },
+        "older_8_day_delivering_skus": {
+          "prior_14": {
+            "0am325025": 1,
+            "0AM325587E": 1,
+            "tolkateli-4-salniki-4": 1
+          },
+          "recent_14": {
+            "0am325025m": 2,
+            "0am325025": 2,
+            "0AM325587E": 2,
+            "0cw0am": 2,
+            "separatornaya-plastina-dq200": 1,
+            "0am325025D": 1,
+            "0am325025z": 1,
+            "porshni-usil-pylniki-kryshki-v2": 1
+          }
+        },
+        "caution": "These are statuses TODAY for cohorts of created orders; not actual delivery timestamps"
+      }
+    },
+    "FBO": {
+      "status": "ok",
+      "data": {
+        "scheme": "FBO",
+        "count_returned": 61,
+        "created": {
+          "prior_14": 29,
+          "recent_14": 32
+        },
+        "delivered_current": {
+          "prior_14": 22,
+          "recent_14": 13
+        },
+        "cancelled_current": {
+          "prior_14": 7,
+          "recent_14": 10
+        },
+        "cancellation_fields_available": [
+          "cancel_reason",
+          "cancellation_initiator",
+          "cancellation_type"
+        ],
+        "cancellation_reason_counts": {
+          "prior_14": {
+            "Покупатель не забрал заказ | Клиент": 2,
+            "Покупатель отказался при вручении: неполная комплектация | Ozon": 1,
+            "Товар закончился на складе | Ozon": 1,
+            "Покупатель отказался при вручении: товар не подошел | Клиент": 1,
+            "Покупатель отменил заказ | Клиент": 2
+          },
+          "recent_14": {
+            "Покупатель отменил заказ | Клиент": 5,
+            "Покупатель отменил заказ: нашел дешевле | Клиент": 3,
+            "Покупатель отменил заказ: не устроил срок доставки | Клиент": 1,
+            "Покупатель отказался при вручении: в заказе не тот товар | Ozon": 1
+          }
+        },
+        "cancellation_substatus_counts": {
+          "prior_14": {
+            "posting_canceled": 7
+          },
+          "recent_14": {
+            "posting_canceled": 10
+          }
+        },
+        "cancellation_top_skus": {
+          "prior_14": {
+            "0am325025q": 3,
+            "0am325025ae": 1,
+            "0AM325587E": 1,
+            "prokladka-vtulki-dq200": 1,
+            "0AM325025B": 1
+          },
+          "recent_14": {
+            "0AM927769D": 2,
+            "0am325066ad": 2,
+            "0am325025ae": 1,
+            "0am325091f-set": 1,
+            "0AM325443D": 1,
+            "0am325025": 1,
+            "0am325066AC": 1,
+            "0сц": 1
+          }
+        },
+        "delivering_age_buckets": {
+          "recent_14": {
+            "8+days": 2,
+            "0-7days": 7
+          }
+        },
+        "delivering_by_age_days": {
+          "recent_14": {
+            "13": 1,
+            "12": 1,
+            "7": 1,
+            "5": 2,
+            "3": 2,
+            "2": 1,
+            "1": 1
+          }
+        },
+        "delivering_center_timestamp": {
+          "recent_14": {
+            "center_timestamp_missing": 9
+          }
+        },
+        "older_8_day_delivering_skus": {
+          "recent_14": {
+            "0AM927769N": 2
+          }
+        },
+        "caution": "These are statuses TODAY for cohorts of created orders; not actual delivery timestamps"
+      }
+    }
+  },
+  "mutations": 0,
+  "finished_utc": "2026-11-22T12:24:26.107244+00:00"
+}
