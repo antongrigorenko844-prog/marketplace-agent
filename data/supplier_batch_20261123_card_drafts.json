@@ -1,8 +1,8 @@
 {
   "created_at": "2026-11-23",
-  "owner_request": "Three new products with approved 19880 RUB solenoid Gen2 marketplace and 58850 RUB block WITH solenoids Gen1/Gen2 marketplace; recalculate lower direct retail.",
+  "owner_request": "Три новых товара: соленоиды Gen2 и блоки с соленоидами Gen1/Gen2. Для всех названий и описаний указывать 6T30 6T40 6T45 6T50, без текста о состоянии; остатки 20, 3, 3.",
   "source": "user-uploaded Chinese supplier table",
-  "supplier_quantities_are_not_warehouse_stock": true,
+  "supplier_quantities_are_not_warehouse_stock": false,
   "confirmed_missing_product_drafts": [
     {
       "sku": "6t30-solenoids-gen2",
@@ -11,16 +11,16 @@
       "pinyin": "6T30 diàncífá èr dài",
       "supplier_list_quantity": 20,
       "supplier_unit": "комплектов",
-      "identification": "Новый отдельный набор соленоидов Gen2. Существующий SKU 6t30 — первое поколение; запрещено перезаписывать или смешивать поколения.",
-      "name_ru": "Комплект соленоидов АКПП 6T30, второе поколение (Gen2)",
+      "identification": "Отдельный комплект соленоидов Gen2 для АКПП семейства 6T30/6T40/6T45/6T50; не объединять с имеющимся Gen1 SKU 6t30.",
+      "name_ru": "Комплект соленоидов АКПП 6T30/6T40/6T45/6T50, второе поколение (Gen2)",
       "channel_titles": {
-        "ozon": "Соленоиды АКПП 6T30, 2 поколение, комплект Gen 2",
-        "wildberries": "Соленоиды АКПП 6T30, 2 поколение, комплект Gen 2",
-        "yandex_market": "Комплект соленоидов АКПП 6T30, второе поколение Gen 2",
-        "avito": "Соленоиды АКПП 6T30, 2 поколение, комплект",
-        "tilda": "Комплект соленоидов АКПП 6T30, 2 поколение"
+        "ozon": "Соленоиды АКПП 6T30/6T40/6T45/6T50 Gen2, комплект",
+        "wildberries": "Соленоиды АКПП 6T30/6T40/6T45/6T50 Gen2 комплект",
+        "yandex_market": "Комплект соленоидов АКПП 6T30/6T40/6T45/6T50, Gen2",
+        "avito": "Соленоиды АКПП 6T30/6T40/6T45/6T50 Gen2, комплект",
+        "tilda": "Комплект соленоидов АКПП 6T30/6T40/6T45/6T50, Gen2"
       },
-      "description": "Комплект соленоидов гидроблока АКПП GM 6T30, исполнение второго поколения (Gen2), согласно обозначению поставщика. Не заменяет комплект Gen1. Соленоиды разных поколений могут различаться по гидравлическому исполнению и калибровке. Подбор только по маркировкам исходных деталей и поколению гидроблока. Количество соленоидов, их обозначения, состояние, производитель и фактическая совместимость с 6T40/6T45/6T50 пока не подтверждены.",
+      "description": "Комплект соленоидов гидроблока автоматической коробки передач семейства 6T30/6T40/6T45/6T50, второе поколение (Gen2). Отдельный товар от комплекта соленоидов первого поколения (Gen1). Перед заказом необходимо сверить поколение, маркировки соленоидов и исполнение гидроблока с исходными деталями. Комплектность конкретного исполнения уточняется по фотографиям и маркировке.",
       "prices_rub": {
         "ozon": 19880,
         "wildberries": 19880,
@@ -29,39 +29,47 @@
         "tilda": 11880
       },
       "purchase_cost_rub": null,
-      "stock_LEOPARTS": null,
+      "stock_LEOPARTS": 20,
       "photos": [],
       "oem_part_numbers": [],
       "confirm": [
         "Фото и маркировки соленоидов комплекта Gen2 со всех сторон",
         "Точное число и перечень соленоидов в одном комплекте",
         "Гидравлическое поколение и OEM/референсы",
-        "Наличие LEOPARTS (не количество у поставщика)",
         "Вес, размеры, ТН ВЭД и документы",
-        "Закупочная себестоимость одного комплекта соленоидов Gen2"
+        "Закупочная себестоимость одного комплекта соленоидов Gen2",
+        "Сверить фото именно GEN2 с читаемыми маркировками"
       ],
-      "status": "price_approved_unpublished_missing_identity_photos_stock",
+      "status": "owner_approved_price_and_stock_draft_unpublished_pending_photo_oem_category",
       "sale_prices_approved_by_owner": true,
-      "direct_price_justification": "Existing 6t30 Gen1 marketplace=19850, site+Avito=11850; Gen2 MP +30, direct +30 to keep same 8000-RUB channel differential."
+      "direct_price_justification": "Existing 6t30 Gen1 marketplace=19850, site+Avito=11850; Gen2 MP +30, direct +30 to keep same 8000-RUB channel differential.",
+      "models": [
+        "6T30",
+        "6T40",
+        "6T45",
+        "6T50"
+      ],
+      "stock_confirmed_by_owner": true,
+      "stock_source": "Владелец указал 20 комплектов Gen2 и по 3 блока Gen1 и Gen2"
     },
     {
       "sku": "6t30-tcm-gen1",
       "source_row": 6,
       "cn": "6T30变速箱电子控制模块",
       "pinyin": "6T30 biànsùxiāng diànzǐ kòngzhì mókuài",
-      "supplier_list_quantity": null,
+      "supplier_list_quantity": 3,
       "supplier_list_total_quantity_unsplit": 6,
       "supplier_unit": "штук",
-      "identification": "Блок управления АКПП GM 6T30 в сборе с соленоидами, первого поколения; отдельная продажная позиция, не только электронная плата. Применимость только по маркировке.",
-      "name_ru": "Блок управления АКПП 6T30 с соленоидами, первого поколения (Gen1)",
+      "identification": "Отдельный блок управления в сборе с соленоидами GEN1 для семейства АКПП 6T30/6T40/6T45/6T50; поколение и конкретное исполнение необходимо проверить по маркировке.",
+      "name_ru": "Блок управления АКПП 6T30/6T40/6T45/6T50 с соленоидами, GEN1",
       "channel_titles": {
-        "ozon": "Блок управления АКПП 6T30 с соленоидами Gen1",
-        "wildberries": "Блок управления АКПП 6T30 с соленоидами Gen1",
-        "yandex_market": "Блок управления АКПП GM 6T30 с соленоидами Gen1",
-        "avito": "Блок управления АКПП 6T30 с соленоидами Gen1",
-        "tilda": "Блок управления АКПП 6T30 с соленоидами (Gen1)"
+        "ozon": "Блок управления АКПП 6T30/6T40/6T45/6T50 с соленоидами GEN1",
+        "wildberries": "Блок управления 6T30/6T40/6T45/6T50 GEN1 с соленоидами",
+        "yandex_market": "Блок управления АКПП 6T30/6T40/6T45/6T50 с соленоидами GEN1",
+        "avito": "Блок управления АКПП 6T30/6T40/6T45/6T50 с соленоидами GEN1",
+        "tilda": "Блок управления АКПП 6T30/6T40/6T45/6T50 с соленоидами GEN1"
       },
-      "description": "Блок управления автоматической коробкой передач GM 6T30 в сборе с соленоидами, исполнение первого поколения (Gen1) по указанию продавца. Это узел управления с электромагнитными клапанами, не отдельная электронная плата. Точная комплектация, количество соленоидов, включение других элементов и аппаратная ревизия требуют сверки по фотографии и маркировкам детали. Варианты Gen2 не следует считать взаимозаменяемыми. Перед покупкой необходим подбор по номеру GM/ACDelco и исполнению трансмиссии. Для некоторых версий требуется программирование и адаптация; готовность к установке без настройки не гарантируется.",
+      "description": "Блок управления АКПП семейства 6T30/6T40/6T45/6T50 в сборе с соленоидами, поколение GEN1. Блок и соленоиды поставляются вместе как один узел. Это не отдельная электронная плата. Перед покупкой необходимо сверить поколение, номера и аппаратную маркировку блока, разъёмы и исполнение коробки передач. Подбор для конкретной трансмиссии производится по маркировке исходного узла. В зависимости от исполнения могут потребоваться программирование и адаптация.",
       "prices_rub": {
         "ozon": 58850,
         "wildberries": 58850,
@@ -70,41 +78,49 @@
         "tilda": 35350
       },
       "purchase_cost_rub": null,
-      "stock_LEOPARTS": null,
+      "stock_LEOPARTS": 3,
       "photos": [],
       "oem_part_numbers": [],
       "platform_category_sample": null,
       "confirm": [
         "Фотографии именно Gen1 с читаемым номером GM/ACDelco и видом разъёмов",
         "Подтверждённый состав блока в сборе с соленоидами, число клапанов и включение других узлов",
-        "Состояние нового/б.у./восстановленного узла и проверка работоспособности",
         "Подтверждение конкретного аппаратного поколения и совместимости",
         "Закупочная себестоимость за один блок в сборе",
-        "Количество Gen1 на складе LEOPARTS (не распределять 6 шт. поставщика автоматически между поколениями)",
-        "Вес, габариты, коды ТН ВЭД и полноразмерные собственные фото"
+        "Вес, габариты, коды ТН ВЭД и полноразмерные собственные фото",
+        "Сверить фото именно GEN1 с читаемыми маркировками"
       ],
-      "status": "price_approved_unpublished_missing_identity_photos_stock",
+      "status": "owner_approved_price_and_stock_draft_unpublished_pending_photo_oem_category",
       "sale_prices_approved_by_owner": true,
-      "direct_price_justification": "Approx. 60% marketplace price: 58850 x 0.6 = 35310 RUB, rounded to LEOPARTS retail price 35350 RUB."
+      "direct_price_justification": "Approx. 60% marketplace price: 58850 x 0.6 = 35310 RUB, rounded to LEOPARTS retail price 35350 RUB.",
+      "models": [
+        "6T30",
+        "6T40",
+        "6T45",
+        "6T50"
+      ],
+      "stock_confirmed_by_owner": true,
+      "stock_source": "Владелец указал 20 комплектов Gen2 и по 3 блока Gen1 и Gen2",
+      "supplier_qty_is_now_split_3_plus_3": true
     },
     {
       "sku": "6t30-tcm-gen2",
       "source_row": 6,
       "cn": "6T30变速箱电子控制模块",
       "pinyin": "6T30 biànsùxiāng diànzǐ kòngzhì mókuài",
-      "supplier_list_quantity": null,
+      "supplier_list_quantity": 3,
       "supplier_list_total_quantity_unsplit": 6,
       "supplier_unit": "штук",
-      "identification": "Блок управления АКПП GM 6T30 в сборе с соленоидами, второго поколения; отдельная продажная позиция, не только электронная плата. Применимость только по маркировке.",
-      "name_ru": "Блок управления АКПП 6T30 с соленоидами, второго поколения (Gen2)",
+      "identification": "Отдельный блок управления в сборе с соленоидами GEN2 для семейства АКПП 6T30/6T40/6T45/6T50; поколение и конкретное исполнение необходимо проверить по маркировке.",
+      "name_ru": "Блок управления АКПП 6T30/6T40/6T45/6T50 с соленоидами, GEN2",
       "channel_titles": {
-        "ozon": "Блок управления АКПП 6T30 с соленоидами Gen2",
-        "wildberries": "Блок управления АКПП 6T30 с соленоидами Gen2",
-        "yandex_market": "Блок управления АКПП GM 6T30 с соленоидами Gen2",
-        "avito": "Блок управления АКПП 6T30 с соленоидами Gen2",
-        "tilda": "Блок управления АКПП 6T30 с соленоидами (Gen2)"
+        "ozon": "Блок управления АКПП 6T30/6T40/6T45/6T50 с соленоидами GEN2",
+        "wildberries": "Блок управления 6T30/6T40/6T45/6T50 GEN2 с соленоидами",
+        "yandex_market": "Блок управления АКПП 6T30/6T40/6T45/6T50 с соленоидами GEN2",
+        "avito": "Блок управления АКПП 6T30/6T40/6T45/6T50 с соленоидами GEN2",
+        "tilda": "Блок управления АКПП 6T30/6T40/6T45/6T50 с соленоидами GEN2"
       },
-      "description": "Блок управления автоматической коробкой передач GM 6T30 в сборе с соленоидами, исполнение второго поколения (Gen2) по указанию продавца. Это узел управления с электромагнитными клапанами, не отдельная электронная плата. Точная комплектация, количество соленоидов, включение других элементов и аппаратная ревизия требуют сверки по фотографии и маркировкам детали. Варианты Gen1 не следует считать взаимозаменяемыми. Перед покупкой необходим подбор по номеру GM/ACDelco и исполнению трансмиссии. Для некоторых версий требуется программирование и адаптация; готовность к установке без настройки не гарантируется.",
+      "description": "Блок управления АКПП семейства 6T30/6T40/6T45/6T50 в сборе с соленоидами, поколение GEN2. Блок и соленоиды поставляются вместе как один узел. Это не отдельная электронная плата. Перед покупкой необходимо сверить поколение, номера и аппаратную маркировку блока, разъёмы и исполнение коробки передач. Подбор для конкретной трансмиссии производится по маркировке исходного узла. В зависимости от исполнения могут потребоваться программирование и адаптация.",
       "prices_rub": {
         "ozon": 58850,
         "wildberries": 58850,
@@ -113,22 +129,30 @@
         "tilda": 35350
       },
       "purchase_cost_rub": null,
-      "stock_LEOPARTS": null,
+      "stock_LEOPARTS": 3,
       "photos": [],
       "oem_part_numbers": [],
       "platform_category_sample": null,
       "confirm": [
         "Фотографии именно Gen2 с читаемым номером GM/ACDelco и видом разъёмов",
         "Подтверждённый состав блока в сборе с соленоидами, число клапанов и включение других узлов",
-        "Состояние нового/б.у./восстановленного узла и проверка работоспособности",
         "Подтверждение конкретного аппаратного поколения и совместимости",
         "Закупочная себестоимость за один блок в сборе",
-        "Количество Gen2 на складе LEOPARTS (не распределять 6 шт. поставщика автоматически между поколениями)",
-        "Вес, габариты, коды ТН ВЭД и полноразмерные собственные фото"
+        "Вес, габариты, коды ТН ВЭД и полноразмерные собственные фото",
+        "Сверить фото именно GEN2 с читаемыми маркировками"
       ],
-      "status": "price_approved_unpublished_missing_identity_photos_stock",
+      "status": "owner_approved_price_and_stock_draft_unpublished_pending_photo_oem_category",
       "sale_prices_approved_by_owner": true,
-      "direct_price_justification": "Approx. 60% marketplace price: 58850 x 0.6 = 35310 RUB, rounded to LEOPARTS retail price 35350 RUB."
+      "direct_price_justification": "Approx. 60% marketplace price: 58850 x 0.6 = 35310 RUB, rounded to LEOPARTS retail price 35350 RUB.",
+      "models": [
+        "6T30",
+        "6T40",
+        "6T45",
+        "6T50"
+      ],
+      "stock_confirmed_by_owner": true,
+      "stock_source": "Владелец указал 20 комплектов Gen2 и по 3 блока Gen1 и Gen2",
+      "supplier_qty_is_now_split_3_plus_3": true
     }
   ],
   "ambiguous_items_needing_identity_check": [
@@ -196,7 +220,19 @@
     }
   ],
   "publish_enabled": false,
-  "publish_blocker": "Sale prices now confirmed. Still lack per-generation OEM/physical identification, confirmed set content, photos for the exact goods, cost, warehouse stock and other required platform data; do not invent stock or publish potentially misdescribed control blocks.",
+  "publish_blocker": "Остатки и цены подтверждены владельцем. Нет достоверных отдельных фотографий товара Gen1/Gen2, OEM/маркировок и части обязательных платформенных характеристик; черновики не активированы.",
   "generation_technical_note": "Sonnax describes generation differences for GM 6T30/40/45/50. Seller classifications must be verified by physical TCM label; marking Gen1 and Gen2 is not interchangeable.",
-  "prices_updated_at": "2026-11-23"
+  "prices_updated_at": "2026-11-23",
+  "models": [
+    "6T30",
+    "6T40",
+    "6T45",
+    "6T50"
+  ],
+  "stock_approved_by_owner": {
+    "6t30-solenoids-gen2": 20,
+    "6t30-tcm-gen1": 3,
+    "6t30-tcm-gen2": 3
+  },
+  "updated_at": "2026-11-23"
 }
