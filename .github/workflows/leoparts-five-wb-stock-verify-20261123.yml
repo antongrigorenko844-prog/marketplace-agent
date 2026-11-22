@@ -1,0 +1,27 @@
+name: LEOPARTS Verify All Five WB Real FBS Stocks
+on:
+  push:
+    branches: [main]
+    paths: ['data/leoparts_five_wb_stock_verify_20261123_request.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Exact five stock readback, repair only confirmed chrtId mismatch
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+        run: |
+          python -m py_compile scripts/leoparts_five_wb_stock_verify_20261123.py
+          python -u scripts/leoparts_five_wb_stock_verify_20261123.py
+      - if: always()
+        run: |
+          test ! -f data/leoparts_five_wb_stock_verify_20261123_result.json || bash .github/scripts/save_data.sh data/leoparts_five_wb_stock_verify_20261123_result.json
