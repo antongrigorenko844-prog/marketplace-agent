@@ -70,12 +70,14 @@ def _headers(token: str) -> Dict[str, str]:
     return h
 
 
-def _request(method: str, path: str, *, params=None, json_body=None, timeout: int = 60) -> Tuple[int, dict]:
-    """Возвращает (http_status, json). Повторяет при 420/429/5xx до 3 раз. Токен в лог не попадает."""
+def _request(method: str, path: str, *, params=None, json_body=None, timeout: int = 60, retries: int = 3) -> Tuple[int, dict]:
+    """HTTP response. Writes may opt out of automatic retries on unknown outcomes."""
+    if type(retries) is not int or retries < 1 or retries > 3:
+        raise YandexMarketError("Invalid HTTP retry budget")
     token, _ = _creds()
     url = BASE_URL + path
     last_exc: Optional[Exception] = None
-    for attempt in range(3):
+    for attempt in range(retries):
         try:
             r = requests.request(method, url, headers=_headers(token), params=params, json=json_body, timeout=timeout)
         except requests.RequestException as exc:
@@ -148,7 +150,7 @@ def _chunks(seq: List, n: int) -> Iterable[List]:
         yield seq[i : i + n]
 
 
-def _send_isolating(label: str, send, entries: List[Tuple[str, dict]]) -> Tuple[int, Dict[str, str]]:
+def _send_isolating(label: str, send, entries: List[Tuple[str, dict]], *, retry_non200: bool = True) -> Tuple[int, Dict[str, str]]:
     """
     entries: [(offer_id, элемент запроса)]. send(список_элементов) -> (status, body).
     Партия целиком; при 400 — повторяем по одному, чтобы найти и показать, какой
@@ -164,6 +166,11 @@ def _send_isolating(label: str, send, entries: List[Tuple[str, dict]]) -> Tuple[
             continue
         if status in (401, 403):
             raise YandexMarketError(f"{label}: HTTP {status} — токен не принят или нет прав ({_errors_text(body)})")
+        if not retry_non200:
+            # Unknown outcome: never resubmit even an isolated one-SKU write.
+            for offer_id, _ in chunk:
+                failed[offer_id] = f"HTTP {status}: {_errors_text(body)} (not retried)"
+            continue
         for offer_id, elem in chunk:
             st, b = send([elem])
             if st == 200:
@@ -175,7 +182,7 @@ def _send_isolating(label: str, send, entries: List[Tuple[str, dict]]) -> Tuple[
     return ok, failed
 
 
-def update_stocks(stocks: Dict[str, int]) -> Tuple[int, Dict[str, str]]:
+def update_stocks(stocks: Dict[str, int], *, single_attempt: bool = False) -> Tuple[int, Dict[str, str]]:
     """stocks: {offer_id: остаток}. PUT /v2/campaigns/{id}/offers/stocks."""
     _, campaign = _creds()
     now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -184,12 +191,13 @@ def update_stocks(stocks: Dict[str, int]) -> Tuple[int, Dict[str, str]]:
     ]
 
     def send(elems):
-        return _request("PUT", f"/v2/campaigns/{campaign}/offers/stocks", json_body={"skus": elems})
+        return _request("PUT", f"/v2/campaigns/{campaign}/offers/stocks", json_body={"skus": elems},
+                        retries=1 if single_attempt else 3)
 
-    return _send_isolating("остатки", send, entries)
+    return _send_isolating("остатки", send, entries, retry_non200=not single_attempt)
 
 
-def update_prices(prices: Dict[str, Tuple[int, Optional[int]]]) -> Tuple[int, Dict[str, str]]:
+def update_prices(prices: Dict[str, Tuple[int, Optional[int]]], *, single_attempt: bool = False) -> Tuple[int, Dict[str, str]]:
     """
     prices: {offer_id: (цена, цена_до_скидки_или_None)}.
     POST /v2/campaigns/{id}/offer-prices/updates. discountBase передаётся только
@@ -204,13 +212,14 @@ def update_prices(prices: Dict[str, Tuple[int, Optional[int]]]) -> Tuple[int, Di
         entries.append((offer, {"offerId": offer, "price": p}))
 
     def send(elems):
-        status, body = _request("POST", f"/v2/campaigns/{campaign}/offer-prices/updates", json_body={"offers": elems})
+        status, body = _request("POST", f"/v2/campaigns/{campaign}/offer-prices/updates", json_body={"offers": elems},
+                                retries=1 if single_attempt else 3)
         if status == 200 and (not isinstance(body, dict) or body.get("status") != "OK" or body.get("errors")):
             # The outcome is unknown. Resubmitting the batch could overwrite a later price.
             raise YandexMarketError("Маркет не подтвердил приём цен в ответе HTTP 200.")
         return status, body
 
-    return _send_isolating("цены", send, entries)
+    return _send_isolating("цены", send, entries, retry_non200=not single_attempt)
 
 
 def get_orders_since(days_back: int = 29) -> List[dict]:

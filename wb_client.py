@@ -115,7 +115,7 @@ def get_subject_characteristics(subject_id: int) -> List[dict]:
     ).get("data", [])
 
 
-def create_cards(subject_id: int, cards: List[dict]) -> dict:
+def create_cards(subject_id: int, cards: List[dict], *, retries: int = 3) -> dict:
     """
     Создание новых карточек. Максимум 100 карточек за запрос (см. документацию WB).
     Обработка асинхронная — WB не возвращает nmID сразу, статус нужно смотреть
@@ -126,7 +126,7 @@ def create_cards(subject_id: int, cards: List[dict]) -> dict:
         "POST",
         config.wb_content_base,
         "/content/v2/cards/upload",
-        [{"subjectID": subject_id, "variants": cards}],
+        [{"subjectID": subject_id, "variants": cards}], retries=retries,
     )
 
 
@@ -182,7 +182,7 @@ def generate_barcodes(count: int) -> List[str]:
     return data.get("data", [])
 
 
-def update_media(nm_id: int, urls: List[str]) -> dict:
+def update_media(nm_id: int, urls: List[str], *, retries: int = 3) -> dict:
     """
     Полная замена фото/видео карточки по ссылкам. Проверено в живой
     документации dev.wildberries.ru 02.09.2026: ссылки должны вести напрямую
@@ -193,7 +193,7 @@ def update_media(nm_id: int, urls: List[str]) -> dict:
     """
     # ENDPOINT: POST /content/v3/media/save
     return _request(
-        "POST", config.wb_content_base, "/content/v3/media/save", {"nmId": nm_id, "data": urls}
+        "POST", config.wb_content_base, "/content/v3/media/save", {"nmId": nm_id, "data": urls}, retries=retries
     )
 
 
@@ -206,10 +206,10 @@ def get_prices(limit: int = 1000) -> List[dict]:
     ).get("data", {}).get("listGoods", [])
 
 
-def update_prices(items: List[dict]) -> dict:
+def update_prices(items: List[dict], *, retries: int = 3) -> dict:
     """items: [{"nmID": 123456, "price": 1500, "discount": 0}, ...]"""
     # ENDPOINT: POST /api/v2/upload/task
-    return _request("POST", config.wb_prices_base, "/api/v2/upload/task", {"data": items})
+    return _request("POST", config.wb_prices_base, "/api/v2/upload/task", {"data": items}, retries=retries)
 
 
 def get_price_upload_result(upload_id) -> dict:
@@ -229,7 +229,7 @@ def get_warehouses() -> List[dict]:
     return _request("GET", config.wb_marketplace_base, "/api/v3/warehouses")
 
 
-def update_stocks(warehouse_id: str, items: List[dict]) -> dict:
+def update_stocks(warehouse_id: str, items: List[dict], *, retries: int = 3) -> dict:
     """
     items: [{"sku": "<ШТРИХКОД>", "amount": 5}, ...]
 
@@ -243,7 +243,7 @@ def update_stocks(warehouse_id: str, items: List[dict]) -> dict:
     """
     # ENDPOINT: PUT /api/v3/stocks/{warehouseId}
     return _request(
-        "PUT", config.wb_marketplace_base, f"/api/v3/stocks/{warehouse_id}", {"stocks": items}
+        "PUT", config.wb_marketplace_base, f"/api/v3/stocks/{warehouse_id}", {"stocks": items}, retries=retries
     )
 
 

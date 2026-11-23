@@ -301,6 +301,19 @@ that SKU's media as blocked and request the missing supported staging route.
 Never substitute a visually similar Gen1/Gen2 image. GitHub runners cannot
 directly access ChatGPT Library.
 
+### Transport-layer replay protection (post-pilot hardening)
+
+The original shared Ozon, WB and Yandex Market API clients have retry defaults
+used by legacy stock/order workflows. A transport timeout after a POST/PUT may
+mean that the marketplace applied the request but the acknowledgment was lost.
+The new **Publishing v3 writer** now explicitly uses one HTTP attempt for
+Ozon/WB/Market create, new-SKU price, photos and initial stock; the Market
+fallback which re-submits one item after a failed batch is disabled for this
+writer only. Unknown outcomes remain in the durable journal for a read-only
+reconciliation, not an implicit retry. Existing API client defaults and
+existing scheduled inventory workflows are unchanged. Contract tests simulate
+timeouts and assert exactly one HTTP request per new write.
+
 ### Remaining release gate
 
 Mocked end-to-end tests, live zero-write pilot on the previously approved five
