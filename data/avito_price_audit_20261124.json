@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-23T17:33:04.263880+00:00",
+  "generated_utc": "2026-11-23T19:07:15.568751+00:00",
   "mode": "read_only",
   "seller_writes": 0,
   "catalog_writes": 0,
@@ -18,15 +18,15 @@
     "known_alias_feed_rows": 8,
     "bom_kits": 41,
     "bom_relations": 84,
-    "api_listed_ads": 156,
-    "active_ads": 156,
-    "matched_by_id": 120,
-    "matched_active": 120,
+    "api_listed_ads": 155,
+    "active_ads": 155,
+    "matched_by_id": 119,
+    "matched_active": 119,
     "with_cost_and_price": 122,
-    "issues": 57,
+    "issues": 56,
     "priority": {
       "medium": 34,
-      "low": 16,
+      "low": 15,
       "high": 7
     }
   },
@@ -142,13 +142,13 @@
       "multiple": 31.67
     },
     {
-      "priority": "low",
-      "type": "extreme_markup_or_cost_stale",
+      "priority": "medium",
+      "type": "site_more_expensive_than_avito",
       "sku": "122390AK-AF",
-      "detail": "Очень высокая кратность для дешёвой детали; проверить цену и закупку",
-      "price": 950.0,
-      "cost": 30.0,
-      "multiple": 31.67
+      "detail": "Сайт дороже Avito для этой позиции",
+      "feed": 450.0,
+      "site": 950.0,
+      "delta": 500.0
     },
     {
       "priority": "medium",
@@ -506,7 +506,7 @@
         },
         {
           "id": 4220729305,
-          "price": 5890.0,
+          "price": 3450.0,
           "title": "Ремкомплект штока мехатроника DSG 7 DQ200 0AM 0CW"
         }
       ]
@@ -525,10 +525,10 @@
         {
           "id": 4220729305,
           "title": "Ремкомплект штока мехатроника DSG 7 DQ200 0AM 0CW",
-          "price": 5890.0
+          "price": 3450.0
         }
       ],
-      "price_gap": 4900.0,
+      "price_gap": 2460.0,
       "owner_confirmed_identical_components": false
     },
     {
@@ -662,17 +662,6 @@
       "primary_avito_id": 8421710248,
       "primary_price": 950.0,
       "delta": -60.0
-    },
-    {
-      "priority": "medium",
-      "type": "legacy_secondary_price_mismatch_review",
-      "sku": "122390AK-AF",
-      "detail": "Старое активное объявление похоже на основной SKU, но цена отличается; состав не подтверждён",
-      "old_avito_id": 3965207177,
-      "old_price": 450.0,
-      "primary_avito_id": 8461500993,
-      "primary_price": 950.0,
-      "delta": -500.0
     }
   ],
   "products": [
@@ -1538,15 +1527,9 @@
       "contribution_before_view_cost": 2136.5,
       "breakeven_paid_views": 309,
       "legacy_secondary_catalog_refs": [],
-      "legacy_unverified_candidates": [
-        {
-          "avito_id": 4348814868,
-          "status": "candidate_only_unverified_variant",
-          "same_bom_confirmed": false
-        }
-      ],
+      "legacy_unverified_candidates": [],
       "legacy_secondary_count": 0,
-      "legacy_unverified_count": 1
+      "legacy_unverified_count": 0
     },
     {
       "sku": "0BH325183",
@@ -1575,20 +1558,9 @@
       "contribution_before_view_cost": 2376.5,
       "breakeven_paid_views": 344,
       "legacy_secondary_catalog_refs": [],
-      "legacy_unverified_candidates": [
-        {
-          "avito_id": 4348814868,
-          "status": "candidate_only_unverified_variant",
-          "same_bom_confirmed": false
-        },
-        {
-          "avito_id": 4285324155,
-          "status": "candidate_only_unverified_variant",
-          "same_bom_confirmed": false
-        }
-      ],
+      "legacy_unverified_candidates": [],
       "legacy_secondary_count": 0,
-      "legacy_unverified_count": 2
+      "legacy_unverified_count": 0
     },
     {
       "sku": "0BH325183 B",
@@ -3164,12 +3136,12 @@
       "sku": "122390AK-AF",
       "name": "Пыльник штока мехатроника DSG7 DQ200 122390AK-AF",
       "cost_master": 30.0,
-      "avito_cfg": 950.0,
+      "avito_cfg": 450.0,
       "site_cfg": 950.0,
       "fixed": false,
       "price_source": "avito_site_overrides",
       "source_feed_id": "122390AK-AF",
-      "price_in_feed": 950.0,
+      "price_in_feed": 450.0,
       "ozon_catalog": 950.0,
       "stock_catalog": 116.0,
       "in_feed": true,
@@ -3178,16 +3150,16 @@
       "mapped": {
         "id": 8461500993,
         "status": "active",
-        "live_price": 950.0,
+        "live_price": 450.0,
         "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/pylnik_shtoka_mehatronika_dsg7_dq200_122390ak-af_8461500993",
         "live_title": "Пыльник штока мехатроника DSG7 DQ200 122390AK-AF",
         "source": "exact_avito_id"
       },
       "model_price_source": "active_live",
-      "model_price": 950.0,
-      "markup_to_cost": 31.67,
-      "contribution_before_view_cost": 765.5,
-      "breakeven_paid_views": 110,
+      "model_price": 450.0,
+      "markup_to_cost": 15.0,
+      "contribution_before_view_cost": 320.5,
+      "breakeven_paid_views": 46,
       "legacy_secondary_catalog_refs": [
         {
           "avito_id": 3965207177,
@@ -3200,7 +3172,7 @@
           "feed_controls_this_ad": false,
           "same_bom_confirmed": false,
           "primary_avito_id": 8461500993,
-          "price_delta_vs_primary": -500.0
+          "price_delta_vs_primary": 0.0
         }
       ],
       "legacy_unverified_candidates": [
@@ -5110,14 +5082,12 @@
       "in_master": true,
       "avito_flag": null,
       "mapped": {
-        "id": 8407361655,
-        "status": "active",
-        "live_price": 950.0,
-        "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/2_koltsa-prokladki_na_1_vtulku_mehatronika_dsg7_8407361655",
-        "live_title": "2 кольца-прокладки на 1 втулку мехатроника DSG7",
-        "source": "exact_avito_id"
+        "source": "not_mapped",
+        "ids": [
+          "8407361655"
+        ]
       },
-      "model_price_source": "active_live",
+      "model_price_source": "feed",
       "model_price": 950.0,
       "markup_to_cost": 19.0,
       "contribution_before_view_cost": 745.5,
@@ -6274,7 +6244,7 @@
     {
       "id": 4573102274,
       "title": "Ремкомплект dsg 7 dq200 усиленная плита прокладки",
-      "price": 9890.0,
+      "price": 7850.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6295,7 +6265,7 @@
     {
       "id": 4445230063,
       "title": "Ремкомплект штока DQ200 DSG7 0AM 0CW шток + втулка",
-      "price": 2890.0,
+      "price": 1880.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6306,7 +6276,7 @@
     {
       "id": 4445119215,
       "title": "Ремкомплект мехатроника dq200 dsg7 0am 0cw",
-      "price": 9800.0,
+      "price": 7850.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6316,7 +6286,7 @@
     {
       "id": 4444968174,
       "title": "Крышка поддон мехатроника+прокладка DSG 7 DQ200",
-      "price": 2890.0,
+      "price": 2300.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6356,7 +6326,7 @@
     {
       "id": 4349334275,
       "title": "Плита DQ200 0am 0cw (усиленная гидроплита DSG 7)",
-      "price": 6490.0,
+      "price": 5350.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6376,13 +6346,11 @@
     {
       "id": 4348814868,
       "title": "Корпус фильтра DQ500 DSG7",
-      "price": 3490.0,
+      "price": 980.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
-        "Dq500",
-        "0BH325183",
-        "0BH325"
+        "Dq500"
       ]
     },
     {
@@ -6408,11 +6376,10 @@
     {
       "id": 4285324155,
       "title": "Корпус фильтра DQ500 DSG 7 0BH325183",
-      "price": 3490.0,
+      "price": 980.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
-        "0BH325183",
         "Dq500"
       ]
     },
@@ -6470,7 +6437,7 @@
     {
       "id": 4284950339,
       "title": "Соленоид dsg 7 dq200 0am 0cw регулятор давления",
-      "price": 3850.0,
+      "price": 5350.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6480,7 +6447,7 @@
     {
       "id": 4284610725,
       "title": "Заглушка коробки DSG7 DQ200 0AM 0CW 52м",
-      "price": 890.0,
+      "price": 950.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6490,7 +6457,7 @@
     {
       "id": 4253114863,
       "title": "Прокладки dsg 7 сепараторная пластина мехатроника",
-      "price": 1290.0,
+      "price": 1350.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6501,7 +6468,7 @@
     {
       "id": 4253030337,
       "title": "Ремкомплект dq200 dsg7 0am гидроплита прокладки",
-      "price": 9890.0,
+      "price": 7850.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6511,7 +6478,7 @@
     {
       "id": 4220734432,
       "title": "Гидроплита dsg 7 dq200 усиленная ремкомплект dsg7",
-      "price": 6490.0,
+      "price": 5350.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6521,7 +6488,7 @@
     {
       "id": 4220729305,
       "title": "Ремкомплект штока мехатроника DSG 7 DQ200 0AM 0CW",
-      "price": 5890.0,
+      "price": 3450.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6532,7 +6499,7 @@
     {
       "id": 4189437762,
       "title": "Ремкомплект мехатроника dsg 7 dq200 плита фильтр",
-      "price": 9850.0,
+      "price": 7850.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6543,7 +6510,7 @@
     {
       "id": 4125283125,
       "title": "Ремкомплект прокладки мехатроника DSG 7 DQ200 0AM",
-      "price": 11890.0,
+      "price": 4850.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6553,7 +6520,7 @@
     {
       "id": 4125224328,
       "title": "Штоки dsg7 dq200 (шток дсг 7)",
-      "price": 1490.0,
+      "price": 2480.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6575,7 +6542,7 @@
     {
       "id": 4125069388,
       "title": "Гильза мехатроника DSG 7 DQ200 0AM 0CW новая",
-      "price": 2990.0,
+      "price": 1650.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6585,7 +6552,7 @@
     {
       "id": 3965565847,
       "title": "Ремкомплект мехатроника DSG 7 DQ200 0AM 0CW",
-      "price": 9800.0,
+      "price": 7850.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6605,7 +6572,7 @@
     {
       "id": 3965336925,
       "title": "Соленоид мехатроника DSG 7 DQ200 Bosch регулятор",
-      "price": 3890.0,
+      "price": 5350.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
@@ -6615,7 +6582,7 @@
     {
       "id": 3965211558,
       "title": "Ремкомплект (прокладки) мехатроника DSG7 DQ200 0am",
-      "price": 3850.0,
+      "price": 4850.0,
       "status": "active",
       "legacy_registry_status": "candidate_not_bound",
       "candidate_master_skus": [
