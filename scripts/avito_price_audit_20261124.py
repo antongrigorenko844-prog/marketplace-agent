@@ -279,6 +279,18 @@ def analyze():
         if len(items)>1:
             add("medium","same_live_title_multiple_ads","", "Несколько активных объявлений имеют совпадающий заголовок",
                 ads=[{"id":x["id"],"price":x["price"],"title":x["title"]} for x in items])
+    # The seller confirmed in chat that these TWO differently priced manual
+    # offers have the same kit component set. This is not fuzzy-title evidence.
+    confirmed_ids=(4285108577,4220729305)
+    original_pair=[x for x in active if x.get("id") in confirmed_ids]
+    if len(original_pair)==2 and len({x.get("price") for x in original_pair})>1:
+        add("high","owner_confirmed_same_kit_inconsistent_price",
+            "4285108577 / 4220729305",
+            "Владелец подтвердил одинаковый состав; действующие цены не согласованы",
+            ads=[{"id":x.get("id"),"title":x.get("title"),
+                  "price":x.get("price")} for x in original_pair],
+            price_gap=round(abs(original_pair[0]["price"]-original_pair[1]["price"]),2),
+            owner_confirmed_identical_components=True)
     costs=[r for r in rowset if r["in_master"] and r["cost_master"] and r["model_price"]]
     counts=Counter(x["priority"] for x in issues)
     return {"generated_utc":datetime.now(timezone.utc).isoformat(),
