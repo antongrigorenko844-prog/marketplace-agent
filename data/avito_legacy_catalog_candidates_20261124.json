@@ -91,7 +91,7 @@
     {
       "avito_id": 4445230063,
       "live_status": "active",
-      "live_price_rub": 2890,
+      "live_price_rub": 1880,
       "live_title": "Ремкомплект штока DQ200 DSG7 0AM 0CW шток + втулка",
       "match_state": "candidate_not_bound",
       "match_confidence": "title_only_needs_composition_review",
@@ -150,7 +150,19 @@
       ],
       "owner_same_bom_as_original_candidates": true,
       "owner_information_status": "composition_verified",
-      "note": "№3: один шток с втулкой; не считать комплектом из двух штоков."
+      "note": "№3: один шток с втулкой; не считать комплектом из двух штоков.",
+      "prior_live_price_rub": 2890,
+      "latest_price_verified": true,
+      "latest_price_verification_source": "data/avito_verified_rods_price_20261124_result.json",
+      "price_change_history": [
+        {
+          "date": "2026-11-24",
+          "old_rub": 2890,
+          "new_rub": 1880,
+          "verification": "Live seller API readback",
+          "owner_price_instruction": "sync_to_common_canonical_price_1880"
+        }
+      ]
     },
     {
       "avito_id": 4445119215,
@@ -608,7 +620,7 @@
     {
       "avito_id": 4220729305,
       "live_status": "active",
-      "live_price_rub": 5890,
+      "live_price_rub": 3450,
       "live_title": "Ремкомплект штока мехатроника DSG 7 DQ200 0AM 0CW",
       "match_state": "candidate_not_bound",
       "match_confidence": "composition_unknown_owner_note",
@@ -667,7 +679,19 @@
         "0am325091f-set"
       ],
       "owner_same_bom_as_original_candidates": true,
-      "owner_information_status": "composition_verified"
+      "owner_information_status": "composition_verified",
+      "prior_live_price_rub": 5890,
+      "latest_price_verified": true,
+      "latest_price_verification_source": "data/avito_verified_rods_price_20261124_result.json",
+      "price_change_history": [
+        {
+          "date": "2026-11-24",
+          "old_rub": 5890,
+          "new_rub": 3450,
+          "verification": "Live seller API readback",
+          "owner_price_instruction": "sync_to_common_canonical_price_3450"
+        }
+      ]
     },
     {
       "avito_id": 4189437762,
@@ -715,7 +739,7 @@
     {
       "avito_id": 4125224328,
       "live_status": "active",
-      "live_price_rub": 1490,
+      "live_price_rub": 2480,
       "live_title": "Штоки dsg7 dq200 (шток дсг 7)",
       "match_state": "candidate_not_bound",
       "match_confidence": "title_only_needs_composition_review",
@@ -782,7 +806,19 @@
         "resulting_sale_price_rub": 2480,
         "price_kind": "Two individual canonical units, NOT a preexisting canonical 2-rod kit price",
         "preserve_old_ad": true
-      }
+      },
+      "prior_live_price_rub": 1490,
+      "latest_price_verified": true,
+      "latest_price_verification_source": "data/avito_two_bare_rods_price_20261124_result.json",
+      "price_change_history": [
+        {
+          "date": "2026-11-24",
+          "old_rub": 1490,
+          "new_rub": 2480,
+          "verification": "Live seller API readback",
+          "owner_price_instruction": "align_to_two_main_single_rod_prices"
+        }
+      ]
     },
     {
       "avito_id": 4125079566,
@@ -927,6 +963,12 @@
       4445230063,
       4125224328
     ],
-    "note": "№1-4 идут по последовательности, которую прислал ассистент; старые номера Авито сохранены. Для двух универсальных наборов с альтернативными размерами нельзя закреплять один SKU на оба варианта через AvitoId без модели вариантов."
+    "note": "№1-4 идут по последовательности, которую прислал ассистент; старые номера Авито сохранены. Для двух универсальных наборов с альтернативными размерами нельзя закреплять один SKU на оба варианта через AvitoId без модели вариантов.",
+    "verified_old_prices_aligned": 3,
+    "verified_old_prices_ids": [
+      4220729305,
+      4445230063,
+      4125224328
+    ]
   }
 }
