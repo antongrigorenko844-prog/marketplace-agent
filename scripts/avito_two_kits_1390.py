@@ -105,7 +105,9 @@ def verify_manifest():
 def prep_workbooks():
     control,ws,override_index=cells_book(OVERRIDE,"Цены Avito и сайт",1)
     feedbook,feedws,feed_index=cells_book(FEED,"Объявления",4)
-    kitbook,kitws,kit_index=cells_book(KITS,"Комплекты",1)
+    kitbook=load_workbook(KITS)
+    check("Комплекты" in kitbook.sheetnames,"Missing kit BOM sheet")
+    kitws=kitbook["Комплекты"]  # kit SKU intentionally repeats per BOM component
     masterbook,masterws,master_index=cells_book(MASTER,"Товары",1)
     bom={}
     for row in kitws.iter_rows(min_row=2):
