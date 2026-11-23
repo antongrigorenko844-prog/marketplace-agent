@@ -285,15 +285,21 @@ Ozon cards to test publishing.
 ### Connector-native media bridge
 
 When a new owner-approved original is present in ChatGPT Library or a file
-attachment but not in GitHub, a connected agent can use Files to read the
-**actual image bytes**, hash them, and pass the base64 bytes directly to
+attachment but not in GitHub, a connected agent should use Files to obtain
+the **actual image bytes**, hash them and stage an immutable blob using
 GitHub's `create_blob(encoding="base64")`, then `create_tree`,
-`create_commit` and optimistic `update_ref(expected_sha)` for an exact
-new media path. The approved manifest then records that path and SHA256.
-Use an owner-provided identity (Gen1/Gen2) and SHA256; **never substitute**
-a visually similar photograph or assume a generated image is already
-stored. This is a connector workflow, not a claim that GitHub Action runners
-can independently access ChatGPT Library.
+`create_commit` and optimistic `update_ref(expected_sha)` when its
+tools actually expose the base64 bytes. The approved manifest then records
+the exact path and SHA256.
+
+**Current limitation:** Files may return only a protected image-asset pointer,
+not bytes/base64. That pointer cannot be passed to GitHub's create_blob.
+In such a session, do not claim the bridge worked or attempt to convert a
+thumbnail/screenshot into an original. Use an already verified repository
+asset or a legitimately accessible signed-download source; otherwise mark
+that SKU's media as blocked and request the missing supported staging route.
+Never substitute a visually similar Gen1/Gen2 image. GitHub runners cannot
+directly access ChatGPT Library.
 
 ### Remaining release gate
 
