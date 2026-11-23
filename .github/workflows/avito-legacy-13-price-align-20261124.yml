@@ -1,0 +1,31 @@
+name: LEOPARTS Avito 13 Legacy Prices — Guarded
+on:
+  push:
+    branches: [main]
+    paths: ['data/avito_legacy_13_prices_20261124_request.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  align:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install read-only and price-only API dependency
+        run: pip install -q requests python-dotenv
+      - name: Compile and enforce exact user-approved 13 old listing prices
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: |
+          python -m py_compile scripts/avito_legacy_13_price_align_20261124.py
+          python -u scripts/avito_legacy_13_price_align_20261124.py
+      - name: Preserve exact before/after/receipts journal
+        if: always()
+        run: |
+          if [ -f data/avito_legacy_13_prices_20261124_result.json ]; then
+            bash .github/scripts/save_data.sh data/avito_legacy_13_prices_20261124_result.json
+          fi
