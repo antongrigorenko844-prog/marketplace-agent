@@ -35,9 +35,12 @@ def require(ok: bool, msg: str) -> None:
         raise SitePriceGuardError(msg)
 
 def price(value: Any) -> int:
-    if type(value) not in (int,float):
+    if type(value) is bool or value is None:
         raise SitePriceGuardError(f"Price is not numeric: {value!r}")
-    v=float(value)
+    try:
+        v=float(str(value).replace(" ","").replace(",","."))
+    except (ValueError,TypeError) as ex:
+        raise SitePriceGuardError(f"Price is not numeric: {value!r}") from ex
     if v!=int(v) or v<1 or v>500000:
         raise SitePriceGuardError(f"Invalid whole-ruble price: {value!r}")
     return int(v)
