@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-23T16:44:46.487834+00:00",
+  "generated_utc": "2026-11-23T16:55:12.136545+00:00",
   "mode": "read_only",
   "seller_writes": 0,
   "catalog_writes": 0,
@@ -20,19 +20,33 @@
     "bom_relations": 84,
     "api_listed_ads": 156,
     "active_ads": 156,
-    "matched_by_id": 121,
-    "matched_active": 121,
+    "matched_by_id": 119,
+    "matched_active": 119,
     "with_cost_and_price": 122,
-    "issues": 46,
+    "issues": 44,
     "priority": {
-      "medium": 23,
+      "medium": 21,
       "low": 16,
       "high": 7
     }
   },
   "live_api_error": null,
-  "binding_errors": [],
+  "binding_errors": [
+    {
+      "offset": 150,
+      "error": "Avito GET /autoload/v2/items/avito_ids: не удалось получить ответ после 1 попыток: HTTPSConnectionPool(host='api.avito.ru', port=443): Read timed out."
+    }
+  ],
   "issues": [
+    {
+      "priority": "medium",
+      "type": "site_more_expensive_than_avito",
+      "sku": "02E 305 045",
+      "detail": "Сайт дороже Avito для этой позиции",
+      "feed": 1390.0,
+      "site": 1480.0,
+      "delta": 90.0
+    },
     {
       "priority": "medium",
       "type": "low_markup",
@@ -142,6 +156,15 @@
       "multiple": 31.67
     },
     {
+      "priority": "medium",
+      "type": "site_more_expensive_than_avito",
+      "sku": "DQ500",
+      "detail": "Сайт дороже Avito для этой позиции",
+      "feed": 1390.0,
+      "site": 1480.0,
+      "delta": 90.0
+    },
+    {
       "priority": "low",
       "type": "extreme_markup_or_cost_stale",
       "sku": "Dq200dsg7",
@@ -212,34 +235,6 @@
       "type": "kit_more_expensive_than_parts",
       "sku": "02E 305 045",
       "detail": "Набор стоит дороже того же BOM по отдельности",
-      "channel": "price_in_feed",
-      "kit": 1480.0,
-      "parts": 1475.0,
-      "extra": 5.0,
-      "components": {
-        "02e305045": 1,
-        "02E305051C": 1
-      }
-    },
-    {
-      "priority": "medium",
-      "type": "kit_more_expensive_than_parts",
-      "sku": "02E 305 045",
-      "detail": "Набор стоит дороже того же BOM по отдельности",
-      "channel": "avito_cfg",
-      "kit": 1480.0,
-      "parts": 1475.0,
-      "extra": 5.0,
-      "components": {
-        "02e305045": 1,
-        "02E305051C": 1
-      }
-    },
-    {
-      "priority": "medium",
-      "type": "kit_more_expensive_than_parts",
-      "sku": "02E 305 045",
-      "detail": "Набор стоит дороже того же BOM по отдельности",
       "channel": "site_cfg",
       "kit": 1480.0,
       "parts": 1475.0,
@@ -247,34 +242,6 @@
       "components": {
         "02e305045": 1,
         "02E305051C": 1
-      }
-    },
-    {
-      "priority": "medium",
-      "type": "kit_more_expensive_than_parts",
-      "sku": "DQ500",
-      "detail": "Набор стоит дороже того же BOM по отдельности",
-      "channel": "price_in_feed",
-      "kit": 1480.0,
-      "parts": 1475.0,
-      "extra": 5.0,
-      "components": {
-        "Dq500": 1,
-        "filtr-dsg7-dq500": 1
-      }
-    },
-    {
-      "priority": "medium",
-      "type": "kit_more_expensive_than_parts",
-      "sku": "DQ500",
-      "detail": "Набор стоит дороже того же BOM по отдельности",
-      "channel": "avito_cfg",
-      "kit": 1480.0,
-      "parts": 1475.0,
-      "extra": 5.0,
-      "components": {
-        "Dq500": 1,
-        "filtr-dsg7-dq500": 1
       }
     },
     {
@@ -591,12 +558,12 @@
       "sku": "02E 305 045",
       "name": "Корпус фильтра + фильтр мехатроника DSG6 DQ250 02E305045",
       "cost_master": 400.0,
-      "avito_cfg": 1480.0,
+      "avito_cfg": 1390.0,
       "site_cfg": 1480.0,
       "fixed": true,
       "price_source": "avito_site_overrides",
       "source_feed_id": "02E 305 045",
-      "price_in_feed": 1480.0,
+      "price_in_feed": 1390.0,
       "ozon_catalog": 2880.0,
       "stock_catalog": 21.0,
       "in_feed": true,
@@ -605,16 +572,16 @@
       "mapped": {
         "id": 8386056623,
         "status": "active",
-        "live_price": 1480.0,
+        "live_price": 1390.0,
         "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/korpus_filtra_filtr_mehatronika_dsg6_dq250_8386056623",
         "live_title": "Корпус фильтра + фильтр мехатроника DSG6 DQ250",
         "source": "exact_avito_id"
       },
       "model_price_source": "active_live",
-      "model_price": 1480.0,
-      "markup_to_cost": 3.7,
-      "contribution_before_view_cost": 867.2,
-      "breakeven_paid_views": 125
+      "model_price": 1390.0,
+      "markup_to_cost": 3.48,
+      "contribution_before_view_cost": 787.1,
+      "breakeven_paid_views": 114
     },
     {
       "sku": "02E305045E",
@@ -2792,12 +2759,12 @@
       "sku": "DQ500",
       "name": "Корпус фильтра + фильтр мехатроника DSG7 DQ500, комплект",
       "cost_master": 400.0,
-      "avito_cfg": 1480.0,
+      "avito_cfg": 1390.0,
       "site_cfg": 1480.0,
       "fixed": true,
       "price_source": "avito_site_overrides",
       "source_feed_id": "DQ500",
-      "price_in_feed": 1480.0,
+      "price_in_feed": 1390.0,
       "ozon_catalog": 2880.0,
       "stock_catalog": 61.0,
       "in_feed": true,
@@ -2806,16 +2773,16 @@
       "mapped": {
         "id": 8387244563,
         "status": "active",
-        "live_price": 1480.0,
+        "live_price": 1390.0,
         "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/korpus_filtra_filtr_mehatronika_dsg7_dq500_8387244563",
         "live_title": "Корпус фильтра + фильтр мехатроника DSG7 DQ500",
         "source": "exact_avito_id"
       },
       "model_price_source": "active_live",
-      "model_price": 1480.0,
-      "markup_to_cost": 3.7,
-      "contribution_before_view_cost": 867.2,
-      "breakeven_paid_views": 125
+      "model_price": 1390.0,
+      "markup_to_cost": 3.48,
+      "contribution_before_view_cost": 787.1,
+      "breakeven_paid_views": 114
     },
     {
       "sku": "Dq200dsg7",
@@ -3365,9 +3332,7 @@
       "avito_flag": null,
       "mapped": {
         "source": "not_mapped",
-        "ids": [
-          "8302806177"
-        ]
+        "ids": []
       },
       "model_price_source": "override",
       "model_price": 7350.0,
@@ -3479,9 +3444,7 @@
       "avito_flag": null,
       "mapped": {
         "source": "not_mapped",
-        "ids": [
-          "8386890410"
-        ]
+        "ids": []
       },
       "model_price_source": "override",
       "model_price": 1850.0,
@@ -4260,9 +4223,7 @@
       "avito_flag": null,
       "mapped": {
         "source": "not_mapped",
-        "ids": [
-          "8460859471"
-        ]
+        "ids": []
       },
       "model_price_source": "override",
       "model_price": 1350.0,
@@ -4316,9 +4277,7 @@
       "avito_flag": null,
       "mapped": {
         "source": "not_mapped",
-        "ids": [
-          "8449565762"
-        ]
+        "ids": []
       },
       "model_price_source": "override",
       "model_price": 1850.0,
@@ -4914,14 +4873,10 @@
       "in_master": true,
       "avito_flag": "да",
       "mapped": {
-        "id": 8486296644,
-        "status": "active",
-        "live_price": 24800.0,
-        "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/nabor_dlya_vosstanovleniya_gidroakkumulyatora_dq200_8486296644",
-        "live_title": "Набор для восстановления гидроаккумулятора DQ200",
-        "source": "exact_avito_id"
+        "source": "not_mapped",
+        "ids": []
       },
-      "model_price_source": "active_live",
+      "model_price_source": "override",
       "model_price": 24800.0,
       "markup_to_cost": null,
       "contribution_before_view_cost": null,
@@ -4943,14 +4898,10 @@
       "in_master": true,
       "avito_flag": "да",
       "mapped": {
-        "id": 8392608781,
-        "status": "active",
-        "live_price": 18800.0,
-        "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/nabor_dlya_proverki_davleniya_dsg_8392608781",
-        "live_title": "Набор для проверки давления DSG",
-        "source": "exact_avito_id"
+        "source": "not_mapped",
+        "ids": []
       },
-      "model_price_source": "active_live",
+      "model_price_source": "override",
       "model_price": 18800.0,
       "markup_to_cost": null,
       "contribution_before_view_cost": null,
@@ -5137,6 +5088,18 @@
     }
   ],
   "unmapped_live_ads": [
+    {
+      "id": 8486296644,
+      "title": "Набор для восстановления гидроаккумулятора DQ200",
+      "price": 24800.0,
+      "status": "active"
+    },
+    {
+      "id": 8392608781,
+      "title": "Набор для проверки давления DSG",
+      "price": 18800.0,
+      "status": "active"
+    },
     {
       "id": 7260747200,
       "title": "Импульсное кольцо распредвала GM 55565480",
