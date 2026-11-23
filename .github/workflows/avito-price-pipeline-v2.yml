@@ -1,0 +1,36 @@
+name: LEOPARTS Avito Price Pipeline v2 — OWNER APPROVAL REQUIRED
+on:
+  push:
+    branches: [main]
+    paths: ['data/avito_price_pipeline_v2_request.json']
+permissions: {contents: write}
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  price-v2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 23
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install required seller and workbook dependencies
+        run: pip install -q requests openpyxl python-dotenv
+      - name: Run safe pure regression tests before seller access
+        run: python -m unittest discover -s tests -p 'test_avito_*price*.py' -v
+      - name: Inspect or apply ONLY the owner-approved Avito change manifest
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -m py_compile scripts/avito_price_pipeline_v2.py
+          python -u scripts/avito_price_pipeline_v2.py
+      - name: Persist only Avito v2 result journal
+        if: always()
+        run: |
+          if [ -f data/avito_price_pipeline_v2_result.json ]; then
+            bash .github/scripts/save_data.sh data/avito_price_pipeline_v2_result.json
+          fi
