@@ -1,0 +1,29 @@
+name: LEOPARTS verify all five Ozon listings live
+on:
+  push:
+    branches: [main]
+    paths: ['data/leoparts_ozon_five_live_readback_request_20261123.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  final-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - run: python -m py_compile scripts/leoparts_ozon_five_live_readback_20261123.py
+      - name: Final read-only verification of Ozon cards, stock, media, price
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: python -u scripts/leoparts_ozon_five_live_readback_20261123.py
+      - name: Save Ozon live check, no seller writes
+        if: always()
+        run: |
+          if [ -f data/leoparts_ozon_five_live_readback_20261123.json ]; then
+            bash .github/scripts/save_data.sh data/leoparts_ozon_five_live_readback_20261123.json
+          fi
