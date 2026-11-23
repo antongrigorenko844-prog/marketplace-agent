@@ -156,7 +156,11 @@ def stage_wb_catalog(targets,wb_before):
             old=(wb_before.get(sku) or {}).get("current")
             # Current cell may already equal prior owner-approved price even if WB
             # rejected it, or may be old live price. Never overwrite arbitrary edits.
-            require(v is not None and (close(v,target) or close(v,old,2.0)),
+            # Old owner-approved Nov22 rod set prices are legitimate ledger states
+            # even when WB failed/quarantined its retail update on Nov22.
+            historically_approved={"0am325025u":2690,"0am325025z":2690}
+            previous=historically_approved.get(sku)
+            require(v is not None and (close(v,target) or close(v,old,2.0) or close(v,previous,.01)),
                   "Unexpected canonical price "+sku+" in "+sheet+": "+str(v))
             if not close(v,target,.01):
                 ws.cell(row,col).value=int(target)
