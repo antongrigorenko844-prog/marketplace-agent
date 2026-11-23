@@ -1,6 +1,6 @@
 {
-  "checked_at_utc": "2026-11-23T14:57:00.314746+00:00",
-  "mode": "inspect",
+  "checked_at_utc": "2026-11-23T14:58:42.861112+00:00",
+  "mode": "apply",
   "tool_skus": [
     "tool-dq200-acc-restore",
     "tool-dsg-pressure-hp"
@@ -28,7 +28,7 @@
       ],
       "source_sha256": "0ba3a8ae0243d57f58f18ef2fdc12c942fc976ca150978e0b2f386835a3841c9",
       "derived_sha256": "d79ad5322ef5a15cad21d74528d824233506e05290f2f002e811ac37efae9465",
-      "operation": "square_padding_preview",
+      "operation": "padded_square_published_sha_verified",
       "cropped": false,
       "artwork_changed": false
     },
@@ -45,7 +45,7 @@
       ],
       "source_sha256": "ed59977ea06c70e9b27d80c19e4868b962e8c57f8c22c7d88e9edb4af0713d45",
       "derived_sha256": "72adcf023b59294c55ad6d91bf45c99a9a4111e9ad5d25d97fc71f3c06f26647",
-      "operation": "square_padding_preview",
+      "operation": "padded_square_published_sha_verified",
       "cropped": false,
       "artwork_changed": false
     },
@@ -62,7 +62,7 @@
       ],
       "source_sha256": "0e8d01b2ef73bb4d842599d922ee6f4ad4e21caadff5083f01a0d9abaf9094af",
       "derived_sha256": "f96ae44cdc12b50cf76c2c5334c29a531e62c4035d1e4de438895eee481a937e",
-      "operation": "square_padding_preview",
+      "operation": "padded_square_published_sha_verified",
       "cropped": false,
       "artwork_changed": false
     }
@@ -103,5 +103,7 @@
   "new_wallet_billing_allowed": false,
   "seller_writes": 0,
   "possible_duplicates_scanned": 189,
-  "status": "approved_tools_preflight_passed_no_writes"
+  "published_tools_feed": "new_verified",
+  "status": "feed_asset_published_profile_update_rejected",
+  "error": "Avito POST /autoload/v2/profile вернул 400: {\"error\":{\"message\":\"Запрос сформирован неправильно.\"}}\n"
 }
