@@ -62,7 +62,19 @@ def main():
         v["stage"]="media_ready_customs_unverified" if not v["existing_ozon_product_id"] else "already_in_ozon"
         v["blocker"]="Mandatory customs classification for exact kit not owner-/officially-verified"
         save()
-    for needle in ("902620","820559"):
+    for name, vtype in [("Набор инструментов для автомобиля", 971437067),
+                        ("Специнструмент для авто", 97469),
+                        ("Манометр автомобильный", 92176)]:
+        try:
+            rows=oz.get_category_attributes(cat,vtype)
+            RESULT.setdefault("candidate_ozon_types_read_only",[]).append({
+                "name":name, "type_id":vtype,
+                "mandatory":[{"id":a.get("id"),"name":a.get("name")}
+                             for a in rows if a.get("is_required")]})
+        except Exception as e:
+            RESULT.setdefault("candidate_ozon_types_read_only",[]).append({
+                "name":name,"type_id":vtype,"error":str(e)[:135]})
+    for needle in ("902620","820559","848180","848110","847989"):
         try:
             vals=oz.search_attribute_values(cat,typ,22232,needle,limit=15)
             RESULT.setdefault("customs_dictionary_candidates_read_only",{})[needle]=vals[:15]
