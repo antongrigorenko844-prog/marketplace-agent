@@ -2,7 +2,7 @@ name: LEOPARTS Avito paid relaunch - guarded three 6T30 + live tariff
 on:
   push:
     branches: [main]
-    paths: ['data/avito_paid_relaunch_request.json']
+    paths: ['data/avito_paid_relaunch_request.json', 'data/avito_tools_autoload_request.json']
 permissions: {contents: write}
 concurrency: {group: marketplace-agent, cancel-in-progress: false}
 jobs:
@@ -30,6 +30,13 @@ jobs:
           AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
           AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
         run: python -u scripts/avito_category_and_health.py
+      - name: Guarded second feed for two approved DSG tools (inspect or apply)
+        if: always()
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -u scripts/avito_tools_autoload.py
       - name: Save actual result and exact published source if changed
         if: always()
-        run: bash .github/scripts/save_data.sh data/avito_paid_relaunch_result.json data/avito_paid_category_health.json data/avito_feed.xlsx
+        run: bash .github/scripts/save_data.sh data/avito_paid_relaunch_result.json data/avito_paid_category_health.json data/avito_tools_autoload_result.json data/avito_feed.xlsx
