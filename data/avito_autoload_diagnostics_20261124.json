@@ -1,0 +1,748 @@
+{
+  "utc": "2026-11-23T21:32:53.877422+00:00",
+  "mode": "read_only",
+  "seller_writes": 0,
+  "checks": {
+    "profile": {
+      "ok": true,
+      "data": {
+        "feeds_data": [
+          {
+            "feed_name": "LEOPARTS запчасти",
+            "feed_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito_feed.xlsx"
+          },
+          {
+            "feed_name": "LEOPARTS инструменты DSG",
+            "feed_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito_tools_feed.xml"
+          }
+        ],
+        "autoload_enabled": true,
+        "report_email": "sonyagrigorenko@icloud.com",
+        "allow_pay_over_limit": false,
+        "schedule": [
+          {
+            "rate": -1,
+            "weekdays": [
+              0,
+              6,
+              1,
+              4,
+              3,
+              2,
+              5
+            ],
+            "time_slots": [
+              22,
+              23,
+              10,
+              16,
+              15,
+              21,
+              3,
+              9,
+              8,
+              14,
+              2,
+              1,
+              7,
+              20,
+              13,
+              19,
+              18,
+              0,
+              12,
+              6,
+              5,
+              11,
+              4,
+              17
+            ]
+          }
+        ],
+        "uploadMode": "auto"
+      }
+    },
+    "current": {
+      "ok": true,
+      "data": {
+        "upload_id": 639812115,
+        "status": "processing",
+        "source": "Url",
+        "started_at": "2026-11-23T20:34:02Z",
+        "stats": {
+          "title": "Обработано объявлений",
+          "slug": "sections_stats",
+          "count": 129,
+          "sections": [
+            {
+              "title": "Не удалось опубликовать",
+              "slug": "error",
+              "count": 9,
+              "sections": [
+                {
+                  "title": "Заблокировано",
+                  "slug": "error_blocked",
+                  "count": 6
+                },
+                {
+                  "title": "Ошибки описания",
+                  "slug": "error_params",
+                  "count": 3
+                }
+              ]
+            },
+            {
+              "title": "Опубликовано",
+              "slug": "successful",
+              "count": 120,
+              "sections": [
+                {
+                  "title": "Успешно",
+                  "slug": "success_published",
+                  "count": 120
+                }
+              ]
+            }
+          ]
+        },
+        "events": [],
+        "feed_urls": [
+          {
+            "name": "LEOPARTS запчасти",
+            "url": "https://api.avito.ru/autoload/v2/feed/content/6b04a33a5f27554263063c50/8e0aefec-ed10-4c8f-9fd6-cbc8643f0d38"
+          },
+          {
+            "name": "LEOPARTS инструменты DSG",
+            "url": "https://api.avito.ru/autoload/v2/feed/content/6b04a33a5f27554263063c50/f32c21de-ea3c-4426-9048-f32731e88dad"
+          }
+        ]
+      }
+    },
+    "last_successful": {
+      "ok": true,
+      "data": {
+        "upload_id": 639788761,
+        "status": "success_warning",
+        "source": "Url",
+        "started_at": "2026-11-23T19:34:02Z",
+        "stats": {
+          "title": "Обработано объявлений",
+          "slug": "sections_stats",
+          "count": 129,
+          "sections": [
+            {
+              "title": "Не удалось опубликовать",
+              "slug": "error",
+              "count": 9,
+              "sections": [
+                {
+                  "title": "Заблокировано",
+                  "slug": "error_blocked",
+                  "count": 6
+                },
+                {
+                  "title": "Ошибки описания",
+                  "slug": "error_params",
+                  "count": 3
+                }
+              ]
+            },
+            {
+              "title": "Опубликовано",
+              "slug": "successful",
+              "count": 120,
+              "sections": [
+                {
+                  "title": "Успешно",
+                  "slug": "success_published",
+                  "count": 120
+                }
+              ]
+            }
+          ]
+        },
+        "events": [],
+        "feed_urls": [
+          {
+            "name": "LEOPARTS запчасти",
+            "url": "https://api.avito.ru/autoload/v2/feed/content/6b04952abe6d807a4e0bae56/8e0aefec-ed10-4c8f-9fd6-cbc8643f0d38"
+          },
+          {
+            "name": "LEOPARTS инструменты DSG",
+            "url": "https://api.avito.ru/autoload/v2/feed/content/6b04952abe6d807a4e0bae56/f32c21de-ea3c-4426-9048-f32731e88dad"
+          }
+        ]
+      }
+    },
+    "history": {
+      "ok": true,
+      "data": {
+        "uploads": [
+          {
+            "upload_id": 639812115,
+            "status": "processing",
+            "source": "Url",
+            "started_at": "2026-11-23T20:34:02Z",
+            "stats": {
+              "title": "Обработано объявлений",
+              "slug": "sections_stats",
+              "count": 129,
+              "sections": [
+                {
+                  "title": "Не удалось опубликовать",
+                  "slug": "error",
+                  "count": 9,
+                  "sections": [
+                    {
+                      "title": "Заблокировано",
+                      "slug": "error_blocked",
+                      "count": 6
+                    },
+                    {
+                      "title": "Ошибки описания",
+                      "slug": "error_params",
+                      "count": 3
+                    }
+                  ]
+                },
+                {
+                  "title": "Опубликовано",
+                  "slug": "successful",
+                  "count": 120,
+                  "sections": [
+                    {
+                      "title": "Успешно",
+                      "slug": "success_published",
+                      "count": 120
+                    }
+                  ]
+                }
+              ]
+            },
+            "events": [],
+            "feed_urls": [
+              {
+                "name": "LEOPARTS запчасти",
+                "url": "https://api.avito.ru/autoload/v2/feed/content/6b04a33a5f27554263063c50/8e0aefec-ed10-4c8f-9fd6-cbc8643f0d38"
+              },
+              {
+                "name": "LEOPARTS инструменты DSG",
+                "url": "https://api.avito.ru/autoload/v2/feed/content/6b04a33a5f27554263063c50/f32c21de-ea3c-4426-9048-f32731e88dad"
+              }
+            ]
+          },
+          {
+            "upload_id": 639788761,
+            "status": "success_warning",
+            "source": "Url",
+            "started_at": "2026-11-23T19:34:02Z",
+            "stats": {
+              "title": "Обработано объявлений",
+              "slug": "sections_stats",
+              "count": 129,
+              "sections": [
+                {
+                  "title": "Не удалось опубликовать",
+                  "slug": "error",
+                  "count": 9,
+                  "sections": [
+                    {
+                      "title": "Заблокировано",
+                      "slug": "error_blocked",
+                      "count": 6
+                    },
+                    {
+                      "title": "Ошибки описания",
+                      "slug": "error_params",
+                      "count": 3
+                    }
+                  ]
+                },
+                {
+                  "title": "Опубликовано",
+                  "slug": "successful",
+                  "count": 120,
+                  "sections": [
+                    {
+                      "title": "Успешно",
+                      "slug": "success_published",
+                      "count": 120
+                    }
+                  ]
+                }
+              ]
+            },
+            "events": [],
+            "feed_urls": [
+              {
+                "name": "LEOPARTS запчасти",
+                "url": "https://api.avito.ru/autoload/v2/feed/content/6b04952abe6d807a4e0bae56/8e0aefec-ed10-4c8f-9fd6-cbc8643f0d38"
+              },
+              {
+                "name": "LEOPARTS инструменты DSG",
+                "url": "https://api.avito.ru/autoload/v2/feed/content/6b04952abe6d807a4e0bae56/f32c21de-ea3c-4426-9048-f32731e88dad"
+              }
+            ]
+          },
+          {
+            "upload_id": 639765124,
+            "status": "success_warning",
+            "source": "Url",
+            "started_at": "2026-11-23T18:34:02Z",
+            "stats": {
+              "title": "Обработано объявлений",
+              "slug": "sections_stats",
+              "count": 129,
+              "sections": [
+                {
+                  "title": "Не опубликовано",
+                  "slug": "not_publish",
+                  "count": 1,
+                  "sections": [
+                    {
+                      "title": "Истёк срок размещения",
+                      "slug": "stopped_by_expiration",
+                      "count": 1
+                    }
+                  ]
+                },
+                {
+                  "title": "Не удалось опубликовать",
+                  "slug": "error",
+                  "count": 9,
+                  "sections": [
+                    {
+                      "title": "Заблокировано",
+                      "slug": "error_blocked",
+                      "count": 6
+                    },
+                    {
+                      "title": "Ошибки описания",
+                      "slug": "error_params",
+                      "count": 3
+                    }
+                  ]
+                },
+                {
+                  "title": "Опубликовано",
+                  "slug": "successful",
+                  "count": 119,
+                  "sections": [
+                    {
+                      "title": "Успешно",
+                      "slug": "success_published",
+                      "count": 119
+                    }
+                  ]
+                }
+              ]
+            },
+            "events": [],
+            "feed_urls": [
+              {
+                "name": "LEOPARTS запчасти",
+                "url": "https://api.avito.ru/autoload/v2/feed/content/6b048719b380bfa974e152d3/8e0aefec-ed10-4c8f-9fd6-cbc8643f0d38"
+              },
+              {
+                "name": "LEOPARTS инструменты DSG",
+                "url": "https://api.avito.ru/autoload/v2/feed/content/6b048719b380bfa974e152d3/f32c21de-ea3c-4426-9048-f32731e88dad"
+              }
+            ]
+          },
+          {
+            "upload_id": 639740738,
+            "status": "success_warning",
+            "source": "Url",
+            "started_at": "2026-11-23T17:34:04Z",
+            "stats": {
+              "title": "Обработано объявлений",
+              "slug": "sections_stats",
+              "count": 129,
+              "sections": [
+                {
+                  "title": "Не опубликовано",
+                  "slug": "not_publish",
+                  "count": 9,
+                  "sections": [
+                    {
+                      "title": "Истёк срок размещения",
+                      "slug": "stopped_by_expiration",
+                      "count": 9
+                    }
+                  ]
+                },
+                {
+                  "title": "Не удалось опубликовать",
+                  "slug": "error",
+                  "count": 9,
+                  "sections": [
+                    {
+                      "title": "Заблокировано",
+                      "slug": "error_blocked",
+                      "count": 6
+                    },
+                    {
+                      "title": "Ошибки описания",
+                      "slug": "error_params",
+                      "count": 3
+                    }
+                  ]
+                },
+                {
+                  "title": "Опубликовано",
+                  "slug": "successful",
+                  "count": 111,
+                  "sections": [
+                    {
+                      "title": "Успешно",
+                      "slug": "success_published",
+                      "count": 111
+                    }
+                  ]
+                }
+              ]
+            },
+            "events": [],
+            "feed_urls": [
+              {
+                "name": "LEOPARTS запчасти",
+                "url": "https://api.avito.ru/autoload/v2/feed/content/6b04790bbe6d807a4e0b895a/8e0aefec-ed10-4c8f-9fd6-cbc8643f0d38"
+              },
+              {
+                "name": "LEOPARTS инструменты DSG",
+                "url": "https://api.avito.ru/autoload/v2/feed/content/6b04790bbe6d807a4e0b895a/f32c21de-ea3c-4426-9048-f32731e88dad"
+              }
+            ]
+          },
+          {
+            "upload_id": 639715801,
+            "status": "success_warning",
+            "source": "Url",
+            "started_at": "2026-11-23T16:34:03Z",
+            "stats": {
+              "title": "Обработано объявлений",
+              "slug": "sections_stats",
+              "count": 129,
+              "sections": [
+                {
+                  "title": "Не удалось опубликовать",
+                  "slug": "error",
+                  "count": 9,
+                  "sections": [
+                    {
+                      "title": "Заблокировано",
+                      "slug": "error_blocked",
+                      "count": 6
+                    },
+                    {
+                      "title": "Ошибки описания",
+                      "slug": "error_params",
+                      "count": 3
+                    }
+                  ]
+                },
+                {
+                  "title": "Опубликовано",
+                  "slug": "successful",
+                  "count": 120,
+                  "sections": [
+                    {
+                      "title": "Успешно",
+                      "slug": "success_published",
+                      "count": 120
+                    }
+                  ]
+                }
+              ]
+            },
+            "events": [],
+            "feed_urls": [
+              {
+                "name": "LEOPARTS запчасти",
+                "url": "https://api.avito.ru/autoload/v2/feed/content/6b046afbf1dd0c0960d4df25/8e0aefec-ed10-4c8f-9fd6-cbc8643f0d38"
+              },
+              {
+                "name": "LEOPARTS инструменты DSG",
+                "url": "https://api.avito.ru/autoload/v2/feed/content/6b046afbf1dd0c0960d4df25/f32c21de-ea3c-4426-9048-f32731e88dad"
+              }
+            ]
+          },
+          {
+            "upload_id": 639690501,
+            "status": "success_warning",
+            "source": "Url",
+            "started_at": "2026-11-23T15:34:02Z",
+            "stats": {
+              "title": "Обработано объявлений",
+              "slug": "sections_stats",
+              "count": 129,
+              "sections": [
+                {
+                  "title": "Не удалось опубликовать",
+                  "slug": "error",
+                  "count": 9,
+                  "sections": [
+                    {
+                      "title": "Заблокировано",
+                      "slug": "error_blocked",
+                      "count": 6
+                    },
+                    {
+                      "title": "Ошибки описания",
+                      "slug": "error_params",
+                      "count": 3
+                    }
+                  ]
+                },
+                {
+                  "title": "Опубликовано",
+                  "slug": "successful",
+                  "count": 120,
+                  "sections": [
+                    {
+                      "title": "Успешно",
+                      "slug": "success_published",
+                      "count": 120
+                    }
+                  ]
+                }
+              ]
+            },
+            "events": [],
+            "feed_urls": [
+              {
+                "name": "LEOPARTS запчасти",
+                "url": "https://api.avito.ru/autoload/v2/feed/content/6b045ceaf1dd0c0960d4c6d4/8e0aefec-ed10-4c8f-9fd6-cbc8643f0d38"
+              },
+              {
+                "name": "LEOPARTS инструменты DSG",
+                "url": "https://api.avito.ru/autoload/v2/feed/content/6b045ceaf1dd0c0960d4c6d4/f32c21de-ea3c-4426-9048-f32731e88dad"
+              }
+            ]
+          },
+          {
+            "upload_id": 639665056,
+            "status": "success_warning",
+            "source": "Url",
+            "started_at": "2026-11-23T14:34:03Z",
+            "stats": {
+              "title": "Обработано объявлений",
+              "slug": "sections_stats",
+              "count": 124,
+              "sections": [
+                {
+                  "title": "Не удалось опубликовать",
+                  "slug": "error",
+                  "count": 6,
+                  "sections": [
+                    {
+                      "title": "Заблокировано",
+                      "slug": "error_blocked",
+                      "count": 6
+                    }
+                  ]
+                },
+                {
+                  "title": "Опубликовано",
+                  "slug": "successful",
+                  "count": 118,
+                  "sections": [
+                    {
+                      "title": "Успешно",
+                      "slug": "success_published",
+                      "count": 118
+                    }
+                  ]
+                }
+              ]
+            },
+            "events": [],
+            "feed_urls": [
+              {
+                "name": "",
+                "url": "https://api.avito.ru/autoload/v2/feed/content/6b044edbe7ee799c82c1fd83/e715b6be-2107-4274-8ae5-9b1c30fe7e10"
+              }
+            ]
+          },
+          {
+            "upload_id": 638426570,
+            "status": "success_warning",
+            "source": "Url",
+            "started_at": "2026-11-21T11:08:03Z",
+            "stats": {
+              "title": "Обработано объявлений",
+              "slug": "sections_stats",
+              "count": 124,
+              "sections": [
+                {
+                  "title": "Не опубликовано",
+                  "slug": "not_publish",
+                  "count": 16,
+                  "sections": [
+                    {
+                      "title": "Истёк срок размещения",
+                      "slug": "stopped_by_expiration",
+                      "count": 16
+                    }
+                  ]
+                },
+                {
+                  "title": "Не удалось опубликовать",
+                  "slug": "error",
+                  "count": 6,
+                  "sections": [
+                    {
+                      "title": "Заблокировано",
+                      "slug": "error_blocked",
+                      "count": 6
+                    }
+                  ]
+                },
+                {
+                  "title": "Опубликовано",
+                  "slug": "successful",
+                  "count": 102,
+                  "sections": [
+                    {
+                      "title": "Успешно",
+                      "slug": "success_published",
+                      "count": 102
+                    }
+                  ]
+                }
+              ]
+            },
+            "events": [],
+            "feed_urls": [
+              {
+                "name": "",
+                "url": "https://api.avito.ru/autoload/v2/feed/content/6b017b93f856afc59c839db7/e715b6be-2107-4274-8ae5-9b1c30fe7e10"
+              }
+            ]
+          },
+          {
+            "upload_id": 638401235,
+            "status": "success_warning",
+            "source": "Url",
+            "started_at": "2026-11-21T10:08:03Z",
+            "stats": {
+              "title": "Обработано объявлений",
+              "slug": "sections_stats",
+              "count": 124,
+              "sections": [
+                {
+                  "title": "Не удалось опубликовать",
+                  "slug": "error",
+                  "count": 6,
+                  "sections": [
+                    {
+                      "title": "Заблокировано",
+                      "slug": "error_blocked",
+                      "count": 6
+                    }
+                  ]
+                },
+                {
+                  "title": "Опубликовано",
+                  "slug": "successful",
+                  "count": 118,
+                  "sections": [
+                    {
+                      "title": "Успешно",
+                      "slug": "success_published",
+                      "count": 118
+                    }
+                  ]
+                }
+              ]
+            },
+            "events": [],
+            "feed_urls": [
+              {
+                "name": "",
+                "url": "https://api.avito.ru/autoload/v2/feed/content/6b016d824cd397221e21c496/e715b6be-2107-4274-8ae5-9b1c30fe7e10"
+              }
+            ]
+          },
+          {
+            "upload_id": 638375422,
+            "status": "success_warning",
+            "source": "Url",
+            "started_at": "2026-11-21T09:08:04Z",
+            "stats": {
+              "title": "Обработано объявлений",
+              "slug": "sections_stats",
+              "count": 124,
+              "sections": [
+                {
+                  "title": "Не удалось опубликовать",
+                  "slug": "error",
+                  "count": 6,
+                  "sections": [
+                    {
+                      "title": "Заблокировано",
+                      "slug": "error_blocked",
+                      "count": 6
+                    }
+                  ]
+                },
+                {
+                  "title": "Опубликовано",
+                  "slug": "successful",
+                  "count": 118,
+                  "sections": [
+                    {
+                      "title": "Успешно",
+                      "slug": "success_published",
+                      "count": 118
+                    }
+                  ]
+                }
+              ]
+            },
+            "events": [],
+            "feed_urls": [
+              {
+                "name": "",
+                "url": "https://api.avito.ru/autoload/v2/feed/content/6b015f74f856afc59c834553/e715b6be-2107-4274-8ae5-9b1c30fe7e10"
+              }
+            ]
+          }
+        ],
+        "meta": {
+          "perPage": 10,
+          "page": 1,
+          "pages": 119,
+          "total": 1182
+        }
+      }
+    }
+  },
+  "seller_counts": {
+    "total": 156,
+    "unique": 156
+  },
+  "titles": {
+    "8231885696": {
+      "desired": "Оригинальная крышка DQ200 + усиленная прокладка",
+      "live_title": "Оригинальная крышка + усиленная прокладка",
+      "live_price": 2350,
+      "status": "active",
+      "title_verified": false
+    },
+    "8449035864": {
+      "desired": "Пластина соленоидов DSG7 DQ200 оригинал VAG",
+      "live_title": "Пластина соленоидов мехатроника DSG7 DQ200",
+      "live_price": 1350,
+      "status": "active",
+      "title_verified": false
+    },
+    "8394615261": {
+      "desired": "Сальники толкателей вилок DSG7 DQ200, 4 шт",
+      "live_title": "Сальник толкателя вилки мехатроника DSG7 DQ200",
+      "live_price": 990,
+      "status": "active",
+      "title_verified": false
+    }
+  }
+}
