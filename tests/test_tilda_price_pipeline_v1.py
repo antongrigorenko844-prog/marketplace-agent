@@ -12,7 +12,9 @@ def sample_rows():
                     "editions":[{"sku":sku,"uid":uid,"price":"950"}],
                     "gallery":["keep_images"],"quantity":"23"})
     rows[10].update({"sku":"DQ500","externalid":"DQ500"})
+    rows[10]["editions"][0]["sku"]="DQ500"
     rows[11].update({"sku":"Dq500","externalid":"Dq500"})
+    rows[11]["editions"][0]["sku"]="Dq500"
     rows.append({"uid":"351198279983","sku":"0AM325120A",
                  "externalid":"vvhXIAeziJxJ7VCAPLJK",
                  "title":"Copy: Транспортная заглушка", "price":"500",
