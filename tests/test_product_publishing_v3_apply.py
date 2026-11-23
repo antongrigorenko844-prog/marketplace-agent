@@ -264,7 +264,7 @@ class GuardedPublishingTests(unittest.TestCase):
         seller=MockNewSeller("ozon")
         with tempfile.TemporaryDirectory() as d:
             with patch.object(writer,"catalog_stock",return_value=2),\
-                 patch("photo_host.upload_file",side_effect=AssertionError("Pilot uploaded Release media")):
+                 patch.object(writer,"verified_media",side_effect=AssertionError("Pilot attempted media upload")):
                 p=self.build(batch,cfg,{"ozon":seller},d,mode="pilot")
                 report=p.run()
                 self.assertEqual(report["events"][0]["state"],"ready_to_create")
