@@ -1304,7 +1304,7 @@
     {
       "avito_id": 4125079566,
       "live_status": "active",
-      "live_price_rub": 950,
+      "live_price_rub": 450,
       "live_title": "Пыльник штоков мехатроника DSG 7 DQ200 0AM 0CW",
       "match_state": "candidate_not_bound",
       "match_confidence": "title_only_needs_composition_review",
@@ -1313,7 +1313,7 @@
           "sku": "122390AK-AF",
           "master_present": true,
           "canonical_name": "Пыльник штока мехатроника DSG7 DQ200 122390AK-AF",
-          "configured_avito_price_rub": 950,
+          "configured_avito_price_rub": 450,
           "price_gap_vs_canonical_rub": 0
         },
         {
@@ -1352,12 +1352,12 @@
         "122390AK-AF"
       ],
       "owner_instruction_keep_old_ad": true,
-      "owner_price_instruction": "sync_to_main_catalog_122390AK-AF_950",
-      "owner_target_price_rub": 950,
-      "owner_notes": "Не два оригинальных пыльника, не pylniki-shtokov-orig",
-      "prior_live_price_rub": 450,
+      "owner_price_instruction": "corrected_plain_boot_450",
+      "owner_target_price_rub": 450,
+      "owner_notes": "Не два оригинальных пыльника, не pylniki-shtokov-orig | 24.11 correction: 950 was marketplace-style price, ordinary single boot Avito restored to historical 450 and main SKU/feed revised. Original 122390AKAF remains 950.",
+      "prior_live_price_rub": 950,
       "latest_price_verified": true,
-      "latest_price_verification_source": "data/avito_owner_14_legacy_prices_result_20261124.json",
+      "latest_price_verification_source": "data/avito_plain_boot_restore_20261124_result.json",
       "price_change_history": [
         {
           "date": "2026-11-24",
@@ -1365,6 +1365,13 @@
           "new_rub": 950,
           "verification": "seller API live readback",
           "change_scope": "old ad price only"
+        },
+        {
+          "date": "2026-11-24",
+          "old_rub": 950,
+          "new_rub": 450,
+          "verification": "seller API live readback",
+          "basis": "correction: Avito ordinary boot, marketplace unaffected"
         }
       ]
     },
@@ -1617,8 +1624,8 @@
           "sku": "122390AK-AF",
           "master_present": true,
           "canonical_name": "Пыльник штока мехатроника DSG7 DQ200 122390AK-AF",
-          "configured_avito_price_rub": 950,
-          "price_gap_vs_canonical_rub": -500
+          "configured_avito_price_rub": 450,
+          "price_gap_vs_canonical_rub": 0
         }
       ],
       "review_required": true
@@ -1688,6 +1695,11 @@
     "unchanged_verified_composition": [
       4285108577
     ],
-    "remaining_items_to_confirm": 0
+    "remaining_items_to_confirm": 0,
+    "corrected_from_auto_matched_950_to_450": [
+      4125079566,
+      8461500993
+    ],
+    "corrected_old_id_price_verified": true
   }
 }
