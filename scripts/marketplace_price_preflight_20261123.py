@@ -85,7 +85,10 @@ def wb_read():
  allrows=wb.get_prices(limit=1000)
  ret={}
  for sku,target in PLAN.items():
-  found=[x for x in allrows if x.get("vendorCode")==sku]
+  # Dq500 is the owner-facing master SKU, but WB rejected the case-only key
+  # because DQ500 is an existing different kit; use its approved unique alias.
+  vendor_code="dq500-korpus-gladkiy" if sku=="Dq500" else sku
+  found=[x for x in allrows if x.get("vendorCode")==vendor_code]
   if len(found)!=1:
    ret[sku]={"status":"not_found" if not found else "duplicate","matched":len(found)}
    continue
