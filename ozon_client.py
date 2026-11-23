@@ -124,7 +124,7 @@ def get_product_names(offer_ids: Optional[List[str]] = None, limit: int = 1000) 
     /v3/product/info/list НЕ содержит названия (только штрихкод, цену,
     категорию, комиссию, ошибки модерации). Название отдаёт либо
     /v1/product/info/description (по одному товару за раз — offer_id или
-    product_id, без пакетной выборки), либо /v4/product/info/attributes
+    product_id, без пакетной выборки), либо /v4/products/info/attributes
     (пакетно, с пагинацией last_id) — используем второй, он эффективнее
     для десятков/сотен товаров разом.
     """
@@ -134,9 +134,9 @@ def get_product_names(offer_ids: Optional[List[str]] = None, limit: int = 1000) 
     if offer_ids:
         filter_body["offer_id"] = offer_ids
     while True:
-        # ENDPOINT: POST /v4/product/info/attributes — подтверждено в живой документации 02.09.2026
+        # ENDPOINT: POST /v4/products/info/attributes — plural products per official Ozon Seller API migration
         data = _post(
-            "/v4/product/info/attributes",
+            "/v4/products/info/attributes",
             {"filter": filter_body, "last_id": last_id, "limit": limit, "sort_dir": "ASC"},
         )
         items = data.get("result", [])
