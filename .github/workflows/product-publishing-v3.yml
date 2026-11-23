@@ -1,106 +1,141 @@
-name: LEOPARTS Product Publishing v3 - one batch, one report, no seller writes
+name: LEOPARTS Product Publishing v3 — one batch plan, pilot, apply or resume
 
 on:
   workflow_dispatch:
     inputs:
       batch:
-        description: One approved batch ID from data/product_intake_v2/requests
-        required: true
+        description: Approved batch ID (plan/live); apply uses signed dispatch.json
         type: string
         default: leoparts-five-20261123
       mode:
-        description: plan needs no credentials; live only reads platform APIs
+        description: plan/live are read-only; pilot writes nothing; apply requires signed approval
         required: true
         type: choice
         default: plan
-        options: [plan, live]
+        options: [plan, live, pilot, apply, resume]
       channels:
-        description: Comma-separated platform list; Avito is disabled even if selected
-        required: true
+        description: Selected marketplaces; Avito disabled until paid
         type: string
         default: ozon,wildberries,yandex_market,tilda,avito
   push:
     branches: [main]
-    paths:
-      - 'data/product_intake_v3/dispatch.json'
+    paths: ['data/product_intake_v3/dispatch.json']
   pull_request:
     paths:
       - 'scripts/product_publishing_v3.py'
+      - 'scripts/product_publishing_v3_apply.py'
+      - 'scripts/product_publishing_v3_adapters.py'
       - 'tests/test_product_publishing_v3.py'
+      - 'tests/test_product_publishing_v3_apply.py'
       - 'docs/LEOPARTS_PRODUCT_PUBLISHING_V3.md'
       - '.github/workflows/product-publishing-v3.yml'
       - 'data/product_intake_v2/requests/**'
       - 'data/product_intake_v3/dispatch.json'
+  schedule:
+    # Resume only if an approved apply batch is pending. Never start a new
+    # publication from a scheduler. Stock/order runs keep their global lock.
+    - cron: '13,43 * * * *'
 
-permissions:
-  contents: read
-
-# Reports never hold the operational inventory/price global lock.
-# A separate workflow run is not needed for each SKU or each marketplace.
+permissions: {contents: read}
 concurrency:
-  group: product-publishing-v3-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.event_name == 'push' && 'agent-dispatch' || inputs.batch }}
+  group: v3-batch-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.event_name == 'workflow_dispatch' && inputs.batch || 'dispatch' }}
   cancel-in-progress: false
 
 jobs:
   tests:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 7
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: '3.11'}
-      - name: Run zero-credential regression tests
+      - name: Compile both v3 engines and adapters
+        run: python -m py_compile scripts/product_publishing_v3.py scripts/product_publishing_v3_apply.py scripts/product_publishing_v3_adapters.py
+      - name: Run offline v3 planner, publishing and legacy regression suites
         run: |
-          python -m py_compile scripts/product_publishing_v3.py
           python -m unittest discover -s tests -p 'test_product_publishing_v3.py' -v
+          python -m unittest discover -s tests -p 'test_product_publishing_v3_apply.py' -v
           python -m unittest discover -s tests -p 'test_product_intake_v2.py' -v
           python scripts/product_publishing_v3.py --batch leoparts-five-20261123 --mode plan --output "$RUNNER_TEMP/plan.json"
           python - "$RUNNER_TEMP/plan.json" <<'PY'
-          import json, sys
-          result = json.load(open(sys.argv[1], encoding='utf-8'))
-          assert result['summary']['sku_count'] == 5
-          assert result['summary']['disabled'] == 5
-          assert result['seller_writes'] == 0
-          print('PASS: all five planned, Avito disabled, no seller writes')
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding='utf-8'))
+          assert d['summary']['sku_count']==5 and d['summary']['disabled']==5
+          assert d['seller_writes']==0
+          print('PASS: 5 SKUs plan; Avito disabled, zero seller writes')
           PY
-      - name: Verify source data and pricing were not changed
+      - name: Check existing catalogs, prices and order files are unchanged
         run: |
-          git diff --exit-code -- data/master_control.xlsx data/ozon_catalog.xlsx data/avito_site_price_overrides.xlsx
+          git diff --exit-code -- data/master_control.xlsx data/ozon_catalog.xlsx data/orders_seen.db data/avito_site_price_overrides.xlsx
+
+  select:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    outputs:
+      mode: ${{ steps.choose.outputs.mode }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select read-only vs guarded writing path
+        id: choose
+        env:
+          EVENT: ${{ github.event_name }}
+          INPUT_MODE: ${{ inputs.mode }}
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          p=pathlib.Path('data/product_intake_v3/dispatch.json')
+          d=json.loads(p.read_text(encoding='utf-8'))
+          event=os.environ['EVENT']
+          mode=os.environ.get('INPUT_MODE') if event=='workflow_dispatch' else d.get('mode','plan')
+          if event=='schedule':
+              mode='none'
+              if d.get('mode')=='apply' and d.get('apply_authorized') is True:
+                  batch=d.get('batch_id','')
+                  if batch and all(c.isalnum() or c in '_-' for c in batch):
+                      path=pathlib.Path('data/product_intake_v3/state')/(batch+'.json')
+                      if path.is_file():
+                          state=json.loads(path.read_text(encoding='utf-8'))
+                          pending={'create_intent','create_submitted','awaiting_platform',
+                                   'configured_pending_final_readback'}
+                          if any(t.get('state') in pending for t in state.get('tasks',{}).values()):
+                              mode='resume'
+          allowed={'plan','live','pilot','apply','resume','none'}
+          if mode not in allowed: raise ValueError('Invalid publishing mode')
+          with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as out:
+              out.write('mode='+mode+'\n')
+          print('Selected',mode)
+          PY
 
   inspect:
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+    needs: select
+    if: needs.select.outputs.mode == 'plan' || needs.select.outputs.mode == 'live'
     runs-on: ubuntu-latest
     timeout-minutes: 14
     env:
       BATCH: ${{ inputs.batch }}
       CHANNELS: ${{ inputs.channels }}
-      MODE: ${{ inputs.mode }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: '3.11'}
-      # Planning uses stdlib; only live mode needs API client dependencies.
-      - name: Install only what live marketplace reads need
-        if: inputs.mode == 'live' || github.event_name == 'push'
+      - name: Install minimal read dependencies only for live readback
+        if: needs.select.outputs.mode == 'live'
         run: pip install -q requests openpyxl python-dotenv
-      - name: Plan offline, without seller credentials
-        if: inputs.mode == 'plan'
-        run: |
-          python scripts/product_publishing_v3.py --batch "$BATCH" --channels "$CHANNELS" \
-            --mode plan --output "$RUNNER_TEMP/product-publishing-v3.json"
-      - name: Read marketplaces in parallel, without writing seller data
-        if: inputs.mode == 'live'
+      - name: Offline plan, no seller credentials
+        if: github.event_name == 'workflow_dispatch' && needs.select.outputs.mode == 'plan'
+        run: python scripts/product_publishing_v3.py --batch "$BATCH" --channels "$CHANNELS" --mode plan --output "$RUNNER_TEMP/report.json"
+      - name: Live parallel readback, no seller writes
+        if: github.event_name == 'workflow_dispatch' && needs.select.outputs.mode == 'live'
         env:
           OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
           OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
           WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
           YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
           YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
-        run: |
-          python scripts/product_publishing_v3.py --batch "$BATCH" --channels "$CHANNELS" \
-            --mode live --output "$RUNNER_TEMP/product-publishing-v3.json"
-      - name: Agent-triggered batch dispatch, still read-only
+        run: python scripts/product_publishing_v3.py --batch "$BATCH" --channels "$CHANNELS" --mode live --output "$RUNNER_TEMP/report.json"
+      - name: Agent dispatch plan/live
         if: github.event_name == 'push'
         env:
           OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
@@ -108,43 +143,93 @@ jobs:
           WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
           YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
           YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: python scripts/product_publishing_v3.py --dispatch data/product_intake_v3/dispatch.json --output "$RUNNER_TEMP/report.json"
+      - name: One batch summary
+        if: always()
         run: |
-          python scripts/product_publishing_v3.py \
-            --dispatch data/product_intake_v3/dispatch.json \
-            --output "$RUNNER_TEMP/product-publishing-v3.json"
-      - name: Human-readable batch summary
-        run: |
-          python - "$RUNNER_TEMP/product-publishing-v3.json" <<'PY'
-          import json, os, sys
-          d = json.load(open(sys.argv[1], encoding='utf-8'))
-          states = d['summary']
-          lines = [
-              '# LEOPARTS publishing v3 — ' + d['batch_id'],
-              '',
-              'Mode: **' + d['mode'] + '**. Seller writes: **0**.',
-              '',
-              '| SKU | ' + ' | '.join(next(iter(d['items'].values()))['channels']) + ' |',
-              '| --- | ' + ' | '.join('---' for _ in next(iter(d['items'].values()))['channels']) + ' |',
-          ]
-          cols = list(next(iter(d['items'].values()))['channels'])
-          for sku, row in d['items'].items():
-              lines.append('| ' + sku + ' | ' +
-                           ' | '.join(row['channels'].get(c, {}).get('state', '-') for c in cols) + ' |')
-          lines.append('')
-          lines.append('Summary: ' + json.dumps(states, ensure_ascii=False))
-          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as out:
-              out.write('\n'.join(lines) + '\n')
-          print(json.dumps(states, ensure_ascii=False))
+          if [ -f "$RUNNER_TEMP/report.json" ]; then
+            python - "$RUNNER_TEMP/report.json" <<'PY'
+          import json,os,sys
+          d=json.load(open(sys.argv[1],encoding='utf-8'))
+          msg='# LEOPARTS '+d['batch_id']+'\n\nRead-only '+d['mode']+'\n\n'+json.dumps(d['summary'],ensure_ascii=False)
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a',encoding='utf-8') as f:f.write(msg+'\n')
+          print(msg)
           PY
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: product-publishing-v3-${{ github.run_id }}
-          path: ${{ runner.temp }}/product-publishing-v3.json
+          name: leoparts-v3-inspection-${{ github.run_id }}
+          path: ${{ runner.temp }}/report.json
           if-no-files-found: warn
           retention-days: 14
-      - name: Ensure seller and catalog data were never committed or modified
+
+  publisher:
+    needs: select
+    if: needs.select.outputs.mode == 'apply' || needs.select.outputs.mode == 'resume' || needs.select.outputs.mode == 'pilot'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions: {contents: write}
+    # ALL writes go through the current inventory/order global lock. Pilot
+    # acquires the lock too for an exact no-write end-to-end rehearsal.
+    concurrency: {group: marketplace-agent, cancel-in-progress: false}
+    env:
+      MODE: ${{ needs.select.outputs.mode }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q requests openpyxl pillow python-dotenv
+      - name: Compile and regression smoke before any real API write
+        run: |
+          python -m py_compile scripts/product_publishing_v3_apply.py scripts/product_publishing_v3_adapters.py
+          python -m unittest discover -s tests -p 'test_product_publishing_v3_apply.py' -q
+      - name: Run guarded pilot/apply/resume with durable intent checkpoints
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          OZON_WAREHOUSE_ID: ${{ secrets.OZON_WAREHOUSE_ID }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ "$MODE" = pilot ]; then
+            python scripts/product_publishing_v3_apply.py --mode pilot --output "$RUNNER_TEMP/report.json"
+          else
+            python scripts/product_publishing_v3_apply.py --mode "$MODE" --git-checkpoint --output "$RUNNER_TEMP/report.json"
+          fi
+      - name: Commit only new immutable media cache, never catalogs/prices
+        if: success() && env.MODE != 'pilot'
+        run: |
+          bash .github/scripts/save_data.sh data/photo_upload_cache.json
+      - name: Summary for one batch
         if: always()
         run: |
-          git diff --exit-code -- data/master_control.xlsx data/ozon_catalog.xlsx \
+          if [ -f "$RUNNER_TEMP/report.json" ]; then
+            python - "$RUNNER_TEMP/report.json" <<'PY'
+          import json,os,sys
+          d=json.load(open(sys.argv[1],encoding='utf-8'))
+          msg='# LEOPARTS '+d['batch_id']+'\n\nMode: '+d['mode']+'\n\n'+json.dumps(d['summary'],ensure_ascii=False)
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a',encoding='utf-8') as f:f.write(msg+'\n')
+          print(msg)
+          PY
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: leoparts-v3-publishing-${{ github.run_id }}
+          path: ${{ runner.temp }}/report.json
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Protect price, orders and existing stock files
+        if: always()
+        run: |
+          git diff --exit-code -- data/master_control.xlsx data/ozon_catalog.xlsx data/orders_seen.db \
             data/avito_site_price_overrides.xlsx
