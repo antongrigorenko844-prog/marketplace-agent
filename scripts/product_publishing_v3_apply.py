@@ -240,6 +240,29 @@ class Publisher:
         self.record(sku, channel, **{phase + "_ack": ack})
         return {"state": "ack_" + phase, "ack": ack}
 
+    def _final_readback(self, channel: str, item: dict) -> dict:
+        """Independent readback, never accept only a successful HTTP upload."""
+        from scripts import product_publishing_v3 as reader
+        readers = {
+            "ozon": reader.verify_ozon,
+            "wildberries": reader.verify_wildberries,
+            "yandex_market": reader.verify_yandex_market,
+            "tilda": reader.verify_tilda,
+        }
+        observed, _ = readers[channel]([item])
+        result = observed.get(item["sku"]) or {"state": "not_found"}
+        if channel == "ozon":
+            verified = result.get("state") == "selling"
+        elif channel == "wildberries":
+            verified = result.get("state") == "catalog_verified"
+        elif channel == "yandex_market":
+            verified = result.get("state") == "business_catalog_verified"
+        else:
+            verified = result.get("state") == "public_catalog_verified"
+        return {"verified": verified, "observed": result,
+                "scope": "selling" if channel == "ozon" and verified
+                         else "catalog_and_price_only" if verified else "not_verified"}
+
     def _process_one(self, channel: str, adapter, item: dict) -> None:
         sku = item["sku"]
         row = self.journal.get(sku, channel)
@@ -351,7 +374,20 @@ class Publisher:
             if status["state"].startswith("uncertain"):
                 return
         self.record(sku, channel, state="configured_pending_final_readback")
-        self.event(sku, channel, "configured_pending_final_readback")
+        try:
+            result = self._final_readback(channel, item)
+            self.record(sku, channel, final_readback=result)
+            if result["verified"]:
+                self.record(sku, channel, state="done")
+                self.event(sku, channel, "done",
+                           detail="Verified " + result["scope"] + " via independent API readback")
+            else:
+                self.event(sku, channel, "configured_pending_final_readback",
+                           detail="Await storefront/price/stock API confirmation")
+        except Exception as exc:
+            # Observability failure must not lead to another create/price/stock.
+            self.event(sku, channel, "configured_pending_final_readback",
+                       detail=type(exc).__name__ + ": " + str(exc)[:155])
 
     def _channel(self, channel: str):
         adapter = self.adapter_map.get(channel) or adapters.factory(channel)
@@ -390,6 +426,7 @@ class Publisher:
                               "ready_to_create": status.count("ready_to_create"),
                               "submitted_or_configured": sum(x in ("awaiting_platform",
                                     "configured_pending_final_readback") for x in status),
+                              "done": status.count("done"),
                               "blocked_or_uncertain": sum(x.startswith(("blocked", "uncertain",
                                     "read_error", "api_scan_error")) for x in status),
                               "writes_enabled": self.write,
