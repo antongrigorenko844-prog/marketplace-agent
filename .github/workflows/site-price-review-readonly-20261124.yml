@@ -1,0 +1,25 @@
+name: LEOPARTS Tilda LIVE Prices and Links — READ ONLY
+on:
+  push:
+    branches: [main]
+    paths: ['data/site_price_review_readonly_request_20261124.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q requests openpyxl python-dotenv
+      - name: Fetch public Tilda product catalog and compare exact SKU prices (no writes)
+        run: python -u scripts/site_prices_readonly_20261124.py
+      - name: Save read-only snapshot only
+        if: always()
+        run: |
+          if [ -f data/site_price_review_live_20261124.json ]; then
+            bash .github/scripts/save_data.sh data/site_price_review_live_20261124.json
+          fi
