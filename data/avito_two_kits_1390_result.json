@@ -1,0 +1,35 @@
+{
+  "at_utc": "2026-11-23T16:50:05.636412+00:00",
+  "mode": "inspect",
+  "status": "blocked_or_partial_verify_before_retry",
+  "targets": {
+    "02E 305 045": {
+      "id": 8386056623,
+      "before": 1480,
+      "after": 1390,
+      "site_keep": 1480,
+      "components": {
+        "02e305045": 1,
+        "02E305051C": 1
+      },
+      "cost": 400
+    },
+    "DQ500": {
+      "id": 8387244563,
+      "before": 1480,
+      "after": 1390,
+      "site_keep": 1480,
+      "components": {
+        "Dq500": 1,
+        "filtr-dsg7-dq500": 1
+      },
+      "cost": 400
+    }
+  },
+  "seller_price_only": true,
+  "site_price_changes": 0,
+  "stock_changes": 0,
+  "other_sku_changes": 0,
+  "error_type": "RuntimeError",
+  "error": "GUARD_BLOCKED: duplicate SKU in Комплекты: plita-filtr"
+}
