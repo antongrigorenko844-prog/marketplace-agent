@@ -1,0 +1,91 @@
+{
+  "channel": "ozon",
+  "run_utc": "2026-11-23T00:53:44.101120+00:00",
+  "scope": [
+    "6t30-solenoids-gen2",
+    "6t30-tcm-gen1",
+    "6t30-tcm-gen2"
+  ],
+  "seller_writes": 0,
+  "items": {
+    "6t30-solenoids-gen2": {
+      "found": true,
+      "product_id": 7089359257,
+      "is_created": false,
+      "moderation": "declined",
+      "status_name": "Не продаётся",
+      "errors": [
+        {
+          "code": "DESCRIPTION_DECLINE",
+          "field": "description",
+          "attribute_id": 8229,
+          "state": "declined",
+          "level": "ERROR_LEVEL_ERROR",
+          "texts": {
+            "attribute_name": "Тип",
+            "description": "Необходимо изменить тип на тот, который больше всего подходит товару. Проверьте, чтобы тип товара соответствовал указанному типу в название (Неверный тип)",
+            "short_description": "",
+            "params": [
+              {
+                "name": "attribute_id",
+                "value": "8229"
+              },
+              {
+                "name": "attribute_name",
+                "value": "Тип"
+              }
+            ],
+            "message": "Необходимо изменить тип на тот, который больше всего подходит товару. Проверьте, чтобы тип товара соответствовал указанному типу в название (Неверный тип)"
+          }
+        }
+      ],
+      "observed_price": 19880,
+      "expected_price": 19880,
+      "price_verified": true,
+      "stock_readback": []
+    },
+    "6t30-tcm-gen1": {
+      "found": true,
+      "product_id": 7089386396,
+      "is_created": true,
+      "moderation": "approved",
+      "status_name": "Продаётся",
+      "errors": [],
+      "observed_price": 58850,
+      "expected_price": 58850,
+      "price_verified": true,
+      "stock_readback": [
+        {
+          "type": "fbs",
+          "present": 3,
+          "reserved": 0,
+          "sku": 6443660836,
+          "shipment_type": "SHIPMENT_TYPE_GENERAL",
+          "warehouse_ids": []
+        }
+      ]
+    },
+    "6t30-tcm-gen2": {
+      "found": true,
+      "product_id": 7089386451,
+      "is_created": true,
+      "moderation": "approved",
+      "status_name": "Продаётся",
+      "errors": [],
+      "observed_price": 58850,
+      "expected_price": 58850,
+      "price_verified": true,
+      "stock_readback": [
+        {
+          "type": "fbs",
+          "present": 3,
+          "reserved": 0,
+          "sku": 6443661084,
+          "shipment_type": "SHIPMENT_TYPE_GENERAL",
+          "warehouse_ids": []
+        }
+      ]
+    }
+  },
+  "gen2_stock": "blocked_until_ozon_moderation"
+}
