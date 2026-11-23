@@ -18,3 +18,10 @@ jobs:
         run: python -u scripts/site_review_compact_export_20261124.py
       - name: Save only compact Excel data transport
         run: bash .github/scripts/save_data.sh data/site_price_review_compact_20261124.b64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leoparts-tilda-live-prices-20261124
+          path: |
+            data/site_price_review_live_20261124.json
+            data/site_price_review_compact_20261124.b64
+          if-no-files-found: error
