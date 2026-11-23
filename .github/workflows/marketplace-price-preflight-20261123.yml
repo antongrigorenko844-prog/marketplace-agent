@@ -1,0 +1,37 @@
+name: LEOPARTS WB and Market pre-approval price comparison — READ ONLY
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/marketplace_price_preflight_20261123.py'
+      - '.github/workflows/marketplace-price-preflight-20261123.yml'
+permissions: {contents: write}
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -r requirements.txt
+      - name: Compare existing WB YM Ozon prices, no marketplace writes
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python -m py_compile scripts/marketplace_price_preflight_20261123.py
+          python -m scripts.marketplace_price_preflight_20261123
+      - name: Save strict read-only report
+        if: always()
+        run: |
+          if [ -f data/marketplace_price_preflight_20261123.json ]; then
+            bash .github/scripts/save_data.sh data/marketplace_price_preflight_20261123.json
+          fi
