@@ -1,6 +1,6 @@
 {
   "mode": "inspect",
-  "status": "blocked_or_partial_manual_review",
+  "status": "preflight_passed_no_writes",
   "sku": "122390AK-AF",
   "new_price": 450,
   "site_price_changes": 0,
@@ -8,9 +8,38 @@
   "other_sku_price_changes": 0,
   "stock_changes": 0,
   "photos_changes": 0,
-  "error": {
-    "type": "RuntimeError",
-    "message": "GUARD_BLOCKED: Website price changed; do not update website"
+  "source_before": {
+    "override_price_before": 950.0,
+    "feed_price_before": 950.0,
+    "site_price_unchanged": 950.0,
+    "original_boot_avito_price_kept": 950.0,
+    "override_row": 64,
+    "feed_row": 60
   },
-  "checked_at_utc": "2026-11-23T19:03:23.108486+00:00"
+  "live_before": {
+    "8461500993": {
+      "price": 950.0,
+      "status": "active",
+      "title": "Пыльник штока мехатроника DSG7 DQ200 122390AK-AF",
+      "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/pylnik_shtoka_mehatronika_dsg7_dq200_122390ak-af_8461500993"
+    },
+    "4125079566": {
+      "price": 950.0,
+      "status": "active",
+      "title": "Пыльник штоков мехатроника DSG 7 DQ200 0AM 0CW",
+      "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/pylnik_shtokov_mehatronika_dsg_7_dq200_0am_0cw_4125079566"
+    },
+    "3965207177": {
+      "price": 450.0,
+      "status": "active",
+      "title": "Пыльник штока мехатроника DSG 7 DQ200 0AM 0CW",
+      "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/pylnik_shtoka_mehatronika_dsg_7_dq200_0am_0cw_3965207177"
+    }
+  },
+  "feed_sha_before": "ee2a232816debba096bbbdabeb5639fa91aaaa4c88bb98a4a3cfd72203aef2a3",
+  "source_sha_before": "1393601f897849f7ee0450251f4246b7024938ef09ea86726dd9894b7e51c088",
+  "feed_sha_after": "9724b8535b438d9d31c4757d353353bacfad767f7a35aefe634723fa68e96bb8",
+  "source_sha_after": "d813be2faaa05946b763919bd5ac317161fc3b7579f972322a4ec7585d148a25",
+  "seller_feed_asset_id": 783755181,
+  "checked_at_utc": "2026-11-23T19:04:24.405022+00:00"
 }
