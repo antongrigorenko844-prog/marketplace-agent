@@ -1,0 +1,29 @@
+name: LEOPARTS Avito paid relaunch - guarded three 6T30 + live tariff
+on:
+  push:
+    branches: [main]
+    paths: ['data/avito_paid_relaunch_request.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  avito:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install read-only clients and XLSX validation
+        run: pip install -q requests openpyxl pillow python-dotenv
+      - name: Compile Avito guarded relaunch
+        run: python -m py_compile scripts/avito_paid_relaunch.py
+      - name: Inspect current tariff, media, existing ads; optionally publish only 3 approved new rows
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -u scripts/avito_paid_relaunch.py
+      - name: Save actual result and exact published source if changed
+        if: always()
+        run: bash .github/scripts/save_data.sh data/avito_paid_relaunch_result.json data/avito_feed.xlsx
