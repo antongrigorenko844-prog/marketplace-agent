@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "batch_id": "leoparts-five-20261123",
-  "mode": "live",
+  "mode": "pilot",
   "channels": [
     "ozon",
     "wildberries",
@@ -9,6 +9,6 @@
     "tilda",
     "avito"
   ],
-  "revision": 2,
-  "description": "Read-only live smoke of 5 approved SKUs through unified v3 batch; no seller writes; Avito disabled"
+  "revision": 3,
+  "description": "Real zero-write pilot: existing five approved SKUs, four seller-account reads, zero product/stock/photo/price updates; Avito disabled"
 }
