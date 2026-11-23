@@ -319,16 +319,48 @@ def atomic_report(path: Path, report: dict) -> None:
         temp.unlink(missing_ok=True)
 
 
+def load_dispatch(path: Path) -> dict:
+    # One stable writable request path is enough to initiate a whole batch
+    # from a connected GitHub agent (without calling Actions REST directly).
+    # A request may PLAN or READ only; never trigger seller writes.
+    expected = ROOT / "data" / "product_intake_v3" / "dispatch.json"
+    if path.resolve() != expected.resolve():
+        raise intake.GuardError("Dispatch must be the fixed v3 dispatch.json file")
+    config = intake.read_json(path)
+    if config.get("schema_version") != 1 or config.get("mode") not in ("plan", "live"):
+        raise intake.GuardError("Invalid v3 dispatch version or unsafe mode")
+    batch = config.get("batch_id")
+    if not isinstance(batch, str) or not intake.BATCH_PATTERN.fullmatch(batch):
+        raise intake.GuardError("Invalid v3 dispatch batch")
+    channels = config.get("channels")
+    if not isinstance(channels, list) or not channels or any(not isinstance(x, str) for x in channels):
+        raise intake.GuardError("Invalid v3 dispatch channels")
+    requested = parse_channels(",".join(channels))
+    return {"batch_id": batch, "mode": config["mode"], "channels": requested}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="LEOPARTS v3: batch plan/live inspection, no seller writes")
-    parser.add_argument("--batch", required=True)
-    parser.add_argument("--mode", choices=("plan", "live"), default="plan")
-    parser.add_argument("--channels", default=",".join(SUPPORTED))
+    parser.add_argument("--batch")
+    parser.add_argument("--dispatch", type=Path,
+                        help="One fixed GitHub request JSON to start the batch automatically")
+    parser.add_argument("--mode", choices=("plan", "live"))
+    parser.add_argument("--channels")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
-    manifest = load_batch(args.batch)
-    requested = parse_channels(args.channels)
-    report = (build_plan(manifest, requested) if args.mode == "plan"
+    if args.dispatch:
+        if args.batch or args.mode or args.channels:
+            parser.error("Pass either --dispatch or --batch/--mode/--channels")
+        config = load_dispatch(args.dispatch)
+        batch_id, mode, requested = config["batch_id"], config["mode"], config["channels"]
+    else:
+        if not args.batch:
+            parser.error("--batch or --dispatch is required")
+        batch_id = args.batch
+        mode = args.mode or "plan"
+        requested = parse_channels(args.channels or ",".join(SUPPORTED))
+    manifest = load_batch(batch_id)
+    report = (build_plan(manifest, requested) if mode == "plan"
               else run_live(manifest, requested))
     if args.output:
         atomic_report(args.output, report)
