@@ -1,6 +1,6 @@
 {
   "mode": "read_only",
-  "checked_utc": "2026-11-23T00:39:29.113901+00:00",
+  "checked_utc": "2026-11-23T00:41:25.585231+00:00",
   "items": {
     "6t30-solenoids-gen2": {
       "name": "Соленоиды 6T30 семейство Gen2",
@@ -1237,13 +1237,13 @@
       "attribute_count": 33,
       "mandatory_or_special": [
         {
-          "id": 8229,
-          "name": "Тип",
-          "description": "Выберите из списка наиболее подходящий тип товара. Типы участвуют в распределении товаров по категориям на сайте Ozon. Чтобы правильно указать тип, найдите на сайте Ozon товары, похожие на ваш, и укажите в этом поле такой же тип.",
+          "id": 85,
+          "name": "Бренд",
+          "description": "Наименование бренда, под которым произведен товар. Если товар не имеет бренда, используйте значение \"Нет бренда\".",
           "is_required": true,
           "is_collection": false,
           "type": "String",
-          "dictionary_id": 1960,
+          "dictionary_id": 28732849,
           "max_value_count": 0
         },
         {
@@ -1254,6 +1254,36 @@
           "is_collection": true,
           "type": "String",
           "dictionary_id": 1935,
+          "max_value_count": 0
+        },
+        {
+          "id": 22232,
+          "name": "ТН ВЭД коды ЕАЭС",
+          "description": "Выберите одно значение из списка. Если вы не знаете, какой код нужно указать, то вам необходимо обратиться к таможенной службе или таможенному представителю",
+          "is_required": true,
+          "is_collection": false,
+          "type": "String",
+          "dictionary_id": 124412395,
+          "max_value_count": 0
+        },
+        {
+          "id": 7199,
+          "name": "Материал",
+          "description": "Выберите из списка или укажите вручную. Можно добавить несколько значений через точку с запятой. Если точка с запятой есть в значении атрибута, поместите знак в кавычки \";\".",
+          "is_required": false,
+          "is_collection": true,
+          "type": "String",
+          "dictionary_id": 1503,
+          "max_value_count": 0
+        },
+        {
+          "id": 10096,
+          "name": "Цвет товара",
+          "description": "Основной или доминирующий цвет товара. Если точного соответствия нет, используйте ближайшие цвета. Сложные цвета нужно описывать перечислением простых цветов. Например, если в товаре преобладают черный, желтый и белый цвета, то укажите их все простым перечислением. Атрибут \"Цвет товара\" — это основной цвет. Все остальные цвета можно перечислить в атрибуте \"Название цвета\", если он доступен в категории",
+          "is_required": false,
+          "is_collection": true,
+          "type": "String",
+          "dictionary_id": 1494,
           "max_value_count": 0
         },
         {
@@ -1267,94 +1297,6 @@
           "max_value_count": 0
         },
         {
-          "id": 22232,
-          "name": "ТН ВЭД коды ЕАЭС",
-          "description": "Выберите одно значение из списка. Если вы не знаете, какой код нужно указать, то вам необходимо обратиться к таможенной службе или таможенному представителю",
-          "is_required": true,
-          "is_collection": false,
-          "type": "String",
-          "dictionary_id": 124412395,
-          "max_value_count": 0
-        },
-        {
-          "id": 85,
-          "name": "Бренд",
-          "description": "Наименование бренда, под которым произведен товар. Если товар не имеет бренда, используйте значение \"Нет бренда\".",
-          "is_required": true,
-          "is_collection": false,
-          "type": "String",
-          "dictionary_id": 28732849,
-          "max_value_count": 0
-        },
-        {
-          "id": 23536,
-          "name": "Нужен код маркировки",
-          "description": "Выберите «Да», если товар имеет код маркировки (КИЗ). Будем проверять его у каждой отгрузки или поставки. При интеграции через Seller API передавайте параметр как \"true\" ",
-          "is_required": true,
-          "is_collection": false,
-          "type": "Boolean",
-          "dictionary_id": 0,
-          "max_value_count": 0
-        },
-        {
-          "id": 10096,
-          "name": "Цвет товара",
-          "description": "Основной или доминирующий цвет товара. Если точного соответствия нет, используйте ближайшие цвета. Сложные цвета нужно описывать перечислением простых цветов. Например, если в товаре преобладают черный, желтый и белый цвета, то укажите их все простым перечислением. Атрибут \"Цвет товара\" — это основной цвет. Все остальные цвета можно перечислить в атрибуте \"Название цвета\", если он доступен в категории",
-          "is_required": false,
-          "is_collection": true,
-          "type": "String",
-          "dictionary_id": 1494,
-          "max_value_count": 0
-        },
-        {
-          "id": 7199,
-          "name": "Материал",
-          "description": "Выберите из списка или укажите вручную. Можно добавить несколько значений через точку с запятой. Если точка с запятой есть в значении атрибута, поместите знак в кавычки \";\".",
-          "is_required": false,
-          "is_collection": true,
-          "type": "String",
-          "dictionary_id": 1503,
-          "max_value_count": 0
-        }
-      ]
-    },
-    {
-      "type_name": "Набор инструментов для автомобиля",
-      "description_category_id": 83250454,
-      "type_id": 971437067,
-      "attribute_count": 33,
-      "mandatory_or_special": [
-        {
-          "id": 4389,
-          "name": "Страна-изготовитель",
-          "description": "Страна, в которой изготовлен/собран товар и которая указана на упаковке. Может отличаться от страны бренда. Выберите из списка или укажите вручную. Можно добавить несколько значений через точку с запятой.",
-          "is_required": false,
-          "is_collection": true,
-          "type": "String",
-          "dictionary_id": 1935,
-          "max_value_count": 0
-        },
-        {
-          "id": 85,
-          "name": "Бренд",
-          "description": "Наименование бренда, под которым произведен товар. Если товар не имеет бренда, используйте значение \"Нет бренда\".",
-          "is_required": true,
-          "is_collection": false,
-          "type": "String",
-          "dictionary_id": 28732849,
-          "max_value_count": 0
-        },
-        {
-          "id": 7199,
-          "name": "Материал",
-          "description": "Выберите из списка или укажите вручную. Можно добавить несколько значений через точку с запятой. Если точка с запятой есть в значении атрибута, поместите знак в кавычки \";\".",
-          "is_required": false,
-          "is_collection": true,
-          "type": "String",
-          "dictionary_id": 1503,
-          "max_value_count": 0
-        },
-        {
           "id": 23536,
           "name": "Нужен код маркировки",
           "description": "Выберите «Да», если товар имеет код маркировки (КИЗ). Будем проверять его у каждой отгрузки или поставки. При интеграции через Seller API передавайте параметр как \"true\" ",
@@ -1373,6 +1315,44 @@
           "type": "String",
           "dictionary_id": 1960,
           "max_value_count": 0
+        }
+      ]
+    },
+    {
+      "type_name": "Набор инструментов для автомобиля",
+      "description_category_id": 83250454,
+      "type_id": 971437067,
+      "attribute_count": 33,
+      "mandatory_or_special": [
+        {
+          "id": 7199,
+          "name": "Материал",
+          "description": "Выберите из списка или укажите вручную. Можно добавить несколько значений через точку с запятой. Если точка с запятой есть в значении атрибута, поместите знак в кавычки \";\".",
+          "is_required": false,
+          "is_collection": true,
+          "type": "String",
+          "dictionary_id": 1503,
+          "max_value_count": 0
+        },
+        {
+          "id": 85,
+          "name": "Бренд",
+          "description": "Наименование бренда, под которым произведен товар. Если товар не имеет бренда, используйте значение \"Нет бренда\".",
+          "is_required": true,
+          "is_collection": false,
+          "type": "String",
+          "dictionary_id": 28732849,
+          "max_value_count": 0
+        },
+        {
+          "id": 4389,
+          "name": "Страна-изготовитель",
+          "description": "Страна, в которой изготовлен/собран товар и которая указана на упаковке. Может отличаться от страны бренда. Выберите из списка или укажите вручную. Можно добавить несколько значений через точку с запятой.",
+          "is_required": false,
+          "is_collection": true,
+          "type": "String",
+          "dictionary_id": 1935,
+          "max_value_count": 0
         },
         {
           "id": 10096,
@@ -1385,6 +1365,16 @@
           "max_value_count": 0
         },
         {
+          "id": 8229,
+          "name": "Тип",
+          "description": "Выберите из списка наиболее подходящий тип товара. Типы участвуют в распределении товаров по категориям на сайте Ozon. Чтобы правильно указать тип, найдите на сайте Ozon товары, похожие на ваш, и укажите в этом поле такой же тип.",
+          "is_required": true,
+          "is_collection": false,
+          "type": "String",
+          "dictionary_id": 1960,
+          "max_value_count": 0
+        },
+        {
           "id": 22232,
           "name": "ТН ВЭД коды ЕАЭС",
           "description": "Выберите одно значение из списка. Если вы не знаете, какой код нужно указать, то вам необходимо обратиться к таможенной службе или таможенному представителю",
@@ -1392,6 +1382,16 @@
           "is_collection": false,
           "type": "String",
           "dictionary_id": 124412395,
+          "max_value_count": 0
+        },
+        {
+          "id": 23536,
+          "name": "Нужен код маркировки",
+          "description": "Выберите «Да», если товар имеет код маркировки (КИЗ). Будем проверять его у каждой отгрузки или поставки. При интеграции через Seller API передавайте параметр как \"true\" ",
+          "is_required": true,
+          "is_collection": false,
+          "type": "Boolean",
+          "dictionary_id": 0,
           "max_value_count": 0
         },
         {
@@ -1413,26 +1413,6 @@
       "attribute_count": 36,
       "mandatory_or_special": [
         {
-          "id": 5309,
-          "name": "Материал",
-          "description": "Выберите из списка или укажите вручную. Можно добавить несколько значений через точку с запятой. Если точка с запятой есть в значении атрибута, поместите знак в кавычки \";\".",
-          "is_required": false,
-          "is_collection": true,
-          "type": "String",
-          "dictionary_id": 1503,
-          "max_value_count": 0
-        },
-        {
-          "id": 8229,
-          "name": "Тип",
-          "description": "Выберите из списка наиболее подходящий тип товара. Типы участвуют в распределении товаров по категориям на сайте Ozon. Чтобы правильно указать тип, найдите на сайте Ozon товары, похожие на ваш, и укажите в этом поле такой же тип.",
-          "is_required": true,
-          "is_collection": false,
-          "type": "String",
-          "dictionary_id": 1960,
-          "max_value_count": 0
-        },
-        {
           "id": 22232,
           "name": "ТН ВЭД коды ЕАЭС",
           "description": "Выберите одно значение из списка. Если вы не знаете, какой код нужно указать, то вам необходимо обратиться к таможенной службе или таможенному представителю",
@@ -1443,33 +1423,13 @@
           "max_value_count": 0
         },
         {
-          "id": 8513,
-          "name": "Количество в упаковке, шт",
-          "description": "Можно указать только целое число.",
-          "is_required": false,
-          "is_collection": false,
-          "type": "Integer",
-          "dictionary_id": 0,
-          "max_value_count": 0
-        },
-        {
-          "id": 85,
-          "name": "Бренд",
-          "description": "Наименование бренда, под которым произведен товар. Если товар не имеет бренда, используйте значение \"Нет бренда\".",
-          "is_required": true,
-          "is_collection": false,
-          "type": "String",
-          "dictionary_id": 28732849,
-          "max_value_count": 0
-        },
-        {
-          "id": 10096,
-          "name": "Цвет товара",
-          "description": "Основной или доминирующий цвет товара. Если точного соответствия нет, используйте ближайшие цвета. Сложные цвета нужно описывать перечислением простых цветов. Например, если в товаре преобладают черный, желтый и белый цвета, то укажите их все простым перечислением. Атрибут \"Цвет товара\" — это основной цвет. Все остальные цвета можно перечислить в атрибуте \"Название цвета\", если он доступен в категории",
+          "id": 5309,
+          "name": "Материал",
+          "description": "Выберите из списка или укажите вручную. Можно добавить несколько значений через точку с запятой. Если точка с запятой есть в значении атрибута, поместите знак в кавычки \";\".",
           "is_required": false,
           "is_collection": true,
           "type": "String",
-          "dictionary_id": 1494,
+          "dictionary_id": 1503,
           "max_value_count": 0
         },
         {
@@ -1483,6 +1443,26 @@
           "max_value_count": 0
         },
         {
+          "id": 8513,
+          "name": "Количество в упаковке, шт",
+          "description": "Можно указать только целое число.",
+          "is_required": false,
+          "is_collection": false,
+          "type": "Integer",
+          "dictionary_id": 0,
+          "max_value_count": 0
+        },
+        {
+          "id": 10096,
+          "name": "Цвет товара",
+          "description": "Основной или доминирующий цвет товара. Если точного соответствия нет, используйте ближайшие цвета. Сложные цвета нужно описывать перечислением простых цветов. Например, если в товаре преобладают черный, желтый и белый цвета, то укажите их все простым перечислением. Атрибут \"Цвет товара\" — это основной цвет. Все остальные цвета можно перечислить в атрибуте \"Название цвета\", если он доступен в категории",
+          "is_required": false,
+          "is_collection": true,
+          "type": "String",
+          "dictionary_id": 1494,
+          "max_value_count": 0
+        },
+        {
           "id": 4389,
           "name": "Страна-изготовитель",
           "description": "Страна, в которой изготовлен/собран товар и которая указана на упаковке. Может отличаться от страны бренда. Выберите из списка или укажите вручную. Можно добавить несколько значений через точку с запятой.",
@@ -1491,14 +1471,1196 @@
           "type": "String",
           "dictionary_id": 1935,
           "max_value_count": 0
+        },
+        {
+          "id": 8229,
+          "name": "Тип",
+          "description": "Выберите из списка наиболее подходящий тип товара. Типы участвуют в распределении товаров по категориям на сайте Ozon. Чтобы правильно указать тип, найдите на сайте Ozon товары, похожие на ваш, и укажите в этом поле такой же тип.",
+          "is_required": true,
+          "is_collection": false,
+          "type": "String",
+          "dictionary_id": 1960,
+          "max_value_count": 0
+        },
+        {
+          "id": 85,
+          "name": "Бренд",
+          "description": "Наименование бренда, под которым произведен товар. Если товар не имеет бренда, используйте значение \"Нет бренда\".",
+          "is_required": true,
+          "is_collection": false,
+          "type": "String",
+          "dictionary_id": 28732849,
+          "max_value_count": 0
         }
       ]
     }
   ],
   "verified_catalog_candidates": {
-    "status": "error",
-    "error_type": "OzonApiError",
-    "error": "Ozon /v4/products/info/attributes вернул 404: 404 page not found\n"
+    "status": "ok",
+    "rows_scanned": 142,
+    "matches": 20,
+    "examples": [
+      {
+        "offer_id": "0AM325025B",
+        "name": "Соленоид регулятор давления DSG7 DQ200",
+        "description_category_id": 17028756,
+        "type_id": 970984897,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Bosch",
+                "dictionary_value_id": 115862778
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "0am",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "0AM325025B",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "0AM325587E",
+        "name": "Гидроаккумулятор мехатроника DSG7 DQ200 Оригинал VAG 0AM325587E",
+        "description_category_id": 17028756,
+        "type_id": 971100605,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "0AM325587E",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "0AM325587E",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "0am325025С",
+        "name": "Кольцо гидроаккумулятора мехатроника DSG7 DQ200",
+        "description_category_id": 17028756,
+        "type_id": 971100605,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "0am325025С",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "0am325025С",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "0am325025j",
+        "name": "Сепараторная пластина + пластины на соленоиды мехатроника DSG7 DQ200, оригинал VAG",
+        "description_category_id": 17028756,
+        "type_id": 971100605,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "0am325025j",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "0am325025j",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "123014‑AF",
+        "name": "Фильтр-сетка соленоидов DSG7 0B5 DL501 123014AF (аналог 0B5325421)",
+        "description_category_id": 17028751,
+        "type_id": 970863591,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "123014‑AF",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "123014‑AF",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "0am325025n",
+        "name": "Соленоид переключения (Shift) мехатроника DSG7 DQ200",
+        "description_category_id": 17028756,
+        "type_id": 970984897,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "0AM325025N",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "0am325025n",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "0AM325473",
+        "name": "Соленоиды мехатроника DSG7 DQ200 0AM325473 Hiltie, комплект 4 шт (1 половинка)",
+        "description_category_id": 17028756,
+        "type_id": 970984897,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "0am325025p",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "0AM325473",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "0am325477ae",
+        "name": "Пластина соленоидов мехатроника DSG7 DQ200 0AM325477AE ОРИГИНАЛ VAG",
+        "description_category_id": 17028756,
+        "type_id": 971100605,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "0am325477ae",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "0am325477ae",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "0am325025x",
+        "name": "Мехатроник DSG7 DQ200 0AM с новыми соленоидами Bosch",
+        "description_category_id": 17028756,
+        "type_id": 971100605,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "0am325025x",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "0am325025x",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "plastiny-solenoid-orig",
+        "name": "Оригинальные пластины на соленоиды VAG мехатроника DSG7 DQ200 (без сепараторной пластины)",
+        "description_category_id": 17028756,
+        "type_id": 971100605,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "0am325025j",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "plastiny-solenoid-orig",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "6t30",
+        "name": "Соленоиды АКПП 6T30/6T40/6T45/6T50",
+        "description_category_id": 17028756,
+        "type_id": 970984897,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "0am325025p",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "6t30",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "planka-solenoid-2sht",
+        "name": "Планки соленоидов мехатроника DSG7 DQ200, комплект 2 шт",
+        "description_category_id": 17028756,
+        "type_id": 971100605,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "0am325477ae",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "planka-solenoid-2sht",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "gidroakkumulyator-orig",
+        "name": "Восстановленный гидроаккумулятор мехатроника DSG7 DQ200 VAG",
+        "description_category_id": 17028756,
+        "type_id": 971100605,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "0AM 325 587 G ",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "gidroakkumulyator-orig",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "filtr-setka-0b5-orig",
+        "name": "Оригинальная фильтр-сетка на соленоиды DSG7 0B5 DL501",
+        "description_category_id": 17028751,
+        "type_id": 970863591,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "123014‑AF",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "filtr-setka-0b5-orig",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "0am325477",
+        "name": "Планка соленоидов мехатроника DSG7 DQ200 0AM 0CW, пластик, 1 шт",
+        "description_category_id": 17028756,
+        "type_id": 971100605,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "0am325477ae",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "0am325477",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "plastiny-solenoid-dq200-2sht",
+        "name": "Пластины на соленоиды мехатроника DSG7 DQ200, комплект 2 шт",
+        "description_category_id": 17028756,
+        "type_id": 971100605,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "plastiny-solenoid-dq200-2sht",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708405001 - Части и принадлежности моторных транспортных средств товарных позиций 8701 – 8705: коробки передач и их части: прочие: коробки передач: для промышленной сборки моторных транспортных средств товарных позиций 8701 – 8705, кроме моторных транспортных средств, упомянутых в подсубпозиции 8708 40 200, для промышленной сборки узлов и агрегатов моторных транспортных средств товарных позиций",
+                "dictionary_value_id": 972127967
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "plastiny-solenoid-dq200-2sht",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "separatornaya-plastiny-solenoid-dq200",
+        "name": "Сепараторная пластина + пластины на соленоиды мехатроника DSG7 DQ200",
+        "description_category_id": 17028756,
+        "type_id": 971100605,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "separatornaya-plastiny-solenoid-dq200",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708405001 - Части и принадлежности моторных транспортных средств товарных позиций 8701 – 8705: коробки передач и их части: прочие: коробки передач: для промышленной сборки моторных транспортных средств товарных позиций 8701 – 8705, кроме моторных транспортных средств, упомянутых в подсубпозиции 8708 40 200, для промышленной сборки узлов и агрегатов моторных транспортных средств товарных позиций",
+                "dictionary_value_id": 972127967
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "separatornaya-plastiny-solenoid-dq200",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "solenoid-02e-0b5-bolshoy",
+        "name": "Восстановленный соленоид 02E 0B5 DQ250 DQ500, большой",
+        "description_category_id": 17028756,
+        "type_id": 970984897,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Bosch",
+                "dictionary_value_id": 115862778
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "solenoid-02e-0b5-bolshoy",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "solenoid-02e-0b5-bolshoy",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "plastina-solenoid-dq200",
+        "name": "Пластина на соленоиды мехатроника DSG7 DQ200, 1 шт",
+        "description_category_id": 17028756,
+        "type_id": 971100605,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "plastina-solenoid-dq200",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "plastina-solenoid-dq200",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "offer_id": "kolodka-solenoidov-dq200",
+        "name": "Колодка разъёмов соленоидов DQ200 для плат 0AM927769D/G/K",
+        "description_category_id": 17028756,
+        "type_id": 971100605,
+        "attributes": [
+          {
+            "id": 85,
+            "name": null,
+            "values": [
+              {
+                "value": "Нет бренда",
+                "dictionary_value_id": 126745801
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "name": null,
+            "values": [
+              {
+                "value": "kolodka-solenoidov-dq200",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "name": null,
+            "values": [
+              {
+                "value": "8708409909 - Части коробок передач, прочие: прочие",
+                "dictionary_value_id": 971400283
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "name": null,
+            "values": [
+              {
+                "value": "false",
+                "dictionary_value_id": 0
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "name": null,
+            "values": [
+              {
+                "value": "kolodka-solenoidov-dq200",
+                "dictionary_value_id": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   "ozon_endpoint_probes": [
     {
@@ -1514,9 +2676,14 @@
     },
     {
       "label": "singular_offer_id",
-      "status": "error",
-      "type": "OzonApiError",
-      "message": "Ozon /v4/product/info/attributes вернул 502: <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</"
+      "status": "ok",
+      "items": 1,
+      "result_type": "list",
+      "keys": [
+        "result",
+        "total",
+        "last_id"
+      ]
     },
     {
       "label": "singular_all",
