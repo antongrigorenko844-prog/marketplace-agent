@@ -1,0 +1,20 @@
+name: LEOPARTS Tilda User Excel Snapshot Encoding — READ ONLY
+on:
+  push:
+    branches: [main]
+    paths: ['data/site_review_export_request_20261124.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Encode already verified public Tilda data, no seller writes
+        run: python -u scripts/site_review_compact_export_20261124.py
+      - name: Save only compact Excel data transport
+        run: bash .github/scripts/save_data.sh data/site_price_review_compact_20261124.b64
