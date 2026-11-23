@@ -3,6 +3,6 @@
   "change_prices": false,
   "change_stock": false,
   "change_ads": false,
-  "revision": 7,
-  "note": "Include 14 strong old ads under canonical SKU as secondary read-only catalog references with price difference flags; 22 uncertain ads remain candidate-only; no AvitoId takeover or seller/catalog price writes."
+  "revision": 8,
+  "note": "Build durable canonical SKU-to-all-Avito-IDs index from live listing snapshots: 14 strong secondary old ads + 22 pending unknown composition, 120 primary. No seller, feed, master-price changes."
 }
