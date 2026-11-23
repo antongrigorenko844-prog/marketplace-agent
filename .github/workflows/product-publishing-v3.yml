@@ -83,7 +83,7 @@ jobs:
       # Planning uses stdlib; only live mode needs API client dependencies.
       - name: Install only what live marketplace reads need
         if: inputs.mode == 'live' || github.event_name == 'push'
-        run: pip install -q requests openpyxl
+        run: pip install -q requests openpyxl python-dotenv
       - name: Plan offline, without seller credentials
         if: inputs.mode == 'plan'
         run: |
