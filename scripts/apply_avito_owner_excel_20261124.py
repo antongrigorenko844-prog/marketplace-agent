@@ -170,8 +170,8 @@ def prepare():
         guard(x.get("apply_title") is True and isinstance(final,str)
               and 10<len(final)<=50,"Avito title shorter than 50 characters required")
         guard(aid in fresh and fresh[aid].get("status")=="active" and
-              fresh[aid].get("title")==x["original_title"],
-              "Original Avito title has changed externally "+str(aid))
+              fresh[aid].get("title") in (x["original_title"],final),
+              "Live Avito title changed outside requested scope "+str(aid))
         guard(aid in primary and primary[aid]["sku"]==x["sku"],
               "Title ID does not match canonical SKU "+str(aid))
         approved_titles[aid]={"sku":x["sku"],"title_before":x["original_title"],
@@ -193,6 +193,8 @@ def prepare():
     allowed_ov=set()
     allowed_feed=set()
     site_preserved={}
+    full_site_before=site_pricing.load_price_overrides(channel="site")
+    sources_already_aligned=True
     for aid,t in main_changes.items():
         prod=primary[aid]
         sku=prod["sku"]
@@ -202,6 +204,8 @@ def prepare():
         i=oi[sku];j=fi[alias]
         previous_ov=cash(ows.cell(i,2).value)
         previous_f=cash(fws.cell(j,34).value)
+        if previous_ov!=t["requested"] or previous_f!=t["requested"]:
+            sources_already_aligned=False
         guard(previous_ov in (t["expected_before"],t["requested"]) and
               previous_f in (t["expected_before"],t["requested"]),
               "Canonical Avito source changed "+sku)
@@ -210,7 +214,12 @@ def prepare():
             effective_site=previous_ov
         guard(effective_site is not None and effective_site>0,
               "Website effective price unknown "+sku)
-        site_preserved[sku]=effective_site
+        # A separate site-only JSON override may supersede D/B. Preserve the
+        # EFFECTIVE website price, not merely the workbook D/B fallback.
+        protected_site=cash(full_site_before.get(sku))
+        guard(protected_site is not None and protected_site>0,
+              "Cannot determine effective site price "+sku)
+        site_preserved[sku]=protected_site
         ows.cell(i,2).value=int(t["requested"])
         ows.cell(i,4).value=int(effective_site)
         fws.cell(j,34).value=int(t["requested"])
@@ -229,6 +238,8 @@ def prepare():
         guard(alias in fi,"Title SKU not found in feed "+sku)
         j=fi[alias]
         original_title=str(fws.cell(j,24).value or "")
+        if original_title!=t["title_apply"]:
+            sources_already_aligned=False
         guard(original_title==t["title_before"] or original_title==t["title_apply"],
               "Canonical Avito title source changed for "+sku)
         fws.cell(j,24).value=t["title_apply"]
@@ -254,6 +265,14 @@ def prepare():
                          load_workbook(BytesIO(new)),allowed)
         changes[path]=new
     changes[CONTENT]=(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n").encode("utf-8")
+    if sources_already_aligned:
+        # Previous attempt already published and persisted sources before a
+        # website-only JSON check stopped seller updates. Do NOT republish
+        # an otherwise byte-identical feed because XLSX ZIP timestamps can
+        # otherwise change between serializations.
+        guard(load(CONTENT)==manifest,"Already-applied content manifest diverged")
+        for path in (FEED,OVERRIDE,CONTENT):
+            changes[path]=path.read_bytes()
     return req,all_requested,blocked,noops,approved_titles,site_preserved,changes,fresh
 
 def publish_feed(new):
