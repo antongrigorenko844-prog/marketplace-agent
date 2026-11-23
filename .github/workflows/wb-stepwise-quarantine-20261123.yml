@@ -1,0 +1,33 @@
+name: LEOPARTS WB quarantined owner-approved prices stepwise repair
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/wb-stepwise-quarantine-20261123.yml'
+permissions: {contents: write}
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Apply eight approved WB prices in guarded small steps, verify each
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -m py_compile scripts/wb_stepwise_quarantine_20261123.py
+          python -u -m scripts.wb_stepwise_quarantine_20261123
+      - name: Persist outcome and never replay a submitted price request
+        if: always()
+        run: |
+          if [ -f data/wb_stepwise_quarantine_20261123.json ]; then
+            bash .github/scripts/save_data.sh data/wb_stepwise_quarantine_20261123.json
+          fi
