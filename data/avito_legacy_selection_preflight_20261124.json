@@ -1,0 +1,1369 @@
+{
+  "checked_utc": "2026-11-23T17:28:51.875027+00:00",
+  "mode": "read_only_preflight",
+  "seller_writes": 0,
+  "feed_writes": 0,
+  "catalog_price_writes": 0,
+  "no_ad_was_taken_over": true,
+  "counts": {
+    "legacy_active": 36,
+    "legacy_total": 36,
+    "strong_title_or_oem": 14,
+    "strong_with_existing_primary": 14,
+    "stats_old_available": 36
+  },
+  "stats_source": {
+    "name": "POST /stats/v1/accounts/{uid}/items",
+    "period": {
+      "from": "2026-02-27",
+      "through": "2026-11-23"
+    },
+    "error": null
+  },
+  "detail_capabilities": [
+    {
+      "id": 4285108577,
+      "attempts": [
+        {
+          "api": "v2",
+          "ok": false,
+          "error_type": "AvitoApiError"
+        },
+        {
+          "api": "v1",
+          "ok": true,
+          "available_fields": [
+            "status"
+          ],
+          "has_composition_text": false
+        }
+      ]
+    },
+    {
+      "id": 4220729305,
+      "attempts": [
+        {
+          "api": "v2",
+          "ok": false,
+          "error_type": "AvitoApiError"
+        },
+        {
+          "api": "v1",
+          "ok": true,
+          "available_fields": [
+            "status"
+          ],
+          "has_composition_text": false
+        }
+      ]
+    },
+    {
+      "id": 4348814868,
+      "attempts": [
+        {
+          "api": "v2",
+          "ok": false,
+          "error_type": "AvitoApiError"
+        },
+        {
+          "api": "v1",
+          "ok": true,
+          "available_fields": [
+            "status"
+          ],
+          "has_composition_text": false
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "old_avito_id": 7260747200,
+      "old_live_price": 890,
+      "old_live_status": "active",
+      "title": "Импульсное кольцо распредвала GM 55565480",
+      "registry_match_confidence": "strong_title_or_part_number",
+      "candidate_skus": [
+        {
+          "sku": "55565480",
+          "master_product_exists": true,
+          "old_price": 890,
+          "configured_price": 950.0,
+          "main_ad_id": 8461145133,
+          "main_ad_price_live": 950,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 11,
+            "contacts": 2,
+            "favorites": 2
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "already_active_canonical; do_not_takeover_without_selection",
+      "old_269d_metrics": {
+        "views": 23,
+        "contacts": 2,
+        "favorites": 3
+      }
+    },
+    {
+      "old_avito_id": 4573102274,
+      "old_live_price": 9890,
+      "old_live_status": "active",
+      "title": "Ремкомплект dsg 7 dq200 усиленная плита прокладки",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "0am325025",
+          "master_product_exists": true,
+          "old_price": 9890,
+          "configured_price": 7850.0,
+          "main_ad_id": null,
+          "main_ad_price_live": null,
+          "main_ad_status": null,
+          "feed_includes_sku": true,
+          "price_matches_main": null,
+          "main_269d_metrics": null
+        },
+        {
+          "sku": "plita-filtr-pylniki-sal-orig",
+          "master_product_exists": true,
+          "old_price": 9890,
+          "configured_price": 8350.0,
+          "main_ad_id": 8326892857,
+          "main_ad_price_live": 8350,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 1,
+            "contacts": 0,
+            "favorites": 0
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 244,
+        "contacts": 5,
+        "favorites": 31
+      }
+    },
+    {
+      "old_avito_id": 4445242895,
+      "old_live_price": 690,
+      "old_live_status": "active",
+      "title": "Сепараторная пластина мехатроника DSG7 DQ200 0AM",
+      "registry_match_confidence": "strong_title_or_part_number",
+      "candidate_skus": [
+        {
+          "sku": "separatornaya-plastina-dq200",
+          "master_product_exists": true,
+          "old_price": 690,
+          "configured_price": 950.0,
+          "main_ad_id": 8513008373,
+          "main_ad_price_live": 950,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 3,
+            "contacts": 0,
+            "favorites": 1
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "already_active_canonical; do_not_takeover_without_selection",
+      "old_269d_metrics": {
+        "views": 18,
+        "contacts": 2,
+        "favorites": 1
+      }
+    },
+    {
+      "old_avito_id": 4445230063,
+      "old_live_price": 2890,
+      "old_live_status": "active",
+      "title": "Ремкомплект штока DQ200 DSG7 0AM 0CW шток + втулка",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "0am325025u",
+          "master_product_exists": true,
+          "old_price": 2890,
+          "configured_price": 1880.0,
+          "main_ad_id": 8276593810,
+          "main_ad_price_live": 1880,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 12,
+            "contacts": 0,
+            "favorites": 1
+          }
+        },
+        {
+          "sku": "0am325025z",
+          "master_product_exists": true,
+          "old_price": 2890,
+          "configured_price": 1880.0,
+          "main_ad_id": 8424998901,
+          "main_ad_price_live": 1880,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 9,
+            "contacts": 0,
+            "favorites": 1
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 34,
+        "contacts": 0,
+        "favorites": 5
+      }
+    },
+    {
+      "old_avito_id": 4445119215,
+      "old_live_price": 9800,
+      "old_live_status": "active",
+      "title": "Ремкомплект мехатроника dq200 dsg7 0am 0cw",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "0am325025",
+          "master_product_exists": true,
+          "old_price": 9800,
+          "configured_price": 7850.0,
+          "main_ad_id": null,
+          "main_ad_price_live": null,
+          "main_ad_status": null,
+          "feed_includes_sku": true,
+          "price_matches_main": null,
+          "main_269d_metrics": null
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 35,
+        "contacts": 0,
+        "favorites": 1
+      }
+    },
+    {
+      "old_avito_id": 4444968174,
+      "old_live_price": 2890,
+      "old_live_status": "active",
+      "title": "Крышка поддон мехатроника+прокладка DSG 7 DQ200",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "0am325025ae",
+          "master_product_exists": true,
+          "old_price": 2890,
+          "configured_price": 2350.0,
+          "main_ad_id": 8231885696,
+          "main_ad_price_live": 2350,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 28,
+            "contacts": 6,
+            "favorites": 2
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 93,
+        "contacts": 6,
+        "favorites": 13
+      }
+    },
+    {
+      "old_avito_id": 4444712249,
+      "old_live_price": 890,
+      "old_live_status": "active",
+      "title": "Масляный фильтр АКПП DSG 7 DQ500",
+      "registry_match_confidence": "strong_title_or_part_number",
+      "candidate_skus": [
+        {
+          "sku": "filtr-dsg7-dq500",
+          "master_product_exists": true,
+          "old_price": 890,
+          "configured_price": 495.0,
+          "main_ad_id": 8346375263,
+          "main_ad_price_live": 495,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 12,
+            "contacts": 0,
+            "favorites": 3
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "already_active_canonical; do_not_takeover_without_selection",
+      "old_269d_metrics": {
+        "views": 34,
+        "contacts": 0,
+        "favorites": 3
+      }
+    },
+    {
+      "old_avito_id": 4444617509,
+      "old_live_price": 890,
+      "old_live_status": "active",
+      "title": "Bмасляный фильтр АКПП DSG6 DQ250 02E305051C",
+      "registry_match_confidence": "strong_title_or_part_number",
+      "candidate_skus": [
+        {
+          "sku": "02E305051C",
+          "master_product_exists": true,
+          "old_price": 890,
+          "configured_price": 495.0,
+          "main_ad_id": 8341096851,
+          "main_ad_price_live": 495,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 8,
+            "contacts": 0,
+            "favorites": 0
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "already_active_canonical; do_not_takeover_without_selection",
+      "old_269d_metrics": {
+        "views": 18,
+        "contacts": 0,
+        "favorites": 4
+      }
+    },
+    {
+      "old_avito_id": 4444524662,
+      "old_live_price": 1290,
+      "old_live_status": "active",
+      "title": "Поршень вилки мехатроника DSG7 DQ200 0AM/0CW",
+      "registry_match_confidence": "strong_title_or_part_number",
+      "candidate_skus": [
+        {
+          "sku": "0am325025l",
+          "master_product_exists": true,
+          "old_price": 1290,
+          "configured_price": 950.0,
+          "main_ad_id": 8366848631,
+          "main_ad_price_live": 950,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 7,
+            "contacts": 1,
+            "favorites": 0
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "already_active_canonical; do_not_takeover_without_selection",
+      "old_269d_metrics": {
+        "views": 76,
+        "contacts": 2,
+        "favorites": 8
+      }
+    },
+    {
+      "old_avito_id": 4349334275,
+      "old_live_price": 6490,
+      "old_live_status": "active",
+      "title": "Плита DQ200 0am 0cw (усиленная гидроплита DSG 7)",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "0am325066ae",
+          "master_product_exists": true,
+          "old_price": 6490,
+          "configured_price": 5350.0,
+          "main_ad_id": 8385926244,
+          "main_ad_price_live": 5350,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 64,
+            "contacts": 0,
+            "favorites": 7
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 29,
+        "contacts": 0,
+        "favorites": 4
+      }
+    },
+    {
+      "old_avito_id": 4349172359,
+      "old_live_price": 1290,
+      "old_live_status": "active",
+      "title": "Корпус фильтра DSG6 DQ250 02E",
+      "registry_match_confidence": "strong_title_or_part_number",
+      "candidate_skus": [
+        {
+          "sku": "02e305045",
+          "master_product_exists": true,
+          "old_price": 1290,
+          "configured_price": 980.0,
+          "main_ad_id": 8416684544,
+          "main_ad_price_live": 980,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 30,
+            "contacts": 0,
+            "favorites": 8
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "already_active_canonical; do_not_takeover_without_selection",
+      "old_269d_metrics": {
+        "views": 16,
+        "contacts": 1,
+        "favorites": 5
+      }
+    },
+    {
+      "old_avito_id": 4348814868,
+      "old_live_price": 3490,
+      "old_live_status": "active",
+      "title": "Корпус фильтра DQ500 DSG7",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "Dq500",
+          "master_product_exists": true,
+          "old_price": 3490,
+          "configured_price": 980.0,
+          "main_ad_id": 8344886348,
+          "main_ad_price_live": 980,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 14,
+            "contacts": 0,
+            "favorites": 1
+          }
+        },
+        {
+          "sku": "0BH325183",
+          "master_product_exists": true,
+          "old_price": 3490,
+          "configured_price": 3850.0,
+          "main_ad_id": null,
+          "main_ad_price_live": null,
+          "main_ad_status": null,
+          "feed_includes_sku": false,
+          "price_matches_main": null,
+          "main_269d_metrics": null
+        },
+        {
+          "sku": "0BH325",
+          "master_product_exists": true,
+          "old_price": 3490,
+          "configured_price": 2850.0,
+          "main_ad_id": null,
+          "main_ad_price_live": null,
+          "main_ad_status": null,
+          "feed_includes_sku": false,
+          "price_matches_main": null,
+          "main_269d_metrics": null
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 12,
+        "contacts": 0,
+        "favorites": 3
+      }
+    },
+    {
+      "old_avito_id": 4316875109,
+      "old_live_price": 890,
+      "old_live_status": "active",
+      "title": "Фильтр АКПП DSG 7 0BH325183B",
+      "registry_match_confidence": "strong_title_or_part_number",
+      "candidate_skus": [
+        {
+          "sku": "filtr-dsg7-dq500",
+          "master_product_exists": true,
+          "old_price": 890,
+          "configured_price": 495.0,
+          "main_ad_id": 8346375263,
+          "main_ad_price_live": 495,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 12,
+            "contacts": 0,
+            "favorites": 3
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "already_active_canonical; do_not_takeover_without_selection",
+      "old_269d_metrics": {
+        "views": 9,
+        "contacts": 0,
+        "favorites": 3
+      }
+    },
+    {
+      "old_avito_id": 4285328953,
+      "old_live_price": 890,
+      "old_live_status": "active",
+      "title": "Подшипник вилки DQ200 DSG-7 0AM 0CW 6/R",
+      "registry_match_confidence": "strong_title_or_part_number",
+      "candidate_skus": [
+        {
+          "sku": "podshipnik-vilki-6",
+          "master_product_exists": true,
+          "old_price": 890,
+          "configured_price": 950.0,
+          "main_ad_id": 8416146322,
+          "main_ad_price_live": 950,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 2,
+            "contacts": 0,
+            "favorites": 0
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "already_active_canonical; do_not_takeover_without_selection",
+      "old_269d_metrics": {
+        "views": 53,
+        "contacts": 3,
+        "favorites": 5
+      }
+    },
+    {
+      "old_avito_id": 4285324155,
+      "old_live_price": 3490,
+      "old_live_status": "active",
+      "title": "Корпус фильтра DQ500 DSG 7 0BH325183",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "0BH325183",
+          "master_product_exists": true,
+          "old_price": 3490,
+          "configured_price": 3850.0,
+          "main_ad_id": null,
+          "main_ad_price_live": null,
+          "main_ad_status": null,
+          "feed_includes_sku": false,
+          "price_matches_main": null,
+          "main_269d_metrics": null
+        },
+        {
+          "sku": "Dq500",
+          "master_product_exists": true,
+          "old_price": 3490,
+          "configured_price": 980.0,
+          "main_ad_id": 8344886348,
+          "main_ad_price_live": 980,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 14,
+            "contacts": 0,
+            "favorites": 1
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 29,
+        "contacts": 0,
+        "favorites": 2
+      }
+    },
+    {
+      "old_avito_id": 4285296851,
+      "old_live_price": 450,
+      "old_live_status": "active",
+      "title": "Кольцо гидроаккумулятора dq200 dsg 7 0am 0cw",
+      "registry_match_confidence": "strong_title_or_part_number",
+      "candidate_skus": [
+        {
+          "sku": "0am325025С",
+          "master_product_exists": true,
+          "old_price": 450,
+          "configured_price": 950.0,
+          "main_ad_id": 8449731691,
+          "main_ad_price_live": 950,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 1,
+            "contacts": 0,
+            "favorites": 0
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "already_active_canonical; do_not_takeover_without_selection",
+      "old_269d_metrics": {
+        "views": 19,
+        "contacts": 0,
+        "favorites": 2
+      }
+    },
+    {
+      "old_avito_id": 4285108577,
+      "old_live_price": 990,
+      "old_live_status": "active",
+      "title": "Ремкомплект штока мехатроника DSG 7 DQ200 0AM 0CW",
+      "registry_match_confidence": "composition_unknown_owner_note",
+      "candidate_skus": [
+        {
+          "sku": "0am325025G",
+          "master_product_exists": true,
+          "old_price": 990,
+          "configured_price": 2350.0,
+          "main_ad_id": 4572853508,
+          "main_ad_price_live": 2350,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 115,
+            "contacts": 14,
+            "favorites": 10
+          }
+        },
+        {
+          "sku": "remkomplekt-shtokov-orig",
+          "master_product_exists": true,
+          "old_price": 990,
+          "configured_price": 1850.0,
+          "main_ad_id": 8324395037,
+          "main_ad_price_live": 1850,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 5,
+            "contacts": 0,
+            "favorites": 2
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "unknown_composition; do_not_merge_990_and_5890",
+      "old_269d_metrics": {
+        "views": 80,
+        "contacts": 3,
+        "favorites": 9
+      }
+    },
+    {
+      "old_avito_id": 4284998704,
+      "old_live_price": 2350,
+      "old_live_status": "active",
+      "title": "Болты мехатроника dq200 dsg 7 0am 0cw",
+      "registry_match_confidence": "strong_title_or_part_number",
+      "candidate_skus": [
+        {
+          "sku": "0am325025f",
+          "master_product_exists": true,
+          "old_price": 2350,
+          "configured_price": 2350.0,
+          "main_ad_id": 8232271969,
+          "main_ad_price_live": 2350,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": true,
+          "main_269d_metrics": {
+            "views": 37,
+            "contacts": 2,
+            "favorites": 8
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "already_active_canonical; do_not_takeover_without_selection",
+      "old_269d_metrics": {
+        "views": 55,
+        "contacts": 0,
+        "favorites": 10
+      }
+    },
+    {
+      "old_avito_id": 4284973404,
+      "old_live_price": 690,
+      "old_live_status": "active",
+      "title": "Усиленное опорное кольцо толкателя DSG7 DQ200 0AM",
+      "registry_match_confidence": "strong_title_or_part_number",
+      "candidate_skus": [
+        {
+          "sku": "0am325025r",
+          "master_product_exists": true,
+          "old_price": 690,
+          "configured_price": 950.0,
+          "main_ad_id": 8252362999,
+          "main_ad_price_live": 950,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 13,
+            "contacts": 0,
+            "favorites": 1
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "already_active_canonical; do_not_takeover_without_selection",
+      "old_269d_metrics": {
+        "views": 15,
+        "contacts": 0,
+        "favorites": 5
+      }
+    },
+    {
+      "old_avito_id": 4284955885,
+      "old_live_price": 1290,
+      "old_live_status": "active",
+      "title": "Корпус фильтра DQ250 DSG 6 02E305045",
+      "registry_match_confidence": "strong_title_or_part_number",
+      "candidate_skus": [
+        {
+          "sku": "02e305045",
+          "master_product_exists": true,
+          "old_price": 1290,
+          "configured_price": 980.0,
+          "main_ad_id": 8416684544,
+          "main_ad_price_live": 980,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 30,
+            "contacts": 0,
+            "favorites": 8
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "already_active_canonical; do_not_takeover_without_selection",
+      "old_269d_metrics": {
+        "views": 24,
+        "contacts": 3,
+        "favorites": 2
+      }
+    },
+    {
+      "old_avito_id": 4284950339,
+      "old_live_price": 3850,
+      "old_live_status": "active",
+      "title": "Соленоид dsg 7 dq200 0am 0cw регулятор давления",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "0AM325025B",
+          "master_product_exists": true,
+          "old_price": 3850,
+          "configured_price": 5350.0,
+          "main_ad_id": 4124730141,
+          "main_ad_price_live": 5350,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 79,
+            "contacts": 7,
+            "favorites": 10
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 108,
+        "contacts": 6,
+        "favorites": 13
+      }
+    },
+    {
+      "old_avito_id": 4284610725,
+      "old_live_price": 890,
+      "old_live_status": "active",
+      "title": "Заглушка коробки DSG7 DQ200 0AM 0CW 52м",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "0AM301212A",
+          "master_product_exists": true,
+          "old_price": 890,
+          "configured_price": 950.0,
+          "main_ad_id": 8395404775,
+          "main_ad_price_live": 950,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 1,
+            "contacts": 0,
+            "favorites": 0
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 64,
+        "contacts": 3,
+        "favorites": 5
+      }
+    },
+    {
+      "old_avito_id": 4253114863,
+      "old_live_price": 1290,
+      "old_live_status": "active",
+      "title": "Прокладки dsg 7 сепараторная пластина мехатроника",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "separatornaya-plastiny-solenoid-dq200",
+          "master_product_exists": true,
+          "old_price": 1290,
+          "configured_price": 1350.0,
+          "main_ad_id": 8326542360,
+          "main_ad_price_live": 1350,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 2,
+            "contacts": 0,
+            "favorites": 1
+          }
+        },
+        {
+          "sku": "0am325025j",
+          "master_product_exists": true,
+          "old_price": 1290,
+          "configured_price": 1350.0,
+          "main_ad_id": 8389630065,
+          "main_ad_price_live": 1350,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 3,
+            "contacts": 0,
+            "favorites": 0
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 22,
+        "contacts": 2,
+        "favorites": 5
+      }
+    },
+    {
+      "old_avito_id": 4253030337,
+      "old_live_price": 9890,
+      "old_live_status": "active",
+      "title": "Ремкомплект dq200 dsg7 0am гидроплита прокладки",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "0am325025",
+          "master_product_exists": true,
+          "old_price": 9890,
+          "configured_price": 7850.0,
+          "main_ad_id": null,
+          "main_ad_price_live": null,
+          "main_ad_status": null,
+          "feed_includes_sku": true,
+          "price_matches_main": null,
+          "main_269d_metrics": null
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 43,
+        "contacts": 1,
+        "favorites": 3
+      }
+    },
+    {
+      "old_avito_id": 4220734432,
+      "old_live_price": 6490,
+      "old_live_status": "active",
+      "title": "Гидроплита dsg 7 dq200 усиленная ремкомплект dsg7",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "0am325066ae",
+          "master_product_exists": true,
+          "old_price": 6490,
+          "configured_price": 5350.0,
+          "main_ad_id": 8385926244,
+          "main_ad_price_live": 5350,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 64,
+            "contacts": 0,
+            "favorites": 7
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 253,
+        "contacts": 17,
+        "favorites": 39
+      }
+    },
+    {
+      "old_avito_id": 4220729305,
+      "old_live_price": 5890,
+      "old_live_status": "active",
+      "title": "Ремкомплект штока мехатроника DSG 7 DQ200 0AM 0CW",
+      "registry_match_confidence": "composition_unknown_owner_note",
+      "candidate_skus": [
+        {
+          "sku": "0am325025G",
+          "master_product_exists": true,
+          "old_price": 5890,
+          "configured_price": 2350.0,
+          "main_ad_id": 4572853508,
+          "main_ad_price_live": 2350,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 115,
+            "contacts": 14,
+            "favorites": 10
+          }
+        },
+        {
+          "sku": "remkomplekt-shtokov-orig",
+          "master_product_exists": true,
+          "old_price": 5890,
+          "configured_price": 1850.0,
+          "main_ad_id": 8324395037,
+          "main_ad_price_live": 1850,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 5,
+            "contacts": 0,
+            "favorites": 2
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "unknown_composition; do_not_merge_990_and_5890",
+      "old_269d_metrics": {
+        "views": 185,
+        "contacts": 8,
+        "favorites": 21
+      }
+    },
+    {
+      "old_avito_id": 4189437762,
+      "old_live_price": 9850,
+      "old_live_status": "active",
+      "title": "Ремкомплект мехатроника dsg 7 dq200 плита фильтр",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "plita-filtr",
+          "master_product_exists": true,
+          "old_price": 9850,
+          "configured_price": 5850.0,
+          "main_ad_id": 8367630972,
+          "main_ad_price_live": 5850,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 0,
+            "contacts": 0,
+            "favorites": 0
+          }
+        },
+        {
+          "sku": "plita-filtr-orig",
+          "master_product_exists": true,
+          "old_price": 9850,
+          "configured_price": 5850.0,
+          "main_ad_id": 8304712062,
+          "main_ad_price_live": 5850,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 16,
+            "contacts": 1,
+            "favorites": 3
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 17,
+        "contacts": 0,
+        "favorites": 0
+      }
+    },
+    {
+      "old_avito_id": 4125283125,
+      "old_live_price": 11890,
+      "old_live_status": "active",
+      "title": "Ремкомплект прокладки мехатроника DSG 7 DQ200 0AM",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "0am325025m",
+          "master_product_exists": true,
+          "old_price": 11890,
+          "configured_price": 4850.0,
+          "main_ad_id": null,
+          "main_ad_price_live": null,
+          "main_ad_status": null,
+          "feed_includes_sku": true,
+          "price_matches_main": null,
+          "main_269d_metrics": null
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 20,
+        "contacts": 0,
+        "favorites": 0
+      }
+    },
+    {
+      "old_avito_id": 4125224328,
+      "old_live_price": 1490,
+      "old_live_status": "active",
+      "title": "Штоки dsg7 dq200 (шток дсг 7)",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "0am325091e",
+          "master_product_exists": true,
+          "old_price": 1490,
+          "configured_price": 1240.0,
+          "main_ad_id": 8314723845,
+          "main_ad_price_live": 1240,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 119,
+            "contacts": 3,
+            "favorites": 15
+          }
+        },
+        {
+          "sku": "0am325091f",
+          "master_product_exists": true,
+          "old_price": 1490,
+          "configured_price": 1240.0,
+          "main_ad_id": 8394946839,
+          "main_ad_price_live": 1240,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 215,
+            "contacts": 9,
+            "favorites": 44
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 43,
+        "contacts": 1,
+        "favorites": 5
+      }
+    },
+    {
+      "old_avito_id": 4125079566,
+      "old_live_price": 450,
+      "old_live_status": "active",
+      "title": "Пыльник штоков мехатроника DSG 7 DQ200 0AM 0CW",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "122390AK-AF",
+          "master_product_exists": true,
+          "old_price": 450,
+          "configured_price": 950.0,
+          "main_ad_id": 8461500993,
+          "main_ad_price_live": 950,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 10,
+            "contacts": 0,
+            "favorites": 0
+          }
+        },
+        {
+          "sku": "pylniki-shtokov-orig",
+          "master_product_exists": true,
+          "old_price": 450,
+          "configured_price": 1350.0,
+          "main_ad_id": 8312384063,
+          "main_ad_price_live": 1350,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 6,
+            "contacts": 0,
+            "favorites": 1
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 31,
+        "contacts": 0,
+        "favorites": 5
+      }
+    },
+    {
+      "old_avito_id": 4125069388,
+      "old_live_price": 2990,
+      "old_live_status": "active",
+      "title": "Гильза мехатроника DSG 7 DQ200 0AM 0CW новая",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "0am325025D",
+          "master_product_exists": true,
+          "old_price": 2990,
+          "configured_price": 980.0,
+          "main_ad_id": null,
+          "main_ad_price_live": null,
+          "main_ad_status": null,
+          "feed_includes_sku": true,
+          "price_matches_main": null,
+          "main_269d_metrics": null
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 13,
+        "contacts": 0,
+        "favorites": 1
+      }
+    },
+    {
+      "old_avito_id": 3965565847,
+      "old_live_price": 9800,
+      "old_live_status": "active",
+      "title": "Ремкомплект мехатроника DSG 7 DQ200 0AM 0CW",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "0am325025",
+          "master_product_exists": true,
+          "old_price": 9800,
+          "configured_price": 7850.0,
+          "main_ad_id": null,
+          "main_ad_price_live": null,
+          "main_ad_status": null,
+          "feed_includes_sku": true,
+          "price_matches_main": null,
+          "main_269d_metrics": null
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 4,
+        "contacts": 0,
+        "favorites": 0
+      }
+    },
+    {
+      "old_avito_id": 3965344207,
+      "old_live_price": 890,
+      "old_live_status": "active",
+      "title": "Прокладка DQ200 DSG 7 Прокладка крышки мехатроника",
+      "registry_match_confidence": "strong_title_or_part_number",
+      "candidate_skus": [
+        {
+          "sku": "prokladka-kryshki-dq200",
+          "master_product_exists": true,
+          "old_price": 890,
+          "configured_price": 950.0,
+          "main_ad_id": 8421710248,
+          "main_ad_price_live": 950,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 18,
+            "contacts": 0,
+            "favorites": 3
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "already_active_canonical; do_not_takeover_without_selection",
+      "old_269d_metrics": {
+        "views": 47,
+        "contacts": 1,
+        "favorites": 5
+      }
+    },
+    {
+      "old_avito_id": 3965336925,
+      "old_live_price": 3890,
+      "old_live_status": "active",
+      "title": "Соленоид мехатроника DSG 7 DQ200 Bosch регулятор",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "0AM325025B",
+          "master_product_exists": true,
+          "old_price": 3890,
+          "configured_price": 5350.0,
+          "main_ad_id": 4124730141,
+          "main_ad_price_live": 5350,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 79,
+            "contacts": 7,
+            "favorites": 10
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 36,
+        "contacts": 3,
+        "favorites": 2
+      }
+    },
+    {
+      "old_avito_id": 3965211558,
+      "old_live_price": 3850,
+      "old_live_status": "active",
+      "title": "Ремкомплект (прокладки) мехатроника DSG7 DQ200 0am",
+      "registry_match_confidence": "title_only_needs_composition_review",
+      "candidate_skus": [
+        {
+          "sku": "0am325025m",
+          "master_product_exists": true,
+          "old_price": 3850,
+          "configured_price": 4850.0,
+          "main_ad_id": null,
+          "main_ad_price_live": null,
+          "main_ad_status": null,
+          "feed_includes_sku": true,
+          "price_matches_main": null,
+          "main_269d_metrics": null
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "variant_or_bom_ambiguous; not_safe_for_automatic_takeover",
+      "old_269d_metrics": {
+        "views": 24,
+        "contacts": 0,
+        "favorites": 3
+      }
+    },
+    {
+      "old_avito_id": 3965207177,
+      "old_live_price": 450,
+      "old_live_status": "active",
+      "title": "Пыльник штока мехатроника DSG 7 DQ200 0AM 0CW",
+      "registry_match_confidence": "strong_title_or_part_number",
+      "candidate_skus": [
+        {
+          "sku": "122390AK-AF",
+          "master_product_exists": true,
+          "old_price": 450,
+          "configured_price": 950.0,
+          "main_ad_id": 8461500993,
+          "main_ad_price_live": 950,
+          "main_ad_status": "active",
+          "feed_includes_sku": true,
+          "price_matches_main": false,
+          "main_269d_metrics": {
+            "views": 10,
+            "contacts": 0,
+            "favorites": 0
+          }
+        }
+      ],
+      "canonical_takeover_safe_without_change": false,
+      "decision": "already_active_canonical; do_not_takeover_without_selection",
+      "old_269d_metrics": {
+        "views": 74,
+        "contacts": 1,
+        "favorites": 7
+      }
+    }
+  ]
+}
