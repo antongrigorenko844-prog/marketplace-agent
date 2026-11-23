@@ -1,7 +1,7 @@
 {
-  "at_utc": "2026-11-23T16:51:19.923126+00:00",
-  "mode": "inspect",
-  "status": "preflight_passed_no_writes",
+  "at_utc": "2026-11-23T16:52:19.058202+00:00",
+  "mode": "apply",
+  "status": "verified_2_of_2",
   "targets": {
     "02E 305 045": {
       "id": 8386056623,
@@ -64,7 +64,39 @@
   },
   "original_feed_sha256": "9f63059fbc0ec6c5be07a579c27de7b653ac95a54ef011c8def1f53039d75bfe",
   "original_override_sha256": "1a969af539d73c2765af65d2c2314efd9b9d5dc1fb67a9161c3a259eea472bf8",
-  "new_feed_sha256": "f2c6cf593131a98862f17ed4e3a66d4e5da854ae0ef3ebf636b7ebe95077ef5d",
-  "new_override_sha256": "a90d4df964acf067e4b455b5a4d40da02291c61d8c750842d14562a500dde1b2",
-  "seller_feed_asset_id": 783296882
+  "new_feed_sha256": "ee2a232816debba096bbbdabeb5639fa91aaaa4c88bb98a4a3cfd72203aef2a3",
+  "new_override_sha256": "1393601f897849f7ee0450251f4246b7024938ef09ea86726dd9894b7e51c088",
+  "seller_feed_asset_id": 783296882,
+  "source_changed": true,
+  "release_status": {
+    "status": "published_sha_verified",
+    "sha256": "ee2a232816debba096bbbdabeb5639fa91aaaa4c88bb98a4a3cfd72203aef2a3",
+    "backup_asset": "avito_feed.before_two_kits_1390_783296882.xlsx"
+  },
+  "avito_update_receipts": {
+    "02E 305 045": {
+      "status": "request_sent",
+      "before": 1480.0,
+      "accepted": true
+    },
+    "DQ500": {
+      "status": "request_sent",
+      "before": 1480.0,
+      "accepted": true
+    }
+  },
+  "live_prices_after": {
+    "02E 305 045": {
+      "avito_id": 8386056623,
+      "price": 1390.0,
+      "status": "active",
+      "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/korpus_filtra_filtr_mehatronika_dsg6_dq250_8386056623"
+    },
+    "DQ500": {
+      "avito_id": 8387244563,
+      "price": 1390.0,
+      "status": "active",
+      "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/korpus_filtra_filtr_mehatronika_dsg7_dq500_8387244563"
+    }
+  }
 }
