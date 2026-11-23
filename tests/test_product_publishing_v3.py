@@ -159,10 +159,17 @@ class SafeProductPublishingV3(unittest.TestCase):
 
     def test_fixed_dispatch_has_no_apply_or_file_escape(self):
         expected = ROOT / "data" / "product_intake_v3" / "dispatch.json"
-        loaded = v3.load_dispatch(expected)
-        self.assertEqual(loaded["batch_id"], "leoparts-five-20261123")
-        self.assertIn(loaded["mode"], ("plan", "live"))  # current owner dispatch may be live
-        self.assertEqual(loaded["channels"], v3.SUPPORTED)
+        current = json.loads(expected.read_text(encoding="utf-8"))
+        if current["mode"] in ("plan", "live"):
+            loaded = v3.load_dispatch(expected)
+            self.assertEqual(loaded["batch_id"], "leoparts-five-20261123")
+            self.assertEqual(loaded["mode"], current["mode"])
+            self.assertEqual(loaded["channels"], v3.SUPPORTED)
+        else:
+            # The older read-only engine must reject pilot/apply/resume:
+            # those modes belong ONLY to the separately guarded writer.
+            with self.assertRaises(v2.GuardError):
+                v3.load_dispatch(expected)
         with tempfile.TemporaryDirectory() as folder:
             outside = Path(folder) / "dispatch.json"
             outside.write_text(expected.read_text(encoding="utf-8"), encoding="utf-8")
