@@ -1,0 +1,35 @@
+name: LEOPARTS 101mm shaft and sleeve price 2880 - guarded Ozon apply
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/ozon_101mm_price_apply_20261123.py'
+      - '.github/workflows/ozon-101mm-approved-price.yml'
+permissions: {contents: write}
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  approved-one:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -r requirements.txt
+      - name: Set only 0am325025u Ozon price 2690 to 2880 with guarded journal
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -m py_compile scripts/ozon_101mm_price_apply_20261123.py
+          python -m scripts.ozon_101mm_price_apply_20261123
+      - name: Persist journal if present
+        if: always()
+        run: |
+          if [ -f data/ozon_approved_101mm_price_20261123.json ]; then
+            bash .github/scripts/save_data.sh data/ozon_approved_101mm_price_20261123.json
+          fi
