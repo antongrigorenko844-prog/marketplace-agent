@@ -5,7 +5,7 @@
   "source_file_sha256": "785141050ceb904da284ddfc493e50077ac93228721555505a6f974d1704f696",
   "original_xlsx_sha256": "6c06c9aad3288fb13792f72a34ff76bd838f89953186e6cbef875818f201c5ea",
   "requested_date": "2026-11-24",
-  "mode": "inspect",
+  "mode": "apply",
   "channel": "site_only",
   "preserve_avito": true,
   "preserve_marketplaces": true,
@@ -609,5 +609,8 @@
       "expected_price": 950,
       "approved_price": 450
     }
-  ]
+  ],
+  "revision": 2,
+  "preflight_status": "inspect_passed_no_writes",
+  "preflight_report": "data/tilda_price_pipeline_result.json"
 }
