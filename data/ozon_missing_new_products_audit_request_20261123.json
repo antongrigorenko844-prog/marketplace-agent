@@ -11,6 +11,6 @@
   ],
   "goal": "verify existence and moderation status in seller API vs prepared drafts and WB; no listing modifications",
   "category_probe": true,
-  "revision": 5,
-  "reason": "Validate requirements for Ozon 83250454 type 97469,971437067,92176 and don't create products until actual equipment photo confirmed"
+  "revision": 6,
+  "reason": "Ozon-only live category + attributes probe after fixing v4/products/info/attributes; read-only. Do NOT access Avito or change catalog."
 }
