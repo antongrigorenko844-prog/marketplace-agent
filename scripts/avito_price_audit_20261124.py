@@ -75,6 +75,21 @@ def inventory():
                    "bind_avito_id":number(value(r,8)),
                    "fee_method":str(value(r,6,""))[:50],
                    "ad_category":str(value(r,39,""))[:75]}
+    # Product-specific website prices take precedence over the default
+    # site=Avito fallback, e.g. verified electronic control boards.
+    site_overrides=json.loads((ROOT/"data/site_price_only_overrides.json").read_text(encoding="utf-8"))
+    for sku,site in site_overrides.items():
+        if sku in cfg:cfg[sku]["site_cfg"]=number(site)
+    # Five approved Nov-23 products do not exist in legacy override workbook.
+    # They are intentionally approved via the immutable intake manifest.
+    intake=json.loads((ROOT/"data/product_intake_v2/requests/leoparts-five-20261123.json").read_text(encoding="utf-8"))
+    assert intake["approved"] is True
+    for item in intake["items"]:
+        sku=item["sku"]
+        if sku not in cfg:
+            cfg[sku]={"avito_cfg":number(item["prices"]["avito"]),
+                      "site_cfg":number(item["prices"]["tilda"]),
+                      "fixed":True,"price_source":"approved_intake_manifest"}
     bom=defaultdict(lambda:defaultdict(int))
     for r in rows("data/kits.xlsx","Комплекты")[1:]:
         kit=str(value(r,0,"")).strip()
@@ -84,7 +99,7 @@ def inventory():
             bom[kit][component]+=int(qty)
     return m,oz,cfg,feed,{k:dict(v) for k,v in bom.items()}
 
-def live_data(feed):
+def live_data(feed,additional):
     response={"error":None,"listings":[],"bindings":{},"bindings_errors":[]}
     try:
         l=avito_client.list_all_items(per_page=100,max_pages=12)
@@ -93,7 +108,7 @@ def live_data(feed):
                                "url":x.get("url")}
                              for x in l if x.get("id") is not None]
     except Exception as ex:response["error"]=type(ex).__name__+": "+str(ex)[:200]
-    skus=list(feed)
+    skus=list(dict.fromkeys(list(feed)+list(additional)))
     for index in range(0,len(skus),30):
         chunk=skus[index:index+30]
         try:
@@ -102,7 +117,7 @@ def live_data(feed):
             for ent in res.get("items") or []:
                 sku=str(ent.get("ad_id") or "")
                 aid=ent.get("avito_id")
-                if sku in feed and aid is not None:
+                if sku in skus and aid is not None:
                     response["bindings"].setdefault(sku,[]).append(aid)
         except Exception as ex:response["bindings_errors"].append({"offset":index,"error":str(ex)[:150]})
     return response
@@ -111,7 +126,19 @@ def analyze():
     req=json.loads(REQ.read_text(encoding="utf-8"))
     assert req.get("mode")=="read_only" and req.get("change_prices") is False
     master,oz,cfg,feed,bom=inventory()
-    seller=live_data(feed)
+    source_feed_rows=len(feed)
+    links=json.loads((ROOT/"data/avito_links.json").read_text(encoding="utf-8"))
+    # '-av' is an explicit linkage suffix for 8 existing ads, not a second SKU.
+    # Critical: preserve case-sensitive identities, DQ500 != Dq500.
+    aliases={}
+    for raw in list(feed):
+        cleaned=raw.replace("\u2011","-")
+        matched=next((sku for sku in links if cleaned==sku+"-av"),None)
+        if matched is not None:
+            aliases[raw]=matched
+            if matched not in feed:
+                feed[matched]=dict(feed.pop(raw),source_feed_id=raw)
+    seller=live_data(feed,list(master)+list(cfg)+list(aliases))
     by_id={str(x["id"]):x for x in seller["listings"]}
     resolved={}
     rowset=[]
@@ -119,7 +146,10 @@ def analyze():
         mm=master.get(sku,{})
         cc=cfg.get(sku,{})
         ff=feed.get(sku,{})
-        candidates=seller["bindings"].get(sku,[])
+        candidates=list(seller["bindings"].get(sku,[]))
+        raw=ff.get("source_feed_id")
+        if raw:candidates+=seller["bindings"].get(raw,[])
+        if sku in links:candidates.append(links[sku])
         fb=ff.get("bind_avito_id")
         if fb and fb not in candidates:candidates.append(int(fb))
         matches=[by_id[str(n)] for n in candidates if str(n) in by_id]
@@ -135,7 +165,9 @@ def analyze():
         r={"sku":sku, "name":mm.get("title") or ff.get("feed_title") or "",
            "cost_master":mm.get("cost"),
            "avito_cfg":cc.get("avito_cfg"),"site_cfg":cc.get("site_cfg"),
-           "fixed":cc.get("fixed"),"price_in_feed":ff.get("feed_price"),
+           "fixed":cc.get("fixed"),"price_source":cc.get("price_source") or "avito_site_overrides",
+           "source_feed_id":ff.get("source_feed_id") or sku,
+           "price_in_feed":ff.get("feed_price"),
            "ozon_catalog":oz.get(sku,{}).get("ozon_catalog") or mm.get("ozon_master"),
            "stock_catalog":oz.get(sku,{}).get("stock_ozon_catalog"),
            "in_feed":sku in feed,"in_master":sku in master,"avito_flag":mm.get("avito_flag"),
@@ -170,7 +202,7 @@ def analyze():
             add("high","active_vs_override",sku,
                 "Цена активного объявления не совпадает с утверждённым управляющим файлом",live=actual,configured=c,delta=rounded(actual-c),url=r["mapped"].get("url"))
         if p is not None and c is None:
-            add("medium","feed_without_override",sku,"Публикуется в фиде, но нет отдельной цены в файле переопределений",feed=p)
+            add("medium","feed_without_approved_price",sku,"Публикуется в фиде, но нет цены в ручных оверрайдах или утверждённой заявке",feed=p)
         if c is not None and sku not in master and sku not in feed:
             add("low","orphan_override",sku,"Есть цена-оверрайд, но SKU отсутствует в мастере и в фиде",configured=c)
         if r["mapped"].get("source")=="ambiguous_multiple_ids":
@@ -247,7 +279,9 @@ def analyze():
         "assumptions":{"tax_rate":TAX,"avito_delivery_fee_scenario":AVITO_FEE_SCENARIO,
                       "packaging_scenario_rub":PACKING_SCENARIO,"cost_per_view_scenario_rub":CPV_SCENARIO,
                       "warning":"These are scenario allocations, not the actual commission or views for each SKU."},
-        "counts":{"master_skus":len(master),"override_skus":len(cfg),"feed_skus":len(feed),
+        "counts":{"master_skus":len(master),"approved_price_sources_skus":len(cfg),
+                  "override_workbook_skus":len(cfg)-5,"feed_skus":source_feed_rows,
+                  "known_alias_feed_rows":len(aliases),
                   "bom_kits":len(bom),"bom_relations":sum(len(a) for a in bom.values()),
                   "api_listed_ads":len(seller["listings"]),
                   "active_ads":len(active),"matched_by_id":sum(x["source"]=="exact_avito_id" for x in resolved.values()),
