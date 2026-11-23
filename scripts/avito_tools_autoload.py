@@ -155,16 +155,28 @@ def profile_payload(profile):
     incoming=profile.get("feeds_data") or []
     require(not any(f.get("feed_url")==TOOLS_URL for f in incoming),"Already registered tool URL")
     require(len(incoming)<3,"Avito profile already has three feeds")
-    feeds=[{"feed_name":f.get("feed_name") or "","feed_url":f["feed_url"]} for f in incoming]
+    # A legacy v2 GET may contain an empty feed_name; the current v2 WRITE
+    # requires a usable nonempty string. Only normalize this display label,
+    # never change the existing feed URL or schedule.
+    feeds=[{"feed_name":f.get("feed_name") or "LEOPARTS запчасти","feed_url":f["feed_url"]} for f in incoming]
     feeds.append({"feed_name":"LEOPARTS инструменты DSG","feed_url":TOOLS_URL})
-    # Do not alter the primary feed, schedule or any current activation settings.
     payload={"autoload_enabled":True,"feeds_data":feeds,
              "schedule":profile["schedule"]}
-    # Avito v2 UpsertProfileInV2 REQUIRES report_email even when nullable;
-    # omitting this required key returns HTTP 400 to a previously valid profile.
-    # Forward the original value unchanged; do not guess or create an email.
-    payload["report_email"]=profile.get("report_email")
-    return payload
+    # Unlike GET /profile, the v2 WRITE schema requires a STRING report_email.
+    # Reuse the existing email, otherwise derive ONLY from the same Avito owner
+    # account; never invent the address or commit it in GitHub audit artifacts.
+    address=profile.get("report_email")
+    origin="existing_avito_profile"
+    if not isinstance(address,str) or "@" not in address:
+        self_info=api("GET","/core/v1/accounts/self")
+        address=self_info.get("email")
+        if not address and isinstance(self_info.get("result"),dict):
+            address=self_info["result"].get("email")
+        origin="own_avito_account"
+    require(isinstance(address,str) and bool(re.fullmatch(r"[^\\s@]+@[^\\s@]+\\.[^\\s@]+",address)),
+            "Avito write requires valid report_email; existing profile and own account provide none")
+    payload["report_email"]=address
+    return payload,origin
 def live_duplicate_guard():
     live=av.list_all_items(statuses=["active","old","blocked","rejected"],per_page=100,max_pages=8)
     for item in live:
@@ -202,10 +214,10 @@ def run():
         report["status"]="tool_feed_already_registered_no_writes"
         return report
     report["possible_duplicates_scanned"]=live_duplicate_guard()
-    payload=profile_payload(profile)
-    require(payload["feeds_data"][:-1]==[
-      {"feed_name":f.get("feed_name") or "","feed_url":f["feed_url"]}
-      for f in profile["feeds_data"]],"Primary source would change")
+    payload,email_source=profile_payload(profile)
+    report["profile_email_source"]=email_source
+    require([f["feed_url"] for f in payload["feeds_data"][:-1]]==
+            [f["feed_url"] for f in profile["feeds_data"]],"Primary source URL would change")
     if mode=="inspect":
         report["status"]="approved_tools_preflight_passed_no_writes"
         return report
