@@ -220,7 +220,17 @@ class Publisher:
         # ledger already has an exactly matching, nonnegative quantity.
         stock = catalog_stock(sku)
         require(stock <= item["stock"], "New product stock exceeds last owner-approved quantity")
-        urls, paths = verified_media(item)
+        if self.write:
+            urls, paths = verified_media(item)
+        else:
+            # PILOT MAY NOT UPLOAD, REPLACE OR DELETE GITHUB RELEASE IMAGES.
+            # Validate original bytes locally / at approved HTTPS URL only.
+            paths, blockers = intake.media_preflight(item)
+            require(not blockers and len(paths) == len(item["media"]),
+                    "Pilot approved media SHA256 failed: " + ", ".join(blockers))
+            urls = [m["url"] if m["source"] == "public_url" else
+                    "https://example.invalid/pilot-verified-" + m["sha256"] + ".png"
+                    for m in item["media"]]
         payload = adapter.prepare(item, urls, paths, stock=stock)
         return payload, urls
 
@@ -360,6 +370,11 @@ class Publisher:
                 self.record(sku, channel, state="awaiting_platform")
                 self.event(sku, channel, "awaiting_platform")
                 return
+        if state == "rejected":
+            self.record(sku, channel, state="blocked_moderation")
+            self.event(sku, channel, "blocked_moderation",
+                       detail=str(observed.get("errors"))[:170])
+            return
         if state not in ("created", "selling"):
             self.event(sku, channel, "unknown_platform_state", detail=str(state))
             return
