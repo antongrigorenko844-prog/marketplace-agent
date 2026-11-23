@@ -14,7 +14,7 @@
   },
   "steps": {
     "middle": {
-      "status": "acknowledged",
+      "status": "verified",
       "target": {
         "0am325025u": 3852,
         "0am325091e": 2772,
@@ -86,10 +86,122 @@
         1949877502,
         670914369
       ],
-      "upload_id": 230816707
+      "upload_id": 230816707,
+      "history": {
+        "task": {
+          "uploadID": 230816707,
+          "status": 3,
+          "uploadDate": "2026-11-23T11:59:22.515082Z",
+          "activationDate": "2026-11-23T11:59:22.515082Z",
+          "overAllGoodsNumber": 8,
+          "successGoodsNumber": 8
+        },
+        "goods": [
+          {
+            "nmID": 670854215,
+            "status": 2,
+            "errorText": ""
+          },
+          {
+            "nmID": 670860803,
+            "status": 2,
+            "errorText": ""
+          },
+          {
+            "nmID": 670914369,
+            "status": 2,
+            "errorText": ""
+          },
+          {
+            "nmID": 670925476,
+            "status": 2,
+            "errorText": ""
+          },
+          {
+            "nmID": 670925587,
+            "status": 2,
+            "errorText": ""
+          },
+          {
+            "nmID": 1949826486,
+            "status": 2,
+            "errorText": ""
+          },
+          {
+            "nmID": 1949828986,
+            "status": 2,
+            "errorText": ""
+          },
+          {
+            "nmID": 1949877502,
+            "status": 2,
+            "errorText": ""
+          }
+        ]
+      },
+      "after": {
+        "0am325025u": {
+          "status": "ok",
+          "price": 3851.89,
+          "discount": 51,
+          "nmID": 670860803
+        },
+        "0am325091e": {
+          "status": "ok",
+          "price": 2771.91,
+          "discount": 43,
+          "nmID": 670925587
+        },
+        "0am325091f": {
+          "status": "ok",
+          "price": 2411.92,
+          "discount": 41,
+          "nmID": 670925476
+        },
+        "0am325025D": {
+          "status": "ok",
+          "price": 2412.03,
+          "discount": 47,
+          "nmID": 670854215
+        },
+        "0am325091e-set": {
+          "status": "ok",
+          "price": 6371.93,
+          "discount": 3,
+          "nmID": 1949826486
+        },
+        "0am325091f-set": {
+          "status": "ok",
+          "price": 6371.93,
+          "discount": 3,
+          "nmID": 1949828986
+        },
+        "vtulki-shtokov-2sht": {
+          "status": "ok",
+          "price": 3491.74,
+          "discount": 2,
+          "nmID": 1949877502
+        },
+        "02e305045": {
+          "status": "ok",
+          "price": 2772.0,
+          "discount": 0,
+          "nmID": 670914369
+        }
+      },
+      "verified": [
+        "0am325025u",
+        "0am325091e",
+        "0am325091f",
+        "0am325025D",
+        "0am325091e-set",
+        "0am325091f-set",
+        "vtulki-shtokov-2sht",
+        "02e305045"
+      ]
     }
   },
-  "updated_utc": "2026-11-23T11:59:22.618917+00:00",
+  "updated_utc": "2026-11-23T11:59:34.522582+00:00",
   "intermediate": {
     "0am325025u": 3852,
     "0am325091e": 2772,
