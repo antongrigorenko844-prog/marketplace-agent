@@ -1,7 +1,7 @@
 {
-  "checked_at_utc": "2026-11-23T01:25:21.009649+00:00",
+  "checked_at_utc": "2026-11-23T11:50:54.818222+00:00",
   "status": "partial_success_manual_reconciliation_required",
-  "deferred_count": 5,
+  "deferred_count": 6,
   "items": [
     {
       "source": "ozon_fbs",
@@ -44,6 +44,15 @@
       "sku": "kryshka-platy-dq200",
       "order_ref_hash": "bfe41cc93372a4",
       "previous_units": 1,
+      "requested_units": 0,
+      "reason": "historical_recipe_missing",
+      "stock_release_performed": false
+    },
+    {
+      "source": "ozon_fbs",
+      "sku": "prokladka-vtulki-dq200",
+      "order_ref_hash": "2051997f62cfd4",
+      "previous_units": 3,
       "requested_units": 0,
       "reason": "historical_recipe_missing",
       "stock_release_performed": false
