@@ -746,8 +746,8 @@
       ],
       "owner_confirmed_variant_scope": "Универсальное объявление: любые размеры штоков, без гильз согласно сообщению владельца.",
       "owner_instruction_keep_old_ad": true,
-      "owner_price_instruction": "requires_distinct_canonical_two_rods_price",
-      "owner_notes": "№4: сохранить и синхронизировать; в основном каталоге есть только штоки ПО ОДНОМУ 0am325091e/f по 1240 ₽, но не найден канонический SKU 2 штоков без гильз. Розничная сумма двух одиночных 2480 ₽ — ориентир, не утверждённая цена набора.",
+      "owner_price_instruction": "align_to_two_main_single_rod_prices",
+      "owner_notes": "№4: сохранить и синхронизировать; в основном каталоге есть только штоки ПО ОДНОМУ 0am325091e/f по 1240 ₽, но не найден канонический SKU 2 штоков без гильз. Розничная сумма двух одиночных 2480 ₽ — ориентир, не утверждённая цена набора. Розничная сумма 2 × 1240 = 2480 ₽ фиксируется как исходная цена для синхронизации старой карточки, до оформления отдельного канонического набора.",
       "candidate_master_skus_before_owner_review": [
         {
           "sku": "0am325091e",
@@ -770,7 +770,19 @@
       ],
       "owner_same_bom_as_original_candidates": false,
       "owner_information_status": "composition_verified",
-      "note": "№4: сохранить и синхронизировать; в основном каталоге есть только штоки ПО ОДНОМУ 0am325091e/f по 1240 ₽, но не найден канонический SKU 2 штоков без гильз. Розничная сумма двух одиночных 2480 ₽ — ориентир, не утверждённая цена набора."
+      "note": "№4: сохранить и синхронизировать; в основном каталоге есть только штоки ПО ОДНОМУ 0am325091e/f по 1240 ₽, но не найден канонический SKU 2 штоков без гильз. Розничная сумма двух одиночных 2480 ₽ — ориентир, не утверждённая цена набора.",
+      "derived_price_basis": {
+        "required_single_skus": [
+          "0am325091e",
+          "0am325091f"
+        ],
+        "units": 2,
+        "unit_price_rub": 1240,
+        "any_size_mixed_or_same": true,
+        "resulting_sale_price_rub": 2480,
+        "price_kind": "Two individual canonical units, NOT a preexisting canonical 2-rod kit price",
+        "preserve_old_ad": true
+      }
     },
     {
       "avito_id": 4125079566,
