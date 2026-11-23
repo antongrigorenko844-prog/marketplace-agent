@@ -1,7 +1,7 @@
 {
-  "mode": "inspect",
-  "status": "inspect_ok_no_writes",
-  "seller_price_writes": 0,
+  "mode": "apply",
+  "status": "verified_2_of_2",
+  "seller_price_writes": 2,
   "new_ads": 0,
   "main_price_changes": 0,
   "feed_changes": 0,
@@ -23,5 +23,23 @@
       "status_before": "active"
     }
   ],
-  "checked_utc": "2026-11-23T18:05:07.546508+00:00"
+  "checked_utc": "2026-11-23T18:06:01.547805+00:00",
+  "checks": [
+    {
+      "id": 4220729305,
+      "price": 3450.0,
+      "status": "active",
+      "matched": true
+    },
+    {
+      "id": 4445230063,
+      "price": 1880.0,
+      "status": "active",
+      "matched": true
+    }
+  ],
+  "summary": {
+    "verified": 2,
+    "count": 2
+  }
 }
