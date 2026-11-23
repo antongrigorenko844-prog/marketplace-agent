@@ -140,7 +140,7 @@ def analyze():
             # Historical 123014-AF has a nonbreaking-hyphen spelling in master
             # but ASCII spelling in Avito link JSON; this is ONE product.
             matched=next((sku for sku in master
-                          if sku.replace("\\u2011","-")==match_link),match_link)
+                          if sku.replace("\u2011","-")==match_link),match_link)
             aliases[raw]=matched
             if matched not in feed:
                 feed[matched]=dict(feed.pop(raw),source_feed_id=raw)
@@ -155,7 +155,7 @@ def analyze():
         candidates=list(seller["bindings"].get(sku,[]))
         raw=ff.get("source_feed_id")
         if raw:candidates+=seller["bindings"].get(raw,[])
-        link_key=sku.replace("\\u2011","-")
+        link_key=sku.replace("\u2011","-")
         if link_key in links:candidates.append(links[link_key])
         fb=ff.get("bind_avito_id")
         if fb and fb not in candidates:candidates.append(int(fb))
