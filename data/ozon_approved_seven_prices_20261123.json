@@ -1,0 +1,231 @@
+{
+  "schema": 1,
+  "batch_id": "leoparts-seven-price-test-20261123",
+  "approved": true,
+  "fingerprint": "415885a91aabc47bd40bb4723b36aafcdcdb859077f56c74252ca73ff621f010",
+  "prices": {
+    "122390AK-AF": {
+      "from": 990,
+      "to": 950
+    },
+    "WHT001922": {
+      "from": 1250,
+      "to": 950
+    },
+    "0am325066AC": {
+      "from": 1750,
+      "to": 1490
+    },
+    "0am325025": {
+      "from": 13850,
+      "to": 12950
+    },
+    "0am325025z": {
+      "from": 2690,
+      "to": 2880
+    },
+    "0am325025r": {
+      "from": 1850,
+      "to": 1490
+    },
+    "0AM325443D": {
+      "from": 2350,
+      "to": 2190
+    }
+  },
+  "purchase_cost_updates": {
+    "122390AK-AF": {
+      "from": 100,
+      "to": 30
+    },
+    "WHT001922": {
+      "from": 50,
+      "to": 40
+    },
+    "0am325066AC": {
+      "from": 200,
+      "to": 150
+    },
+    "0am325025r": {
+      "from": 100,
+      "to": 70
+    },
+    "0AM325443D": {
+      "from": 180,
+      "to": 190
+    }
+  },
+  "state": "staged",
+  "external_writes": 0,
+  "created_utc": "2026-11-23T11:26:08.454473+00:00",
+  "before_live": {
+    "122390AK-AF": {
+      "price": 990.0,
+      "min_price": 950.0,
+      "old_price": 1500.0,
+      "status": "Продаётся"
+    },
+    "WHT001922": {
+      "price": 1250.0,
+      "min_price": 950.0,
+      "old_price": 1500.0,
+      "status": "Продаётся"
+    },
+    "0am325066AC": {
+      "price": 1750.0,
+      "min_price": 1750.0,
+      "old_price": 2500.0,
+      "status": "Продаётся"
+    },
+    "0am325025": {
+      "price": 13850.0,
+      "min_price": 12850.0,
+      "old_price": 19500.0,
+      "status": "Продаётся"
+    },
+    "0am325025z": {
+      "price": 2690.0,
+      "min_price": 2690.0,
+      "old_price": 6000.0,
+      "status": "Продаётся"
+    },
+    "0am325025r": {
+      "price": 1850.0,
+      "min_price": 1850.0,
+      "old_price": 2500.0,
+      "status": "Продаётся"
+    },
+    "0AM325443D": {
+      "price": 2350.0,
+      "min_price": 2350.0,
+      "old_price": 3900.0,
+      "status": "Продаётся"
+    }
+  },
+  "source_changes": {
+    "master": [
+      {
+        "sku": "122390AK-AF",
+        "column": 8,
+        "before": 990.0,
+        "after": 950
+      },
+      {
+        "sku": "122390AK-AF",
+        "column": 27,
+        "before": 100.0,
+        "after": 30,
+        "field": "purchase_cost"
+      },
+      {
+        "sku": "WHT001922",
+        "column": 8,
+        "before": 1250.0,
+        "after": 950
+      },
+      {
+        "sku": "WHT001922",
+        "column": 27,
+        "before": 50.0,
+        "after": 40,
+        "field": "purchase_cost"
+      },
+      {
+        "sku": "0am325066AC",
+        "column": 8,
+        "before": 1750.0,
+        "after": 1490
+      },
+      {
+        "sku": "0am325066AC",
+        "column": 27,
+        "before": 200.0,
+        "after": 150,
+        "field": "purchase_cost"
+      },
+      {
+        "sku": "0am325025",
+        "column": 8,
+        "before": 13850.0,
+        "after": 12950
+      },
+      {
+        "sku": "0am325025z",
+        "column": 8,
+        "before": 2690.0,
+        "after": 2880
+      },
+      {
+        "sku": "0am325025r",
+        "column": 8,
+        "before": 1850.0,
+        "after": 1490
+      },
+      {
+        "sku": "0am325025r",
+        "column": 27,
+        "before": 100.0,
+        "after": 70,
+        "field": "purchase_cost"
+      },
+      {
+        "sku": "0AM325443D",
+        "column": 8,
+        "before": 2350.0,
+        "after": 2190
+      },
+      {
+        "sku": "0AM325443D",
+        "column": 27,
+        "before": 180.0,
+        "after": 190,
+        "field": "purchase_cost"
+      }
+    ],
+    "ozon_catalog": [
+      {
+        "sku": "122390AK-AF",
+        "column": 4,
+        "before": 990.0,
+        "after": 950
+      },
+      {
+        "sku": "WHT001922",
+        "column": 4,
+        "before": 1250.0,
+        "after": 950
+      },
+      {
+        "sku": "0am325066AC",
+        "column": 4,
+        "before": 1750.0,
+        "after": 1490
+      },
+      {
+        "sku": "0am325025",
+        "column": 4,
+        "before": 13850.0,
+        "after": 12950
+      },
+      {
+        "sku": "0am325025z",
+        "column": 4,
+        "before": 2690.0,
+        "after": 2880
+      },
+      {
+        "sku": "0am325025r",
+        "column": 4,
+        "before": 1850.0,
+        "after": 1490
+      },
+      {
+        "sku": "0AM325443D",
+        "column": 4,
+        "before": 2350.0,
+        "after": 2190
+      }
+    ]
+  },
+  "updated_utc": "2026-11-23T11:26:10.476138+00:00"
+}
