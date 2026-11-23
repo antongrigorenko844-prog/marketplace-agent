@@ -8,7 +8,7 @@
     "LEOPARTS_Avito_155_prices_review_2026-11-24.xlsx",
     "LEOPARTS_Avito_155_prices_review_2026-11-24 (1)(1).xlsx"
   ],
-  "mode": "inspect",
+  "mode": "apply",
   "scope": "Apply only user-changed Avito prices in G or H and safe amended titles in D; ID C is sole primary key.",
   "other_channels_untouched": true,
   "site_price_preserve": true,
@@ -649,5 +649,6 @@
       "note": "4 pieces contradicts registered single-unit SKU: leave title untouched until owner clarifies composition"
     }
   ],
-  "revision": 2
+  "revision": 3,
+  "reference_inspect_result": "data/avito_excel_owner_changes_20261124_result.json"
 }
