@@ -19,7 +19,9 @@
   "automatic_pricing_disabled": true,
   "blocked": {
     "8609616823": "9 RUB H outlier, likely typing error from 950; do not publish until confirmed",
-    "8394615261": "New title says 4 pieces, but canonical SKU 0AM325413A is a single seal and catalog description says one; block title AND 990 price until composition confirmed"
+    "8394615261": "New title says 4 pieces, but canonical SKU 0AM325413A is a single seal and catalog description says one; block title AND 990 price until composition confirmed",
+    "8231885696_title_exact": "User requested 74-character title; use 47-character semantic equivalent to fit the 50-character seller title format",
+    "8449035864_title_exact": "User requested 55-character title; use 43-character equivalent with original VAG kept"
   },
   "notes": "Rows with SKU E overwritten to 47, master cost F 700->600, and spurious 47 in N/O ignored. 2 H prices equal original no-op. User changed 13 G cells as intentional price edits.",
   "price_changes": [
@@ -623,19 +625,28 @@
       "avito_id": 8231885696,
       "sku": "0am325025ae",
       "original_title": "Оригинальная крышка + усиленная прокладка",
-      "requested_title": "Оригинальная крышка мехатроника DSG7 DQ200 + усиленная прокладка DQ200 0am"
+      "requested_title": "Оригинальная крышка мехатроника DSG7 DQ200 + усиленная прокладка DQ200 0am",
+      "effective_title": "Оригинальная крышка DQ200 + усиленная прокладка",
+      "apply_title": true,
+      "note": "Original requested title >50 characters; use <=50 character equivalent retaining product meaning for Avito title"
     },
     {
       "avito_id": 8449035864,
       "sku": "0am325477ae",
       "original_title": "Пластина соленоидов мехатроника DSG7 DQ200",
-      "requested_title": "Пластина соленоидов мехатроника DSG7 DQ200 оригинал VAG"
+      "requested_title": "Пластина соленоидов мехатроника DSG7 DQ200 оригинал VAG",
+      "effective_title": "Пластина соленоидов DSG7 DQ200 оригинал VAG",
+      "apply_title": true,
+      "note": "Original requested title >50 characters; use <=50 character equivalent retaining product meaning for Avito title"
     },
     {
       "avito_id": 8394615261,
       "sku": "0AM325413A",
       "original_title": "Сальник толкателя вилки мехатроника DSG7 DQ200",
-      "requested_title": "Сальники толкателей вилок мехатроника DSG7 DQ200 (4шт)"
+      "requested_title": "Сальники толкателей вилок мехатроника DSG7 DQ200 (4шт)",
+      "effective_title": null,
+      "apply_title": false,
+      "note": "4 pieces contradicts registered single-unit SKU: leave title untouched until owner clarifies composition"
     }
   ]
 }
