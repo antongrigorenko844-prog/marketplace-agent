@@ -1,6 +1,6 @@
 {
-  "mode": "inspect",
-  "status": "preflight_passed_no_writes",
+  "mode": "apply",
+  "status": "verified_3_of_3",
   "sku": "122390AK-AF",
   "new_price": 450,
   "site_price_changes": 0,
@@ -38,8 +38,41 @@
   },
   "feed_sha_before": "ee2a232816debba096bbbdabeb5639fa91aaaa4c88bb98a4a3cfd72203aef2a3",
   "source_sha_before": "1393601f897849f7ee0450251f4246b7024938ef09ea86726dd9894b7e51c088",
-  "feed_sha_after": "9724b8535b438d9d31c4757d353353bacfad767f7a35aefe634723fa68e96bb8",
-  "source_sha_after": "d813be2faaa05946b763919bd5ac317161fc3b7579f972322a4ec7585d148a25",
+  "feed_sha_after": "d3d6b06d4dd19bd88c5145c0043d421df6f574e68b9f5de06ba4fd3bece65033",
+  "source_sha_after": "9e261e7c6014c5ee1cdfdd0060b9ed87590d0830f35700eeaf3269e47b47b59a",
   "seller_feed_asset_id": 783755181,
-  "checked_at_utc": "2026-11-23T19:04:24.405022+00:00"
+  "source_publish": {
+    "status": "published_sha_verified",
+    "sha256": "d3d6b06d4dd19bd88c5145c0043d421df6f574e68b9f5de06ba4fd3bece65033",
+    "backup_asset": "avito_feed.before_plain_boot_450_783755181.xlsx"
+  },
+  "api_update_receipts": {
+    "8461500993": {
+      "status": "accepted"
+    },
+    "4125079566": {
+      "status": "accepted"
+    }
+  },
+  "seller_prices_after": {
+    "8461500993": {
+      "price": 450.0,
+      "status": "active",
+      "title": "Пыльник штока мехатроника DSG7 DQ200 122390AK-AF",
+      "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/pylnik_shtoka_mehatronika_dsg7_dq200_122390ak-af_8461500993"
+    },
+    "4125079566": {
+      "price": 450.0,
+      "status": "active",
+      "title": "Пыльник штоков мехатроника DSG 7 DQ200 0AM 0CW",
+      "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/pylnik_shtokov_mehatronika_dsg_7_dq200_0am_0cw_4125079566"
+    },
+    "3965207177": {
+      "price": 450.0,
+      "status": "active",
+      "title": "Пыльник штока мехатроника DSG 7 DQ200 0AM 0CW",
+      "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/pylnik_shtoka_mehatronika_dsg_7_dq200_0am_0cw_3965207177"
+    }
+  },
+  "checked_at_utc": "2026-11-23T19:05:18.303724+00:00"
 }
