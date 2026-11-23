@@ -1,0 +1,31 @@
+name: LEOPARTS Avito Owner Verified 14 Legacy Prices
+on:
+  push:
+    branches: [main]
+    paths: ['data/avito_owner_14_legacy_prices_request_20261124.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  guarded-price-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Seller API dependencies
+        run: pip install -q requests python-dotenv
+      - name: Validate exact 14 listings, SKU prices and apply in price-only mode
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: |
+          python -m py_compile scripts/avito_owner_14_legacy_prices_20261124.py
+          python -u scripts/avito_owner_14_legacy_prices_20261124.py
+      - name: Save before/after results without changing feeds or catalog workbooks
+        if: always()
+        run: |
+          if [ -f data/avito_owner_14_legacy_prices_result_20261124.json ]; then
+            bash .github/scripts/save_data.sh data/avito_owner_14_legacy_prices_result_20261124.json
+          fi
