@@ -52,6 +52,8 @@ jobs:
         with: {python-version: '3.11'}
       - name: Compile both v3 engines and adapters
         run: python -m py_compile scripts/product_publishing_v3.py scripts/product_publishing_v3_apply.py scripts/product_publishing_v3_adapters.py
+          python scripts/product_publishing_v3_apply.py --help >/dev/null
+          python -m scripts.product_publishing_v3_apply --help >/dev/null
       - name: Run offline v3 planner, publishing and legacy regression suites
         run: |
           python -m unittest discover -s tests -p 'test_product_publishing_v3.py' -v
@@ -201,9 +203,9 @@ jobs:
         run: |
           set -euo pipefail
           if [ "$MODE" = pilot ]; then
-            python scripts/product_publishing_v3_apply.py --mode pilot --output "$RUNNER_TEMP/report.json"
+            python -m scripts.product_publishing_v3_apply --mode pilot --output "$RUNNER_TEMP/report.json"
           else
-            python scripts/product_publishing_v3_apply.py --mode "$MODE" --git-checkpoint --output "$RUNNER_TEMP/report.json"
+            python -m scripts.product_publishing_v3_apply --mode "$MODE" --git-checkpoint --output "$RUNNER_TEMP/report.json"
           fi
       - name: Commit only new immutable media cache, never catalogs/prices
         if: success() && env.MODE != 'pilot'
