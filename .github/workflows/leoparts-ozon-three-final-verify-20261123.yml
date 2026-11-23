@@ -1,0 +1,30 @@
+name: LEOPARTS Ozon verify 3 approved new 6T30 listings and FBS stock
+on:
+  push:
+    branches: [main]
+    paths: ['data/leoparts_ozon_three_final_verify_request_20261123.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  verify-new-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - run: python -m py_compile scripts/leoparts_ozon_three_final_verify_20261123.py
+      - name: Verify Ozon created statuses, prices, stocks; set first Gen2 FBS balance after approval
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          OZON_WAREHOUSE_ID: ${{ secrets.OZON_WAREHOUSE_ID }}
+        run: python -u scripts/leoparts_ozon_three_final_verify_20261123.py
+      - name: Persist Ozon-only readback
+        if: always()
+        run: |
+          if [ -f data/leoparts_ozon_three_final_verify_20261123.json ]; then
+            bash .github/scripts/save_data.sh data/leoparts_ozon_three_final_verify_20261123.json
+          fi
