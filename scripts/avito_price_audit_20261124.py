@@ -84,9 +84,11 @@ def inventory():
     # They are intentionally approved via the immutable intake manifest.
     intake=json.loads((ROOT/"data/product_intake_v2/requests/leoparts-five-20261123.json").read_text(encoding="utf-8"))
     assert intake["approved"] is True
+    intake_added=0
     for item in intake["items"]:
         sku=item["sku"]
         if sku not in cfg:
+            intake_added+=1
             cfg[sku]={"avito_cfg":number(item["prices"]["avito"]),
                       "site_cfg":number(item["prices"]["tilda"]),
                       "fixed":True,"price_source":"approved_intake_manifest"}
@@ -97,7 +99,7 @@ def inventory():
         qty=number(value(r,3))
         if kit and component and qty and qty>0 and qty.is_integer():
             bom[kit][component]+=int(qty)
-    return m,oz,cfg,feed,{k:dict(v) for k,v in bom.items()}
+    return m,oz,cfg,feed,{k:dict(v) for k,v in bom.items()},intake_added
 
 def live_data(feed,additional):
     response={"error":None,"listings":[],"bindings":{},"bindings_errors":[]}
@@ -125,7 +127,7 @@ def live_data(feed,additional):
 def analyze():
     req=json.loads(REQ.read_text(encoding="utf-8"))
     assert req.get("mode")=="read_only" and req.get("change_prices") is False
-    master,oz,cfg,feed,bom=inventory()
+    master,oz,cfg,feed,bom,intake_added=inventory()
     source_feed_rows=len(feed)
     links=json.loads((ROOT/"data/avito_links.json").read_text(encoding="utf-8"))
     # '-av' is an explicit linkage suffix for 8 existing ads, not a second SKU.
@@ -280,7 +282,7 @@ def analyze():
                       "packaging_scenario_rub":PACKING_SCENARIO,"cost_per_view_scenario_rub":CPV_SCENARIO,
                       "warning":"These are scenario allocations, not the actual commission or views for each SKU."},
         "counts":{"master_skus":len(master),"approved_price_sources_skus":len(cfg),
-                  "override_workbook_skus":len(cfg)-5,"feed_skus":source_feed_rows,
+                  "override_workbook_skus":len(cfg)-intake_added,"feed_skus":source_feed_rows,
                   "known_alias_feed_rows":len(aliases),
                   "bom_kits":len(bom),"bom_relations":sum(len(a) for a in bom.values()),
                   "api_listed_ads":len(seller["listings"]),
