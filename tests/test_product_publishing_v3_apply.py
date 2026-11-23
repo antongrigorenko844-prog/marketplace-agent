@@ -258,6 +258,20 @@ class GuardedPublishingTests(unittest.TestCase):
         self.assertEqual(res["events"][0]["state"],"blocked_preflight")
         self.assertEqual(seller.calls["submit"],0)
 
+    def test_pilot_for_new_sku_never_uploads_media_or_changes_catalog(self):
+        batch=self.item_and_batch()
+        cfg=self.config(batch,mode="live",channels=["ozon"])
+        seller=MockNewSeller("ozon")
+        with tempfile.TemporaryDirectory() as d:
+            with patch.object(writer,"catalog_stock",return_value=2),\
+                 patch("photo_host.upload_file",side_effect=AssertionError("Pilot uploaded Release media")):
+                p=self.build(batch,cfg,{"ozon":seller},d,mode="pilot")
+                report=p.run()
+                self.assertEqual(report["events"][0]["state"],"ready_to_create")
+                self.assertFalse((Path(d)/"state.json").exists())
+                self.assertEqual(seller.calls["submit"],0)
+                self.assertEqual(seller.calls["set_stock"],0)
+
     def test_adapter_ozon_requires_customs_without_api_call(self):
         batch=self.item_and_batch(); item=batch["items"][0]
         oz=adapters.OzonAdapter.__new__(adapters.OzonAdapter)
