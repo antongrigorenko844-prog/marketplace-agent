@@ -1,0 +1,33 @@
+name: LEOPARTS Avito 4-Seal Pack Price and Title - guarded
+on:
+  push:
+    branches: [main]
+    paths: ['data/avito_four_seals_owner_request_20261124.json']
+permissions: {contents: write}
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  validate-and-correct:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q requests openpyxl python-dotenv
+      - name: Owner-confirmed 4 seals, Avito only, sensor clip stays 950
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -m py_compile scripts/avito_four_seals_20261124.py
+          python -u scripts/avito_four_seals_20261124.py
+      - name: Save price/title audit journal
+        if: always()
+        run: |
+          if [ -f data/avito_four_seals_owner_result_20261124.json ]; then
+            bash .github/scripts/save_data.sh data/avito_four_seals_owner_result_20261124.json
+          fi
