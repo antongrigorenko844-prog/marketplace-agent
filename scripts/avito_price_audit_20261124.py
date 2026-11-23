@@ -294,6 +294,22 @@ def analyze():
                   "price":x.get("price")} for x in original_pair],
             price_gap=round(abs(original_pair[0]["price"]-original_pair[1]["price"]),2),
             owner_confirmed_identical_components=False)
+    # Staged legacy ads are part of the audit inventory, NOT live feed bindings.
+    # Titles / part numbers suggest SKU candidates, but the actual BOM is unverified.
+    registry_path=ROOT/"data/avito_legacy_catalog_candidates_20261124.json"
+    registry=json.loads(registry_path.read_text(encoding="utf-8")) if registry_path.exists() else {"entries":[]}
+    staged=registry.get("entries",[])
+    staged_by_id={str(x["avito_id"]):x for x in staged}
+    if len(staged_by_id)!=len(staged):
+        raise ValueError("Duplicate Avito ID in legacy candidate registry")
+    for entry in staged:
+        if entry.get("match_state")!="candidate_not_bound":
+            raise ValueError("Legacy registry must never claim a live feed binding")
+        for candidate in entry.get("candidate_master_skus",[]):
+            if candidate["sku"] not in master:
+                raise ValueError("Legacy candidate missing from canonical master: "+candidate["sku"])
+    mapped_ids={str(e.get("id")) for e in resolved.values() if e.get("id") is not None}
+    unmapped=[x for x in seller["listings"] if str(x["id"]) not in mapped_ids]
     costs=[r for r in rowset if r["in_master"] and r["cost_master"] and r["model_price"]]
     counts=Counter(x["priority"] for x in issues)
     return {"generated_utc":datetime.now(timezone.utc).isoformat(),
@@ -311,9 +327,15 @@ def analyze():
                   "with_cost_and_price":len(costs),"issues":len(issues),"priority":dict(counts)},
         "live_api_error":seller["error"],"binding_errors":seller["bindings_errors"],
         "issues":issues,"products":rowset,
-        "unmapped_live_ads":[{"id":x["id"],"title":x["title"],"price":x["price"],"status":x["status"]}
-           for x in seller["listings"] if str(x["id"]) not in
-              {str(e.get("id")) for e in resolved.values() if e.get("id") is not None}],
+        "legacy_registry_staging":{
+            "tracked_unbound_count":len(staged),
+            "tracked_active_count":sum(str(x["id"]) in staged_by_id for x in unmapped),
+            "not_yet_staged_ids":[x["id"] for x in unmapped if str(x["id"]) not in staged_by_id],
+            "mode":"CANDIDATES_ONLY_NOT_ACTIVE_IN_AVITO_FEED"},
+        "unmapped_live_ads":[{"id":x["id"],"title":x["title"],"price":x["price"],"status":x["status"],
+           "legacy_registry_status":staged_by_id.get(str(x["id"]),{}).get("match_state","unregistered"),
+           "candidate_master_skus":[c["sku"] for c in staged_by_id.get(str(x["id"]),{}).get("candidate_master_skus",[])]}
+           for x in unmapped],
         "feed_titles":{k:feed[k]["feed_title"] for k in feed},
         "source":{"master":"data/master_control.xlsx","overrides":"data/avito_site_price_overrides.xlsx",
                   "feed":"data/avito_feed.xlsx","kit_bom":"data/kits.xlsx",
