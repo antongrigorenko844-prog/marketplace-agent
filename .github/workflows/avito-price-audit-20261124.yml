@@ -32,5 +32,5 @@ jobs:
         if: always()
         run: |
           if [ -f data/avito_price_audit_20261124.json ]; then
-            bash .github/scripts/save_data.sh data/avito_price_audit_20261124.json data/avito_manual_duplicates_review_20261124.json
+            bash .github/scripts/save_data.sh data/avito_price_audit_20261124.json data/avito_manual_duplicates_review_20261124.json data/avito_catalog_listing_index_20261124.json
           fi
