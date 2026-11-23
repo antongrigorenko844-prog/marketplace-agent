@@ -1,0 +1,24 @@
+name: LEOPARTS Tilda price pipeline v1 — OFFLINE SAFETY TESTS
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/tilda_price_pipeline_v1.py'
+      - 'tests/test_tilda_price_pipeline_v1.py'
+      - '.github/workflows/tilda-price-pipeline-v1-tests.yml'
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  offline-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install read-only test dependencies
+        run: pip install -q requests openpyxl python-dotenv
+      - name: Compile and validate site UID/source safeguards, no Tilda credentials
+        run: |
+          python -m py_compile scripts/tilda_price_pipeline_v1.py
+          python -m unittest discover -s tests -p 'test_tilda_price_pipeline_v1.py' -v
