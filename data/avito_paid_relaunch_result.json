@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-11-23T14:38:37.852954+00:00",
+  "checked_at_utc": "2026-11-23T14:42:07.538400+00:00",
   "mode": "apply",
   "approved_new_skus": [
     "6t30-solenoids-gen2",
@@ -39,15 +39,15 @@
   },
   "live_listing_count": 154,
   "feed_before": {
-    "rows": 124,
-    "sha256": "cc479b22b24d75365d0b5a5ed7261d3f3d0ffe26cf7d2bd3101c202ac5f7848e"
+    "rows": 127,
+    "sha256": "9f63059fbc0ec6c5be07a579c27de7b653ac95a54ef011c8def1f53039d75bfe"
   },
-  "already_in_feed": [],
-  "missing_from_feed": [
+  "already_in_feed": [
     "6t30-solenoids-gen2",
     "6t30-tcm-gen1",
     "6t30-tcm-gen2"
   ],
+  "missing_from_feed": [],
   "other_relevant_feed_skus": {
     "6t30": true,
     "Dq500": true,
@@ -88,16 +88,6 @@
     "6t30-tcm-gen1": [],
     "6t30-tcm-gen2": []
   },
-  "public_feed_before_sha256": "cc479b22b24d75365d0b5a5ed7261d3f3d0ffe26cf7d2bd3101c202ac5f7848e",
-  "status": "stable_feed_published_pending_avito_import",
-  "published_feed_sha256": "9f63059fbc0ec6c5be07a579c27de7b653ac95a54ef011c8def1f53039d75bfe",
-  "published_rows": 127,
-  "newly_appended_skus": [
-    "6t30-solenoids-gen2",
-    "6t30-tcm-gen1",
-    "6t30-tcm-gen2"
-  ],
-  "backup_asset": "avito_feed.before_paid_relaunch_782739847.xlsx",
-  "avito_autoload_api_triggered": false,
-  "note": "The existing Avito scheduled importer must process the new stable feed; API 200 is not Avito moderation."
+  "public_feed_before_sha256": "9f63059fbc0ec6c5be07a579c27de7b653ac95a54ef011c8def1f53039d75bfe",
+  "status": "already_in_feed_no_writes"
 }
