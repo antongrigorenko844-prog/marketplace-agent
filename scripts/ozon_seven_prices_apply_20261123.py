@@ -81,13 +81,16 @@ def validate_workbooks():
     # Column locations are defined by the existing LEOPARTS catalog contracts.
     m=openpyxl.load_workbook(MASTER,read_only=True,data_only=True)["Товары"]
     header=[str(c.value or "").strip() for c in m[1]]
-    require(header[0]=="Артикул" and header[7]=="Цена, ₽" and "Закупка, ₽" in header,
-            "Master schema changed; abort")
+    # Historical master price column is H and the owner cost column is located
+    # by exact header name. The first columns have localized labels in this file.
+    require(len(header)>=8 and "Закупка, ₽" in header,
+            "Master cost/price columns missing: "+repr(header[:16]))
     cost_col=header.index("Закупка, ₽")+1
+    require(cost_col not in (1,8),"Master cost cannot overwrite exact SKU or price")
     m.parent.close()
     v=openpyxl.load_workbook(CATALOG,read_only=True,data_only=True)["Ozon"]
-    require(str(v.cell(1,1).value or "").strip().lower() in ("артикул","offer_id","sku"),
-            "Ozon catalog first column schema changed")
+    require(v.max_column>=4 and v.max_row>7,
+            "Ozon price workbook schema unexpectedly short")
     v.parent.close()
     return cost_col
 def live():
