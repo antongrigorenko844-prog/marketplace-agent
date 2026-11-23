@@ -23,9 +23,14 @@ jobs:
         run: |
           python -m py_compile scripts/avito_price_audit_20261124.py
           python -u scripts/avito_price_audit_20261124.py
+      - name: Inspect old manual ads and user-confirmed duplicate contents (read-only)
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: python -u scripts/avito_manual_duplicates_20261124.py
       - name: Save audit report only
         if: always()
         run: |
           if [ -f data/avito_price_audit_20261124.json ]; then
-            bash .github/scripts/save_data.sh data/avito_price_audit_20261124.json
+            bash .github/scripts/save_data.sh data/avito_price_audit_20261124.json data/avito_manual_duplicates_review_20261124.json
           fi
