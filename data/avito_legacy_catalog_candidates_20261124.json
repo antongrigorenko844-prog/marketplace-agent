@@ -1,0 +1,758 @@
+{
+  "schema_version": 1,
+  "created_date": "2026-11-24",
+  "project": "LEOPARTS",
+  "channel": "avito",
+  "purpose": "Учет 36 старых активных объявлений и их кандидатов в канонические SKU. Не влияет на фид и продавца.",
+  "safety": {
+    "mode": "read_only_metadata",
+    "apply_to_avito_links": false,
+    "change_live_prices": false,
+    "change_stock": false,
+    "change_titles": false,
+    "create_ads": false,
+    "auto_takeover": false,
+    "manual_review_of_composition_required": true
+  },
+  "sources": [
+    "data/avito_price_audit_20261124.json",
+    "data/avito_manual_duplicates_review_20261124.json",
+    "user correction 2026-11-24"
+  ],
+  "tally": {
+    "unbound_live_ads": 36,
+    "strong_title_candidates": 14,
+    "other_candidates": 20,
+    "owner_ambiguity": 2
+  },
+  "rule": "Один реальный вариант товара -> один канонический SKU; старое объявление можно включить в управление фидом только после подтверждения комплектации и выбора AvitoId, с сохранением цены или отдельным согласованием.",
+  "entries": [
+    {
+      "avito_id": 7260747200,
+      "live_status": "active",
+      "live_price_rub": 890,
+      "live_title": "Импульсное кольцо распредвала GM 55565480",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "strong_title_or_part_number",
+      "candidate_master_skus": [
+        {
+          "sku": "55565480",
+          "master_present": true,
+          "canonical_name": "Импульсное кольцо распредвала GM 55565480 (5636119)",
+          "configured_avito_price_rub": 950,
+          "price_gap_vs_canonical_rub": -60
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4573102274,
+      "live_status": "active",
+      "live_price_rub": 9890,
+      "live_title": "Ремкомплект dsg 7 dq200 усиленная плита прокладки",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325025",
+          "master_present": true,
+          "canonical_name": "Ремкомплект мехатроника DSG7 DQ200 (гидроплита, сальники, прокладки) 0AM325025",
+          "configured_avito_price_rub": 7850,
+          "price_gap_vs_canonical_rub": 2040
+        },
+        {
+          "sku": "plita-filtr-pylniki-sal-orig",
+          "master_present": true,
+          "canonical_name": "Плита + фильтр + 2 пыльника + 2 сальника ориг VAG DSG7 DQ200, полный комплект",
+          "configured_avito_price_rub": 8350,
+          "price_gap_vs_canonical_rub": 1540
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4445242895,
+      "live_status": "active",
+      "live_price_rub": 690,
+      "live_title": "Сепараторная пластина мехатроника DSG7 DQ200 0AM",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "strong_title_or_part_number",
+      "candidate_master_skus": [
+        {
+          "sku": "separatornaya-plastina-dq200",
+          "master_present": true,
+          "canonical_name": "Сепараторная пластина мехатроника DSG7 DQ200",
+          "configured_avito_price_rub": 950,
+          "price_gap_vs_canonical_rub": -260
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4445230063,
+      "live_status": "active",
+      "live_price_rub": 2890,
+      "live_title": "Ремкомплект штока DQ200 DSG7 0AM 0CW шток + втулка",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325025u",
+          "master_present": true,
+          "canonical_name": "Ремкомплект: Усиленный длинный шток 0AM325091E 101мм + втулка мехатроника DSG7 DQ200",
+          "configured_avito_price_rub": 1880,
+          "price_gap_vs_canonical_rub": 1010
+        },
+        {
+          "sku": "0am325025z",
+          "master_present": true,
+          "canonical_name": "Ремкомплект: Усиленный короткий шток 0AM325091F 99мм + втулка мехатроника DSG7 DQ200",
+          "configured_avito_price_rub": 1880,
+          "price_gap_vs_canonical_rub": 1010
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4445119215,
+      "live_status": "active",
+      "live_price_rub": 9800,
+      "live_title": "Ремкомплект мехатроника dq200 dsg7 0am 0cw",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325025",
+          "master_present": true,
+          "canonical_name": "Ремкомплект мехатроника DSG7 DQ200 (гидроплита, сальники, прокладки) 0AM325025",
+          "configured_avito_price_rub": 7850,
+          "price_gap_vs_canonical_rub": 1950
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4444968174,
+      "live_status": "active",
+      "live_price_rub": 2890,
+      "live_title": "Крышка поддон мехатроника+прокладка DSG 7 DQ200",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325025ae",
+          "master_present": true,
+          "canonical_name": "Оригинальная крышка + усиленная прокладка мехатроника DSG7 DQ200",
+          "configured_avito_price_rub": 2350,
+          "price_gap_vs_canonical_rub": 540
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4444712249,
+      "live_status": "active",
+      "live_price_rub": 890,
+      "live_title": "Масляный фильтр АКПП DSG 7 DQ500",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "strong_title_or_part_number",
+      "candidate_master_skus": [
+        {
+          "sku": "filtr-dsg7-dq500",
+          "master_present": true,
+          "canonical_name": "Масляный фильтр мехатроника DSG7 DQ500 0BH325183B",
+          "configured_avito_price_rub": 495,
+          "price_gap_vs_canonical_rub": 395
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4444617509,
+      "live_status": "active",
+      "live_price_rub": 890,
+      "live_title": "Bмасляный фильтр АКПП DSG6 DQ250 02E305051C",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "strong_title_or_part_number",
+      "candidate_master_skus": [
+        {
+          "sku": "02E305051C",
+          "master_present": true,
+          "canonical_name": "Фильтр мехатроника DSG6 DQ250 02E305051C",
+          "configured_avito_price_rub": 495,
+          "price_gap_vs_canonical_rub": 395
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4444524662,
+      "live_status": "active",
+      "live_price_rub": 1290,
+      "live_title": "Поршень вилки мехатроника DSG7 DQ200 0AM/0CW",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "strong_title_or_part_number",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325025l",
+          "master_present": true,
+          "canonical_name": "Поршень (толкатель) вилки мехатроника DSG7 DQ200",
+          "configured_avito_price_rub": 950,
+          "price_gap_vs_canonical_rub": 340
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4349334275,
+      "live_status": "active",
+      "live_price_rub": 6490,
+      "live_title": "Плита DQ200 0am 0cw (усиленная гидроплита DSG 7)",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325066ae",
+          "master_present": true,
+          "canonical_name": "Усиленная гидроплита мехатроника DSG7 DQ200 0AM325066AE",
+          "configured_avito_price_rub": 5350,
+          "price_gap_vs_canonical_rub": 1140
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4349172359,
+      "live_status": "active",
+      "live_price_rub": 1290,
+      "live_title": "Корпус фильтра DSG6 DQ250 02E",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "strong_title_or_part_number",
+      "candidate_master_skus": [
+        {
+          "sku": "02e305045",
+          "master_present": true,
+          "canonical_name": "Корпус масляного фильтра мехатроника DSG6 DQ250 02E305045",
+          "configured_avito_price_rub": 980,
+          "price_gap_vs_canonical_rub": 310
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4348814868,
+      "live_status": "active",
+      "live_price_rub": 3490,
+      "live_title": "Корпус фильтра DQ500 DSG7",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "Dq500",
+          "master_present": true,
+          "canonical_name": "Корпус фильтра мехатроника DSG7 DQ500 0BH325183B",
+          "configured_avito_price_rub": 980,
+          "price_gap_vs_canonical_rub": 2510
+        },
+        {
+          "sku": "0BH325183",
+          "master_present": true,
+          "canonical_name": "Корпус фильтра ребристый мехатроника DSG7 DQ500 0BH325183B",
+          "configured_avito_price_rub": 3850,
+          "price_gap_vs_canonical_rub": -360
+        },
+        {
+          "sku": "0BH325",
+          "master_present": true,
+          "canonical_name": "Корпус фильтра мехатроника DSG7 DQ500 0BH325183B",
+          "configured_avito_price_rub": 2850,
+          "price_gap_vs_canonical_rub": 640
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4316875109,
+      "live_status": "active",
+      "live_price_rub": 890,
+      "live_title": "Фильтр АКПП DSG 7 0BH325183B",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "strong_title_or_part_number",
+      "candidate_master_skus": [
+        {
+          "sku": "filtr-dsg7-dq500",
+          "master_present": true,
+          "canonical_name": "Масляный фильтр мехатроника DSG7 DQ500 0BH325183B",
+          "configured_avito_price_rub": 495,
+          "price_gap_vs_canonical_rub": 395
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4285328953,
+      "live_status": "active",
+      "live_price_rub": 890,
+      "live_title": "Подшипник вилки DQ200 DSG-7 0AM 0CW 6/R",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "strong_title_or_part_number",
+      "candidate_master_skus": [
+        {
+          "sku": "podshipnik-vilki-6",
+          "master_present": true,
+          "canonical_name": "Подшипник вилки 6-й передачи и заднего хода DSG7 DQ200, 1 шт",
+          "configured_avito_price_rub": 950,
+          "price_gap_vs_canonical_rub": -60
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4285324155,
+      "live_status": "active",
+      "live_price_rub": 3490,
+      "live_title": "Корпус фильтра DQ500 DSG 7 0BH325183",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "0BH325183",
+          "master_present": true,
+          "canonical_name": "Корпус фильтра ребристый мехатроника DSG7 DQ500 0BH325183B",
+          "configured_avito_price_rub": 3850,
+          "price_gap_vs_canonical_rub": -360
+        },
+        {
+          "sku": "Dq500",
+          "master_present": true,
+          "canonical_name": "Корпус фильтра мехатроника DSG7 DQ500 0BH325183B",
+          "configured_avito_price_rub": 980,
+          "price_gap_vs_canonical_rub": 2510
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4285296851,
+      "live_status": "active",
+      "live_price_rub": 450,
+      "live_title": "Кольцо гидроаккумулятора dq200 dsg 7 0am 0cw",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "strong_title_or_part_number",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325025С",
+          "master_present": true,
+          "canonical_name": "Кольцо гидроаккумулятора мехатроника DSG7 DQ200",
+          "configured_avito_price_rub": 950,
+          "price_gap_vs_canonical_rub": -500
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4285108577,
+      "live_status": "active",
+      "live_price_rub": 990,
+      "live_title": "Ремкомплект штока мехатроника DSG 7 DQ200 0AM 0CW",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "composition_unknown_owner_note",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325025G",
+          "master_present": true,
+          "canonical_name": "Ремкомплект 2 штоков мехатроника DSG7 DQ200: пыльники, сальники, крышки",
+          "configured_avito_price_rub": 2350,
+          "price_gap_vs_canonical_rub": -1360
+        },
+        {
+          "sku": "remkomplekt-shtokov-orig",
+          "master_present": true,
+          "canonical_name": "Оригинальный ремкомплект 2 штоков VAG: пыльники, сальники, крышки DSG7 DQ200",
+          "configured_avito_price_rub": 1850,
+          "price_gap_vs_canonical_rub": -860
+        }
+      ],
+      "review_required": true,
+      "note": "Владелец допускает, что за 990 ₽ продается малый набор сальник+пыльник+крышка; состав НЕ подтвержден. Не объединять с объявлением 5890."
+    },
+    {
+      "avito_id": 4284998704,
+      "live_status": "active",
+      "live_price_rub": 2350,
+      "live_title": "Болты мехатроника dq200 dsg 7 0am 0cw",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "strong_title_or_part_number",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325025f",
+          "master_present": true,
+          "canonical_name": "Комплект болтов мехатроника DSG7 DQ200, 7 шт",
+          "configured_avito_price_rub": 2350,
+          "price_gap_vs_canonical_rub": 0
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4284973404,
+      "live_status": "active",
+      "live_price_rub": 690,
+      "live_title": "Усиленное опорное кольцо толкателя DSG7 DQ200 0AM",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "strong_title_or_part_number",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325025r",
+          "master_present": true,
+          "canonical_name": "Усиленное опорное кольцо толкателя мехатроника DSG7 DQ200",
+          "configured_avito_price_rub": 950,
+          "price_gap_vs_canonical_rub": -260
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4284955885,
+      "live_status": "active",
+      "live_price_rub": 1290,
+      "live_title": "Корпус фильтра DQ250 DSG 6 02E305045",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "strong_title_or_part_number",
+      "candidate_master_skus": [
+        {
+          "sku": "02e305045",
+          "master_present": true,
+          "canonical_name": "Корпус масляного фильтра мехатроника DSG6 DQ250 02E305045",
+          "configured_avito_price_rub": 980,
+          "price_gap_vs_canonical_rub": 310
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4284950339,
+      "live_status": "active",
+      "live_price_rub": 3850,
+      "live_title": "Соленоид dsg 7 dq200 0am 0cw регулятор давления",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "0AM325025B",
+          "master_present": true,
+          "canonical_name": "Соленоид регулятор давления DSG7 DQ200",
+          "configured_avito_price_rub": 5350,
+          "price_gap_vs_canonical_rub": -1500
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4284610725,
+      "live_status": "active",
+      "live_price_rub": 890,
+      "live_title": "Заглушка коробки DSG7 DQ200 0AM 0CW 52м",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "0AM301212A",
+          "master_present": true,
+          "canonical_name": "Заглушка корпуса КПП мехатроника DSG7 DQ200 0AM301212A",
+          "configured_avito_price_rub": 950,
+          "price_gap_vs_canonical_rub": -60
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4253114863,
+      "live_status": "active",
+      "live_price_rub": 1290,
+      "live_title": "Прокладки dsg 7 сепараторная пластина мехатроника",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "separatornaya-plastiny-solenoid-dq200",
+          "master_present": true,
+          "canonical_name": "Сепараторная пластина + пластины на соленоиды мехатроника DSG7 DQ200",
+          "configured_avito_price_rub": 1350,
+          "price_gap_vs_canonical_rub": -60
+        },
+        {
+          "sku": "0am325025j",
+          "master_present": true,
+          "canonical_name": "Сепараторная пластина + пластины на соленоиды мехатроника DSG7 DQ200, оригинал VAG",
+          "configured_avito_price_rub": 1350,
+          "price_gap_vs_canonical_rub": -60
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4253030337,
+      "live_status": "active",
+      "live_price_rub": 9890,
+      "live_title": "Ремкомплект dq200 dsg7 0am гидроплита прокладки",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325025",
+          "master_present": true,
+          "canonical_name": "Ремкомплект мехатроника DSG7 DQ200 (гидроплита, сальники, прокладки) 0AM325025",
+          "configured_avito_price_rub": 7850,
+          "price_gap_vs_canonical_rub": 2040
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4220734432,
+      "live_status": "active",
+      "live_price_rub": 6490,
+      "live_title": "Гидроплита dsg 7 dq200 усиленная ремкомплект dsg7",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325066ae",
+          "master_present": true,
+          "canonical_name": "Усиленная гидроплита мехатроника DSG7 DQ200 0AM325066AE",
+          "configured_avito_price_rub": 5350,
+          "price_gap_vs_canonical_rub": 1140
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4220729305,
+      "live_status": "active",
+      "live_price_rub": 5890,
+      "live_title": "Ремкомплект штока мехатроника DSG 7 DQ200 0AM 0CW",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "composition_unknown_owner_note",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325025G",
+          "master_present": true,
+          "canonical_name": "Ремкомплект 2 штоков мехатроника DSG7 DQ200: пыльники, сальники, крышки",
+          "configured_avito_price_rub": 2350,
+          "price_gap_vs_canonical_rub": 3540
+        },
+        {
+          "sku": "remkomplekt-shtokov-orig",
+          "master_present": true,
+          "canonical_name": "Оригинальный ремкомплект 2 штоков VAG: пыльники, сальники, крышки DSG7 DQ200",
+          "configured_avito_price_rub": 1850,
+          "price_gap_vs_canonical_rub": 4040
+        }
+      ],
+      "review_required": true,
+      "note": "Состав и корректная цена объявления 5890 ₽ требуют проверки; нельзя считать одинаковым с набором 990 ₽."
+    },
+    {
+      "avito_id": 4189437762,
+      "live_status": "active",
+      "live_price_rub": 9850,
+      "live_title": "Ремкомплект мехатроника dsg 7 dq200 плита фильтр",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "plita-filtr",
+          "master_present": true,
+          "canonical_name": "Усиленная гидроплита + фильтр мехатроника DSG7 DQ200, комплект",
+          "configured_avito_price_rub": 5850,
+          "price_gap_vs_canonical_rub": 4000
+        },
+        {
+          "sku": "plita-filtr-orig",
+          "master_present": true,
+          "canonical_name": "Усиленная плита + улучшенный фильтр мехатроника DSG7 DQ200, комплект",
+          "configured_avito_price_rub": 5850,
+          "price_gap_vs_canonical_rub": 4000
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4125283125,
+      "live_status": "active",
+      "live_price_rub": 11890,
+      "live_title": "Ремкомплект прокладки мехатроника DSG 7 DQ200 0AM",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325025m",
+          "master_present": true,
+          "canonical_name": "Ремкомплект прокладок мехатроника DSG7 DQ200",
+          "configured_avito_price_rub": 4850,
+          "price_gap_vs_canonical_rub": 7040
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4125224328,
+      "live_status": "active",
+      "live_price_rub": 1490,
+      "live_title": "Штоки dsg7 dq200 (шток дсг 7)",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325091e",
+          "master_present": true,
+          "canonical_name": "Усиленный шток мехатроника DSG7 DQ200 101мм 0AM325091E",
+          "configured_avito_price_rub": 1240,
+          "price_gap_vs_canonical_rub": 250
+        },
+        {
+          "sku": "0am325091f",
+          "master_present": true,
+          "canonical_name": "Усиленный шток мехатроника DSG7 DQ200 99мм короткий 0AM325091F",
+          "configured_avito_price_rub": 1240,
+          "price_gap_vs_canonical_rub": 250
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4125079566,
+      "live_status": "active",
+      "live_price_rub": 450,
+      "live_title": "Пыльник штоков мехатроника DSG 7 DQ200 0AM 0CW",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "122390AK-AF",
+          "master_present": true,
+          "canonical_name": "Пыльник штока мехатроника DSG7 DQ200 122390AK-AF",
+          "configured_avito_price_rub": 950,
+          "price_gap_vs_canonical_rub": -500
+        },
+        {
+          "sku": "pylniki-shtokov-orig",
+          "master_present": true,
+          "canonical_name": "Оригинальные пыльники штоков VAG, 2 шт, DSG7 DQ200",
+          "configured_avito_price_rub": 1350,
+          "price_gap_vs_canonical_rub": -900
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 4125069388,
+      "live_status": "active",
+      "live_price_rub": 2990,
+      "live_title": "Гильза мехатроника DSG 7 DQ200 0AM 0CW новая",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325025D",
+          "master_present": true,
+          "canonical_name": "Втулка (гильза) штока мехатроника DSG7 DQ200",
+          "configured_avito_price_rub": 980,
+          "price_gap_vs_canonical_rub": 2010
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 3965565847,
+      "live_status": "active",
+      "live_price_rub": 9800,
+      "live_title": "Ремкомплект мехатроника DSG 7 DQ200 0AM 0CW",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325025",
+          "master_present": true,
+          "canonical_name": "Ремкомплект мехатроника DSG7 DQ200 (гидроплита, сальники, прокладки) 0AM325025",
+          "configured_avito_price_rub": 7850,
+          "price_gap_vs_canonical_rub": 1950
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 3965344207,
+      "live_status": "active",
+      "live_price_rub": 890,
+      "live_title": "Прокладка DQ200 DSG 7 Прокладка крышки мехатроника",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "strong_title_or_part_number",
+      "candidate_master_skus": [
+        {
+          "sku": "prokladka-kryshki-dq200",
+          "master_present": true,
+          "canonical_name": "Прокладка крышки мехатроника DSG7 DQ200 0AM 0CW",
+          "configured_avito_price_rub": 950,
+          "price_gap_vs_canonical_rub": -60
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 3965336925,
+      "live_status": "active",
+      "live_price_rub": 3890,
+      "live_title": "Соленоид мехатроника DSG 7 DQ200 Bosch регулятор",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "0AM325025B",
+          "master_present": true,
+          "canonical_name": "Соленоид регулятор давления DSG7 DQ200",
+          "configured_avito_price_rub": 5350,
+          "price_gap_vs_canonical_rub": -1460
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 3965211558,
+      "live_status": "active",
+      "live_price_rub": 3850,
+      "live_title": "Ремкомплект (прокладки) мехатроника DSG7 DQ200 0am",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "title_only_needs_composition_review",
+      "candidate_master_skus": [
+        {
+          "sku": "0am325025m",
+          "master_present": true,
+          "canonical_name": "Ремкомплект прокладок мехатроника DSG7 DQ200",
+          "configured_avito_price_rub": 4850,
+          "price_gap_vs_canonical_rub": -1000
+        }
+      ],
+      "review_required": true
+    },
+    {
+      "avito_id": 3965207177,
+      "live_status": "active",
+      "live_price_rub": 450,
+      "live_title": "Пыльник штока мехатроника DSG 7 DQ200 0AM 0CW",
+      "match_state": "candidate_not_bound",
+      "match_confidence": "strong_title_or_part_number",
+      "candidate_master_skus": [
+        {
+          "sku": "122390AK-AF",
+          "master_present": true,
+          "canonical_name": "Пыльник штока мехатроника DSG7 DQ200 122390AK-AF",
+          "configured_avito_price_rub": 950,
+          "price_gap_vs_canonical_rub": -500
+        }
+      ],
+      "review_required": true
+    }
+  ]
+}
