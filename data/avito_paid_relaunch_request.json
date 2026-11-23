@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "mode": "apply",
-  "revision": 4,
+  "revision": 5,
   "owner_confirmed_paid": true,
   "freeze_existing_ads": true,
   "approved_new_skus": [
@@ -9,5 +9,5 @@
     "6t30-tcm-gen1",
     "6t30-tcm-gen2"
   ],
-  "comment": "Retry after exact SKU title mapping correction; same approved 3 6T30, full immutable source guard, public feed compare."
+  "comment": "Verify successful immutable 127-row 6T30 feed, Avito v4 import readback, blocked/expired listings and API category schemas. No additional SKU writes."
 }
