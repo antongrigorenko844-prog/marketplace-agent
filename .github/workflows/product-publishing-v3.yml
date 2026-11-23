@@ -54,6 +54,8 @@ jobs:
         run: python -m py_compile scripts/product_publishing_v3.py scripts/product_publishing_v3_apply.py scripts/product_publishing_v3_adapters.py
           python scripts/product_publishing_v3_apply.py --help >/dev/null
           python -m scripts.product_publishing_v3_apply --help >/dev/null
+      - name: Install seller HTTP clients for transport-safety unit tests
+        run: pip install -q requests python-dotenv
       - name: Run offline v3 planner, publishing and legacy regression suites
         run: |
           python -m unittest discover -s tests -p 'test_product_publishing_v3.py' -v
