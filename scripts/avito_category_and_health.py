@@ -65,6 +65,9 @@ def main():
         "Для автобизнеса / Заправочное / Заправка масел" in x["path"] or
         "Инструменты" in x["path"].split(" / ")[-1] or
         "Двигатель" in x["path"].split(" / ")[-1])]
+    priority_slugs=("diagnosticheskii_i_izmeritelnyi_instrument","ruchnoi_instrument_2304150","osnastka_i_raskhodnye_materialy","dvigatel")
+    prioritized=[x for slug in priority_slugs for x in exact if x["slug"]==slug]
+    choose=prioritized+[x for x in choose if x["slug"] not in priority_slugs]
     fields=[]
     for x in choose[:8]:
         data,error=api("/autoload/v1/user-docs/node/"+x["slug"]+"/fields")
