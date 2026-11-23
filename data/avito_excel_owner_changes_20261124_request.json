@@ -1,0 +1,641 @@
+{
+  "schema_version": 1,
+  "at_date": "2026-11-24",
+  "owner_approved": true,
+  "owner_upload_sha256": "1b36da01fc3b2124bf20e15b87dcc2e8b3520238522b1819aa277ee780153b76",
+  "original_review_xlsx_sha256": "b465d7785eb87b3ab88b11524bf687926dce453c2a0b8143f0fed5b25676ecaa",
+  "input_files": [
+    "LEOPARTS_Avito_155_prices_review_2026-11-24.xlsx",
+    "LEOPARTS_Avito_155_prices_review_2026-11-24 (1)(1).xlsx"
+  ],
+  "mode": "inspect",
+  "scope": "Apply only user-changed Avito prices in G or H and safe amended titles in D; ID C is sole primary key.",
+  "other_channels_untouched": true,
+  "site_price_preserve": true,
+  "stock_untouched": true,
+  "image_untouched": true,
+  "sku_untouched": true,
+  "master_cost_untouched": true,
+  "automatic_pricing_disabled": true,
+  "blocked": {
+    "8609616823": "9 RUB H outlier, likely typing error from 950; do not publish until confirmed",
+    "8394615261": "New title says 4 pieces, but canonical SKU 0AM325413A is a single seal and catalog description says one; block title AND 990 price until composition confirmed"
+  },
+  "notes": "Rows with SKU E overwritten to 47, master cost F 700->600, and spurious 47 in N/O ignored. 2 H prices equal original no-op. User changed 13 G cells as intentional price edits.",
+  "price_changes": [
+    {
+      "avito_id": 4444617509,
+      "original_sheet_price_rub": 890,
+      "requested_price_rub": 495,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8367628306,
+      "original_sheet_price_rub": 2350,
+      "requested_price_rub": 1480,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8326542360,
+      "original_sheet_price_rub": 1350,
+      "requested_price_rub": 980,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8236193905,
+      "original_sheet_price_rub": 1350,
+      "requested_price_rub": 1290,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8461614430,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 890,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8446880709,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 790,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4284998704,
+      "original_sheet_price_rub": 2350,
+      "requested_price_rub": 1980,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8449008707,
+      "original_sheet_price_rub": 4850,
+      "requested_price_rub": 3850,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8349295933,
+      "original_sheet_price_rub": 1650,
+      "requested_price_rub": 1480,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8386090647,
+      "original_sheet_price_rub": 6850,
+      "requested_price_rub": 6450,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8394697530,
+      "original_sheet_price_rub": 6850,
+      "requested_price_rub": 6450,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8447149597,
+      "original_sheet_price_rub": 6850,
+      "requested_price_rub": 6450,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4220734432,
+      "original_sheet_price_rub": 5350,
+      "requested_price_rub": 4950,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4125069388,
+      "original_sheet_price_rub": 1650,
+      "requested_price_rub": 1480,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4284610725,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 880,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8395404775,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 880,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8395227956,
+      "original_sheet_price_rub": 650,
+      "requested_price_rub": 495,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 7260747200,
+      "original_sheet_price_rub": 890,
+      "requested_price_rub": 790,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8461145133,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 790,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8609616823,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 9,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8274232784,
+      "original_sheet_price_rub": 450,
+      "requested_price_rub": 440,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8403438057,
+      "original_sheet_price_rub": 850,
+      "requested_price_rub": 790,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8449731691,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 450,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8374885903,
+      "original_sheet_price_rub": 4350,
+      "requested_price_rub": 2880,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8232271969,
+      "original_sheet_price_rub": 2350,
+      "requested_price_rub": 1980,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4284955885,
+      "original_sheet_price_rub": 1290,
+      "requested_price_rub": 980,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4349172359,
+      "original_sheet_price_rub": 1290,
+      "requested_price_rub": 980,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8302042942,
+      "original_sheet_price_rub": 1350,
+      "requested_price_rub": 1450,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4444968174,
+      "original_sheet_price_rub": 2300,
+      "requested_price_rub": 2350,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8345773338,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 440,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4444712249,
+      "original_sheet_price_rub": 890,
+      "requested_price_rub": 495,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8395614757,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 495,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8374903791,
+      "original_sheet_price_rub": 1850,
+      "requested_price_rub": 1480,
+      "edited_column": "G"
+    },
+    {
+      "avito_id": 8286536816,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 890,
+      "edited_column": "G"
+    },
+    {
+      "avito_id": 8373848586,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 680,
+      "edited_column": "G"
+    },
+    {
+      "avito_id": 8312384063,
+      "original_sheet_price_rub": 1350,
+      "requested_price_rub": 980,
+      "edited_column": "G"
+    },
+    {
+      "avito_id": 8274324752,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 990,
+      "edited_column": "G"
+    },
+    {
+      "avito_id": 8403680263,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 490,
+      "edited_column": "G"
+    },
+    {
+      "avito_id": 8324395037,
+      "original_sheet_price_rub": 1850,
+      "requested_price_rub": 1790,
+      "edited_column": "G"
+    },
+    {
+      "avito_id": 8447476449,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 990,
+      "edited_column": "G"
+    },
+    {
+      "avito_id": 8448911884,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 990,
+      "edited_column": "G"
+    },
+    {
+      "avito_id": 8324416978,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 990,
+      "edited_column": "G"
+    },
+    {
+      "avito_id": 8344800249,
+      "original_sheet_price_rub": 1350,
+      "requested_price_rub": 895,
+      "edited_column": "G"
+    },
+    {
+      "avito_id": 8341061538,
+      "original_sheet_price_rub": 1350,
+      "requested_price_rub": 1495,
+      "edited_column": "G"
+    },
+    {
+      "avito_id": 8343961597,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 390,
+      "edited_column": "G"
+    },
+    {
+      "avito_id": 8389630065,
+      "original_sheet_price_rub": 1350,
+      "requested_price_rub": 980,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8435153686,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 490,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8302770239,
+      "original_sheet_price_rub": 39500,
+      "requested_price_rub": 36500,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8433757157,
+      "original_sheet_price_rub": 44910,
+      "requested_price_rub": 39500,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8546015515,
+      "original_sheet_price_rub": 44910,
+      "requested_price_rub": 39500,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8469152964,
+      "original_sheet_price_rub": 44910,
+      "requested_price_rub": 39500,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8326892857,
+      "original_sheet_price_rub": 8350,
+      "requested_price_rub": 5950,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4349334275,
+      "original_sheet_price_rub": 5350,
+      "requested_price_rub": 4950,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8416146322,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 790,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4285328953,
+      "original_sheet_price_rub": 890,
+      "requested_price_rub": 790,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8272982970,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 850,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8366848631,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 890,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4444524662,
+      "original_sheet_price_rub": 1290,
+      "requested_price_rub": 890,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 3965344207,
+      "original_sheet_price_rub": 890,
+      "requested_price_rub": 495,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8421710248,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 495,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8302178304,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 490,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8341832438,
+      "original_sheet_price_rub": 4850,
+      "requested_price_rub": 3850,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4253114863,
+      "original_sheet_price_rub": 1350,
+      "requested_price_rub": 950,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8447447236,
+      "original_sheet_price_rub": 1850,
+      "requested_price_rub": 1480,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 3965207177,
+      "original_sheet_price_rub": 450,
+      "requested_price_rub": 380,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8461500993,
+      "original_sheet_price_rub": 450,
+      "requested_price_rub": 380,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4125079566,
+      "original_sheet_price_rub": 450,
+      "requested_price_rub": 380,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 3965211558,
+      "original_sheet_price_rub": 4850,
+      "requested_price_rub": 3850,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4125283125,
+      "original_sheet_price_rub": 4850,
+      "requested_price_rub": 3850,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4285108577,
+      "original_sheet_price_rub": 990,
+      "requested_price_rub": 980,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8375503223,
+      "original_sheet_price_rub": 2350,
+      "requested_price_rub": 1980,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8313988561,
+      "original_sheet_price_rub": 2350,
+      "requested_price_rub": 1980,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8349114796,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 850,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8389798598,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 850,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8327244186,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 850,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8324282677,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 850,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8394615261,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 990,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8387549709,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 790,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8513008373,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 490,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4445242895,
+      "original_sheet_price_rub": 690,
+      "requested_price_rub": 490,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4284950339,
+      "original_sheet_price_rub": 5350,
+      "requested_price_rub": 3450,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 3965336925,
+      "original_sheet_price_rub": 5350,
+      "requested_price_rub": 3450,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8448885311,
+      "original_sheet_price_rub": 4850,
+      "requested_price_rub": 3450,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4124730141,
+      "original_sheet_price_rub": 5350,
+      "requested_price_rub": 3450,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8345234171,
+      "original_sheet_price_rub": 1850,
+      "requested_price_rub": 1450,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8304174872,
+      "original_sheet_price_rub": 4850,
+      "requested_price_rub": 3880,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8385844589,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 880,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8403439241,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 490,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8394718261,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 490,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8394895937,
+      "original_sheet_price_rub": 6350,
+      "requested_price_rub": 5950,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8236475560,
+      "original_sheet_price_rub": 6350,
+      "requested_price_rub": 5950,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8395076491,
+      "original_sheet_price_rub": 5850,
+      "requested_price_rub": 5850,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8367630972,
+      "original_sheet_price_rub": 5850,
+      "requested_price_rub": 5850,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8385926244,
+      "original_sheet_price_rub": 5350,
+      "requested_price_rub": 4950,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8394456824,
+      "original_sheet_price_rub": 1350,
+      "requested_price_rub": 950,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 4284973404,
+      "original_sheet_price_rub": 690,
+      "requested_price_rub": 480,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8252362999,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 480,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8312281929,
+      "original_sheet_price_rub": 950,
+      "requested_price_rub": 890,
+      "edited_column": "H"
+    },
+    {
+      "avito_id": 8407260157,
+      "original_sheet_price_rub": 650,
+      "requested_price_rub": 480,
+      "edited_column": "H"
+    }
+  ],
+  "title_changes": [
+    {
+      "avito_id": 8231885696,
+      "sku": "0am325025ae",
+      "original_title": "Оригинальная крышка + усиленная прокладка",
+      "requested_title": "Оригинальная крышка мехатроника DSG7 DQ200 + усиленная прокладка DQ200 0am"
+    },
+    {
+      "avito_id": 8449035864,
+      "sku": "0am325477ae",
+      "original_title": "Пластина соленоидов мехатроника DSG7 DQ200",
+      "requested_title": "Пластина соленоидов мехатроника DSG7 DQ200 оригинал VAG"
+    },
+    {
+      "avito_id": 8394615261,
+      "sku": "0AM325413A",
+      "original_title": "Сальник толкателя вилки мехатроника DSG7 DQ200",
+      "requested_title": "Сальники толкателей вилок мехатроника DSG7 DQ200 (4шт)"
+    }
+  ]
+}
