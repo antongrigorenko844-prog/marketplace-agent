@@ -19,6 +19,10 @@ on:
         required: true
         type: string
         default: ozon,wildberries,yandex_market,tilda,avito
+  push:
+    branches: [main]
+    paths:
+      - 'data/product_intake_v3/dispatch.json'
   pull_request:
     paths:
       - 'scripts/product_publishing_v3.py'
@@ -26,6 +30,7 @@ on:
       - 'docs/LEOPARTS_PRODUCT_PUBLISHING_V3.md'
       - '.github/workflows/product-publishing-v3.yml'
       - 'data/product_intake_v2/requests/**'
+      - 'data/product_intake_v3/dispatch.json'
 
 permissions:
   contents: read
@@ -33,7 +38,7 @@ permissions:
 # Reports never hold the operational inventory/price global lock.
 # A separate workflow run is not needed for each SKU or each marketplace.
 concurrency:
-  group: product-publishing-v3-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || inputs.batch }}
+  group: product-publishing-v3-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.event_name == 'push' && 'agent-dispatch' || inputs.batch }}
   cancel-in-progress: false
 
 jobs:
@@ -64,7 +69,7 @@ jobs:
           git diff --exit-code -- data/master_control.xlsx data/ozon_catalog.xlsx data/avito_site_price_overrides.xlsx
 
   inspect:
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 14
     env:
@@ -75,9 +80,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: '3.11'}
-          # Planning is standard-library only, no checkout of seller credentials.
+      # Planning uses stdlib; only live mode needs API client dependencies.
       - name: Install only what live marketplace reads need
-        if: inputs.mode == 'live'
+        if: inputs.mode == 'live' || github.event_name == 'push'
         run: pip install -q requests openpyxl
       - name: Plan offline, without seller credentials
         if: inputs.mode == 'plan'
@@ -95,6 +100,18 @@ jobs:
         run: |
           python scripts/product_publishing_v3.py --batch "$BATCH" --channels "$CHANNELS" \
             --mode live --output "$RUNNER_TEMP/product-publishing-v3.json"
+      - name: Agent-triggered batch dispatch, still read-only
+        if: github.event_name == 'push'
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python scripts/product_publishing_v3.py \
+            --dispatch data/product_intake_v3/dispatch.json \
+            --output "$RUNNER_TEMP/product-publishing-v3.json"
       - name: Human-readable batch summary
         run: |
           python - "$RUNNER_TEMP/product-publishing-v3.json" <<'PY'
@@ -122,7 +139,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: product-publishing-v3-${{ inputs.batch }}-${{ github.run_id }}
+          name: product-publishing-v3-${{ github.run_id }}
           path: ${{ runner.temp }}/product-publishing-v3.json
           if-no-files-found: warn
           retention-days: 14
