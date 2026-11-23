@@ -60,7 +60,9 @@ def overrides():
     return result
 
 def read_live():
-    live=av.list_all_items(statuses=["active"],per_page=100,max_pages=12)
+    # Read all statuses: the API status filter may hide older manual offers.
+    # Individual guards below STILL require status==active for every target.
+    live=av.list_all_items(per_page=100,max_pages=20)
     rows={int(x["id"]):x for x in live if x.get("id") is not None}
     check(len(rows)==len(live),"Duplicate live Avito ID")
     return rows
