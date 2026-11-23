@@ -1,0 +1,32 @@
+name: LEOPARTS Ozon delivered purchases Sep Oct Nov read-only
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/ozon_delivered_3m_audit_20261123.py'
+      - '.github/workflows/ozon-delivered-3m-readonly.yml'
+permissions:
+  contents: write
+concurrency:
+  group: leoparts-ozon-audit-readonly
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -r requirements.txt
+      - name: Read completed delivery statuses and aggregate only
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python -m py_compile scripts/ozon_delivered_3m_audit_20261123.py
+          python -u scripts/ozon_delivered_3m_audit_20261123.py
+      - name: Save anonymized report only
+        if: always()
+        run: bash .github/scripts/save_data.sh data/ozon_delivered_3m_20261123.json
