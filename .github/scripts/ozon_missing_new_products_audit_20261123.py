@@ -118,5 +118,34 @@ for title,description_category_id,type_id in [
     except Exception as e:
         r["tool_category_attributes"].append({"type_name":title,"error_type":type(e).__name__})
 
+
+# Ozon-only: inspect actual seller category/type/required attribute values from
+# live listings, after the fixed plural /v4/products/info/attributes route.
+# Never infer a new item's customs code from an unrelated seller listing.
+try:
+    attr_cards=oz.get_product_names(limit=200)
+    samples=[]
+    import re
+    target=re.compile(r"6t30|6t40|6t45|6t50|соленоид|манометр|специнструмент|давлен|гидроакк|набор.{0,20}инструмент|блок.{0,10}управлен",re.I)
+    for card in attr_cards:
+        sku=str(card.get("offer_id") or "")
+        name=str(card.get("name") or "")
+        if not target.search(sku+" "+name):continue
+        select_attrs=[]
+        for a in card.get("attributes") or []:
+            if a.get("id") in (85,8229,22232,23536,4389,7236,9024) or "ТН ВЭД" in str(a.get("name")):
+                values=a.get("values") or []
+                select_attrs.append({"id":a.get("id"),"name":a.get("name"),
+                    "values":[{"value":v.get("value"),"dictionary_value_id":v.get("dictionary_value_id")}
+                              for v in values[:4] if isinstance(v,dict)]})
+        samples.append({"offer_id":sku,"name":name[:150],
+            "description_category_id":card.get("description_category_id"),
+            "type_id":card.get("type_id"),"attributes":select_attrs})
+    r["verified_catalog_candidates"]={"status":"ok","rows_scanned":len(attr_cards),
+        "matches":len(samples),"examples":samples[:90]}
+except Exception as e:
+    r["verified_catalog_candidates"]={"status":"error","error_type":type(e).__name__,
+        "error":str(e)[:190]}
+
 OUT.write_text(json.dumps(r,ensure_ascii=False,indent=2,default=str)+"\n")
 print(json.dumps({"items":r["items"],"drafts":r.get("drafts"),"errors":r["errors"]},ensure_ascii=False),flush=True)
