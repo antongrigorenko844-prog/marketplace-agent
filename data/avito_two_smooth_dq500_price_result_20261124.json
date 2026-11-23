@@ -1,7 +1,7 @@
 {
-  "mode": "inspect",
-  "status": "inspect_ok_no_writes",
-  "seller_price_writes": 0,
+  "mode": "apply",
+  "status": "verified_2_of_2",
+  "seller_price_writes": 2,
   "main_price_writes": 0,
   "ribbed_price_writes": 0,
   "site_changes": 0,
@@ -22,6 +22,22 @@
       "title": "Корпус фильтра DQ500 DSG 7 0BH325183"
     }
   },
-  "receipts": {},
-  "checked_utc": "2026-11-23T18:17:29.975080+00:00"
+  "receipts": {
+    "4348814868": "accepted",
+    "4285324155": "accepted"
+  },
+  "checked_utc": "2026-11-23T18:18:12.675410+00:00",
+  "checks": {
+    "4348814868": {
+      "status": "active",
+      "price": 980.0,
+      "matched": true
+    },
+    "4285324155": {
+      "status": "active",
+      "price": 980.0,
+      "matched": true
+    }
+  },
+  "canonical_price_after": 980.0
 }
