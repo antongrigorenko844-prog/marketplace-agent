@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "created_date": "2026-11-24",
+  "owner_approved": true,
+  "target_channel": "avito",
+  "owner_instruction": "Apply prices from canonical LEOPARTS Avito master catalog to the 13 previously identified mismatched legacy ads; do not touch master primary listings, feeds, site, stock, or photo",
+  "mode": "inspect",
+  "approval_scope": "13 strongly matched older Avito listing IDs only",
+  "expected_count": 13,
+  "expected_main_active": 120,
+  "expected_legacy_active": 36,
+  "price_changes_only": true,
+  "freeze_main_prices": true,
+  "site_prices_unchanged": true,
+  "stock_unchanged": true,
+  "feed_unchanged": true,
+  "skip_ambiguous_22": true,
+  "expected_registry_hash_keys": "data/avito_catalog_listing_index_20261124.json",
+  "targets": [
+    {
+      "sku": "02E305051C",
+      "legacy_avito_id": 4444617509,
+      "previous_live_price_rub": 890,
+      "approved_price_rub": 495,
+      "primary_avito_id": 8341096851,
+      "primary_live_price_rub": 495,
+      "legacy_title": "Bмасляный фильтр АКПП DSG6 DQ250 02E305051C"
+    },
+    {
+      "sku": "02e305045",
+      "legacy_avito_id": 4349172359,
+      "previous_live_price_rub": 1290,
+      "approved_price_rub": 980,
+      "primary_avito_id": 8416684544,
+      "primary_live_price_rub": 980,
+      "legacy_title": "Корпус фильтра DSG6 DQ250 02E"
+    },
+    {
+      "sku": "02e305045",
+      "legacy_avito_id": 4284955885,
+      "previous_live_price_rub": 1290,
+      "approved_price_rub": 980,
+      "primary_avito_id": 8416684544,
+      "primary_live_price_rub": 980,
+      "legacy_title": "Корпус фильтра DQ250 DSG 6 02E305045"
+    },
+    {
+      "sku": "0am325025l",
+      "legacy_avito_id": 4444524662,
+      "previous_live_price_rub": 1290,
+      "approved_price_rub": 950,
+      "primary_avito_id": 8366848631,
+      "primary_live_price_rub": 950,
+      "legacy_title": "Поршень вилки мехатроника DSG7 DQ200 0AM/0CW"
+    },
+    {
+      "sku": "0am325025r",
+      "legacy_avito_id": 4284973404,
+      "previous_live_price_rub": 690,
+      "approved_price_rub": 950,
+      "primary_avito_id": 8252362999,
+      "primary_live_price_rub": 950,
+      "legacy_title": "Усиленное опорное кольцо толкателя DSG7 DQ200 0AM"
+    },
+    {
+      "sku": "0am325025С",
+      "legacy_avito_id": 4285296851,
+      "previous_live_price_rub": 450,
+      "approved_price_rub": 950,
+      "primary_avito_id": 8449731691,
+      "primary_live_price_rub": 950,
+      "legacy_title": "Кольцо гидроаккумулятора dq200 dsg 7 0am 0cw"
+    },
+    {
+      "sku": "122390AK-AF",
+      "legacy_avito_id": 3965207177,
+      "previous_live_price_rub": 450,
+      "approved_price_rub": 950,
+      "primary_avito_id": 8461500993,
+      "primary_live_price_rub": 950,
+      "legacy_title": "Пыльник штока мехатроника DSG 7 DQ200 0AM 0CW"
+    },
+    {
+      "sku": "55565480",
+      "legacy_avito_id": 7260747200,
+      "previous_live_price_rub": 890,
+      "approved_price_rub": 950,
+      "primary_avito_id": 8461145133,
+      "primary_live_price_rub": 950,
+      "legacy_title": "Импульсное кольцо распредвала GM 55565480"
+    },
+    {
+      "sku": "filtr-dsg7-dq500",
+      "legacy_avito_id": 4444712249,
+      "previous_live_price_rub": 890,
+      "approved_price_rub": 495,
+      "primary_avito_id": 8346375263,
+      "primary_live_price_rub": 495,
+      "legacy_title": "Масляный фильтр АКПП DSG 7 DQ500"
+    },
+    {
+      "sku": "filtr-dsg7-dq500",
+      "legacy_avito_id": 4316875109,
+      "previous_live_price_rub": 890,
+      "approved_price_rub": 495,
+      "primary_avito_id": 8346375263,
+      "primary_live_price_rub": 495,
+      "legacy_title": "Фильтр АКПП DSG 7 0BH325183B"
+    },
+    {
+      "sku": "podshipnik-vilki-6",
+      "legacy_avito_id": 4285328953,
+      "previous_live_price_rub": 890,
+      "approved_price_rub": 950,
+      "primary_avito_id": 8416146322,
+      "primary_live_price_rub": 950,
+      "legacy_title": "Подшипник вилки DQ200 DSG-7 0AM 0CW 6/R"
+    },
+    {
+      "sku": "prokladka-kryshki-dq200",
+      "legacy_avito_id": 3965344207,
+      "previous_live_price_rub": 890,
+      "approved_price_rub": 950,
+      "primary_avito_id": 8421710248,
+      "primary_live_price_rub": 950,
+      "legacy_title": "Прокладка DQ200 DSG 7 Прокладка крышки мехатроника"
+    },
+    {
+      "sku": "separatornaya-plastina-dq200",
+      "legacy_avito_id": 4445242895,
+      "previous_live_price_rub": 690,
+      "approved_price_rub": 950,
+      "primary_avito_id": 8513008373,
+      "primary_live_price_rub": 950,
+      "legacy_title": "Сепараторная пластина мехатроника DSG7 DQ200 0AM"
+    }
+  ]
+}
