@@ -76,7 +76,7 @@ def validate_media(item):
 
 def candidate_row(ws, next_row, item, media_url, seller_address):
     sku = item["sku"]
-    title = item["wb_title"]
+    title = {"6t30-solenoids-gen2":"Соленоиды АКПП 6T30 6T40 6T45 Gen2, 7 шт","6t30-tcm-gen1":"Блок АКПП 6T30/6T40 с соленоидами Gen1","6t30-tcm-gen2":"Блок АКПП 6T30/6T40 с соленоидами Gen2"}
     require("Gen2" in title if sku.endswith("gen2") else "Gen1" in title, "Product generation missing from title")
     kind = feed.classify_transmission_part_type(title)
     require(kind == "Электронное управление КПП", "Product is not a verified transmission electronic part: "+sku)
