@@ -1,0 +1,33 @@
+name: LEOPARTS Five Remaining Channels Ozon Avito Readonly Probe
+on:
+  push:
+    branches: [main]
+    paths: ['.github/scripts/leoparts_five_remaining_channels_probe_20261123.py']
+  workflow_dispatch:
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  remaining-readonly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Find verified comparable Ozon category attributes and check Avito access; READ ONLY
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: |
+          python -m py_compile .github/scripts/leoparts_five_remaining_channels_probe_20261123.py
+          python -u .github/scripts/leoparts_five_remaining_channels_probe_20261123.py
+      - name: Save read-only diagnostic
+        if: always()
+        run: |
+          if [ -f data/leoparts_five_remaining_channels_probe_20261123.json ]; then
+            bash .github/scripts/save_data.sh data/leoparts_five_remaining_channels_probe_20261123.json
+          fi
