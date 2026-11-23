@@ -4,17 +4,106 @@
     "tool-dq200-acc-restore",
     "tool-dsg-pressure-hp"
   ],
-  "run_utc": "2026-11-23T01:08:16.576096+00:00",
-  "seller_writes": 0,
+  "run_utc": "2026-11-23T01:13:34.046506+00:00",
+  "seller_writes": 4,
   "items": {
     "tool-dq200-acc-restore": {
-      "state": "awaiting_verified_tnved",
-      "required_action": "Exact-product classification code must be confirmed, not inferred from analogous articles."
+      "state": "stock_submitted",
+      "media_verified": true,
+      "price_rub": 38800,
+      "category_id": 83250454,
+      "type_id": 971437067,
+      "tnved_confirmed": "8479899707",
+      "task_id": 6104377495,
+      "task_status": {
+        "result": {
+          "items": [
+            {
+              "offer_id": "tool-dq200-acc-restore",
+              "product_id": 7089625665,
+              "status": "imported",
+              "errors": []
+            }
+          ],
+          "total": 1
+        }
+      },
+      "product_id": 7089625665,
+      "moderation": {
+        "status": "price_sent",
+        "status_failed": "",
+        "moderate_status": "approved",
+        "validation_status": "success",
+        "status_name": "Готов к продаже",
+        "status_description": "Нет на складе",
+        "is_created": true,
+        "status_tooltip": "Можно создать новую поставку или указать количество на своем складе",
+        "status_updated_at": "2026-11-23T01:14:57.496107Z"
+      },
+      "errors": [],
+      "stock_submitted": {
+        "result": [
+          {
+            "warehouse_id": 1020005000134164,
+            "product_id": 7089625665,
+            "offer_id": "tool-dq200-acc-restore",
+            "updated": true,
+            "errors": []
+          }
+        ]
+      }
     },
     "tool-dsg-pressure-hp": {
-      "state": "awaiting_verified_tnved",
-      "required_action": "Exact-product classification code must be confirmed, not inferred from analogous articles."
+      "state": "stock_submitted",
+      "media_verified": true,
+      "price_rub": 28800,
+      "category_id": 83250454,
+      "type_id": 971437067,
+      "tnved_confirmed": "8479899707",
+      "task_id": 6104387265,
+      "task_status": {
+        "result": {
+          "items": [
+            {
+              "offer_id": "tool-dsg-pressure-hp",
+              "product_id": 7089641146,
+              "status": "imported",
+              "errors": []
+            }
+          ],
+          "total": 1
+        }
+      },
+      "product_id": 7089641146,
+      "moderation": {
+        "status": "price_sent",
+        "status_failed": "",
+        "moderate_status": "approved",
+        "validation_status": "success",
+        "status_name": "Готов к продаже",
+        "status_description": "Нет на складе",
+        "is_created": true,
+        "status_tooltip": "Можно создать новую поставку или указать количество на своем складе",
+        "status_updated_at": "2026-11-23T01:16:23.656418Z"
+      },
+      "errors": [],
+      "stock_submitted": {
+        "result": [
+          {
+            "warehouse_id": 1020005000134164,
+            "product_id": 7089641146,
+            "offer_id": "tool-dsg-pressure-hp",
+            "updated": true,
+            "errors": []
+          }
+        ]
+      }
     }
   },
-  "summary": "No seller changes. Missing classification or existing items."
+  "ozon_required_attribute_ids": [
+    85,
+    8229,
+    22232,
+    23536
+  ]
 }
