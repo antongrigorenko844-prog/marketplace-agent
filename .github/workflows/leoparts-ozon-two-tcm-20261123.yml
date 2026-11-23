@@ -1,0 +1,31 @@
+name: LEOPARTS Ozon 6T30 two control units publish
+on:
+  push:
+    branches: [main]
+    paths: ['data/leoparts_ozon_tcm_request_20261123.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  tcm-gen1-gen2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Validate guarded publisher
+        run: python -m py_compile scripts/leoparts_ozon_tcm_import_20261123.py
+      - name: Validate exact original image hashes and import only two TCM assemblies
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          OZON_WAREHOUSE_ID: ${{ secrets.OZON_WAREHOUSE_ID }}
+        run: python -u scripts/leoparts_ozon_tcm_import_20261123.py
+      - name: Save independently verified Ozon import states
+        if: always()
+        run: |
+          if [ -f data/leoparts_ozon_tcm_import_20261123_result.json ]; then
+            bash .github/scripts/save_data.sh data/leoparts_ozon_tcm_import_20261123_result.json
+          fi
