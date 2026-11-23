@@ -1,0 +1,34 @@
+name: LEOPARTS Ozon 6T30 Gen2 exactly-approved guarded publication
+on:
+  push:
+    branches: [main]
+    paths: ['data/leoparts_ozon_6t30_gen2_request_20261123.json']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  approved-gen2-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Compile guarded Ozon-only publisher
+        run: python -m py_compile scripts/leoparts_ozon_6t30_gen2_safe_publish_20261123.py
+      - name: Validate exact Gen2 photo, verified seller taxonomy, and publish only new SKU
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          OZON_WAREHOUSE_ID: ${{ secrets.OZON_WAREHOUSE_ID }}
+        run: python -u scripts/leoparts_ozon_6t30_gen2_safe_publish_20261123.py
+      - name: Save readback or exact blocker; never modify price master
+        if: always()
+        run: |
+          if [ -f data/leoparts_ozon_6t30_gen2_publish_20261123.json ]; then
+            bash .github/scripts/save_data.sh data/leoparts_ozon_6t30_gen2_publish_20261123.json
+          fi
