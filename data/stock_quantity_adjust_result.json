@@ -1,25 +1,29 @@
 {
   "sku": "vint-kollektora-ea888",
   "quantity": 50,
-  "mode": "inspect",
-  "checked_utc": "2026-11-23T01:34:15.677647+00:00",
+  "mode": "apply",
+  "checked_utc": "2026-11-23T01:35:13.719226+00:00",
   "files": {
     "quantity_to_sell": {
       "file": "data/ozon_catalog.xlsx",
       "present": true,
       "row": 142,
       "before": 30,
-      "sha256_before": "14f7d519032d89caaef9905c2b0e5af67af94b0abf62bcf753aad81db92e1603"
+      "sha256_before": "14f7d519032d89caaef9905c2b0e5af67af94b0abf62bcf753aad81db92e1603",
+      "after": 50,
+      "sha256_after": "782bdfdae2db7397e080f146a7bb2f8a171a6e4da9feced5b0c18c4ce91166f6"
     },
     "quantity_master": {
       "file": "data/master_control.xlsx",
       "present": true,
       "row": 152,
       "before": 30,
-      "sha256_before": "353f0757e048b1e945071a57e9bb9caafca582d224df8682708c969687912c0d"
+      "sha256_before": "353f0757e048b1e945071a57e9bb9caafca582d224df8682708c969687912c0d",
+      "after": 50,
+      "sha256_after": "826ad277ff598ac782cf686216920af76e47738e8f8d1ca54a59a3b91b86b5a5"
     }
   },
-  "state": "inspected",
+  "state": "warehouse_quantity_updated",
   "seller_api_writes": 0,
   "pricing_writes": 0,
   "avito_writes": 0
