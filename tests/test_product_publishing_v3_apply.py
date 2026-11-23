@@ -311,7 +311,7 @@ class GuardedPublishingTests(unittest.TestCase):
                 self.assertEqual(first["events"][0]["state"],"uncertain_price")
                 self.assertEqual(failures[0],1)
                 again=self.build(batch,cfg,{"wildberries":seller},d,mode="resume").run()
-                self.assertEqual(again["events"][0]["state"],"uncertain_price")
+                self.assertEqual(again["events"][0]["state"],"needs_review")
                 self.assertEqual(failures[0],1)
                 self.assertEqual(seller.calls["submit"],1)
                 self.assertEqual(seller.calls["set_stock"],0)
