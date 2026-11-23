@@ -1,0 +1,36 @@
+name: LEOPARTS owner-approved WB and YM price reconciliation 22 SKUs
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/approved_wb_ym_price_apply_20261123.py'
+      - '.github/workflows/approved-wb-ym-prices-20261123.yml'
+permissions: {contents: write}
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 23
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Guard source prices and post exactly approved WB YM changes once
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -m py_compile scripts/approved_wb_ym_price_apply_20261123.py
+          python -u -m scripts.approved_wb_ym_price_apply_20261123
+      - name: Preserve journal with no blind replay
+        if: always()
+        run: |
+          if [ -f data/approved_wb_ym_prices_20261123_result.json ]; then
+            bash .github/scripts/save_data.sh data/approved_wb_ym_prices_20261123_result.json
+          fi
