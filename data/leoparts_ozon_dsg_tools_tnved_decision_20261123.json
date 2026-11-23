@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "batch_id": "leoparts-five-20261123",
+  "channel": "ozon",
+  "purpose": "Required customs evidence for two owner-approved DSG service toolkits. A candidate is not an approval.",
+  "policy": {
+    "require_confirmed_own_product_classification": true,
+    "allow_inferred_code": false,
+    "allow_change_existing_sku": false,
+    "do_not_touch_avito": true,
+    "prices_fixed": true
+  },
+  "classification_references": [
+    {
+      "code": "9026208000",
+      "meaning": "Pressure checking/measurement apparatus, other",
+      "source": "https://classinform.ru/tn-ved/9026208000.html",
+      "remark": "Current 2026 code in Ozon category dictionary; analog classification of pressure testing equipment"
+    },
+    {
+      "code": "9026204000",
+      "meaning": "Mechanical pressure gauges with Bourdon tube or metal diaphragm",
+      "source": "https://classinform.ru/tn-ved/9026204000.html",
+      "remark": "Requires confirmation of gauge internals/essential character"
+    },
+    {
+      "code": "8481809907",
+      "meaning": "Other valves",
+      "source": "https://xn----7sbajahheyaepn1ca0aveqcb0fxl.xn--p1acf/document/eaes-n-ru-d-cnra08v3129523/",
+      "remark": "A nitrogen-charging apparatus for hydraulic accumulators was declared under this code in a conformity document; not the same manufacturer"
+    },
+    {
+      "code": "8481109908",
+      "meaning": "Pressure reducing valve",
+      "source": "https://m.integration.vs.market.yandex.net/card/nabor-dlya-zapravki-azotom-rok-yunit-gk-01/4536600739",
+      "remark": "Analogous nitrogen charging set marketed under this code, not exact product"
+    },
+    {
+      "code": "8479899707",
+      "meaning": "Other mechanical devices",
+      "source": "https://xn----7sbajahheyaepn1ca0aveqcb0fxl.xn--p1acf/document/eaes-n-ru-d-cnra05v1035424/",
+      "remark": "Second conformity document for nitrogen charging equipment"
+    },
+    {
+      "code": "9026208008",
+      "meaning": "Legacy tariff example for pressurization/charging kit",
+      "source": "https://kodtnved.ru/ts/9026208008.html",
+      "remark": "Example of a charging kit; verify the 2026 current code (Ozon dictionary returns 9026208000)"
+    }
+  ],
+  "items": {
+    "tool-dq200-acc-restore": {
+      "approved_price_rub": 38800,
+      "stock": 3,
+      "source_shopping_item": "大众7速双离合自动变速箱 0AM 全套拆装充气",
+      "approved_photo_count": 1,
+      "classification_code": null,
+      "classification_confirmed": false,
+      "classification_evidence": null,
+      "notes": "Charging nitrogen; screenshot shows pressure gauge, hoses, adapters and a metal disassembly tool. Essential characteristic and valve configuration not fully confirmed."
+    },
+    "tool-dsg-pressure-hp": {
+      "approved_price_rub": 28800,
+      "stock": 3,
+      "source_shopping_item": "大众双离合DSG 自动变速箱专用 带包装高压测压[高压]",
+      "approved_photo_count": 2,
+      "classification_code": null,
+      "classification_confirmed": false,
+      "classification_evidence": null,
+      "notes": "High-pressure testing; screenshot shows gauge and yellow hose, fittings, small plate. Exact pressure-gauge mechanism and exact technical operating conditions not established."
+    }
+  }
+}
