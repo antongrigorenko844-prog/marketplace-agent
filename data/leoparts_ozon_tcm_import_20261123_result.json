@@ -1,0 +1,123 @@
+{
+  "scope": "Ozon only 2 approved TCM 6T30 SKUs",
+  "started_utc": "2026-11-23T00:50:02.732904+00:00",
+  "seller_writes": 3,
+  "items": {
+    "6t30-tcm-gen1": {
+      "media_sha256": "f9e24dcc3158c0329c9c2b2ba5c87efcdc309ece035db4d17af89bfcd796f764",
+      "stage": "created_stock_submitted",
+      "price": 58850,
+      "stock_intended": 3,
+      "product_id": 7089386396,
+      "moderation": {
+        "status": "price_sent",
+        "status_failed": "",
+        "moderate_status": "approved",
+        "validation_status": "success",
+        "status_name": "Готов к продаже",
+        "status_description": "Нет на складе",
+        "is_created": true,
+        "status_tooltip": "Можно создать новую поставку или указать количество на своем складе",
+        "status_updated_at": "2026-11-23T00:51:19.714436Z"
+      },
+      "errors": [],
+      "stock_submission": {
+        "warehouse_id": 1020005000134164,
+        "response": {
+          "result": [
+            {
+              "warehouse_id": 1020005000134164,
+              "product_id": 7089386396,
+              "offer_id": "6t30-tcm-gen1",
+              "updated": true,
+              "errors": []
+            }
+          ]
+        }
+      }
+    },
+    "6t30-tcm-gen2": {
+      "media_sha256": "f43124ed7ef78159c432021291e5b768db797c25e882b6548af2ed772a3d3c6e",
+      "stage": "created_stock_submitted",
+      "price": 58850,
+      "stock_intended": 3,
+      "product_id": 7089386451,
+      "moderation": {
+        "status": "price_sent",
+        "status_failed": "",
+        "moderate_status": "approved",
+        "validation_status": "success",
+        "status_name": "Готов к продаже",
+        "status_description": "Нет на складе",
+        "is_created": true,
+        "status_tooltip": "Можно создать новую поставку или указать количество на своем складе",
+        "status_updated_at": "2026-11-23T00:51:21.512845Z"
+      },
+      "errors": [],
+      "stock_submission": {
+        "warehouse_id": 1020005000134164,
+        "response": {
+          "result": [
+            {
+              "warehouse_id": 1020005000134164,
+              "product_id": 7089386451,
+              "offer_id": "6t30-tcm-gen2",
+              "updated": true,
+              "errors": []
+            }
+          ]
+        }
+      }
+    }
+  },
+  "stage": "readback_completed",
+  "reference": {
+    "sku": "02E927770AL",
+    "category": 17028756,
+    "type": 971100605,
+    "customs_from_existing_seller_assembly": {
+      "value": "8708409909 - Части коробок передач, прочие: прочие",
+      "dictionary_value_id": 971400283
+    },
+    "mandatory_ids": [
+      85,
+      7236,
+      8229,
+      22232,
+      23536
+    ]
+  },
+  "task_id": 6104246859,
+  "submitted_items": [
+    {
+      "offer_id": "6t30-tcm-gen1"
+    },
+    {
+      "offer_id": "6t30-tcm-gen2"
+    }
+  ],
+  "import_ack": {
+    "result": {
+      "task_id": 6104246859
+    }
+  },
+  "import_task_status": {
+    "result": {
+      "items": [
+        {
+          "offer_id": "6t30-tcm-gen1",
+          "product_id": 7089386396,
+          "status": "imported",
+          "errors": []
+        },
+        {
+          "offer_id": "6t30-tcm-gen2",
+          "product_id": 7089386451,
+          "status": "imported",
+          "errors": []
+        }
+      ],
+      "total": 2
+    }
+  }
+}
