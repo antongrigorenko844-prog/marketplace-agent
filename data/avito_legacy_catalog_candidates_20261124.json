@@ -270,7 +270,24 @@
           "price_gap_vs_canonical_rub": 1140
         }
       ],
-      "review_required": true
+      "review_required": false,
+      "owner_review_sequence": 7,
+      "owner_verified_date": "2026-11-24",
+      "owner_confirmed_composition": [
+        {
+          "product": "усиленная гидроплита мехатроника DSG7 DQ200 0AM325066AE",
+          "qty": 1
+        }
+      ],
+      "owner_confirmed_variant_scope": "Только усиленная гидроплита, без фильтра, прокладок и других комплектующих.",
+      "owner_information_status": "composition_verified",
+      "owner_instruction_keep_old_ad": true,
+      "owner_price_instruction": "sync_to_main_catalog_0am325066ae_5350",
+      "owner_confirmed_related_master_skus": [
+        "0am325066ae"
+      ],
+      "owner_same_bom_as_original_candidates": true,
+      "owner_notes": "№7 подтверждена только усиленная гидроплита. Синхронизировать цену с основным каталогом 5 350 ₽."
     },
     {
       "avito_id": 4349172359,
@@ -691,7 +708,32 @@
           "price_gap_vs_canonical_rub": 1140
         }
       ],
-      "review_required": true
+      "review_required": false,
+      "owner_review_sequence": 8,
+      "owner_verified_date": "2026-11-24",
+      "owner_confirmed_composition": [
+        {
+          "product": "усиленная гидроплита мехатроника DSG7 DQ200 0AM325066AE",
+          "qty": 1
+        }
+      ],
+      "owner_confirmed_variant_scope": "Только усиленная гидроплита, без фильтра, прокладок и других комплектующих.",
+      "owner_information_status": "composition_verified",
+      "owner_instruction_keep_old_ad": true,
+      "owner_price_instruction": "sync_to_main_catalog_0am325066ae_5350",
+      "owner_confirmed_related_master_skus": [
+        "0am325066ae"
+      ],
+      "owner_same_bom_as_original_candidates": true,
+      "owner_notes": "№8 подтверждена только усиленная гидроплита. Синхронизировать цену с основным каталогом 5 350 ₽. Для №8 убрать третью фотографию, другие фото сохранить. Фото не доступно из подключенного seller API, в фид не переводить без подтверждения.",
+      "owner_requested_photo_edit": {
+        "action": "remove_photo_at_position",
+        "position_1_based": 3,
+        "keep_other_photos": true,
+        "keep_listing": true,
+        "status": "pending_photo_access",
+        "note": "Remove the third gallery photo from old Avito ad 4220734432, after verifying current ordering and API/UI editing capability. Price change separate."
+      }
     },
     {
       "avito_id": 4220729305,
@@ -1031,7 +1073,7 @@
     }
   ],
   "owner_review_progress": {
-    "reviewed_in_order": 6,
+    "reviewed_in_order": 8,
     "total_original_unmapped": 36,
     "reviewed_listing_ids": [
       4285108577,
@@ -1039,7 +1081,9 @@
       4445230063,
       4125224328,
       4348814868,
-      4285324155
+      4285324155,
+      4349334275,
+      4220734432
     ],
     "note": "№1-4 идут по последовательности, которую прислал ассистент; старые номера Авито сохранены. Для двух универсальных наборов с альтернативными размерами нельзя закреплять один SKU на оба варианта через AvitoId без модели вариантов.",
     "verified_old_prices_aligned": 5,
