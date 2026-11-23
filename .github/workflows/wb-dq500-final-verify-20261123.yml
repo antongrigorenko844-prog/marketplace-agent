@@ -1,0 +1,33 @@
+name: LEOPARTS Dq500 WB final read-only stock photo and price verification
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/wb-dq500-final-verify-20261123.yml'
+permissions: {contents: write}
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - name: Read current WB card media price and FBS stock, no seller writes
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+        run: |
+          python -m py_compile scripts/wb_dq500_inventory_verify_20261123.py
+          python -m scripts.wb_dq500_inventory_verify_20261123
+      - name: Save sanitized read-only stock report
+        if: always()
+        run: |
+          if [ -f data/wb_dq500_inventory_verify_20261123.json ]; then
+            bash .github/scripts/save_data.sh data/wb_dq500_inventory_verify_20261123.json
+          fi
