@@ -1,6 +1,6 @@
 """Read-only inspection of actual unbound Avito item descriptions, media and titles.
 
-Compares user-confirmed same-content 990/5890 pair plus likely old-vs-new
+Compares same-title but composition-unverified 990/5890 pair plus likely old-vs-new
 same-product listings with differing seller prices. NEVER make seller writes.
 """
 from __future__ import annotations
@@ -12,9 +12,9 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 import avito_client as av
 OUT=ROOT/"data/avito_manual_duplicates_review_20261124.json"
-# Exact user-identified same-content pair; others are hypotheses.
+# Same-title rod kits have different prices; owner suspects a 3-part kit at 990. Contents NOT confirmed.
 PAIRS={
-    "user_confirmed_rod_kit":[4285108577,4220729305],
+    "rod_kit_composition_unverified":[4285108577,4220729305],
     "DQ500_housing_old_new":[4348814868,4285324155,8344886348],
     "DQ500_oil_filter_old_new":[4444712249,4316875109,8346375263],
     "DQ250_oil_filter_old_new":[4444617509,8341096851],
@@ -76,7 +76,8 @@ def main():
         records=[details[str(i)] for i in ids]
         prices=[float(x["live_price"]) for x in records if isinstance(x.get("live_price"),(int,float))]
         item={"group":category,
-              "user_verified_same_contents":category=="user_confirmed_rod_kit",
+              "user_verified_same_contents":False,
+              "needs_composition_verification":True,
               "records":records,
               "price_ratio":round(max(prices)/min(prices),3) if len(prices)>1 and min(prices)>0 else None}
         report["groups"].append(item)
