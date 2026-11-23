@@ -25,7 +25,7 @@ def run():
     source=site["source_override_prices"].get(sku)
     if source is None:source=prod.get("site_cfg")
     url=row.get("url") or ""
-    if not url.startswith("https://leoparts-akpp.ru/tproduct/"):
+    if not (url.startswith("https://leoparts-akpp.ru/") and "/tproduct/" in url):
       raise RuntimeError("Missing trusted Tilda product URL "+sku)
     records.append([row["uid"],sku,row["title"],row["price"],
       source,prod.get("cost_master"),prod.get("ozon_catalog"),
