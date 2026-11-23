@@ -278,5 +278,76 @@ class GuardedPublishingTests(unittest.TestCase):
             til.prepare(item,["https://a.test/img.png"],[Path("a.png")],stock=2)
 
 
+    def test_git_checkpoint_failure_blocks_seller_create(self):
+        batch=self.item_and_batch()
+        cfg=self.config(batch,channels=["ozon"])
+        seller=MockNewSeller("ozon")
+        with tempfile.TemporaryDirectory() as d:
+            with patch.object(writer,"catalog_stock",return_value=2),\
+                 patch.object(writer,"verified_media",return_value=(["https://good.test/img.png"],[Path("image.png")])),\
+                 patch.dict(os.environ,{"GITHUB_ACTIONS":"true"}),\
+                 patch.object(writer.subprocess,"run",side_effect=RuntimeError("git push failed")):
+                p=writer.Publisher(batch,cfg,mode="apply",adapter_map={"ozon":seller},
+                                   state_path=Path(d)/"state.json",git_checkpoint=True)
+                response=p.run()
+                self.assertEqual(response["events"][0]["state"],"blocked_error")
+                self.assertEqual(seller.calls["submit"],0)
+        self.assertEqual(seller.calls["set_stock"],0)
+
+    def test_unknown_wb_price_side_effect_not_replayed(self):
+        batch=self.item_and_batch()
+        cfg=self.config(batch,channels=["wildberries"])
+        seller=MockNewSeller("wildberries")
+        failures=[0]
+        def uncertain(*args):
+            failures[0]+=1
+            raise TimeoutError("WB price API timeout")
+        seller.set_price=uncertain
+        with tempfile.TemporaryDirectory() as d:
+            with patch.object(writer,"catalog_stock",return_value=2),\
+                 patch.object(writer,"verified_media",return_value=(["https://good.test/img.png"],[Path("image.png")])),\
+                 patch.object(writer.Publisher,"_final_readback",return_value={"verified":False,"scope":"not_verified"}):
+                first=self.build(batch,cfg,{"wildberries":seller},d).run()
+                self.assertEqual(first["events"][0]["state"],"uncertain_price")
+                self.assertEqual(failures[0],1)
+                again=self.build(batch,cfg,{"wildberries":seller},d,mode="resume").run()
+                self.assertEqual(again["events"][0]["state"],"uncertain_price")
+                self.assertEqual(failures[0],1)
+                self.assertEqual(seller.calls["submit"],1)
+                self.assertEqual(seller.calls["set_stock"],0)
+
+    def test_state_fingerprint_prevents_manifest_revision_reuse(self):
+        batch=self.item_and_batch()
+        cfg=self.config(batch,channels=["ozon"])
+        seller=MockNewSeller("ozon")
+        with tempfile.TemporaryDirectory() as d:
+            with patch.object(writer,"catalog_stock",return_value=2),\
+                 patch.object(writer,"verified_media",return_value=(["https://good.test/img.png"],[Path("image.png")])),\
+                 patch.object(writer.Publisher,"_final_readback",return_value={"verified":True,"scope":"selling"}):
+                self.build(batch,cfg,{"ozon":seller},d).run()
+                changed=deepcopy(batch)
+                changed["items"][0]["prices"]["ozon"]+=100
+                newcfg=self.config(changed,channels=["ozon"])
+                with self.assertRaises(writer.PublicationGuard):
+                    self.build(changed,newcfg,{"ozon":seller},d)
+                self.assertEqual(seller.calls["submit"],1)
+
+    def test_restore_unknown_create_after_card_appears_never_recreates(self):
+        batch=self.item_and_batch()
+        cfg=self.config(batch,channels=["ozon"])
+        seller=MockNewSeller("ozon",fail_submit=True)
+        with tempfile.TemporaryDirectory() as d:
+            with patch.object(writer,"catalog_stock",return_value=2),\
+                 patch.object(writer,"verified_media",return_value=(["https://good.test/img.png"],[Path("image.png")])):
+                self.build(batch,cfg,{"ozon":seller},d).run()
+                seller.fail_submit=False
+                seller.exists=True  # external platform eventually applied timed-out POST
+                second=self.build(batch,cfg,{"ozon":seller},d,mode="resume").run()
+                self.assertEqual(seller.calls["submit"],1)
+                # Unconfirmed task identity means the engine will never change
+                # price, photo or stock from this ambiguous initial write.
+                self.assertEqual(second["events"][0]["state"],"uncertain_created_identity")
+                self.assertEqual(seller.calls["set_stock"],0)
+
 if __name__=="__main__":
     unittest.main()
