@@ -50,17 +50,18 @@ def money_matches(actual: Any, expected: int) -> bool:
         return False
 
 
-def media_report(item: dict, memo: dict[str, bool]) -> dict:
+def media_report(item: dict, memo: dict[tuple[str, str], bool]) -> dict:
     result = {"approved_count": len(item["media"]), "verified_local": 0,
               "approved_external_unverified": 0, "issues": []}
     for n, media in enumerate(item["media"], start=1):
         source = media["source"]
         if source == "repository":
             signature = media["sha256"]
-            if signature not in memo:
-                memo[signature] = intake.verified_file(
+            cache_key = (media["path"], signature)
+            if cache_key not in memo:
+                memo[cache_key] = intake.verified_file(
                     intake.safe_local_path(media["path"]), signature)
-            if memo[signature]:
+            if memo[cache_key]:
                 result["verified_local"] += 1
             else:
                 result["issues"].append(f"image {n}: missing file or SHA256 mismatch")
@@ -105,7 +106,7 @@ def build_plan(manifest: dict, requested: tuple[str, ...]) -> dict:
     intake.validate(manifest)
     result = {"schema_version": 3, "batch_id": manifest["batch_id"],
               "mode": "plan", "checked_utc": now_utc(), "seller_writes": 0,
-              "channel_read_counts": {}, "items": {}}
+              "read_phases": {}, "items": {}}
     memo: dict[str, bool] = {}
     for item in manifest["items"]:
         media = media_report(item, memo)
@@ -280,7 +281,7 @@ def run_live(manifest: dict, requested: tuple[str, ...],
     report["mode"] = "live_read_only"
     eligible = {c: [item for item in manifest["items"] if c in report["items"][item["sku"]]["channels"]]
                 for c in ACTIVE if c in requested}
-    operations = probes or PROBES
+    operations = PROBES if probes is None else probes
     with ThreadPoolExecutor(max_workers=min(4, max(1, len(eligible)))) as executor:
         futures = {executor.submit(operations[c], items): (c, items)
                    for c, items in eligible.items() if items}
@@ -288,7 +289,7 @@ def run_live(manifest: dict, requested: tuple[str, ...],
             channel, items = futures[future]
             try:
                 observations, queries = future.result()
-                report["channel_read_counts"][channel] = queries
+                report["read_phases"][channel] = queries
                 for item in items:
                     sku = item["sku"]
                     report["items"][sku]["channels"][channel] = observations.get(sku, {"state": "not_found"})
