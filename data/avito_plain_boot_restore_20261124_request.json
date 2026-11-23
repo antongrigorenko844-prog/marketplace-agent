@@ -2,7 +2,7 @@
   "schema_version": 1,
   "created_date": "2026-11-24",
   "owner_approved": true,
-  "mode": "inspect",
+  "mode": "apply",
   "reason": "correct_avito_plain_boot_price_not_marketplace",
   "sku": "122390AK-AF",
   "main_id": 8461500993,
@@ -14,6 +14,6 @@
   "preserve_orig_boot_price": true,
   "other_old_already_450": 3965207177,
   "comment": "Owner said 950 is marketplace-style price rather than Avito. Restore ordinary boot 450 for old and canonical Avito, patch only Avito override/feed cells; do not change original SKU or marketplace/site.",
-  "revision": 2,
+  "revision": 3,
   "note": "Separate inherited site price by explicitly keeping D=950 while changing Avito B=450. No source or seller writes in inspect."
 }
