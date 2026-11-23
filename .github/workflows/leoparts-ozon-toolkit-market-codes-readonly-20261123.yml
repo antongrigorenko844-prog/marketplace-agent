@@ -1,0 +1,29 @@
+name: LEOPARTS exact DSG toolkit Yandex customs code read only
+on:
+  push:
+    branches: [main]
+    paths: ['data/leoparts_ozon_tools_market_codes_request_20261123.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  inspect-exact-skus:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - run: python -m py_compile scripts/leoparts_ozon_tools_verify_market_codes_20261123.py
+      - name: Read customs code from two exact existing Market offers; no writes
+        env:
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: python -u scripts/leoparts_ozon_tools_verify_market_codes_20261123.py
+      - name: Save read-only findings
+        if: always()
+        run: |
+          if [ -f data/leoparts_ozon_tools_market_codes_20261123.json ]; then
+            bash .github/scripts/save_data.sh data/leoparts_ozon_tools_market_codes_20261123.json
+          fi
