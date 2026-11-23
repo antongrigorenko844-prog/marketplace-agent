@@ -2,7 +2,7 @@
   "schema_version": 1,
   "created_at": "2026-11-24",
   "owner_approved": true,
-  "mode": "inspect",
+  "mode": "apply",
   "scope": "14 owner-confirmed legacy Avito listings not yet price-aligned",
   "expected_old_count": 14,
   "update_old_ad_prices_only": true,
@@ -156,5 +156,6 @@
       "policy": "sync_to_main_catalog_0AM301212A_950"
     }
   ],
-  "revision": 2
+  "revision": 3,
+  "reference_inspect_result": "data/avito_owner_14_legacy_prices_result_20261124.json"
 }
