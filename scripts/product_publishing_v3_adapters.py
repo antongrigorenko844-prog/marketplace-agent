@@ -283,7 +283,10 @@ class MarketAdapter:
 
     def scan(self) -> None:
         self.business = self.api.get_business_id()
-        self.offers = self.api.get_all_offers(archived=False)
+        active = self.api.get_all_offers(archived=False)
+        archived = self.api.get_all_offers(archived=True)
+        self.offers = active + [r for r in archived
+                               if not exact(active, str(r.get("sku") or ""), "sku")]
 
     def existing(self, sku: str) -> list[dict]:
         return exact(self.offers, sku, "sku")
@@ -351,6 +354,13 @@ class TildaAdapter:
         return exact(self.cards, sku, "sku")
 
     def prepare(self, item: dict, urls: list[str], paths: list, *, stock: int) -> dict:
+        cfg = (item.get("categories") or {}).get("tilda") or {}
+        # Tilda public catalog is not the private editor; CommerceML import
+        # might UPDATE a private draft with the same ID. A private absence
+        # attestation is mandatory before accepting a Tilda create operation.
+        require(cfg.get("private_catalog_absence_verified") is True and
+                bool(cfg.get("absence_evidence")),
+                "Tilda private-catalog absence unverified; refuse destructive upsert")
         require(paths and len(paths) == len(item["media"]), "Tilda needs original image bytes")
         require(all(str(p).lower().endswith((".png", ".jpg", ".jpeg", ".webp")) for p in paths),
                 "Tilda unsupported file type")
