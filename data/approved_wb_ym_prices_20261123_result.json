@@ -1,5 +1,5 @@
 {
-  "state": "created",
+  "state": "staged",
   "fingerprint": "c1802e6392351572e094bfc63e5bcd6ef8ae5d9fe31b61c437899bc825593e6a",
   "created_utc": "2026-11-23T11:52:36.827701+00:00",
   "approved": true,
@@ -33,7 +33,7 @@
     "DQ500": 2880
   },
   "results": {},
-  "updated_utc": "2026-11-23T11:52:49.023712+00:00",
+  "updated_utc": "2026-11-23T11:54:06.362435+00:00",
   "before": {
     "wb": {
       "122390AK-AF": {
@@ -492,5 +492,107 @@
   "fatal": {
     "type": "RuntimeError",
     "message": "GUARD_BLOCKED: Unexpected canonical price 0am325025u in Товары: 2690.0"
+  },
+  "sources_staged": {
+    "data/master_control.xlsx": [
+      {
+        "sku": "0AM325443D",
+        "cell": "K15",
+        "before": 2350.04,
+        "after": 2190
+      },
+      {
+        "sku": "0am325025",
+        "cell": "K32",
+        "before": 13849.8,
+        "after": 13850
+      },
+      {
+        "sku": "0am325025r",
+        "cell": "K51",
+        "before": 1850.24,
+        "after": 1490
+      },
+      {
+        "sku": "0am325025u",
+        "cell": "K52",
+        "before": 2690.0,
+        "after": 2880
+      },
+      {
+        "sku": "0am325025z",
+        "cell": "K54",
+        "before": 2690.0,
+        "after": 2880
+      },
+      {
+        "sku": "0am325066AC",
+        "cell": "K57",
+        "before": 1750.0,
+        "after": 1490
+      },
+      {
+        "sku": "122390AK-AF",
+        "cell": "K72",
+        "before": 990.0,
+        "after": 950
+      },
+      {
+        "sku": "WHT001922",
+        "cell": "K90",
+        "before": 1250.0,
+        "after": 950
+      }
+    ],
+    "data/wb_catalog.xlsx": [
+      {
+        "sku": "0AM325443D",
+        "cell": "F15",
+        "before": 2350.04,
+        "after": 2190
+      },
+      {
+        "sku": "0am325025",
+        "cell": "F31",
+        "before": 13849.8,
+        "after": 13850
+      },
+      {
+        "sku": "0am325025r",
+        "cell": "F50",
+        "before": 1850.24,
+        "after": 1490
+      },
+      {
+        "sku": "0am325025u",
+        "cell": "F51",
+        "before": 2690.0,
+        "after": 2880
+      },
+      {
+        "sku": "0am325025z",
+        "cell": "F53",
+        "before": 2690.0,
+        "after": 2880
+      },
+      {
+        "sku": "0am325066AC",
+        "cell": "F56",
+        "before": 1750.0,
+        "after": 1490
+      },
+      {
+        "sku": "122390AK-AF",
+        "cell": "F70",
+        "before": 990.0,
+        "after": 950
+      },
+      {
+        "sku": "WHT001922",
+        "cell": "F82",
+        "before": 1250.0,
+        "after": 950
+      }
+    ]
   }
 }
