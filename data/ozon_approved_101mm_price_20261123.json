@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "batch_id": "leoparts-101mm-price-test-20261123",
+  "approved": true,
+  "fingerprint": "9870abf97ed115eb2a04fc5d7331a9815475b90840cf559acbb624a7c3252433",
+  "prices": {
+    "0am325025u": {
+      "from": 2690,
+      "to": 2880
+    }
+  },
+  "purchase_cost_updates": {},
+  "state": "staged",
+  "external_writes": 0,
+  "created_utc": "2026-11-23T11:28:27.268751+00:00",
+  "before_live": {
+    "0am325025u": {
+      "price": 2690.0,
+      "min_price": 2690.0,
+      "old_price": 6000.0,
+      "status": "Продаётся"
+    }
+  },
+  "source_changes": {
+    "master": [
+      {
+        "sku": "0am325025u",
+        "column": 8,
+        "before": 2690.0,
+        "after": 2880
+      }
+    ],
+    "ozon_catalog": [
+      {
+        "sku": "0am325025u",
+        "column": 4,
+        "before": 2690.0,
+        "after": 2880
+      }
+    ]
+  },
+  "updated_utc": "2026-11-23T11:28:29.627646+00:00"
+}
