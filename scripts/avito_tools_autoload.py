@@ -67,7 +67,8 @@ def verify_category_schema(slug,category_type):
     required={k for k,v in fields.items() if v.get("required") is True}
     require(required<=configured,"Other required fields unresolved: "+str(sorted(required-configured)))
     return sorted(required)
-def verify_media(name,expected):
+MEDIA_PROVENANCE=[]
+def verify_media(name,expected,mode):
     uri="https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/"+name
     r=requests.get(uri,timeout=80)
     require(r.ok,"Tool media unavailable "+name)
@@ -75,9 +76,38 @@ def verify_media(name,expected):
     with Image.open(BytesIO(r.content)) as im:
         w,h=im.size
         require(min(w,h)>=400,"Tool image too small "+name)
-        require(abs(w-h)/max(w,h)<=0.07,"Tool cover not square for Avito: "+name)
-    return uri
-def build(items,address):
+        if abs(w-h)/max(w,h)<=0.07:
+            MEDIA_PROVENANCE.append({"original":name,"original_size":[w,h],"operation":"unchanged"})
+            return uri
+        # Convert only aspect ratio, not artwork. No cropping, stretching, text
+        # replacement, product edits or swaps; preserve every original pixel.
+        rgb=im.convert("RGB")
+        side=max(w,h)
+        padded=Image.new("RGB",(side,side),"white")
+        padded.paste(rgb,((side-w)//2,(side-h)//2))
+        out=BytesIO()
+        padded.save(out,"PNG")
+        blob=out.getvalue()
+    variant=name.rsplit(".",1)[0]+"_avito_square_"+sha(blob)[:12]+".png"
+    variant_url="https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/"+variant
+    status="square_padding_preview"
+    if mode=="apply":
+        release=gh("GET","/releases/tags/product-photos").json()
+        found=[x for x in release.get("assets",[]) if x.get("name")==variant]
+        require(len(found)<=1,"Duplicate square cover release asset")
+        if not found:
+            asset=gh("POST",release["upload_url"].split("{",1)[0],
+                     params={"name":variant},data=blob,headers={"Content-Type":"image/png"}).json()
+            url=asset["browser_download_url"]
+        else:
+            url=found[0]["browser_download_url"]
+        verified_download(url,blob)
+        status="padded_square_published_sha_verified"
+    MEDIA_PROVENANCE.append({"original":name,"original_size":[w,h],"derived":variant,
+        "new_size":[side,side],"source_sha256":expected,"derived_sha256":sha(blob),
+        "operation":status,"cropped":False,"artwork_changed":False})
+    return variant_url
+def build(items,address,mode):
     root=ET.Element("Ads",{"formatVersion":"3","target":"Avito.ru"})
     seen={}
     schema={}
@@ -94,7 +124,7 @@ def build(items,address):
         for k,v in vals.items():ET.SubElement(ad,k).text=v
         imgs=ET.SubElement(ad,"Images")
         for name,checksum in config["media"]:
-            uri=verify_media(name,checksum)
+            uri=verify_media(name,checksum,mode)
             ET.SubElement(imgs,"Image",{"url":uri})
             seen[name]=checksum
     raw=b'<?xml version="1.0" encoding="utf-8"?>\n'+ET.tostring(root,encoding="utf-8",xml_declaration=False)
@@ -159,10 +189,10 @@ def run():
             "Expected immutable 127-row parts feed not found")
     snap.close()
     source_sha=sha(PARTS.read_bytes())
-    raw,media,schemas=build(items,addr)
+    raw,media,schemas=build(items,addr,mode)
     report={"checked_at_utc":datetime.now(timezone.utc).isoformat(),"mode":mode,
           "tool_skus":list(CAT),"prices_rub":{s:items[s]["prices"]["avito"] for s in CAT},
-          "media_sha256":media,"official_category_required":schemas,
+          "media_sha256":media,"media_derivatives":MEDIA_PROVENANCE,"official_category_required":schemas,
           "payload_sha256":sha(raw),"parts_sha256":source_sha,
           "primary_feed_unchanged":True,"current_feed_count":len(profile["feeds_data"]),
           "new_listing_fee":"Package","new_wallet_billing_allowed":False,"seller_writes":0}
