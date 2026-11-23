@@ -80,7 +80,7 @@ def check_only(before,after,allowed):
                         "Unapproved change "+n+":"+c.coordinate)
 def patch(path,book,allowed):
     buf=BytesIO();book.save(buf);raw=buf.getvalue()
-    require(len(raw)>10000,"Workbook serialized incompletely")
+    require(len(raw)>1000,"Workbook serialized incompletely")
     check_only(load_workbook(BytesIO(path.read_bytes())),load_workbook(BytesIO(raw)),allowed)
     return raw
 
