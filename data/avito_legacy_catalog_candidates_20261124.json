@@ -257,7 +257,7 @@
     {
       "avito_id": 4349334275,
       "live_status": "active",
-      "live_price_rub": 6490,
+      "live_price_rub": 5350,
       "live_title": "Плита DQ200 0am 0cw (усиленная гидроплита DSG 7)",
       "match_state": "candidate_not_bound",
       "match_confidence": "title_only_needs_composition_review",
@@ -267,7 +267,7 @@
           "master_present": true,
           "canonical_name": "Усиленная гидроплита мехатроника DSG7 DQ200 0AM325066AE",
           "configured_avito_price_rub": 5350,
-          "price_gap_vs_canonical_rub": 1140
+          "price_gap_vs_canonical_rub": 0
         }
       ],
       "review_required": false,
@@ -287,7 +287,20 @@
         "0am325066ae"
       ],
       "owner_same_bom_as_original_candidates": true,
-      "owner_notes": "№7 подтверждена только усиленная гидроплита. Синхронизировать цену с основным каталогом 5 350 ₽."
+      "owner_notes": "№7 подтверждена только усиленная гидроплита. Синхронизировать цену с основным каталогом 5 350 ₽.",
+      "prior_live_price_rub": 6490,
+      "latest_price_verified": true,
+      "latest_price_verification_source": "data/avito_two_reinforced_plates_price_result_20261124.json",
+      "price_change_history": [
+        {
+          "date": "2026-11-24",
+          "old_rub": 6490,
+          "new_rub": 5350,
+          "verification": "live Avito API",
+          "basis": "main catalog SKU 0am325066ae",
+          "change_scope": "seller price only"
+        }
+      ]
     },
     {
       "avito_id": 4349172359,
@@ -695,7 +708,7 @@
     {
       "avito_id": 4220734432,
       "live_status": "active",
-      "live_price_rub": 6490,
+      "live_price_rub": 5350,
       "live_title": "Гидроплита dsg 7 dq200 усиленная ремкомплект dsg7",
       "match_state": "candidate_not_bound",
       "match_confidence": "title_only_needs_composition_review",
@@ -705,7 +718,7 @@
           "master_present": true,
           "canonical_name": "Усиленная гидроплита мехатроника DSG7 DQ200 0AM325066AE",
           "configured_avito_price_rub": 5350,
-          "price_gap_vs_canonical_rub": 1140
+          "price_gap_vs_canonical_rub": 0
         }
       ],
       "review_required": false,
@@ -733,7 +746,20 @@
         "keep_listing": true,
         "status": "pending_photo_access",
         "note": "Remove the third gallery photo from old Avito ad 4220734432, after verifying current ordering and API/UI editing capability. Price change separate."
-      }
+      },
+      "prior_live_price_rub": 6490,
+      "latest_price_verified": true,
+      "latest_price_verification_source": "data/avito_two_reinforced_plates_price_result_20261124.json",
+      "price_change_history": [
+        {
+          "date": "2026-11-24",
+          "old_rub": 6490,
+          "new_rub": 5350,
+          "verification": "live Avito API",
+          "basis": "main catalog SKU 0am325066ae",
+          "change_scope": "seller price only"
+        }
+      ]
     },
     {
       "avito_id": 4220729305,
@@ -1086,13 +1112,15 @@
       4220734432
     ],
     "note": "№1-4 идут по последовательности, которую прислал ассистент; старые номера Авито сохранены. Для двух универсальных наборов с альтернативными размерами нельзя закреплять один SKU на оба варианта через AvitoId без модели вариантов.",
-    "verified_old_prices_aligned": 5,
+    "verified_old_prices_aligned": 7,
     "verified_old_prices_ids": [
       4220729305,
       4445230063,
       4125224328,
       4348814868,
-      4285324155
+      4285324155,
+      4349334275,
+      4220734432
     ]
   }
 }
