@@ -1,0 +1,33 @@
+name: LEOPARTS Avito 2 approved kit prices 1390 - guarded
+on:
+  push:
+    branches: [main]
+    paths: ['data/avito_two_kits_1390_approved.json']
+permissions: {contents: write}
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  price:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q requests openpyxl python-dotenv
+      - name: Approved two-kit Avito price only, keep site at 1480
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -m py_compile scripts/avito_two_kits_1390.py
+          python -u scripts/avito_two_kits_1390.py
+      - name: Save checked report only
+        if: always()
+        run: |
+          if [ -f data/avito_two_kits_1390_result.json ]; then
+            bash .github/scripts/save_data.sh data/avito_two_kits_1390_result.json
+          fi
