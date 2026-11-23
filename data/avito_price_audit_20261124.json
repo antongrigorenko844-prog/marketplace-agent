@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-23T16:55:12.136545+00:00",
+  "generated_utc": "2026-11-23T16:59:41.473429+00:00",
   "mode": "read_only",
   "seller_writes": 0,
   "catalog_writes": 0,
@@ -20,23 +20,18 @@
     "bom_relations": 84,
     "api_listed_ads": 156,
     "active_ads": 156,
-    "matched_by_id": 119,
-    "matched_active": 119,
+    "matched_by_id": 120,
+    "matched_active": 120,
     "with_cost_and_price": 122,
-    "issues": 44,
+    "issues": 45,
     "priority": {
       "medium": 21,
       "low": 16,
-      "high": 7
+      "high": 8
     }
   },
   "live_api_error": null,
-  "binding_errors": [
-    {
-      "offset": 150,
-      "error": "Avito GET /autoload/v2/items/avito_ids: не удалось получить ответ после 1 попыток: HTTPSConnectionPool(host='api.avito.ru', port=443): Read timed out."
-    }
-  ],
+  "binding_errors": [],
   "issues": [
     {
       "priority": "medium",
@@ -522,6 +517,26 @@
           "title": "Ремкомплект штока мехатроника DSG 7 DQ200 0AM 0CW"
         }
       ]
+    },
+    {
+      "priority": "high",
+      "type": "owner_confirmed_same_kit_inconsistent_price",
+      "sku": "4285108577 / 4220729305",
+      "detail": "Владелец подтвердил одинаковый состав; действующие цены не согласованы",
+      "ads": [
+        {
+          "id": 4285108577,
+          "title": "Ремкомплект штока мехатроника DSG 7 DQ200 0AM 0CW",
+          "price": 990.0
+        },
+        {
+          "id": 4220729305,
+          "title": "Ремкомплект штока мехатроника DSG 7 DQ200 0AM 0CW",
+          "price": 5890.0
+        }
+      ],
+      "price_gap": 4900.0,
+      "owner_confirmed_identical_components": true
     }
   ],
   "products": [
@@ -2576,14 +2591,12 @@
       "in_master": true,
       "avito_flag": null,
       "mapped": {
-        "id": 4284733993,
-        "status": "active",
-        "live_price": 950.0,
-        "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/filtr-setka_solenoidov_dsg7_0b5_dl501_123014af_4284733993",
-        "live_title": "Фильтр-сетка соленоидов DSG7 0B5 DL501 123014AF",
-        "source": "exact_avito_id"
+        "source": "not_mapped",
+        "ids": [
+          "8294466411"
+        ]
       },
-      "model_price_source": "active_live",
+      "model_price_source": "override",
       "model_price": 950.0,
       "markup_to_cost": 9.5,
       "contribution_before_view_cost": 695.5,
@@ -3332,7 +3345,9 @@
       "avito_flag": null,
       "mapped": {
         "source": "not_mapped",
-        "ids": []
+        "ids": [
+          "8302806177"
+        ]
       },
       "model_price_source": "override",
       "model_price": 7350.0,
@@ -3444,7 +3459,9 @@
       "avito_flag": null,
       "mapped": {
         "source": "not_mapped",
-        "ids": []
+        "ids": [
+          "8386890410"
+        ]
       },
       "model_price_source": "override",
       "model_price": 1850.0,
@@ -4223,7 +4240,9 @@
       "avito_flag": null,
       "mapped": {
         "source": "not_mapped",
-        "ids": []
+        "ids": [
+          "8460859471"
+        ]
       },
       "model_price_source": "override",
       "model_price": 1350.0,
@@ -4277,7 +4296,9 @@
       "avito_flag": null,
       "mapped": {
         "source": "not_mapped",
-        "ids": []
+        "ids": [
+          "8449565762"
+        ]
       },
       "model_price_source": "override",
       "model_price": 1850.0,
@@ -4873,10 +4894,14 @@
       "in_master": true,
       "avito_flag": "да",
       "mapped": {
-        "source": "not_mapped",
-        "ids": []
+        "id": 8486296644,
+        "status": "active",
+        "live_price": 24800.0,
+        "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/nabor_dlya_vosstanovleniya_gidroakkumulyatora_dq200_8486296644",
+        "live_title": "Набор для восстановления гидроаккумулятора DQ200",
+        "source": "exact_avito_id"
       },
-      "model_price_source": "override",
+      "model_price_source": "active_live",
       "model_price": 24800.0,
       "markup_to_cost": null,
       "contribution_before_view_cost": null,
@@ -4898,10 +4923,14 @@
       "in_master": true,
       "avito_flag": "да",
       "mapped": {
-        "source": "not_mapped",
-        "ids": []
+        "id": 8392608781,
+        "status": "active",
+        "live_price": 18800.0,
+        "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/nabor_dlya_proverki_davleniya_dsg_8392608781",
+        "live_title": "Набор для проверки давления DSG",
+        "source": "exact_avito_id"
       },
-      "model_price_source": "override",
+      "model_price_source": "active_live",
       "model_price": 18800.0,
       "markup_to_cost": null,
       "contribution_before_view_cost": null,
@@ -5088,18 +5117,6 @@
     }
   ],
   "unmapped_live_ads": [
-    {
-      "id": 8486296644,
-      "title": "Набор для восстановления гидроаккумулятора DQ200",
-      "price": 24800.0,
-      "status": "active"
-    },
-    {
-      "id": 8392608781,
-      "title": "Набор для проверки давления DSG",
-      "price": 18800.0,
-      "status": "active"
-    },
     {
       "id": 7260747200,
       "title": "Импульсное кольцо распредвала GM 55565480",
