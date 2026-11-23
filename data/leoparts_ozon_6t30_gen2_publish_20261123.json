@@ -4,15 +4,63 @@
   "channels_touched": [
     "ozon"
   ],
-  "started_utc": "2026-11-23T00:44:18.265974+00:00",
-  "stage": "blocked_or_error",
-  "seller_writes": 0,
+  "started_utc": "2026-11-23T00:45:18.928288+00:00",
+  "stage": "import_submitted_not_yet_verified",
+  "seller_writes": 1,
   "checkpoints": {
     "photo": {
       "verified_sha256": "4b7c231bfb871186aabfb8042c73dd44780345e0f6312324c2b30f09cd5bdaeb",
       "bytes": 2942187
+    },
+    "ozon_category": {
+      "id": 17028756,
+      "type": 970984897,
+      "reference_offer": "6t30",
+      "reference_customs_code": "8708409909 - Части коробок передач, прочие: прочие",
+      "required_ids": [
+        85,
+        7236,
+        8229,
+        22232,
+        23536
+      ]
+    },
+    "import_status": {
+      "result": {
+        "items": [
+          {
+            "offer_id": "6t30-solenoids-gen2",
+            "product_id": 7089359257,
+            "status": "imported",
+            "errors": []
+          }
+        ],
+        "total": 1
+      }
+    },
+    "catalog_readback": {
+      "product_id": 7089359257,
+      "statuses": {
+        "status": "variant_wait",
+        "status_failed": "",
+        "moderate_status": "in-moderating",
+        "validation_status": "success",
+        "status_name": "Не продаётся",
+        "status_description": "На модерации",
+        "is_created": false,
+        "status_tooltip": "",
+        "status_updated_at": "2026-11-23T00:46:23.703876Z"
+      },
+      "errors": []
     }
   },
-  "error_type": "ValueError",
-  "error": "New Ozon required attributes not independently verified: [7236]"
+  "target_price": 19880,
+  "target_stock": 20,
+  "approved_photo": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30-solenoids-gen2_1.png?v=4b7c231bfb",
+  "task_id": 6104222187,
+  "import_ack": {
+    "result": {
+      "task_id": 6104222187
+    }
+  }
 }
