@@ -1,7 +1,7 @@
 {
-  "mode": "inspect",
-  "status": "inspect_ok_no_writes",
-  "seller_price_writes": 0,
+  "mode": "apply",
+  "status": "verified_2_of_2",
+  "seller_price_writes": 2,
   "main_price_writes": 0,
   "other_kit_price_writes": 0,
   "site_changes": 0,
@@ -22,6 +22,22 @@
       "title": "Гидроплита dsg 7 dq200 усиленная ремкомплект dsg7"
     }
   },
-  "receipts": {},
-  "checked_utc": "2026-11-23T18:38:24.510703+00:00"
+  "receipts": {
+    "4349334275": "accepted",
+    "4220734432": "accepted"
+  },
+  "checked_utc": "2026-11-23T18:39:24.140726+00:00",
+  "checks": {
+    "4349334275": {
+      "status": "active",
+      "price": 5350.0,
+      "matched": true
+    },
+    "4220734432": {
+      "status": "active",
+      "price": 5350.0,
+      "matched": true
+    }
+  },
+  "canonical_price_after": 5350.0
 }
