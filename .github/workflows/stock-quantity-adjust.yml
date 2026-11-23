@@ -1,0 +1,42 @@
+name: LEOPARTS reusable exact-SKU warehouse quantity adjustment
+on:
+  push:
+    branches: [main]
+    paths: ['data/stock_quantity_adjust_request.json']
+permissions: {contents: write}
+# Serializes actual inventory source changes against existing order and stock
+# workflows, while never touching price or Avito pipelines.
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  exact-stock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q openpyxl
+      - name: Compile reusable guarded stock handler
+        run: python -m py_compile scripts/stock_quantity_adjust.py
+      - name: Inspect or set only exact approved SKU in canonical catalog and master
+        run: python -u scripts/stock_quantity_adjust.py --request data/stock_quantity_adjust_request.json
+      - name: Save changed inventory files and exact report
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('data/stock_quantity_adjust_result.json')
+          if not p.exists(): raise RuntimeError('Stock adjustment report missing; refusing to save')
+          v=json.loads(p.read_text(encoding='utf8'))
+          if v.get('state') == 'warehouse_quantity_updated':
+              Path('/tmp/leoparts-stock-applied').touch()
+          elif v.get('state') not in ('inspected','blocked_missing_source_row'):
+              raise RuntimeError('Unexpected stock adjustment state: '+str(v.get('state')))
+          PY
+          if [ -f /tmp/leoparts-stock-applied ]; then
+            bash .github/scripts/save_data.sh data/master_control.xlsx data/ozon_catalog.xlsx data/stock_quantity_adjust_result.json
+          else
+            bash .github/scripts/save_data.sh data/stock_quantity_adjust_result.json
+          fi
