@@ -211,7 +211,29 @@ def run():
           "primary_feed_unchanged":True,"current_feed_count":len(profile["feeds_data"]),
           "new_listing_fee":"Package","new_wallet_billing_allowed":False,"seller_writes":0}
     if any(f["feed_url"]==TOOLS_URL for f in profile["feeds_data"]):
-        report["status"]="tool_feed_already_registered_no_writes"
+        # Once a POST succeeded, verify the readback rather than repeat writes.
+        # The Avito API may reorder weekdays/time slots; treat order as irrelevant.
+        require(len(profile["feeds_data"])==2,"Unexpected number of registered feeds")
+        require(profile["feeds_data"][0]["feed_url"]==STABLE_AVITO_URL,
+                "Primary feed URL changed after tools registration")
+        require(profile["feeds_data"][1]["feed_url"]==TOOLS_URL,
+                "Tools feed URL missing after registration")
+        windows=profile["schedule"]
+        require(isinstance(windows,list) and windows,"Registered schedule missing")
+        for window in windows:
+            require(set(window.get("weekdays") or [])==set(range(7)) and
+                    set(window.get("time_slots") or [])==set(range(24)),
+                    "Registered schedule no longer covers all original daily windows")
+        release=gh("GET","/releases/tags/product-photos").json()
+        found=[a for a in release.get("assets",[]) if a.get("name")==STABLE_TOOLS]
+        require(len(found)==1,"Public tools release asset not unique")
+        downloaded=requests.get(found[0]["browser_download_url"],timeout=80)
+        require(downloaded.ok and downloaded.content==raw,
+                "Public tools XML differs from approved media prices and taxonomy")
+        report["registered_feed_links"]=[f["feed_url"] for f in profile["feeds_data"]]
+        report["registered_schedule_windows"]=len(windows)
+        report["registered_report_email_present"]=bool(profile.get("report_email"))
+        report["status"]="two_registered_feeds_and_exact_xml_verified_no_writes"
         return report
     report["possible_duplicates_scanned"]=live_duplicate_guard()
     payload,email_source=profile_payload(profile)
@@ -234,7 +256,12 @@ def run():
         return report
     after=avito_profile()
     require(after["feeds_data"]==payload["feeds_data"],"Profile feeds readback differs")
-    require(after["schedule"]==profile["schedule"],"Profile schedule changed")
+    # Avito returns weekday/hour lists in arbitrary order; compare their sets.
+    def normalized_schedule(value):
+        return sorted((w.get("rate"),tuple(sorted(w.get("weekdays") or [])),
+                       tuple(sorted(w.get("time_slots") or []))) for w in value or [])
+    require(normalized_schedule(after["schedule"])==normalized_schedule(profile["schedule"]),
+            "Profile schedule content changed")
     require(sha(PARTS.read_bytes())==source_sha,"Parts feed altered during tools operation")
     report["status"]="second_feed_added_pending_avito_import"
     report["current_feed_count"]=len(after["feeds_data"])
