@@ -1,0 +1,30 @@
+name: LEOPARTS Ozon 7 at-risk SKU live read-only price and stock
+on:
+  push:
+    branches: [main]
+    paths: ['scripts/ozon_seven_live_20261123.py','.github/workflows/ozon-seven-live-readonly.yml']
+permissions: {contents: write}
+concurrency: {group: leoparts-ozon-audit-readonly, cancel-in-progress: false}
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -r requirements.txt
+      - name: Read Ozon exact seller offers, prices, stocks and approval without writes
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python -m py_compile scripts/ozon_seven_live_20261123.py
+          python -m scripts.ozon_seven_live_20261123
+      - name: Persist only sanitized summary
+        if: always()
+        run: |
+          if [ -f data/ozon_seven_live_20261123.json ]; then
+            bash .github/scripts/save_data.sh data/ozon_seven_live_20261123.json
+          fi
