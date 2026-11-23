@@ -88,7 +88,7 @@ def build(item, sample, url):
     required = oz.get_category_attributes(17028756, 970984897)
     require(len(required) > 0, "Cannot read live Ozon category requirements")
     required_ids = {int(x["id"]) for x in required if x.get("is_required") and x.get("id")}
-    supported = {85, 8229, 22232, 23536}
+    supported = {85, 8229, 22232, 23536, 7236}
     require(required_ids.issubset(supported),
             "New Ozon required attributes not independently verified: " + repr(sorted(required_ids-supported)))
     require({85, 22232}.issubset(required_ids),
