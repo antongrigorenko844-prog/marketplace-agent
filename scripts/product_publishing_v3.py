@@ -294,7 +294,7 @@ def run_live(manifest: dict, requested: tuple[str, ...],
                     sku = item["sku"]
                     report["items"][sku]["channels"][channel] = observations.get(sku, {"state": "not_found"})
             except Exception as exc:
-                report["channel_read_counts"][channel] = None
+                report["read_phases"][channel] = None
                 for item in items:
                     report["items"][item["sku"]]["channels"][channel] = {
                         "state": "api_error", "error_type": type(exc).__name__,
