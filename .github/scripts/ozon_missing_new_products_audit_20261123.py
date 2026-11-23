@@ -147,5 +147,36 @@ except Exception as e:
     r["verified_catalog_candidates"]={"status":"error","error_type":type(e).__name__,
         "error":str(e)[:190]}
 
+
+# The documented Ozon attributes endpoint currently returns 404 on the
+# broad catalog filter. Check exact existing product IDs with safe read-only
+# payloads before calling this a permission, route or data error.
+r["ozon_endpoint_probes"]=[]
+try:
+    known=next((x for x in oz.list_products(limit=100)
+                if str(x.get("offer_id") or "")=="vint-kollektora-ea888"),None)
+    if known:
+        pid=known.get("product_id")
+        for label,endpoint,body in [
+            ("singular_product_id","/v4/product/info/attributes",{"filter":{"product_id":[pid]},"limit":1}),
+            ("singular_offer_id","/v4/product/info/attributes",{"filter":{"offer_id":["vint-kollektora-ea888"]},"limit":1}),
+            ("singular_all","/v4/product/info/attributes",{"filter":{"visibility":"ALL"},"limit":1}),
+            ("plural_product_id","/v4/products/info/attributes",{"filter":{"product_id":[pid]},"limit":1}),
+            ("product_description","/v1/product/info/description",{"offer_id":"vint-kollektora-ea888"}),
+        ]:
+            try:
+                reply=oz._post(endpoint,body,retries=1)
+                result=reply.get("result")
+                item_count=len(result) if isinstance(result,list) else len(result.get("items") or []) if isinstance(result,dict) else 0
+                r["ozon_endpoint_probes"].append({"label":label,"status":"ok","items":item_count,
+                    "result_type":type(result).__name__,"keys":list(reply)[:10]})
+            except Exception as e:
+                r["ozon_endpoint_probes"].append({"label":label,"status":"error",
+                    "type":type(e).__name__,"message":str(e)[:135]})
+    else:
+        r["ozon_endpoint_probes"].append({"status":"no_known_existing_product"})
+except Exception as e:
+    r["ozon_endpoint_probes"].append({"status":"error","message":str(e)[:145]})
+
 OUT.write_text(json.dumps(r,ensure_ascii=False,indent=2,default=str)+"\n")
 print(json.dumps({"items":r["items"],"drafts":r.get("drafts"),"errors":r["errors"]},ensure_ascii=False),flush=True)
