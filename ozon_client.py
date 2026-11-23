@@ -117,34 +117,75 @@ def get_prices_and_stocks(offer_ids: List[str]) -> List[dict]:
 
 def get_product_names(offer_ids: Optional[List[str]] = None, limit: int = 1000) -> List[dict]:
     """
-    Название товара, штрихкод, изображения и характеристики — постранично,
-    через курсор last_id (как list_products).
+    Read Ozon product attributes without assuming the bulk filter always works.
 
-    Проверено напрямую в живой документации docs.ozon.ru 02.09.2026:
-    /v3/product/info/list НЕ содержит названия (только штрихкод, цену,
-    категорию, комиссию, ошибки модерации). Название отдаёт либо
-    /v1/product/info/description (по одному товару за раз — offer_id или
-    product_id, без пакетной выборки), либо /v4/products/info/attributes
-    (пакетно, с пагинацией last_id) — используем второй, он эффективнее
-    для десятков/сотен товаров разом.
+    The live endpoint is SINGULAR /v4/product/info/attributes (verified with
+    product_id on 2026-11-23). Ozon sometimes responds 404 item not found or
+    502 to broad requests even while /v3/product/list is healthy. In that
+    case read exact existing numeric product IDs in guarded smaller batches.
+    This method only reads products; it never updates catalog/stock/prices.
     """
+    path = "/v4/product/info/attributes"
     out: List[dict] = []
-    last_id = ""
-    filter_body: Dict[str, object] = {"visibility": "ALL"}
-    if offer_ids:
-        filter_body["offer_id"] = offer_ids
-    while True:
-        # ENDPOINT: POST /v4/products/info/attributes — plural products per official Ozon Seller API migration
-        data = _post(
-            "/v4/products/info/attributes",
-            {"filter": filter_body, "last_id": last_id, "limit": limit, "sort_dir": "ASC"},
-        )
-        items = data.get("result", [])
-        out.extend(items)
-        last_id = data.get("last_id", "")
-        if not items or not last_id:
-            break
-    logger.info("Ozon: получено названий товаров через product/info/attributes: %d", len(out))
+    seen: set[str] = set()
+    filter_body: Dict[str, object] = {"offer_id": offer_ids} if offer_ids else {"visibility": "ALL"}
+
+    try:
+        last_id = ""
+        while True:
+            # Do not send 'sort_dir': some live accounts reject a sorted bulk request.
+            data = _post(path, {"filter": filter_body, "last_id": last_id,
+                                "limit": min(max(limit, 1), 100)})
+            rows = data.get("result", [])
+            if not isinstance(rows, list):
+                raise OzonApiError("Unexpected Ozon attributes response shape")
+            for row in rows:
+                key = str(row.get("offer_id") or row.get("id") or "")
+                if key not in seen:
+                    seen.add(key)
+                    out.append(row)
+            following = str(data.get("last_id") or "")
+            if not rows or not following or following == last_id:
+                break
+            last_id = following
+        return out
+    except OzonApiError as exc:
+        logger.warning("Ozon bulk attributes failed; retrying exact product IDs: %s", str(exc)[:140])
+
+    # The official listing endpoint is separately verified and returns IDs.
+    catalog = list_products(limit=100)
+    ids = [int(row["product_id"]) for row in catalog
+           if row.get("product_id") and (not offer_ids or str(row.get("offer_id")) in offer_ids)]
+    if not ids:
+        return []
+
+    def read_exact(product_ids: List[int]) -> None:
+        if not product_ids:
+            return
+        try:
+            data = _post(path, {"filter": {"product_id": product_ids},
+                                "limit": max(1, min(100, len(product_ids)))}, retries=2)
+            rows = data.get("result", [])
+            if not isinstance(rows, list):
+                raise OzonApiError("Unexpected exact-product attributes response shape")
+            for row in rows:
+                key = str(row.get("offer_id") or row.get("id") or "")
+                if key not in seen:
+                    seen.add(key)
+                    out.append(row)
+        except OzonApiError as exc:
+            if len(product_ids) == 1:
+                logger.warning("Skip unreadable Ozon product ID %s: %s", product_ids[0], str(exc)[:130])
+                return
+            mid = len(product_ids) // 2
+            read_exact(product_ids[:mid])
+            read_exact(product_ids[mid:])
+
+    for i in range(0, len(ids), 20):
+        read_exact(ids[i:i + 20])
+    if not out:
+        raise OzonApiError("Ozon attributes unavailable for all existing product IDs")
+    logger.info("Ozon attributes read for %d items", len(out))
     return out
 
 
