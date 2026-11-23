@@ -98,9 +98,12 @@ def prepare():
     check(SKU in i and KEEP_ORIGINAL in i,"Ordinary/original SKU missing override")
     oi=i[SKU]
     before_av=cash(ovs.cell(oi,2).value)
-    site=cash(ovs.cell(oi,4).value)
+    explicit_site=cash(ovs.cell(oi,4).value)
+    # Site inherits Avito when D is empty. Explicitly freeze D=950 BEFORE
+    # changing Avito B, or this Avito-only correction would affect Tilda.
+    site=explicit_site if explicit_site is not None else before_av
     check(before_av in (BEFORE,AFTER),"Avito override changed outside 950/450")
-    check(site==SITE_KEEP,"Website price changed; do not update website")
+    check(site==SITE_KEEP,"Effective website price changed; refuse update")
     original_sku_price=cash(ovs.cell(i[KEEP_ORIGINAL],2).value)
     check(original_sku_price==950,"Original boot Avito price changed")
     fbook=load_workbook(FEED)
@@ -116,10 +119,12 @@ def prepare():
           "Feed SKU title no longer ordinary boot")
     # No metadata fields and no website B/D coupling are touched.
     ovs.cell(oi,2).value=AFTER
+    ovs.cell(oi,4).value=SITE_KEEP  # freeze inherited site to unchanged 950
     fs.cell(fi[SKU],34).value=AFTER
     changed={}
     for path,book,changes in (
-        (OVERRIDES,ovbook,{("Цены Avito и сайт","B"+str(oi))}),
+        (OVERRIDES,ovbook,{("Цены Avito и сайт","B"+str(oi)),
+                            ("Цены Avito и сайт","D"+str(oi))}),
         (FEED,fbook,{("Объявления","AH"+str(fi[SKU]))}),
     ):
         out=BytesIO();book.save(out);payload=out.getvalue()
