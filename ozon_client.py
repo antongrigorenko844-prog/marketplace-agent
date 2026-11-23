@@ -236,7 +236,7 @@ def get_warehouses() -> List[dict]:
     return sorted(by_warehouse.values(), key=lambda w: w["warehouse_id"])
 
 
-def update_stocks(items: List[dict]) -> dict:
+def update_stocks(items: List[dict], *, retries: int = 3) -> dict:
     """
     items: [{"offer_id": "...", "stock": 5, "warehouse_id": 123}, ...]
     (product_id тоже подходит вместо offer_id). Обновление остатков —
@@ -250,7 +250,7 @@ def update_stocks(items: List[dict]) -> dict:
     --ozon-warehouses, нужный id кладётся в OZON_WAREHOUSE_ID.
     """
     # ENDPOINT: POST /v2/products/stocks — подтверждено в живой документации 02.09.2026
-    return _post("/v2/products/stocks", {"stocks": items})
+    return _post("/v2/products/stocks", {"stocks": items}, retries=retries)
 
 
 def get_stocks(offer_ids: List[str]) -> List[dict]:
@@ -538,14 +538,14 @@ def search_attribute_values(description_category_id: int, type_id: int, attribut
     return data.get("result", []) or []
 
 
-def import_products(items: List[dict]) -> dict:
+def import_products(items: List[dict], *, retries: int = 3) -> dict:
     """
     Создание/обновление карточек товара. Структура каждого элемента items
     зависит от категории (обязательные attributes) — см. get_category_attributes.
     Метод асинхронный — возвращает task_id, статус проверяется отдельным вызовом.
     """
     # ENDPOINT: POST /v3/product/import
-    return _post("/v3/product/import", {"items": items})
+    return _post("/v3/product/import", {"items": items}, retries=retries)
 
 
 def update_attributes(items: List[dict]) -> dict:

@@ -363,5 +363,65 @@ class GuardedPublishingTests(unittest.TestCase):
                 self.assertEqual(second["events"][0]["state"],"uncertain_created_identity")
                 self.assertEqual(seller.calls["set_stock"],0)
 
+
+class NoBlindTransportRetryTests(unittest.TestCase):
+    """A lost response to a new-SKU write must never cause an implicit HTTP replay."""
+
+    def test_ozon_import_single_attempt_even_on_timeout(self):
+        import requests
+        import ozon_client as oz
+        with patch.object(oz, "_headers", return_value={}), \
+             patch.object(oz.requests, "post", side_effect=requests.Timeout("unknown outcome")) as http, \
+             patch.object(oz.time, "sleep"):
+            with self.assertRaises(oz.OzonApiError):
+                oz.import_products([{"offer_id": "new-test"}], retries=1)
+        self.assertEqual(http.call_count, 1)
+
+    def test_wb_card_upload_single_attempt_even_on_timeout(self):
+        import requests
+        import wb_client as wb
+        with patch.object(wb, "_headers", return_value={}), \
+             patch.object(wb.requests, "request", side_effect=requests.Timeout("unknown outcome")) as http, \
+             patch.object(wb.time, "sleep"):
+            with self.assertRaises(wb.WbApiError):
+                wb.create_cards(123, [{"vendorCode": "new-test"}], retries=1)
+        self.assertEqual(http.call_count, 1)
+
+    def test_market_write_single_attempt_and_no_fallback_singleton(self):
+        import requests
+        import yandex_market_client as market
+        with patch.dict(os.environ, {"YANDEX_MARKET_API_KEY": "test-token",
+                                     "YANDEX_MARKET_CAMPAIGN_ID": "123"}), \
+             patch.object(market.requests, "request",
+                          side_effect=requests.Timeout("unknown outcome")) as http, \
+             patch.object(market.time, "sleep"):
+            with self.assertRaises(market.YandexMarketError):
+                market.update_prices({"new-test": (1234, None)}, single_attempt=True)
+        self.assertEqual(http.call_count, 1)
+        attempts = []
+        def failed_write(items):
+            attempts.append(items)
+            return 503, {"errors": ["response uncertain"]}
+        ok, errors = market._send_isolating(
+            "test", failed_write, [("new-test", {"offerId": "new-test"})],
+            retry_non200=False)
+        self.assertEqual(ok, 0)
+        self.assertIn("new-test", errors)
+        self.assertEqual(len(attempts), 1)
+
+    def test_existing_client_retry_defaults_stay_unchanged(self):
+        import inspect
+        import ozon_client as oz
+        import wb_client as wb
+        import yandex_market_client as market
+        for function, param, expected in (
+            (oz.import_products, "retries", 3), (oz.update_stocks, "retries", 3),
+            (wb.create_cards, "retries", 3), (wb.update_media, "retries", 3),
+            (wb.update_prices, "retries", 3), (wb.update_stocks, "retries", 3),
+            (market.update_prices, "single_attempt", False),
+            (market.update_stocks, "single_attempt", False)):
+            self.assertEqual(inspect.signature(function).parameters[param].default, expected)
+
+
 if __name__=="__main__":
     unittest.main()

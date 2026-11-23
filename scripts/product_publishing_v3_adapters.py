@@ -118,7 +118,7 @@ class OzonAdapter:
     def submit(self, item: dict, payload: dict) -> dict:
         require(payload["offer_id"] == item["sku"], "Ozon submit SKU mismatch")
         require(payload["price"] == str(item["prices"]["ozon"]), "Ozon price frozen")
-        reply = self.api.import_products([payload])
+        reply = self.api.import_products([payload], retries=1)
         task = (reply.get("result") or {}).get("task_id")
         require(type(task) is int and task > 0, "Ozon import has no task ID: outcome unknown")
         return {"task_id": task}
@@ -158,7 +158,7 @@ class OzonAdapter:
         require(warehouse.isdecimal() and int(warehouse) > 0,
                 "Missing verified OZON_WAREHOUSE_ID")
         reply = self.api.update_stocks([{"offer_id": item["sku"],
-            "stock": amount, "warehouse_id": int(warehouse)}])
+            "stock": amount, "warehouse_id": int(warehouse)}], retries=1)
         rows = reply.get("result") or []
         matches = exact(rows, item["sku"], "offer_id")
         require(len(matches) == 1 and matches[0].get("updated") is True
@@ -220,7 +220,7 @@ class WBAdapter:
             "sizes": [{"techSize": "0", "wbSize": "", "price": item["prices"]["wildberries"],
                        "skus": [barcode]}]
         }
-        result = self.api.create_cards(int(payload["subject_id"]), [card])
+        result = self.api.create_cards(int(payload["subject_id"]), [card], retries=1)
         require(not result.get("error"), "WB asynchronous card upload rejected")
         return {"barcode": barcode, "submitted": True}
 
@@ -245,7 +245,7 @@ class WBAdapter:
         cards = self.api.list_cards(limit=100)
         matches = exact(cards, item["sku"], "vendorCode")
         require(len(matches) == 1 and matches[0].get("nmID"), "WB new card not visible")
-        result = self.api.update_media(int(matches[0]["nmID"]), urls)
+        result = self.api.update_media(int(matches[0]["nmID"]), urls, retries=1)
         require(not result.get("error"), "WB media submission rejected")
         return {"nm_id": matches[0]["nmID"], "submitted_images": len(urls)}
 
@@ -253,7 +253,7 @@ class WBAdapter:
         rows = exact(self.api.list_cards(limit=100), item["sku"], "vendorCode")
         require(len(rows) == 1 and rows[0].get("nmID"), "WB new card absent for price")
         nm = int(rows[0]["nmID"])
-        reply = self.api.update_prices([{"nmID": nm, "price": item["prices"]["wildberries"], "discount": 0}])
+        reply = self.api.update_prices([{"nmID": nm, "price": item["prices"]["wildberries"], "discount": 0}], retries=1)
         require(not reply.get("error"), "WB price upload rejected")
         task = (reply.get("data") or {}).get("id") or (reply.get("data") or {}).get("uploadID")
         return {"nm_id": nm, "price": item["prices"]["wildberries"],
@@ -267,7 +267,7 @@ class WBAdapter:
         mapping = self.api.get_offer_barcode_map(cards)
         barcode = mapping.get(item["sku"])
         require(bool(barcode), "WB exact SKU barcode missing")
-        result = self.api.update_stocks(warehouse, [{"sku": barcode, "amount": amount}])
+        result = self.api.update_stocks(warehouse, [{"sku": barcode, "amount": amount}], retries=1)
         require(not result.get("error"), "WB new stock submission rejected")
         return {"stock": amount, "warehouse_id": warehouse, "barcode": barcode}
 
@@ -308,7 +308,7 @@ class MarketAdapter:
     def submit(self, item: dict, payload: dict) -> dict:
         require(self.business is not None, "Market business not verified")
         code, res = self.api._request("POST", f"/v2/businesses/{self.business}/offer-mappings/update",
-                                      json_body={"offerMappings":[payload]})
+                                      json_body={"offerMappings":[payload]}, retries=1)
         require(code == 200 and res.get("status") == "OK" and not res.get("errors"),
                 "Market offer mapping not accepted; outcome unknown")
         return {"submitted": True}
@@ -324,7 +324,7 @@ class MarketAdapter:
 
     def set_price(self, item: dict, submission: dict) -> dict:
         ok, errors = self.api.update_prices(
-            {item["sku"]: (int(item["prices"]["yandex_market"]), None)})
+            {item["sku"]: (int(item["prices"]["yandex_market"]), None)}, single_attempt=True)
         require(ok == 1 and not errors, "Market new price rejected " + str(errors)[:130])
         return {"price": item["prices"]["yandex_market"], "submitted": True}
 
@@ -332,7 +332,7 @@ class MarketAdapter:
         return {"mode": "media_from_initial_mapping", "images": len(urls)}
 
     def set_stock(self, item: dict, submission: dict, amount: int) -> dict:
-        ok, errors = self.api.update_stocks({item["sku"]: amount})
+        ok, errors = self.api.update_stocks({item["sku"]: amount}, single_attempt=True)
         require(ok == 1 and not errors, "Market new stock rejected " + str(errors)[:130])
         return {"stock": amount, "submitted": True}
 
