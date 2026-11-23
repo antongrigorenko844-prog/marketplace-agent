@@ -8,7 +8,7 @@
     "LEOPARTS_Avito_155_prices_review_2026-11-24.xlsx",
     "LEOPARTS_Avito_155_prices_review_2026-11-24 (1)(1).xlsx"
   ],
-  "mode": "inspect",
+  "mode": "apply",
   "scope": "Apply only user-changed Avito prices in G or H and safe amended titles in D; ID C is sole primary key.",
   "other_channels_untouched": true,
   "site_price_preserve": true,
@@ -649,7 +649,7 @@
       "note": "4 pieces contradicts registered single-unit SKU: leave title untouched until owner clarifies composition"
     }
   ],
-  "revision": 4,
+  "revision": 5,
   "reference_inspect_result": "data/avito_excel_owner_changes_20261124_result.json",
-  "recovery_note": "Price source and feed were previously published; recheck effective website-only JSON overrides and seller live prices before completing direct price API updates. No second feed rewrite if source already correct."
+  "recovery_note": "Existing source feed already published. Site-only override preservation fixed in script; apply 95 price API updates without republishing feed."
 }
