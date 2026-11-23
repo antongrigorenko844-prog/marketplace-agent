@@ -62,7 +62,8 @@ def overrides():
 def read_live():
     # Read all statuses: the API status filter may hide older manual offers.
     # Individual guards below STILL require status==active for every target.
-    live=av.list_all_items(per_page=100,max_pages=20)
+    # Use 25 per page so a backend cap cannot truncate the final page.
+    live=av.list_all_items(per_page=25,max_pages=40)
     rows={int(x["id"]):x for x in live if x.get("id") is not None}
     check(len(rows)==len(live),"Duplicate live Avito ID")
     return rows
@@ -119,7 +120,10 @@ def preflight():
               money(source_price[sku])==target,
               "Main catalog approved price differs "+sku)
         check(aid in list_all and main in list_all,
-              "Missing active listing "+str(aid)+"/"+str(main))
+              "Missing active listing "+str(aid)+"/"+str(main)+
+              " old_present="+str(aid in list_all)+
+              " primary_present="+str(main in list_all)+
+              " total_api_items="+str(len(list_all)))
         old=list_all[aid]; p=list_all[main]
         check(old.get("status")=="active" and p.get("status")=="active",
               "Listing not active "+str(aid))
