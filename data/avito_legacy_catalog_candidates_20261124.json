@@ -293,7 +293,7 @@
     {
       "avito_id": 4348814868,
       "live_status": "active",
-      "live_price_rub": 3490,
+      "live_price_rub": 980,
       "live_title": "Корпус фильтра DQ500 DSG7",
       "match_state": "candidate_not_bound",
       "match_confidence": "title_only_needs_composition_review",
@@ -303,7 +303,7 @@
           "master_present": true,
           "canonical_name": "Корпус фильтра мехатроника DSG7 DQ500 0BH325183B",
           "configured_avito_price_rub": 980,
-          "price_gap_vs_canonical_rub": 2510
+          "price_gap_vs_canonical_rub": 0
         }
       ],
       "review_required": false,
@@ -346,7 +346,19 @@
         "Dq500"
       ],
       "owner_same_bom_as_original_candidates": false,
-      "owner_notes": "№5: владелец подтвердил гладкий корпус; цена должна быть как у основного SKU Dq500 — 980 ₽. Не трогать №6, ребристые корпуса и комплект с фильтром."
+      "owner_notes": "№5: владелец подтвердил гладкий корпус; цена должна быть как у основного SKU Dq500 — 980 ₽. Не трогать №6, ребристые корпуса и комплект с фильтром.",
+      "prior_live_price_rub": 3490,
+      "latest_price_verified": true,
+      "latest_price_verification_source": "data/avito_two_smooth_dq500_price_result_20261124.json",
+      "price_change_history": [
+        {
+          "date": "2026-11-24",
+          "old_rub": 3490,
+          "new_rub": 980,
+          "verification": "seller API live readback",
+          "owner_price_instruction": "sync_to_main_catalog_Dq500_980"
+        }
+      ]
     },
     {
       "avito_id": 4316875109,
@@ -387,7 +399,7 @@
     {
       "avito_id": 4285324155,
       "live_status": "active",
-      "live_price_rub": 3490,
+      "live_price_rub": 980,
       "live_title": "Корпус фильтра DQ500 DSG 7 0BH325183",
       "match_state": "candidate_not_bound",
       "match_confidence": "title_only_needs_composition_review",
@@ -397,7 +409,7 @@
           "master_present": true,
           "canonical_name": "Корпус фильтра мехатроника DSG7 DQ500 0BH325183B",
           "configured_avito_price_rub": 980,
-          "price_gap_vs_canonical_rub": 2510
+          "price_gap_vs_canonical_rub": 0
         }
       ],
       "review_required": false,
@@ -433,7 +445,19 @@
         "Dq500"
       ],
       "owner_same_bom_as_original_candidates": false,
-      "owner_notes": "№6: гладкий корпус; аналог SKU Dq500, цена 980 ₽. Не трогать ребристые модели."
+      "owner_notes": "№6: гладкий корпус; аналог SKU Dq500, цена 980 ₽. Не трогать ребристые модели.",
+      "prior_live_price_rub": 3490,
+      "latest_price_verified": true,
+      "latest_price_verification_source": "data/avito_two_smooth_dq500_price_result_20261124.json",
+      "price_change_history": [
+        {
+          "date": "2026-11-24",
+          "old_rub": 3490,
+          "new_rub": 980,
+          "verification": "seller API live readback",
+          "owner_price_instruction": "sync_to_main_catalog_Dq500_980"
+        }
+      ]
     },
     {
       "avito_id": 4285296851,
@@ -1018,11 +1042,13 @@
       4285324155
     ],
     "note": "№1-4 идут по последовательности, которую прислал ассистент; старые номера Авито сохранены. Для двух универсальных наборов с альтернативными размерами нельзя закреплять один SKU на оба варианта через AvitoId без модели вариантов.",
-    "verified_old_prices_aligned": 3,
+    "verified_old_prices_aligned": 5,
     "verified_old_prices_ids": [
       4220729305,
       4445230063,
-      4125224328
+      4125224328,
+      4348814868,
+      4285324155
     ]
   }
 }
