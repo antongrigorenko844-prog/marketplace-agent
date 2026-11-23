@@ -1,0 +1,31 @@
+name: LEOPARTS Ozon two DSG service kits exact-code guarded import
+on:
+  push:
+    branches: [main]
+    paths: ['data/leoparts_ozon_dsg_tools_tnved_decision_20261123.json']
+  workflow_dispatch:
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  ozon-toolkit-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - run: python -m py_compile scripts/leoparts_ozon_two_dsg_guarded_import_20261123.py
+      - name: Import only exact DSG approved kits with owner-verified customs classification
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          OZON_WAREHOUSE_ID: ${{ secrets.OZON_WAREHOUSE_ID }}
+        run: python -u scripts/leoparts_ozon_two_dsg_guarded_import_20261123.py
+      - name: Save Ozon-only verified results
+        if: always()
+        run: |
+          if [ -f data/leoparts_ozon_two_dsg_guarded_import_20261123_result.json ]; then
+            bash .github/scripts/save_data.sh data/leoparts_ozon_two_dsg_guarded_import_20261123_result.json
+          fi
