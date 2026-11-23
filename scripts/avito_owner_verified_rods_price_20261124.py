@@ -9,9 +9,9 @@ from __future__ import annotations
 from pathlib import Path
 from datetime import datetime,timezone
 import json, sys, time
-from scripts.related_price_inspect_20261122 import parse
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
+from scripts.related_price_inspect_20261122 import parse
 import avito_client as av
 REQ=ROOT/"data/avito_verified_rods_price_20261124_request.json"
 OUT=ROOT/"data/avito_verified_rods_price_20261124_result.json"
