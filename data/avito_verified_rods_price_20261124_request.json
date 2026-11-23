@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "approved_date": "2026-11-24",
+  "owner_approved": true,
+  "mode": "inspect",
+  "change_only_old_ad_prices": true,
+  "change_main_ads": false,
+  "change_stock": false,
+  "change_site": false,
+  "change_feeds": false,
+  "create_new_ads": false,
+  "price_basis": "canonical currently active E/F rod-kit prices both equal by SKU",
+  "targets": [
+    {
+      "old_avito_id": 4220729305,
+      "expected_title": "Ремкомплект штока мехатроника DSG 7 DQ200 0AM 0CW",
+      "expected_old_price_rub": 5890,
+      "approved_price_rub": 3450,
+      "target_master_skus": [
+        "0am325091e-set",
+        "0am325091f-set"
+      ],
+      "confirmed_contents": "2 штока + 2 гильзы; на выбор длина штока 99/101 мм; оставить старое объявление"
+    },
+    {
+      "old_avito_id": 4445230063,
+      "expected_title": "Ремкомплект штока DQ200 DSG7 0AM 0CW шток + втулка",
+      "expected_old_price_rub": 2890,
+      "approved_price_rub": 1880,
+      "target_master_skus": [
+        "0am325025u",
+        "0am325025z"
+      ],
+      "confirmed_contents": "1 шток + 1 гильза; длина штока в старом объявлении не уточнена; оба SKU каталога одинаковой цены"
+    }
+  ]
+}
