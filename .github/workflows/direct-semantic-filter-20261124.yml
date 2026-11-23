@@ -1,0 +1,31 @@
+name: LEOPARTS semantic search exclusions Nov24
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-semantic-filter-20261124.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check overlaps and apply bounded exclusions
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: |
+          python -m py_compile .github/scripts/direct_semantic_filter_20261124.py
+          python .github/scripts/direct_semantic_filter_20261124.py
+      - name: Save evidence
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_recovery_20261124/semantic_filter.json
