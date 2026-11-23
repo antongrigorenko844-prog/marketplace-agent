@@ -157,6 +157,18 @@ class SafeProductPublishingV3(unittest.TestCase):
         self.assertTrue(all(x["moderation"] == "approved" for x in snapshot["items"].values()))
         self.assertTrue(all(x["fbs_present"] > 0 for x in snapshot["items"].values()))
 
+    def test_fixed_dispatch_has_no_apply_or_file_escape(self):
+        expected = ROOT / "data" / "product_intake_v3" / "dispatch.json"
+        loaded = v3.load_dispatch(expected)
+        self.assertEqual(loaded["batch_id"], "leoparts-five-20261123")
+        self.assertEqual(loaded["mode"], "plan")
+        self.assertEqual(loaded["channels"], v3.SUPPORTED)
+        with tempfile.TemporaryDirectory() as folder:
+            outside = Path(folder) / "dispatch.json"
+            outside.write_text(expected.read_text(encoding="utf-8"), encoding="utf-8")
+            with self.assertRaises(v2.GuardError):
+                v3.load_dispatch(outside)
+
     def test_atomic_report_writes_no_product_files(self):
         report = v3.build_plan(self.batch, ("ozon",))
         with tempfile.TemporaryDirectory() as folder:
