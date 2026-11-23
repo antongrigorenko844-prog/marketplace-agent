@@ -18,6 +18,7 @@ import avito_client
 
 REQ=ROOT/"data/avito_price_audit_request_20261124.json"
 OUT=ROOT/"data/avito_price_audit_20261124.json"
+INDEX=ROOT/"data/avito_catalog_listing_index_20261124.json"
 TAX=0.06
 AVITO_FEE_SCENARIO=0.05
 PACKING_SCENARIO=50
@@ -402,7 +403,43 @@ def analyze():
 def main():
     report=analyze()
     OUT.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    # A durable internal master-SKU -> Avito IDs index, including old offers.
+    # This is deliberately separate from data/avito_links.json, which controls
+    # live AvitoId takeover and must never be generated from fuzzy matches.
+    registry=json.loads((ROOT/"data/avito_legacy_catalog_candidates_20261124.json").read_text(encoding="utf-8"))
+    by_id={str(x["id"]):x for x in report["unmapped_live_ads"]}
+    groups=[]
+    for p in report["products"]:
+        primary=p.get("mapped",{})
+        old=p.get("legacy_secondary_catalog_refs",[])
+        if primary.get("status")=="active" or old:
+            groups.append({
+                "sku":p["sku"],"name":p.get("name"),
+                "configured_price_rub":p.get("avito_cfg"),
+                "primary_avito_id":primary.get("id") if primary.get("status")=="active" else None,
+                "primary_live_price_rub":primary.get("live_price") if primary.get("status")=="active" else None,
+                "legacy_secondary_ads":[{"avito_id":x["avito_id"],"price_rub":x["price_rub"],
+                    "match_basis":"title_or_oem_candidate","same_bom_confirmed":False,
+                    "feed_controls_this_ad":False} for x in old]
+            })
+    pending=[{"avito_id":x["avito_id"],"live_price_rub":by_id.get(str(x["avito_id"]),{}).get("price"),
+              "title":x["live_title"],
+              "candidate_skus":[c["sku"] for c in x.get("candidate_master_skus",[])],
+              "status":"needs_composition_verification"} for x in registry["entries"]
+             if x.get("match_confidence")!="strong_title_or_part_number"]
+    index={"generated_utc":report["generated_utc"],
+           "mode":"catalog_price_tracking_only","seller_writes":0,"feed_writes":0,
+           "master_skus":report["counts"]["master_skus"],
+           "primary_ads":report["counts"]["matched_active"],
+           "old_active_ads_grouped":sum(len(x["legacy_secondary_ads"]) for x in groups),
+           "old_active_ads_pending_review":len(pending),
+           "groups":groups,"pending_review":pending}
+    if index["old_active_ads_grouped"]+len(pending)!=len(registry["entries"]):
+        raise RuntimeError("Legacy catalog index must account for all 36 old ads")
+    INDEX.write_text(json.dumps(index,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print("AVITO_FULL_AUDIT",json.dumps({"counts":report["counts"],
+      "legacy_index":{"grouped":index["old_active_ads_grouped"],
+                      "pending":index["old_active_ads_pending_review"]},
       "live_api_error":report["live_api_error"],"binding_errors":report["binding_errors"],
       "top_issues":report["issues"][:8]},ensure_ascii=False),flush=True)
 if __name__=="__main__":main()
