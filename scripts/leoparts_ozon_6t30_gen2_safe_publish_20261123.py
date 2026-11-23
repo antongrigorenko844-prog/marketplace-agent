@@ -134,20 +134,21 @@ def run():
     matched = [x for x in manifest["items"] if x["sku"] == SKU]
     require(len(matched) == 1, "Approved Gen2 SKU missing")
     item = matched[0]
+    previous = json.loads(OUTPUT.read_text(encoding="utf8")) if OUTPUT.exists() else {}
     existing=find_existing()
     require(len(existing)<=1, "Duplicate Ozon seller SKU")
     if existing:
         save(stage="already_exists", existing_product_id=existing[0].get("product_id"))
         return
+    require(not previous.get("task_id"),
+            "Previous Gen2 import was submitted: check task " + str(previous.get("task_id")))
     image_url=verify_photo(item)
     reference = oz.get_product_names(offer_ids=[REFERENCE_SKU],limit=1)
     require(len(reference)==1, "Seller 6T30 first-gen class cannot be verified live")
     payload=build(item, reference[0], image_url)
     save(stage="preflight_verified", target_price=19880, target_stock=20,
          approved_photo=image_url)
-    # Once and only once after all preflights; record a task for idempotence.
-    previous = json.loads(OUTPUT.read_text(encoding="utf8")) if OUTPUT.exists() else {}
-    require(not previous.get("task_id"), "Prior import task already recorded")
+    # Once and only once after all preflights; report stores task for idempotence.
     response = oz.import_products([payload])
     STATE["seller_writes"] += 1
     task_id = (response.get("result") or {}).get("task_id")
@@ -171,6 +172,21 @@ def run():
                     "statuses":detail.get("statuses"),"errors":detail.get("errors")}
                 if (detail.get("statuses") or {}).get("is_created"):
                     save(stage="created_verified",product_id=detail.get("id") or detail.get("product_id"))
+                    # Only stock THIS new SKU, never other catalog products.
+                    try:
+                        wid = os.getenv("OZON_WAREHOUSE_ID", "").strip()
+                        if not wid.isdigit() or int(wid) <= 0:
+                            warehouses = oz.get_warehouses()
+                            ids = {int(w["warehouse_id"]) for w in warehouses if w.get("warehouse_id")}
+                            require(len(ids) == 1, "No single verified FBS warehouse for this new SKU")
+                            wid = str(next(iter(ids)))
+                        reply = oz.update_stocks([{"offer_id": SKU, "stock": 20, "warehouse_id": int(wid)}])
+                        STATE["seller_writes"] += 1
+                        STATE["checkpoints"]["stock_submit"]={"warehouse_id":int(wid),"response":reply}
+                        save(stage="created_stock_submitted")
+                    except Exception as e:
+                        STATE["checkpoints"]["stock_blocker"]=str(e)[:220]
+                        save(stage="created_stock_not_verified")
                     return
         except Exception as e:
             STATE["checkpoints"]["readback_error"]=str(e)[:130]
