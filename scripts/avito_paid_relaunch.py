@@ -197,7 +197,7 @@ def run():
         return result
     # Idempotent new rows only; original cells of every old row stay exactly as loaded.
     old_all = {tab.title:list(tab.values) for tab in wb}
-    old_prices = {sku:ws.cell(row,col=feed.COL_PRICE).value for sku,row in existing.items()}
+    old_prices = {sku:ws.cell(row,column=feed.COL_PRICE).value for sku,row in existing.items()}
     seller_address = str(ws.cell(5,feed.COL_ADDRESS).value or "").strip()
     require(seller_address, "Cannot infer Avito seller address")
     next_row=ws.max_row+1
@@ -206,7 +206,7 @@ def run():
         next_row+=1
     after_old = {tab.title:list(tab.values)[:len(old_all[tab.title])] for tab in wb}
     require(after_old==old_all, "Existing feed rows/fields were unexpectedly edited")
-    require(all(ws.cell(row,col=feed.COL_PRICE).value==price for sku,row in existing.items()
+    require(all(ws.cell(row,column=feed.COL_PRICE).value==price for sku,row in existing.items()
                 for price in [old_prices[sku]]), "Existing seller price changed")
     buf=BytesIO()
     wb.save(buf)
