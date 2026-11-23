@@ -1,0 +1,30 @@
+name: LEOPARTS Ozon DSG toolkits approved photos and customs preflight
+on:
+  push:
+    branches: [main]
+    paths: ['data/leoparts_ozon_dsg_tools_stage_request_20261123.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  staged-exact-media:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q -r requirements.txt
+      - run: python -m py_compile scripts/leoparts_ozon_dsg_tools_stage_20261123.py
+      - name: Verify exact artwork, upload to approved Release, inspect live Ozon toolkit customs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: python -u scripts/leoparts_ozon_dsg_tools_stage_20261123.py
+      - name: Save Ozon-only result and released media cache
+        if: always()
+        run: |
+          if [ -f data/leoparts_ozon_dsg_tools_stage_20261123_result.json ]; then
+            bash .github/scripts/save_data.sh data/leoparts_ozon_dsg_tools_stage_20261123_result.json data/photo_upload_cache.json
+          fi
