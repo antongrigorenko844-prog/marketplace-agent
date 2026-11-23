@@ -173,7 +173,7 @@ def profile_payload(profile):
         if not address and isinstance(self_info.get("result"),dict):
             address=self_info["result"].get("email")
         origin="own_avito_account"
-    require(isinstance(address,str) and bool(re.fullmatch(r"[^\\s@]+@[^\\s@]+\\.[^\\s@]+",address)),
+    require(isinstance(address,str) and address.count("@")==1 and "." in address.rsplit("@",1)[-1] and " " not in address and len(address)<255,
             "Avito write requires valid report_email; existing profile and own account provide none")
     payload["report_email"]=address
     return payload,origin
