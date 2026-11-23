@@ -1,5 +1,112 @@
 {
-  "status": "fatal",
-  "error_type": "ValueError",
-  "error": "Profile schedule changed"
+  "checked_at_utc": "2026-11-23T15:10:03.820263+00:00",
+  "mode": "inspect",
+  "tool_skus": [
+    "tool-dq200-acc-restore",
+    "tool-dsg-pressure-hp"
+  ],
+  "prices_rub": {
+    "tool-dq200-acc-restore": 24800,
+    "tool-dsg-pressure-hp": 18800
+  },
+  "media_sha256": {
+    "tool-dq200-acc-restore_1.png": "0ba3a8ae0243d57f58f18ef2fdc12c942fc976ca150978e0b2f386835a3841c9",
+    "tool-dsg-pressure-hp_1.png": "ed59977ea06c70e9b27d80c19e4868b962e8c57f8c22c7d88e9edb4af0713d45",
+    "tool-dsg-pressure-hp_2.png": "0e8d01b2ef73bb4d842599d922ee6f4ad4e21caadff5083f01a0d9abaf9094af"
+  },
+  "media_derivatives": [
+    {
+      "original": "tool-dq200-acc-restore_1.png",
+      "original_size": [
+        1086,
+        1448
+      ],
+      "derived": "tool-dq200-acc-restore_1_avito_square_d79ad5322ef5.png",
+      "new_size": [
+        1448,
+        1448
+      ],
+      "source_sha256": "0ba3a8ae0243d57f58f18ef2fdc12c942fc976ca150978e0b2f386835a3841c9",
+      "derived_sha256": "d79ad5322ef5a15cad21d74528d824233506e05290f2f002e811ac37efae9465",
+      "operation": "square_padding_preview",
+      "cropped": false,
+      "artwork_changed": false
+    },
+    {
+      "original": "tool-dsg-pressure-hp_1.png",
+      "original_size": [
+        1086,
+        1448
+      ],
+      "derived": "tool-dsg-pressure-hp_1_avito_square_72adcf023b59.png",
+      "new_size": [
+        1448,
+        1448
+      ],
+      "source_sha256": "ed59977ea06c70e9b27d80c19e4868b962e8c57f8c22c7d88e9edb4af0713d45",
+      "derived_sha256": "72adcf023b59294c55ad6d91bf45c99a9a4111e9ad5d25d97fc71f3c06f26647",
+      "operation": "square_padding_preview",
+      "cropped": false,
+      "artwork_changed": false
+    },
+    {
+      "original": "tool-dsg-pressure-hp_2.png",
+      "original_size": [
+        1086,
+        1448
+      ],
+      "derived": "tool-dsg-pressure-hp_2_avito_square_f96ae44cdc12.png",
+      "new_size": [
+        1448,
+        1448
+      ],
+      "source_sha256": "0e8d01b2ef73bb4d842599d922ee6f4ad4e21caadff5083f01a0d9abaf9094af",
+      "derived_sha256": "f96ae44cdc12b50cf76c2c5334c29a531e62c4035d1e4de438895eee481a937e",
+      "operation": "square_padding_preview",
+      "cropped": false,
+      "artwork_changed": false
+    }
+  ],
+  "official_category_required": {
+    "tool-dq200-acc-restore": [
+      "AdType",
+      "Address",
+      "Category",
+      "Condition",
+      "Description",
+      "GoodsSubType",
+      "GoodsType",
+      "Id",
+      "Price",
+      "Title",
+      "ToolType"
+    ],
+    "tool-dsg-pressure-hp": [
+      "AdType",
+      "Address",
+      "Category",
+      "Condition",
+      "Description",
+      "GoodsSubType",
+      "GoodsType",
+      "Id",
+      "Price",
+      "Title",
+      "ToolType"
+    ]
+  },
+  "payload_sha256": "df8cd1319dba23313e8e304526708bf2a75b7f6999e8299029e9826d8711b2db",
+  "parts_sha256": "9f63059fbc0ec6c5be07a579c27de7b653ac95a54ef011c8def1f53039d75bfe",
+  "primary_feed_unchanged": true,
+  "current_feed_count": 2,
+  "new_listing_fee": "Package",
+  "new_wallet_billing_allowed": false,
+  "seller_writes": 0,
+  "registered_feed_links": [
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito_feed.xlsx",
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito_tools_feed.xml"
+  ],
+  "registered_schedule_windows": 1,
+  "registered_report_email_present": true,
+  "status": "two_registered_feeds_and_exact_xml_verified_no_writes"
 }
