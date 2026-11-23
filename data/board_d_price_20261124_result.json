@@ -23,9 +23,9 @@
       }
     }
   },
-  "state": "intent",
+  "state": "verified",
   "other_channels_untouched": true,
-  "updated_utc": "2026-11-23T23:25:00.102150+00:00",
+  "updated_utc": "2026-11-23T23:25:17.751173+00:00",
   "wb_ack": {
     "data": {
       "id": 230939266,
@@ -33,5 +33,27 @@
     },
     "error": false,
     "errorText": ""
+  },
+  "after": {
+    "wb": {
+      "status": "ok",
+      "vendorCode": "0AM927769D",
+      "nmID": 670860344,
+      "discount": 45,
+      "current": 74850.05,
+      "base": 136091.0,
+      "target": 74850,
+      "matches_target": true
+    },
+    "ym": {
+      "status": "ok",
+      "shop": 74850.0,
+      "business": 74850.0,
+      "target": 74850,
+      "matches_target": true,
+      "keep_fields": {
+        "discountBase": 118850
+      }
+    }
   }
 }
