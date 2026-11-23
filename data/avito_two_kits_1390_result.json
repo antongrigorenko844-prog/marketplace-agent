@@ -1,7 +1,7 @@
 {
-  "at_utc": "2026-11-23T16:50:05.636412+00:00",
+  "at_utc": "2026-11-23T16:51:19.923126+00:00",
   "mode": "inspect",
-  "status": "blocked_or_partial_verify_before_retry",
+  "status": "preflight_passed_no_writes",
   "targets": {
     "02E 305 045": {
       "id": 8386056623,
@@ -30,6 +30,41 @@
   "site_price_changes": 0,
   "stock_changes": 0,
   "other_sku_changes": 0,
-  "error_type": "RuntimeError",
-  "error": "GUARD_BLOCKED: duplicate SKU in Комплекты: plita-filtr"
+  "workbook_before": {
+    "02E 305 045": {
+      "configured_before": 1480,
+      "feed_before": 1480,
+      "site_before": 1480,
+      "bom_component_sum": 1475.0,
+      "source_row_override": 3,
+      "source_row_feed": 6
+    },
+    "DQ500": {
+      "configured_before": 1480,
+      "feed_before": 1480,
+      "site_before": 1480,
+      "bom_component_sum": 1475.0,
+      "source_row_override": 72,
+      "source_row_feed": 66
+    }
+  },
+  "live_prices_before": {
+    "02E 305 045": {
+      "avito_id": 8386056623,
+      "price": 1480.0,
+      "status": "active",
+      "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/korpus_filtra_filtr_mehatronika_dsg6_dq250_8386056623"
+    },
+    "DQ500": {
+      "avito_id": 8387244563,
+      "price": 1480.0,
+      "status": "active",
+      "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/korpus_filtra_filtr_mehatronika_dsg7_dq500_8387244563"
+    }
+  },
+  "original_feed_sha256": "9f63059fbc0ec6c5be07a579c27de7b653ac95a54ef011c8def1f53039d75bfe",
+  "original_override_sha256": "1a969af539d73c2765af65d2c2314efd9b9d5dc1fb67a9161c3a259eea472bf8",
+  "new_feed_sha256": "f2c6cf593131a98862f17ed4e3a66d4e5da854ae0ef3ebf636b7ebe95077ef5d",
+  "new_override_sha256": "a90d4df964acf067e4b455b5a4d40da02291c61d8c750842d14562a500dde1b2",
+  "seller_feed_asset_id": 783296882
 }
