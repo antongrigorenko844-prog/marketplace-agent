@@ -110,6 +110,19 @@ GitHub → Actions → **LEOPARTS Product Publishing v3** → Run workflow.
   Avito is explicitly **disabled** even when present in the list.
 
 Download the single JSON artifact or read the GitHub run summary.
+
+### One-command connected-agent path
+
+If a GitHub-connected agent is already operating in the repository, it can
+update **one stable file**: `data/product_intake_v3/dispatch.json`, with
+`batch_id`, `mode: plan|live`, `channels` and an incremented `revision`.
+The `main` push automatically triggers **one** v3 batch read-only workflow;
+no manual GitHub Actions clicks and no per-SKU script or workflow creation.
+The dispatch file cannot select `apply` or point to an arbitrary filesystem
+path. To start another identical request, increment `revision`.
+The resulting action artifact and Job Summary contain the entire batch status.
+This is not yet a write-enabled publishing command.
+
 **Never run a legacy one-off publishing workflow just to refresh status.**
 
 Locally:
