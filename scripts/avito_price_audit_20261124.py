@@ -310,6 +310,59 @@ def analyze():
                 raise ValueError("Legacy candidate missing from canonical master: "+candidate["sku"])
     mapped_ids={str(e.get("id")) for e in resolved.values() if e.get("id") is not None}
     unmapped=[x for x in seller["listings"] if str(x["id"]) not in mapped_ids]
+    # Extend each canonical product with all existing legacy offers. This is a
+    # multi-listing CATALOG INDEX, not AvitoId takeover: no new SKU is created.
+    grouped_legacy=defaultdict(list)
+    pending_review=defaultdict(list)
+    for old in staged:
+        old_id=str(old["avito_id"])
+        live_item=by_id.get(old_id)
+        if live_item is None or live_item.get("status")!="active":
+            continue
+        choices=old.get("candidate_master_skus",[])
+        safe_metadata_group=(
+            old.get("match_confidence")=="strong_title_or_part_number"
+            and len(choices)==1 and choices[0]["sku"] in direct
+        )
+        if safe_metadata_group:
+            sku=choices[0]["sku"]
+            main_id=direct[sku].get("mapped",{}).get("id")
+            main_price=direct[sku].get("mapped",{}).get("live_price")
+            group_record={
+                "avito_id":int(old_id),
+                "price_rub":live_item.get("price"),
+                "status":live_item.get("status"),
+                "title":live_item.get("title"),
+                "url":live_item.get("url"),
+                "link_kind":"legacy_secondary_catalog_reference",
+                "part_number_or_title_match_only":True,
+                "feed_controls_this_ad":False,
+                "same_bom_confirmed":False,
+                "primary_avito_id":main_id,
+                "price_delta_vs_primary":rounded(live_item["price"]-main_price)
+                    if isinstance(live_item.get("price"),(int,float))
+                    and isinstance(main_price,(int,float)) else None
+            }
+            grouped_legacy[sku].append(group_record)
+            if group_record["price_delta_vs_primary"] not in (None,0):
+                add("medium","legacy_secondary_price_mismatch_review",sku,
+                    "Старое активное объявление похоже на основной SKU, но цена отличается; состав не подтверждён",
+                    old_avito_id=int(old_id),old_price=live_item.get("price"),
+                    primary_avito_id=main_id,primary_price=main_price,
+                    delta=group_record["price_delta_vs_primary"])
+        else:
+            for choice in choices:
+                pending_review[choice["sku"]].append({
+                    "avito_id":int(old_id),
+                    "status":"candidate_only_unverified_variant",
+                    "same_bom_confirmed":False,
+                })
+    for product in rowset:
+        sku=product["sku"]
+        product["legacy_secondary_catalog_refs"]=grouped_legacy.get(sku,[])
+        product["legacy_unverified_candidates"]=pending_review.get(sku,[])
+        product["legacy_secondary_count"]=len(grouped_legacy.get(sku,[]))
+        product["legacy_unverified_count"]=len(pending_review.get(sku,[]))
     costs=[r for r in rowset if r["in_master"] and r["cost_master"] and r["model_price"]]
     counts=Counter(x["priority"] for x in issues)
     return {"generated_utc":datetime.now(timezone.utc).isoformat(),
@@ -331,7 +384,10 @@ def analyze():
             "tracked_unbound_count":len(staged),
             "tracked_active_count":sum(str(x["id"]) in staged_by_id for x in unmapped),
             "not_yet_staged_ids":[x["id"] for x in unmapped if str(x["id"]) not in staged_by_id],
-            "mode":"CANDIDATES_ONLY_NOT_ACTIVE_IN_AVITO_FEED"},
+            "canonical_skus_with_secondary_references":len(grouped_legacy),
+            "secondary_legacy_ads_indexed":sum(len(z) for z in grouped_legacy.values()),
+            "uncertain_legacy_ads_unbound":len(staged)-sum(len(z) for z in grouped_legacy.values()),
+            "mode":"READ_ONLY_ACCOUNTING_LINKS_NOT_ACTIVE_IN_AVITO_FEED"},
         "unmapped_live_ads":[{"id":x["id"],"title":x["title"],"price":x["price"],"status":x["status"],
            "legacy_registry_status":staged_by_id.get(str(x["id"]),{}).get("match_state","unregistered"),
            "candidate_master_skus":[c["sku"] for c in staged_by_id.get(str(x["id"]),{}).get("candidate_master_skus",[])]}
