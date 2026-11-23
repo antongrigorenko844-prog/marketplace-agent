@@ -190,19 +190,20 @@ def patch_catalog(manifest,live):
               f"{aid}: site baseline drift; expected "+
               f"{item['expected_site_price']}, actual {site}")
         site_frozen[sku]=site
-        # Existing D may be blank (site inherits Avito B). Explicitly preserve
-        # the old effective B/D fallback when changing B, before any publish.
-        site_workbook=money(ow.cell(oi,4).value)
-        if site_workbook is None:
-            site_workbook=before_price
+        # Existing D may be blank (site inherits Avito B). Freeze it only
+        # when B actually changes, otherwise a no-op preview stays byte-identical.
+        site_d=money(ow.cell(oi,4).value)
+        site_workbook=site_d if site_d is not None else before_price
         guard(site_workbook is not None and site_workbook>0,
               f"{aid}: no valid B/D site fallback")
-        for coord,col,value in (("B"+str(oi),2,desired),
-                                ("D"+str(oi),4,site_workbook)):
-            if money(ow.cell(oi,col).value)!=value:
-                ov_modified=True
-                ow.cell(oi,col).value=int(value)
-            allowed_ov.add(("Цены Avito и сайт",coord))
+        if before_price!=desired:
+            ov_modified=True
+            ow.cell(oi,2).value=int(desired)
+        allowed_ov.add(("Цены Avito и сайт","B"+str(oi)))
+        if site_d is None and before_price!=desired:
+            ov_modified=True
+            ow.cell(oi,4).value=int(site_workbook)
+            allowed_ov.add(("Цены Avito и сайт","D"+str(oi)))
         if old_feed!=desired:
             feed_modified=True
             fw.cell(fi,34).value=desired
