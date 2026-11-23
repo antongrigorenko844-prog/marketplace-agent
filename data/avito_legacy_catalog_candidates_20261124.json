@@ -111,7 +111,46 @@
           "price_gap_vs_canonical_rub": 1010
         }
       ],
-      "review_required": true
+      "review_required": false,
+      "owner_review_sequence": 3,
+      "owner_verified_date": "2026-11-24",
+      "owner_confirmed_composition": [
+        {
+          "product": "шток мехатроника DQ200",
+          "qty": 1
+        },
+        {
+          "product": "гильза (втулка) штока DQ200",
+          "qty": 1
+        }
+      ],
+      "owner_confirmed_variant_scope": "Размер штока ещё не уточнён; E/F в основном каталоге оба стоят 1880 ₽.",
+      "owner_instruction_keep_old_ad": true,
+      "owner_price_instruction": "sync_to_common_canonical_price_1880",
+      "owner_notes": "№3: один шток с втулкой; не считать комплектом из двух штоков.",
+      "candidate_master_skus_before_owner_review": [
+        {
+          "sku": "0am325025u",
+          "master_present": true,
+          "canonical_name": "Ремкомплект: Усиленный длинный шток 0AM325091E 101мм + втулка мехатроника DSG7 DQ200",
+          "configured_avito_price_rub": 1880,
+          "price_gap_vs_canonical_rub": 1010
+        },
+        {
+          "sku": "0am325025z",
+          "master_present": true,
+          "canonical_name": "Ремкомплект: Усиленный короткий шток 0AM325091F 99мм + втулка мехатроника DSG7 DQ200",
+          "configured_avito_price_rub": 1880,
+          "price_gap_vs_canonical_rub": 1010
+        }
+      ],
+      "owner_confirmed_related_master_skus": [
+        "0am325025u",
+        "0am325025z"
+      ],
+      "owner_same_bom_as_original_candidates": true,
+      "owner_information_status": "composition_verified",
+      "note": "№3: один шток с втулкой; не считать комплектом из двух штоков."
     },
     {
       "avito_id": 4445119215,
@@ -374,7 +413,46 @@
         }
       ],
       "review_required": true,
-      "note": "Владелец допускает, что за 990 ₽ продается малый набор сальник+пыльник+крышка; состав НЕ подтвержден. Не объединять с объявлением 5890."
+      "note": "№1 по последовательности пользователя; НЕ равен набору из 2 штоков, 2 сальников, 2 пыльников и 2 крышек.",
+      "owner_review_sequence": 1,
+      "owner_verified_date": "2026-11-24",
+      "owner_confirmed_composition": [
+        {
+          "product": "сальник штока",
+          "qty": 1
+        },
+        {
+          "product": "пыльник штока",
+          "qty": 1
+        },
+        {
+          "product": "крышка штока",
+          "qty": 1
+        }
+      ],
+      "owner_confirmed_variant_scope": "Один комплект на один шток",
+      "owner_instruction_keep_old_ad": false,
+      "owner_price_instruction": "hold",
+      "owner_notes": "№1 по последовательности пользователя; НЕ равен набору из 2 штоков, 2 сальников, 2 пыльников и 2 крышек.",
+      "candidate_master_skus_before_owner_review": [
+        {
+          "sku": "0am325025G",
+          "master_present": true,
+          "canonical_name": "Ремкомплект 2 штоков мехатроника DSG7 DQ200: пыльники, сальники, крышки",
+          "configured_avito_price_rub": 2350,
+          "price_gap_vs_canonical_rub": -1360
+        },
+        {
+          "sku": "remkomplekt-shtokov-orig",
+          "master_present": true,
+          "canonical_name": "Оригинальный ремкомплект 2 штоков VAG: пыльники, сальники, крышки DSG7 DQ200",
+          "configured_avito_price_rub": 1850,
+          "price_gap_vs_canonical_rub": -860
+        }
+      ],
+      "owner_confirmed_related_master_skus": [],
+      "owner_same_bom_as_original_candidates": false,
+      "owner_information_status": "composition_verified"
     },
     {
       "avito_id": 4284998704,
@@ -550,8 +628,46 @@
           "price_gap_vs_canonical_rub": 4040
         }
       ],
-      "review_required": true,
-      "note": "Состав и корректная цена объявления 5890 ₽ требуют проверки; нельзя считать одинаковым с набором 990 ₽."
+      "review_required": false,
+      "note": "№2: сохранить объявление и синхронизировать цену с основным каталогом; оба варианта комплекта E/F стоят 3450 ₽.",
+      "owner_review_sequence": 2,
+      "owner_verified_date": "2026-11-24",
+      "owner_confirmed_composition": [
+        {
+          "product": "шток мехатроника DQ200",
+          "qty": 2
+        },
+        {
+          "product": "гильза (втулка) штока DQ200",
+          "qty": 2
+        }
+      ],
+      "owner_confirmed_variant_scope": "Универсальное объявление: оба типа штоков (99 мм / 101 мм), выбор по запросу; возможно комплект из двух штоков одного выбранного типа",
+      "owner_instruction_keep_old_ad": true,
+      "owner_price_instruction": "sync_to_common_canonical_price_3450",
+      "owner_notes": "№2: сохранить объявление и синхронизировать цену с основным каталогом; оба варианта комплекта E/F стоят 3450 ₽.",
+      "candidate_master_skus_before_owner_review": [
+        {
+          "sku": "0am325025G",
+          "master_present": true,
+          "canonical_name": "Ремкомплект 2 штоков мехатроника DSG7 DQ200: пыльники, сальники, крышки",
+          "configured_avito_price_rub": 2350,
+          "price_gap_vs_canonical_rub": 3540
+        },
+        {
+          "sku": "remkomplekt-shtokov-orig",
+          "master_present": true,
+          "canonical_name": "Оригинальный ремкомплект 2 штоков VAG: пыльники, сальники, крышки DSG7 DQ200",
+          "configured_avito_price_rub": 1850,
+          "price_gap_vs_canonical_rub": 4040
+        }
+      ],
+      "owner_confirmed_related_master_skus": [
+        "0am325091e-set",
+        "0am325091f-set"
+      ],
+      "owner_same_bom_as_original_candidates": true,
+      "owner_information_status": "composition_verified"
     },
     {
       "avito_id": 4189437762,
@@ -619,7 +735,42 @@
           "price_gap_vs_canonical_rub": 250
         }
       ],
-      "review_required": true
+      "review_required": true,
+      "owner_review_sequence": 4,
+      "owner_verified_date": "2026-11-24",
+      "owner_confirmed_composition": [
+        {
+          "product": "шток мехатроника DQ200",
+          "qty": 2
+        }
+      ],
+      "owner_confirmed_variant_scope": "Универсальное объявление: любые размеры штоков, без гильз согласно сообщению владельца.",
+      "owner_instruction_keep_old_ad": true,
+      "owner_price_instruction": "requires_distinct_canonical_two_rods_price",
+      "owner_notes": "№4: сохранить и синхронизировать; в основном каталоге есть только штоки ПО ОДНОМУ 0am325091e/f по 1240 ₽, но не найден канонический SKU 2 штоков без гильз. Розничная сумма двух одиночных 2480 ₽ — ориентир, не утверждённая цена набора.",
+      "candidate_master_skus_before_owner_review": [
+        {
+          "sku": "0am325091e",
+          "master_present": true,
+          "canonical_name": "Усиленный шток мехатроника DSG7 DQ200 101мм 0AM325091E",
+          "configured_avito_price_rub": 1240,
+          "price_gap_vs_canonical_rub": 250
+        },
+        {
+          "sku": "0am325091f",
+          "master_present": true,
+          "canonical_name": "Усиленный шток мехатроника DSG7 DQ200 99мм короткий 0AM325091F",
+          "configured_avito_price_rub": 1240,
+          "price_gap_vs_canonical_rub": 250
+        }
+      ],
+      "owner_confirmed_related_master_skus": [
+        "0am325091e",
+        "0am325091f"
+      ],
+      "owner_same_bom_as_original_candidates": false,
+      "owner_information_status": "composition_verified",
+      "note": "№4: сохранить и синхронизировать; в основном каталоге есть только штоки ПО ОДНОМУ 0am325091e/f по 1240 ₽, но не найден канонический SKU 2 штоков без гильз. Розничная сумма двух одиночных 2480 ₽ — ориентир, не утверждённая цена набора."
     },
     {
       "avito_id": 4125079566,
@@ -754,5 +905,16 @@
       ],
       "review_required": true
     }
-  ]
+  ],
+  "owner_review_progress": {
+    "reviewed_in_order": 4,
+    "total_original_unmapped": 36,
+    "reviewed_listing_ids": [
+      4285108577,
+      4220729305,
+      4445230063,
+      4125224328
+    ],
+    "note": "№1-4 идут по последовательности, которую прислал ассистент; старые номера Авито сохранены. Для двух универсальных наборов с альтернативными размерами нельзя закреплять один SKU на оба варианта через AvitoId без модели вариантов."
+  }
 }
