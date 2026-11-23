@@ -160,8 +160,10 @@ def profile_payload(profile):
     # Do not alter the primary feed, schedule or any current activation settings.
     payload={"autoload_enabled":True,"feeds_data":feeds,
              "schedule":profile["schedule"]}
-    if "report_email" in profile and profile["report_email"] is not None:
-        payload["report_email"]=profile["report_email"]
+    # Avito v2 UpsertProfileInV2 REQUIRES report_email even when nullable;
+    # omitting this required key returns HTTP 400 to a previously valid profile.
+    # Forward the original value unchanged; do not guess or create an email.
+    payload["report_email"]=profile.get("report_email")
     return payload
 def live_duplicate_guard():
     live=av.list_all_items(statuses=["active","old","blocked","rejected"],per_page=100,max_pages=8)
