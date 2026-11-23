@@ -10,8 +10,8 @@
     }
   },
   "purchase_cost_updates": {},
-  "state": "intent_persisted",
-  "external_writes": 0,
+  "state": "api_sent",
+  "external_writes": 1,
   "created_utc": "2026-11-23T11:34:28.481520+00:00",
   "before_live": {
     "0am325025": {
@@ -39,13 +39,20 @@
       }
     ]
   },
-  "updated_utc": "2026-11-23T11:34:32.756038+00:00",
+  "updated_utc": "2026-11-23T11:34:34.764084+00:00",
   "request_items": [
     {
       "offer_id": "0am325025",
       "price": "13850",
       "currency_code": "RUB",
       "old_price": "19500"
+    }
+  ],
+  "ack": [
+    {
+      "offer_id": "0am325025",
+      "updated": true,
+      "errors": []
     }
   ]
 }
