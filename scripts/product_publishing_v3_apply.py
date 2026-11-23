@@ -193,6 +193,10 @@ class Publisher:
         self.manifest_by_sku = {x["sku"]: x for x in manifest["items"]}
         self.adapter_map = adapter_map or {}
         self.write = (mode != "pilot")
+        # Live API moderation commonly settles quickly. A bounded short poll
+        # avoids making the owner wait for the next 30-minute scheduled retry.
+        # Mocked suites deliberately do not sleep.
+        self.poll_delays = () if adapter_map is not None else (8, 15)
         self.journal = Journal(manifest, state_path or (STATE_DIR / (manifest["batch_id"] + ".json")),
                                persist_git=git_checkpoint)
         require(not self.write or git_checkpoint or adapter_map is not None,
@@ -341,9 +345,21 @@ class Publisher:
             self.event(sku, channel, "blocked_moderation", detail=str(observed.get("errors"))[:170])
             return
         if state in ("not_created", "moderating"):
-            self.record(sku, channel, state="awaiting_platform")
-            self.event(sku, channel, "awaiting_platform")
-            return
+            for delay in self.poll_delays:
+                time.sleep(delay)
+                try:
+                    observed = adapter.observe(item, row.get("create_ack") or {})
+                except Exception:
+                    # Never retry the POST, only the safe readback.
+                    continue
+                self.record(sku, channel, last_observation=observed)
+                state = observed.get("state")
+                if state not in ("not_created", "moderating"):
+                    break
+            if state in ("not_created", "moderating"):
+                self.record(sku, channel, state="awaiting_platform")
+                self.event(sku, channel, "awaiting_platform")
+                return
         if state not in ("created", "selling"):
             self.event(sku, channel, "unknown_platform_state", detail=str(state))
             return
