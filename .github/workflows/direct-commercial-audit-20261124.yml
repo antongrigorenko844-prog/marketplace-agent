@@ -1,0 +1,30 @@
+name: LEOPARTS Nov24 commercial traffic audit read only
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-commercial-audit-20261124.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read queries keywords placements and feed settings
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: |
+          python -m py_compile .github/scripts/direct_commercial_audit_20261124.py
+          python .github/scripts/direct_commercial_audit_20261124.py
+      - name: Save snapshot
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_recovery_20261124/commercial_audit.json
