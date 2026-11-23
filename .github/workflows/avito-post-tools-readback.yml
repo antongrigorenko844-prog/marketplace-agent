@@ -1,0 +1,25 @@
+name: LEOPARTS Avito exact v2 profile and new-item readback
+on:
+  push:
+    branches: [main]
+    paths: ['data/avito_post_tools_readback_request.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  readback:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install -q requests python-dotenv
+      - name: Read current profile schedule and 5 approved SKU IDs, without writes
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: python -u scripts/avito_post_tools_readback.py
+      - name: Persist read-only verified report
+        if: always()
+        run: bash .github/scripts/save_data.sh data/avito_post_tools_readback_result.json
