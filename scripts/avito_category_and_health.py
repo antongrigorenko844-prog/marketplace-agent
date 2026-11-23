@@ -65,7 +65,7 @@ def main():
         "Для автобизнеса / Заправочное / Заправка масел" in x["path"] or
         "Инструменты" in x["path"].split(" / ")[-1] or
         "Двигатель" in x["path"].split(" / ")[-1])]
-    priority_slugs=("diagnosticheskii_i_izmeritelnyi_instrument","ruchnoi_instrument_2304150","osnastka_i_raskhodnye_materialy","dvigatel")
+    priority_slugs=("manometry","drugoe_2304154","ruchnye_izmeritelnye_instrumenty","ruchnoi_instrument_2304150","dvigatel","diagnosticheskii_i_izmeritelnyi_instrument")
     prioritized=[x for slug in priority_slugs for x in exact if x["slug"]==slug]
     choose=prioritized+[x for x in choose if x["slug"] not in priority_slugs]
     fields=[]
@@ -81,6 +81,13 @@ def main():
         fields.append({"slug":x["slug"],"path":x["path"],
                        "node":data.get("node"),"fields":compact_fields,"error":error})
     report["candidate_category_fields"]=fields
+    profile,profile_error=api("/autoload/v2/profile")
+    report["profile_sanitized"]={"error":profile_error,
+        "autoload_enabled":profile.get("autoload_enabled"),
+        "feed_count":len(profile.get("feeds_data") or []),
+        "feed_names":[v.get("feed_name") for v in (profile.get("feeds_data") or [])],
+        "schedule_periods":len(profile.get("schedule") or []),
+        "email_present":bool(profile.get("report_email"))}
     current,e=api("/autoload/v4/uploads/current")
     report["current_upload"]={"error":e,
                               "id":current.get("upload_id"),"status":current.get("status"),
