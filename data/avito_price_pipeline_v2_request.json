@@ -1,0 +1,23 @@
+{
+  "schema_version": 2,
+  "mode": "inspect",
+  "owner_approved": true,
+  "channel": "avito",
+  "preserve_other_channels": true,
+  "preserve_stock": true,
+  "preserve_photos": true,
+  "preserve_costs": true,
+  "freeze_effective_site_prices": true,
+  "note": "SAFE smoke test only. User confirmed Avito sensor clip must retain 950 RUB. This is a same-price no-op and NEVER an authorized modification.",
+  "targets": [
+    {
+      "avito_id": 8609616823,
+      "kind": "main",
+      "sku": "klipsa-datchika-peredach-dq200",
+      "expected_price": 950,
+      "approved_price": 950,
+      "expected_title": "Клипса датчика положения передач мехатроника DSG7",
+      "expected_site_price": 950
+    }
+  ]
+}
