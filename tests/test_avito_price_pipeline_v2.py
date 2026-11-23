@@ -67,6 +67,11 @@ class PipelineSafetyTests(unittest.TestCase):
             b.save(feed)
 
             cm.write_text(json.dumps({"version":1,"products":{}}))
+            (base/"data").mkdir(exist_ok=True)
+            (base/"data"/"pricing_policy.json").write_text(json.dumps({
+                "mode":"manual_prices_only",
+                "automatic_avito_site_repricing":False
+            }))
             audit.write_text(json.dumps({
                 "products":[{"sku":"test-sku","source_feed_id":"test-sku",
                               "mapped":{"id":123,"status":"active"}}]}))
@@ -83,7 +88,8 @@ class PipelineSafetyTests(unittest.TestCase):
                 return out
             live={123:{"id":123,"title":"Original title",
                        "price":950,"status":"active"}}
-            with patch.object(pipeline,"OVERRIDE",ov),patch.object(pipeline,"FEED",feed),\
+            with patch.object(pipeline,"ROOT",base),\
+                 patch.object(pipeline,"OVERRIDE",ov),patch.object(pipeline,"FEED",feed),\
                  patch.object(pipeline,"CONTENT",cm),patch.object(pipeline,"AUD",audit),\
                  patch.object(pipeline.site_pricing,"load_price_overrides",side_effect=load_prices):
                 result=pipeline.patch_catalog(fixture_manifest(),live)
