@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "owner_approved": true,
-  "mode": "inspect",
-  "revision": 2,
+  "mode": "apply",
+  "revision": 3,
   "target_channel": "avito",
   "approved_skus": [
     "02E 305 045",
@@ -11,5 +11,5 @@
   "new_price_rub": 1390,
   "site_prices_unchanged": true,
   "never_auto_reprice": true,
-  "notes": "Retry owner-approved two-kit 1390 price inspection after safe repeated-kit BOM parser fix. No seller writes."
+  "notes": "Owner approval 1390 Avito for only 02E 305 045 and DQ500. Preflight passed live IDs 8386056623 and 8387244563, current 1480, BOM component sum 1475, exact previous website 1480. Keep site 1480, prevent all other writes."
 }
