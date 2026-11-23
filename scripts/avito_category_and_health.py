@@ -50,15 +50,33 @@ def main():
     report["category_api_error"]=err
     nodes=tree_nodes(tree)
     unique={x["slug"]:x for x in nodes}
-    report["category_matches"]=list(unique.values())[:120]
+    # Show only automotive business equipment and engine/vehicle part branches;
+    # do not select every child of generic 'tools' parents (e.g. musical instruments).
+    exact=[x for x in unique.values() if (
+        "Для автобизнеса" in x["path"] or
+        ("Запчасти и аксессуары" in x["path"] and
+         any(k in x["path"] for k in ("Двигател", "Инструмент", "Для автомобилей"))))]
+    report["category_matches"]=exact[:180]
     report["total_matching_slugs"]=len(unique)
-    # Exact verified category field schema, only for obvious workshop/engine leaves.
-    selectors=[x for x in unique.values() if any(w in x["path"].lower() for w in
-               ("инструмент","автосервис","двигател","диагност"))]
+    report["automotive_matching_slugs"]=len(exact)
+    # Only a category's exact leaf can supply its required field schema.
+    choose=[x for x in exact if (
+        "Для автобизнеса / Диагностика и ремонт / " in x["path"] or
+        "Для автобизнеса / Заправочное / Заправка масел" in x["path"] or
+        "Инструменты" in x["path"].split(" / ")[-1] or
+        "Двигатель" in x["path"].split(" / ")[-1])]
     fields=[]
-    for x in selectors[-12:]:
+    for x in choose[:8]:
         data,error=api("/autoload/v1/user-docs/node/"+x["slug"]+"/fields")
-        fields.append({"slug":x["slug"],"path":x["path"],"fields":data if not error else None,"error":error})
+        compact_fields=[]
+        for item in data.get("fields") or []:
+            meta=(item.get("content") or [{}])[0]
+            compact_fields.append({"tag":item.get("tag"),"label":item.get("label"),
+                      "required":meta.get("required"),
+                      "field_type":meta.get("field_type"),
+                      "allowed_values":[v.get("value") for v in (meta.get("values") or [])[:18]]})
+        fields.append({"slug":x["slug"],"path":x["path"],
+                       "node":data.get("node"),"fields":compact_fields,"error":error})
     report["candidate_category_fields"]=fields
     current,e=api("/autoload/v4/uploads/current")
     report["current_upload"]={"error":e,
@@ -71,14 +89,28 @@ def main():
                                     "started_at":last.get("started_at"),
                                     "section_stats":last.get("section_stats")}
     listing={}
+    status_by_id={}
     for status in STATUSES:
         try:
             rows=av.list_all_items(statuses=[status],per_page=100,max_pages=8)
+            for row in rows:
+                if row.get("id") is not None:
+                    status_by_id[str(row["id"])]=status
             listing[status]={"count":len(rows),
                              "examples":list(map(compact,rows[:8]))}
         except Exception as ex:
             listing[status]={"error":str(ex)[:320]}
     report["seller_listings_by_status"]=listing
+    previous=ROOT/"data/avito_autoload.json"
+    if previous.is_file():
+        prior=json.loads(previous.read_text(encoding="utf-8"))
+        expired=[x for x in prior.get("items") or [] if
+                   (x.get("section") or {}).get("slug")=="stopped_by_expiration"]
+        report["previously_expired_reactivation"]=[
+            {"sku":x.get("ad_id"),"avito_id":x.get("avito_id"),
+             "current_status":status_by_id.get(str(x.get("avito_id")),"unknown")}
+            for x in expired]
+
     # v4 current and last_successful item-level failures, with current publication state
     for label,path in [("current","/autoload/v4/uploads/current/items"),
                        ("last_successful","/autoload/v4/uploads/last_successful/items")]:
