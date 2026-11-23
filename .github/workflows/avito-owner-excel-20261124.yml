@@ -1,0 +1,34 @@
+name: LEOPARTS Avito Owner Excel Price and Title Changes - guarded
+on:
+  push:
+    branches: [main]
+    paths: ['data/avito_excel_owner_changes_20261124_request.json']
+permissions: {contents: write}
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  apply-owner-excel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install seller/feed dependencies
+        run: pip install -q requests openpyxl python-dotenv
+      - name: User-reviewed Avito ID-based changes; guard site/stock/other channels
+        env:
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -m py_compile scripts/apply_avito_owner_excel_20261124.py
+          python -u scripts/apply_avito_owner_excel_20261124.py
+      - name: Save exact live reconciliation journal
+        if: always()
+        run: |
+          if [ -f data/avito_excel_owner_changes_20261124_result.json ]; then
+            bash .github/scripts/save_data.sh data/avito_excel_owner_changes_20261124_result.json
+          fi
