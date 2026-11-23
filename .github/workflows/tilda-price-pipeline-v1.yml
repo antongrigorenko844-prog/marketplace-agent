@@ -1,0 +1,34 @@
+name: LEOPARTS Tilda Site Prices v1 — Owner Approved Only
+on:
+  push:
+    branches: [main]
+    paths: ['data/tilda_price_pipeline_request.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  site-price-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install CommerceML and readback dependencies
+        run: pip install -q -r requirements.txt
+      - name: Test UID and SKU safety without accessing the site
+        run: |
+          python -m py_compile scripts/tilda_price_pipeline_v1.py
+          python -m unittest discover -s tests -p 'test_tilda_price_pipeline_v1.py' -v
+      - name: Inspect or apply only owner-approved UID prices
+        env:
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+        run: python -u scripts/tilda_price_pipeline_v1.py
+      - name: Save exact price audit and isolated Tilda overrides
+        if: always()
+        run: |
+          if [ -f data/tilda_price_pipeline_result.json ]; then
+            bash .github/scripts/save_data.sh data/tilda_price_pipeline_result.json data/site_price_only_overrides.json
+          fi
