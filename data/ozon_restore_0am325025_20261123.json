@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "batch_id": "leoparts-restore-0am325025-13850-20261123",
+  "approved": true,
+  "fingerprint": "43a9b7e7b8c20e15442fe6a6e2a447c4ab38f91fe8b00be955fbd88b73279433",
+  "prices": {
+    "0am325025": {
+      "from": 12950,
+      "to": 13850
+    }
+  },
+  "purchase_cost_updates": {},
+  "state": "staged",
+  "external_writes": 0,
+  "created_utc": "2026-11-23T11:34:28.481520+00:00",
+  "before_live": {
+    "0am325025": {
+      "price": 12950.0,
+      "min_price": 12850.0,
+      "old_price": 19500.0,
+      "status": "Продаётся"
+    }
+  },
+  "source_changes": {
+    "master": [
+      {
+        "sku": "0am325025",
+        "column": 8,
+        "before": 12950.0,
+        "after": 13850
+      }
+    ],
+    "ozon_catalog": [
+      {
+        "sku": "0am325025",
+        "column": 4,
+        "before": 12950.0,
+        "after": 13850
+      }
+    ]
+  },
+  "updated_utc": "2026-11-23T11:34:30.721058+00:00"
+}
