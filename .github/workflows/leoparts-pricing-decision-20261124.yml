@@ -1,0 +1,26 @@
+name: LEOPARTS Final Pricing Matrix — READ ONLY
+on:
+  push:
+    branches: [main]
+    paths: ['data/leoparts_pricing_decision_request_20261124.json']
+permissions: {contents: write}
+concurrency: {group: marketplace-agent, cancel-in-progress: false}
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Compile financial matrix and validate inputs
+        run: |
+          python -m py_compile scripts/leoparts_pricing_decision_review_20261124.py
+          python -u scripts/leoparts_pricing_decision_review_20261124.py
+      - name: Publish audit report only; never price files or feeds
+        if: always()
+        run: |
+          if [ -f data/leoparts_pricing_decision_20261124/decision.json ]; then
+            bash .github/scripts/save_data.sh data/leoparts_pricing_decision_20261124/
+          fi
