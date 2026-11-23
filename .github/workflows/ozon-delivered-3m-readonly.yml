@@ -26,7 +26,7 @@ jobs:
           OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
         run: |
           python -m py_compile scripts/ozon_delivered_3m_audit_20261123.py
-          python -u scripts/ozon_delivered_3m_audit_20261123.py
+          python -u -m scripts.ozon_delivered_3m_audit_20261123
       - name: Save anonymized report only
         if: always()
         run: bash .github/scripts/save_data.sh data/ozon_delivered_3m_20261123.json
