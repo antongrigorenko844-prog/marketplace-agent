@@ -393,6 +393,16 @@
       "match_confidence": "title_only_needs_composition_review",
       "candidate_master_skus": [
         {
+          "sku": "Dq500",
+          "master_present": true,
+          "canonical_name": "Корпус фильтра мехатроника DSG7 DQ500 0BH325183B",
+          "configured_avito_price_rub": 980,
+          "price_gap_vs_canonical_rub": 2510
+        }
+      ],
+      "review_required": false,
+      "candidate_master_skus_before_owner_review": [
+        {
           "sku": "0BH325183",
           "master_present": true,
           "canonical_name": "Корпус фильтра ребристый мехатроника DSG7 DQ500 0BH325183B",
@@ -407,7 +417,23 @@
           "price_gap_vs_canonical_rub": 2510
         }
       ],
-      "review_required": true
+      "owner_review_sequence": 6,
+      "owner_verified_date": "2026-11-24",
+      "owner_confirmed_composition": [
+        {
+          "product": "обычный гладкий корпус фильтра мехатроника DSG7 DQ500",
+          "qty": 1
+        }
+      ],
+      "owner_confirmed_variant_scope": "Гладкий корпус, несмотря на наличие кода 0BH325183 в заголовке старого объявления; не ребристый.",
+      "owner_information_status": "composition_verified",
+      "owner_instruction_keep_old_ad": true,
+      "owner_price_instruction": "sync_to_main_catalog_Dq500_980",
+      "owner_confirmed_related_master_skus": [
+        "Dq500"
+      ],
+      "owner_same_bom_as_original_candidates": false,
+      "owner_notes": "№6: гладкий корпус; аналог SKU Dq500, цена 980 ₽. Не трогать ребристые модели."
     },
     {
       "avito_id": 4285296851,
@@ -981,14 +1007,15 @@
     }
   ],
   "owner_review_progress": {
-    "reviewed_in_order": 5,
+    "reviewed_in_order": 6,
     "total_original_unmapped": 36,
     "reviewed_listing_ids": [
       4285108577,
       4220729305,
       4445230063,
       4125224328,
-      4348814868
+      4348814868,
+      4285324155
     ],
     "note": "№1-4 идут по последовательности, которую прислал ассистент; старые номера Авито сохранены. Для двух универсальных наборов с альтернативными размерами нельзя закреплять один SKU на оба варианта через AvitoId без модели вариантов.",
     "verified_old_prices_aligned": 3,
