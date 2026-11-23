@@ -343,9 +343,10 @@ class Publisher:
         except Exception as exc:
             self.event(sku, channel, "blocked_stock_source", detail=str(exc))
             return
-        if not row.get("create_ack") and not matching:
-            # A prior write failed after intent: must be manually reconciled
-            # to avoid creating a fresh card or touching unrelated SKU.
+        if not row.get("create_ack"):
+            # The POST may have timed out; finding the SKU later proves
+            # existence, NOT that this batch created it. Never assume
+            # ownership of a card without the original create acknowledgement.
             self.event(sku, channel, "uncertain_created_identity")
             return
         if channel == "wildberries":
