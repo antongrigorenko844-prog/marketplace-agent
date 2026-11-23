@@ -226,6 +226,8 @@ class Publisher:
         # Unknown result cannot be retried — another party may have changed
         # a price or sold a unit while the write request was in flight.
         if row.get(phase + "_intent") and not row.get(phase + "_ack"):
+            self.record(sku, channel, state="needs_review",
+                        blocker="Unknown " + phase + " outcome; only human/confirmed API readback can clear")
             self.event(sku, channel, "uncertain_" + phase, detail="Never blindly repeat unknown POST/PUT")
             return {"state": "uncertain_" + phase}
         if row.get(phase + "_ack"):
@@ -234,6 +236,8 @@ class Publisher:
         try:
             ack = action(*args)
         except Exception as exc:
+            self.record(sku, channel, state="needs_review",
+                        blocker=type(exc).__name__ + ": " + str(exc)[:180])
             self.event(sku, channel, "uncertain_" + phase,
                        detail=type(exc).__name__ + ": " + str(exc)[:155])
             return {"state": "uncertain_" + phase}
@@ -284,6 +288,9 @@ class Publisher:
             if self.mode == "resume":
                 self.event(sku, channel, "not_submitted")
                 return
+            # A second seller scan immediately before creation protects
+            # against an old one-off workflow that created the SKU during
+            # image/category preflight in another process.
             try:
                 payload, urls = self._prepared(channel, item, adapter)
             except Exception as exc:
@@ -291,6 +298,17 @@ class Publisher:
                 return
             if not self.write:
                 self.event(sku, channel, "ready_to_create")
+                return
+            try:
+                adapter.scan()
+                current = adapter.existing(sku)
+                require(len(current) <= 1, "Duplicate SKU appeared before submit")
+                if current:
+                    self.event(sku, channel, "existing_untouched",
+                               detail="Seller card created concurrently; do not send duplicate")
+                    return
+            except Exception as exc:
+                self.event(sku, channel, "read_error_before_submit", detail=str(exc))
                 return
             # Commit the exact immutable intent BEFORE touching the seller API.
             self.record(sku, channel, state="create_intent", create_intent={
@@ -347,6 +365,8 @@ class Publisher:
             # The POST may have timed out; finding the SKU later proves
             # existence, NOT that this batch created it. Never assume
             # ownership of a card without the original create acknowledgement.
+            self.record(sku, channel, state="needs_review",
+                        blocker="Seller SKU exists but initial create acknowledgement was lost")
             self.event(sku, channel, "uncertain_created_identity")
             return
         if channel == "wildberries":
