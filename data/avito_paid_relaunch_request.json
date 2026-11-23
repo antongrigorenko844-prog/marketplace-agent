@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "mode": "inspect",
-  "revision": 1,
+  "mode": "apply",
+  "revision": 2,
   "owner_confirmed_paid": true,
   "freeze_existing_ads": true,
   "approved_new_skus": [
@@ -9,5 +9,5 @@
     "6t30-tcm-gen1",
     "6t30-tcm-gen2"
   ],
-  "comment": "Owner paid Avito subscription Nov 23 2026; inspect live status, approved exact 6T30. Do not change existing ads or unrelated platforms."
+  "comment": "Owner confirmed Avito paid; verified enabled stable autoload, exact approved SHA256 images, no same-live ads, approved prices and unchanged current feed. Append only 3 6T30 rows, preserve 124 existing."
 }
