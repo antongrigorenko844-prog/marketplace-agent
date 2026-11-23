@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-23T16:59:41.473429+00:00",
+  "generated_utc": "2026-11-23T17:01:25.705099+00:00",
   "mode": "read_only",
   "seller_writes": 0,
   "catalog_writes": 0,
@@ -15,7 +15,7 @@
     "approved_price_sources_skus": 151,
     "override_workbook_skus": 148,
     "feed_skus": 127,
-    "known_alias_feed_rows": 7,
+    "known_alias_feed_rows": 8,
     "bom_kits": 41,
     "bom_relations": 84,
     "api_listed_ads": 156,
@@ -23,9 +23,9 @@
     "matched_by_id": 120,
     "matched_active": 120,
     "with_cost_and_price": 122,
-    "issues": 45,
+    "issues": 44,
     "priority": {
-      "medium": 21,
+      "medium": 20,
       "low": 16,
       "high": 8
     }
@@ -217,13 +217,6 @@
       "sku": "nabor-chip-0am927769d",
       "detail": "Есть цена-оверрайд, но SKU отсутствует в мастере и в фиде",
       "configured": 13800.0
-    },
-    {
-      "priority": "medium",
-      "type": "feed_without_approved_price",
-      "sku": "123014‑AF-av",
-      "detail": "Публикуется в фиде, но нет цены в ручных оверрайдах или утверждённой заявке",
-      "feed": 950.0
     },
     {
       "priority": "medium",
@@ -2583,20 +2576,22 @@
       "site_cfg": 950.0,
       "fixed": false,
       "price_source": "avito_site_overrides",
-      "source_feed_id": "123014‑AF",
-      "price_in_feed": null,
+      "source_feed_id": "123014‑AF-av",
+      "price_in_feed": 950.0,
       "ozon_catalog": 1850.0,
       "stock_catalog": 24.0,
-      "in_feed": false,
+      "in_feed": true,
       "in_master": true,
       "avito_flag": null,
       "mapped": {
-        "source": "not_mapped",
-        "ids": [
-          "8294466411"
-        ]
+        "id": 4284733993,
+        "status": "active",
+        "live_price": 950.0,
+        "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/filtr-setka_solenoidov_dsg7_0b5_dl501_123014af_4284733993",
+        "live_title": "Фильтр-сетка соленоидов DSG7 0B5 DL501 123014AF",
+        "source": "exact_avito_id"
       },
-      "model_price_source": "override",
+      "model_price_source": "active_live",
       "model_price": 950.0,
       "markup_to_cost": 9.5,
       "contribution_before_view_cost": 695.5,
@@ -5085,35 +5080,6 @@
       "markup_to_cost": null,
       "contribution_before_view_cost": null,
       "breakeven_paid_views": null
-    },
-    {
-      "sku": "123014‑AF-av",
-      "name": "Фильтр-сетка соленоидов DSG7 0B5 DL501 123014AF",
-      "cost_master": null,
-      "avito_cfg": null,
-      "site_cfg": null,
-      "fixed": null,
-      "price_source": "avito_site_overrides",
-      "source_feed_id": "123014‑AF-av",
-      "price_in_feed": 950.0,
-      "ozon_catalog": null,
-      "stock_catalog": null,
-      "in_feed": true,
-      "in_master": false,
-      "avito_flag": null,
-      "mapped": {
-        "id": 4284733993,
-        "status": "active",
-        "live_price": 950.0,
-        "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/filtr-setka_solenoidov_dsg7_0b5_dl501_123014af_4284733993",
-        "live_title": "Фильтр-сетка соленоидов DSG7 0B5 DL501 123014AF",
-        "source": "exact_avito_id"
-      },
-      "model_price_source": "active_live",
-      "model_price": 950.0,
-      "markup_to_cost": null,
-      "contribution_before_view_cost": null,
-      "breakeven_paid_views": null
     }
   ],
   "unmapped_live_ads": [
@@ -5385,7 +5351,6 @@
     "0сц": "Оригинальный сальник штока мехатроника DSG7 DQ200",
     "122390AK-AF": "Пыльник штока мехатроника DSG7 DQ200 122390AK-AF",
     "122390AKAF": "Оригинальный пыльник штока мехатроника DSG7 DQ200",
-    "123014‑AF-av": "Фильтр-сетка соленоидов DSG7 0B5 DL501 123014AF",
     "317053TX0C": "Гидроблок вариатора JF015E 1.8л (RE0F11A)",
     "55565480": "Импульсное кольцо распредвала GM 55565480",
     "6t30": "Соленоиды 6T30 6T40 6T45 6T50, 1 поколение, 7 шт",
@@ -5461,7 +5426,8 @@
     "0am325025D": "Втулка (гильза) штока мехатроника DSG7 DQ200",
     "0am325025G": "DQ200: 2 пыльника, 2 сальника, 2 крышки штоков",
     "0am325025m": "Ремкомплект прокладок мехатроника DSG7 DQ200",
-    "0am325066ad": "Сальник-манжета штока сцепления мехатроника DSG7"
+    "0am325066ad": "Сальник-манжета штока сцепления мехатроника DSG7",
+    "123014‑AF": "Фильтр-сетка соленоидов DSG7 0B5 DL501 123014AF"
   },
   "source": {
     "master": "data/master_control.xlsx",
