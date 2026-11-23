@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "mode": "apply",
-  "revision": 5,
+  "mode": "inspect",
+  "revision": 6,
   "owner_approved": true,
   "exact_two_skus": [
     "tool-dq200-acc-restore",
@@ -13,5 +13,5 @@
   },
   "primary_parts_feed_never_change": true,
   "placement_only_from_package": true,
-  "comment": "Retry owner-approved two DSG tools Avito second feed using required report_email string from existing profile or authenticated Avito own account, normalize only legacy empty feed display name; preserve feed URL, schedule, no wallet billing."
+  "comment": "Only verify 2 registered Avito URLs, full daily schedule, exact approved 2-item XML and old 127 rows. No more profile writes."
 }
