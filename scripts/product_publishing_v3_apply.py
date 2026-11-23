@@ -19,9 +19,16 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 from threading import RLock, Lock
 import time
 from typing import Any
+
+# Supports both `python -m scripts.product_publishing_v3_apply` and
+# direct `python scripts/product_publishing_v3_apply.py` in GitHub runners.
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from scripts import product_intake_v2 as intake
 from scripts import product_publishing_v3_adapters as adapters
