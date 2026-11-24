@@ -1,0 +1,54 @@
+{
+  "status": "running",
+  "campaign": 716316525,
+  "feed": 4061297,
+  "started_utc": "2026-11-24T11:20:03.412329+00:00",
+  "stages": {},
+  "errors": [],
+  "site_writes": 0,
+  "budget_writes": 0,
+  "ads_writes": 0,
+  "negative_writes": 0,
+  "initial_feed": {
+    "Id": 4061297,
+    "Name": "Leoparts DQ200 — проверка.",
+    "SourceType": "URL",
+    "UpdatedAt": "2026-11-24T06:58:39",
+    "NumberOfItems": 12,
+    "Status": "DONE",
+    "UrlFeed": {
+      "Url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml?copy_rev=20261120_02"
+    },
+    "TitleAndTextSources": {
+      "Items": [
+        "name"
+      ]
+    }
+  },
+  "initial_ad_states": {
+    "1927186476439690942": [
+      "ON",
+      "ACCEPTED",
+      "PROCESSED"
+    ],
+    "1927189770678081700": [
+      "ON",
+      "ACCEPTED",
+      "PROCESSED"
+    ],
+    "1927190920657966611": [
+      "ON",
+      "ACCEPTED",
+      "PROCESSED"
+    ]
+  },
+  "public_attempts": [
+    {
+      "url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml?copy_rev=20261124_576471faed3476d25bd5c36e98e341a0270ffb5e",
+      "http_status": 200,
+      "sha256": "061270b818527b3c76785ed583923975cab40e112fa2ee6fe9ef283972169cb4",
+      "bytes_exact": true,
+      "full_xml_equivalent": true
+    }
+  ]
+}
