@@ -212,9 +212,9 @@ def avito(r):
     r['definition']='Avito Delivery orders only, not off-platform/direct deals; history completeness not established. Item price times quantity; payout fields preliminary.'
     if len(rows)>=2000:r['errors'].append({'reason':'pagination_cap'})
     return agg.data()
-def finance():
+def finance(days=60):
     r={'source':'ozon_accrual_by_day','started_utc':now(),'mode':'read_only','external_mutations':0,'daily':{},'sku_daily':{},'errors':[]}
-    start=END-timedelta(days=60)
+    start=END-timedelta(days=days)
     types=price_audit._accrual_types(ozon_client)
     mapping={}
     try:
