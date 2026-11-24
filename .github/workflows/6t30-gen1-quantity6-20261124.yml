@@ -1,0 +1,40 @@
+name: LEOPARTS correct Gen1 six-piece quantity
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/6t30-gen1-quantity6-20261124.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  exact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Update existing Gen1 only, verify readback
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: |
+          python -m py_compile scripts/6t30_gen1_quantity6_20261124.py
+          python -u scripts/6t30_gen1_quantity6_20261124.py
+      - name: Preserve exact report if final checkpoint interrupted
+        if: always()
+        run: |
+          test ! -f data/6t30_gen1_quantity6_result_20261124.json || bash .github/scripts/save_data.sh data/6t30_gen1_quantity6_result_20261124.json
