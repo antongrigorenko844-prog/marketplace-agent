@@ -1,0 +1,54 @@
+{
+  "mode": "apply",
+  "revision": "e8f25ecd9c13ea7870f97cc693d9f599d4669e5b",
+  "seller_price_writes": 0,
+  "stock_writes": 0,
+  "products": {
+    "avito": {
+      "6t30": {
+        "avito_id": "8425207775",
+        "feed_id": "6t30",
+        "needs_feed_change": false,
+        "description_verified": false,
+        "live_description_available": false,
+        "feed_verified": true,
+        "autoload_section": "success_skipped",
+        "autoload_status": "active",
+        "autoload_messages": [
+          {
+            "code": 2303,
+            "type": "warning",
+            "title": "Произведена автоподстановка номера телефона"
+          },
+          {
+            "code": 3002,
+            "type": "info",
+            "title": ""
+          }
+        ],
+        "post_publication_report": false,
+        "autoload_processed": false,
+        "status": "pending_fresh_report_or_text"
+      }
+    }
+  },
+  "avito_autoload_report": {
+    "report_id": 640428605,
+    "upload_id": null,
+    "started_at": "2026-11-24T21:34:03Z",
+    "finished_at": "2026-11-24T22:34:02Z",
+    "status": "success_warning"
+  },
+  "avito_autoload_api": "v2_fallback",
+  "avito_autoload_evidence": {
+    "current_error": "AvitoApiError",
+    "v4_error": "AvitoApiError: Avito GET /autoload/v4/uploads/last_successful: не удалось получить ответ после 1 попыток: None"
+  },
+  "avito_feed_sha_before": "028f0a9184bb02feaa402fe62168646c820f25f9116237a169ff21b339c0194b",
+  "avito_feed_sha_staged": "028f0a9184bb02feaa402fe62168646c820f25f9116237a169ff21b339c0194b",
+  "avito_report_after_known_publication": false,
+  "checked_utc": "2026-11-24T22:48:17.850672+00:00",
+  "avito_feed_publication": {
+    "status": "unchanged"
+  }
+}
