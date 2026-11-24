@@ -1,0 +1,32 @@
+name: LEOPARTS exact Ozon Gen1 single photo
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/6t30-gen1-remove-second-ozon-final-20261125.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  exact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt pillow
+      - name: Keep exact existing primary only on Gen1 Ozon
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: python -u scripts/6t30_gen1_remove_second_ozon_final_20261125.py
+      - name: Preserve readback
+        if: always()
+        run: |
+          test ! -f data/6t30_gen1_remove_second_ozon_final_20261125.json || bash .github/scripts/save_data.sh data/6t30_gen1_remove_second_ozon_final_20261125.json
