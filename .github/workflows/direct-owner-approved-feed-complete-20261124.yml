@@ -1,0 +1,36 @@
+name: LEOPARTS finish approved feed sync after category regeneration
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-owner-approved-feed-complete-20261124.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  complete:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Verify previous changes and finish only feed sync
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: |
+          python -m py_compile .github/scripts/direct_owner_approved_feed_complete_20261124.py
+          python -u .github/scripts/direct_owner_approved_feed_complete_20261124.py
+      - name: Persist completion journal
+        if: always()
+        run: |
+          if test -f data/direct_recovery_20261124/owner_approved_feed_completion.json; then
+            bash .github/scripts/save_data.sh data/direct_recovery_20261124/owner_approved_feed_completion.json
+          fi
