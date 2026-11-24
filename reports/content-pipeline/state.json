@@ -6088,11 +6088,15 @@
         "updated_utc": "2026-11-24T07:12:08.236356+00:00"
       },
       "market": {
+        "after_hash": "d95f3f1e05c6d8d20bfcd844d9867eddbff26fcf5100c6e127ae12c96c703783",
         "attempts": 0,
+        "before_hash": "d95f3f1e05c6d8d20bfcd844d9867eddbff26fcf5100c6e127ae12c96c703783",
         "card_id": "4858753907",
         "channel": "market",
         "error": null,
+        "last_checked_utc": "2026-11-24T07:12:34.662591+00:00",
         "polls": 0,
+        "protected_hash": "e134f688617e5db6acf9566c243996ddced8cf801eb2db8f48de8959725db478",
         "read_failures": 0,
         "sku": "0cw0am",
         "status": "prepared",
@@ -10095,13 +10099,15 @@
       "market": {
         "after_hash": "73325f5d06042a5cea40a79ab79ff69abcabf29874aaa5a8db4211fa4623283a",
         "attempts": 0,
+        "before_hash": "73325f5d06042a5cea40a79ab79ff69abcabf29874aaa5a8db4211fa4623283a",
         "card_id": "6245067593",
         "channel": "market",
         "error": "YandexMarketError: POST /v2/businesses/194752944/offer-mappings: не удалось выполнить запрос (HTTP 500)",
-        "last_checked_utc": "2026-11-24T03:44:17.239672+00:00",
+        "last_checked_utc": "2026-11-24T07:12:34.662723+00:00",
         "next_attempt_utc": "2026-11-24T04:54:49.665977+00:00",
         "polls": 0,
-        "read_failures": 1,
+        "protected_hash": "c3a305642ae57ba5a23f06c3d369b51604179b567a1ea36505d04fe18772c314",
+        "read_failures": 0,
         "sku": "nakladki-pedali",
         "status": "retry_pending",
         "target_hash": "03082abe03fbc58f93cce45931dc364f0958feca7e534adb44149deee5e36e9f",
@@ -14290,6 +14296,6 @@
     }
   },
   "run_id": "45346054856-1",
-  "updated_utc": "2026-11-24T07:12:30.639431+00:00",
+  "updated_utc": "2026-11-24T07:12:34.662746+00:00",
   "version": 1
 }
