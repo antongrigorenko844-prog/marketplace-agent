@@ -1,8 +1,8 @@
 {
   "counts": {
     "prepared": 27,
-    "processing": 8,
-    "verified": 9
+    "processing": 7,
+    "verified": 10
   },
   "pause": null,
   "rows": {
@@ -2022,8 +2022,8 @@
     "0AM927769G": {
       "attempts": 1,
       "canonical_description_hash": "152bc702d39c341ba27bffc72a78f06ad6890037429235a74f98cb36138bae27",
-      "error": "Awaiting exact rich readback",
-      "matching_reads": 1,
+      "error": null,
+      "matching_reads": 2,
       "original_hash": "a27d14be8f20ff42c86a18058c5f413474d28e61d009eddd94b6880f254bc5ba",
       "original_rich": {
         "content": [
@@ -2229,7 +2229,8 @@
         "seller_price": "4bb1c5bbce183af0be2e01eec1bf8f4e41c2cc17d7079ed6564d118060d52bd1",
         "stocks": "746e7a95d8506e8e48925b2c060f2fbde370459d1a73f85b07b260d2340024bb"
       },
-      "status": "processing",
+      "public_verified": false,
+      "status": "verified",
       "submitted_utc": "2026-11-24T08:16:57.736181+00:00",
       "target_hash": "ee3759eef5240b70469dcd2b83a6d9deae4aeebef97be7e156c058088951b87e",
       "target_rich": {
@@ -2392,13 +2393,14 @@
         ],
         "version": 0.3
       },
-      "task_id": 6115053323
+      "task_id": 6115053323,
+      "verified_utc": "2026-11-24T08:17:58.899481+00:00"
     },
     "0AM927769K": {
       "attempts": 1,
       "canonical_description_hash": "490cc1afa11544049099a06f6953edc8f4c8acefca9f27e9bd19b58310d8085e",
       "error": "Awaiting exact rich readback",
-      "matching_reads": 0,
+      "matching_reads": 1,
       "original_hash": "a27d14be8f20ff42c86a18058c5f413474d28e61d009eddd94b6880f254bc5ba",
       "original_rich": {
         "content": [
@@ -2773,7 +2775,7 @@
       "attempts": 1,
       "canonical_description_hash": "068bf090688752d01df3878ec08f3c85f7817380dc436aaef211bacd4d9bb615",
       "error": "Awaiting exact rich readback",
-      "matching_reads": 0,
+      "matching_reads": 1,
       "original_hash": "cd3282bd6df2de345d7be6938f40e0b76cb680858f0f184a7b300b347d60c9ee",
       "original_rich": {
         "content": [
@@ -3840,7 +3842,7 @@
       "attempts": 1,
       "canonical_description_hash": "57865f2e3da5d624bf849cd0f04cc8297a71214bd80f2571d1216a28d5875435",
       "error": "Awaiting exact rich readback",
-      "matching_reads": 0,
+      "matching_reads": 1,
       "original_hash": "42bae43a0076e5bc657a64b64032e1f8d973f89285d59b8ff89f0c412995824b",
       "original_rich": {
         "content": [
@@ -4360,7 +4362,7 @@
       "attempts": 1,
       "canonical_description_hash": "8e65c0ab799aecbde3a263aa9a2740fd94b4f2387f59dc090fddf1e987a7670b",
       "error": "Awaiting exact rich readback",
-      "matching_reads": 0,
+      "matching_reads": 1,
       "original_hash": "07d5330009bf5dfd533dcb8a92681f6e82fd552f53b549b2ed45b24d601987e1",
       "original_rich": {
         "content": [
@@ -4880,7 +4882,7 @@
       "attempts": 1,
       "canonical_description_hash": "7db7204c7b104a477eedc0f1d8a97be6eaa1e5d67a877efdf16270c588c400d6",
       "error": "Awaiting exact rich readback",
-      "matching_reads": 0,
+      "matching_reads": 1,
       "original_hash": "07d5330009bf5dfd533dcb8a92681f6e82fd552f53b549b2ed45b24d601987e1",
       "original_rich": {
         "content": [
@@ -5400,7 +5402,7 @@
       "attempts": 1,
       "canonical_description_hash": "8d4bcbfa2a8ea4b60e1a2bbf9b07c1449d04db4511d244f5b5ff43a0cad0f440",
       "error": "Awaiting exact rich readback",
-      "matching_reads": 0,
+      "matching_reads": 1,
       "original_hash": "07d5330009bf5dfd533dcb8a92681f6e82fd552f53b549b2ed45b24d601987e1",
       "original_rich": {
         "content": [
@@ -11974,6 +11976,6 @@
       }
     }
   },
-  "updated_utc": "2026-11-24T08:17:50.664695+00:00",
+  "updated_utc": "2026-11-24T08:17:58.904700+00:00",
   "version": 1
 }
