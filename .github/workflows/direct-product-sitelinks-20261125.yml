@@ -1,0 +1,39 @@
+name: LEOPARTS verified direct product sitelinks
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-product-sitelinks-20261125.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  exact:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt playwright==1.56.0
+      - run: python -m playwright install chromium
+      - name: Verify actual product pages and add only relevant sitelinks
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: |
+          python -m py_compile .github/scripts/direct_product_sitelinks_20261125.py
+          python -u .github/scripts/direct_product_sitelinks_20261125.py
+      - name: Save privacy-safe result
+        if: always()
+        run: |
+          paths=()
+          for f in data/direct_recovery_20261124/product_sitelinks_20261125.json data/direct_recovery_20261124/product_sitelinks_journal_20261125.json; do
+            if [ -f "$f" ]; then paths+=("$f"); fi
+          done
+          if [ "${#paths[@]}" -gt 0 ]; then bash .github/scripts/save_data.sh "${paths[@]}"; fi
