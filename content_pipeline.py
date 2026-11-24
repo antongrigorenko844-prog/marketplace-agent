@@ -18,6 +18,8 @@ import content_manifest as cmf
 import content_master_sync as cms
 import content_sync as api
 import content_aux_sync as aux
+import ozon_description_guard as ozguard
+import time
 from content_transport import guard
 
 ROOT = Path(__file__).resolve().parent
@@ -242,14 +244,40 @@ def protected_hash(ch, card, detail):
         obj['media']=card.get('mediaFiles',{})
         obj['gallery']=[cmf.normalize_url(x) for x in card.get('pictures',[])]
     else:
-        obj={k:card.get(k) for k in ['id','product_id','offer_id','name','description_category_id','type_id','height','depth','width','weight','color_image']}
-        obj['attributes']=sorted([x for x in card.get('attributes',[]) if x['id']!=4191],key=lambda x:(x.get('complex_id',0),x['id']))
-        obj['complex_attributes']=card.get('complex_attributes',[])
-        obj['gallery']=[cmf.normalize_url(x) for x in api.ozon_gallery(card)]
+        obj=ozguard.projection(card,detail)
     return digest(obj)
 
-def observe(entry,ch,snapshot,sku,target):
+def card_detail(ch,snapshot,sku):
     card,detail=api.description_card(ch,snapshot,sku)
+    if ch=='ozon':
+        detail=api.one(snapshot.get('prices',[]),'offer_id',sku)
+    return card,detail
+
+def read_channel(ch,skus,context):
+    data=api.read_description_channel(ch,skus,context or {})
+    if ch=='ozon':
+        import ozon_client as oz
+        data['prices']=oz.get_prices_and_stocks(skus)
+    return data
+
+def verify_preservation(ch,sku,old,new):
+    if ch!='ozon':return api.verify_description_preservation(ch,sku,old,new)
+    b,bp=card_detail(ch,old,sku);a,ap=card_detail(ch,new,sku)
+    return ozguard.verify(b,a,bp,ap)
+
+def send_channel(ch,payload,context):
+    if ch!='ozon':return api.send_description_batch(ch,payload,context or {})
+    import ozon_client as oz
+    # Same successful annotation endpoint as the test; explicit dictionary ID,
+    # one network attempt, never send model or KIZ attributes.
+    for row in payload:
+        row['attributes'][0]['values'][0]['dictionary_value_id']=0
+    reply=oz._post('/v1/product/attributes/update',{'items':payload},retries=1)
+    if not reply or reply.get('error'):raise ValueError('Ozon description request not acknowledged')
+    return reply.get('task_id') or (reply.get('result') or {}).get('task_id')
+
+def observe(entry,ch,snapshot,sku,target):
+    card,detail=card_detail(ch,snapshot,sku)
     actual_id=identity(ch,card,detail)
     if actual_id!=entry['card_id']:
         raise ValueError('Live card ID differs from census')
@@ -268,10 +296,10 @@ def confirmed_rejection(audit):
     return bool(codes and all(c in (400,422,429) for c in codes))
 
 def read_api(ch,skus,context):
-    if ch=='wb':return api.read_description_channel(ch,skus,context or {})
+    if ch=='wb':return read_channel(ch,skus,context)
     merged={}
     for offset in range(0,len(skus),50):
-        part=api.read_description_channel(ch,skus[offset:offset+50],context or {})
+        part=read_channel(ch,skus[offset:offset+50],context)
         for key,value in part.items():
             if isinstance(value,list):merged.setdefault(key,[]).extend(value)
             else:merged[key]=value
@@ -316,8 +344,14 @@ def worker_api(ch,entries,rules,context,paused,master,save,report_dir,apply):
             row_status(e,'blocked',str(exc)[:300])
     save()
     if ch in paused or not apply:return
+    # Never send a new Ozon batch when an earlier accepted write is unresolved.
+    if ch=='ozon' and any(e.get('status') in ('submitted','processing') for e in entries.values()):return
     # Every actual write has a persisted intent and an exact pre-write baseline.
     groups=[];batch=[]
+    if ch=='ozon':
+        # Start with a known inexpensive singleton; then ordinary safe batches.
+        candidates.sort(key=lambda item:(item[0]!='01X301127C',item[0]))
+        if candidates:groups.append([candidates.pop(0)])
     for sku,payload in candidates:
         if entries[sku].get('isolate'):
             if batch:groups.append(batch);batch=[]
@@ -332,11 +366,11 @@ def worker_api(ch,entries,rules,context,paused,master,save,report_dir,apply):
         audit=[];safe=[]
         try:
             with guard([],allow_write=False,descriptions_only=True):
-                fresh=api.read_description_channel(ch,skus,context or {})
+                fresh=read_channel(ch,skus,context)
             for sku,_ in group:
                 e=entries[sku]
                 try:
-                    api.verify_description_preservation(ch,sku,snap,fresh)
+                    verify_preservation(ch,sku,snap,fresh)
                     actual,fp=observe(e,ch,fresh,sku,rules[sku]['text'][ch]['description'])
                     if e['status']=='verified':continue
                     if fp!=e['protected_hash']:raise ValueError('Fresh protected baseline differs')
@@ -359,27 +393,48 @@ def worker_api(ch,entries,rules,context,paused,master,save,report_dir,apply):
             # Persist the encrypted original baseline together with the intent.
             save([api.OUT/'evidence.enc']);current_main()
             if ch in paused:break
+            task=None
             try:
                 with guard(audit,allow_write=True,descriptions_only=True):
-                    api.send_description_batch(ch,[p for _,p in safe],context or {})
+                    task=send_channel(ch,[p for _,p in safe],context)
             except Exception as exc:failure=str(exc)[:300]
-            try:
-                with guard([],allow_write=False,descriptions_only=True):
-                    after=api.read_description_channel(ch,[s for s,_ in safe],context or {})
-            except Exception as exc:failure=(failure or '')+' Readback: '+str(exc)[:300]
-            if after is not None:
+            consecutive=0
+            for attempt in range(12 if ch=='ozon' else 1):
+                if ch=='ozon':time.sleep(5)
+                try:
+                    with guard([],allow_write=False,descriptions_only=True):
+                        if ch=='ozon' and task:
+                            import ozon_client as oz
+                            evidence['task_result']=oz.get_import_status(int(task))
+                        after=read_channel(ch,[s for s,_ in safe],context)
+                except Exception as exc:
+                    consecutive=0
+                    failure=(failure or '')[:200]+' Readback: '+str(exc)[:300]
+                    continue
+                matched=True
                 for sku,_ in safe:
                     e=entries[sku]
+                    if e.get('status')=='blocked':matched=False;continue
                     try:
-                        api.verify_description_preservation(ch,sku,before,after)
-                        observe(e,ch,after,sku,rules[sku]['text'][ch]['description'])
+                        normalization=verify_preservation(ch,sku,before,after)
+                        if ch=='ozon':
+                            card,_=card_detail(ch,after,sku)
+                            if api.description_value(ch,card)!=rules[sku]['text'][ch]['description']:
+                                matched=False;continue
+                            e['observed_ozon_normalization']=normalization
+                        else:observe(e,ch,after,sku,rules[sku]['text'][ch]['description'])
                     except Exception as exc:
+                        matched=False
                         if 'Protected' in str(exc) or 'Unrelated fields changed' in str(exc):
                             paused[ch]='Protected-field drift: '+sku
                             row_status(e,'blocked',str(exc)[:300])
                         else:
-                            # Incomplete readback is not a successful write.
                             e['error']=str(exc)[:300]
+                if ch!='ozon' or ch in paused:break
+                consecutive=consecutive+1 if matched else 0
+                if consecutive>=2:
+                    for sku,_ in safe:observe(entries[sku],ch,after,sku,rules[sku]['text'][ch]['description'])
+                    break
             for sku,_ in safe:
                 e=entries[sku]
                 if e['status'] in ('verified','blocked'):continue
@@ -394,6 +449,7 @@ def worker_api(ch,entries,rules,context,paused,master,save,report_dir,apply):
             api.encrypt_report(evidence)
         finally:api.OUT=old_out
         save([report_dir/ch/str(seq)/'evidence.enc'])
+        if ch=='ozon' and any(entries[s]['status']!='verified' for s,_ in safe):break
 
 def worker_tilda(entries,rules,records,report_dir,save):
     rows,patch=aux.tilda_rows(rules,list(entries),records)
@@ -562,6 +618,12 @@ def run(live=False):
     report_dir=BASE/'runs'/run_id
     policy=read_json(ROOT/'data/content_description_policy.json',{})
     paused={**old.get('paused_channels',{}),**policy.get('paused_writes',{})}
+    legacy_hold=policy.get('ozon',{}).get('legacy_hold_reason')
+    resume=policy.get('ozon',{}).get('guarded_resume') is True and bool(legacy_hold)
+    if resume and old.get('paused_channels',{}).get('ozon') not in (None,legacy_hold):
+        paused['ozon']=old['paused_channels']['ozon'] # preserve any NEW safety stop
+    elif resume and paused.get('ozon')==legacy_hold:
+        paused.pop('ozon',None)
     state={'version':1,'rows':{},'paused_channels':paused,'updated_utc':stamp(),'run_id':run_id,'inventory_errors':errors,'inventory_extra':extra,'master_count':len(master_rows),'inventory_counts':{ch:sum(len(v) for v in ids[ch].values()) for ch in CHANNELS}}
     for sku in universe:
         state['rows'][sku]={}
@@ -588,6 +650,8 @@ def run(live=False):
                     row_status(e,'pending','No reviewed target description')
                 elif sku not in master_rows or sku in duplicates:
                     row_status(e,'blocked','Missing or ambiguous master SKU; no automatic creation')
+                elif ch=='ozon' and resume and ch not in paused and e['status']=='blocked' and e.get('error')==legacy_hold and not e.get('attempts'):
+                    row_status(e,'prepared',None,next_attempt_utc=None)
                 elif e['status']=='not_applicable' or (e['status']=='blocked' and e.get('error') in ('No exact active mapping in observed inventory; absence not confirmed','Missing or ambiguous master SKU; no automatic creation','Canonical workbook description not verified for this SKU/channel','Canonical workbook description not verified')):
                     row_status(e,'prepared',None)
             state['rows'][sku][ch]=e
@@ -624,7 +688,7 @@ def run(live=False):
     # Give accepted WB/Market writes a second readback after the other queues
     # have had their turn. This is one read per channel, not per product or a
     # replay of the write batch. Later scheduled runs keep the bounded polling.
-    for ch in ('wb','market'):
+    for ch in ('ozon','wb','market'):
         if ch in errors:continue
         entries=followup_entries(state['rows'],ch,rules)
         if entries:

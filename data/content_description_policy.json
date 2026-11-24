@@ -8,7 +8,9 @@
     45302607418,
     45304536243,
     45304779326,
-    45305000035
+    45305000035,
+    45312871909,
+    45313082317
   ],
   "tilda": {
     "automatic_commerceml_description_status": "not_supported_by_verified_existing_card_test",
@@ -35,6 +37,18 @@
     "control_descriptions_match": true,
     "grouping_value_mutated": true,
     "causation": "Historical cache comparison plus write verification failures; exact original protected snapshots are encrypted.",
-    "mass_write_status": "held"
+    "mass_write_status": "guarded_autonomous_queue_resume",
+    "legacy_hold_reason": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+    "guarded_resume": true,
+    "recovery_evidence": {
+      "run": 45313082317,
+      "test_sku": "TEST001",
+      "task_id": 6112583824,
+      "text_verified": true,
+      "actual_model_id_unchanged": true,
+      "default_KIZ_1_materialized": true,
+      "legacy_publisher_still_held": true,
+      "scope": "only attribute 4191; compare exact actual model_info, product ID, SKU, seller price and other actual attributes; normalize observed effective default and redundant repeated exact SKU suffix only; stop on real drift"
+    }
   }
 }
