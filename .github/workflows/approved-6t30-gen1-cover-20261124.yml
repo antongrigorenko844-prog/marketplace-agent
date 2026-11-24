@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt pillow
-      - name: Verify approved source and exact SKU before publishing
+      - name: Recover exact cover readback without seller or feed writes
         env:
           GH_TOKEN: ${{ github.token }}
           OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
@@ -35,4 +35,4 @@ jobs:
           AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
         run: |
           python -m py_compile scripts/approved_6t30_gen1_cover_20261124.py
-          python -u scripts/approved_6t30_gen1_cover_20261124.py
+          python -u scripts/approved_6t30_gen1_cover_20261124.py --resume-readonly

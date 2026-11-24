@@ -144,4 +144,101 @@ def main():
     print(json.dumps(result,ensure_ascii=False))
     return 0
 
-if __name__=='__main__':sys.exit(main())
+
+def resume_readonly():
+    """Recover a lost post-write checkpoint. Never call a marketplace write or re-promote a feed."""
+    from openpyxl import load_workbook
+    import avito_client as av
+    import avito_feed as af
+    import content_aux_sync as aux
+    from urllib.parse import urlsplit
+    p.current_main()
+    result=json.loads(OUT.read_text())
+    raw=SRC.read_bytes()
+    require(sha(raw)==EXPECTED and result['source_sha256']==EXPECTED,'Source changed')
+    ref=Image.open(io.BytesIO(raw)).convert('RGB')
+    url=result['source_url']
+    evidence={'checked_utc':p.stamp(),'seller_writes':0,'feed_writes':0,'previous_run':'45366487615'}
+    paths=[OUT]
+    def inspect_book(raw):
+        book=load_workbook(io.BytesIO(raw),read_only=True,data_only=False)
+        sheets={ws.title:list(ws.values) for ws in book}
+        book.close()
+        return sheets
+    def target_row(sheets,sku,aid):
+        rows=[(i,r) for i,r in enumerate(sheets[af.SHEET_ADS]) if i>=af.FIRST_DATA_ROW-1 and str(r[af.COL_ID-1] or '') in (sku,sku+'-av')]
+        require(len(rows)==1,'Nonunique exact SKU '+sku)
+        i,r=rows[0]
+        require(str(r[af.COL_AVITO_ID-1] or '')==aid,'Avito identity mismatch '+sku)
+        return i,r
+    try:
+        card=p.read_wb_exact(SKU,'2254117475')
+        photos=card.get('photos') or []
+        require(photos and photos[0].get('big'),'WB gallery absent')
+        mad=exact_image(photos[0]['big'],ref)
+        evidence['wb']={'status':'cover_matches' if mad<10 else 'cover_not_matched','mean_pixel_difference':mad,'cover':photos[0]['big'],'photo_count':len(photos),'secondary':photos[1:],'protected_before_after':'not recoverable from pre-write marker; no new upload'}
+        if mad<10:
+            result['channels']['wb']['status']='cover_readback_matches_protection_unresolved'
+    except Exception as exc:evidence['wb']={'status':'read_error','error':str(exc)[:300]}
+    try:
+        stable='https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/'
+        a=requests.get(stable+'avito_feed.xlsx',params={'audit':str(time.time_ns())},timeout=60);a.raise_for_status()
+        b=requests.get(stable+'avito_feed.backup_6t30_20261123_786459916.xlsx',timeout=60);b.raise_for_status()
+        old,new=inspect_book(b.content),inspect_book(a.content)
+        i,row=target_row(new,SKU,'8425207775');j,oldrow=target_row(old,SKU,'8425207775')
+        require(i==j and old.keys()==new.keys(),'Workbook structure changed')
+        require(all(len(old[k])==len(new[k]) for k in old),'Workbook row count changed')
+        diffs=[]
+        for k in old:
+            for n,(r1,r2) in enumerate(zip(old[k],new[k])):
+                require(len(r1)==len(r2),'Workbook columns changed')
+                for m,(v1,v2) in enumerate(zip(r1,r2)):
+                    if v1!=v2:diffs.append((k,n,m))
+        require(diffs==[(af.SHEET_ADS,i,af.COL_IMAGE_URLS-1)],'Unexpected workbook cell differences')
+        images=str(row[af.COL_IMAGE_URLS-1]).splitlines()
+        prior=str(oldrow[af.COL_IMAGE_URLS-1]).splitlines()
+        require(images==[url]+prior[1:],'Gallery mismatch')
+        evidence['avito_stable']={'status':'exact_single_cell_change_verified','sha256':sha(a.content),'previous_sha256':sha(b.content),'row':i+1,'avito_id':'8425207775','secondary_preserved':True,'all_other_cells_unchanged':True}
+        local=ROOT/'data/avito_feed.xlsx'
+        if local.exists():
+            if sha(local.read_bytes())==sha(b.content):
+                local.write_bytes(a.content);paths.append(local)
+                evidence['avito_stable']['repository_copy']='recovered from verified release'
+            elif sha(local.read_bytes())==sha(a.content):
+                evidence['avito_stable']['repository_copy']='already exact'
+            else:
+                evidence['avito_stable']['repository_copy']='different bytes; not overwritten'
+        result['channels']['avito']={'status':'stable_feed_verified_not_listing','new_feed_sha':sha(a.content),'non_image_cells_unchanged':True}
+    except Exception as exc:evidence['avito_stable']={'status':'read_error_or_mismatch','error':str(exc)[:300]}
+    evidence['avito_received']={}
+    for kind in ('last_successful','current'):
+        try:
+            endpoint='/autoload/v4/uploads/'+kind
+            upload=av._request('GET',endpoint,retries=1)
+            matches=[f for f in upload.get('feed_urls',[]) if f.get('name')=='LEOPARTS запчасти']
+            require(len(matches)==1,'Unique received feed missing')
+            link=matches[0].get('url');u=urlsplit(link)
+            require(u.scheme=='https' and u.hostname=='api.avito.ru' and u.path.startswith('/autoload/v2/feed/content/'),'Unexpected official snapshot path')
+            resp=requests.get(link,headers={'Authorization':av._headers()['Authorization']},timeout=40,allow_redirects=False)
+            resp.raise_for_status()
+            book=inspect_book(resp.content)
+            i,row=target_row(book,SKU,'8425207775')
+            h_i,h_row=target_row(book,'0am325025H','8312205273')
+            rule=json.loads((ROOT/'data/content_manifest.json').read_text())['products']['0am325025H']['text']['avito']['description']
+            desired=aux.desired_avito('0am325025H',rule,h_row[af.COL_PRICE-1])
+            items=av._request('GET',endpoint+'/items',params={'page':1,'perPage':50,'query':'8425207775'},retries=1).get('items',[])
+            hit=[{k:x.get(k) for k in ('ad_id','avito_id','status','section','messages')} for x in items if str(x.get('avito_id'))=='8425207775']
+            evidence['avito_received'][kind]={'upload_id':upload.get('upload_id'),'status':upload.get('status'),'started_at':upload.get('started_at'),'sha256':sha(resp.content),'cover_exact':str(row[af.COL_IMAGE_URLS-1]).splitlines()[0]==url,'H_description_exact':str(h_row[af.COL_DESCRIPTION-1] or '')==desired,'items':hit,'public_verified':False}
+        except Exception as exc:evidence['avito_received'][kind]={'error':str(exc)[:300]}
+    try:
+        result['channels']['tilda'],patch=stage_tilda(url)
+        paths.append(patch)
+        evidence['tilda']={'status':'existing_editor_required','public_cover_not_verified':True}
+    except Exception as exc:evidence['tilda']={'status':'read_error','error':str(exc)[:300]}
+    result['recovery_readback']=evidence
+    p.write_json(OUT,result)
+    p.checkpoint(paths,live=True)
+    print(json.dumps(evidence,ensure_ascii=False))
+    return 0
+
+if __name__=='__main__':sys.exit(resume_readonly() if '--resume-readonly' in sys.argv else main())
