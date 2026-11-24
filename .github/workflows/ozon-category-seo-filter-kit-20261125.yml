@@ -1,0 +1,41 @@
+name: LEOPARTS Ozon guarded category correction EA888gen3-filter-kit
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/ozon-category-seo-filter-kit-20261125.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+      OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Validate and snapshot one exact existing card
+        run: |
+          python -m py_compile scripts/ozon_category_seo_filter_kit_20261125.py
+          python -u scripts/ozon_category_seo_filter_kit_20261125.py prepare
+      - name: Persist preflight before any import
+        run: bash .github/scripts/save_data.sh data/ozon_category_seo_filter_kit_20261125.json
+      - name: Submit only if all preconditions passed
+        run: python -u scripts/ozon_category_seo_filter_kit_20261125.py submit
+      - name: Persist import result before verification
+        if: always()
+        run: |
+          if [ -f data/ozon_category_seo_filter_kit_20261125.json ]; then bash .github/scripts/save_data.sh data/ozon_category_seo_filter_kit_20261125.json; fi
+      - name: Read back original product ID and protected attributes
+        run: python -u scripts/ozon_category_seo_filter_kit_20261125.py verify
+      - name: Save final evidence
+        if: always()
+        run: |
+          if [ -f data/ozon_category_seo_filter_kit_20261125.json ]; then bash .github/scripts/save_data.sh data/ozon_category_seo_filter_kit_20261125.json; fi
