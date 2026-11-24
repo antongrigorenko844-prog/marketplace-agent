@@ -11,6 +11,9 @@ on:
       article:
         type: string
         default: ''
+      api_channels:
+        type: string
+        default: 'ozon,wb,market'
   workflow_dispatch:
     inputs:
       mode:
@@ -26,6 +29,10 @@ on:
         type: string
         default: ''
         description: Exact comma-separated SKUs; required for descriptions_only
+      api_channels:
+        type: string
+        default: 'ozon,wb,market'
+        description: Exact comma-separated API channels
 permissions:
   contents: write
 concurrency:
@@ -68,6 +75,7 @@ jobs:
           CONTENT_MODE: ${{ inputs.mode }}
           DESCRIPTION_ONLY: ${{ inputs.descriptions_only }}
           ARTICLES: ${{ inputs.article }}
+          API_CHANNELS: ${{ inputs.api_channels }}
         run: |
           set -euo pipefail
           if [ "$DESCRIPTION_ONLY" = "true" ]; then
@@ -80,7 +88,7 @@ jobs:
                 cmp <(git show FETCH_HEAD:data/description_sync_request.json) data/description_sync_request.json
               fi
             fi
-            python content_sync.py --descriptions-only --mode "$CONTENT_MODE" --article "$ARTICLES"
+            python content_sync.py --descriptions-only --mode "$CONTENT_MODE" --article "$ARTICLES" --channels "$API_CHANNELS"
           elif [ -n "$CONTENT_MODE" ]; then
             python content_sync.py --mode "$CONTENT_MODE"
           else

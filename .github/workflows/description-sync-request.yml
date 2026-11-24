@@ -14,6 +14,8 @@ jobs:
       mode: ${{ steps.request.outputs.mode }}
       articles: ${{ steps.request.outputs.articles }}
       api: ${{ steps.request.outputs.api }}
+      api_channels: ${{ steps.request.outputs.api_channels }}
+      api_articles: ${{ steps.request.outputs.api_articles }}
       auxiliary: ${{ steps.request.outputs.auxiliary }}
     steps:
       - uses: actions/checkout@v4
@@ -27,7 +29,7 @@ jobs:
           manifest = json.loads(Path('data/content_manifest.json').read_text())['products']
           mode = request.get('mode')
           channels = request.get('channels', ['api'])
-          if not isinstance(channels, list) or not channels or any(c not in {'api','avito','tilda'} for c in channels):
+          if not isinstance(channels, list) or not channels or any(c not in {'api','ozon','wb','market','avito','tilda'} for c in channels):
               raise SystemExit('Invalid channel scope')
           skus = request.get('skus')
           if mode not in {'inspect', 'verify', 'apply'}:
@@ -36,13 +38,17 @@ jobs:
               raise SystemExit('Explicit list of 1–50 SKUs required')
           if any(not isinstance(s, str) or not s or s != s.strip() or any(c in s for c in ',\r\n') or s not in manifest for s in skus):
               raise SystemExit('Invalid or unknown SKU')
-          if len(skus) != len(set(skus)):
-              raise SystemExit('Duplicate SKU')
+          if len(skus) != len(set(skus)) or len(channels)!=len(set(channels)):
+              raise SystemExit('Duplicate SKU or channel')
+          api = [c for c in ('ozon','wb','market') if c in channels or 'api' in channels]
+          api_skus = [s for s in skus if any(manifest[s].get('text',{}).get(c,{}).get('description') for c in api)]
           with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
               print('mode='+mode, file=out)
               print('articles='+','.join(skus), file=out)
-              print('api='+str('api' in channels).lower(), file=out)
-              print('auxiliary='+','.join(c for c in channels if c!='api'), file=out)
+              print('api='+str(bool(api_skus)).lower(), file=out)
+              print('api_channels='+','.join(api), file=out)
+              print('api_articles='+','.join(api_skus), file=out)
+              print('auxiliary='+','.join(c for c in channels if c in {'avito','tilda'}), file=out)
           PY
   descriptions:
     needs: scope
@@ -51,7 +57,8 @@ jobs:
     with:
       descriptions_only: true
       mode: ${{ needs.scope.outputs.mode }}
-      article: ${{ needs.scope.outputs.articles }}
+      article: ${{ needs.scope.outputs.api_articles }}
+      api_channels: ${{ needs.scope.outputs.api_channels }}
     secrets: inherit
 
   auxiliary:
