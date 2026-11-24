@@ -100,7 +100,7 @@ def patch_cells(raw,sheet_name,edits):
                 raise ValueError('Formula cell forbidden '+coord)
             if any(c.tag not in ('v','is','{'+MAIN_NS+'}v','{'+MAIN_NS+'}is') for c in element):
                 raise ValueError('Unsupported cell metadata '+coord)
-            attrs=re.sub(rb'\s+t="[^"]*"','',match.group(1)).rstrip()
+            attrs=re.sub(rb'\s+t="[^"]*"',b'',match.group(1)).rstrip()
             safe=escape(value,quote=False).replace('\r','&#13;').encode('utf-8')
             new=b'<c'+attrs+b' t="inlineStr"><is><t xml:space="preserve">'+safe+b'</t></is></c>'
             changed=changed[:match.start()]+new+changed[match.end():]
