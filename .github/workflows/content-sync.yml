@@ -112,6 +112,7 @@ jobs:
           # Preserve owner changes and never replay seller writes to save a report.
           cp reports/content-sync/summary.json "$RUNNER_TEMP/content-summary.json"
           cp reports/content-sync/evidence.enc "$RUNNER_TEMP/content-evidence.enc"
+          git restore --source=HEAD -- reports/content-sync/summary.json reports/content-sync/evidence.enc
           git fetch --no-tags origin "$TARGET_BRANCH"
           git checkout --detach FETCH_HEAD
           mkdir -p reports/content-sync
