@@ -1,0 +1,43 @@
+name: LEOPARTS five DQ200 description batch
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/content-batch-dq200-20261124.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Apply exact description fields only
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+        run: |
+          python -m py_compile scripts/content_batch_dq200_20261124.py
+          python -m scripts.content_batch_dq200_20261124
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: batch-dq200-backup
+          path: reports/content-sync/evidence.enc
+      - name: Persist verification
+        if: always()
+        run: |
+          if [ -f data/content_batch_dq200_20261124_result.json ]; then
+            bash .github/scripts/save_data.sh data/content_batch_dq200_20261124_result.json
+          fi
