@@ -1,0 +1,57 @@
+name: LEOPARTS Market final guarded continuation and dated funnel
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/market-final-optimization-20261125.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  catalog:
+    concurrency:
+      group: marketplace-agent
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    env:
+      YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+      YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - run: python -m py_compile scripts/market_final_optimization_20261125.py
+      - name: Safe existing-card corrections and complete readback
+        run: python -u scripts/market_final_optimization_20261125.py
+      - if: always()
+        run: |
+          if [ -f data/market_final_optimization_20261125.json ]; then bash .github/scripts/save_data.sh data/market_final_optimization_20261125.json; fi
+  analytics:
+    concurrency:
+      group: market-growth-analytics-20261125
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+      YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - run: python -m py_compile scripts/market_dated_funnel_20261125.py
+      - name: Request one dated funnel or read existing report
+        run: python -u scripts/market_dated_funnel_20261125.py
+      - if: always()
+        run: |
+          if [ -f data/market_dated_funnel_20261125.json ]; then bash .github/scripts/save_data.sh data/market_dated_funnel_20261125.json; fi
