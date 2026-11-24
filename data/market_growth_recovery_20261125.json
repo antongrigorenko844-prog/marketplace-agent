@@ -6907,7 +6907,7 @@
     {
       "sku": "02E 305 045",
       "kind": "type",
-      "status": "submitted",
+      "status": "pending_or_unchanged",
       "before": {
         "offerId": "02E 305 045",
         "name": "Корпус фильтра + фильтр мехатроника DSG6 DQ250 02E305045",
@@ -7116,6 +7116,83 @@
       },
       "response": {
         "status": "OK"
+      },
+      "after": {
+        "offerId": "02E 305 045",
+        "name": "Корпус фильтра + фильтр мехатроника DSG6 DQ250 02E305045",
+        "identity": {
+          "offerId": "02E 305 045",
+          "marketSku": 5882321872,
+          "groupId": null
+        },
+        "model": 5882321873,
+        "category": 71380208,
+        "categoryName": "Запчасти для трансмиссии автомобиля",
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED",
+        "errors": [],
+        "warnings": [
+          {
+            "message": "Не заполнено обязательное поле",
+            "comment": "Укажите код ТН ВЭД"
+          }
+        ],
+        "card_errors": [],
+        "card_warnings": [
+          {
+            "message": "Не заполнено обязательное поле",
+            "comment": "Укажите код ТН ВЭД"
+          }
+        ],
+        "ugc": {
+          "rating": 0.0
+        },
+        "rating": 66,
+        "price": {
+          "value": 2880.0,
+          "currencyId": "RUR",
+          "discountBase": 10000.0,
+          "updatedAt": "2026-11-24T01:40:37+03:00"
+        },
+        "campaigns": [
+          {
+            "campaignId": 141377963,
+            "status": "PUBLISHED"
+          }
+        ],
+        "sellingPrograms": null,
+        "parameterValues": [
+          {
+            "parameterId": 57046341,
+            "value": "Вид техники: Легковые автомобили"
+          },
+          {
+            "parameterId": 21194330,
+            "valueId": 22269110,
+            "value": "комплект"
+          },
+          {
+            "parameterId": 7351754,
+            "value": "Комплектация: Корпус масляного фильтра DSG6 DQ250 — 1 шт.; фильтр — 1 шт."
+          },
+          {
+            "parameterId": 60134505,
+            "value": "02E305045"
+          },
+          {
+            "parameterId": 200,
+            "value": ""
+          }
+        ]
+      },
+      "checks": {
+        "protected_diff": [],
+        "other_attributes_unchanged": true,
+        "group_preserved": true,
+        "category_verified": true,
+        "type_verified": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     }
   ],
@@ -7133,7 +7210,7 @@
     "0am325066ad": "Group not verified singleton",
     "0AM301212A": "Group not verified singleton"
   },
-  "updated_utc": "2026-11-24T19:55:54.871770+00:00",
+  "updated_utc": "2026-11-24T19:56:59.530961+00:00",
   "initial_counts": {
     "PUBLISHED": 118,
     "DISABLED_AUTOMATICALLY": 23,
