@@ -63,3 +63,10 @@ class PipelineTests(unittest.TestCase):
         rows={s:{'wb':{'status':s,'card_id':s}} for s in states}
         rules={s:{'text':{'wb':{'description':'text'}}} for s in states}
         self.assertEqual(set(p.followup_entries(rows,'wb',rules)),{'submitted','processing'})
+
+    def test_held_ozon_readback_only_selects_paused_targets(self):
+        rows={'A':{'ozon':{'status':'blocked','card_id':'1','error':'Ozon description-only requests changed protected attributes'}},
+              'B':{'ozon':{'status':'blocked','card_id':'2','error':'identity mismatch'}},
+              'C':{'ozon':{'status':'verified','card_id':'3'}}}
+        rules={s:{'text':{'ozon':{'description':'text'}}} for s in rows}
+        self.assertEqual(set(p.held_ozon_readback(rows,rules)),{'A'})
