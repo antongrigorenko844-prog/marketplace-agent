@@ -25,6 +25,7 @@ import exchange_items
 ROOT=Path(__file__).resolve().parent
 OUT=ROOT/'reports/content-aux'
 FEED=ROOT/'data/avito_feed.xlsx'
+AVITO_RECEIPT=OUT/'avito-publication.json'
 
 
 def digest(raw):
@@ -94,6 +95,23 @@ def read_avito_autoload(av):
         old=av.get_autoload_report_items()
         return {**old,'version':'v2_fallback','evidence':evidence}
 
+
+def current_avito_policy(policy, receipt, feed_sha):
+    """Only a receipt for the exact current published file supersedes policy."""
+    if (isinstance(receipt,dict) and receipt.get('feed_sha256')==feed_sha
+            and isinstance(receipt.get('await_report_started_after_utc'),str)):
+        return {**policy,'avito':receipt}
+    return policy
+
+def avito_publication_receipt(publication, rows):
+    if publication.get('status')!='published_sha_verified' or not publication.get('sha256'):
+        raise ValueError('Avito release verification required')
+    return {'publication_run':os.getenv('GITHUB_RUN_ID'),'revision':os.getenv('GITHUB_SHA'),
+            'feed_sha256':publication['sha256'],
+            'await_report_started_after_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            'items':{sku:{'avito_id':entry.get('avito_id'),'feed_id':entry.get('feed_id')}
+                     for sku,entry in rows.items() if entry.get('needs_feed_change') and not entry.get('error')},
+            'live_text_verified':False}
 
 def avito_import_evidence(report, rows, feed_sha, policy):
     """Distinguish matched source, processed report and exact live text.
@@ -386,20 +404,28 @@ def run(mode,skus,channels):
             report['avito_feed_sha_before']=digest(raw)
             report['avito_feed_sha_staged']=digest(staged)
             policy=json.loads((ROOT/'data/content_description_policy.json').read_text())
+            receipt=json.loads(AVITO_RECEIPT.read_text()) if AVITO_RECEIPT.exists() else None
+            policy=current_avito_policy(policy,receipt,digest(raw))
             report['avito_report_after_known_publication']=avito_import_evidence(autoload['report'],results,digest(raw),policy)
             write_report(report)
             if mode=='apply' and staged!=raw:
                 if os.getenv('GITHUB_REF')!='refs/heads/main':
                     raise ValueError('Avito publication only allowed from main')
                 report['avito_feed_publication']=publish_feed(staged)
+                if report['avito_feed_publication'].get('sha256')!=digest(staged):
+                    raise ValueError('Avito publication hash mismatch')
+                receipt=avito_publication_receipt(report['avito_feed_publication'],results)
+                AVITO_RECEIPT.parent.mkdir(parents=True,exist_ok=True)
+                AVITO_RECEIPT.write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
                 FEED.write_bytes(staged)
-                subprocess.run(['bash','.github/scripts/save_data.sh','data/avito_feed.xlsx'],
+                subprocess.run(['bash','.github/scripts/save_data.sh','data/avito_feed.xlsx',str(AVITO_RECEIPT.relative_to(ROOT))],
                                cwd=ROOT,check=True,timeout=180)
                 for item in results.values():
                     if item.get('needs_feed_change'):
                         item.update(feed_verified=True,description_verified=False,
                                     status='feed_published_pending_live_description')
                 report['avito_feed_persisted']=True
+                report['avito_publication_receipt']=receipt
             elif mode=='apply':
                 report['avito_feed_publication']={'status':'unchanged'}
         except Exception as exc:
