@@ -1,7 +1,9 @@
 {
   "channels": {
     "avito": {
-      "status": "submitted_intent"
+      "new_feed_sha": "264444c623fb7e34a9cff0982344b2fccbdd6368853d00b90766328750e016b9",
+      "non_image_cells_unchanged": true,
+      "status": "stable_feed_verified_not_listing"
     },
     "avito_photo_map": {
       "new_first_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30-gen1-cover-20261124.png?v=6d5af9507d",
@@ -111,8 +113,23 @@
       }
     },
     "avito_stable": {
-      "error": "too many values to unpack (expected 2)",
-      "status": "read_error_or_mismatch"
+      "all_other_cells_unchanged": true,
+      "avito_id": "8425207775",
+      "checked_utc": "2026-11-24T12:45:23.828112+00:00",
+      "feed_id": "6t30",
+      "local_after_sha256": "264444c623fb7e34a9cff0982344b2fccbdd6368853d00b90766328750e016b9",
+      "local_before_sha256": "1d045a88012b57790ba8da79438823477e3fb395d840926d1b668974b138d5d3",
+      "mapping_basis": "persisted exact received snapshot, not current listing readback",
+      "mapping_upload_id": 640176851,
+      "previous_sha256": "1d045a88012b57790ba8da79438823477e3fb395d840926d1b668974b138d5d3",
+      "public_verified": false,
+      "release_writes": 0,
+      "repository_copy": "recovered from verified release",
+      "row": 65,
+      "secondary_preserved": true,
+      "seller_writes": 0,
+      "sha256": "264444c623fb7e34a9cff0982344b2fccbdd6368853d00b90766328750e016b9",
+      "status": "exact_single_cell_change_verified"
     },
     "checked_utc": "2026-11-24T11:44:16.797517+00:00",
     "feed_writes": 0,
