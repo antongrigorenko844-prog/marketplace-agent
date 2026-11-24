@@ -22,8 +22,7 @@
     },
     "wb": {
       "not_applicable": 22,
-      "prepared": 1,
-      "verified": 142
+      "verified": 143
     }
   },
   "inventory_counts": {
@@ -7460,16 +7459,21 @@
         "updated_utc": "2026-11-24T22:47:40.141604+00:00"
       },
       "wb": {
+        "after_hash": "76e0b80bf804694ff357424daffe69c2ed3380ce9b91b8d4637f750e1b7bc464",
         "attempts": 0,
         "card_id": "2254117475",
         "channel": "wb",
         "error": null,
+        "last_checked_utc": "2026-11-24T22:47:53.987529+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
+        "protection_verified": false,
         "read_failures": 0,
         "sku": "6t30",
-        "status": "prepared",
+        "status": "verified",
         "target_hash": "76e0b80bf804694ff357424daffe69c2ed3380ce9b91b8d4637f750e1b7bc464",
-        "updated_utc": "2026-11-24T22:47:40.141579+00:00"
+        "updated_utc": "2026-11-24T22:47:53.987556+00:00",
+        "verification_basis": "already_matching_live_text_no_write"
       }
     },
     "6t30-solenoids-gen2": {
@@ -14361,6 +14365,6 @@
     }
   },
   "run_id": "45504097817-1",
-  "updated_utc": "2026-11-24T22:47:50.300792+00:00",
+  "updated_utc": "2026-11-24T22:47:53.987561+00:00",
   "version": 1
 }
