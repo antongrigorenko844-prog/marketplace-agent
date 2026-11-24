@@ -5,15 +5,15 @@
       "processing": 118
     },
     "market": {
-      "blocked": 1,
       "not_applicable": 9,
       "pending": 10,
+      "prepared": 1,
       "verified": 147
     },
     "ozon": {
-      "blocked": 132,
       "not_applicable": 20,
       "pending": 1,
+      "prepared": 132,
       "verified": 14
     },
     "tilda": {
@@ -186,9 +186,7 @@
     "tilda_public_only": true
   },
   "master_count": 159,
-  "paused_channels": {
-    "ozon": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields."
-  },
+  "paused_channels": {},
   "rows": {
     "01X301127C": {
       "avito": {
@@ -228,14 +226,15 @@
         "before_hash": "21a0b07baef12dedc7fde38fe8ebff19a195aba532af79718b8f5576b435ee32",
         "card_id": "1790079835",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286241+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "01X301127C",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "2e58716b9fdfbb354c1b0b556c9f29ebc065371a46ac25dfa386b36aad2426d4",
-        "updated_utc": "2026-11-24T02:17:11.918353+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655176+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -305,14 +304,15 @@
         "before_hash": "c967fe17d5877d772cd7ab991d3767a453dbd727ca174da3607ad039b2f58be1",
         "card_id": "1820208940",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286294+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "02E 305 045",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "2902020fd3da80e58b463d4b6d58fde085256e39eb2155220e54fe0d06efa95b",
-        "updated_utc": "2026-11-24T02:17:11.918445+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655235+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -355,7 +355,7 @@
         "sku": "02E305045E",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.274017+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655307+00:00"
       },
       "market": {
         "attempts": 0,
@@ -367,7 +367,7 @@
         "sku": "02E305045E",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.274007+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655302+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -379,7 +379,7 @@
         "sku": "02E305045E",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.273983+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655291+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -391,7 +391,7 @@
         "sku": "02E305045E",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.274026+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655312+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -403,7 +403,7 @@
         "sku": "02E305045E",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.273997+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655297+00:00"
       }
     },
     "02E305051C": {
@@ -444,14 +444,15 @@
         "before_hash": "f21fd15c9d55af3c5a1736706422973bc6dfe0589741836b9efd2b8ae64fddff",
         "card_id": "1504179111",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286328+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "02E305051C",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "60e509917cedf2e7505c4f9aca3e106781de48cd7def3abbe736916d5a6b5552",
-        "updated_utc": "2026-11-24T02:17:11.918524+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655326+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -521,14 +522,15 @@
         "before_hash": "27a97f74bd5ebded08935ded129074badf576d73a6832ddfc45e9d343e4f20bd",
         "card_id": "6287285906",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286354+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "02E927770AL",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "432972f328b7a0afbedfe278a8ffdcfd32ac213387aa331b0c05ed81fea241d7",
-        "updated_utc": "2026-11-24T02:17:11.918597+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655370+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -598,14 +600,15 @@
         "before_hash": "b34d3e794afa18a30783c1eea0d3b0df6eedc3d647c8ec8ab1f49697109dd484",
         "card_id": "1508687968",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286374+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "02e305045",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "16d36c53f330209cc4a2785e2c20bb0ba4421c6b845e487373dedebd92991cee",
-        "updated_utc": "2026-11-24T02:17:11.918697+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655415+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -678,14 +681,15 @@
         "before_hash": "f277c13ba714058632fd09ce860b07308ecdce173c400ed5697a8b752867a670",
         "card_id": "1508699443",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286392+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0AM301212A",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "d6b11127e2ab11a1138b4dde6dbbded542f664f3d17de16876da0dab76ec72cf",
-        "updated_utc": "2026-11-24T02:17:11.918758+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655457+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -758,14 +762,15 @@
         "before_hash": "b3d519cc91a5b367becbdee7a0b14cac7dba2a448efe372235373a47e90d5e36",
         "card_id": "1504143993",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286409+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0AM325025B",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "e1115e4535cb62f8882aca8ec20585cf10158177faa800544a34410bd7ce609b",
-        "updated_utc": "2026-11-24T02:17:11.918838+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655499+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -808,7 +813,7 @@
         "sku": "0AM325091E / 0AM325091F",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.274463+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655551+00:00"
       },
       "market": {
         "attempts": 0,
@@ -820,7 +825,7 @@
         "sku": "0AM325091E / 0AM325091F",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.274453+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655547+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -832,7 +837,7 @@
         "sku": "0AM325091E / 0AM325091F",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.274430+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655535+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -844,7 +849,7 @@
         "sku": "0AM325091E / 0AM325091F",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.274472+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655556+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -856,7 +861,7 @@
         "sku": "0AM325091E / 0AM325091F",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.274442+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655541+00:00"
       }
     },
     "0AM325120A": {
@@ -900,14 +905,15 @@
         "before_hash": "df8c6f7c18d331bfb9dc917bad085c4329bf414a1ab324ac7e55c56ad78f4927",
         "card_id": "1790152179",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286433+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0AM325120A",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "bd16ba6880b052d07dec5cb87a6380490dc109ea5b90503d0f009e219c046083",
-        "updated_utc": "2026-11-24T02:17:11.918911+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655567+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -919,7 +925,7 @@
         "sku": "0AM325120A",
         "status": "blocked",
         "target_hash": "bd16ba6880b052d07dec5cb87a6380490dc109ea5b90503d0f009e219c046083",
-        "updated_utc": "2026-11-24T02:35:07.274547+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655599+00:00"
       },
       "wb": {
         "after_hash": "bd16ba6880b052d07dec5cb87a6380490dc109ea5b90503d0f009e219c046083",
@@ -980,14 +986,15 @@
         "before_hash": "882ceda47ffc738caa315e4cf377b685097debd3699555800488d15ef56f4e00",
         "card_id": "1508698298",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286452+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0AM325219C",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "a4903b744e645f15b3e6468f10f311bb2702960b239200d6b670a5a1b4d022c9",
-        "updated_utc": "2026-11-24T02:17:11.918975+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655612+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -1142,14 +1149,15 @@
         "before_hash": "c9a4b9d9e82c730c6834af2c054f2ba79858254a08d8eeae60f80b93cc4ece2c",
         "card_id": "1508693768",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286470+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0AM325433E",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "c3202806e7dfc198305222fe9d15e5771239f26c93eb8961c8479624ed05a47e",
-        "updated_utc": "2026-11-24T02:17:11.919098+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655697+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -1222,14 +1230,15 @@
         "before_hash": "8699b676d43d90f58050807c8aa7652d0df893dc0850e85dbd9309ce04f2a56c",
         "card_id": "1709007882",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286486+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0AM325443D",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "ff0915d6d62f40adeb274092afc2a197a745c3052a7a261327c768c894e8bc12",
-        "updated_utc": "2026-11-24T02:17:11.919184+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655736+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -1305,14 +1314,15 @@
         "before_hash": "a548d08bee9c2d7a8c0967b50a3772e3831d6ab983c8629875c5664aa65a4dee",
         "card_id": "2646654575",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286503+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0AM325467J",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "910f70129bce1fb71e89f5ff91eaa78d090cf948d54d98391473430a60600100",
-        "updated_utc": "2026-11-24T02:17:11.919257+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655777+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -1358,7 +1368,7 @@
         "sku": "0AM325473",
         "status": "blocked",
         "target_hash": "01ef303def53e854dd92572b8a5e947c3ac88f241f3149bab507e1fb8a47286b",
-        "updated_utc": "2026-11-24T02:35:07.274963+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655844+00:00"
       },
       "market": {
         "after_hash": "01ef303def53e854dd92572b8a5e947c3ac88f241f3149bab507e1fb8a47286b",
@@ -1383,14 +1393,15 @@
         "before_hash": "0197b75a32bd525ed1a458fb3b611b658d5181129284384229ed5ebfa76062f8",
         "card_id": "2399759344",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286519+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0AM325473",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "01ef303def53e854dd92572b8a5e947c3ac88f241f3149bab507e1fb8a47286b",
-        "updated_utc": "2026-11-24T02:17:11.919313+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655819+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -1433,7 +1444,7 @@
         "sku": "0AM325587E",
         "status": "blocked",
         "target_hash": "8f3a52a6ee2829546d8dd0888a4bfd192b856dabda708e5906df5fa60cf04f89",
-        "updated_utc": "2026-11-24T02:35:07.275037+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655904+00:00"
       },
       "market": {
         "after_hash": "8f3a52a6ee2829546d8dd0888a4bfd192b856dabda708e5906df5fa60cf04f89",
@@ -1458,14 +1469,15 @@
         "before_hash": "e3f0d1cf673446808654b3e8e0e4810607ccdedfbc8d7b76c9b1667e1001acad",
         "card_id": "1508689345",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286534+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0AM325587E",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "8f3a52a6ee2829546d8dd0888a4bfd192b856dabda708e5906df5fa60cf04f89",
-        "updated_utc": "2026-11-24T02:17:11.919407+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655878+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -1538,14 +1550,15 @@
         "before_hash": "6b927e440a39eeff3dddfa411007f38855b3dc58582eb64d952668a9ea765e6b",
         "card_id": "5054769122",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286550+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0AM927769D",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "92b3ffcd385e0b05b682f375ebe0980052d2fe6d71828d1dbb3e64ceb3bc65bd",
-        "updated_utc": "2026-11-24T02:17:11.919527+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655926+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -1569,7 +1582,7 @@
         "sku": "0AM927769D",
         "status": "blocked",
         "target_hash": "92b3ffcd385e0b05b682f375ebe0980052d2fe6d71828d1dbb3e64ceb3bc65bd",
-        "updated_utc": "2026-11-24T02:35:07.275088+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655936+00:00"
       }
     },
     "0AM927769D-plata": {
@@ -1583,7 +1596,7 @@
         "sku": "0AM927769D-plata",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275185+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655983+00:00"
       },
       "market": {
         "attempts": 0,
@@ -1595,7 +1608,7 @@
         "sku": "0AM927769D-plata",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275176+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655979+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -1607,7 +1620,7 @@
         "sku": "0AM927769D-plata",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275157+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655968+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -1619,7 +1632,7 @@
         "sku": "0AM927769D-plata",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275194+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655988+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -1631,7 +1644,7 @@
         "sku": "0AM927769D-plata",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275167+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655974+00:00"
       }
     },
     "0AM927769E": {
@@ -1672,14 +1685,15 @@
         "before_hash": "2869bb6334a074efa454feb57fb1bb45856b110fdd90aeadb878eb8f194d5235",
         "card_id": "6976328449",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286566+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0AM927769E",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "08e5426d18b9875480c02c0fa8c10c04fef2dbf56bfcb6350cda1fbcff7ea6b2",
-        "updated_utc": "2026-11-24T02:17:11.919622+00:00"
+        "updated_utc": "2026-11-24T02:41:23.655999+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -1749,14 +1763,15 @@
         "before_hash": "a02f7969acaaa21962db40949f3384272c873d6c5b3aa05d0fb5af9f8dd71eda",
         "card_id": "6764572099",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286581+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0AM927769F",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "dfee4798766f3db0c311b85869425c940e253ec23d82629c4c165b928141089f",
-        "updated_utc": "2026-11-24T02:17:11.919715+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656043+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -1826,14 +1841,15 @@
         "before_hash": "7df233f9003426dee5aa42d2a30a5b2e009162c754a6a78c47295c9455d76aa0",
         "card_id": "6976750655",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286596+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0AM927769G",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "152bc702d39c341ba27bffc72a78f06ad6890037429235a74f98cb36138bae27",
-        "updated_utc": "2026-11-24T02:17:11.919801+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656089+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -1903,14 +1919,15 @@
         "before_hash": "9166df83098bab4bb04fa853edd19eb74c776dd04e0e4a83b054b67ea585d088",
         "card_id": "6976328409",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286611+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0AM927769K",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "490cc1afa11544049099a06f6953edc8f4c8acefca9f27e9bd19b58310d8085e",
-        "updated_utc": "2026-11-24T02:17:11.919885+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656133+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -1983,14 +2000,15 @@
         "before_hash": "5a9076a9c40e3a8a915d23bf4ff31d6be1c24828416dcfa24239ff6436618489",
         "card_id": "1812103140",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286627+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0AM927769N",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "4a03fb0071d6318f5a30c4c4dc4d5215b118ac1572f89dd23682511d0a035fac",
-        "updated_utc": "2026-11-24T02:17:11.919944+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656178+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -2036,7 +2054,7 @@
         "sku": "0BH325",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275635+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656237+00:00"
       },
       "market": {
         "after_hash": "a1f83725c2685b69f51d863748de0bdb0ed19ff2264c943308cb0605a1391179",
@@ -2064,14 +2082,15 @@
         "before_hash": "83f08a181dd3169279a9a067485448c0868d59e260eaa850e7ff957ec3831b6b",
         "card_id": "6278180950",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286642+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0BH325",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "a1f83725c2685b69f51d863748de0bdb0ed19ff2264c943308cb0605a1391179",
-        "updated_utc": "2026-11-24T02:22:16.458140+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656217+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -2095,7 +2114,7 @@
         "sku": "0BH325",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275609+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656223+00:00"
       }
     },
     "0BH325183": {
@@ -2109,7 +2128,7 @@
         "sku": "0BH325183",
         "status": "blocked",
         "target_hash": "068bf090688752d01df3878ec08f3c85f7817380dc436aaef211bacd4d9bb615",
-        "updated_utc": "2026-11-24T02:35:07.275706+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656280+00:00"
       },
       "market": {
         "after_hash": "068bf090688752d01df3878ec08f3c85f7817380dc436aaef211bacd4d9bb615",
@@ -2134,14 +2153,15 @@
         "before_hash": "bccc9646f4ef07b08e2523acd756b2e6be4ca47bdc21879aa86c2caea8f13b86",
         "card_id": "2462105163",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286657+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0BH325183",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "068bf090688752d01df3878ec08f3c85f7817380dc436aaef211bacd4d9bb615",
-        "updated_utc": "2026-11-24T02:17:11.920020+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656255+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -2184,7 +2204,7 @@
         "sku": "0BH325183 B",
         "status": "blocked",
         "target_hash": "9333c4fc43fc06739ff316dcb2fb7487fcc9af51536676dadd2440fa82b7e463",
-        "updated_utc": "2026-11-24T02:35:07.275776+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656319+00:00"
       },
       "market": {
         "after_hash": "9333c4fc43fc06739ff316dcb2fb7487fcc9af51536676dadd2440fa82b7e463",
@@ -2209,14 +2229,15 @@
         "before_hash": "f1a51b35c736df8fa5f7e4408f5847604d1560ae0167bfdebbc811b36dd389e7",
         "card_id": "2463890078",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286673+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0BH325183 B",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "9333c4fc43fc06739ff316dcb2fb7487fcc9af51536676dadd2440fa82b7e463",
-        "updated_utc": "2026-11-24T02:17:11.920080+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656297+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -2259,7 +2280,7 @@
         "sku": "0BH325183B",
         "status": "blocked",
         "target_hash": "61390c436a51ee66dfcf8e4311f7cbf334f41f76cc694881f2cd39bb644c3be8",
-        "updated_utc": "2026-11-24T02:35:07.275849+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656359+00:00"
       },
       "market": {
         "after_hash": "61390c436a51ee66dfcf8e4311f7cbf334f41f76cc694881f2cd39bb644c3be8",
@@ -2288,7 +2309,7 @@
         "sku": "0BH325183B",
         "status": "not_applicable",
         "target_hash": "61390c436a51ee66dfcf8e4311f7cbf334f41f76cc694881f2cd39bb644c3be8",
-        "updated_utc": "2026-11-24T02:35:07.275806+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656335+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -2300,7 +2321,7 @@
         "sku": "0BH325183B",
         "status": "blocked",
         "target_hash": "61390c436a51ee66dfcf8e4311f7cbf334f41f76cc694881f2cd39bb644c3be8",
-        "updated_utc": "2026-11-24T02:35:07.275863+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656367+00:00"
       },
       "wb": {
         "after_hash": "61390c436a51ee66dfcf8e4311f7cbf334f41f76cc694881f2cd39bb644c3be8",
@@ -2331,7 +2352,7 @@
         "sku": "0BH325183BB",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275900+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656388+00:00"
       },
       "market": {
         "attempts": 0,
@@ -2343,7 +2364,7 @@
         "sku": "0BH325183BB",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275892+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656383+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -2355,7 +2376,7 @@
         "sku": "0BH325183BB",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275872+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656372+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -2367,7 +2388,7 @@
         "sku": "0BH325183BB",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275909+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656393+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -2379,7 +2400,7 @@
         "sku": "0BH325183BB",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275882+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656378+00:00"
       }
     },
     "0am3250066AE": {
@@ -2393,7 +2414,7 @@
         "sku": "0am3250066AE",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275947+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656413+00:00"
       },
       "market": {
         "attempts": 0,
@@ -2405,7 +2426,7 @@
         "sku": "0am3250066AE",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275938+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656409+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -2417,7 +2438,7 @@
         "sku": "0am3250066AE",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275919+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656398+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -2429,7 +2450,7 @@
         "sku": "0am3250066AE",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275956+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656418+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -2441,7 +2462,7 @@
         "sku": "0am3250066AE",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.275929+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656404+00:00"
       }
     },
     "0am325025": {
@@ -2455,7 +2476,7 @@
         "sku": "0am325025",
         "status": "blocked",
         "target_hash": "4cb3bd243aac26baa434dd63c1212ab2ae02640757253501d41910c834a5504b",
-        "updated_utc": "2026-11-24T02:35:07.276019+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656455+00:00"
       },
       "market": {
         "after_hash": "4cb3bd243aac26baa434dd63c1212ab2ae02640757253501d41910c834a5504b",
@@ -2483,14 +2504,15 @@
         "before_hash": "39beb26c6db35af5872185b9521bf595b2862b8d931862417903423e6eed3a4b",
         "card_id": "1502064768",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286688+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "4cb3bd243aac26baa434dd63c1212ab2ae02640757253501d41910c834a5504b",
-        "updated_utc": "2026-11-24T02:17:11.920194+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656430+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -2536,7 +2558,7 @@
         "sku": "0am325025D",
         "status": "blocked",
         "target_hash": "9d5707a65633123f4d9638b52d653bc37c4670f2af5142c99eb4a12e9e9bb260",
-        "updated_utc": "2026-11-24T02:35:07.276098+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656500+00:00"
       },
       "market": {
         "after_hash": "9d5707a65633123f4d9638b52d653bc37c4670f2af5142c99eb4a12e9e9bb260",
@@ -2561,14 +2583,15 @@
         "before_hash": "865cb0f5c005b59c3a4843ed833fae0af163bb2a61bf7ec2175ed29e71425dfe",
         "card_id": "1508682963",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286703+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025D",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "9d5707a65633123f4d9638b52d653bc37c4670f2af5142c99eb4a12e9e9bb260",
-        "updated_utc": "2026-11-24T02:17:11.920261+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656474+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -2769,7 +2792,7 @@
         "sku": "0am325025HC",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.276411+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656677+00:00"
       },
       "market": {
         "attempts": 0,
@@ -2781,7 +2804,7 @@
         "sku": "0am325025HC",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.276402+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656672+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -2793,7 +2816,7 @@
         "sku": "0am325025HC",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.276382+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656661+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -2805,7 +2828,7 @@
         "sku": "0am325025HC",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.276422+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656681+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -2817,7 +2840,7 @@
         "sku": "0am325025HC",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.276392+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656667+00:00"
       }
     },
     "0am325025HX": {
@@ -2858,14 +2881,15 @@
         "before_hash": "f1264d086b8e62e1605bcbaaa5843c0a883e4ba262dd37db4ccbfac40eff4249",
         "card_id": "4417330093",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286720+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025HX",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "57865f2e3da5d624bf849cd0f04cc8297a71214bd80f2571d1216a28d5875435",
-        "updated_utc": "2026-11-24T02:17:11.920639+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656703+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -2935,14 +2959,15 @@
         "before_hash": "feea0032f2e33afb5cd52dabad7bba8118ab0b7c4d5f6e93ec11873c295cd554",
         "card_id": "6976328370",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286735+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025HXE",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "8e65c0ab799aecbde3a263aa9a2740fd94b4f2387f59dc090fddf1e987a7670b",
-        "updated_utc": "2026-11-24T02:17:11.920771+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656787+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -3012,14 +3037,15 @@
         "before_hash": "edb1a6615b165961e228bd2f68bc2440809d624d84fe6f6cc7b18fd759632698",
         "card_id": "6764572446",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286751+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025HXF",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "7db7204c7b104a477eedc0f1d8a97be6eaa1e5d67a877efdf16270c588c400d6",
-        "updated_utc": "2026-11-24T02:17:11.920904+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656876+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -3089,14 +3115,15 @@
         "before_hash": "587a1163032383b779d27565f901d4c30d06fb80b16dca64444dc5205b7a64e6",
         "card_id": "6976750685",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286766+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025HXG",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "8d4bcbfa2a8ea4b60e1a2bbf9b07c1449d04db4511d244f5b5ff43a0cad0f440",
-        "updated_utc": "2026-11-24T02:17:11.921024+00:00"
+        "updated_utc": "2026-11-24T02:41:23.656957+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -3166,14 +3193,15 @@
         "before_hash": "bf21eb0e70f83120757f94ce383331232433b031566a2d27fcecdc955999d028",
         "card_id": "6976328345",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286781+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025HXK",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "2612476bdb09ac39d0d8a7b1a26bc8f26b9527940079caf02f8a3ad05084db02",
-        "updated_utc": "2026-11-24T02:17:11.921145+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657040+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -3216,7 +3244,7 @@
         "sku": "0am325025L",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277196+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657121+00:00"
       },
       "market": {
         "attempts": 0,
@@ -3228,7 +3256,7 @@
         "sku": "0am325025L",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277188+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657116+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -3240,7 +3268,7 @@
         "sku": "0am325025L",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277167+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657107+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -3252,7 +3280,7 @@
         "sku": "0am325025L",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277205+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657125+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -3264,7 +3292,7 @@
         "sku": "0am325025L",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277177+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657111+00:00"
       }
     },
     "0am325025P": {
@@ -3357,7 +3385,7 @@
         "sku": "0am325025Y",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277321+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657190+00:00"
       },
       "market": {
         "attempts": 0,
@@ -3369,7 +3397,7 @@
         "sku": "0am325025Y",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277312+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657185+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -3381,7 +3409,7 @@
         "sku": "0am325025Y",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277293+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657175+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -3393,7 +3421,7 @@
         "sku": "0am325025Y",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277329+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657194+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -3405,7 +3433,7 @@
         "sku": "0am325025Y",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277303+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657180+00:00"
       }
     },
     "0am325025ae": {
@@ -3446,14 +3474,15 @@
         "before_hash": "714158f68eae4ffe2fc48cca22b6f5062a70d5d635245fa44016a8811961e43c",
         "card_id": "1570312812",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286796+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025ae",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "86b25b508badc9a8a92e2243c601efab3dd86240152edcbf64b5d6140894e2dc",
-        "updated_utc": "2026-11-24T02:17:11.921270+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657208+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -3496,7 +3525,7 @@
         "sku": "0am325025e",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277447+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657262+00:00"
       },
       "market": {
         "attempts": 0,
@@ -3508,7 +3537,7 @@
         "sku": "0am325025e",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277439+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657258+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -3520,7 +3549,7 @@
         "sku": "0am325025e",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277421+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657248+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -3532,7 +3561,7 @@
         "sku": "0am325025e",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277456+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657267+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -3544,7 +3573,7 @@
         "sku": "0am325025e",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277430+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657253+00:00"
       }
     },
     "0am325025f": {
@@ -3585,14 +3614,15 @@
         "before_hash": "56714dbda9a6eea43c206f03b0db2e30695cd7d2def793207773b6edb6f1a68a",
         "card_id": "1508655703",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286813+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025f",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "c0d37258cb2c30c81606dbd355e9b69e0c743bebbd87a9c030e357acca5db62e",
-        "updated_utc": "2026-11-24T02:17:11.921335+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657278+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -3662,14 +3692,15 @@
         "before_hash": "e2153c842049b19a63f2b5fd765d0a0acecb6d944fc71e43afbe2c7e9c52dade",
         "card_id": "1504157360",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286829+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025hfe",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "9fcf20be24f3f3200f0e6463801bb2524eedb72ac7a4829771787aa69a611f83",
-        "updated_utc": "2026-11-24T02:17:11.921409+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657321+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -3775,7 +3806,7 @@
         "sku": "0am325025j",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277630+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657368+00:00"
       }
     },
     "0am325025l": {
@@ -3874,7 +3905,7 @@
         "sku": "0am325025m",
         "status": "blocked",
         "target_hash": "d4c53bf5276202d789386aabb2e829a143436e51322df23e6bdb843e2099e0d3",
-        "updated_utc": "2026-11-24T02:35:07.277803+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657469+00:00"
       },
       "market": {
         "after_hash": "d4c53bf5276202d789386aabb2e829a143436e51322df23e6bdb843e2099e0d3",
@@ -3899,14 +3930,15 @@
         "before_hash": "b038aa924e7c87f72cdf326d36aad063c0fda17c5c6e18e90d19711258267c71",
         "card_id": "1504169748",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286845+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025m",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "d4c53bf5276202d789386aabb2e829a143436e51322df23e6bdb843e2099e0d3",
-        "updated_utc": "2026-11-24T02:17:11.921614+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657443+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -3976,14 +4008,15 @@
         "before_hash": "eee173bc74e8cc7c19095cb0bca3d374d6a313da9d416255c5ac2f3689b46134",
         "card_id": "2397703853",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286860+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025n",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "2489db2b3b7a11ac0cae6898ca4b225c24a64c11b89e2b39ed3bfbe0f7fcd5e4",
-        "updated_utc": "2026-11-24T02:17:11.921669+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657487+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -4026,7 +4059,7 @@
         "sku": "0am325025p",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277925+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657536+00:00"
       },
       "market": {
         "attempts": 0,
@@ -4038,7 +4071,7 @@
         "sku": "0am325025p",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277916+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657532+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -4050,7 +4083,7 @@
         "sku": "0am325025p",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277897+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657522+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -4062,7 +4095,7 @@
         "sku": "0am325025p",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277934+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657541+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -4074,7 +4107,7 @@
         "sku": "0am325025p",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.277906+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657527+00:00"
       }
     },
     "0am325025q": {
@@ -4197,14 +4230,15 @@
         "before_hash": "7af273dedd831d2500d3d8d6166c32264f5c19f2fe24f014af5d71ab89d727e1",
         "card_id": "1508692032",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286876+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025r",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "79900dcc5cb2bafdde6213c7cf5849fe6b69bb63de9445ee87dc629670855431",
-        "updated_utc": "2026-11-24T02:17:11.921777+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657592+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -4277,14 +4311,15 @@
         "before_hash": "a90259f025bbe70b84955ddee3381cfdb488d5f1457e6fb273770fe4dc5123d2",
         "card_id": "2099149069",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286891+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025u",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "36dab2e6195f47bee2a3127de8e3c06bab2c66c8b4ad132f925f20f3ca8977eb",
-        "updated_utc": "2026-11-24T02:17:11.921846+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657636+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -4327,7 +4362,7 @@
         "sku": "0am325025x",
         "status": "blocked",
         "target_hash": "fc2219f4e1932104e6902ceacb4e4ae10c9a701af01a96c2dd3c585cfb2419ad",
-        "updated_utc": "2026-11-24T02:35:07.278236+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657709+00:00"
       },
       "market": {
         "after_hash": "fc2219f4e1932104e6902ceacb4e4ae10c9a701af01a96c2dd3c585cfb2419ad",
@@ -4352,14 +4387,15 @@
         "before_hash": "559a832a7c94b45d7ef952c2a486b6886ce3d65ee5c2fe3755923446666fd5d1",
         "card_id": "3262840663",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286906+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025x",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "fc2219f4e1932104e6902ceacb4e4ae10c9a701af01a96c2dd3c585cfb2419ad",
-        "updated_utc": "2026-11-24T02:17:11.921926+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657684+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -4429,14 +4465,15 @@
         "before_hash": "73e265fc96f138be97128d2df097fb05ffdc640bede19668ceef1260b37cc719",
         "card_id": "2075148750",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286920+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025z",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "34db56eafd136439295f3b1c602e9ea4dfe96e32d2f170924df422c7e202354b",
-        "updated_utc": "2026-11-24T02:17:11.922001+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657729+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -4479,7 +4516,7 @@
         "sku": "0am325025ze",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.278365+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657781+00:00"
       },
       "market": {
         "attempts": 0,
@@ -4491,7 +4528,7 @@
         "sku": "0am325025ze",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.278356+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657777+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -4503,7 +4540,7 @@
         "sku": "0am325025ze",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.278338+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657766+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -4515,7 +4552,7 @@
         "sku": "0am325025ze",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.278373+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657785+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -4527,7 +4564,7 @@
         "sku": "0am325025ze",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.278347+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657772+00:00"
       }
     },
     "0am325025С": {
@@ -4568,14 +4605,15 @@
         "before_hash": "e1638cb484c7b91a3cad123c687e4df8c30955819af8c022d0e2e16d216172ba",
         "card_id": "1508696317",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286936+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025С",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "69e2e2713a5dfd96abcd428157280324895386723b89588dcfa64ba28699627c",
-        "updated_utc": "2026-11-24T02:17:11.922056+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657798+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -4645,14 +4683,15 @@
         "before_hash": "a15100196fc08abcdbab385a6485b03b6adf565c4876d6f105c9f9b7c4741fef",
         "card_id": "1812060620",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286951+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325066AC",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "4a17b66d7f7b0a8098669bfd1dd761e2dc4badbbdc9c2e1acb20b4127375a751",
-        "updated_utc": "2026-11-24T02:17:11.922133+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657840+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -4695,7 +4734,7 @@
         "sku": "0am325066ac",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.278560+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657905+00:00"
       },
       "market": {
         "attempts": 0,
@@ -4707,7 +4746,7 @@
         "sku": "0am325066ac",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.278551+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657901+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -4719,7 +4758,7 @@
         "sku": "0am325066ac",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.278532+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657891+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -4731,7 +4770,7 @@
         "sku": "0am325066ac",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.278568+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657910+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -4743,7 +4782,7 @@
         "sku": "0am325066ac",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.278542+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657896+00:00"
       }
     },
     "0am325066ad": {
@@ -4757,7 +4796,7 @@
         "sku": "0am325066ad",
         "status": "blocked",
         "target_hash": "d613e43e1efc257769c39e8f70f106c59163fbee98dd25a8b04ce6a7c68dac2c",
-        "updated_utc": "2026-11-24T02:35:07.278631+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657947+00:00"
       },
       "market": {
         "after_hash": "d613e43e1efc257769c39e8f70f106c59163fbee98dd25a8b04ce6a7c68dac2c",
@@ -4864,14 +4903,15 @@
         "before_hash": "1605b2ba0d9dbf58ed941b663d15c816ae8684397f593af8b330e416d25e1724",
         "card_id": "1504150169",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286967+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325066ae",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "1c3e3ea61927ece6c18f1f101ef1d7e6b557a34eaf3eeb3c05a8fa2d35d45985",
-        "updated_utc": "2026-11-24T02:17:11.922259+00:00"
+        "updated_utc": "2026-11-24T02:41:23.657964+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -4947,14 +4987,15 @@
         "before_hash": "a49de00915dfa77b4a510f9a9452ddf9c6a645d1bbe68754f9c3aa7893898870",
         "card_id": "1571501650",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286983+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325091e",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "fffd80283ae03bc20b4f1f5398765cc066966d370ad41f2ba1d2ee44ca008590",
-        "updated_utc": "2026-11-24T02:17:11.922327+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658007+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -5027,14 +5068,15 @@
         "before_hash": "b8b306679e23c9be209745fd4fd67ec249bb9ad70f9c2cb3d21a98ac9ff94116",
         "card_id": "6287285741",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.286998+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325091e-set",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "b72c1be43d294fc14ba2cac65f15a3e36a9394048544700b59c5c486a1890853",
-        "updated_utc": "2026-11-24T02:17:11.922396+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658052+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -5107,14 +5149,15 @@
         "before_hash": "15417cad5bc3303d9bb0dc5632945e72059181b66187762f4762eec5b0d2bd31",
         "card_id": "1508677255",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287013+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325091f",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "dd8cecc80ab9e789bc19f7647b129f64817eec97a3efcb0bae22b67ed6b280fe",
-        "updated_utc": "2026-11-24T02:17:11.922471+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658096+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -5187,14 +5230,15 @@
         "before_hash": "213be7f97c5acc5683761f47a70803894a3c92394ebfd6ea7ab28f354125b8f5",
         "card_id": "6287285900",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287029+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325091f-set",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "24398820dbdbce5d7c7ffd944fec3f668a242ae1eeb2fb381dcbf597ae8d07fd",
-        "updated_utc": "2026-11-24T02:17:11.922539+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658139+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -5264,14 +5308,15 @@
         "before_hash": "f73f458d8af48f3e295fabb063f70311bacd2029752ceb95d7fc2775ef1942ff",
         "card_id": "6369611839",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287044+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325477",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "fedc55fabbf437fe471193e50b1ffbb837c24bc461ddeaa4a9ae7b328db1fcfd",
-        "updated_utc": "2026-11-24T02:17:11.922595+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658183+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -5341,14 +5386,15 @@
         "before_hash": "3f4f0d88689bf8a3515ddb039838b4f2f338cab9056211de5de3cde2ec362228",
         "card_id": "3253188297",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287060+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325477ae",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "02206675265ae33a727e51797e575e7ac8c33b15aafc8d6b8d8047ed12163287",
-        "updated_utc": "2026-11-24T02:17:11.922648+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658223+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -5391,7 +5437,7 @@
         "sku": "0ambset",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279221+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658280+00:00"
       },
       "market": {
         "after_hash": "95447b6f79b47bd8bdb346a8daf54f4d5c72e7176a13c0232be1bd35914e78f8",
@@ -5419,14 +5465,15 @@
         "before_hash": "a349133810e060a9f8543adcb5418f0a63948fa2df6edc06d8fe2012b2d8e053",
         "card_id": "1990528878",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287074+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0ambset",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "95447b6f79b47bd8bdb346a8daf54f4d5c72e7176a13c0232be1bd35914e78f8",
-        "updated_utc": "2026-11-24T02:22:16.458220+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658262+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -5450,7 +5497,7 @@
         "sku": "0ambset",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279196+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658267+00:00"
       }
     },
     "0b5": {
@@ -5464,7 +5511,7 @@
         "sku": "0b5",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279269+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658306+00:00"
       },
       "market": {
         "attempts": 0,
@@ -5476,7 +5523,7 @@
         "sku": "0b5",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279261+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658301+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -5488,7 +5535,7 @@
         "sku": "0b5",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279242+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658291+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -5500,7 +5547,7 @@
         "sku": "0b5",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279278+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658310+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -5512,7 +5559,7 @@
         "sku": "0b5",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279251+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658296+00:00"
       }
     },
     "0cw0am": {
@@ -5526,7 +5573,7 @@
         "sku": "0cw0am",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279315+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658329+00:00"
       },
       "market": {
         "attempts": 0,
@@ -5538,7 +5585,7 @@
         "sku": "0cw0am",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279306+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658324+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -5550,7 +5597,7 @@
         "sku": "0cw0am",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279287+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658315+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -5562,7 +5609,7 @@
         "sku": "0cw0am",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279324+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658333+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -5574,7 +5621,7 @@
         "sku": "0cw0am",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279297+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658320+00:00"
       }
     },
     "0cw0am325025": {
@@ -5588,7 +5635,7 @@
         "sku": "0cw0am325025",
         "status": "blocked",
         "target_hash": "3f549b5f3c24dfcd3f714b9c2cba99bfaa5adec960e4143b09496b5c018d7679",
-        "updated_utc": "2026-11-24T02:35:07.279384+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658369+00:00"
       },
       "market": {
         "after_hash": "3f549b5f3c24dfcd3f714b9c2cba99bfaa5adec960e4143b09496b5c018d7679",
@@ -5616,14 +5663,15 @@
         "before_hash": "ac127a37f66e9a7c9a1b4f82bc9a311bffd49461d531107d1418c5dec0f636a2",
         "card_id": "3225109174",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287089+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0cw0am325025",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "3f549b5f3c24dfcd3f714b9c2cba99bfaa5adec960e4143b09496b5c018d7679",
-        "updated_utc": "2026-11-24T02:17:11.922704+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658344+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -5699,14 +5747,15 @@
         "before_hash": "1529a1c1671bcb61ba57dfee7b0881519484c51693cac833364f2320b301fa23",
         "card_id": "3225040467",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287104+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0cw0amdsgdq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "fdffb63bda4d6e6223ae701eb5042e934b66914b4918bd922b2bff1c0c26690f",
-        "updated_utc": "2026-11-24T02:22:16.458296+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658387+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -5782,14 +5831,15 @@
         "before_hash": "c5310604ef5632c99b86694739f3bf9c0fe2dbf3f2bffa2825f8eaf45ab3ecdb",
         "card_id": "3223291051",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287119+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0cw325025h",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "fb5a83ec4bfc91cb7222e326d1057f7298a9360f3fa13b39b4696c3f7ef0ab0a",
-        "updated_utc": "2026-11-24T02:22:16.458407+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658428+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -5865,14 +5915,15 @@
         "before_hash": "84ccc03d2e97ead5d1919628262ce97e5d698a864427655840de1166ef395254",
         "card_id": "3243151010",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287135+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "0сц",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "1335ab1583babeaac5fa5062c9b6e03fed771843e10353aa69be8981b123cdd7",
-        "updated_utc": "2026-11-24T02:17:11.922771+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658470+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -5945,14 +5996,15 @@
         "before_hash": "fa08080d7f90b5a004764d0a245ba2f0cfaf154e7e8748532d0be458d5ac7194",
         "card_id": "1540006723",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287173+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "122390AK-AF",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "5aa8ebd3fa135bfcf56465ee994a4ee88e5250f001de199b8562ee53b9ae83ff",
-        "updated_utc": "2026-11-24T02:17:11.922848+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658512+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -6025,14 +6077,15 @@
         "before_hash": "43069a535c61c8a86120a80b5c596a4ce6c58794bb171d59fff67df0291e0465",
         "card_id": "3243081282",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287189+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "122390AKAF",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "f02a8aceda59bcc46c35323b26e50ea7a01eb86e9fa3c8e780a61b5df17c0506",
-        "updated_utc": "2026-11-24T02:17:11.922898+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658553+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -6105,14 +6158,15 @@
         "before_hash": "40897a58ac67203ac2258f62c818f61e6c01423f0103198eeab17bfe6af10ece",
         "card_id": "1820598946",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287204+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "123014‑AF",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "2a6bf99e582a685c5611984660dead599821f052b81b1332c6b5511ad48101f0",
-        "updated_utc": "2026-11-24T02:17:11.922951+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658594+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -6155,7 +6209,7 @@
         "sku": "31705-1XF0C",
         "status": "blocked",
         "target_hash": "f307f48eaf7d792ec2701d348ea5b33d964e088244ede54ca6a8e7dd68f5cb7e",
-        "updated_utc": "2026-11-24T02:35:07.279895+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658664+00:00"
       },
       "market": {
         "after_hash": "f307f48eaf7d792ec2701d348ea5b33d964e088244ede54ca6a8e7dd68f5cb7e",
@@ -6180,14 +6234,15 @@
         "before_hash": "32469b4f515c2a692a634585370f9ea7e5f05f7ec068383fded20c830f7c022a",
         "card_id": "3242944304",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287220+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "31705-1XF0C",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "f307f48eaf7d792ec2701d348ea5b33d964e088244ede54ca6a8e7dd68f5cb7e",
-        "updated_utc": "2026-11-24T02:17:11.923004+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658637+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -6233,7 +6288,7 @@
         "sku": "31705-1XF1A",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279947+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658690+00:00"
       },
       "market": {
         "attempts": 0,
@@ -6245,7 +6300,7 @@
         "sku": "31705-1XF1A",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279939+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658686+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -6257,7 +6312,7 @@
         "sku": "31705-1XF1A",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279919+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658676+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -6269,7 +6324,7 @@
         "sku": "31705-1XF1A",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279956+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658695+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -6281,7 +6336,7 @@
         "sku": "31705-1XF1A",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.279929+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658681+00:00"
       }
     },
     "31705-X428B": {
@@ -6295,7 +6350,7 @@
         "sku": "31705-X428B",
         "status": "blocked",
         "target_hash": "f67d8f09a680e4783ba8914e81e52a885baf08d45bb4e21a024bba6e3c8a80ee",
-        "updated_utc": "2026-11-24T02:35:07.280027+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658734+00:00"
       },
       "market": {
         "after_hash": "f67d8f09a680e4783ba8914e81e52a885baf08d45bb4e21a024bba6e3c8a80ee",
@@ -6320,14 +6375,15 @@
         "before_hash": "28a562f65f5dd0e52055c06a4c782b66d5f960abd4f71e6af9a8abd133044ecd",
         "card_id": "3242811564",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287235+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "31705-X428B",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "f67d8f09a680e4783ba8914e81e52a885baf08d45bb4e21a024bba6e3c8a80ee",
-        "updated_utc": "2026-11-24T02:17:11.923067+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658708+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -6400,14 +6456,15 @@
         "before_hash": "656d03832037ecd5b1d90175643193cda6cf2dfb56c9edd34a8d24c6d05ea723",
         "card_id": "3242894829",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287250+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "317053TX0C",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "bb9bf76e019e7b02aedd8852c1f7168e22e8da7e156fae7bc6360272f21efc0d",
-        "updated_utc": "2026-11-24T02:17:11.923121+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658751+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -6480,14 +6537,15 @@
         "before_hash": "dead6dc127d239d9b2ee89ee2709647cd54f0496aae6d8317da30c198002cfec",
         "card_id": "1710353948",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287265+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "55565480",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "f029acba4f6bb1b52ce84725fddf6b541873184c57b15fc4cbd6680757b7bce5",
-        "updated_utc": "2026-11-24T02:17:11.923183+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658798+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -6612,7 +6670,7 @@
         "sku": "6t30-solenoids-gen2",
         "status": "blocked",
         "target_hash": "e88b1580e438d870f46fb84c04b923dd9dfecfecda9edae938a77fd90253f751",
-        "updated_utc": "2026-11-24T02:35:07.280355+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658921+00:00"
       },
       "market": {
         "after_hash": "e88b1580e438d870f46fb84c04b923dd9dfecfecda9edae938a77fd90253f751",
@@ -6640,14 +6698,15 @@
         "before_hash": "9c8d91584d5ffa7fb8f2d83bde649efee4618c73399df5f37f8a4cbf8ef94761",
         "card_id": "7089359257",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287280+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "6t30-solenoids-gen2",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "e88b1580e438d870f46fb84c04b923dd9dfecfecda9edae938a77fd90253f751",
-        "updated_utc": "2026-11-24T02:17:11.923287+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658895+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -6693,7 +6752,7 @@
         "sku": "6t30-tcm-gen1",
         "status": "blocked",
         "target_hash": "a484fd9be8335cf3d37953a0537341ee0cc7402733fa35066e5fd4f7a0218e7d",
-        "updated_utc": "2026-11-24T02:35:07.280433+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658966+00:00"
       },
       "market": {
         "after_hash": "a484fd9be8335cf3d37953a0537341ee0cc7402733fa35066e5fd4f7a0218e7d",
@@ -6721,14 +6780,15 @@
         "before_hash": "345126dac4e75a292f333e9db8334ad74020550415319656a9473f4ccb2690b5",
         "card_id": "7089386396",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287294+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "6t30-tcm-gen1",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "a484fd9be8335cf3d37953a0537341ee0cc7402733fa35066e5fd4f7a0218e7d",
-        "updated_utc": "2026-11-24T02:17:11.923336+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658939+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -6774,7 +6834,7 @@
         "sku": "6t30-tcm-gen2",
         "status": "blocked",
         "target_hash": "da7b21c62fccf715cb50832ee3f3af95e7500af139a10a8e3c9876b66cff348d",
-        "updated_utc": "2026-11-24T02:35:07.280508+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659009+00:00"
       },
       "market": {
         "after_hash": "da7b21c62fccf715cb50832ee3f3af95e7500af139a10a8e3c9876b66cff348d",
@@ -6802,14 +6862,15 @@
         "before_hash": "daf2480717879b223b0da27cb8629195c0fcfc959b3a1195f56dac836176dd59",
         "card_id": "7089386451",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287308+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "6t30-tcm-gen2",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "da7b21c62fccf715cb50832ee3f3af95e7500af139a10a8e3c9876b66cff348d",
-        "updated_utc": "2026-11-24T02:17:11.923379+00:00"
+        "updated_utc": "2026-11-24T02:41:23.658983+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -6882,14 +6943,15 @@
         "before_hash": "ca73e514a0a24fced7cd13d79b069510370a76d85aea57f15370a5367badf355",
         "card_id": "6278061876",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287321+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "DQ500",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "90cf76fa79723c03695111991bed08766cf370245005a12721679a1568bf0635",
-        "updated_utc": "2026-11-24T02:17:11.923444+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659027+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -7047,14 +7109,15 @@
         "before_hash": "93049ca84818a1164ececeb09ea8478f2c58995970a9d3a50a667c7faee131f0",
         "card_id": "3225148531",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287337+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "Dq200dsg70am0cw",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "e79d9d3d3d6c1bd6d8b778dfcc0e1e7b8b96f27dc02fe371fc02276577ee9792",
-        "updated_utc": "2026-11-24T02:17:11.923543+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659109+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -7127,14 +7190,15 @@
         "before_hash": "c09153e14b48e46ef63e03533c226a2c2eff93632a8e8b57c6228dd44b4871bf",
         "card_id": "1508687105",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287353+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "Dq500",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "9d934a27ab74e3c8b5d15206fb911fe019144d25a4f91550002483c143c5691d",
-        "updated_utc": "2026-11-24T02:17:11.923606+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659152+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -7158,7 +7222,7 @@
         "sku": "Dq500",
         "status": "not_applicable",
         "target_hash": "9d934a27ab74e3c8b5d15206fb911fe019144d25a4f91550002483c143c5691d",
-        "updated_utc": "2026-11-24T02:35:07.280770+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659161+00:00"
       }
     },
     "EA888": {
@@ -7172,7 +7236,7 @@
         "sku": "EA888",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.280867+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659215+00:00"
       },
       "market": {
         "after_hash": "eabb9b9bf74adf402020e6561ef57b30fab98287381883d1cc51df2a66219cdc",
@@ -7200,14 +7264,15 @@
         "before_hash": "3803086f65106fce6c048b9d2091ec2bf0f638bf6d256c12bf94fd3995c458a6",
         "card_id": "3223348835",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287368+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "EA888",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "eabb9b9bf74adf402020e6561ef57b30fab98287381883d1cc51df2a66219cdc",
-        "updated_utc": "2026-11-24T02:22:16.458479+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659196+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -7231,7 +7296,7 @@
         "sku": "EA888",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.280840+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659201+00:00"
       }
     },
     "EA888gen3": {
@@ -7245,7 +7310,7 @@
         "sku": "EA888gen3",
         "status": "blocked",
         "target_hash": "e71760463f4f37878e2eb2666f7ee00a5550023cf864c7dd96d784255e81265d",
-        "updated_utc": "2026-11-24T02:35:07.280943+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659259+00:00"
       },
       "market": {
         "after_hash": "e71760463f4f37878e2eb2666f7ee00a5550023cf864c7dd96d784255e81265d",
@@ -7270,14 +7335,15 @@
         "before_hash": "8b7d9eea532061f1a2d55d75bea4809b6e5db3a784bd12c071f8e38893006d46",
         "card_id": "4463402130",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287383+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "EA888gen3",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "e71760463f4f37878e2eb2666f7ee00a5550023cf864c7dd96d784255e81265d",
-        "updated_utc": "2026-11-24T02:17:11.923659+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659233+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -7301,7 +7367,7 @@
         "sku": "EA888gen3",
         "status": "not_applicable",
         "target_hash": "e71760463f4f37878e2eb2666f7ee00a5550023cf864c7dd96d784255e81265d",
-        "updated_utc": "2026-11-24T02:35:07.280913+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659242+00:00"
       }
     },
     "EA888gen3-filter-kit": {
@@ -7315,7 +7381,7 @@
         "sku": "EA888gen3-filter-kit",
         "status": "blocked",
         "target_hash": "cec91aaa648d71d7c771fe7c8d1bcc4b7689936edfcf8351dec5f2319b9da526",
-        "updated_utc": "2026-11-24T02:35:07.281015+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659300+00:00"
       },
       "market": {
         "after_hash": "cec91aaa648d71d7c771fe7c8d1bcc4b7689936edfcf8351dec5f2319b9da526",
@@ -7343,14 +7409,15 @@
         "before_hash": "bd9b88588354287e40cbfc586a9ae8b03c086588a2c62ba9d7b3f09528e8d969",
         "card_id": "7088227476",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287397+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "EA888gen3-filter-kit",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "cec91aaa648d71d7c771fe7c8d1bcc4b7689936edfcf8351dec5f2319b9da526",
-        "updated_utc": "2026-11-24T02:17:11.923717+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659276+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -7396,7 +7463,7 @@
         "sku": "Ea888gen3",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281066+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659335+00:00"
       },
       "market": {
         "after_hash": "e674c2718ed5b3adef1ea49ebdbd4dc6c667e613b9161c5319aee2c8e06e55c7",
@@ -7424,14 +7491,15 @@
         "before_hash": "1d4b1d8a51452a4d2779cf62e6c077e0481d199d4ce5dc2f25ba90ce60a35252",
         "card_id": "3223381624",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:16.388391+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "Ea888gen3",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "e674c2718ed5b3adef1ea49ebdbd4dc6c667e613b9161c5319aee2c8e06e55c7",
-        "updated_utc": "2026-11-24T02:35:16.388422+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659316+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -7443,7 +7511,7 @@
         "sku": "Ea888gen3",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281075+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659340+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -7455,7 +7523,7 @@
         "sku": "Ea888gen3",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281049+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659322+00:00"
       }
     },
     "TEST001": {
@@ -7469,7 +7537,7 @@
         "sku": "TEST001",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281113+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659359+00:00"
       },
       "market": {
         "attempts": 0,
@@ -7481,7 +7549,7 @@
         "sku": "TEST001",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281104+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659355+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -7493,7 +7561,7 @@
         "sku": "TEST001",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281085+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659345+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -7505,7 +7573,7 @@
         "sku": "TEST001",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281122+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659364+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -7517,7 +7585,7 @@
         "sku": "TEST001",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281094+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659350+00:00"
       }
     },
     "TESTWB001": {
@@ -7531,7 +7599,7 @@
         "sku": "TESTWB001",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281169+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659383+00:00"
       },
       "market": {
         "attempts": 0,
@@ -7543,7 +7611,7 @@
         "sku": "TESTWB001",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281161+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659379+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -7555,7 +7623,7 @@
         "sku": "TESTWB001",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281132+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659369+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -7567,7 +7635,7 @@
         "sku": "TESTWB001",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281178+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659388+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -7579,7 +7647,7 @@
         "sku": "TESTWB001",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281151+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659374+00:00"
       }
     },
     "WHT001922": {
@@ -7620,14 +7688,15 @@
         "before_hash": "cfd9a18fed1b5f4b8cdf24f9b44062b4a0e6c54b311e693cb6385ce9893541f5",
         "card_id": "1790034042",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287410+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "WHT001922",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "a7a5571ff91bd0cfa0839f6a09c8f137c61886fd4ca7adfb119a441767615a91",
-        "updated_utc": "2026-11-24T02:17:11.923785+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659399+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -7697,14 +7766,15 @@
         "before_hash": "cf057cd1a905806af40b2d2e31ad1274743f89871dba9ff20e05d8de58db63b9",
         "card_id": "6950224735",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287425+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "chip-02e927770",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "7eb0636aea1e802185087f3f62d08fd59bd936f91b7dbe62ca8ec8e919b41f53",
-        "updated_utc": "2026-11-24T02:17:11.923849+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659440+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -7777,14 +7847,15 @@
         "before_hash": "90193849ccc5441512ecb1da9de32166ae879e047c0450c149af4a8b9f0063ce",
         "card_id": "6949793537",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287439+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "chip-0am927769d",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "dc97597af7b9bb66d1cfa258af9cca01210eab1c8e3312f884efb0212b3c9dbd",
-        "updated_utc": "2026-11-24T02:17:11.923947+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659487+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -7854,14 +7925,15 @@
         "before_hash": "fc2a3d8a065c42222530079f58a2684d99e25533b5223e58907c74840a0af94a",
         "card_id": "6950608724",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287455+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "datchik-peredach-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "756f55e8ba5a67079dc30d7b6db3f232ca30570b5f7d02a97e3ebd0ceccee453",
-        "updated_utc": "2026-11-24T02:17:11.924033+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659530+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -7931,14 +8003,15 @@
         "before_hash": "2585ac3a12c7fad54f32be8c78d33a0151e05a8bd8096b33bc996fd9831d19fe",
         "card_id": "6950608807",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287469+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "datchik-scepleniya-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "cc4b7bc5d2467403f428366a0cd8ed548c60f8a15a69dc9c93ab7eadf33e02c0",
-        "updated_utc": "2026-11-24T02:17:11.924115+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659572+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -8008,14 +8081,15 @@
         "before_hash": "41933ab71f8584d60868988b17a6979a4cf8ba6a9504dab59ba76ed10c1e5e8d",
         "card_id": "6950608709",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287482+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "derzhatel-datchikov-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "faf62d5b9d778da611b64b5322ed7d0e77124f1e63d7c2ccdf043af2406aef89",
-        "updated_utc": "2026-11-24T02:17:11.924176+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659616+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -8058,7 +8132,7 @@
         "sku": "dq500-korpus-gladkiy",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281670+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659667+00:00"
       },
       "market": {
         "attempts": 0,
@@ -8070,7 +8144,7 @@
         "sku": "dq500-korpus-gladkiy",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281661+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659662+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -8082,7 +8156,7 @@
         "sku": "dq500-korpus-gladkiy",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281641+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659652+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -8094,7 +8168,7 @@
         "sku": "dq500-korpus-gladkiy",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281678+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659671+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -8106,7 +8180,7 @@
         "sku": "dq500-korpus-gladkiy",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.281652+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659657+00:00"
       }
     },
     "filtr-dsg7-dq200": {
@@ -8147,14 +8221,15 @@
         "before_hash": "aab0800d40d15fb709ccaa487a9c7d55cb837a72d0dc14ee9f443ae1cf0180d4",
         "card_id": "6447289518",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287497+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "filtr-dsg7-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "60903fadd19de7976cc47129fe15888d8e8fd6be41c93a84ce57bec57e4bfd63",
-        "updated_utc": "2026-11-24T02:17:11.924230+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659682+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -8224,14 +8299,15 @@
         "before_hash": "dd11702dd5c810d344b74a0b684b19a88bbdb6dc861c8f2063952a901930a4a2",
         "card_id": "6447289526",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287512+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "filtr-dsg7-dq500",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "5e04c58d667f84d7e15957649c0b546e50d7710857e7ed02dc1007ac0c7c94b0",
-        "updated_utc": "2026-11-24T02:17:11.924282+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659722+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -8301,14 +8377,15 @@
         "before_hash": "8a2f497b5014ce07e4cd37add36d098fed9f859fe48a7bfb3e5976f0752867f7",
         "card_id": "6288287961",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287526+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "filtr-setka-0b5-orig",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "2b4155da8452648fd3325ec6939ac01fde864084cd8e549fea6cc263c18e611a",
-        "updated_utc": "2026-11-24T02:17:11.924338+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659765+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -8378,14 +8455,15 @@
         "before_hash": "1583031d519a5d50506d6bf8c1d684c857aad1c2c81f1d95e7ce096fb7b20d45",
         "card_id": "6950936857",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287541+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "fpc-shleif-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "de57696530b01a156ec19e9881d8abfe674b65019ecc0cadc433b0e6fb950809",
-        "updated_utc": "2026-11-24T02:17:11.924419+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659807+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -8455,14 +8533,15 @@
         "before_hash": "4b893825a5fd0b3d1d109c4603e5ead007a23a4e5aff10476fafdc6a2441f4f2",
         "card_id": "6287286253",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287555+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "gidroakkumulyator-orig",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "70210e5989dea46ff631d3386d32868a6496d0fabc64c2cf6b85ab1494122bd1",
-        "updated_utc": "2026-11-24T02:17:11.924492+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659850+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -8505,7 +8584,7 @@
         "sku": "jf011e",
         "status": "blocked",
         "target_hash": "ec6c037b4c82c71f35fc5056163298689c6e58c17e48cde89341a14968a85ba0",
-        "updated_utc": "2026-11-24T02:35:07.282096+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659922+00:00"
       },
       "market": {
         "after_hash": "ec6c037b4c82c71f35fc5056163298689c6e58c17e48cde89341a14968a85ba0",
@@ -8533,14 +8612,15 @@
         "before_hash": "c032fa00a2cd629bceab7ed9224ec64043890baf0ded91169ad6c3b32f9ddb22",
         "card_id": "1990555711",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287570+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "jf011e",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "ec6c037b4c82c71f35fc5056163298689c6e58c17e48cde89341a14968a85ba0",
-        "updated_utc": "2026-11-24T02:17:11.924542+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659898+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -8586,7 +8666,7 @@
         "sku": "jf015",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.282154+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659948+00:00"
       },
       "market": {
         "attempts": 0,
@@ -8598,7 +8678,7 @@
         "sku": "jf015",
         "status": "pending",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.282136+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659943+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -8610,7 +8690,7 @@
         "sku": "jf015",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.282118+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659933+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -8622,7 +8702,7 @@
         "sku": "jf015",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.282163+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659952+00:00"
       },
       "wb": {
         "attempts": 0,
@@ -8634,7 +8714,7 @@
         "sku": "jf015",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.282127+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659938+00:00"
       }
     },
     "klipsa-datchika-peredach-dq200": {
@@ -8675,14 +8755,15 @@
         "before_hash": "a33c25c35876e8c3e901e744b7069b0956ca97b2b3a59e773b5ec06597bf47b1",
         "card_id": "6950936844",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287584+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "klipsa-datchika-peredach-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "75fe8fe5bfb19eb3a5784beaee57811b2d1423bb3c3d4994cac07d2a13fff84f",
-        "updated_utc": "2026-11-24T02:17:11.924609+00:00"
+        "updated_utc": "2026-11-24T02:41:23.659963+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -8752,14 +8833,15 @@
         "before_hash": "63e4015580f3ca9c4100c30906351f588af8790e597b9c908578556dec813b65",
         "card_id": "6287286144",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287598+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "klipsy-shtokov-2sht",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "1bc86a981237e2b347457d13a048d984ce2a0b44afeeeb9338b14d036cd3b1fd",
-        "updated_utc": "2026-11-24T02:17:11.924663+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660005+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -8829,14 +8911,15 @@
         "before_hash": "4599eb43f5b4228d55c68182ea61accedbd516820fbe14415d65ed819d252eb8",
         "card_id": "6950728268",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287612+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "kolodka-solenoidov-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "a20ec7ba63412619e4278e42db6b369e6a77814bf25d92698cac9af5e951cb0d",
-        "updated_utc": "2026-11-24T02:17:11.924745+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660047+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -8879,7 +8962,7 @@
         "sku": "korpus-filtra-0bh325159",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.282437+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660113+00:00"
       },
       "market": {
         "after_hash": "00703daacd93071533c3c6f5e860a5580f720504c824d2225ba3b6f7088653df",
@@ -8907,14 +8990,15 @@
         "before_hash": "1ad02db917ff3c1807a4fca33d907889ca10ff784ff5455ecaca8f5183f15c9c",
         "card_id": "6288287763",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287626+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "korpus-filtra-0bh325159",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "00703daacd93071533c3c6f5e860a5580f720504c824d2225ba3b6f7088653df",
-        "updated_utc": "2026-11-24T02:22:16.458553+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660090+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -8987,14 +9071,15 @@
         "before_hash": "5044978478e1d6f56e7d9cc14a9fc6b987ad89f67c7ab666f60fb5f4fa27955f",
         "card_id": "6447289532",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287640+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "kryshka-mehatronika-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "5c890489a74daac912d707d6d13e765e6e7b57cf41424b886e256e69eead0197",
-        "updated_utc": "2026-11-24T02:17:11.924806+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660130+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -9064,14 +9149,15 @@
         "before_hash": "35b0d3173ba58a768157e65cbdd83002ae42539c34c5c9b9f07f5f5587894345",
         "card_id": "6950936865",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287655+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "kryshka-platy-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "22e5af864bb7a811f16dae8de629ce946fc94ea8d9e6059eb9f8c80162fa5370",
-        "updated_utc": "2026-11-24T02:17:11.924866+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660172+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -9114,21 +9200,21 @@
         "sku": "nakladki-pedali",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.282639+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660227+00:00"
       },
       "market": {
         "after_hash": "73325f5d06042a5cea40a79ab79ff69abcabf29874aaa5a8db4211fa4623283a",
         "attempts": 0,
         "card_id": "6245067593",
         "channel": "market",
-        "error": "Canonical workbook description not verified for this SKU/channel",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:18.957193+00:00",
         "polls": 0,
         "read_failures": 0,
         "sku": "nakladki-pedali",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "03082abe03fbc58f93cce45931dc364f0958feca7e534adb44149deee5e36e9f",
-        "updated_utc": "2026-11-24T02:35:18.957207+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660223+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -9140,7 +9226,7 @@
         "sku": "nakladki-pedali",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.282606+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660208+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -9164,7 +9250,7 @@
         "sku": "nakladki-pedali",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.282616+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660213+00:00"
       }
     },
     "osnovanie-platy-dq200": {
@@ -9205,14 +9291,15 @@
         "before_hash": "07c1b0dbf70bf61e45f95f9bee17747459aa0500d9c41035bd0b62e0c15b4ec2",
         "card_id": "6950608726",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287669+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "osnovanie-platy-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "fdd49f59211698895efde24663ad04c3a9dc68c3794b494933dffe4ebcdfd44c",
-        "updated_utc": "2026-11-24T02:17:11.924927+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660245+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -9282,14 +9369,15 @@
         "before_hash": "d24f3beaa175819c205e08ec8e141e46615d91f5275f52d298ad8afe7ac342d2",
         "card_id": "6287286104",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287682+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "planka-solenoid-2sht",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "d514c328f97902a715dce02d783118251d0f7dae14fe06d5d66ecb3807c80183",
-        "updated_utc": "2026-11-24T02:17:11.924976+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660289+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -9359,14 +9447,15 @@
         "before_hash": "3161bbac6bc956662a19e8ccf5ea16923cdc016cc3375072b9c83effda39182c",
         "card_id": "6447289529",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287697+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "plastina-solenoid-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "7c22124de95130795072715f87bd9b5cfc0eadb7a15ef452b56ce219e4e7d5f0",
-        "updated_utc": "2026-11-24T02:17:11.925026+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660330+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -9436,14 +9525,15 @@
         "before_hash": "0bb8a2a94e56f0eeb50189be0b3e7cf455e9fa5caf283f49d744b22c9761f793",
         "card_id": "6447289290",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287712+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "plastiny-solenoid-dq200-2sht",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "4aabd20e15701843e7e29ec023eb71c019f29093b73e892b22a13645f6db39f9",
-        "updated_utc": "2026-11-24T02:17:11.925074+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660369+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -9513,14 +9603,15 @@
         "before_hash": "5e3ad654d01d4bfdd1df890ad8d0a528e227be1479403cfa5ce2000167505b01",
         "card_id": "6287285927",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287728+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "plastiny-solenoid-orig",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "568b615ea18c04a4fda9068d9e60956c57600c8f5dd1c3c17217320f050592a7",
-        "updated_utc": "2026-11-24T02:17:11.925127+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660407+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -9590,14 +9681,15 @@
         "before_hash": "292f8333e7a2a7e7e63a93c1ab5a5245d52e45c46a6d719568a79b5bff6bac5f",
         "card_id": "6287286115",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287743+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "plita-filtr",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "b24a4e428b2fecc145a4a9bdb7f427f938fd202de0b86fa4b1fb35d573ab7af9",
-        "updated_utc": "2026-11-24T02:17:11.925185+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660449+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -9667,14 +9759,15 @@
         "before_hash": "54e654fd4fbfbdac7f0f43d404fcc205c1b7b767b4500b5bfd34eb61081412e8",
         "card_id": "6366559663",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287759+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "plita-filtr-orig",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "df477672765eac9aa3db0e8d4017d782a133eafb46ed192f790a4359c212a738",
-        "updated_utc": "2026-11-24T02:17:11.925242+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660493+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -9744,14 +9837,15 @@
         "before_hash": "d48f73900ad382e724c0634b7cee671ea97e76073bd41b2c8a3f6c38e1eede80",
         "card_id": "6287285684",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287774+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "plita-filtr-pylniki",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "134472d1054b7310e69e3778ef300e5df136bd106a7f802f782240f7ae7508df",
-        "updated_utc": "2026-11-24T02:17:11.925300+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660537+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -9821,14 +9915,15 @@
         "before_hash": "e58b0b68122998e9f689febaf1402a72be0e993bfe7352c0395f7b9bb7545ac6",
         "card_id": "6287285952",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287789+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "plita-filtr-pylniki-orig",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "7b2dd67206efba527d720e1b318006420561c82a47890290fb618d8dcae2b4ed",
-        "updated_utc": "2026-11-24T02:17:11.925355+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660589+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -9898,14 +9993,15 @@
         "before_hash": "140f62e4411e7ac337712179be050a3051250825bd0153a4b5dc7f3bb24d5f58",
         "card_id": "6287286020",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287803+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "plita-filtr-pylniki-sal",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "91f360ccf86e92f14222aab3ca418129ba705a991cd0a3f451ca73b49126c785",
-        "updated_utc": "2026-11-24T02:17:11.925410+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660635+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -10054,14 +10150,15 @@
         "before_hash": "7de1174a24522824707906b63247ecd3a7e3328641950b187cfd7a482748f437",
         "card_id": "6287286067",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287819+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "plita-filtr-salniki-orig",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "b524bd150d194040d3c204e0c5e74b18d50f39003d903c1e4fd5e2f6a592a36d",
-        "updated_utc": "2026-11-24T02:17:11.925527+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660734+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -10131,14 +10228,15 @@
         "before_hash": "292f8333e7a2a7e7e63a93c1ab5a5245d52e45c46a6d719568a79b5bff6bac5f",
         "card_id": "6291485646",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287833+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "plita-filtr-v2",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "a70bf547e384139f0ede39132e10b87d498a10f0b71915ddcb95533b5a9a8d43",
-        "updated_utc": "2026-11-24T02:17:11.925583+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660780+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -10162,7 +10260,7 @@
         "sku": "plita-filtr-v2",
         "status": "not_applicable",
         "target_hash": "a70bf547e384139f0ede39132e10b87d498a10f0b71915ddcb95533b5a9a8d43",
-        "updated_utc": "2026-11-24T02:35:07.283612+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660789+00:00"
       }
     },
     "plita-pylniki-salniki": {
@@ -10203,14 +10301,15 @@
         "before_hash": "55824d0bda697c8059be515ad7114bbd1c9131d2e91284090b9e8cd895e28fa2",
         "card_id": "6366559611",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287848+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "plita-pylniki-salniki",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "3cb422eef5f0cf5e7c2fead577138f70492e7056cafd1e8c1af8c96996375b31",
-        "updated_utc": "2026-11-24T02:17:11.925637+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660823+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -10280,14 +10379,15 @@
         "before_hash": "77084283393f0cc02a2ed3b4cfbae8ecf8b91ff1ec40b88b85a32fbb68b4d0cd",
         "card_id": "6290562676",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287862+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "plita-pylniki-salniki-orig",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "2f4c35e4cbde8102372995c36e3af999a3f5f96bc7e64839d5d68d56250e75cc",
-        "updated_utc": "2026-11-24T02:17:11.925692+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660874+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -10360,14 +10460,15 @@
         "before_hash": "77084283393f0cc02a2ed3b4cfbae8ecf8b91ff1ec40b88b85a32fbb68b4d0cd",
         "card_id": "6291485654",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287876+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "plita-pylniki-salniki-orig-v2",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "39fa518d7728b7500a36f20a2d8e0710bf93136b7aad131afb3f87f154853280",
-        "updated_utc": "2026-11-24T02:17:11.925747+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660916+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -10391,7 +10492,7 @@
         "sku": "plita-pylniki-salniki-orig-v2",
         "status": "not_applicable",
         "target_hash": "39fa518d7728b7500a36f20a2d8e0710bf93136b7aad131afb3f87f154853280",
-        "updated_utc": "2026-11-24T02:35:07.283835+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660924+00:00"
       }
     },
     "podshipnik-vilki-6": {
@@ -10435,14 +10536,15 @@
         "before_hash": "15c01fa6b55c854a96dfaad82e16207e28388ca8f6d49339edad526a4796f64a",
         "card_id": "6287286078",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287890+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "podshipnik-vilki-6",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "cf3a4857615559c36df7ea3c8ee1a69d65c93eb80f5418d1d8570f2c23970b78",
-        "updated_utc": "2026-11-24T02:17:11.925803+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660955+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -10466,7 +10568,7 @@
         "sku": "podshipnik-vilki-6",
         "status": "not_applicable",
         "target_hash": "cf3a4857615559c36df7ea3c8ee1a69d65c93eb80f5418d1d8570f2c23970b78",
-        "updated_utc": "2026-11-24T02:35:07.283902+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660963+00:00"
       }
     },
     "porshni-usil-pylniki-kryshki": {
@@ -10507,14 +10609,15 @@
         "before_hash": "5e07152526c129fe507f0c16a19f85c831681b0cdf17d7a4178aec245f5447d5",
         "card_id": "6290562487",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287903+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "porshni-usil-pylniki-kryshki",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "8963dcf9469a6e47705d8d84d13ee59597cc3b0417ba6ac37c29776940a17420",
-        "updated_utc": "2026-11-24T02:17:11.925854+00:00"
+        "updated_utc": "2026-11-24T02:41:23.660996+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -10584,14 +10687,15 @@
         "before_hash": "5e07152526c129fe507f0c16a19f85c831681b0cdf17d7a4178aec245f5447d5",
         "card_id": "6291485580",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287917+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "porshni-usil-pylniki-kryshki-v2",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "c056ed1b80aa7be460d3c684e7f3b043bdbe29616b182875ab1bd02b4ef5a7f7",
-        "updated_utc": "2026-11-24T02:17:11.925901+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661041+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -10615,7 +10719,7 @@
         "sku": "porshni-usil-pylniki-kryshki-v2",
         "status": "not_applicable",
         "target_hash": "c056ed1b80aa7be460d3c684e7f3b043bdbe29616b182875ab1bd02b4ef5a7f7",
-        "updated_utc": "2026-11-24T02:35:07.284048+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661050+00:00"
       }
     },
     "prokladka-kryshki-dq200": {
@@ -10659,14 +10763,15 @@
         "before_hash": "96324862e2b3852fe796658ebde6fe6f74e9b7072c9e833ca6f981a072b3cbad",
         "card_id": "6447289439",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287930+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "prokladka-kryshki-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "5f2f5f029aa7efb632dfd82c76e51d8c9aecbaf6e981e9322fe480783f50969b",
-        "updated_utc": "2026-11-24T02:17:11.925954+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661085+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -10739,14 +10844,15 @@
         "before_hash": "f821e7dd8b2dee5f4b4bb7435612cbe1a6efd1d5c230ed4a49ee6df61a4bdafd",
         "card_id": "6447581363",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287944+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "prokladka-vtulki-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "185e3b4017dc8130b50332f278c7823c421c21e5bfcb3a9c00df0add266c33bd",
-        "updated_utc": "2026-11-24T02:17:11.926019+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661128+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -10816,14 +10922,15 @@
         "before_hash": "185e071feaaa88b45632d8d240a2946a825ee93bbd769f07e77b63ffdba2368f",
         "card_id": "6447289499",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287958+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "prokladka-vtulki-niz-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "60c9389169ec97d25f11dc596c5029bb6a9f7405912ab9c737801da9b42c66d9",
-        "updated_utc": "2026-11-24T02:17:11.926076+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661172+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -10893,14 +11000,15 @@
         "before_hash": "71130e3cf885ac8fc0751d45e8d4197786065837d3e93a1a3969f7f3f4d15561",
         "card_id": "6447289548",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287972+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "prokladka-vtulki-verh-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "c7a7071e6f861f3a4efdd2d426d776e454c397a6026cac3914842a422c7fb447",
-        "updated_utc": "2026-11-24T02:17:11.926131+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661215+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -10973,14 +11081,15 @@
         "before_hash": "57b5fda50f1e5435fc12c3c4ba24b5563c5ffd31d5f11f58df58876c8e393f4d",
         "card_id": "6287286183",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287985+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "pylniki-shtokov-orig",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "246c894d3165557ad2c292c393d5cf0ccbd760c370593b7e426ca6e0518efbd2",
-        "updated_utc": "2026-11-24T02:17:11.926177+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661255+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -11026,7 +11135,7 @@
         "sku": "pylniki-shtokov-orig-v2",
         "status": "blocked",
         "target_hash": "37dfd0f248d55c47ab4876d6d52c3e4f32801d6552311fee922e781f7aa4b55c",
-        "updated_utc": "2026-11-24T02:35:07.284519+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661316+00:00"
       },
       "market": {
         "after_hash": "37dfd0f248d55c47ab4876d6d52c3e4f32801d6552311fee922e781f7aa4b55c",
@@ -11054,14 +11163,15 @@
         "before_hash": "57b5fda50f1e5435fc12c3c4ba24b5563c5ffd31d5f11f58df58876c8e393f4d",
         "card_id": "6291485641",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.287999+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "pylniki-shtokov-orig-v2",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "37dfd0f248d55c47ab4876d6d52c3e4f32801d6552311fee922e781f7aa4b55c",
-        "updated_utc": "2026-11-24T02:17:11.926224+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661294+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -11085,7 +11195,7 @@
         "sku": "pylniki-shtokov-orig-v2",
         "status": "not_applicable",
         "target_hash": "37dfd0f248d55c47ab4876d6d52c3e4f32801d6552311fee922e781f7aa4b55c",
-        "updated_utc": "2026-11-24T02:35:07.284490+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661301+00:00"
       }
     },
     "remkomplekt-shtokov-orig": {
@@ -11129,14 +11239,15 @@
         "before_hash": "835dccff756ab66c77c14b974f007785aa9de90abf6fd4c4436ee492a366de8e",
         "card_id": "6287285820",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288013+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "remkomplekt-shtokov-orig",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "3d6f94a400d61f74610985de9fa7cefe9d0e71df0ec51b1864b9ccc826a5d409",
-        "updated_utc": "2026-11-24T02:17:11.926270+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661334+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -11182,7 +11293,7 @@
         "sku": "remkomplekt-shtokov-orig-v2",
         "status": "blocked",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.284648+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661393+00:00"
       },
       "market": {
         "after_hash": "ef06722a2161ba3f0423c14ec9eba8896b5da04ab5263b65303e1b5b51235ffc",
@@ -11210,14 +11321,15 @@
         "before_hash": "835dccff756ab66c77c14b974f007785aa9de90abf6fd4c4436ee492a366de8e",
         "card_id": "6291485626",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288027+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "remkomplekt-shtokov-orig-v2",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "ef06722a2161ba3f0423c14ec9eba8896b5da04ab5263b65303e1b5b51235ffc",
-        "updated_utc": "2026-11-24T02:22:16.458610+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661375+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -11241,7 +11353,7 @@
         "sku": "remkomplekt-shtokov-orig-v2",
         "status": "not_applicable",
         "target_hash": null,
-        "updated_utc": "2026-11-24T02:35:07.284623+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661381+00:00"
       }
     },
     "salnik-shtoka-orig": {
@@ -11285,14 +11397,15 @@
         "before_hash": "4b92209b68d96bc14f061c91b0d837981dc2399ff3702ea15d3f6433571cad97",
         "card_id": "6287286087",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288041+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "salnik-shtoka-orig",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "75b953695058db0de613dccb08afb6024f1f9f1cc0e479089dac3a44ba6838d5",
-        "updated_utc": "2026-11-24T02:17:11.926318+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661409+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -11368,14 +11481,15 @@
         "before_hash": "4b92209b68d96bc14f061c91b0d837981dc2399ff3702ea15d3f6433571cad97",
         "card_id": "6291485636",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288054+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "salnik-shtoka-orig-v2",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "6d0da630d7035893c37a15c39799d2c1fd9b545b64338719c0716a78358e8406",
-        "updated_utc": "2026-11-24T02:17:11.926359+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661448+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -11399,7 +11513,7 @@
         "sku": "salnik-shtoka-orig-v2",
         "status": "not_applicable",
         "target_hash": "6d0da630d7035893c37a15c39799d2c1fd9b545b64338719c0716a78358e8406",
-        "updated_utc": "2026-11-24T02:35:07.284752+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661456+00:00"
       }
     },
     "salnik-tolkatelya-alum": {
@@ -11440,14 +11554,15 @@
         "before_hash": "d2d5a840b448f0147ad35e1156e394e7c66a2fdec8d3d88188578491ea3b8fcf",
         "card_id": "6287286551",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288068+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "salnik-tolkatelya-alum",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "5d81410573ef6d67b3d3e5d4c1cabe1b064ea19615db5f344fce14dce82d36f2",
-        "updated_utc": "2026-11-24T02:17:11.926437+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661490+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -11517,14 +11632,15 @@
         "before_hash": "a2dec0e556e7a61687b9625f1cad6f342b415f3535023e769c13b5360508fd6d",
         "card_id": "6287286071",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288081+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "salniki-shtokov-2sht",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "dcedae87eeb91878fd9f198d66f33e3e364f849e5bae865003f716cbaafd8d0e",
-        "updated_utc": "2026-11-24T02:17:11.926493+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661537+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -11597,14 +11713,15 @@
         "before_hash": "867a69a1e2f72591f8252f2163a91894bbaa5bb28d6d8674c11cd0a3e3362f05",
         "card_id": "6287286373",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288095+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "salniki-shtokov-orig",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "1db12606facfd4ad5b0b92583f1f46e1cae285afa2ef38794a599240f5abe958",
-        "updated_utc": "2026-11-24T02:17:11.926538+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661579+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -11680,14 +11797,15 @@
         "before_hash": "4853fd9304b75165f6466417f4b6bc8d788cfdc4a129a63501fc442611e7c8cd",
         "card_id": "6287286026",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288109+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "salniki-tolkatelya-4sht",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "f6b02e2ba73efc6280fd7669eadf684de0bbf877a83b2b09154f12ba5acaa922",
-        "updated_utc": "2026-11-24T02:17:11.926592+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661619+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -11763,14 +11881,15 @@
         "before_hash": "3e658acecb745282672a626cb576eb940493d5e044de993773c266194d56b9c7",
         "card_id": "6287286024",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288123+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "salnikprivod-l",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "972a299e8a38862822c16fd2d22099e6db0a699cbb43910b61b44930683e76ad",
-        "updated_utc": "2026-11-24T02:17:11.926645+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661658+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -11846,14 +11965,15 @@
         "before_hash": "b89ef75ccfe58e73371d1a3a49445f031cfb0a47a0688a6922c9a00fa2423090",
         "card_id": "6287286671",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288137+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "salnikprivod-r",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "a12039a456b91e634b9e149cd627b3833cfd07e80089c1c5545887704f555bcb",
-        "updated_utc": "2026-11-24T02:17:11.926696+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661697+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -11929,14 +12049,15 @@
         "before_hash": "be018d0c18e1a97be40c27c47c39d9c61c806163e92e4af90de8f97a68e359db",
         "card_id": "6287286228",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288164+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "salnikvhod",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "f7e133624f41fc8d5d6597ec0b1056f39879a1c5d29dc18cc034a993e7677703",
-        "updated_utc": "2026-11-24T02:17:11.926748+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661735+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -12012,14 +12133,15 @@
         "before_hash": "7599ff40a6b9b1546bc8e3e69869b18fe64ce9923d0d77ebf79ca1cd5550f998",
         "card_id": "6287286235",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288178+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "salnikvihod",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "91065b0ce96404454019605945419c0a32b73a70850b35f21e1340fee867fb2f",
-        "updated_utc": "2026-11-24T02:17:11.926793+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661774+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -12095,14 +12217,15 @@
         "before_hash": "65eb28a4b25882abc3a29d3274f2427a2e8b2edbeb1eff32a0b27411b0d891e7",
         "card_id": "6447289313",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288191+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "separatornaya-plastina-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "b1492d10db35e8d35673ac3430c8c84fb16c5b03d2a900d15c1b7a8b913a60cb",
-        "updated_utc": "2026-11-24T02:17:11.926841+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661814+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -12175,14 +12298,15 @@
         "before_hash": "346f5399c9f4f167262732a2691cb2295271eb5377fcab13fd2b9df38553696d",
         "card_id": "6447289387",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288204+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "separatornaya-plastiny-solenoid-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "8611ce357407500cba53912e0e5896693ebaeda9fb37af7b1ef78238e68fb24a",
-        "updated_utc": "2026-11-24T02:17:11.926889+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661854+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -12252,14 +12376,15 @@
         "before_hash": "0c50096c0d01ebc677923068bcb58e0c8a7be77f963ed8d87d49456a1124c99c",
         "card_id": "6950608835",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288218+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "shleif-platy-dq200",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "b2862e509c4d38ffabf66bfa51c112d36f710b13beaf74d2e7cccb64aabf4d04",
-        "updated_utc": "2026-11-24T02:17:11.926979+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661905+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -12329,14 +12454,15 @@
         "before_hash": "cff6a45b5ea446fed8ee57e25499344ec0183d17b8a7fc2d7e5334799132e76e",
         "card_id": "6447289467",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288232+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "solenoid-02e-0b5-bolshoy",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "8d5478f29137db867ca45522a57db6f13d86d96123b698b8f94349666e11ae21",
-        "updated_utc": "2026-11-24T02:17:11.927026+00:00"
+        "updated_utc": "2026-11-24T02:41:23.661951+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -12485,14 +12611,15 @@
         "before_hash": "613975669b7fc8ada38b1f2e33b32571a7d03b14d67e5a9c20333d8ce22e4fb7",
         "card_id": "6287286050",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288245+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "tolkateli-4-salniki-4",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "0aad997717765078ecd10c226099f0190b262f4d38e01d7ec0cf346dc109d6ed",
-        "updated_utc": "2026-11-24T02:17:11.927151+00:00"
+        "updated_utc": "2026-11-24T02:41:23.662042+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -12568,14 +12695,15 @@
         "before_hash": "a334ad57c1462ff6ced1b2add1d4c14dc810ebb6eb4ce0c48bf1e0309f3c8dcf",
         "card_id": "6287286167",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288258+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "tolkateli-salniki-alum-komplekt",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "6e5afd4f10330663728fa86288f28f2ccc24f21806bcf7f63d65e5c9a8cac919",
-        "updated_utc": "2026-11-24T02:17:11.927208+00:00"
+        "updated_utc": "2026-11-24T02:41:23.662087+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -12771,7 +12899,7 @@
         "sku": "vint-kollektora-ea888",
         "status": "blocked",
         "target_hash": "f2a2b7e3b1eac8a6cf0752b0112c240906b95b8c37799c344c033c4d9ed61877",
-        "updated_utc": "2026-11-24T02:35:07.286079+00:00"
+        "updated_utc": "2026-11-24T02:41:23.662232+00:00"
       },
       "market": {
         "after_hash": "f2a2b7e3b1eac8a6cf0752b0112c240906b95b8c37799c344c033c4d9ed61877",
@@ -12796,14 +12924,15 @@
         "before_hash": "365fa3c4df9221454e8e81b60a44dafd3f20200abf21ffa64f19ca1a4c21f5bf",
         "card_id": "6950936854",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288272+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "vint-kollektora-ea888",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "f2a2b7e3b1eac8a6cf0752b0112c240906b95b8c37799c344c033c4d9ed61877",
-        "updated_utc": "2026-11-24T02:17:11.927348+00:00"
+        "updated_utc": "2026-11-24T02:41:23.662205+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -12827,7 +12956,7 @@
         "sku": "vint-kollektora-ea888",
         "status": "not_applicable",
         "target_hash": "f2a2b7e3b1eac8a6cf0752b0112c240906b95b8c37799c344c033c4d9ed61877",
-        "updated_utc": "2026-11-24T02:35:07.286046+00:00"
+        "updated_utc": "2026-11-24T02:41:23.662215+00:00"
       }
     },
     "vtulki-shtokov-2sht": {
@@ -12868,14 +12997,15 @@
         "before_hash": "97768f79358a2d442a8cdf825e5e9dc892d5ac3a81fc7805a4690632f0ff2147",
         "card_id": "6287286102",
         "channel": "ozon",
-        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "error": null,
         "last_checked_utc": "2026-11-24T02:35:14.288286+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "read_failures": 0,
         "sku": "vtulki-shtokov-2sht",
-        "status": "blocked",
+        "status": "prepared",
         "target_hash": "001e8926cd180741093e924195a93518263a013d388d9e4dcc88e3c114f670e0",
-        "updated_utc": "2026-11-24T02:17:11.927410+00:00"
+        "updated_utc": "2026-11-24T02:41:23.662254+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -12908,7 +13038,7 @@
       }
     }
   },
-  "run_id": "45313380183-1",
-  "updated_utc": "2026-11-24T02:35:54.169471+00:00",
+  "run_id": "45314149052-1",
+  "updated_utc": "2026-11-24T02:41:23.760253+00:00",
   "version": 1
 }
