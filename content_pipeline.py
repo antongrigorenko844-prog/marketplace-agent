@@ -185,13 +185,57 @@ def isolate_book(raw,sheet,col,ch,rules,skus):
     if not skus: return raw,{}
     return part(raw,skus)
 
-def materialize(rules,skus,live,apply):
+def master_rules_for_census(rules, ids, errors):
+    """Resolve a stale master channel flag only with independent exact census
+    evidence and an identical, explicitly approved text on two live channels.
+    The returned rules are for the master workbook only, never a seller API."""
+    output = dict(rules)
+    if 'ozon' in errors or not ids.get('ozon'):
+        return output
+    for sku, rule in rules.items():
+        text = rule.get('text', {})
+        if sku in ids['ozon'] or rule.get('ids', {}).get('ozon') or text.get('ozon', {}).get('description'):
+            continue
+        approved = {ch: fields['description'] for ch, fields in text.items()
+                    if fields.get('description')}
+        if len(set(approved.values())) != 1:
+            continue
+        exact = [ch for ch in approved if ch not in errors and len(ids.get(ch, {}).get(sku, [])) == 1
+                 and (not rule.get('ids', {}).get(ch) or
+                      str(rule['ids'][ch]) == ids[ch][sku][0]['id'])]
+        if len(exact) < 2:
+            continue
+        output[sku] = dict(rule, _master_description=next(iter(approved.values())))
+    return output
+
+
+def ozon_strict_coverage(rows):
+    """Do not confuse text equality under old normalization with exact
+    protected-field preservation. Preserve the original evidence and hold."""
+    counts = Counter()
+    for channels in rows.values():
+        e = channels.get('ozon', {})
+        if e.get('status') != 'verified':
+            continue
+        counts['text_verified'] += 1
+        if any(e.get('observed_ozon_normalization', {}).values()):
+            counts['protected_fields_normalized'] += 1
+        elif e.get('protection_verified'):
+            counts['exact_protection_verified'] += 1
+        elif e.get('attempts', 0) == 0:
+            counts['already_matching_no_write'] += 1
+        else:
+            counts['protection_unproven'] += 1
+    return dict(counts)
+
+
+def materialize(rules,skus,live,apply,master_rules=None):
     result={}; changes={}
     for filename,(sheet,col,ch) in cms.BOOKS.items():
         path=ROOT/filename
         try:
             raw=path.read_bytes()
-            new,rows=isolate_book(raw,sheet,col,ch,rules,skus)
+            new,rows=isolate_book(raw,sheet,col,ch,master_rules if ch=='master' and master_rules is not None else rules,skus)
             if apply and new!=raw: changes[path]=(raw,new)
             result[filename]={'rows':rows,'before_sha256':sha256(raw).hexdigest(),'staged_sha256':sha256(new).hexdigest()}
         except Exception as exc:
@@ -206,7 +250,7 @@ def materialize(rules,skus,live,apply):
         for filename,(sheet,col,ch) in cms.BOOKS.items():
             path=ROOT/filename
             if path in changes:
-                _,rows=isolate_book(path.read_bytes(),sheet,col,ch,rules,skus)
+                _,rows=isolate_book(path.read_bytes(),sheet,col,ch,master_rules if ch=='master' and master_rules is not None else rules,skus)
                 result[filename]['rows']=rows
                 if any(r.get('status')=='pending' for r in rows.values()):
                     raise RuntimeError('Workbook readback failed')
@@ -658,9 +702,10 @@ def run(live=False):
     def save(more=()):
         state['updated_utc']=stamp()
         state['counts']={ch:dict(Counter(v[ch]['status'] for v in state['rows'].values())) for ch in CHANNELS}
+        state['ozon_strict_coverage']=ozon_strict_coverage(state['rows'])
         write_json(STATE,state);checkpoint([STATE,*more],live=live)
     selected=[s for s in universe if s in master_rows and s not in duplicates and any(rules.get(s,{}).get('text',{}).get(c,{}).get('description') for c in CHANNELS)]
-    master=materialize(rules,selected,live,apply)
+    master=materialize(rules,selected,live,apply,master_rules_for_census(rules,ids,errors))
     mp=report_dir/'master.json';write_json(mp,master)
     save([mp])
     for ch in CHANNELS:

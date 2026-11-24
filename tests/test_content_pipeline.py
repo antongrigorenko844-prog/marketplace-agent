@@ -70,3 +70,27 @@ class PipelineTests(unittest.TestCase):
               'C':{'ozon':{'status':'verified','card_id':'3'}}}
         rules={s:{'text':{'ozon':{'description':'text'}}} for s in rows}
         self.assertEqual(set(p.held_ozon_readback(rows,rules)),{'A'})
+
+    def test_master_stale_ozon_flag_requires_two_exact_agreeing_channels(self):
+        rules={'A':{'text':{'wb':{'description':'approved'},'tilda':{'description':'approved'}}}}
+        ids={'ozon':{'B':[{'id':'9'}]},'wb':{'A':[{'id':'1'}]},'tilda':{'A':[{'id':'2'}]}}
+        out=p.master_rules_for_census(rules,ids,{})
+        self.assertEqual(p.cms.target_description(out['A'],{'ozon_status':'active'},'master'),'approved')
+        self.assertIsNone(p.cms.target_description(out['A'],{},'ozon'))
+        self.assertNotIn('_master_description',rules['A'])
+        self.assertNotIn('_master_description',p.master_rules_for_census(rules,ids,{'ozon':'failed'})['A'])
+        self.assertNotIn('_master_description',p.master_rules_for_census(rules,ids,{'tilda':'failed'})['A'])
+        ids['ozon']['A']=[{'id':'3'}]
+        self.assertNotIn('_master_description',p.master_rules_for_census(rules,ids,{})['A'])
+        del ids['ozon']['A']
+        rules['A']['text']['tilda']['description']='different'
+        self.assertNotIn('_master_description',p.master_rules_for_census(rules,ids,{})['A'])
+
+    def test_strict_ozon_coverage_excludes_old_normalized_proofs(self):
+        rows={'A':{'ozon':{'status':'verified','attempts':1,'protection_verified':True,
+                           'observed_ozon_normalization':{'kiz_materialized':True}}},
+              'B':{'ozon':{'status':'verified','attempts':1,'protection_verified':True}},
+              'C':{'ozon':{'status':'verified','attempts':0,'protection_verified':False}},
+              'D':{'ozon':{'status':'blocked'}}}
+        self.assertEqual(p.ozon_strict_coverage(rows),{'text_verified':3,'protected_fields_normalized':1,
+                                                       'exact_protection_verified':1,'already_matching_no_write':1})
