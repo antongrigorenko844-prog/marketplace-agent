@@ -1,5 +1,5 @@
 {
-  "status": "running",
+  "status": "partial_or_pending",
   "campaign": 716316525,
   "feed": 4061297,
   "started_utc": "2026-11-24T11:15:57.204769+00:00",
@@ -912,7 +912,9 @@
       }
     }
   },
-  "errors": [],
+  "errors": [
+    "feed: Other ad fields changed"
+  ],
   "site_price_writes": 0,
   "site_stock_writes": 0,
   "metrika_writes": 0,
@@ -2127,5 +2129,160 @@
     },
     "keyword_count": 266,
     "source_sha256": "875bf777ab7aa937db2cf7bc7f841bed7ca2f4873eee39cbdcc71e0e715893b1"
-  }
+  },
+  "site_and_metrika_readonly": {
+    "http_status": 200,
+    "markers": {
+      "bez-platy": true,
+      "s-platoi": true,
+      "platy": true,
+      "form5246286101": true,
+      "form5260805101": true,
+      "113839860": true,
+      "tinkoff": true,
+      "ozon": true,
+      "viewport": true
+    },
+    "h1_count": 1,
+    "h2_count": 0,
+    "note": "HTML only; no browser checkout, form submission or payment",
+    "goals": [
+      {
+        "id": 682257540,
+        "name": "Ecommerce: покупка",
+        "type": "e_purchase",
+        "status": "Active"
+      },
+      {
+        "id": 675271839,
+        "name": "WhatsApp",
+        "type": "messenger",
+        "status": "Active"
+      },
+      {
+        "id": 675271996,
+        "name": "Telegram",
+        "type": "messenger",
+        "status": "Active"
+      },
+      {
+        "id": 675272154,
+        "name": "Звонок",
+        "type": "phone",
+        "status": "Active"
+      },
+      {
+        "id": 675272284,
+        "name": "Форма VIN",
+        "type": "form",
+        "status": "Active"
+      },
+      {
+        "id": 675363017,
+        "name": "Автоцель: переход в мессенджер",
+        "type": "messenger",
+        "status": "Active"
+      },
+      {
+        "id": 675487735,
+        "name": "Ecommerce: добавление в корзину",
+        "type": "e_cart",
+        "status": "Active"
+      },
+      {
+        "id": 675506966,
+        "name": "Заявка по VIN",
+        "type": "url",
+        "status": "Active"
+      },
+      {
+        "id": 675507028,
+        "name": "Заказ с сайта",
+        "type": "url",
+        "status": "Active"
+      },
+      {
+        "id": 678989864,
+        "name": "Автоцель: заполнил контактные данные",
+        "type": "contact_data",
+        "status": "Active"
+      },
+      {
+        "id": 678989865,
+        "name": "Автоцель: отправил контактные данные",
+        "type": "contact_data_sent",
+        "status": "Active"
+      },
+      {
+        "id": 683185830,
+        "name": "Автоцель: поиск по сайту",
+        "type": "search",
+        "status": "Active"
+      },
+      {
+        "id": 685988392,
+        "name": "LEOPARTS | Начало оплаты (не покупка)",
+        "type": "url",
+        "status": "Active"
+      },
+      {
+        "id": 686020680,
+        "name": "LEOPARTS | VIN — успешная отправка",
+        "type": "action",
+        "status": "Active"
+      }
+    ],
+    "goal_checks": "Definition read only; actual paid orders not proven"
+  },
+  "final_protection": {
+    "campaign_except_negatives_unchanged": true,
+    "groups_except_negatives_unchanged": true,
+    "ads_except_filters_unchanged": false,
+    "keywords_unchanged": true,
+    "budget_rub": 4000.0,
+    "negative_count": 678,
+    "ad_states": {
+      "1927466195846975291": {
+        "state": "ON",
+        "status": "ACCEPTED",
+        "feed_processing": null
+      },
+      "1927466206584354174": {
+        "state": "ON",
+        "status": "ACCEPTED",
+        "feed_processing": null
+      },
+      "1927488453443618167": {
+        "state": "ON",
+        "status": "ACCEPTED",
+        "feed_processing": null
+      },
+      "1927493554789861877": {
+        "state": "SUSPENDED",
+        "status": "ACCEPTED",
+        "feed_processing": null
+      },
+      "1927493554789861878": {
+        "state": "SUSPENDED",
+        "status": "ACCEPTED",
+        "feed_processing": null
+      },
+      "1927186476439690942": {
+        "state": "OFF",
+        "status": "ACCEPTED",
+        "feed_processing": "UNPROCESSED"
+      },
+      "1927189770678081700": {
+        "state": "OFF",
+        "status": "ACCEPTED",
+        "feed_processing": "UNPROCESSED"
+      },
+      "1927190920657966611": {
+        "state": "OFF",
+        "status": "ACCEPTED",
+        "feed_processing": "UNPROCESSED"
+      }
+    }
+  },
+  "finished_utc": "2026-11-24T11:16:42.128663+00:00"
 }
