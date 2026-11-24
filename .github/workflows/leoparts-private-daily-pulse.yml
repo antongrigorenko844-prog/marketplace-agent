@@ -1,0 +1,50 @@
+name: LEOPARTS private daily business pulse
+on:
+  schedule:
+    - cron: '15 6 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/leoparts-private-daily-pulse.yml']
+permissions:
+  contents: write
+concurrency:
+  group: leoparts-private-daily-pulse
+  cancel-in-progress: false
+jobs:
+  daily:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt cryptography
+      - name: Read only, verify private recipient, deliver scheduled report
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          python -m py_compile scripts/leoparts_private_daily_pulse.py
+          if [ "$EVENT_NAME" = schedule ]; then
+            python scripts/leoparts_private_daily_pulse.py --send >/dev/null 2>&1
+            echo "Private daily report delivered"
+          else
+            python scripts/leoparts_private_daily_pulse.py >/dev/null 2>&1
+            test -s data/crisis_followup_20261124/daily_preview.enc
+            echo "Private recipient and preview verified; no message sent"
+          fi
+      - name: Save only encrypted preview
+        if: github.event_name != 'schedule'
+        run: bash .github/scripts/save_data.sh data/crisis_followup_20261124/daily_preview.enc
