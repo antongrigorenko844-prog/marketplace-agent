@@ -506,7 +506,7 @@
     {
       "sku": "kryshka-platy-dq200",
       "kind": "oem_clear",
-      "status": "submitted",
+      "status": "pending_readback",
       "protected": {
         "offer": {
           "offerId": "kryshka-platy-dq200",
@@ -735,6 +735,12 @@
         "reference_sku": "0AM325219C",
         "reference_name": "Оригинальная крышка мехатроника VAG DSG7 DQ200 0AM325219C",
         "old_oem": "0AM325219C"
+      },
+      "readback": {
+        "protected_diff": [],
+        "params_match": false,
+        "campaign_status": "DISABLED_AUTOMATICALLY",
+        "card_status": "HAS_CARD_CAN_UPDATE"
       }
     },
     {
@@ -6347,5 +6353,5 @@
       ]
     }
   },
-  "updated_at": "2026-11-24T20:23:35.334458+00:00"
+  "updated_at": "2026-11-24T20:23:38.647363+00:00"
 }
