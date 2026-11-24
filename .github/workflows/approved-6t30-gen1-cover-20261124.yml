@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt pillow
-      - name: Recover exact cover readback without seller or feed writes
+      - name: Recover exact v4 mapping and WB image geometry without seller or feed writes
         env:
           GH_TOKEN: ${{ github.token }}
           OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
