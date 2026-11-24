@@ -1,0 +1,35 @@
+name: LEOPARTS full guarded Ozon SEO optimization
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/ozon-full-seo-20261125.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+      OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Validate unified pipeline
+        run: python -m py_compile scripts/ozon_full_seo_20261125.py
+      - name: Read live catalog and build exact protected plan
+        run: python -u scripts/ozon_full_seo_20261125.py prepare
+      - name: Apply all independently eligible reviewed changes
+        run: python -u scripts/ozon_full_seo_20261125.py apply
+      - name: Persist progress even on failure
+        if: always()
+        run: |
+          if [ -f data/ozon_full_seo_20261125.json ]; then bash .github/scripts/save_data.sh data/ozon_full_seo_20261125.json; fi
