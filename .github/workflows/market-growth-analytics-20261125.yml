@@ -1,0 +1,113 @@
+name: LEOPARTS Market growth analytics read-only
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/market-growth-analytics-20261125.yml']
+permissions:
+  contents: write
+concurrency:
+  group: market-growth-analytics-20261125
+  cancel-in-progress: false
+jobs:
+  analytics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+      YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Fetch order commissions, inventory, dated sales funnel
+        run: |
+          python -u - <<'PY'
+          import sys,json,datetime,collections,time,io,zipfile,csv
+          from pathlib import Path
+          from urllib.parse import urlsplit
+          import requests
+          sys.path.insert(0,"scripts")
+          import market_full_seo_20261125 as s
+          import yandex_market_client as ym
+          biz,cam=s.account()
+          out=Path("data/market_growth_analytics_20261125.json")
+          d={"platform":"Yandex Market","business_id":biz,"campaign_id":cam,"external_content_writes":0,"period":{"from":"2026-10-26","to":"2026-11-24"},"errors":{}}
+          def save():out.write_text(json.dumps(d,ensure_ascii=False,indent=2,default=str)+"\n")
+          save()
+          master=s.wsrows(Path("data/master_control.xlsx"))
+          base=json.loads(Path("data/market_full_seo_20261125.json").read_text())
+          ids=list(base["registry"])
+          try:
+              rows=[];token=None;seen=set()
+              for _ in range(20):
+                  params={"limit":200}
+                  if token:params["pageToken"]=token
+                  resp=s.post(f"/v2/campaigns/{cam}/stats/orders",{"dateFrom":d["period"]["from"],"dateTo":d["period"]["to"]},params=params)["result"]
+                  rows+=resp.get("orders",[])
+                  token=(resp.get("paging") or {}).get("nextPageToken")
+                  if not token:break
+                  if token in seen:raise ValueError("repeated order page")
+                  seen.add(token)
+              else:raise ValueError("order pagination incomplete")
+              # No buyer details or IDs in persisted analytics. Separate actual fee
+              # types from prices and payment flows; do not count subsidies twice.
+              stats=[]
+              for o in rows:
+                  if o.get("fake"):continue
+                  items=[]
+                  for it in o.get("items",[]):
+                      if it.get("shopServiceType"):continue
+                      sku=it.get("shopSku");n=int(it.get("count") or 0)
+                      cost=master.get(sku,{}).get("Закупка, ₽")
+                      items.append({"sku":sku,"count":n,"purchase_cost_per_unit":cost,"prices":it.get("prices",[]),"details":[{"itemStatus":z.get("itemStatus"),"itemCount":z.get("itemCount")} for z in it.get("details",[])]})
+                  stats.append({"creationDate":o.get("creationDate"),"status":o.get("status"),"items":items,"payments":[{k:x.get(k) for k in ("type","source","total")} for x in o.get("payments",[])],"commissions":[{k:x.get(k) for k in ("type","actual")} for x in o.get("commissions",[])],"subsidies":[{k:x.get(k) for k in ("operationType","type","amount")} for x in o.get("subsidies",[])],"currency":o.get("currency")})
+              d["order_stats"]={"orders":len(stats),"statuses":dict(collections.Counter(x["status"] for x in stats)),"rows":stats,"note":"Order-level data, not a bank reconciliation. Multi-item order fees not allocated arbitrarily."}
+          except Exception as e:d["errors"]["order_stats"]=str(e)[:400]
+          save()
+          try:
+              code,body=ym._request("POST",f"/v2/campaigns/{cam}/stats/skus",json_body={"shopSkus":ids},retries=1)
+              if code!=200 or body.get("status")!="OK":raise ValueError(f"HTTP {code} {ym._errors_text(body)[:200]}")
+              result=body.get("result") or {}
+              d["sku_stats"]={"keys":list(result),"rows":[{k:x.get(k) for k in ("shopSku","marketSku","name","warehouses","stocks","tariffs","availability","status","price","errors","warnings") if k in x} for x in result.get("shopSkus",result.get("skus",result.get("offers",[]))) if isinstance(x,dict)]}
+          except Exception as e:d["errors"]["sku_stats"]=str(e)[:400]
+          save()
+          try:
+              # Exact dated baseline; never overwrite original unknown-period Excel.
+              r=s.post("/v2/reports/shows-sales/generate",{"businessId":biz,"campaignId":int(cam),"dateFrom":d["period"]["from"],"dateTo":d["period"]["to"],"grouping":"OFFERS"},params={"format":"JSON"},retries=1)
+              rid=(r.get("result") or {}).get("reportId")
+              if not rid:raise ValueError("No report identifier")
+              d["sales_report"]={"report_id":rid,"status":"submitted"};save()
+              for _ in range(24):
+                  code,body=ym._request("GET",f"/v2/reports/info/{rid}",retries=1)
+                  if code!=200 or body.get("status")!="OK":raise ValueError(f"Report status HTTP {code}")
+                  result=body.get("result") or {}
+                  d["sales_report"]["status"]=result.get("status")
+                  d["sales_report"]["sub_status"]=result.get("subStatus")
+                  save()
+                  if result.get("status")=="FAILED":break
+                  if result.get("status")=="DONE":
+                      u=result.get("file")
+                      if not u or urlsplit(u).scheme!="https":raise ValueError("Missing secure report download")
+                      response=requests.get(u,timeout=40);response.raise_for_status()
+                      if len(response.content)>15*1024*1024:raise ValueError("Report too large")
+                      z=zipfile.ZipFile(io.BytesIO(response.content))
+                      names=[n for n in z.namelist() if n.lower().endswith(".json")]
+                      files=[]
+                      for n in names:
+                          if z.getinfo(n).file_size>30*1024*1024:raise ValueError("Report entry too large")
+                          x=json.loads(z.read(n))
+                          files.append({"name":n,"data":x})
+                      d["sales_report"]["files"]=files
+                      break
+                  time.sleep(5)
+          except Exception as e:d["errors"]["sales_report"]=str(e)[:300]
+          d["finished_utc"]=datetime.datetime.now(datetime.timezone.utc).isoformat();save()
+          print(json.dumps({"orders":d.get("order_stats",{}).get("orders"),"sales_status":d.get("sales_report",{}).get("status"),"stock_rows":len(d.get("sku_stats",{}).get("rows",[])),"errors":d["errors"]},ensure_ascii=False))
+          PY
+      - if: always()
+        run: |
+          if [ -f data/market_growth_analytics_20261125.json ]; then bash .github/scripts/save_data.sh data/market_growth_analytics_20261125.json; fi
