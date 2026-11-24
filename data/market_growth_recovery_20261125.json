@@ -150,7 +150,7 @@
     {
       "sku": "02e305045",
       "kind": "type",
-      "status": "submitted",
+      "status": "pending_or_unchanged",
       "before": {
         "offerId": "02e305045",
         "name": "Корпус масляного фильтра мехатроника DSG6 DQ250 02E305045",
@@ -368,6 +368,74 @@
       },
       "response": {
         "status": "OK"
+      },
+      "after": {
+        "offerId": "02e305045",
+        "name": "Корпус масляного фильтра мехатроника DSG6 DQ250 02E305045",
+        "identity": {
+          "offerId": "02e305045",
+          "marketSku": 5882321872,
+          "groupId": null
+        },
+        "model": 5882321873,
+        "category": 71380208,
+        "categoryName": "Запчасти для трансмиссии автомобиля",
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED",
+        "errors": [],
+        "warnings": [],
+        "card_errors": [],
+        "card_warnings": [],
+        "ugc": {
+          "rating": 5.0
+        },
+        "rating": 67,
+        "price": {
+          "value": 1980.0,
+          "currencyId": "RUR",
+          "discountBase": 5000.0,
+          "updatedAt": "2026-11-24T01:40:37+03:00"
+        },
+        "campaigns": [
+          {
+            "campaignId": 141377963,
+            "status": "PUBLISHED"
+          }
+        ],
+        "sellingPrograms": null,
+        "parameterValues": [
+          {
+            "parameterId": 57046341,
+            "value": "Вид техники: Легковые автомобили"
+          },
+          {
+            "parameterId": 14805583,
+            "unitId": 6145205,
+            "value": "1"
+          },
+          {
+            "parameterId": 21194330,
+            "valueId": 34060230,
+            "value": "корпус"
+          },
+          {
+            "parameterId": 60134505,
+            "value": "02e305045"
+          },
+          {
+            "parameterId": 200,
+            "value": ""
+          }
+        ]
+      },
+      "checks": {
+        "protected_diff": [],
+        "other_attributes_unchanged": true,
+        "group_preserved": true,
+        "category_verified": true,
+        "type_verified": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     }
   ],
@@ -381,7 +449,7 @@
     "Dq200dsg70am0cw": "Await verified alternate category endpoint canary",
     "0am325025": "Group not verified singleton"
   },
-  "updated_utc": "2026-11-24T19:31:10.678327+00:00",
+  "updated_utc": "2026-11-24T19:32:14.528053+00:00",
   "initial_counts": {
     "PUBLISHED": 118,
     "DISABLED_AUTOMATICALLY": 23,
