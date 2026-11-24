@@ -49,6 +49,12 @@ def attribute_diff(a,b):
                             'after_sha256':hashlib.sha256(canonical(y).encode()).hexdigest()})
     return changes
 
+def selected_attributes(row):
+    """Only the two observed non-description product attributes."""
+    return {str(a['id']):[{'value':v.get('value'),'dictionary_value_id':v.get('dictionary_value_id')}
+                         for v in a.get('values',[])]
+            for a in row.get('attributes',[]) if a.get('id') in (9048,23173)}
+
 def run(skus):
     if not skus or len(skus)>10 or len(skus)!=len(set(skus)) or set(skus)-set(load()):
         raise ValueError('Exact approved diagnostic SKU list required')
@@ -59,6 +65,17 @@ def run(skus):
         first=oz.get_product_names(skus)
         time.sleep(3)
         second=oz.get_product_names(skus)
+        # A separate comparison cohort helps distinguish platform-wide schema
+        # changes from changes confined to products recently edited.
+        controls=['0am325025G','0am325025q','0AM325467J','0am325066ad','0am325025m','0AM301212A','0am325025ae','0am325025HX']
+        controls=[s for s in controls if s not in skus and any(r.get('offer_id')==s for r in cached)]
+        current_controls=oz.get_product_names(controls) if controls else []
+        report['comparison_cohort']={}
+        for sku in controls:
+            try:
+                old=one(cached,'offer_id',sku);cur=one(current_controls,'offer_id',sku)
+                report['comparison_cohort'][sku]={'historical':selected_attributes(old),'current':selected_attributes(cur),'change_ids':[v['id'] for v in attribute_diff(old,cur)]}
+            except Exception as exc:report['comparison_cohort'][sku]={'error':str(exc)[:300]}
         for sku in skus:
             try:
                 old=one(cached,'offer_id',sku);a=one(first,'offer_id',sku);b=one(second,'offer_id',sku)
@@ -69,6 +86,8 @@ def run(skus):
                 for change in c+d: change['attribute_name']=names.get(change['id'])
                 report['products'][sku]={'current_description_matches':description_value('ozon',b)==load()[sku]['text']['ozon']['description'],
                                          'cached_to_live_changes':c,'repeated_read_changes':d,
+                                         'historical_group_and_kiz':selected_attributes(old),
+                                         'live_group_and_kiz':selected_attributes(b),
                                          'cached_description_changed':description_value('ozon',old)!=description_value('ozon',b),
                                          'write_hold_unchanged':True}
             except Exception as exc: report['products'][sku]={'error':str(exc)[:1000]}
