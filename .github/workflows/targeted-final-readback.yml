@@ -1,0 +1,38 @@
+name: LEOPARTS targeted final readback — independent read only
+on:
+  push:
+    branches: [final-readonly-checks-20261124]
+    paths:
+      - '.github/workflows/targeted-final-readback.yml'
+      - 'scripts/targeted_final_readback.py'
+permissions:
+  contents: write
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Read exact outstanding cases, without seller writes
+        env:
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: |
+          python -m py_compile scripts/targeted_final_readback.py
+          python scripts/targeted_final_readback.py
+      - name: Persist read-only evidence to this isolated branch only
+        run: |
+          git config user.name marketplace-agent-bot
+          git config user.email actions@users.noreply.github.com
+          git add reports/content-pipeline/targeted_final_readback.json
+          git commit -m 'chore: targeted readback [skip ci]'
+          git push origin HEAD:refs/heads/final-readonly-checks-20261124
