@@ -4346,7 +4346,7 @@
   "last_remaining_exact_review": {
     "path": "data/content_optimization_remaining_exact_review_20261124.json",
     "source_revision": "7f939fa3c17869cf79ee3cf96e169824ccd75789",
-    "verified_run": "45321428322-1",
+    "verified_run": "45328350048-1",
     "skus": [
       "0am3250066AE",
       "0am325025HC",
@@ -4354,6 +4354,62 @@
       "0am325025j",
       "0cw0am"
     ],
-    "status": "prepared_not_published"
+    "status": "partial_verified",
+    "wb_verified": [
+      "0am3250066AE",
+      "0am325025HC",
+      "0am325025ze",
+      "0am325025j"
+    ],
+    "wb_blocked": [
+      "0cw0am"
+    ],
+    "market_error": "YandexMarketError: POST /v2/businesses/194752944/offer-mappings: не удалось выполнить запрос (HTTP 500)"
+  },
+  "latest_pipeline_checkpoint": {
+    "run_id": "45328350048-1",
+    "updated_utc": "2026-11-24T04:47:09.577231+00:00",
+    "counts": {
+      "avito": {
+        "blocked": 42,
+        "processing": 118
+      },
+      "market": {
+        "retry_pending": 12,
+        "verified": 148
+      },
+      "ozon": {
+        "blocked": 5,
+        "not_applicable": 13,
+        "pending": 1,
+        "verified": 141
+      },
+      "tilda": {
+        "blocked": 156,
+        "pending": 2,
+        "verified": 2
+      },
+      "wb": {
+        "blocked": 4,
+        "not_applicable": 16,
+        "pending": 2,
+        "verified": 138
+      }
+    },
+    "ozon_strict_coverage": {
+      "text_verified": 141,
+      "protected_fields_normalized": 125,
+      "exact_protection_verified": 2,
+      "already_matching_no_write": 14,
+      "kiz_materialized": 117
+    },
+    "source": "reports/content-pipeline/state.json",
+    "blockers": {
+      "0cw0am": "stale master Ozon flag; exact WB and Tilda IDs found; fix proposed with fresh census and identical approved text",
+      "dq500-korpus-gladkiy": "no exact master row in observed census; no creation in description project",
+      "Ea888gen3": "Tilda title says magnet while description says valve; identity requires resolution",
+      "tool-dq200-acc-restore": "WB characteristics missing in seller response; do not synthesize protected field",
+      "tool-dsg-pressure-hp": "WB characteristics missing in seller response; do not synthesize protected field"
+    }
   }
 }

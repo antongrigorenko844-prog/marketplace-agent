@@ -129,6 +129,8 @@ def patch_cells(raw,sheet_name,edits):
 def target_description(rule,row,channel):
     text=rule.get('text',{})
     if channel=='master':
+        if rule.get('_master_description'):
+            return rule['_master_description']
         # The existing master has ONE description cell. Prefer its own Ozon
         # representation where that card exists; never substitute WB copy on
         # an Ozon row merely because a WB-only update was approved.
