@@ -13,6 +13,8 @@ jobs:
     outputs:
       mode: ${{ steps.request.outputs.mode }}
       articles: ${{ steps.request.outputs.articles }}
+      api: ${{ steps.request.outputs.api }}
+      auxiliary: ${{ steps.request.outputs.auxiliary }}
     steps:
       - uses: actions/checkout@v4
       - id: request
@@ -24,6 +26,9 @@ jobs:
           request = json.loads(Path('data/description_sync_request.json').read_text())
           manifest = json.loads(Path('data/content_manifest.json').read_text())['products']
           mode = request.get('mode')
+          channels = request.get('channels', ['api'])
+          if not isinstance(channels, list) or not channels or any(c not in {'api','avito','tilda'} for c in channels):
+              raise SystemExit('Invalid channel scope')
           skus = request.get('skus')
           if mode not in {'inspect', 'verify', 'apply'}:
               raise SystemExit('Invalid mode')
@@ -36,12 +41,65 @@ jobs:
           with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
               print('mode='+mode, file=out)
               print('articles='+','.join(skus), file=out)
+              print('api='+str('api' in channels).lower(), file=out)
+              print('auxiliary='+','.join(c for c in channels if c!='api'), file=out)
           PY
   descriptions:
     needs: scope
+    if: needs.scope.outputs.api == 'true'
     uses: ./.github/workflows/content-sync.yml
     with:
       descriptions_only: true
       mode: ${{ needs.scope.outputs.mode }}
       article: ${{ needs.scope.outputs.articles }}
     secrets: inherit
+
+  auxiliary:
+    needs: [scope, descriptions]
+    if: always() && needs.scope.result == 'success' && needs.scope.outputs.auxiliary != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    concurrency:
+      group: marketplace-agent
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -p test_content_aux_sync.py -v
+      - name: Verify or publish approved auxiliary descriptions
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          MODE: ${{ needs.scope.outputs.mode }}
+          ARTICLES: ${{ needs.scope.outputs.articles }}
+          CHANNELS: ${{ needs.scope.outputs.auxiliary }}
+        run: |
+          set -euo pipefail
+          if [ "$MODE" = 'apply' ]; then
+            test "$GITHUB_REF" = 'refs/heads/main'
+            git fetch --no-tags origin main
+            cmp <(git show FETCH_HEAD:data/content_manifest.json) data/content_manifest.json
+            cmp <(git show FETCH_HEAD:data/description_sync_request.json) data/description_sync_request.json
+            if [[ "$CHANNELS" == *avito* ]]; then
+              cmp <(git show FETCH_HEAD:data/avito_feed.xlsx) data/avito_feed.xlsx
+            fi
+          fi
+          python content_aux_sync.py --mode "$MODE" --article "$ARTICLES" --channels "$CHANNELS"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: content-aux-${{ github.run_id }}
+          path: reports/content-aux/
+          retention-days: 30
+      - name: Preserve auxiliary verification report
+        if: always()
+        run: |
+          if [ -f reports/content-aux/summary.json ]; then
+            bash .github/scripts/save_data.sh reports/content-aux/summary.json
+          fi
