@@ -8,7 +8,7 @@
     "to": "2026-11-24"
   },
   "errors": {
-    "sales_report": "/v2/reports/shows-sales/generate HTTP 400: BAD_REQUEST: Both businessId and campaignId are specified."
+    "sales_report": "POST /v2/reports/shows-sales/generate: не удалось выполнить запрос (HTTP 420)"
   },
   "order_stats": {
     "orders": 13,
@@ -29953,13 +29953,13 @@
         "tariffs": [
           {
             "type": "FEE",
-            "percent": 45.5,
-            "amount": 614.25,
+            "percent": 45.0,
+            "amount": 607.5,
             "currency": "RUR",
             "parameters": [
               {
                 "name": "value",
-                "value": "45.50"
+                "value": "45.00"
               },
               {
                 "name": "billingUnit",
@@ -56683,5 +56683,5 @@
       }
     ]
   },
-  "finished_utc": "2026-11-24T19:32:41.442364+00:00"
+  "finished_utc": "2026-11-24T19:35:05.868999+00:00"
 }
