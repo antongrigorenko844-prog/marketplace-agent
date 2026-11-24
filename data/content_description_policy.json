@@ -1,7 +1,7 @@
 {
   "version": 1,
   "paused_writes": {
-    "ozon": "Protected non-description attributes differed on 0am325025H and 6t30 after description update; diagnose exact attribute changes before lifting hold. Read-only verification remains enabled."
+    "ozon": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields."
   },
   "evidence_runs": [
     45296088187,
@@ -23,5 +23,17 @@
     "feed_sha256": "284eb88f9c91d76640751f2877e360b077083f1fef165c4b3537cc23d4629822",
     "live_text_verified": false,
     "await_report_started_after_utc": "2026-11-24T01:15:52Z"
+  },
+  "ozon": {
+    "diagnosis_run": 45305000035,
+    "observed_attribute_ids": [
+      9048,
+      23173
+    ],
+    "comparison_unchanged": 8,
+    "control_descriptions_match": true,
+    "grouping_value_mutated": true,
+    "causation": "Historical cache comparison plus write verification failures; exact original protected snapshots are encrypted.",
+    "mass_write_status": "held"
   }
 }
