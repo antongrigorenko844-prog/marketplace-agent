@@ -8,9 +8,9 @@
   },
   "read_only": true,
   "external_content_writes": 0,
-  "status": "generation_error",
+  "status": "rate_limited",
   "errors": {
-    "generate": "/v2/reports/shows-sales/generate HTTP 400: BAD_REQUEST: Both businessId and campaignId are specified."
+    "generate": "POST /v2/reports/shows-sales/generate: не удалось выполнить запрос (HTTP 420)"
   },
   "actual_order_snapshot": {
     "orders": 13,
@@ -103,6 +103,6 @@
     },
     "warning": "Order-status snapshot, separate fee and payment flows; no invented allocation or net profit."
   },
-  "updated_at": "2026-11-24T19:57:15.310095+00:00",
-  "attempted_at": "2026-11-24T19:57:14.498737+00:00"
+  "updated_at": "2026-11-24T19:59:29.831506+00:00",
+  "attempted_at": "2026-11-24T19:59:27.094777+00:00"
 }
