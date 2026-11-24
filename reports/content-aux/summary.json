@@ -1,79 +1,27 @@
 {
-  "mode": "inspect",
-  "revision": "f091bac606c12e66070e1b3bdc6fa0b3d91c0577",
+  "mode": "apply",
+  "revision": "af1111470ec2a0fbc4547f7b956c8a2104898944",
   "seller_price_writes": 0,
   "stock_writes": 0,
   "products": {
-    "avito": {
-      "0am325025H": {
-        "avito_id": "8312205273",
-        "feed_id": "0am325025H",
-        "needs_feed_change": false,
-        "description_verified": false,
-        "live_description_available": false,
-        "feed_verified": true,
-        "autoload_section": "success_skipped",
-        "autoload_status": "active",
-        "autoload_messages": [
-          {
-            "code": 2303,
-            "type": "warning",
-            "title": "Произведена автоподстановка номера телефона"
-          },
-          {
-            "code": 3002,
-            "type": "info",
-            "title": ""
-          }
-        ]
-      },
-      "6t30": {
-        "avito_id": "8425207775",
-        "feed_id": "6t30",
-        "needs_feed_change": false,
-        "description_verified": false,
-        "live_description_available": false,
-        "feed_verified": true,
-        "autoload_section": "success_skipped",
-        "autoload_status": "active",
-        "autoload_messages": [
-          {
-            "code": 2303,
-            "type": "warning",
-            "title": "Произведена автоподстановка номера телефона"
-          },
-          {
-            "code": 3002,
-            "type": "info",
-            "title": ""
-          }
-        ]
-      }
-    },
     "tilda": {
-      "0am325025H": {
-        "uid": "908157881413",
-        "description_verified": false,
-        "status": "csv_import_required"
-      },
       "6t30": {
         "uid": "695009271403",
         "description_verified": false,
-        "status": "csv_import_required"
+        "status": "csv_import_required",
+        "short_description_verified": false
       }
     }
   },
-  "avito_autoload_report": {
-    "report_id": 639879882,
-    "started_at": "2026-11-23T23:34:03Z",
-    "finished_at": "2026-11-24T00:34:04Z",
-    "status": "success_warning"
+  "tilda_canary": {
+    "sku": "6t30",
+    "uid": "695009271403",
+    "catalog_count_before": 150,
+    "offers_sent": false,
+    "photos_sent": false,
+    "xml_sha256": "59da2360ed3e619f79aaedda8f484060b9c3534532495edef4dd2bf8a5817b00",
+    "status": "full_text_not_updated",
+    "protected_catalog_unchanged": true
   },
-  "avito_feed_sha_before": "284eb88f9c91d76640751f2877e360b077083f1fef165c4b3537cc23d4629822",
-  "avito_feed_sha_staged": "284eb88f9c91d76640751f2877e360b077083f1fef165c4b3537cc23d4629822",
-  "checked_utc": "2026-11-24T01:22:59.482898+00:00",
-  "tilda_protected_snapshot_sha256": "5542dcc1f7c25c1ecc8f16a61fb9dd470375c8bfd18f924b94c8673c1101ce34",
-  "tilda_csv_rows": 2,
-  "tilda_csv_sha256": "e6a5f62bf1f8a45b2612950683390dd19503627e963c898710d9fc29a4f33e2d",
-  "tilda_csv_imported": false
+  "checked_utc": "2026-11-24T01:25:45.952434+00:00"
 }
