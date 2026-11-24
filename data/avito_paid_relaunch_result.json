@@ -1,6 +1,6 @@
 {
-  "checked_at_utc": "2026-11-23T15:09:27.472718+00:00",
-  "mode": "apply",
+  "checked_at_utc": "2026-11-24T02:04:00.400105+00:00",
+  "mode": "inspect",
   "approved_new_skus": [
     "6t30-solenoids-gen2",
     "6t30-tcm-gen1",
@@ -22,25 +22,29 @@
     "schedule_configured": true
   },
   "last_successful_upload": {
-    "upload_id": 638426570,
+    "upload_id": 639904222,
     "status": "success_warning",
-    "started_at": "2026-11-21T11:08:03Z",
+    "started_at": "2026-11-24T00:34:04Z",
     "feed_urls": [
       {
-        "name": "",
-        "url": "https://api.avito.ru/autoload/v2/feed/content/6b017b93f856afc59c839db7/e715b6be-2107-4274-8ae5-9b1c30fe7e10"
+        "name": "LEOPARTS запчасти",
+        "url": "https://api.avito.ru/autoload/v2/feed/content/6b04db7ce7ee799c82c3a54f/8e0aefec-ed10-4c8f-9fd6-cbc8643f0d38"
+      },
+      {
+        "name": "LEOPARTS инструменты DSG",
+        "url": "https://api.avito.ru/autoload/v2/feed/content/6b04db7ce7ee799c82c3a54f/f32c21de-ea3c-4426-9048-f32731e88dad"
       }
     ]
   },
   "current_upload": {
-    "upload_id": 639665056,
+    "upload_id": 639925741,
     "status": "processing",
-    "started_at": "2026-11-23T14:34:03Z"
+    "started_at": "2026-11-24T01:34:03Z"
   },
-  "live_listing_count": 154,
+  "live_listing_count": 156,
   "feed_before": {
     "rows": 127,
-    "sha256": "9f63059fbc0ec6c5be07a579c27de7b653ac95a54ef011c8def1f53039d75bfe"
+    "sha256": "06c3997e1d80f9e636f9a08dfb494c6d39620f0852a20cfe4c28b327794ae9c6"
   },
   "already_in_feed": [
     "6t30-solenoids-gen2",
@@ -88,6 +92,5 @@
     "6t30-tcm-gen1": [],
     "6t30-tcm-gen2": []
   },
-  "public_feed_before_sha256": "9f63059fbc0ec6c5be07a579c27de7b653ac95a54ef011c8def1f53039d75bfe",
-  "status": "already_in_feed_no_writes"
+  "status": "inspected_no_writes"
 }
