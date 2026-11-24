@@ -2,7 +2,7 @@ name: LEOPARTS Market growth decision report (read only)
 on:
   push:
     branches: [main]
-    paths: ['.github/workflows/market-growth-decision-20261125.yml']
+    paths: ['.github/workflows/market-growth-decision-20261125.yml', 'scripts/market_growth_decision_report.py']
   workflow_dispatch:
 permissions:
   contents: write
