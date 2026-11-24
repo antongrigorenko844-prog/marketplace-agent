@@ -1,0 +1,459 @@
+{
+  "version": 1,
+  "source_commit": "d530fdcab7756b6db3f0979a447eda4c54b3bde2",
+  "scope": "Existing 36 active legacy Avito IDs not bound to either autoload feed. Editor-only text patch, NOT an autoload upload; never create, bind, delete or alter non-description fields.",
+  "source_files": [
+    "reports/content-pipeline/state.json",
+    "reports/content-pipeline/targeted_final_readback.json",
+    "data/content_manifest.json",
+    "data/avito_legacy_13_prices_20261124_request.json",
+    "data/avito_verified_rods_price_20261124_request.json",
+    "data/avito_two_bare_rods_price_20261124_request.json",
+    "data/avito_two_smooth_dq500_price_request_20261124.json"
+  ],
+  "seller_writes": 0,
+  "feed_writes": 0,
+  "counts": {
+    "existing_ids": 36,
+    "owner_product_relations": 21,
+    "candidate_relations": 14,
+    "descriptions_staged": 35,
+    "identity_unresolved": 1
+  },
+  "rows": [
+    {
+      "avito_id": "7260747200",
+      "expected_title": "Импульсное кольцо распредвала GM 55565480",
+      "canonical_skus": [
+        "55565480"
+      ],
+      "product_relation": "title_or_OEM_price_audit_candidate",
+      "status": "candidate_description_requires_composition_confirmation",
+      "description": "Импульсное кольцо распределительного вала GM, номер 55565480 (5636119), для соответствующих исполнений двигателей Opel и Chevrolet. Кольцо взаимодействует с датчиком положения распредвала и используется для считывания его положения. Это кольцо, а не сам датчик. Перед заказом сверьте номер детали, двигатель и конструкцию кольца. При ошибке P0341 сначала установите причину неисправности диагностикой.\n\nИмпульсное кольцо относится к механическим элементам системы определения положения распредвала. Его установка не заменяет проверку датчика, проводки и правильности положения деталей двигателя. Номер 5636119 указан как связанное обозначение этой позиции; подбирать кольцо следует по каталогу конкретного двигателя.",
+      "preflight": "Confirm variant and composition from the actual seller card before any edit.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4573102274",
+      "expected_title": "Ремкомплект dsg 7 dq200 усиленная плита прокладки",
+      "canonical_skus": [
+        "0am325025"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Ремкомплект гидравлической части мехатроника DSG7 DQ200 (0AM/0CW). Комплектация: усиленная алюминиевая гидроплита — 1 шт., набор прокладок и уплотнений — 1 комплект.\n\nПредназначен для ремонта гидравлической части. Перед покупкой сравните состав по фотографиям с необходимыми деталями. При P17BF и P189C сначала определите источник потери давления; замена комплекта требуется по результатам диагностики.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4445242895",
+      "expected_title": "Сепараторная пластина мехатроника DSG7 DQ200 0AM",
+      "canonical_skus": [
+        "separatornaya-plastina-dq200"
+      ],
+      "product_relation": "title_or_OEM_price_audit_candidate",
+      "status": "candidate_description_requires_composition_confirmation",
+      "description": "Сепараторная пластина мехатроника DSG7 DQ200 (0AM/0CW), 1 шт.\n\nУстанавливается под гидроплитой и разделяет гидравлические каналы. Сравните контур, отверстия и расположение каналов с исходной пластиной. Пластины на соленоиды, гидроплита и другие уплотнения приобретаются отдельно.",
+      "preflight": "Confirm variant and composition from the actual seller card before any edit.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4445230063",
+      "expected_title": "Ремкомплект штока DQ200 DSG7 0AM 0CW шток + втулка",
+      "canonical_skus": [
+        "0am325025u",
+        "0am325025z"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Ремкомплект штока мехатроника DSG7 DQ200 (0AM/0CW): один усиленный шток и одна направляющая втулка (гильза). Предназначен для ремонта одного сопряжения штока с направляющей. Исполнения штоков различаются длиной: 0AM325091E — 101 мм, 0AM325091F — 99 мм. Перед заказом уточните длину штока в этом объявлении, измерьте снятую деталь и сверьте маркировку. Не путайте с комплектом из двух штоков и двух втулок.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4445119215",
+      "expected_title": "Ремкомплект мехатроника dq200 dsg7 0am 0cw",
+      "canonical_skus": [
+        "0am325025"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Ремкомплект гидравлической части мехатроника DSG7 DQ200 (0AM/0CW). Комплектация: усиленная алюминиевая гидроплита — 1 шт., набор прокладок и уплотнений — 1 комплект.\n\nПредназначен для ремонта гидравлической части. Перед покупкой сравните состав по фотографиям с необходимыми деталями. При P17BF и P189C сначала определите источник потери давления; замена комплекта требуется по результатам диагностики.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4444968174",
+      "expected_title": "Крышка поддон мехатроника+прокладка DSG 7 DQ200",
+      "canonical_skus": [
+        "kryshka-mehatronika-dq200",
+        "prokladka-kryshki-dq200"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Крышка (поддон) гидравлической части мехатроника DSG7 DQ200 (0AM/0CW) и стандартная прокладка крышки. Комплект для закрытия и герметизации рабочей полости гидравлического блока. Перед заказом сравните контур крышки, отверстия и посадочную поверхность со снятыми деталями. Не путайте крышку гидравлического блока с металлической крышкой электронной платы.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4444712249",
+      "expected_title": "Масляный фильтр АКПП DSG 7 DQ500",
+      "canonical_skus": [
+        "filtr-dsg7-dq500"
+      ],
+      "product_relation": "title_or_OEM_price_audit_candidate",
+      "status": "candidate_description_requires_composition_confirmation",
+      "description": "Масляный фильтр DSG7 DQ500 для соответствующего корпуса фильтра исполнения 0BH325183B.\n\nКомплектация: Фильтрующий элемент — 1 шт. Корпус фильтра не входит.\n\nПрименяется при обслуживании масляной системы коробки передач с мокрыми сцеплениями. Сверьте размеры, посадку и исполнение фильтра с исходной деталью и корпусом. Номер корпуса указан для подбора; это не отдельный OEM-номер фильтрующего элемента.\n\nАртикул LEOPARTS: filtr-dsg7-dq500.",
+      "preflight": "Confirm variant and composition from the actual seller card before any edit.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4444617509",
+      "expected_title": "Bмасляный фильтр АКПП DSG6 DQ250 02E305051C",
+      "canonical_skus": [
+        "02E305051C"
+      ],
+      "product_relation": "title_or_OEM_price_audit_candidate",
+      "status": "candidate_description_requires_composition_confirmation",
+      "description": "Масляный фильтр коробки DSG6 DQ250 (02E), артикул 02E305051C.\n\nКомплектация: Фильтрующий элемент — 1 шт. Корпус фильтра не входит.\n\nФильтр предназначен для обслуживания масляной системы шестиступенчатой DSG с мокрыми сцеплениями. Применяется при соответствующем регламенте замены масла и фильтра. Сверьте номер, форму и размеры исходного фильтра. Фильтры DQ200 и DQ500 — другие позиции каталога.\n\nАртикул LEOPARTS: 02E305051C.",
+      "preflight": "Confirm variant and composition from the actual seller card before any edit.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4444524662",
+      "expected_title": "Поршень вилки мехатроника DSG7 DQ200 0AM/0CW",
+      "canonical_skus": [
+        "0am325025l"
+      ],
+      "product_relation": "title_or_OEM_price_audit_candidate",
+      "status": "candidate_description_requires_composition_confirmation",
+      "description": "Поршень (толкатель) вилки мехатроника DSG7 DQ200 семейства 0AM/0CW. Поставляется один новый толкатель. Сверьте форму снятой детали с фотографией в объявлении. Артикул LEOPARTS для заказа — 0am325025l.",
+      "preflight": "Confirm variant and composition from the actual seller card before any edit.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4349334275",
+      "expected_title": "Плита DQ200 0am 0cw (усиленная гидроплита DSG 7)",
+      "canonical_skus": [
+        "0am325066ae"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Усиленная алюминиевая гидроплита мехатроника DSG7 DQ200 (0AM/0CW), обозначение 0AM325066AE. Комплектация: гидроплита — 1 шт.\n\nПредназначена для ремонта гидравлической части. При повреждении плиты и потере давления сначала установите причину неисправности. Сверьте конструкцию, посадочные места и исполнение снятого узла. Электронная плата, соленоиды и мехатроник в сборе не входят.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4349172359",
+      "expected_title": "Корпус фильтра DSG6 DQ250 02E",
+      "canonical_skus": [
+        "02e305045"
+      ],
+      "product_relation": "title_or_OEM_price_audit_candidate",
+      "status": "candidate_description_requires_composition_confirmation",
+      "description": "Алюминиевый корпус масляного фильтра DSG6 DQ250 (02E), номер 02E305045.\n\nКомплектация: Корпус — 1 шт., уплотнительное кольцо. Фильтрующий элемент приобретается отдельно.\n\nМеталлический корпус применяется вместо соответствующего штатного корпуса фильтра. Подходит для обслуживания DSG6 с мокрыми сцеплениями при совпадении конструкции. Сверьте резьбу, посадочное место и номер снятого корпуса; повреждение корпуса и перегрев масла требуют отдельной диагностики.\n\nАртикул LEOPARTS: 02e305045.",
+      "preflight": "Confirm variant and composition from the actual seller card before any edit.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4348814868",
+      "expected_title": "Корпус фильтра DQ500 DSG7",
+      "canonical_skus": [
+        "Dq500"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Алюминиевый корпус масляного фильтра DSG7 DQ500, исполнение 0BH325183B. В комплект входит уплотнительное кольцо. Предназначен для замены корпуса фильтра; фильтрующий элемент и корпус — разные детали. Перед заказом сверьте номер, резьбу и посадочное место со снятым корпусом, а также состав поставки по фото. Подбирайте по исполнению коробки DQ500, а не только по модели автомобиля.\n\nВ этой карточке продаётся корпус, а не фильтрующий элемент. Перед установкой проверьте состояние уплотнительного кольца и посадочной поверхности. При подборе отличайте гладкое исполнение корпуса от ребристых вариантов в каталоге и сопоставляйте конструкцию со снятой деталью.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4316875109",
+      "expected_title": "Фильтр АКПП DSG 7 0BH325183B",
+      "canonical_skus": [
+        "filtr-dsg7-dq500"
+      ],
+      "product_relation": "title_or_OEM_price_audit_candidate",
+      "status": "candidate_description_requires_composition_confirmation",
+      "description": "Масляный фильтр DSG7 DQ500 для соответствующего корпуса фильтра исполнения 0BH325183B.\n\nКомплектация: Фильтрующий элемент — 1 шт. Корпус фильтра не входит.\n\nПрименяется при обслуживании масляной системы коробки передач с мокрыми сцеплениями. Сверьте размеры, посадку и исполнение фильтра с исходной деталью и корпусом. Номер корпуса указан для подбора; это не отдельный OEM-номер фильтрующего элемента.\n\nАртикул LEOPARTS: filtr-dsg7-dq500.",
+      "preflight": "Confirm variant and composition from the actual seller card before any edit.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4285328953",
+      "expected_title": "Подшипник вилки DQ200 DSG-7 0AM 0CW 6/R",
+      "canonical_skus": [
+        "podshipnik-vilki-6"
+      ],
+      "product_relation": "title_or_OEM_price_audit_candidate",
+      "status": "candidate_description_requires_composition_confirmation",
+      "description": "Подшипник вилки 6-й передачи и заднего хода коробки DSG7 DQ200, 1 шт.\n\nДеталь механизма переключения передач. Предназначена для ремонта соответствующего исполнения КПП. Сверьте геометрию, размеры и место установки со снятым подшипником. Другие подшипники коробки приобретаются отдельно.",
+      "preflight": "Confirm variant and composition from the actual seller card before any edit.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4285324155",
+      "expected_title": "Корпус фильтра DQ500 DSG 7 0BH325183",
+      "canonical_skus": [
+        "Dq500"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Алюминиевый корпус масляного фильтра DSG7 DQ500, исполнение 0BH325183B. В комплект входит уплотнительное кольцо. Предназначен для замены корпуса фильтра; фильтрующий элемент и корпус — разные детали. Перед заказом сверьте номер, резьбу и посадочное место со снятым корпусом, а также состав поставки по фото. Подбирайте по исполнению коробки DQ500, а не только по модели автомобиля.\n\nВ этой карточке продаётся корпус, а не фильтрующий элемент. Перед установкой проверьте состояние уплотнительного кольца и посадочной поверхности. При подборе отличайте гладкое исполнение корпуса от ребристых вариантов в каталоге и сопоставляйте конструкцию со снятой деталью.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4285296851",
+      "expected_title": "Кольцо гидроаккумулятора dq200 dsg 7 0am 0cw",
+      "canonical_skus": [
+        "0am325025С"
+      ],
+      "product_relation": "title_or_OEM_price_audit_candidate",
+      "status": "candidate_description_requires_composition_confirmation",
+      "description": "Уплотнительное кольцо гидроаккумулятора мехатроника DSG7 DQ200 (0AM/0CW), обозначение 0AM325025C.\n\nКомплектация: Одно уплотнительное кольцо. Гидроаккумулятор не входит.\n\nПрименяется при обслуживании соединения гидроаккумулятора с гидравлическим блоком. Проверьте состояние резьбы, уплотнительной поверхности и посадочного места. Замена кольца не устраняет трещины гидроплиты или другие причины потери давления. Сверьте профиль и размеры со снятым уплотнением.\n\nАртикул LEOPARTS: 0am325025С.",
+      "preflight": "Confirm variant and composition from the actual seller card before any edit.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4285108577",
+      "expected_title": "Ремкомплект штока мехатроника DSG 7 DQ200 0AM 0CW",
+      "canonical_skus": [],
+      "product_relation": "unresolved",
+      "status": "identity_or_composition_unresolved",
+      "description": null,
+      "preflight": "Confirm variant and composition from the actual seller card before any edit.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4284998704",
+      "expected_title": "Болты мехатроника dq200 dsg 7 0am 0cw",
+      "canonical_skus": [
+        "0am325025f"
+      ],
+      "product_relation": "title_or_OEM_price_audit_candidate",
+      "status": "candidate_description_requires_composition_confirmation",
+      "description": "Комплект болтов мехатроника DSG7 DQ200 (0AM/0CW) на семь точек крепления.\n\nКомплектация: 4 длинных болта WHT001922 и 3 коротких болта 01X301127C, всего 7 шт.\n\nНабор содержит обе длины крепежа и отличается от карточек отдельных болтов. Сверьте конструкцию и расположение крепежа со снятыми деталями. При сборке соблюдайте установленную для конкретной коробки последовательность и момент затяжки.\n\nАртикул LEOPARTS: 0am325025f.",
+      "preflight": "Confirm variant and composition from the actual seller card before any edit.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4284973404",
+      "expected_title": "Усиленное опорное кольцо толкателя DSG7 DQ200 0AM",
+      "canonical_skus": [
+        "0am325025r"
+      ],
+      "product_relation": "title_or_OEM_price_audit_candidate",
+      "status": "candidate_description_requires_composition_confirmation",
+      "description": "Усиленное алюминиевое опорное кольцо толкателя мехатроника DSG7 DQ200 серии 0AM. В комплекте одно кольцо. Для подбора сравните форму кольца с деталью, снятой с толкателя. Артикул LEOPARTS для заказа — 0am325025r.",
+      "preflight": "Confirm variant and composition from the actual seller card before any edit.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4284955885",
+      "expected_title": "Корпус фильтра DQ250 DSG 6 02E305045",
+      "canonical_skus": [
+        "02e305045"
+      ],
+      "product_relation": "title_or_OEM_price_audit_candidate",
+      "status": "candidate_description_requires_composition_confirmation",
+      "description": "Алюминиевый корпус масляного фильтра DSG6 DQ250 (02E), номер 02E305045.\n\nКомплектация: Корпус — 1 шт., уплотнительное кольцо. Фильтрующий элемент приобретается отдельно.\n\nМеталлический корпус применяется вместо соответствующего штатного корпуса фильтра. Подходит для обслуживания DSG6 с мокрыми сцеплениями при совпадении конструкции. Сверьте резьбу, посадочное место и номер снятого корпуса; повреждение корпуса и перегрев масла требуют отдельной диагностики.\n\nАртикул LEOPARTS: 02e305045.",
+      "preflight": "Confirm variant and composition from the actual seller card before any edit.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4284950339",
+      "expected_title": "Соленоид dsg 7 dq200 0am 0cw регулятор давления",
+      "canonical_skus": [
+        "0AM325025B"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Соленоид Bosch — регулятор давления мехатроника DSG7 DQ200 (0AM/0CW), артикул 0AM325025B.\n\nКомплектация: Один соленоид регулятора давления. Не комплект клапанов.\n\nРегулирует давление рабочей жидкости в гидравлической системе мехатроника. В одном мехатронике используются два регулятора давления. Не путайте с переключающим соленоидом Shift. Сверьте назначение клапана, маркировку, разъём и исполнение гидроблока. Ошибки давления и переключения требуют диагностики всей системы.\n\nАртикул LEOPARTS: 0AM325025B.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4284610725",
+      "expected_title": "Заглушка коробки DSG7 DQ200 0AM 0CW 52м",
+      "canonical_skus": [
+        "0AM301212A"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Новая заглушка корпуса коробки передач DSG7 DQ200 (0AM/0CW), артикул 0AM301212A. Комплект поставки — одна заглушка. Перед заказом сравните номер и форму заглушки на своей коробке с деталью на фото.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4253114863",
+      "expected_title": "Прокладки dsg 7 сепараторная пластина мехатроника",
+      "canonical_skus": [
+        "separatornaya-plastiny-solenoid-dq200"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Комплект пластин гидравлической части мехатроника DSG7 DQ200 (0AM/0CW).\n\nКомплектация: Сепараторная пластина — 1 шт., пластины на соленоиды — 2 шт. Всего 3 детали.\n\nВ наборе объединены сепараторная пластина и две пластины соленоидов; это не комплект пластиковых планок. Предназначен для ремонта соответствующего исполнения гидроблока. Соленоиды и гидроплита не входят. Сверьте форму пластин, расположение отверстий и каналов с демонтированными деталями.\n\nАртикул LEOPARTS: separatornaya-plastiny-solenoid-dq200.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4253030337",
+      "expected_title": "Ремкомплект dq200 dsg7 0am гидроплита прокладки",
+      "canonical_skus": [
+        "0am325025"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Ремкомплект гидравлической части мехатроника DSG7 DQ200 (0AM/0CW). Комплектация: усиленная алюминиевая гидроплита — 1 шт., набор прокладок и уплотнений — 1 комплект.\n\nПредназначен для ремонта гидравлической части. Перед покупкой сравните состав по фотографиям с необходимыми деталями. При P17BF и P189C сначала определите источник потери давления; замена комплекта требуется по результатам диагностики.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4220734432",
+      "expected_title": "Гидроплита dsg 7 dq200 усиленная ремкомплект dsg7",
+      "canonical_skus": [
+        "0am325066ae"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Усиленная алюминиевая гидроплита мехатроника DSG7 DQ200 (0AM/0CW), обозначение 0AM325066AE. Комплектация: гидроплита — 1 шт.\n\nПредназначена для ремонта гидравлической части. При повреждении плиты и потере давления сначала установите причину неисправности. Сверьте конструкцию, посадочные места и исполнение снятого узла. Электронная плата, соленоиды и мехатроник в сборе не входят.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4220729305",
+      "expected_title": "Ремкомплект штока мехатроника DSG 7 DQ200 0AM 0CW",
+      "canonical_skus": [
+        "0am325091e-set",
+        "0am325091f-set"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Комплект для ремонта двух штоков мехатроника DSG7 DQ200 (0AM/0CW): два усиленных штока и две направляющие втулки (гильзы). На выбор исполнение штоков 99 мм (0AM325091F) или 101 мм (0AM325091E). Штоки имеют дополнительное уплотнение. Перед заказом измерьте снятые детали, сверьте маркировку и уточните требуемую длину комплекта. При дефектовке проверьте состояние рабочих поверхностей.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4189437762",
+      "expected_title": "Ремкомплект мехатроника dsg 7 dq200 плита фильтр",
+      "canonical_skus": [
+        "0am325025"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Ремкомплект гидравлической части мехатроника DSG7 DQ200 (0AM/0CW) с усиленной алюминиевой гидроплитой. Предназначен для ремонта гидравлического блока по результатам дефектовки. Перед заказом сопоставьте фактический состав комплекта, включая фильтр и уплотнения, с фотографиями объявления и деталями вашего мехатроника. При ошибках давления P17BF и P189C сначала установите причину потери давления.",
+      "preflight": "Compare existing title/photos/description: plate+filter vs catalog kit; retain confirmed actual composition.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4125283125",
+      "expected_title": "Ремкомплект прокладки мехатроника DSG 7 DQ200 0AM",
+      "canonical_skus": [
+        "0am325025m"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Ремкомплект прокладок и уплотнений мехатроника DSG7 DQ200 (0AM/0CW).\n\nКомплектация: Один набор: прокладки крышки и поддона, сепараторные пластины, уплотнения электронной части, манжеты и пыльники штоков, сальники, фильтрующие элементы и уплотнительные кольца — в составе по фотографиям.\n\nНабор предназначен для ремонта гидравлической части. Гидроплита, электронная плата и мехатроник в сборе не входят. Перед покупкой сопоставьте состав с деталями, необходимыми после дефектовки, и исполнением вашего мехатроника. Количество отдельных уплотнений уточняется по фактической комплектации.\n\nАртикул LEOPARTS: 0am325025m.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4125224328",
+      "expected_title": "Штоки dsg7 dq200 (шток дсг 7)",
+      "canonical_skus": [
+        "0am325091e",
+        "0am325091f"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Комплект из двух усиленных штоков мехатроника DSG7 DQ200 (0AM/0CW). Длины для подбора: 0AM325091E — 101 мм, 0AM325091F — 99 мм. Можно выбрать требуемые размеры двух штоков. Направляющие втулки в данный комплект не входят. Перед заказом измерьте снятые штоки и сравните их маркировку и конструкцию. Не путайте с комплектами штоков и втулок.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4125079566",
+      "expected_title": "Пыльник штоков мехатроника DSG 7 DQ200 0AM 0CW",
+      "canonical_skus": [
+        "122390AK-AF"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Пыльник штока мехатроника DSG7 DQ200 (0AM/0CW), артикул магазина 122390AK-AF. В комплекте один пыльник.\n\nЗащитный чехол применяется при ремонте узла штока толкателя сцепления. Сальник и пыльник выполняют разные функции, поэтому при дефектовке необходимо определить, какой именно элемент требует замены. Сверьте форму пыльника и посадочные кромки со снятой деталью.\n\nКлипса, крышка, сальник и сам шток в комплект не входят. При обслуживании двух штоков учитывайте требуемое количество пыльников. Не путайте этот артикул с другими исполнениями пыльников, в том числе 122390AKAF.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "4125069388",
+      "expected_title": "Гильза мехатроника DSG 7 DQ200 0AM 0CW новая",
+      "canonical_skus": [
+        "vtulki-shtokov-2sht"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Комплект направляющих втулок (гильз) штоков мехатроника семиступенчатой коробки DSG7 DQ200, исполнения 0AM/0CW.\n\nВ поставке 2 втулки. Детали применяются при ремонте сопряжения штока и его направляющей. При разборке необходимо оценить состояние обеих рабочих поверхностей: задиры или износ штока могут требовать замены дополнительных деталей.\n\nПеред заказом сравните конструкцию, форму и посадочные размеры снятых втулок с фотографиями. Штоки, сальники и пыльники в этот комплект не входят.\n\nНабор подходит для ремонта, при котором по результатам дефектовки требуются две отдельные направляющие втулки. Для покупки штоков вместе со втулками предусмотрены другие комплектации, в том числе с указанием длины штока 99 или 101 мм.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "3965565847",
+      "expected_title": "Ремкомплект мехатроника DSG 7 DQ200 0AM 0CW",
+      "canonical_skus": [
+        "0am325025"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Ремкомплект гидравлической части мехатроника DSG7 DQ200 (0AM/0CW). Комплектация: усиленная алюминиевая гидроплита — 1 шт., набор прокладок и уплотнений — 1 комплект.\n\nПредназначен для ремонта гидравлической части. Перед покупкой сравните состав по фотографиям с необходимыми деталями. При P17BF и P189C сначала определите источник потери давления; замена комплекта требуется по результатам диагностики.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "3965344207",
+      "expected_title": "Прокладка DQ200 DSG 7 Прокладка крышки мехатроника",
+      "canonical_skus": [
+        "prokladka-kryshki-dq200"
+      ],
+      "product_relation": "title_or_OEM_price_audit_candidate",
+      "status": "candidate_description_requires_composition_confirmation",
+      "description": "Стандартная прокладка крышки (поддона) мехатроника DSG7 DQ200 (0AM/0CW), 1 шт.\n\nУплотняет соединение крышки с корпусом гидравлического блока. Отличается от усиленной утолщённой версии. Перед заказом сравните контур и отверстия с демонтированной прокладкой; проверьте сопрягаемые поверхности.",
+      "preflight": "Confirm variant and composition from the actual seller card before any edit.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "3965336925",
+      "expected_title": "Соленоид мехатроника DSG 7 DQ200 Bosch регулятор",
+      "canonical_skus": [
+        "0AM325025B"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Соленоид Bosch — регулятор давления мехатроника DSG7 DQ200 (0AM/0CW), артикул 0AM325025B.\n\nКомплектация: Один соленоид регулятора давления. Не комплект клапанов.\n\nРегулирует давление рабочей жидкости в гидравлической системе мехатроника. В одном мехатронике используются два регулятора давления. Не путайте с переключающим соленоидом Shift. Сверьте назначение клапана, маркировку, разъём и исполнение гидроблока. Ошибки давления и переключения требуют диагностики всей системы.\n\nАртикул LEOPARTS: 0AM325025B.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "3965211558",
+      "expected_title": "Ремкомплект (прокладки) мехатроника DSG7 DQ200 0am",
+      "canonical_skus": [
+        "0am325025m"
+      ],
+      "product_relation": "owner_confirmed",
+      "status": "owner_product_relation_confirmed_editor_preflight_required",
+      "description": "Ремкомплект прокладок и уплотнений мехатроника DSG7 DQ200 (0AM/0CW).\n\nКомплектация: Один набор: прокладки крышки и поддона, сепараторные пластины, уплотнения электронной части, манжеты и пыльники штоков, сальники, фильтрующие элементы и уплотнительные кольца — в составе по фотографиям.\n\nНабор предназначен для ремонта гидравлической части. Гидроплита, электронная плата и мехатроник в сборе не входят. Перед покупкой сопоставьте состав с деталями, необходимыми после дефектовки, и исполнением вашего мехатроника. Количество отдельных уплотнений уточняется по фактической комплектации.\n\nАртикул LEOPARTS: 0am325025m.",
+      "preflight": "Read existing seller card; confirm product, exact composition and any listing-specific terms before editing Description only.",
+      "publication": "not_published"
+    },
+    {
+      "avito_id": "3965207177",
+      "expected_title": "Пыльник штока мехатроника DSG 7 DQ200 0AM 0CW",
+      "canonical_skus": [
+        "122390AK-AF"
+      ],
+      "product_relation": "title_or_OEM_price_audit_candidate",
+      "status": "candidate_description_requires_composition_confirmation",
+      "description": "Пыльник штока мехатроника DSG7 DQ200 (0AM/0CW), артикул магазина 122390AK-AF. В комплекте один пыльник.\n\nЗащитный чехол применяется при ремонте узла штока толкателя сцепления. Сальник и пыльник выполняют разные функции, поэтому при дефектовке необходимо определить, какой именно элемент требует замены. Сверьте форму пыльника и посадочные кромки со снятой деталью.\n\nКлипса, крышка, сальник и сам шток в комплект не входят. При обслуживании двух штоков учитывайте требуемое количество пыльников. Не путайте этот артикул с другими исполнениями пыльников, в том числе 122390AKAF.",
+      "preflight": "Confirm variant and composition from the actual seller card before any edit.",
+      "publication": "not_published"
+    }
+  ]
+}
