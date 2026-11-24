@@ -3,7 +3,52 @@
   "campaign": 716316525,
   "feed": 4061297,
   "started_utc": "2026-11-24T11:17:43.465324+00:00",
-  "stages": {},
+  "stages": {
+    "feed_source": {
+      "status": "preflight",
+      "changes": {
+        "0am325025h": {
+          "price_before": "33500.0",
+          "price_after": "33500.0000",
+          "stock_before": "17",
+          "stock_after": 13
+        },
+        "0am325025x": {
+          "price_before": "38500.0",
+          "price_after": "38500.0000",
+          "stock_before": "2",
+          "stock_after": 0
+        },
+        "0am927769d": {
+          "price_before": "39500.0",
+          "price_after": "37500.0000",
+          "stock_before": "7",
+          "stock_after": 7
+        },
+        "0am927769e": {
+          "price_before": "44910.0",
+          "price_after": "39500.0000",
+          "stock_before": "5",
+          "stock_after": 5
+        },
+        "0am927769g": {
+          "price_before": "44910.0",
+          "price_after": "39500.0000",
+          "stock_before": "5",
+          "stock_after": 5
+        },
+        "0am927769k": {
+          "price_before": "44910.0",
+          "price_after": "39500.0000",
+          "stock_before": "5",
+          "stock_after": 5
+        }
+      },
+      "blocked": {},
+      "before_sha256": "875bf777ab7aa937db2cf7bc7f841bed7ca2f4873eee39cbdcc71e0e715893b1",
+      "after_sha256": "061270b818527b3c76785ed583923975cab40e112fa2ee6fe9ef283972169cb4"
+    }
+  },
   "errors": [],
   "site_writes": 0,
   "metrika_writes": 0,
@@ -28,6 +73,128 @@
       "status": "ACCEPTED",
       "processing": "PROCESSED",
       "clarification": "Campaign is in progress."
+    }
+  },
+  "site_catalog_check": {
+    "0am325025h": {
+      "uid": "908157881413",
+      "site_price": "33500.0000",
+      "source_price": "33500.0",
+      "price_source_agrees": true,
+      "old_feed_price": "33500.0",
+      "site_stock": 13,
+      "old_feed_stock": "17",
+      "old_available": "true"
+    },
+    "0am325025x": {
+      "uid": "353312992873",
+      "site_price": "38500.0000",
+      "source_price": "38500.0",
+      "price_source_agrees": true,
+      "old_feed_price": "38500.0",
+      "site_stock": 0,
+      "old_feed_stock": "2",
+      "old_available": "true"
+    },
+    "0am325025hx": {
+      "uid": "517217914653",
+      "site_price": "64500.0000",
+      "source_price": "64500.0",
+      "price_source_agrees": true,
+      "old_feed_price": "64500.0",
+      "site_stock": 9,
+      "old_feed_stock": "9",
+      "old_available": "true"
+    },
+    "0am325025hxf": {
+      "uid": "915950884033",
+      "site_price": "68500.0000",
+      "source_price": "68500.0",
+      "price_source_agrees": true,
+      "old_feed_price": "68500.0",
+      "site_stock": 3,
+      "old_feed_stock": "3",
+      "old_available": "true"
+    },
+    "0am325025hxe": {
+      "uid": "937513129983",
+      "site_price": "68500.0000",
+      "source_price": "68500.0",
+      "price_source_agrees": true,
+      "old_feed_price": "68500.0",
+      "site_stock": 5,
+      "old_feed_stock": "5",
+      "old_available": "true"
+    },
+    "0am325025hxg": {
+      "uid": "772831134323",
+      "site_price": "68500.0000",
+      "source_price": "68500.0",
+      "price_source_agrees": true,
+      "old_feed_price": "68500.0",
+      "site_stock": 5,
+      "old_feed_stock": "5",
+      "old_available": "true"
+    },
+    "0am325025hxk": {
+      "uid": "684991663463",
+      "site_price": "68500.0000",
+      "source_price": "68500.0",
+      "price_source_agrees": true,
+      "old_feed_price": "68500.0",
+      "site_stock": 5,
+      "old_feed_stock": "5",
+      "old_available": "true"
+    },
+    "0am927769d": {
+      "uid": "787466152673",
+      "site_price": "37500.0000",
+      "source_price": "37500",
+      "price_source_agrees": true,
+      "old_feed_price": "39500.0",
+      "site_stock": 7,
+      "old_feed_stock": "7",
+      "old_available": "true"
+    },
+    "0am927769f": {
+      "uid": "801039414923",
+      "site_price": "39500.0000",
+      "source_price": "39500",
+      "price_source_agrees": true,
+      "old_feed_price": "39500.0",
+      "site_stock": 3,
+      "old_feed_stock": "3",
+      "old_available": "true"
+    },
+    "0am927769e": {
+      "uid": "137877342943",
+      "site_price": "39500.0000",
+      "source_price": "39500",
+      "price_source_agrees": true,
+      "old_feed_price": "44910.0",
+      "site_stock": 5,
+      "old_feed_stock": "5",
+      "old_available": "true"
+    },
+    "0am927769g": {
+      "uid": "933254300083",
+      "site_price": "39500.0000",
+      "source_price": "39500",
+      "price_source_agrees": true,
+      "old_feed_price": "44910.0",
+      "site_stock": 5,
+      "old_feed_stock": "5",
+      "old_available": "true"
+    },
+    "0am927769k": {
+      "uid": "234667588903",
+      "site_price": "39500.0000",
+      "source_price": "39500",
+      "price_source_agrees": true,
+      "old_feed_price": "44910.0",
+      "site_stock": 5,
+      "old_feed_stock": "5",
+      "old_available": "true"
     }
   }
 }
