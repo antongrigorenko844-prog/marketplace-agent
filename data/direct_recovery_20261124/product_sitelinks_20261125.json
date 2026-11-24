@@ -1,6 +1,6 @@
 {
   "campaign_id": 716316525,
-  "status": "preflight",
+  "status": "saved_pending_moderation",
   "started_utc": "2026-11-24T16:57:39.556311+00:00",
   "site_writes": 0,
   "feed_writes": 0,
@@ -491,7 +491,7 @@
   },
   "groups": {
     "5826171512": {
-      "status": "planned",
+      "status": "verified",
       "direct_count": 4,
       "links": [
         {
@@ -533,7 +533,7 @@
       "preserved_section_links": 3
     },
     "5826183946": {
-      "status": "planned",
+      "status": "verified",
       "direct_count": 3,
       "links": [
         {
@@ -570,7 +570,7 @@
       "preserved_section_links": 3
     },
     "5826320196": {
-      "status": "planned",
+      "status": "verified",
       "direct_count": 4,
       "links": [
         {
@@ -612,7 +612,7 @@
       "preserved_section_links": 3
     },
     "5828476541": {
-      "status": "planned",
+      "status": "verified",
       "direct_count": 4,
       "links": [
         {
@@ -654,7 +654,56 @@
       "preserved_section_links": 3
     }
   },
-  "ad_results": {},
+  "ad_results": {
+    "1927186476439690942": {
+      "group": 5826171512,
+      "set_id": 1528204113,
+      "saved": true,
+      "state": "OFF",
+      "status": "ACCEPTED",
+      "sitelinks_moderation": "ACCEPTED"
+    },
+    "1927466195846975291": {
+      "group": 5826171512,
+      "set_id": 1528204113,
+      "saved": true,
+      "state": "ON",
+      "status": "ACCEPTED",
+      "sitelinks_moderation": "ACCEPTED"
+    },
+    "1927189770678081700": {
+      "group": 5826183946,
+      "set_id": 1528204114,
+      "saved": true,
+      "state": "ON",
+      "status": "ACCEPTED",
+      "sitelinks_moderation": "ACCEPTED"
+    },
+    "1927466206584354174": {
+      "group": 5826183946,
+      "set_id": 1528204114,
+      "saved": true,
+      "state": "ON",
+      "status": "ACCEPTED",
+      "sitelinks_moderation": "ACCEPTED"
+    },
+    "1927190920657966611": {
+      "group": 5826320196,
+      "set_id": 1528204115,
+      "saved": true,
+      "state": "ON",
+      "status": "ACCEPTED",
+      "sitelinks_moderation": "ACCEPTED"
+    },
+    "1927488453443618167": {
+      "group": 5828476541,
+      "set_id": 1528204113,
+      "saved": true,
+      "state": "ON",
+      "status": "ACCEPTED",
+      "sitelinks_moderation": "ACCEPTED"
+    }
+  },
   "operations": [
     "create_product_link_sets",
     "assign_product_links"
@@ -670,5 +719,34 @@
     "1927466206584354174": 1528204114,
     "1927190920657966611": 1528204115,
     "1927488453443618167": 1528204113
-  }
+  },
+  "assignment_response": [
+    {
+      "id": "1927186476439690942",
+      "errors": []
+    },
+    {
+      "id": "1927189770678081700",
+      "errors": []
+    },
+    {
+      "id": "1927190920657966611",
+      "errors": []
+    },
+    {
+      "id": "1927466195846975291",
+      "errors": []
+    },
+    {
+      "id": "1927466206584354174",
+      "errors": []
+    },
+    {
+      "id": "1927488453443618167",
+      "errors": []
+    }
+  ],
+  "protected_settings_unchanged": true,
+  "original_sets_preserved": true,
+  "finished_utc": "2026-11-24T16:58:48.456121+00:00"
 }
