@@ -1,0 +1,108 @@
+{
+  "platform": "Yandex Market",
+  "business_id": 194752944,
+  "campaign_id": 141377963,
+  "period": {
+    "dateFrom": "2026-10-26",
+    "dateTo": "2026-11-24"
+  },
+  "read_only": true,
+  "external_content_writes": 0,
+  "status": "generation_error",
+  "errors": {
+    "generate": "/v2/reports/shows-sales/generate HTTP 400: BAD_REQUEST: Both businessId and campaignId are specified."
+  },
+  "actual_order_snapshot": {
+    "orders": 13,
+    "statuses": {
+      "PROCESSING": 1,
+      "DELIVERY": 1,
+      "CANCELLED_IN_DELIVERY": 1,
+      "DELIVERED": 10
+    },
+    "sku_counts": {
+      "remkomplekt-shtokov-orig": {
+        "ordered_units": 1,
+        "delivered_units": 0,
+        "cancelled_units": 0
+      },
+      "0AM325587E": {
+        "ordered_units": 3,
+        "delivered_units": 2,
+        "cancelled_units": 0
+      },
+      "0am325025": {
+        "ordered_units": 3,
+        "delivered_units": 2,
+        "cancelled_units": 0
+      },
+      "0am325025f": {
+        "ordered_units": 2,
+        "delivered_units": 1,
+        "cancelled_units": 0
+      },
+      "02e305045": {
+        "ordered_units": 2,
+        "delivered_units": 2,
+        "cancelled_units": 0
+      },
+      "0am325091e-set": {
+        "ordered_units": 1,
+        "delivered_units": 1,
+        "cancelled_units": 0
+      },
+      "porshni-usil-pylniki-kryshki-v2": {
+        "ordered_units": 1,
+        "delivered_units": 1,
+        "cancelled_units": 0
+      },
+      "0am325025z": {
+        "ordered_units": 2,
+        "delivered_units": 2,
+        "cancelled_units": 0
+      },
+      "podshipnik-vilki-6": {
+        "ordered_units": 1,
+        "delivered_units": 1,
+        "cancelled_units": 0
+      },
+      "0am325025q": {
+        "ordered_units": 2,
+        "delivered_units": 2,
+        "cancelled_units": 0
+      },
+      "0am325025e": {
+        "ordered_units": 1,
+        "delivered_units": 1,
+        "cancelled_units": 0
+      },
+      "Dq500": {
+        "ordered_units": 1,
+        "delivered_units": 1,
+        "cancelled_units": 0
+      }
+    },
+    "commissions_by_type": {
+      "AGENCY:": 2.0400000000000005,
+      "SORTING:": 15.0,
+      "CROSSREGIONAL_DELIVERY:": 299.64,
+      "RETURNED_ORDERS_STORAGE:": 25.0,
+      "DELIVERY_TO_CUSTOMER:": 4276.95,
+      "FEE:": 14695.22,
+      "PAYMENT_TRANSFER:": 2822.7900000000004,
+      "LOYALTY_PARTICIPATION_FEE:": 200.0
+    },
+    "payment_flows_by_type": {
+      "PAYMENT:BUYER": 64820.0,
+      "REFUND:BUYER": 2256.0
+    },
+    "subsidies_by_type": {
+      "SUBSIDY:ACCRUAL": 48167.0,
+      "SUBSIDY:DEDUCTION": 1594.0,
+      "YANDEX_CASHBACK:ACCRUAL": 102.0
+    },
+    "warning": "Order-status snapshot, separate fee and payment flows; no invented allocation or net profit."
+  },
+  "updated_at": "2026-11-24T19:57:15.310095+00:00",
+  "attempted_at": "2026-11-24T19:57:14.498737+00:00"
+}
