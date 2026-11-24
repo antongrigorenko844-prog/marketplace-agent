@@ -1,0 +1,92 @@
+name: LEOPARTS approved mobile checkout and analytics read-only verification
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-owner-readonly-site-20261124.yml']
+permissions:
+  contents: write
+concurrency:
+  group: direct-owner-readonly-site-20261124
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install public-browser checker
+        run: |
+          pip install -q playwright==1.56.0
+          python -m playwright install chromium
+      - name: Read website and aggregate goal statistics; no submissions or payments
+        env:
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: |
+          python -u - <<'PY'
+          import asyncio,json,sys
+          from pathlib import Path
+          from datetime import datetime,timezone
+          from urllib.parse import urlsplit
+          from playwright.async_api import async_playwright
+          sys.path.insert(0,'.github/scripts')
+          import leoparts_purchase_readiness as m
+          out=Path('data/direct_recovery_20261124/owner_site_readonly.json')
+          r={'status':'running','started_utc':datetime.now(timezone.utc).isoformat(),'direct_writes':0,'site_writes':0,'metrika_writes':0,'form_submissions':0,'payments_attempted':0,'sections':{},'errors':[]}
+          def save():
+              out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(r,ensure_ascii=False,indent=2)+'\n')
+          def check(name,fn):
+              try:r['sections'][name]={'status':'ok','data':fn()}
+              except Exception as e:r['sections'][name]={'status':'error','error':type(e).__name__+': '+str(e)[:150]};r['errors'].append(name)
+              save()
+          save()
+          check('counter',m.counter_options)
+          check('goals',m.goal_definitions)
+          check('goals_30_days',m.goal_visits)
+          check('order_webhooks',m.tilda_form_dispatch_counts)
+          async def browser():
+              async with async_playwright() as p:
+                  b=await p.chromium.launch(headless=True,args=['--no-sandbox'])
+                  for label,w,h in [('mobile',390,844),('desktop',1440,920)]:
+                      ctx=await b.new_context(viewport={'width':w,'height':h},is_mobile=label=='mobile',has_touch=label=='mobile',device_scale_factor=1)
+                      async def route(rt):
+                          req=rt.request;u=urlsplit(req.url);host=(u.hostname or '').lower()
+                          if req.method not in ('GET','HEAD') or host.startswith('mc.yandex.') or 'google-analytics' in host or 'metrika' in host:
+                              await rt.abort()
+                          else:await rt.continue_()
+                      await ctx.route('**/*',route)
+                      pg=await ctx.new_page()
+                      errs=[];pg.on('pageerror',lambda e:errs.append(type(e).__name__))
+                      try:
+                          resp=await pg.goto('https://leoparts-akpp.ru/mehatronik-dq200',wait_until='domcontentloaded',timeout=55000)
+                          await pg.wait_for_timeout(4500)
+                          v=await pg.evaluate("""() => {
+                              const visible=e=>{if(!e)return false; const r=e.getBoundingClientRect(),s=getComputedStyle(e);return r.width>0&&r.height>0&&s.display!=='none'&&s.visibility!=='hidden'};
+                              const form=document.getElementById('form5260805101');
+                              const vin=document.getElementById('form5246286101');
+                              const controls=[...document.querySelectorAll('a,button')].filter(visible);
+                              const cta=controls.map(e=>({text:(e.innerText||'').trim().replace(/\s+/g,' ').slice(0,80),top:Math.round(e.getBoundingClientRect().top)})).filter(x=>/купить|заказать|подобрать|подбор|корзин|VIN|в наличии/i.test(x.text)).slice(0,30);
+                              const nav=performance.getEntriesByType('navigation')[0];
+                              return {title:document.title,h1:[...document.querySelectorAll('h1')].map(x=>x.textContent.trim().slice(0,100)),h2_count:document.querySelectorAll('h2').length,viewport:innerWidth,document_width:document.documentElement.scrollWidth,anchors:Object.fromEntries(['bez-platy','s-platoi','platy'].map(k=>[k,!!document.querySelector('[id="'+k+'"],[name="'+k+'"]')])),visible_ctas:cta,above_fold_ctas:cta.filter(x=>x.top>=0&&x.top<innerHeight),product_links:document.querySelectorAll('a[href*="tproduct"]').length,vin_form_present:!!vin,checkout_form_present:!!form,checkout_fields:form?[...form.querySelectorAll('input:not([type=hidden]),select,textarea')].map(x=>({type:x.type||x.tagName,required:x.required||false})):[],payment_options:form?[...form.querySelectorAll('input[name="paymentsystem"]')].map(x=>x.value):[],cart_runtime:typeof window.tcart__init==='function',ecommerce_data_layer:Array.isArray(window.dataLayer),dom_ready_ms:nav?Math.round(nav.domContentLoadedEventEnd):null};
+                          }""")
+                          v.update(http_status=resp.status if resp else None,js_error_count=len(errs))
+                          r['sections'][label]={'status':'ok','data':v}
+                      except Exception as e:
+                          r['sections'][label]={'status':'error','error':type(e).__name__+': '+str(e)[:150]};r['errors'].append(label)
+                      finally:
+                          await ctx.close();save()
+                  await b.close()
+          try:asyncio.run(browser())
+          except Exception as e:r['errors'].append('browser');r['browser_error']=type(e).__name__+': '+str(e)[:150]
+          r['status']='complete' if not r['errors'] else 'partial'
+          r['finished_utc']=datetime.now(timezone.utc).isoformat();save()
+          print(json.dumps({'status':r['status'],'errors':r['errors']},ensure_ascii=False))
+          PY
+      - name: Save only aggregate public audit
+        if: always()
+        run: |
+          if test -f data/direct_recovery_20261124/owner_site_readonly.json; then
+            bash .github/scripts/save_data.sh data/direct_recovery_20261124/owner_site_readonly.json
+          fi
