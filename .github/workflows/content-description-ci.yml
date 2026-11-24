@@ -11,6 +11,7 @@ on:
       - 'tests/test_content_sync.py'
       - 'tests/test_content_aux_sync.py'
       - 'content_aux_sync.py'
+      - 'content_ozon_diagnosis.py'
       - '.github/workflows/description-sync-request.yml'
       - '.github/workflows/content-description-ci.yml'
   push:
@@ -27,6 +28,6 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
-      - run: python -m py_compile content_sync.py content_transport.py content_manifest.py content_updates.py build_master_control.py sync_master_control.py content_aux_sync.py
+      - run: python -m py_compile content_sync.py content_transport.py content_manifest.py content_updates.py build_master_control.py sync_master_control.py content_aux_sync.py content_ozon_diagnosis.py
       - run: python -m unittest discover -s tests -p 'test_content*.py' -v
       - run: git diff --exit-code -- data/ photos/ photos_avito/

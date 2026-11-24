@@ -17,6 +17,7 @@ jobs:
       api_channels: ${{ steps.request.outputs.api_channels }}
       api_articles: ${{ steps.request.outputs.api_articles }}
       auxiliary: ${{ steps.request.outputs.auxiliary }}
+      diagnose: ${{ steps.request.outputs.diagnose }}
     steps:
       - uses: actions/checkout@v4
       - id: request
@@ -29,9 +30,11 @@ jobs:
           manifest = json.loads(Path('data/content_manifest.json').read_text())['products']
           mode = request.get('mode')
           channels = request.get('channels', ['api'])
-          if not isinstance(channels, list) or not channels or any(c not in {'api','ozon','wb','market','avito','tilda'} for c in channels):
+          if not isinstance(channels, list) or not channels or any(c not in {'api','ozon','wb','market','avito','tilda','ozon_diagnose'} for c in channels):
               raise SystemExit('Invalid channel scope')
           skus = request.get('skus')
+          if 'ozon_diagnose' in channels and mode != 'inspect':
+              raise SystemExit('Ozon diagnostics are read only')
           if mode not in {'inspect', 'verify', 'apply'}:
               raise SystemExit('Invalid mode')
           if not isinstance(skus, list) or not skus or len(skus) > 50:
@@ -49,6 +52,7 @@ jobs:
               print('api_channels='+','.join(api), file=out)
               print('api_articles='+','.join(api_skus), file=out)
               print('auxiliary='+','.join(c for c in channels if c in {'avito','tilda'}), file=out)
+              print('diagnose='+str('ozon_diagnose' in channels).lower(), file=out)
           PY
   descriptions:
     needs: scope
@@ -108,5 +112,35 @@ jobs:
         if: always()
         run: |
           if [ -f reports/content-aux/summary.json ]; then
-            bash .github/scripts/save_data.sh reports/content-aux/summary.json
+            files=(reports/content-aux/summary.json)
+            if [ -f reports/content-aux/tilda_description_update.csv ]; then files+=(reports/content-aux/tilda_description_update.csv); fi
+            bash .github/scripts/save_data.sh "${files[@]}"
+          fi
+
+  ozon_diagnosis:
+    needs: [scope, descriptions, auxiliary]
+    if: always() && needs.scope.result == 'success' && needs.scope.outputs.diagnose == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: marketplace-agent
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -p 'test_content*.py' -v
+      - name: Read-only Ozon attribute investigation
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          ARTICLES: ${{ needs.scope.outputs.articles }}
+        run: python content_ozon_diagnosis.py --article "$ARTICLES"
+      - name: Save diagnostics
+        if: always()
+        run: |
+          if [ -f reports/content-ozon-diagnosis/summary.json ]; then
+            bash .github/scripts/save_data.sh reports/content-ozon-diagnosis/summary.json
           fi

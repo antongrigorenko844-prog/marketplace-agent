@@ -49,6 +49,37 @@ def desired_avito(sku,description,price):
     return text
 
 
+def avito_live_details(av, live, report, skus, rules, links):
+    """Best-effort documented detail reads; absence of a description is not success."""
+    by_id={str(x.get('id')):x for x in live}
+    targets=set()
+    for sku in skus:
+        expected=rules[sku].get('ids',{}).get('avito') or links.get(sku)
+        aliases={sku}
+        if expected and links.get(sku) and str(expected)==str(links[sku]):
+            aliases.add(sku+'-av')
+        hits=[r for r in report if r.get('ad_id') in aliases and r.get('avito_id')]
+        if len(hits)==1 and (not expected or str(hits[0]['avito_id'])==str(expected)):
+            aid=str(hits[0]['avito_id'])
+            if aid.isdigit() and aid in by_id and not isinstance(by_id[aid].get('description'),str):
+                targets.add(aid)
+    if not targets:
+        return
+    try:
+        account=av._request('GET','/core/v1/accounts/self')
+        user_id=str(account.get('id') or '')
+        if not user_id.isdigit(): return
+    except Exception:
+        return
+    for aid in sorted(targets):
+        try:
+            detail=av._request('GET',f'/core/v1/accounts/{user_id}/items/{aid}/')
+            if isinstance(detail.get('description'),str) and str(detail.get('id',aid))==aid:
+                by_id[aid]['description']=detail['description']
+        except Exception:
+            continue
+
+
 def patch_avito_feed(raw,rules,skus,report,live,links=None):
     """Return staged bytes; all other workbook cells must match exactly."""
     from scripts.apply_avito_owner_excel_20261124 import data_rows,unchanged_except
@@ -86,7 +117,10 @@ def patch_avito_feed(raw,rules,skus,report,live,links=None):
             results[sku]={'avito_id':aid,'feed_id':feed_id,'needs_feed_change':changed,
                           'description_verified':isinstance(actual,str) and normalized(actual)==normalized(want),
                           'live_description_available':isinstance(actual,str),
-                          'feed_verified':not changed}
+                          'feed_verified':not changed,
+                          'autoload_section':(record.get('section') or {}).get('slug'),
+                          'autoload_status':record.get('avito_status'),
+                          'autoload_messages':[{k:m.get(k) for k in ('code','type','title')} for m in record.get('messages',[])]}
             if changed:
                 cell.value=want;allowed.add((ws.title,cell.coordinate))
         except Exception as exc:
@@ -151,9 +185,12 @@ def run(mode,skus,channels):
             _,_,stable=get_avito_asset()
             if stable!=raw:
                 raise ValueError('Stable published Avito feed differs from repository; refuse update')
-            report_rows=av.get_autoload_report_items()['items']
+            autoload=av.get_autoload_report_items()
+            report_rows=autoload['items']
+            report['avito_autoload_report']={k:autoload['report'].get(k) for k in ('report_id','started_at','finished_at','status')}
             live=av.list_all_items(statuses=['active'])
             links=json.loads((ROOT/'data/avito_links.json').read_text(encoding='utf-8'))
+            avito_live_details(av,live,report_rows,skus,rules,links)
             staged,results=patch_avito_feed(raw,rules,skus,report_rows,live,links)
             report['products']['avito']=results
             report['avito_feed_sha_before']=digest(raw)
@@ -179,7 +216,13 @@ def run(mode,skus,channels):
     if 'tilda' in channels:
         try:
             from scripts.leoparts_direct_operation_nov21 import site_records
-            results,patch=tilda_rows(rules,skus,site_records())
+            records=site_records()
+            results,patch=tilda_rows(rules,skus,records)
+            # This is an actual public snapshot, not a stale export. Preserve
+            # protected metadata fingerprints for post-import comparison.
+            from scripts.tilda_price_pipeline_v1 import STABLE_FIELDS
+            protected={uid:{k:row.get(k) for k in STABLE_FIELDS if k not in ('text','descr')} | {'price':row.get('price'),'editions':row.get('editions')} for uid,row in records.items()}
+            report['tilda_protected_snapshot_sha256']=digest(json.dumps(protected,sort_keys=True,ensure_ascii=False,default=str).encode())
             report['products']['tilda']=results
             if patch:
                 OUT.mkdir(parents=True,exist_ok=True)
@@ -189,6 +232,7 @@ def run(mode,skus,channels):
                                           delimiter=';',quoting=csv.QUOTE_ALL)
                     writer.writeheader();writer.writerows(patch)
                 report['tilda_csv_rows']=len(patch)
+                report['tilda_csv_sha256']=digest(path.read_bytes())
                 report['tilda_csv_imported']=False
         except Exception as exc:
             report['tilda_error']=str(exc)[:1000]

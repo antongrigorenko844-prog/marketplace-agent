@@ -65,3 +65,15 @@ class AuxContentTests(unittest.TestCase):
         result,rows=aux.tilda_rows(rules,['A'],records)
         self.assertIn('error',result['A'])
         self.assertEqual(rows,[])
+
+
+    def test_ozon_diagnostic_distinguishes_order_from_value_change(self):
+        from content_ozon_diagnosis import attribute_diff
+        a={'attributes':[{'id':1,'values':[{'value':'a'},{'value':'b'}]},
+                         {'id':2,'values':[{'value':'x'}]},
+                         {'id':4191,'values':[{'value':'old'}]}]}
+        b={'attributes':[{'id':1,'values':[{'value':'b'},{'value':'a'}]},
+                         {'id':2,'values':[{'value':'y'}]},
+                         {'id':4191,'values':[{'value':'new'}]}]}
+        self.assertEqual({v['id']:v['kind'] for v in attribute_diff(a,b)},
+                         {1:'order_only',2:'value_or_metadata_changed'})
