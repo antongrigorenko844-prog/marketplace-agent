@@ -658,6 +658,8 @@ def run() -> int:
         if oid in known_ids:
             continue
         for c, v in enumerate(vals[: len(HEADERS)], start=1):
+            if c == 12:
+                v = description_for(oid, v, platform='ozon' if vals[1] else 'wb' if vals[2] else 'ozon')
             if c == 4 or v in (None, ""):
                 continue  # колонка 4 — миниатюра (картинка), не значение
             ws.cell(row=row_i, column=c, value=v)

@@ -18,6 +18,7 @@ jobs:
       api_articles: ${{ steps.request.outputs.api_articles }}
       auxiliary: ${{ steps.request.outputs.auxiliary }}
       diagnose: ${{ steps.request.outputs.diagnose }}
+      master: ${{ steps.request.outputs.master }}
     steps:
       - uses: actions/checkout@v4
       - id: request
@@ -30,7 +31,7 @@ jobs:
           manifest = json.loads(Path('data/content_manifest.json').read_text())['products']
           mode = request.get('mode')
           channels = request.get('channels', ['api'])
-          if not isinstance(channels, list) or not channels or any(c not in {'api','ozon','wb','market','avito','tilda','ozon_diagnose','tilda_canary'} for c in channels):
+          if not isinstance(channels, list) or not channels or any(c not in {'api','ozon','wb','market','avito','tilda','ozon_diagnose','tilda_canary','master'} for c in channels):
               raise SystemExit('Invalid channel scope')
           skus = request.get('skus')
           if 'ozon_diagnose' in channels and mode != 'inspect':
@@ -55,10 +56,11 @@ jobs:
               print('api_articles='+','.join(api_skus), file=out)
               print('auxiliary='+','.join(c for c in channels if c in {'avito','tilda','tilda_canary'}), file=out)
               print('diagnose='+str('ozon_diagnose' in channels).lower(), file=out)
+              print('master='+str('master' in channels).lower(), file=out)
           PY
   descriptions:
-    needs: scope
-    if: needs.scope.outputs.api == 'true'
+    needs: [scope, master]
+    if: always() && needs.scope.result == 'success' && (needs.master.result == 'success' || needs.master.result == 'skipped') && needs.scope.outputs.api == 'true'
     uses: ./.github/workflows/content-sync.yml
     with:
       descriptions_only: true
@@ -68,8 +70,8 @@ jobs:
     secrets: inherit
 
   auxiliary:
-    needs: [scope, descriptions]
-    if: always() && needs.scope.result == 'success' && needs.scope.outputs.auxiliary != ''
+    needs: [scope, master, descriptions]
+    if: always() && needs.scope.result == 'success' && (needs.master.result == 'success' || needs.master.result == 'skipped') && needs.scope.outputs.auxiliary != ''
     runs-on: ubuntu-latest
     timeout-minutes: 20
     concurrency:
@@ -150,4 +152,48 @@ jobs:
         run: |
           if [ -f reports/content-ozon-diagnosis/summary.json ]; then
             bash .github/scripts/save_data.sh reports/content-ozon-diagnosis/summary.json
+          fi
+
+  master:
+    needs: scope
+    if: needs.scope.outputs.master == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: marketplace-agent
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -p test_content_master_sync.py -v
+      - name: Materialize only approved description cells
+        env:
+          MODE: ${{ needs.scope.outputs.mode }}
+          ARTICLES: ${{ needs.scope.outputs.articles }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          cmp <(git show FETCH_HEAD:data/content_manifest.json) data/content_manifest.json
+          cmp <(git show FETCH_HEAD:data/description_sync_request.json) data/description_sync_request.json
+          git checkout --detach FETCH_HEAD
+          python content_master_sync.py --mode "$MODE" --article "$ARTICLES"
+          if [ "$MODE" = apply ]; then
+            git add -- data/master_control.xlsx data/ozon_catalog.xlsx data/ozon_new_products.xlsx data/wb_catalog.xlsx data/wb_new_products.xlsx
+            git config user.name marketplace-agent-bot
+            git config user.email actions@users.noreply.github.com
+            if ! git diff --cached --quiet; then
+              git commit -m "chore: materialize approved descriptions only [skip ci]"
+              git push origin HEAD:main
+            fi
+          fi
+      - name: Save master report
+        if: always()
+        run: |
+          if [ -f reports/content-master/summary.json ]; then
+            bash .github/scripts/save_data.sh reports/content-master/summary.json
           fi
