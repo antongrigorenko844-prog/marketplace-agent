@@ -3,12 +3,12 @@
   "business_id": 194752944,
   "campaign_id": 141377963,
   "started_at": "2026-11-24T20:01:31.389215+00:00",
-  "external_write_requests": 0,
+  "external_write_requests": 1,
   "operations": [
     {
       "sku": "6t30-solenoids-gen2",
       "kind": "type",
-      "status": "ready",
+      "status": "submission_started",
       "target": 71380208,
       "before_category": 71380208,
       "before_protected": {
@@ -194,7 +194,7 @@
     {
       "sku": "6t30-tcm-gen1",
       "kind": "type",
-      "status": "ready",
+      "status": "submission_started",
       "target": 71380208,
       "before_category": 71380208,
       "before_protected": {
@@ -380,7 +380,7 @@
     {
       "sku": "6t30-tcm-gen2",
       "kind": "type",
-      "status": "ready",
+      "status": "submission_started",
       "target": 71380208,
       "before_category": 71380208,
       "before_protected": {
@@ -566,7 +566,7 @@
     {
       "sku": "0am325091e-set",
       "kind": "category",
-      "status": "ready",
+      "status": "submission_started",
       "target": 71380208,
       "before_category": 71597937,
       "before_protected": {
@@ -3044,8 +3044,12 @@
     "0am325025С",
     "0am325066AC",
     "0am325091e",
+    "0am325091e-set",
     "0am325091f",
     "31705-1XF1A",
+    "6t30-solenoids-gen2",
+    "6t30-tcm-gen1",
+    "6t30-tcm-gen2",
     "DQ500",
     "plita-filtr",
     "plita-filtr-pylniki",
@@ -3146,7 +3150,7 @@
   },
   "rows": {},
   "status": "preflight",
-  "updated_at": "2026-11-24T20:01:53.533567+00:00",
+  "updated_at": "2026-11-24T20:02:00.849353+00:00",
   "before_counts": {
     "PUBLISHED": 118,
     "DISABLED_AUTOMATICALLY": 23,
