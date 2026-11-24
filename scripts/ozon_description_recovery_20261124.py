@@ -94,10 +94,12 @@ def read_card(sku):
 
 def run():
     req=json.loads(REQUEST.read_text())
-    if req.get('version')!=1 or req.get('mode')!='one_safe_probe' or os.getenv('GITHUB_REF')!='refs/heads/main':
+    if req.get('version')!=1 or req.get('mode') not in ('one_safe_probe','test_card_only') or os.getenv('GITHUB_REF')!='refs/heads/main':
         raise ValueError('Exact one-shot recovery request on main required')
     if not json.loads(POLICY.read_text()).get('paused_writes',{}).get('ozon'):
         raise ValueError('Expected Ozon mass-write hold')
+    global OUT
+    if req['mode']=='test_card_only':OUT=ROOT/'reports/content-ozon-recovery/test-card'
     report_path=OUT/'summary.json'
     if report_path.exists():
         old=json.loads(report_path.read_text())
@@ -135,7 +137,36 @@ def run():
                 'historical_default_ids':a.get('attributes_with_defaults',[]),'current_default_ids':z.get('attributes_with_defaults',[])}
     report['normalized_singletons']=[s for s,r in by.items() if not normalized_candidate(r,counts)]
     picked=None
-    for sku in LOW_RISK:
+    if req['mode']=='test_card_only':
+        sku='TEST001'
+        target='Тестовая карточка для проверки автоматизации. Не предназначена для продажи.'
+        try:
+            a,i,p=read_card(sku)
+            if str(a.get('id'))!='6236280437' or a.get('name')!='Тестовый товар не публикуется':
+                raise ValueError('Exact existing test card identity not confirmed')
+            if sku not in master_rows or sku in dupes or not singleton(a):
+                raise ValueError('Test card is not an unambiguous singleton')
+            with guard([],allow_write=False,descriptions_only=True):
+                stock=one(oz.get_stocks([sku]),sku)
+            rows=stock.get('stocks')
+            if not isinstance(rows,list):raise ValueError('Unknown test stock response')
+            for entry in rows:
+                if not isinstance(entry,dict) or 'present' not in entry:
+                    raise ValueError('Unknown stock quantity')
+                if int(entry['present'])!=0 or int(entry.get('reserved',0))!=0:
+                    raise ValueError('Test card has stock or reserved units')
+            if sync.description_value('ozon',a)==target:
+                raise ValueError('Test text already matches; no new probe')
+            if any(str(r.get('id'))==str(a['id']) and r.get('offer_id')!=sku for r in live):
+                raise ValueError('Ambiguous test product ID')
+            report['test_card_zero_stock']=True
+            report['test_card_original_description']=sync.description_value('ozon',a)
+            report['test_card_before_model_attrs']=selected_attributes(a)
+            report['test_card_before_default_ids']=a.get('attributes_with_defaults',[])
+            picked=(sku,target,a,i,p)
+        except Exception as exc:
+            report['test_card_error']=str(exc)[:300]
+    for sku in LOW_RISK if req['mode']=='one_safe_probe' else ():
         if sku not in by:continue
         row=by[sku]
         target=rules.get(sku,{}).get('text',{}).get('ozon',{}).get('description')
@@ -195,6 +226,9 @@ def run():
             evidence.update(after=after,info_after=info_after,price_after=price_after)
             changes=protected_changes(before,after,info_before,info_after)
             if price_before!=price_after:changes.append('seller_price')
+            if req['mode']=='test_card_only':
+                report['test_card_after_model_attrs']=selected_attributes(after)
+                report['test_card_after_default_ids']=after.get('attributes_with_defaults',[])
             report.update(model_info_after=after.get('model_info'),protected_changes=changes,
                           text_matches=sync.description_value('ozon',after)==target)
             if changes:
