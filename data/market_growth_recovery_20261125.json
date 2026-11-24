@@ -4617,7 +4617,7 @@
     {
       "sku": "0am325025P",
       "kind": "type",
-      "status": "submitted",
+      "status": "pending_or_unchanged",
       "before": {
         "offerId": "0am325025P",
         "name": "Клипса штока мехатроника DSG7 DQ200",
@@ -4869,6 +4869,78 @@
       },
       "response": {
         "status": "OK"
+      },
+      "after": {
+        "offerId": "0am325025P",
+        "name": "Клипса штока мехатроника DSG7 DQ200",
+        "identity": {
+          "offerId": "0am325025P",
+          "marketSku": 4392869596,
+          "groupId": "клипсаштока_0am325025P_0am325025P_0am325025P_0am325025P"
+        },
+        "model": 1168112255,
+        "category": 71380208,
+        "categoryName": "Запчасти для трансмиссии автомобиля",
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED",
+        "errors": [],
+        "warnings": [],
+        "card_errors": [],
+        "card_warnings": [],
+        "ugc": {
+          "rating": 0.0
+        },
+        "rating": 68,
+        "price": {
+          "value": 980.0,
+          "currencyId": "RUR",
+          "discountBase": 2000.0,
+          "updatedAt": "2026-11-24T01:40:37+03:00"
+        },
+        "campaigns": [
+          {
+            "campaignId": 141377963,
+            "status": "PUBLISHED"
+          }
+        ],
+        "sellingPrograms": null,
+        "parameterValues": [
+          {
+            "parameterId": 57046341,
+            "value": "Вид техники: Легковые автомобили"
+          },
+          {
+            "parameterId": 14805583,
+            "unitId": 6145205,
+            "value": "1"
+          },
+          {
+            "parameterId": 21194330,
+            "valueId": 34065572,
+            "value": "клипса"
+          },
+          {
+            "parameterId": 7351754,
+            "value": "Одна клипса для фиксации пыльника штока толкателя вилки в мехатронике DSG7 DQ200 (0AM/0CW)."
+          },
+          {
+            "parameterId": 60134505,
+            "value": "0am325025P"
+          },
+          {
+            "parameterId": 200,
+            "value": "клипсаштока_0am325025P_0am325025P_0am325025P_0am325025P"
+          }
+        ]
+      },
+      "checks": {
+        "protected_diff": [],
+        "other_attributes_unchanged": true,
+        "group_preserved": true,
+        "category_verified": true,
+        "type_verified": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     }
   ],
@@ -4884,7 +4956,7 @@
     "separatornaya-plastiny-solenoid-dq200": "Group not verified singleton",
     "0am325025e": "Exact master/title not confirmed"
   },
-  "updated_utc": "2026-11-24T19:47:29.031740+00:00",
+  "updated_utc": "2026-11-24T19:48:33.657513+00:00",
   "initial_counts": {
     "PUBLISHED": 118,
     "DISABLED_AUTOMATICALLY": 23,
