@@ -95,6 +95,17 @@ def run():
   except Exception as e:d["errors"][key]=str(e)[:300]
  try:d["manually_hidden"]=[x["offerId"] for x in get_pages("GET",f"/v2/campaigns/{cam}/hidden-offers","hiddenOffers",limit=500)]
  except Exception as e:d["errors"]["manually_hidden"]=str(e)[:300]
+ # Inspect only document attachment and validation status, never create a document
+ # or infer an obligation from absence of a certificate.
+ try:
+  docs=get_pages("POST",f"/v1/businesses/{biz}/offers/documents","documents",{},limit=100)
+  bynum={str(x.get("number")):x for x in docs if x.get("number")}
+  d["document_diagnostics"]={"registered_count":len(docs),"registered_statuses":dict(collections.Counter(x.get("status") for x in docs)),"blocked_offers":{}}
+  for sku,x in m.items():
+   if status[sku].get("status")!="DISABLED_AUTOMATICALLY":continue
+   o=x["offer"];certs=o.get("certificates") or []
+   d["document_diagnostics"]["blocked_offers"][sku]={"attached_count":len(certs),"attached_document_statuses":[bynum.get(str(z),{}).get("status","not_in_registry") for z in certs],"commodity_codes":o.get("commodityCodes"),"condition":o.get("condition"),"marking_declared":o.get("markingDeclared"),"media_statuses":{k:[v.get("uploadState") for v in vs if isinstance(v,dict)] for k,vs in (o.get("mediaFiles") or {}).items() if isinstance(vs,list)}}
+ except Exception as e:d["errors"]["document_diagnostics"]=str(e)[:300]
  d["current_counts"]=dict(collections.Counter(x.get("status") for x in status.values()))
  d["coverage"]={"catalog":len(m),"cards":len(cards),"tariffs":len(stats),"price_recommendations":len(recommends)}
  for sku,x in m.items():
