@@ -1,6 +1,6 @@
 {
-  "mode": "apply",
-  "revision": "c0c773dfd43b94c932453ac96742b0c35893f2a0",
+  "mode": "inspect",
+  "revision": "f091bac606c12e66070e1b3bdc6fa0b3d91c0577",
   "seller_price_writes": 0,
   "stock_writes": 0,
   "products": {
@@ -8,30 +8,72 @@
       "0am325025H": {
         "avito_id": "8312205273",
         "feed_id": "0am325025H",
-        "needs_feed_change": true,
+        "needs_feed_change": false,
         "description_verified": false,
         "live_description_available": false,
         "feed_verified": true,
-        "status": "feed_published_pending_live_description"
+        "autoload_section": "success_skipped",
+        "autoload_status": "active",
+        "autoload_messages": [
+          {
+            "code": 2303,
+            "type": "warning",
+            "title": "Произведена автоподстановка номера телефона"
+          },
+          {
+            "code": 3002,
+            "type": "info",
+            "title": ""
+          }
+        ]
       },
       "6t30": {
         "avito_id": "8425207775",
         "feed_id": "6t30",
-        "needs_feed_change": true,
+        "needs_feed_change": false,
         "description_verified": false,
         "live_description_available": false,
         "feed_verified": true,
-        "status": "feed_published_pending_live_description"
+        "autoload_section": "success_skipped",
+        "autoload_status": "active",
+        "autoload_messages": [
+          {
+            "code": 2303,
+            "type": "warning",
+            "title": "Произведена автоподстановка номера телефона"
+          },
+          {
+            "code": 3002,
+            "type": "info",
+            "title": ""
+          }
+        ]
+      }
+    },
+    "tilda": {
+      "0am325025H": {
+        "uid": "908157881413",
+        "description_verified": false,
+        "status": "csv_import_required"
+      },
+      "6t30": {
+        "uid": "695009271403",
+        "description_verified": false,
+        "status": "csv_import_required"
       }
     }
   },
-  "avito_feed_sha_before": "5e76e6ca2163d45e4d1e3a9fa87221429d24b217f29b4006127ff5efd3087e6f",
-  "avito_feed_sha_staged": "284eb88f9c91d76640751f2877e360b077083f1fef165c4b3537cc23d4629822",
-  "checked_utc": "2026-11-24T01:15:52.488493+00:00",
-  "avito_feed_publication": {
-    "status": "published_sha_verified",
-    "sha256": "284eb88f9c91d76640751f2877e360b077083f1fef165c4b3537cc23d4629822",
-    "old_feed_backup": "avito_feed.before_owner_excel_784613784.xlsx"
+  "avito_autoload_report": {
+    "report_id": 639879882,
+    "started_at": "2026-11-23T23:34:03Z",
+    "finished_at": "2026-11-24T00:34:04Z",
+    "status": "success_warning"
   },
-  "avito_feed_persisted": true
+  "avito_feed_sha_before": "284eb88f9c91d76640751f2877e360b077083f1fef165c4b3537cc23d4629822",
+  "avito_feed_sha_staged": "284eb88f9c91d76640751f2877e360b077083f1fef165c4b3537cc23d4629822",
+  "checked_utc": "2026-11-24T01:22:59.482898+00:00",
+  "tilda_protected_snapshot_sha256": "5542dcc1f7c25c1ecc8f16a61fb9dd470375c8bfd18f924b94c8673c1101ce34",
+  "tilda_csv_rows": 2,
+  "tilda_csv_sha256": "e6a5f62bf1f8a45b2612950683390dd19503627e963c898710d9fc29a4f33e2d",
+  "tilda_csv_imported": false
 }
