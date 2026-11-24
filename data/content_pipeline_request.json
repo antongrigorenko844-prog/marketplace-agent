@@ -2,5 +2,10 @@
   "version": 1,
   "enabled": true,
   "mode": "apply",
-  "scope": "all existing exact-SKU reviewed manifest descriptions; no new cards"
+  "scope": "all existing exact-SKU reviewed manifest descriptions; no new cards",
+  "checkpoint": {
+    "after_run": "45328350048-1",
+    "after_merge": "e9d5b51ce3c59f6e318750902cc709c4d5e563e1",
+    "reason": "First execution of merged PR34: materialize exact reviewed 0cw0am with independent WB/Tilda census, retry transient Market census failure, verify published Avito feed without blind resend; strict Ozon hold remains."
+  }
 }
