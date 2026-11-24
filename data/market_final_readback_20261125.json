@@ -1961,7 +1961,7 @@
       "key": "oem_clear:6t30-tcm-gen2",
       "sku": "6t30-tcm-gen2",
       "kind": "oem_clear",
-      "status": "submitted",
+      "status": "pending_readback",
       "protected": {
         "identity": {
           "offerId": "6t30-tcm-gen2",
@@ -2129,7 +2129,15 @@
         ]
       },
       "moved": [],
-      "reviews_before": null
+      "reviews_before": null,
+      "readback": {
+        "protected_diff": [],
+        "parameters_match": true,
+        "category": 71380208,
+        "target": 71380208,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "DISABLED_AUTOMATICALLY"
+      }
     },
     {
       "key": "category:salnikprivod-r",
@@ -4352,5 +4360,5 @@
     "NO_STOCKS": 16,
     "DISABLED_BY_PARTNER": 1
   },
-  "updated_at": "2026-11-24T20:12:59.526871+00:00"
+  "updated_at": "2026-11-24T20:13:04.294567+00:00"
 }
