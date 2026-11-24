@@ -296,4 +296,70 @@ def resume_readonly():
     print(json.dumps({**evidence,'wb':{k:v for k,v in evidence['wb'].items() if not k.endswith('base64')}},ensure_ascii=False))
     return 0
 
-if __name__=='__main__':sys.exit(resume_readonly() if '--resume-readonly' in sys.argv else main())
+def recover_stable_only():
+    """Repair repository copy only; reuse exact persisted received-file identity.
+    No Avito API calls, release mutations, seller writes, or repeat WB readback.
+    """
+    from openpyxl import load_workbook
+    import avito_feed as af
+    old_sha='1d045a88012b57790ba8da79438823477e3fb395d840926d1b668974b138d5d3'
+    new_sha='264444c623fb7e34a9cff0982344b2fccbdd6368853d00b90766328750e016b9'
+    p.current_main()
+    result=json.loads(OUT.read_text())
+    evidence=result['recovery_readback']
+    received=evidence['avito_received']['current']
+    item=received['item']
+    require(result['source_sha256']==EXPECTED and sha(SRC.read_bytes())==EXPECTED,'Approved source changed')
+    require(received['upload_id']==640176851 and received['sha256']==new_sha and received['cover_exact'] is True and received['H_description_exact'] is True,'Exact previously received snapshot missing')
+    require(str(item['ad_id'])==SKU and str(item['avito_id'])=='8425207775','Persisted official mapping mismatch')
+    manifest=json.loads((ROOT/'data/content_manifest.json').read_text())['products']
+    require(str(manifest[SKU]['ids']['avito'])=='8425207775','Current manifest identity changed')
+    local=ROOT/'data/avito_feed.xlsx'
+    local_before=sha(local.read_bytes())
+    require(local_before in (old_sha,new_sha),'Local workbook differs from exact backup and promoted file; preserve it')
+    stable='https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/'
+    def fetch_exact(name,expected):
+        response=requests.get(stable+name,params={'audit':str(time.time_ns())},timeout=60)
+        response.raise_for_status()
+        require(sha(response.content)==expected,'Release digest changed: '+name)
+        return response.content
+    old_raw=fetch_exact('avito_feed.backup_6t30_20261123_786459916.xlsx',old_sha)
+    new_raw=fetch_exact('avito_feed.xlsx',new_sha)
+    def inspect(raw):
+        book=load_workbook(io.BytesIO(raw),read_only=True,data_only=False)
+        try:return {ws.title:list(ws.values) for ws in book}
+        finally:book.close()
+    old,new=inspect(old_raw),inspect(new_raw)
+    require(list(old)==list(new),'Workbook sheets changed')
+    matches=[(i,row) for i,row in enumerate(new[af.SHEET_ADS]) if i>=af.FIRST_DATA_ROW-1 and str(row[af.COL_ID-1] or '')==SKU]
+    require(len(matches)==1,'Expected exactly one 6t30 row')
+    i,row=matches[0]
+    require(str(row[af.COL_AVITO_ID-1] or '') in ('','8425207775'),'Conflicting explicit Avito ID')
+    require(all(len(old[k])==len(new[k]) for k in old),'Workbook row count changed')
+    diffs=[]
+    for k in old:
+        for n,(r1,r2) in enumerate(zip(old[k],new[k])):
+            require(len(r1)==len(r2),'Workbook columns changed')
+            for m,(v1,v2) in enumerate(zip(r1,r2)):
+                if type(v1)!=type(v2) or v1!=v2:diffs.append((k,n,m))
+    require(diffs==[(af.SHEET_ADS,i,af.COL_IMAGE_URLS-1)],'Unexpected workbook cell differences')
+    prior=[x.strip() for x in str(old[af.SHEET_ADS][i][af.COL_IMAGE_URLS-1]).splitlines() if x.strip()]
+    images=[x.strip() for x in str(row[af.COL_IMAGE_URLS-1]).splitlines() if x.strip()]
+    require(bool(prior) and images==[result['source_url']]+prior[1:],'Secondary gallery changed')
+    p.current_main()
+    require(sha(local.read_bytes())==local_before,'Local copy changed during verification')
+    paths=[OUT]
+    if local_before==old_sha:
+        local.write_bytes(new_raw)
+        paths.append(local)
+    require(sha(local.read_bytes())==new_sha,'Repository copy failed exact byte readback')
+    evidence['avito_stable']={'status':'exact_single_cell_change_verified','checked_utc':p.stamp(),'sha256':new_sha,'previous_sha256':old_sha,'local_before_sha256':local_before,'local_after_sha256':sha(local.read_bytes()),'row':i+1,'avito_id':'8425207775','feed_id':SKU,'mapping_upload_id':received['upload_id'],'mapping_basis':'persisted exact received snapshot, not current listing readback','secondary_preserved':True,'all_other_cells_unchanged':True,'repository_copy':'recovered from verified release' if local_before==old_sha else 'already exact','seller_writes':0,'release_writes':0,'public_verified':False}
+    result['channels']['avito']={'status':'stable_feed_verified_not_listing','new_feed_sha':new_sha,'non_image_cells_unchanged':True}
+    p.write_json(OUT,result)
+    p.checkpoint(paths,live=True)
+    print(json.dumps(evidence['avito_stable'],ensure_ascii=False))
+    return 0
+
+if __name__=='__main__':
+    sys.exit(recover_stable_only() if '--recover-stable-only' in sys.argv else resume_readonly() if '--resume-readonly' in sys.argv else main())
+

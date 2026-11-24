@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt pillow
-      - name: Recover exact v4 mapping and WB image geometry without seller or feed writes
+      - name: Repair exact Avito repository copy only; no seller or release writes
         env:
           GH_TOKEN: ${{ github.token }}
           OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
@@ -35,4 +35,4 @@ jobs:
           AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
         run: |
           python -m py_compile scripts/approved_6t30_gen1_cover_20261124.py
-          python -u scripts/approved_6t30_gen1_cover_20261124.py --resume-readonly
+          python -u scripts/approved_6t30_gen1_cover_20261124.py --recover-stable-only
