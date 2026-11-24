@@ -1,0 +1,56 @@
+name: LEOPARTS Webvisor read-only code check
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/webvisor-readonly-20261124.yml']
+permissions:
+  contents: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Inspect public counter initialization and counter settings
+        env:
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: |
+          python -u - <<'PY'
+          import json,re,sys,urllib.request
+          from pathlib import Path
+          from datetime import datetime,timezone
+          from concurrent.futures import ThreadPoolExecutor
+          sys.path.insert(0,'.github/scripts')
+          import leoparts_purchase_readiness as m
+          out={'checked_utc':datetime.now(timezone.utc).isoformat(),'writes':0,'pages':[]}
+          try:
+              c=m.metrika_get('/management/v1/counter/113839860')['counter']
+              opts=c.get('code_options') or {}
+              out['counter_settings']={k:v for k,v in opts.items() if k in ['webvisor','webvisor2','ecommerce','clickmap','track_links','accurate_track_bounce','track_hash']}
+              out['webvisor_keys']={k:v for k,v in c.items() if 'webvisor' in k.lower() and isinstance(v,(str,int,bool))}
+          except Exception as e:out['counter_error']=type(e).__name__+': '+str(e)[:100]
+          def probe(p):
+              try:
+                  req=urllib.request.Request('https://leoparts-akpp.ru'+p,headers={'User-Agent':'Mozilla/5.0','Cache-Control':'no-cache'})
+                  with urllib.request.urlopen(req,timeout=20) as r:
+                      h=r.read(3000000).decode('utf-8','replace');status=r.status
+                  scripts=re.findall(r'<script\b[^>]*>(.*?)</script>',h,re.I|re.S)
+                  found=[]
+                  for s in scripts:
+                      if '113839860' not in s:continue
+                      for q in re.finditer(r'(?:ym\s*\(\s*["\']?113839860["\']?\s*,\s*["\']init["\']|new\s+Ya\.Metrika2?\s*\()',s,re.I):
+                          fragment=s[q.start():q.start()+700]
+                          flags=re.findall(r'\b(webvisor|ssr|ecommerce|clickmap|trackLinks|accurateTrackBounce)\s*:\s*(true|false|["\']dataLayer["\'])',fragment,re.I)
+                          found.append({'flags':dict(flags),'webvisor_mentioned':'webvisor' in fragment.lower()})
+                  return {'path':p,'status':status,'counter_mentions':h.count('113839860'),'init_calls':found,'webvisor_literal_flags':re.findall(r'\bwebvisor\s*:\s*(true|false)',h,re.I),'old_counter_script':'mc.yandex.ru/metrika/watch.js' in h,'tag_js':'mc.yandex.ru/metrika/tag.js' in h}
+              except Exception as e:return {'path':p,'error':type(e).__name__}
+          with ThreadPoolExecutor(max_workers=3) as pool:out['pages']=list(pool.map(probe,['/','/catalog','/mehatronik-dq200']))
+          p=Path('data/direct_recovery_20261124/webvisor_readonly.json')
+          p.write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n')
+          print(json.dumps(out,ensure_ascii=False))
+          PY
+      - name: Save diagnostic only
+        run: bash .github/scripts/save_data.sh data/direct_recovery_20261124/webvisor_readonly.json
