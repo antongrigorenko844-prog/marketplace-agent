@@ -7,8 +7,7 @@
     "market": {
       "not_applicable": 9,
       "pending": 8,
-      "processing": 2,
-      "verified": 148
+      "verified": 150
     },
     "ozon": {
       "blocked": 5,
@@ -6087,22 +6086,24 @@
         "updated_utc": "2026-11-24T07:12:08.236356+00:00"
       },
       "market": {
-        "after_hash": "d95f3f1e05c6d8d20bfcd844d9867eddbff26fcf5100c6e127ae12c96c703783",
+        "after_hash": "27ff180f6313df0cc0cc01d1e34d8d849a72553724a3ca772aa7a5045c9c55d8",
         "attempts": 1,
         "before_hash": "d95f3f1e05c6d8d20bfcd844d9867eddbff26fcf5100c6e127ae12c96c703783",
         "card_id": "4858753907",
         "channel": "market",
-        "error": "Awaiting exact live readback",
+        "error": null,
         "evidence": "reports/content-pipeline/runs/45346054856-1/market/0",
-        "last_checked_utc": "2026-11-24T07:12:44.465024+00:00",
-        "next_attempt_utc": "2026-11-24T07:27:44.465191+00:00",
+        "last_checked_utc": "2026-11-24T07:13:59.190082+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "protected_hash": "e134f688617e5db6acf9566c243996ddced8cf801eb2db8f48de8959725db478",
+        "protection_verified": true,
         "read_failures": 0,
         "sku": "0cw0am",
-        "status": "processing",
+        "status": "verified",
         "target_hash": "27ff180f6313df0cc0cc01d1e34d8d849a72553724a3ca772aa7a5045c9c55d8",
-        "updated_utc": "2026-11-24T07:12:44.465197+00:00"
+        "updated_utc": "2026-11-24T07:13:59.190131+00:00",
+        "verification_basis": "postwrite_protected_readback"
       },
       "ozon": {
         "attempts": 0,
@@ -10098,22 +10099,24 @@
         "updated_utc": "2026-11-24T07:12:08.238953+00:00"
       },
       "market": {
-        "after_hash": "73325f5d06042a5cea40a79ab79ff69abcabf29874aaa5a8db4211fa4623283a",
+        "after_hash": "03082abe03fbc58f93cce45931dc364f0958feca7e534adb44149deee5e36e9f",
         "attempts": 1,
         "before_hash": "73325f5d06042a5cea40a79ab79ff69abcabf29874aaa5a8db4211fa4623283a",
         "card_id": "6245067593",
         "channel": "market",
-        "error": "Awaiting exact live readback",
+        "error": null,
         "evidence": "reports/content-pipeline/runs/45346054856-1/market/0",
-        "last_checked_utc": "2026-11-24T07:12:44.465175+00:00",
-        "next_attempt_utc": "2026-11-24T07:27:44.465202+00:00",
+        "last_checked_utc": "2026-11-24T07:13:59.190221+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "protected_hash": "c3a305642ae57ba5a23f06c3d369b51604179b567a1ea36505d04fe18772c314",
+        "protection_verified": true,
         "read_failures": 0,
         "sku": "nakladki-pedali",
-        "status": "processing",
+        "status": "verified",
         "target_hash": "03082abe03fbc58f93cce45931dc364f0958feca7e534adb44149deee5e36e9f",
-        "updated_utc": "2026-11-24T07:12:44.465204+00:00"
+        "updated_utc": "2026-11-24T07:13:59.190227+00:00",
+        "verification_basis": "postwrite_protected_readback"
       },
       "ozon": {
         "attempts": 0,
@@ -14298,6 +14301,6 @@
     }
   },
   "run_id": "45346054856-1",
-  "updated_utc": "2026-11-24T07:13:55.454994+00:00",
+  "updated_utc": "2026-11-24T07:13:59.190230+00:00",
   "version": 1
 }
