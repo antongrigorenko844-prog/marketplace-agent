@@ -280,11 +280,24 @@ def run_rich(cfg,state,rules,ids,errors,save,apply):
                 else:
                     e.update(status='processing',matching_reads=0,error='Awaiting exact rich readback')
                 continue
-            require(p.digest(attrs)==t['source_hash'],'Live rich changed after approved audit; do not overwrite')
+            if t.get('append_compatibility'):
+                require(sku=='0am325025H' and t.get('prior_verified_rich_hash') and p.digest(doc)==t['prior_verified_rich_hash'], 'Exact previously verified rich document changed; do not overwrite')
+            else:
+                require(p.digest(attrs)==t['source_hash'],'Live rich changed after approved audit; do not overwrite')
             target=rules[sku]['text']['ozon']['description']
             require(p.api.description_value('ozon',p.card_detail('ozon',snap,sku)[0])==target,
                     'Annotation differs from canonical text; complete ordinary queue first')
-            desired=plan_rich(sku,doc,target)
+            if t.get('append_compatibility'):
+                sentence=t['append_compatibility']
+                require(sku=='0am325025H' and target.count(sentence)==1,'Exact approved compatibility sentence required')
+                desired=copy.deepcopy(doc)
+                slots=[(body,i) for _,body in text_nodes(desired) for i,v in enumerate(body['content']) if v.startswith('Совместимость Семиступенчатая')]
+                require(len(slots)==1,'Unique existing compatibility text slot required')
+                body,i=slots[0]
+                body['content'][i]=body['content'][i].replace('Совместимость Семиступенчатая','Совместимость '+sentence+' Семиступенчатая',1)
+                require(structural(doc)==structural(desired),'Rich structure changed')
+            else:
+                desired=plan_rich(sku,doc,target)
             e.update(status='prepared',error=None,original_rich=doc,target_rich=desired,protected=fp,
                      original_hash=p.digest(doc),target_hash=p.digest(desired),canonical_description_hash=p.digest(target))
             if doc==desired:
