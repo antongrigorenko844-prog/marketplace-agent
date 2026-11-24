@@ -27,6 +27,10 @@ jobs:
           python - <<'PY'
           import json, os
           from pathlib import Path
+          queue=Path('data/content_pipeline_request.json')
+          if queue.exists() and json.loads(queue.read_text()).get('enabled'):
+              print('Persistent pipeline owns description requests; legacy request skipped')
+              raise SystemExit(0)
           request = json.loads(Path('data/description_sync_request.json').read_text())
           manifest = json.loads(Path('data/content_manifest.json').read_text())['products']
           mode = request.get('mode')

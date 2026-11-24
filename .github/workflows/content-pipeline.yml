@@ -1,0 +1,53 @@
+name: LEOPARTS autonomous description pipeline
+on:
+  push:
+    branches: [main]
+    paths:
+      - data/content_pipeline_request.json
+      - data/content_manifest.json
+  schedule:
+    - cron: '17,47 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  pipeline:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    concurrency:
+      group: marketplace-agent
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - id: enabled
+        run: echo "active=$(python3 -c 'import json; print(str(json.load(open("data/content_pipeline_request.json")).get("enabled",False)).lower())')" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-python@v5
+        if: steps.enabled.outputs.active == 'true'
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+        if: steps.enabled.outputs.active == 'true'
+      - run: python -m unittest discover -s tests -p 'test_content*.py' -v
+        if: steps.enabled.outputs.active == 'true'
+      - name: Resume exact description queue
+        if: steps.enabled.outputs.active == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: python content_pipeline.py --live
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: content-pipeline-${{ github.run_id }}-${{ github.run_attempt }}
+          path: reports/content-pipeline/
+          retention-days: 30
