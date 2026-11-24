@@ -277,7 +277,7 @@
       "key": "oem_clear:chip-0am927769d",
       "sku": "chip-0am927769d",
       "kind": "oem_clear",
-      "status": "submitted",
+      "status": "pending_readback",
       "protected": {
         "identity": {
           "offerId": "chip-0am927769d",
@@ -533,7 +533,15 @@
         ]
       },
       "moved": [],
-      "reviews_before": null
+      "reviews_before": null,
+      "readback": {
+        "protected_diff": [],
+        "parameters_match": false,
+        "category": 71380208,
+        "target": 71380208,
+        "card_status": "HAS_CARD_CAN_UPDATE",
+        "campaign_status": "DISABLED_AUTOMATICALLY"
+      }
     },
     {
       "key": "oem_clear:datchik-peredach-dq200",
@@ -4289,5 +4297,5 @@
     "NO_STOCKS": 16,
     "DISABLED_BY_PARTNER": 1
   },
-  "updated_at": "2026-11-24T20:11:32.832035+00:00"
+  "updated_at": "2026-11-24T20:11:37.106191+00:00"
 }
