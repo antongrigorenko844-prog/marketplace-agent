@@ -13,8 +13,7 @@
     },
     "ozon": {
       "not_applicable": 25,
-      "prepared": 1,
-      "verified": 139
+      "verified": 140
     },
     "tilda": {
       "blocked": 162,
@@ -305,10 +304,10 @@
   },
   "master_count": 159,
   "ozon_strict_coverage": {
-    "already_matching_no_write": 11,
+    "already_matching_no_write": 12,
     "exact_protection_verified": 2,
     "protected_fields_normalized": 126,
-    "text_verified": 139
+    "text_verified": 140
   },
   "paused_channels": {
     "market": "Protected-field drift: 0am325025Y"
@@ -7432,16 +7431,21 @@
         "updated_utc": "2026-11-24T22:47:40.141588+00:00"
       },
       "ozon": {
+        "after_hash": "2f0258955d07696a6aa92114b00100845d775ad6b32dd38c168201b8c3d3f662",
         "attempts": 0,
         "card_id": "6287285958",
         "channel": "ozon",
         "error": null,
+        "last_checked_utc": "2026-11-24T22:47:50.300766+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
+        "protection_verified": false,
         "read_failures": 0,
         "sku": "6t30",
-        "status": "prepared",
+        "status": "verified",
         "target_hash": "2f0258955d07696a6aa92114b00100845d775ad6b32dd38c168201b8c3d3f662",
-        "updated_utc": "2026-11-24T22:47:40.141570+00:00"
+        "updated_utc": "2026-11-24T22:47:50.300788+00:00",
+        "verification_basis": "already_matching_live_text_no_write"
       },
       "tilda": {
         "attempts": 0,
@@ -14357,6 +14361,6 @@
     }
   },
   "run_id": "45504097817-1",
-  "updated_utc": "2026-11-24T22:47:48.070185+00:00",
+  "updated_utc": "2026-11-24T22:47:50.300792+00:00",
   "version": 1
 }
