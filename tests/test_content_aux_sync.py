@@ -53,7 +53,7 @@ class AuxContentTests(unittest.TestCase):
         self.assertEqual(rows[0]['Title'],'title')
         self.assertNotIn('Price',rows[0])
         self.assertNotIn('Quantity',rows[0])
-        records['123']['text']='approved'
+        records['123']['text']='approved';records['123']['descr']='approved'
         with patch.object(aux.exchange_items,'site_prefix',return_value=''):
             result,rows=aux.tilda_rows(rules,['A'],records)
         self.assertTrue(result['A']['description_verified'])
@@ -96,3 +96,25 @@ class AuxContentTests(unittest.TestCase):
         self.assertNotEqual(aux.tilda_protected_state(a,'1'),aux.tilda_protected_state(b,'1'))
         b['2']['text']='other';b['1']['price']=1
         self.assertNotEqual(aux.tilda_protected_state(a,'1'),aux.tilda_protected_state(b,'1'))
+
+
+    def test_avito_v4_report_freshness_is_not_live_text_proof(self):
+        row={'feed_verified':True,'description_verified':False,'autoload_section':'success_skipped',
+             'autoload_status':'active','autoload_messages':[]}
+        policy={'avito':{'feed_sha256':'abc','await_report_started_after_utc':'2026-11-24T01:15:52Z'}}
+        self.assertFalse(aux.avito_import_evidence({'started_at':'2026-11-24T00:00:00Z'},{'A':row},'abc',policy))
+        self.assertFalse(row['autoload_processed'])
+        self.assertTrue(aux.avito_import_evidence({'started_at':'2026-11-24T02:00:00Z'},{'A':row},'abc',policy))
+        self.assertTrue(row['autoload_processed'])
+        self.assertFalse(row['description_verified'])
+        self.assertFalse(aux.avito_import_evidence({'started_at':'2026-11-24T02:00:00Z'},{'A':row},'other',policy))
+
+    def test_avito_v4_report_identity_checked_twice(self):
+        from unittest.mock import Mock
+        api=Mock()
+        last={'upload_id':42,'started_at':'2026-11-24T02:00:00Z','status':'success'}
+        api._request.side_effect=[{'upload_id':43},last,{'items':[{'ad_id':'A','avito_id':1}],'meta':{'pages':1}},last]
+        r=aux.read_avito_autoload(api)
+        self.assertEqual(r['version'],'v4')
+        self.assertEqual(r['items'][0]['ad_id'],'A')
+        api.get_autoload_report_items.assert_not_called()

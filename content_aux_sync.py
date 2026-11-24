@@ -51,6 +51,74 @@ def desired_avito(sku,description,price):
     return text
 
 
+def read_avito_autoload(av):
+    """Use Avito's current v4 reports. Never treat an old report as evidence
+    that a later feed has been imported. Keep legacy lookup as a fallback."""
+    evidence={}
+    try:
+        current=av._request('GET','/autoload/v4/uploads/current',retries=1)
+        evidence['current']={k:current.get(k) for k in ('upload_id','status','started_at','finished_at')}
+    except Exception as exc:
+        evidence['current_error']=type(exc).__name__
+    try:
+        path='/autoload/v4/uploads/last_successful'
+        last=av._request('GET',path,retries=1)
+        if not last.get('upload_id') or not last.get('started_at'):
+            raise ValueError('Missing v4 report identity')
+        evidence['last_successful']={k:last.get(k) for k in ('upload_id','status','started_at','finished_at')}
+        rows=[];seen=set()
+        for page in range(1,41):
+            data=av._request('GET',path+'/items',params={'page':page,'perPage':50},retries=1)
+            batch=data.get('items')
+            meta=data.get('meta') or {}
+            if not isinstance(batch,list):
+                raise ValueError('Unexpected v4 items response')
+            if any(not isinstance(r,dict) for r in batch):
+                raise ValueError('Unexpected v4 item')
+            for row in batch:
+                identity=(str(row.get('ad_id')),str(row.get('avito_id')))
+                if identity in seen: raise ValueError('Duplicate v4 report item')
+                seen.add(identity);rows.append(row)
+            pages=meta.get('pages')
+            if (isinstance(pages,int) and page>=pages) or len(batch)<50:
+                break
+        else: raise ValueError('v4 report pagination incomplete')
+        again=av._request('GET',path,retries=1)
+        if again.get('upload_id')!=last.get('upload_id'):
+            raise ValueError('v4 report changed while reading items')
+        if not rows or not any(r.get('ad_id') and r.get('avito_id') for r in rows):
+            raise ValueError('No usable v4 mapping')
+        return {'report':last,'items':rows,'version':'v4','evidence':evidence}
+    except Exception as exc:
+        evidence['v4_error']=type(exc).__name__+': '+str(exc)[:240]
+        old=av.get_autoload_report_items()
+        return {**old,'version':'v2_fallback','evidence':evidence}
+
+
+def avito_import_evidence(report, rows, feed_sha, policy):
+    """Distinguish matched source, processed report and exact live text.
+    A later report is evidence of processing, not proof of its file hash."""
+    record=policy.get('avito',{})
+    timestamp=record.get('await_report_started_after_utc')
+    def parse(value):
+        try: return datetime.datetime.fromisoformat(value.replace('Z','+00:00'))
+        except (TypeError,AttributeError,ValueError):return None
+    start=parse(report.get('started_at'))
+    threshold=parse(timestamp)
+    fresh=bool(start and threshold and start>threshold and
+               feed_sha==record.get('feed_sha256'))
+    for item in rows.values():
+        if item.get('error'):continue
+        accepted=(item.get('autoload_section') in ('success_published','success_updated','success_skipped')
+                  and item.get('autoload_status') in (None,'active')
+                  and not any(m.get('type')=='error' for m in item.get('autoload_messages',[])))
+        item['post_publication_report']=fresh
+        item['autoload_processed']=bool(fresh and accepted and item.get('feed_verified'))
+        item['status']='verified_live_text' if item.get('description_verified') else (
+            'processed_text_not_exposed' if item['autoload_processed'] else 'pending_fresh_report_or_text')
+    return fresh
+
+
 def avito_live_details(av, live, report, skus, rules, links):
     """Best-effort documented detail reads; absence of a description is not success."""
     by_id={str(x.get('id')):x for x in live}
@@ -153,12 +221,16 @@ def tilda_rows(rules,skus,records):
             prefix=exchange_items.site_prefix(sku)
             if prefix and normalized(prefix) not in normalized(text):
                 text=prefix+'<br/><br/>'+text
-            matched=normalized(row.get('text'))==normalized(text)
-            results[sku]={'uid':uid,'description_verified':matched,
+            short=tf._short_description(tf._clean_description(text))
+            full_match=normalized(row.get('text'))==normalized(text)
+            short_match=normalized(row.get('descr'))==normalized(short)
+            matched=full_match and short_match
+            results[sku]={'uid':uid,'description_verified':matched,'full_text_verified':full_match,
+                          'short_description_verified':short_match,
                           'status':'verified' if matched else 'csv_import_required'}
             if not matched:
                 patch.append({'Tilda UID':uid,'External ID':row['externalid'],
-                              'SKU':sku,'Title':row['title'],'Description':tf._short_description(tf._clean_description(text)),
+                              'SKU':sku,'Title':row['title'],'Description':short,
                               'Text':text})
         except Exception as exc:
             results[sku]={'error':str(exc)[:1000],'description_verified':False}
@@ -301,9 +373,11 @@ def run(mode,skus,channels):
             _,_,stable=get_avito_asset()
             if stable!=raw:
                 raise ValueError('Stable published Avito feed differs from repository; refuse update')
-            autoload=av.get_autoload_report_items()
+            autoload=read_avito_autoload(av)
             report_rows=autoload['items']
-            report['avito_autoload_report']={k:autoload['report'].get(k) for k in ('report_id','started_at','finished_at','status')}
+            report['avito_autoload_report']={k:autoload['report'].get(k) for k in ('report_id','upload_id','started_at','finished_at','status')}
+            report['avito_autoload_api']=autoload['version']
+            report['avito_autoload_evidence']=autoload['evidence']
             live=av.list_all_items(statuses=['active'])
             links=json.loads((ROOT/'data/avito_links.json').read_text(encoding='utf-8'))
             avito_live_details(av,live,report_rows,skus,rules,links)
@@ -311,6 +385,8 @@ def run(mode,skus,channels):
             report['products']['avito']=results
             report['avito_feed_sha_before']=digest(raw)
             report['avito_feed_sha_staged']=digest(staged)
+            policy=json.loads((ROOT/'data/content_description_policy.json').read_text())
+            report['avito_report_after_known_publication']=avito_import_evidence(autoload['report'],results,digest(raw),policy)
             write_report(report)
             if mode=='apply' and staged!=raw:
                 if os.getenv('GITHUB_REF')!='refs/heads/main':
