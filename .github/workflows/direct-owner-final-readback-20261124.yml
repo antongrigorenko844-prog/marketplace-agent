@@ -1,0 +1,55 @@
+name: LEOPARTS Direct final independent readback only
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-owner-final-readback-20261124.yml']
+permissions:
+  contents: write
+concurrency:
+  group: direct-owner-final-readback-20261124
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read final feed and campaign settings without mutations
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: |
+          python -u - <<'PY'
+          import sys,json,hashlib
+          from pathlib import Path
+          from datetime import datetime,timezone
+          sys.path.insert(0,'.github/scripts')
+          import direct_owner_approved_20261124 as a
+          from direct_owner_approved_feed_complete_20261124 import guard_ad
+          p=Path('data/direct_recovery_20261124')
+          old=json.loads((p/'owner_approved_changes.json').read_text())
+          final=json.loads((p/'owner_approved_feed_final.json').read_text())
+          j={'status':'partial','started_utc':datetime.now(timezone.utc).isoformat(),'external_mutations':0,'errors':[]}
+          out=p/'owner_final_readback.json'
+          try:
+              c,g,ads,k=a.get_campaign(),a.get_groups(),a.get_ads(),a.get_keys()
+              a.validate_campaign(c,g,ads,k)
+              f=a.get_feed()
+              url=f['UrlFeed']['Url']
+              expected=final['stages']['feed_source']['public_url']
+              source=a.FILE.read_bytes()
+              public=a.get_public(url) if url==expected else b''
+              orig={int(i):v for i,v in old['before']['ads'].items()}
+              j.update(feed=f,feed_url_matches=url==expected,feed_bytes_match=source==public,source_hash=hashlib.sha256(source).hexdigest(),source_hash_matches=hashlib.sha256(source).hexdigest()==final['stages']['feed_source']['source_sha256'],budget_rub=c['UnifiedCampaign']['BiddingStrategy']['Search']['HighestPosition']['WeeklySpendLimit']/1000000,keyword_count=len(k)-6,negative_count=len(a.items(c.get('NegativeKeywords'))),negatives_verified=set(a.ADD)<=set(a.items(c.get('NegativeKeywords'))) and all(not a.REMOVE.intersection(a.items(g[i].get('NegativeKeywords'))) for i in a.GROUPS),campaign_preserved=a.same_campaign(old['before']['campaign'],c),ad_fields_preserved=all(guard_ad(orig[i],ads[i]) for i in orig),ads={str(i):{'state':ads[i]['State'],'status':ads[i]['Status'],'processing':ads[i]['ShoppingAd'].get('FeedProcessingStatus'),'filter_ok':ads[i]['ShoppingAd']['FeedFilterConditions']==a.desired(i)} for i in a.ADGROUP})
+              j['status']='verified' if f.get('Status')=='DONE' and f.get('NumberOfItems')==12 and all(j[x] for x in ['feed_url_matches','feed_bytes_match','source_hash_matches','negatives_verified','campaign_preserved','ad_fields_preserved']) and all(x['state']=='ON' and x['processing']=='PROCESSED' and x['filter_ok'] for x in j['ads'].values()) else 'pending_or_mismatch'
+          except Exception as exc:j['errors'].append(a.d.scrub(exc))
+          j['finished_utc']=datetime.now(timezone.utc).isoformat()
+          out.write_text(json.dumps(j,ensure_ascii=False,indent=2)+'\n')
+          print(json.dumps(j,ensure_ascii=False),flush=True)
+          PY
+      - name: Persist read-only report
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_recovery_20261124/owner_final_readback.json
