@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "status": "planned",
+  "status": "processed_with_review",
   "started_utc": "2026-11-24T19:02:12.537962+00:00",
   "external_writes": 3,
   "registry": {
@@ -5547,7 +5547,10 @@
       },
       "master_title": "Оригинальный сальник штока мехатроника DSG7 DQ200 Volkswagen",
       "catalog_title": "Оригинальный сальник штока мехатроника DSG7 DQ200 Volkswagen",
-      "title_drift": false
+      "title_drift": false,
+      "category_result": {
+        "status": "held_after_protected_drift"
+      }
     },
     "122390AK-AF": {
       "sku": "122390AK-AF",
@@ -6778,7 +6781,10 @@
       },
       "master_title": "Прокладки + сальники + пыльники мехатроника DSG7 DQ200, оригинал Германия",
       "catalog_title": "Прокладки + сальники + пыльники мехатроника DSG7 DQ200, оригинал Германия",
-      "title_drift": false
+      "title_drift": false,
+      "category_result": {
+        "status": "held_after_protected_drift"
+      }
     },
     "Dq500": {
       "sku": "Dq500",
@@ -7774,7 +7780,10 @@
       },
       "master_title": "Масляный фильтр мехатроника DSG7 DQ200 0AM 0CW",
       "catalog_title": "Масляный фильтр мехатроника DSG7 DQ200 0AM 0CW",
-      "title_drift": false
+      "title_drift": false,
+      "category_result": {
+        "status": "held_after_protected_drift"
+      }
     },
     "filtr-dsg7-dq500": {
       "sku": "filtr-dsg7-dq500",
@@ -7861,7 +7870,10 @@
       },
       "master_title": "Масляный фильтр мехатроника DSG7 DQ500 0BH325183B",
       "catalog_title": "Масляный фильтр мехатроника DSG7 DQ500 0BH325183B",
-      "title_drift": false
+      "title_drift": false,
+      "category_result": {
+        "status": "held_after_protected_drift"
+      }
     },
     "filtr-setka-0b5-orig": {
       "sku": "filtr-setka-0b5-orig",
@@ -10558,7 +10570,10 @@
       },
       "master_title": "2 кольца-прокладки на 1 втулку мехатроника DSG7 DQ200",
       "catalog_title": "2 кольца-прокладки на 1 втулку мехатроника DSG7 DQ200",
-      "title_drift": false
+      "title_drift": false,
+      "category_result": {
+        "status": "held_after_protected_drift"
+      }
     },
     "prokladka-vtulki-niz-dq200": {
       "sku": "prokladka-vtulki-niz-dq200",
@@ -10662,7 +10677,10 @@
       },
       "master_title": "Черное кольцо-прокладка втулки мехатроника DSG7 DQ200",
       "catalog_title": "Черное кольцо-прокладка втулки мехатроника DSG7 DQ200",
-      "title_drift": false
+      "title_drift": false,
+      "category_result": {
+        "status": "held_after_protected_drift"
+      }
     },
     "prokladka-vtulki-verh-dq200": {
       "sku": "prokladka-vtulki-verh-dq200",
@@ -10766,7 +10784,10 @@
       },
       "master_title": "Зеленое кольцо-прокладка втулки мехатроника DSG7 DQ200",
       "catalog_title": "Зеленое кольцо-прокладка втулки мехатроника DSG7 DQ200",
-      "title_drift": false
+      "title_drift": false,
+      "category_result": {
+        "status": "held_after_protected_drift"
+      }
     },
     "pylniki-shtokov-orig": {
       "sku": "pylniki-shtokov-orig",
@@ -12781,7 +12802,10 @@
       },
       "master_title": "Толкатели вилок + сальники + усиленные алюминиевые сальники DSG7 DQ200, комплект 4+4+4",
       "catalog_title": "Толкатели вилок + сальники + усиленные алюминиевые сальники DSG7 DQ200, комплект 4+4+4",
-      "title_drift": false
+      "title_drift": false,
+      "category_result": {
+        "status": "held_after_protected_drift"
+      }
     },
     "tool-dq200-acc-restore": {
       "sku": "tool-dq200-acc-restore",
@@ -16572,7 +16596,7 @@
     }
   ],
   "errors": {},
-  "updated_utc": "2026-11-24T19:03:47.598994+00:00",
+  "updated_utc": "2026-11-24T19:03:49.161087+00:00",
   "counts": {
     "list_products": 147,
     "attributes": 147,
@@ -16754,5 +16778,32 @@
     "revenue": 113089,
     "visibility_present": 21
   },
-  "schema_count": 13
+  "schema_count": 13,
+  "summary": {
+    "registry": 156,
+    "initial_statuses": {
+      "review": 11,
+      "no_confirmed_change": 57,
+      "planned": 16,
+      "blocked_live_state": 62,
+      "blocked_identity": 9,
+      "excluded_test_or_archive": 1
+    },
+    "attribute_statuses": {
+      "not_applicable": 149,
+      "verified": 6,
+      "review": 1
+    },
+    "category_statuses": {
+      "blocked_legal_or_type": 6,
+      "no_confirmed_category_change": 122,
+      "blocked_preflight": 7,
+      "not_applicable": 10,
+      "review": 1,
+      "held_after_protected_drift": 8,
+      "blocked": 2
+    },
+    "attribute_fields_verified": 6
+  },
+  "finished_utc": "2026-11-24T19:03:49.161070+00:00"
 }
