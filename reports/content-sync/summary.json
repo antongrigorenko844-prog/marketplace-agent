@@ -1,41 +1,26 @@
 {
-  "mode": "verify",
+  "mode": "apply",
   "descriptions_only": true,
-  "revision": "8940ffb4d4a3cc35c7bd8c5d9b3d900a2176c110",
-  "checked_at": "2026-11-24T01:07:04.315999+00:00",
-  "content_write_calls": 0,
+  "revision": "edf4faa3ab98423ce190798b686497b405d387e3",
+  "checked_at": "2026-11-24T01:09:31.282188+00:00",
+  "content_write_calls": 3,
   "price_write_calls": 0,
   "stock_write_calls": 0,
   "products": {
-    "0am325025H": {
-      "ozon": {
-        "verified": true,
-        "changed": false,
-        "cover_preserved": true
-      },
-      "wb": {
-        "verified": true,
-        "changed": false,
-        "cover_preserved": true
-      },
-      "market": {
-        "verified": true,
-        "changed": false,
-        "cover_preserved": true
-      }
-    },
     "6t30": {
       "ozon": {
         "verified": false,
-        "error": "Description not verified"
+        "error": "Protected Ozon attributes changed: attributes"
       },
       "wb": {
-        "verified": false,
-        "error": "Description not verified"
+        "verified": true,
+        "changed": true,
+        "cover_preserved": true
       },
       "market": {
-        "verified": false,
-        "error": "Description not verified"
+        "verified": true,
+        "changed": true,
+        "cover_preserved": true
       }
     }
   },
