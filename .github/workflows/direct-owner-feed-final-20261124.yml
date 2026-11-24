@@ -1,0 +1,36 @@
+name: LEOPARTS Direct final verified feed cache refresh
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-owner-feed-final-20261124.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Verify public revision and refresh feed only
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: |
+          python -m py_compile .github/scripts/direct_owner_feed_final_20261124.py
+          python -u .github/scripts/direct_owner_feed_final_20261124.py
+      - name: Save final verification
+        if: always()
+        run: |
+          if test -f data/direct_recovery_20261124/owner_approved_feed_final.json; then
+            bash .github/scripts/save_data.sh data/direct_recovery_20261124/owner_approved_feed_final.json
+          fi
