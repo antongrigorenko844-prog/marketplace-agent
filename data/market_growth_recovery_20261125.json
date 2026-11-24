@@ -2011,7 +2011,7 @@
     {
       "sku": "prokladka-vtulki-verh-dq200",
       "kind": "type",
-      "status": "submitted",
+      "status": "pending_or_unchanged",
       "before": {
         "offerId": "prokladka-vtulki-verh-dq200",
         "name": "Зеленое кольцо-прокладка втулки мехатроника DSG7 DQ200",
@@ -2250,6 +2250,89 @@
       },
       "response": {
         "status": "OK"
+      },
+      "after": {
+        "offerId": "prokladka-vtulki-verh-dq200",
+        "name": "Зеленое кольцо-прокладка втулки мехатроника DSG7 DQ200",
+        "identity": {
+          "offerId": "prokladka-vtulki-verh-dq200",
+          "marketSku": 229050605262610432,
+          "groupId": "втулка_0am325025D_prokladka-vtulki-verh-dq200_prokladka-vtulki-verh-dq200"
+        },
+        "model": 6292466246,
+        "category": 71380208,
+        "categoryName": "Запчасти для трансмиссии автомобиля",
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED",
+        "errors": [],
+        "warnings": [
+          {
+            "message": "Не заполнено обязательное поле",
+            "comment": "Укажите код ТН ВЭД"
+          }
+        ],
+        "card_errors": [],
+        "card_warnings": [
+          {
+            "message": "Не заполнено обязательное поле",
+            "comment": "Укажите код ТН ВЭД"
+          }
+        ],
+        "ugc": null,
+        "rating": 70,
+        "price": {
+          "value": 950.0,
+          "currencyId": "RUR",
+          "updatedAt": "2026-11-24T01:40:43+03:00"
+        },
+        "campaigns": [
+          {
+            "campaignId": 141377963,
+            "status": "PUBLISHED"
+          }
+        ],
+        "sellingPrograms": null,
+        "parameterValues": [
+          {
+            "parameterId": 72668284,
+            "value": "Volkswagen Skoda Audi Seat"
+          },
+          {
+            "parameterId": 16617043,
+            "value": "Volkswagen Skoda Audi Seat"
+          },
+          {
+            "parameterId": 14805583,
+            "unitId": 6145205,
+            "value": "1"
+          },
+          {
+            "parameterId": 21194330,
+            "valueId": 25968470,
+            "value": "кольцо"
+          },
+          {
+            "parameterId": 7351754,
+            "value": "Комплектация: Верхнее зелёное уплотнительное кольцо втулки — 1 шт."
+          },
+          {
+            "parameterId": 60134505,
+            "value": "0am325025d"
+          },
+          {
+            "parameterId": 200,
+            "value": "втулка_0am325025D_prokladka-vtulki-verh-dq200_prokladka-vtulki-verh-dq200"
+          }
+        ]
+      },
+      "checks": {
+        "protected_diff": [],
+        "other_attributes_unchanged": true,
+        "group_preserved": true,
+        "category_verified": true,
+        "type_verified": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     }
   ],
@@ -2264,7 +2347,7 @@
     "0am325025": "Group not verified singleton",
     "separatornaya-plastiny-solenoid-dq200": "Group not verified singleton"
   },
-  "updated_utc": "2026-11-24T19:37:45.537305+00:00",
+  "updated_utc": "2026-11-24T19:38:52.560191+00:00",
   "initial_counts": {
     "PUBLISHED": 118,
     "DISABLED_AUTOMATICALLY": 23,
