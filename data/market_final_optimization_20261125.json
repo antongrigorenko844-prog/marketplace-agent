@@ -3,7 +3,7 @@
   "business_id": 194752944,
   "campaign_id": 141377963,
   "started_at": "2026-11-24T20:01:31.389215+00:00",
-  "external_write_requests": 2,
+  "external_write_requests": 3,
   "operations": [
     {
       "sku": "6t30-solenoids-gen2",
@@ -1720,7 +1720,7 @@
     {
       "sku": "vtulki-shtokov-2sht",
       "kind": "category",
-      "status": "ready",
+      "status": "submission_started",
       "target": 71380208,
       "before_category": 71426048,
       "before_protected": {
@@ -2002,7 +2002,7 @@
     {
       "sku": "01X301127C",
       "kind": "type",
-      "status": "ready",
+      "status": "submission_started",
       "target": 71380208,
       "before_category": 71380208,
       "before_protected": {
@@ -2232,7 +2232,7 @@
     {
       "sku": "0BH325183B",
       "kind": "type",
-      "status": "ready",
+      "status": "submission_started",
       "target": 71380208,
       "before_category": 71380208,
       "before_protected": {
@@ -2418,7 +2418,7 @@
     {
       "sku": "0am325066ae",
       "kind": "type",
-      "status": "ready",
+      "status": "submission_started",
       "target": 71380208,
       "before_category": 71380208,
       "before_protected": {
@@ -3086,11 +3086,13 @@
     }
   ],
   "submitted_skus": [
+    "01X301127C",
     "02E 305 045",
     "02E305051C",
     "02e305045",
     "0AM325120A",
     "0AM325219C",
+    "0BH325183B",
     "0am325025G",
     "0am325025H",
     "0am325025P",
@@ -3099,6 +3101,7 @@
     "0am325025r",
     "0am325025С",
     "0am325066AC",
+    "0am325066ae",
     "0am325091e",
     "0am325091e-set",
     "0am325091f",
@@ -3118,7 +3121,8 @@
     "podshipnik-vilki-6",
     "prokladka-vtulki-dq200",
     "prokladka-vtulki-niz-dq200",
-    "prokladka-vtulki-verh-dq200"
+    "prokladka-vtulki-verh-dq200",
+    "vtulki-shtokov-2sht"
   ],
   "category_review": {
     "0AM927769F": "Requires group/UGC or special semantic review",
@@ -3210,7 +3214,7 @@
   },
   "rows": {},
   "status": "preflight",
-  "updated_at": "2026-11-24T20:02:42.428482+00:00",
+  "updated_at": "2026-11-24T20:02:50.206710+00:00",
   "before_counts": {
     "PUBLISHED": 118,
     "DISABLED_AUTOMATICALLY": 23,
