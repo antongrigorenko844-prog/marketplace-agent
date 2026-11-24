@@ -3633,7 +3633,7 @@
     {
       "sku": "0am325091f",
       "kind": "type",
-      "status": "submitted",
+      "status": "pending_or_unchanged",
       "before": {
         "offerId": "0am325091f",
         "name": "Усиленный короткий шток мехатроника DSG7 DQ200 0AM325091F, 99 мм",
@@ -3895,6 +3895,78 @@
       },
       "response": {
         "status": "OK"
+      },
+      "after": {
+        "offerId": "0am325091f",
+        "name": "Усиленный короткий шток мехатроника DSG7 DQ200 0AM325091F, 99 мм",
+        "identity": {
+          "offerId": "0am325091f",
+          "marketSku": 4332445106,
+          "groupId": "шток_0am325091f_0am325091f_0am325091f_0am325091f_0am325091f_0am325091f_0am325091f_0am325091f"
+        },
+        "model": 1112562116,
+        "category": 71380208,
+        "categoryName": "Запчасти для трансмиссии автомобиля",
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED",
+        "errors": [],
+        "warnings": [],
+        "card_errors": [],
+        "card_warnings": [],
+        "ugc": {
+          "rating": 0.0
+        },
+        "rating": 64,
+        "price": {
+          "value": 1990.0,
+          "currencyId": "RUR",
+          "discountBase": 5000.0,
+          "updatedAt": "2026-11-24T01:40:36+03:00"
+        },
+        "campaigns": [
+          {
+            "campaignId": 141377963,
+            "status": "PUBLISHED"
+          }
+        ],
+        "sellingPrograms": null,
+        "parameterValues": [
+          {
+            "parameterId": 57046341,
+            "value": "Вид техники: Легковые автомобили"
+          },
+          {
+            "parameterId": 14805583,
+            "unitId": 6145205,
+            "value": "1"
+          },
+          {
+            "parameterId": 21194330,
+            "valueId": 36777991,
+            "value": "шток"
+          },
+          {
+            "parameterId": 7351754,
+            "value": "Комплектация: Усиленный шток — 1 шт."
+          },
+          {
+            "parameterId": 60134505,
+            "value": "0am325091f"
+          },
+          {
+            "parameterId": 200,
+            "value": "шток_0am325091f_0am325091f_0am325091f_0am325091f_0am325091f_0am325091f_0am325091f_0am325091f"
+          }
+        ]
+      },
+      "checks": {
+        "protected_diff": [],
+        "other_attributes_unchanged": true,
+        "group_preserved": true,
+        "category_verified": true,
+        "type_verified": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     }
   ],
@@ -3910,7 +3982,7 @@
     "separatornaya-plastiny-solenoid-dq200": "Group not verified singleton",
     "0am325025e": "Exact master/title not confirmed"
   },
-  "updated_utc": "2026-11-24T19:43:59.435198+00:00",
+  "updated_utc": "2026-11-24T19:45:03.511707+00:00",
   "initial_counts": {
     "PUBLISHED": 118,
     "DISABLED_AUTOMATICALLY": 23,
