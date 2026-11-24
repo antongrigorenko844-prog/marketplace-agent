@@ -1,0 +1,37 @@
+name: LEOPARTS exact approved 6T30 Gen1 cover 24 Nov
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'assets/product-intake-v2/bridge/6t30-gen1-cover-20261124.png'
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt pillow
+      - name: Verify approved source and exact SKU before publishing
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: |
+          python -m py_compile scripts/approved_6t30_gen1_cover_20261124.py
+          python -u scripts/approved_6t30_gen1_cover_20261124.py
