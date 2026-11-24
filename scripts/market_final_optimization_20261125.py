@@ -199,8 +199,9 @@ def run():
  # Refuse to repeat previously submitted operations, even where no final readback.
  prior={x["sku"] for x in prev.get("operations",[]) if x.get("status")!="already_correct"}
  old=json.loads(OUT.read_text()) if OUT.exists() else {}
+ prior|=set(old.get("submitted_skus",[]))
  prior|={x["sku"] for x in old.get("operations",[]) if x.get("status") not in ("ready","preflight_only")}
- d={"platform":"Yandex Market","business_id":biz,"campaign_id":int(cam),"started_at":now(),"external_write_requests":0,"operations":[],"category_review":{},"type_review":{},"rows":{},"status":"preflight"}
+ d={"platform":"Yandex Market","business_id":biz,"campaign_id":int(cam),"started_at":now(),"external_write_requests":0,"operations":[],"submitted_skus":sorted(prior),"category_review":{},"type_review":{},"rows":{},"status":"preflight"}
  save(d)
  m,c,st=state(biz,cam,[])
  # Fail closed on incomplete active+archived membership.
@@ -248,6 +249,7 @@ def run():
     op["status"]="submission_started";ready.append(op)
    except Exception as e:op["status"]="preflight_only";op["error"]=str(e)
   if not ready:continue
+  d["submitted_skus"]=sorted(set(d["submitted_skus"])|{x["sku"] for x in ready})
   d["external_write_requests"]+=1;save(d,True)
   try:
    response=s.post(f"/v2/businesses/{biz}/offer-cards/update",{"offersContent":[x["payload"] for x in ready]},retries=1)
