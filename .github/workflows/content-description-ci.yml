@@ -13,6 +13,10 @@ on:
       - 'content_aux_sync.py'
       - 'content_ozon_diagnosis.py'
       - 'content_master_sync.py'
+      - 'content_request_scope.py'
+      - 'tests/test_content_request_scope.py'
+      - '.github/workflows/auto-update-cards.yml'
+      - '.github/workflows/content-sync.yml'
       - 'tests/test_content_master_sync.py'
       - '.github/workflows/description-sync-request.yml'
       - '.github/workflows/content-description-ci.yml'
@@ -30,6 +34,6 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
-      - run: python -m py_compile content_sync.py content_transport.py content_manifest.py content_updates.py build_master_control.py sync_master_control.py content_aux_sync.py content_ozon_diagnosis.py content_master_sync.py
+      - run: python -m py_compile content_sync.py content_transport.py content_manifest.py content_updates.py build_master_control.py sync_master_control.py content_aux_sync.py content_ozon_diagnosis.py content_master_sync.py content_request_scope.py
       - run: python -m unittest discover -s tests -p 'test_content*.py' -v
       - run: git diff --exit-code -- data/ photos/ photos_avito/

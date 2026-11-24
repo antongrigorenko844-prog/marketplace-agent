@@ -118,3 +118,18 @@ class AuxContentTests(unittest.TestCase):
         self.assertEqual(r['version'],'v4')
         self.assertEqual(r['items'][0]['ad_id'],'A')
         api.get_autoload_report_items.assert_not_called()
+
+
+    def test_receipt_only_applies_to_exact_current_feed(self):
+        policy={'avito':{'feed_sha256':'old'}}
+        receipt={'feed_sha256':'new','await_report_started_after_utc':'2026-11-24T02:00:00Z'}
+        self.assertEqual(aux.current_avito_policy(policy,receipt,'new')['avito'],receipt)
+        self.assertEqual(aux.current_avito_policy(policy,receipt,'old'),policy)
+        with self.assertRaises(ValueError):
+            aux.avito_publication_receipt({'status':'unknown','sha256':'new'},{})
+        r=aux.avito_publication_receipt({'status':'published_sha_verified','sha256':'new'},
+             {'A':{'needs_feed_change':True,'avito_id':'123','feed_id':'A'},
+              'B':{'needs_feed_change':False}})
+        self.assertEqual(r['feed_sha256'],'new')
+        self.assertEqual(set(r['items']),{'A'})
+        self.assertFalse(r['live_text_verified'])

@@ -19,6 +19,22 @@ on:
       - content_manifest.py
       - content_transport.py
 jobs:
+  route:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    outputs:
+      legacy: ${{ steps.route.outputs.legacy }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: route
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          printf 'legacy=%s\n' "$(python3 content_request_scope.py "$BEFORE" "$GITHUB_SHA")" >> "$GITHUB_OUTPUT"
   content:
+    needs: route
+    if: needs.route.outputs.legacy == 'true'
     uses: ./.github/workflows/content-sync.yml
     secrets: inherit
