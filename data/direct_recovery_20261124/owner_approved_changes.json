@@ -3,7 +3,64 @@
   "campaign": 716316525,
   "feed": 4061297,
   "started_utc": "2026-11-24T11:15:57.204769+00:00",
-  "stages": {},
+  "stages": {
+    "category_filters": {
+      "status": "intent_persisted",
+      "request": {
+        "Ads": [
+          {
+            "Id": 1927186476439690942,
+            "ShoppingAd": {
+              "FeedFilterConditions": {
+                "Items": [
+                  {
+                    "Operand": "categoryId",
+                    "Operator": "EQUALS_ANY",
+                    "Arguments": [
+                      "1"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "Id": 1927189770678081700,
+            "ShoppingAd": {
+              "FeedFilterConditions": {
+                "Items": [
+                  {
+                    "Operand": "categoryId",
+                    "Operator": "EQUALS_ANY",
+                    "Arguments": [
+                      "2"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "Id": 1927190920657966611,
+            "ShoppingAd": {
+              "FeedFilterConditions": {
+                "Items": [
+                  {
+                    "Operand": "categoryId",
+                    "Operator": "EQUALS_ANY",
+                    "Arguments": [
+                      "3"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "at_utc": "2026-11-24T11:16:05.947073+00:00"
+    }
+  },
   "errors": [],
   "site_price_writes": 0,
   "site_stock_writes": 0,
