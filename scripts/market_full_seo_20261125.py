@@ -263,8 +263,12 @@ def apply():
  def groupkey(v):
   import unicodedata
   return unicodedata.normalize("NFKC",str(v or "")).strip().casefold()
- current_ids=sorted({x["offer"]["offerId"] for x in get_mappings(biz)+get_mappings(biz,True)})
- current_cards=batched_read(biz,"offer-cards",current_ids)
+ current_ids=[];current_cards=[]
+ try:
+  current_ids=sorted({x["offer"]["offerId"] for x in get_mappings(biz)+get_mappings(biz,True)})
+  current_cards=batched_read(biz,"offer-cards",current_ids)
+ except Exception as e:d["errors"]["group_recheck"]=str(e)[:300]
+ group_complete=bool(current_ids) and {c.get("offerId") for c in current_cards}==set(current_ids)
  # If an archived card has no group information, do not guess.
  membership=collections.defaultdict(list)
  for c in current_cards:
@@ -275,7 +279,7 @@ def apply():
   if not row:continue
   p=row.get("category_plan") or {}
   key=groupkey(row.get("identity",{}).get("groupId"))
-  if p.get("status")=="blocked_group" and not any(p.get(k) for k in ("missing_required","removed_nonempty","invalid_preserved")) and key and membership[key]==[s]:
+  if group_complete and p.get("status")=="blocked_group" and not any(p.get(k) for k in ("missing_required","removed_nonempty","invalid_preserved")) and key and membership[key]==[s]:
    p["status"]="candidate";p["singleton_group_verified"]=True;row["status"]="planned"
    d["group_recheck"]["singleton_candidates"].append(s)
  persist(d)
