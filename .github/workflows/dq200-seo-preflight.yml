@@ -1,0 +1,30 @@
+name: DQ200 SEO publication package and public link preflight
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/dq200-seo-preflight.yml
+permissions:
+  contents: write
+concurrency:
+  group: dq200-seo-preflight
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q requests beautifulsoup4 markdown
+      - name: Build article blocks and read public sitemap and links
+        run: python -u scripts/dq200_seo_preflight.py
+      - name: Save only generated SEO publication package
+        if: always()
+        run: |
+          if test -f seo/dq200-20261124/site_preflight.json; then
+            bash .github/scripts/save_data.sh seo/dq200-20261124/site_preflight.json seo/dq200-20261124/html
+          fi
