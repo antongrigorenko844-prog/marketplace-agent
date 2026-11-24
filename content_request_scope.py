@@ -6,6 +6,7 @@ import sys
 
 MANIFEST='data/content_manifest.json'
 REQUEST='data/description_sync_request.json'
+PIPELINE='data/content_pipeline_request.json'
 LEGACY_PATHS={'data/master_control.xlsx','data/content_updates.json',
               'data/content_sync_request.json','data/market_video_sources.json',
               'data/package_dimensions.json','content_sync.py','content_manifest.py','content_transport.py'}
@@ -43,12 +44,27 @@ def skip_legacy(changed,previous,current,request):
     modified={key[0] for key in before.keys()|after.keys() if before.get(key)!=after.get(key)}
     return bool(modified and modified<=set(skus))
 
+def queue_covers(changed, previous, current, config):
+    paths=set(changed)
+    if not config.get('enabled') or config.get('version')!=1 or MANIFEST not in paths:return False
+    if paths&LEGACY_PATHS or any(p.startswith(('photos/','photos_avito/','data/ozon_rich/')) for p in paths):return False
+    if non_description_projection(previous)!=non_description_projection(current):return False
+    old,new=description_map(previous),description_map(current)
+    return bool(set(old)<=set(new) and old!=new)
+
 def from_git(before,after):
     changed=subprocess.check_output(['git','diff','--name-only',before,after],text=True).splitlines()
     def get(rev,path):
         return json.loads(subprocess.check_output(['git','show',rev+':'+path],text=True))
-    if not {MANIFEST,REQUEST}<=set(changed):return False
-    return skip_legacy(changed,get(before,MANIFEST),get(after,MANIFEST),get(after,REQUEST))
+    if MANIFEST not in changed:return False
+    try:
+        config=get(after,PIPELINE)
+    except (subprocess.CalledProcessError,ValueError):
+        config={}
+    previous,current=get(before,MANIFEST),get(after,MANIFEST)
+    if queue_covers(changed,previous,current,config):return True
+    if REQUEST not in changed:return False
+    return skip_legacy(changed,previous,current,get(after,REQUEST))
 
 if __name__=='__main__':
     try:

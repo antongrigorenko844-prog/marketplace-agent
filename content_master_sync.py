@@ -43,8 +43,10 @@ def read_rows(raw,sheet,desc_col):
     book=load_workbook(BytesIO(raw),read_only=True,data_only=False)
     try:
         ws=book[sheet] if sheet else book.active
-        if str(ws.cell(1,desc_col).value or '').strip()!='Описание':
+        header=ws.cell(1,desc_col)
+        if str(header.value or '').strip()!='Описание':
             raise ValueError('Unexpected description column')
+        column_letter=header.column_letter
         rows={};duplicates=set()
         for row in ws.iter_rows(min_row=2):
             key=row[0].value
@@ -53,7 +55,7 @@ def read_rows(raw,sheet,desc_col):
             if sku in rows:duplicates.add(sku)
             if len(row)<desc_col:raise ValueError('Description column missing')
             cell=row[desc_col-1]
-            rows[sku]={'coordinate':f'{ws.cell(1,desc_col).column_letter}{row[0].row}',
+            rows[sku]={'coordinate':f'{column_letter}{row[0].row}',
                        'description':cell.value,'type':cell.data_type,
                        'ozon_status':row[1].value,'wb_status':row[2].value}
         return ws.title,rows,duplicates

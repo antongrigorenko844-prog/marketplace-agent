@@ -23,12 +23,18 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
+      - id: enabled
+        run: echo "active=$(python3 -c 'import json; print(str(json.load(open("data/content_pipeline_request.json")).get("enabled",False)).lower())')" >> "$GITHUB_OUTPUT"
       - uses: actions/setup-python@v5
+        if: steps.enabled.outputs.active == 'true'
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
+        if: steps.enabled.outputs.active == 'true'
       - run: python -m unittest discover -s tests -p 'test_content*.py' -v
+        if: steps.enabled.outputs.active == 'true'
       - name: Resume exact description queue
+        if: steps.enabled.outputs.active == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}

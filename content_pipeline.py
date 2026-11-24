@@ -119,6 +119,7 @@ def inventory():
     def ozon():
         import ozon_client as oz
         rows = oz.list_products()
+        if not rows:raise ValueError('Empty Ozon census; cannot establish absence')
         out = {}
         for r in rows:
             if not r.get('archived',False) and not r.get('is_archived',False):
@@ -127,12 +128,14 @@ def inventory():
     def wb():
         import wb_client
         cards = wb_client.list_cards()
+        if not cards:raise ValueError('Empty WB census; cannot establish absence')
         out = {}
         for r in cards: add(out,r.get('vendorCode'),r.get('nmID'),r.get('title'))
         return out, {'cards':cards}
     def market():
         import yandex_market_client as ym
         rows = ym.get_all_offers(archived=False); biz=ym.get_business_id()
+        if not rows:raise ValueError('Empty Market census; cannot establish absence')
         out = {}
         for r in rows:
             if not r.get('archived'): add(out,r.get('sku'),r.get('market_sku') or r.get('sku'),r.get('name'))
@@ -257,19 +260,29 @@ def observe(entry,ch,snapshot,sku,target):
         raise RuntimeError('Protected fields changed since submitted baseline')
     entry.update(after_hash=digest(actual),last_checked_utc=stamp(),read_failures=0)
     if digest(actual)==target_hash:
-        row_status(entry,'verified',None,next_attempt_utc=None,protection_verified=True)
+        row_status(entry,'verified',None,next_attempt_utc=None,protection_verified=bool(entry.get('protected_hash')),verification_basis='postwrite_protected_readback' if entry.get('protected_hash') else 'already_matching_live_text_no_write')
     return actual,fingerprint
 
 def confirmed_rejection(audit):
     codes=[r.get('http_status') for r in audit]
     return bool(codes and all(c in (400,422,429) for c in codes))
 
+def read_api(ch,skus,context):
+    if ch=='wb':return api.read_description_channel(ch,skus,context or {})
+    merged={}
+    for offset in range(0,len(skus),50):
+        part=api.read_description_channel(ch,skus[offset:offset+50],context or {})
+        for key,value in part.items():
+            if isinstance(value,list):merged.setdefault(key,[]).extend(value)
+            else:merged[key]=value
+    return merged
+
 def worker_api(ch,entries,rules,context,paused,master,save,report_dir,apply):
     if not entries:return
     # Read all due exact targets once. For WB this uses the existing paginated list.
     try:
         with guard([],allow_write=False,descriptions_only=True):
-            snap=api.read_description_channel(ch,list(entries),context or {})
+            snap=read_api(ch,list(entries),context)
     except Exception as exc:
         for e in entries.values():read_failure(e,'Read failed: '+str(exc)[:300])
         save();return
@@ -284,7 +297,7 @@ def worker_api(ch,entries,rules,context,paused,master,save,report_dir,apply):
                 defer(e,'processing' if n<MAX_POLLS else 'blocked','Submitted write not yet verified; no blind resend')
                 continue
             if ch in paused or not apply:
-                row_status(e,'blocked' if ch in paused else 'validated',paused.get(ch),before_hash=digest(actual))
+                row_status(e,'blocked' if ch in paused and apply else 'validated',paused.get(ch),before_hash=digest(actual))
                 continue
             if not master_ok(master,sku,ch):
                 row_status(e,'blocked','Canonical workbook description not verified for this SKU/channel')
@@ -330,19 +343,22 @@ def worker_api(ch,entries,rules,context,paused,master,save,report_dir,apply):
                     rule={'text':{ch:rules[sku]['text'][ch]},'ids':{'wb':e['card_id']} if ch=='wb' else {}}
                     payload=api.description_payload(ch,sku,rule,fresh)
                     if payload is not None:safe.append((sku,payload))
-                except Exception as exc:row_status(e,'blocked','Prewrite drift: '+str(exc)[:300])
+                except Exception as exc:
+                    if isinstance(exc,RuntimeError) and 'Protected fields changed' in str(exc):paused[ch]='Protected-field drift: '+sku
+                    row_status(e,'blocked','Prewrite drift: '+str(exc)[:300])
         except Exception as exc:
             for sku in skus:read_failure(entries[sku],'Prewrite read: '+str(exc)[:300])
         if not safe:save();continue
         for sku,_ in safe:
             e=entries[sku];row_status(e,'submitted',None,attempts=e['attempts']+1,polls=0,next_attempt_utc=None,evidence=str((report_dir/ch/str(seq)).relative_to(ROOT)))
-        # The checkpoint itself is a lease on the current main; do not send if it fails.
-        save();current_main()
         before=fresh;failure=None;after=None
         evidence={'before':before,'writes':audit,'products':{},'revision':git('rev-parse','HEAD')}
         old_out=api.OUT;api.OUT=report_dir/ch/str(seq)
         try:
             api.encrypt_report(evidence)
+            # Persist the encrypted original baseline together with the intent.
+            save([api.OUT/'evidence.enc']);current_main()
+            if ch in paused:break
             try:
                 with guard(audit,allow_write=True,descriptions_only=True):
                     api.send_description_batch(ch,[p for _,p in safe],context or {})
@@ -398,20 +414,30 @@ def worker_tilda(entries,rules,records,report_dir,save):
 
 def worker_avito(entries,rules,master,report_dir,save,apply):
     if not entries:return
-    # At most one feed publication per run. All other operations are readback.
-    for offset in range(0,len(entries),50):
-        group=dict(list(entries.items())[offset:offset+50])
-        eligible=[s for s,e in group.items() if apply and offset==0 and e['status'] not in ('submitted','processing') and master_ok(master,s,'avito') and e['attempts']<MAX_ATTEMPTS]
-        mode='apply' if eligible and len(eligible)==len(group) else 'verify'
+    # Independent verification and publication groups: waiting listings never
+    # prevent fresh eligible listings from being included in a feed.
+    eligible=[];verify=[]
+    for sku,e in entries.items():
+        if apply and e['status'] not in ('submitted','processing') and master_ok(master,sku,'avito') and e['attempts']<MAX_ATTEMPTS:
+            eligible.append(sku)
+        else:verify.append(sku)
+    groups=[('verify',verify[i:i+50]) for i in range(0,len(verify),50)]
+    if eligible:groups.append(('apply',eligible[:50]))
+    for offset,(mode,skus) in enumerate(groups):
+        group={s:entries[s] for s in skus}
         if mode=='apply':
-            for sku in eligible:
-                e=group[sku];row_status(e,'submitted',None,attempts=e['attempts']+1)
+            for sku,e in group.items():row_status(e,'submitted',None,attempts=e['attempts']+1)
             save();current_main()
-        old=aux.OUT;aux.OUT=report_dir/'avito'/str(offset)
+        old_out,old_load=aux.OUT,aux.load
+        aux.OUT=report_dir/'avito'/str(offset)
+        bound=copy.deepcopy(rules)
+        for sku,e in group.items():
+            bound[sku].setdefault('ids',{})['avito']=e['card_id']
+        aux.load=lambda:bound
         try:
-            aux.run(mode,list(group),['avito'])
+            aux.run(mode,skus,['avito'])
             report=read_json(aux.OUT/'summary.json',{})
-        finally:aux.OUT=old
+        finally:aux.OUT,aux.load=old_out,old_load
         for sku,e in group.items():
             r=report.get('products',{}).get('avito',{}).get(sku,{})
             if r.get('avito_id') and str(r['avito_id'])!=e['card_id']:
@@ -422,11 +448,10 @@ def worker_avito(entries,rules,master,report_dir,save,apply):
                 row_status(e,'blocked',r['error'])
             elif report.get('avito_error'):
                 read_failure(e,report['avito_error'])
-            elif r.get('feed_verified'):
-                if r.get('live_description_available'):
-                    defer(e,'processing','Feed matched; live text not yet matched')
-                else:
-                    defer(e,'processing','Feed matched; public description not exposed; wait for fresh report')
+            elif r.get('feed_verified') or e['status'] in ('submitted','processing'):
+                n=e.get('polls',0)+1;e['polls']=n
+                defer(e,'processing' if n<MAX_POLLS else 'blocked',
+                      'Feed matched; live description not verified' if r.get('feed_verified') else 'Uncertain feed write; verify before any resend',30)
             elif not master_ok(master,sku,'avito') and apply:
                 row_status(e,'blocked','Canonical workbook description not verified')
             else:
@@ -438,6 +463,7 @@ def run(live=False):
     cfg=read_json(CONFIG,{})
     if not cfg.get('enabled'):
         print('Pipeline disabled; no seller access');return 0
+    if cfg.get('version')!=1:raise ValueError('Unknown request version')
     if cfg.get('mode') not in ('verify','apply'):raise ValueError('Explicit verify/apply mode required')
     apply=cfg['mode']=='apply'
     if apply and (not live or os.getenv('GITHUB_REF')!='refs/heads/main'):
@@ -479,7 +505,7 @@ def run(live=False):
                     row_status(e,'pending','No reviewed target description')
                 elif sku not in master_rows or sku in duplicates:
                     row_status(e,'blocked','Missing or ambiguous master SKU; no automatic creation')
-                elif e['status']=='not_applicable':
+                elif e['status']=='not_applicable' or (e['status']=='blocked' and e.get('error') in ('No exact active mapping in observed inventory; absence not confirmed','Missing or ambiguous master SKU; no automatic creation','Canonical workbook description not verified for this SKU/channel','Canonical workbook description not verified')):
                     row_status(e,'prepared',None)
             state['rows'][sku][ch]=e
     def save(more=()):

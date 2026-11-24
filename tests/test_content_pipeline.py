@@ -47,3 +47,13 @@ class PipelineTests(unittest.TestCase):
                 'data/wb_new_products.xlsx':{'rows':{'A':{'status':'not_present'}}}}
         self.assertFalse(p.master_ok(report,'A','wb'))
         self.assertTrue(p.master_ok(report,'A','market'))
+
+    def test_queue_routes_pure_description_only(self):
+        from content_request_scope import queue_covers, MANIFEST
+        old={'version':1,'products':{'A':{'text':{'wb':{'description':'old'}}}}}
+        new={'version':1,'products':{'A':{'text':{'wb':{'description':'new'}}}}}
+        cfg={'version':1,'enabled':True}
+        self.assertTrue(queue_covers([MANIFEST],old,new,cfg))
+        self.assertFalse(queue_covers([MANIFEST],old,new,{'enabled':False}))
+        new['products']['A']['text']['wb']['title']='changed title'
+        self.assertFalse(queue_covers([MANIFEST],old,new,cfg))
