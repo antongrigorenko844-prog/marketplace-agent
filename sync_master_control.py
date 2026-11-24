@@ -131,6 +131,7 @@ def _read_master():
             "quantity": row[COL_QUANTITY - 1].value,
             "price_wb": row[COL_PRICE_WB - 1].value,
             "description": description_for(offer_id, row[COL_DESCRIPTION - 1].value),
+            "_master_description": row[COL_DESCRIPTION - 1].value,
             "hashtags": row[COL_HASHTAGS - 1].value,
             "notes": row[COL_NOTES - 1].value,
             "tnved": row[COL_TNVED - 1].value if len(row) >= COL_TNVED else None,
@@ -478,6 +479,13 @@ def run(*, zero_stock_ids=()) -> int:
     wb_draft_updates = _remap_wb_keys(
         {oid: r for oid, r in rows.items() if r["status_wb"] == STATUS_DRAFT}, real_wb_vendor_codes
     )
+
+    # Resolve WB content only after exact vendorCode alias mapping. Do not copy
+    # the Ozon canonical description into a WB-specific override.
+    for updates in (wb_existing_updates, wb_draft_updates):
+        for vendor_code, row in list(updates.items()):
+            updates[vendor_code] = {**row, "description": description_for(
+                vendor_code, row.get("_master_description", row.get("description")), platform="wb")}
 
     changed_existing = _sync_xlsx(CATALOG_PATH, catalog_editor, existing_updates, _OZON_FIELD_MAP)
     changed_draft = _sync_xlsx(NEW_PATH, ozon_new_products, draft_updates, _OZON_FIELD_MAP)

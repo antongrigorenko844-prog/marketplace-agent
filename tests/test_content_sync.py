@@ -33,6 +33,20 @@ class ContentBoundaryTests(unittest.TestCase):
             self.assertEqual(cu.title_for('PART','stale','avito'),'Reviewed')
             self.assertEqual(cu.title_for('OTHER','untouched','avito'),'untouched')
 
+    def test_description_only_projection_excludes_media_titles_and_attributes(self):
+        import content_sync as cs
+        rules = {'A': {'ids': {'wb': 42}, 'second_slide': {'url': 'https://example.org/a'},
+                       'market_parameters': {'category': 1}, 'wb_characteristics': [{'id': 378533}],
+                       'text': {'wb': {'title': 'old', 'description': 'approved'},
+                                'ozon': {'composition': 'other'}, 'avito': {'description': 'feed'}}}}
+        original = copy.deepcopy(rules)
+        self.assertEqual(cs.description_rules(rules, ['A']),
+                         {'A': {'ids': {'wb': 42}, 'text': {'wb': {'description': 'approved'}}}})
+        self.assertEqual(rules, original)
+        for scope in (None, [], ['A', 'A'], ['a']):
+            with self.assertRaises(ValueError):
+                cs.description_rules(rules, scope)
+
     def test_ozon_composition_override_is_platform_and_sku_specific(self):
         import content_updates as cu
         rules = {'PART': {'text': {'ozon': {'composition': 'Reviewed Ozon contents'}}}}

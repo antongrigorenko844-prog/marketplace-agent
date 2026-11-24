@@ -50,6 +50,7 @@ from openpyxl.utils import get_column_letter
 from PIL import Image as PILImage
 
 import catalog_editor
+from content_updates import description_for
 
 logger = logging.getLogger("marketplace-agent.build_master_control")
 
@@ -607,6 +608,10 @@ def run() -> int:
 
         name, name_wb, price, old_price = _keep(name, 6), _keep(name_wb, 7), _keep(price, 8), _keep(old_price, 9)
         quantity, price_wb, desc, hashtags = _keep(quantity, 10), _keep(price_wb, 11), _keep(desc, 12), _keep(hashtags, 13)
+        if src:
+            desc = description_for(oid, desc, platform="ozon")
+        else:
+            desc = description_for(wb_src.get("_wb_vendor_code") or oid, desc, platform="wb")
 
         ws.cell(row=row_i, column=1, value=oid)
         ws.cell(row=row_i, column=2, value=status_ozon)

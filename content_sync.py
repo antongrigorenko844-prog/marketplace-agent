@@ -250,17 +250,38 @@ def encrypt_report(result):
     (OUT/'evidence.enc').write_text(json.dumps({k:base64.b64encode(v).decode() for k,v in {'key':wrapped,'nonce':nonce,'data':enc}.items()}))
 
 
-def run(mode='inspect',only=None):
+def description_rules(rules, skus):
+    """Project approved rules onto description-only payloads; never copy media or attributes."""
+    if not skus or len(set(skus)) != len(skus) or set(skus)-set(rules):
+        raise ValueError('Explicit unique approved SKU list required')
+    selected = {}
+    for sku in skus:
+        original = rules[sku]
+        text = {ch: {'description': fields['description']}
+                for ch, fields in original.get('text', {}).items()
+                if ch in ('ozon', 'wb', 'market') and isinstance(fields.get('description'), str)
+                and fields['description'].strip()}
+        if not text:
+            raise ValueError('No approved API description for '+sku)
+        selected[sku] = {'text': text, 'ids': copy.deepcopy(original.get('ids', {}))}
+    return selected
+
+
+def run(mode='inspect',only=None, descriptions_only=False):
     rules=load();skus=only or list(rules)
+    if descriptions_only:
+        rules=description_rules(rules, only)
     if not skus or set(skus)-set(rules):raise ValueError('Only explicitly approved exact SKUs')
-    result={'mode':mode,'started_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'revision':os.environ.get('GITHUB_SHA'),'writes':[],'products':{}}
+    result={'mode':mode,'descriptions_only':descriptions_only,'started_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'revision':os.environ.get('GITHUB_SHA'),'writes':[],'products':{}}
     with guard(result['writes'],allow_write=(mode=='apply')):
-        result['before']=capture(skus)
+        result['before']=capture(skus, include_aux=False) if descriptions_only else capture(skus)
         encrypt_report(result)
         if mode!='inspect':
             for sku in skus:
                 result['products'][sku]={}
                 for channel,fn in [('ozon',apply_ozon),('wb',apply_wb),('market',apply_market)]:
+                    if descriptions_only and channel not in rules[sku]['text']:
+                        continue
                     try:
                         before=result['before'][channel]
                         if before.get('error'):raise ValueError(before['error'])
@@ -271,24 +292,26 @@ def run(mode='inspect',only=None):
                         result['products'][sku][channel]=check
                     except Exception as exc:result['products'][sku][channel]={'verified':False,'error':str(exc)[:1500]}
                     encrypt_report(result)
-        result['after']=capture(skus)
+        result['after']=capture(skus, include_aux=False) if descriptions_only else capture(skus)
         # An unchanged stock value is not required: legitimate new orders can arrive.
         # Safety is enforced at transport level; raw before/after values are kept for review.
         result['finished_at']=datetime.datetime.now(datetime.timezone.utc).isoformat()
         encrypt_report(result)
-    summary={'mode':mode,'revision':result['revision'],'checked_at':result['finished_at'],'content_write_calls':len(result['writes']),'price_write_calls':0,'stock_write_calls':0,'products':{sku:{ch:{k:v for k,v in row.items() if k in {'verified','changed','photos','cover_preserved','error','rating','rating_status'}} for ch,row in channels.items()} for sku,channels in result['products'].items()},'read_errors':{phase+':'+ch:v['error'] for phase in ['before','after'] for ch,v in result[phase].items() if isinstance(v,dict) and v.get('error')}}
+    summary={'mode':mode,'descriptions_only':descriptions_only,'revision':result['revision'],'checked_at':result['finished_at'],'content_write_calls':len(result['writes']),'price_write_calls':0,'stock_write_calls':0,'products':{sku:{ch:{k:v for k,v in row.items() if k in {'verified','changed','photos','cover_preserved','error','rating','rating_status'}} for ch,row in channels.items()} for sku,channels in result['products'].items()},'read_errors':{phase+':'+ch:v['error'] for phase in ['before','after'] for ch,v in result[phase].items() if isinstance(v,dict) and v.get('error')}}
     (OUT/'summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2))
     print(json.dumps(summary,ensure_ascii=False))
     return 1 if summary['read_errors'] or any(not r.get('verified') for c in summary['products'].values() for r in c.values()) else 0
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--mode',choices=['inspect','apply','verify']);parser.add_argument('--article',default='');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--mode',choices=['inspect','apply','verify']);parser.add_argument('--article',default='');parser.add_argument('--descriptions-only',action='store_true');args=parser.parse_args()
     request=json.loads(REQUEST.read_text()) if REQUEST.exists() else {}
     mode=args.mode or request.get('mode','inspect')
     if mode not in {'inspect','apply','verify'}:raise ValueError('Unknown mode')
     only=[x.strip() for x in args.article.split(',') if x.strip()] or request.get('skus')
-    return run(mode,only)
+    if args.descriptions_only and not args.article:
+        raise ValueError('--descriptions-only requires an explicit --article list')
+    return run(mode,only,descriptions_only=args.descriptions_only)
 
 
 if __name__=='__main__':sys.exit(main())
