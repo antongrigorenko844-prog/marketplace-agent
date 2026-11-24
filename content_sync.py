@@ -354,7 +354,16 @@ def verify_description_preservation(channel, sku, old, new):
                 return sorted([x for x in row.get(key,[]) if key != 'attributes' or x['id'] != 4191],
                               key=lambda x:(x.get('complex_id',0),x['id']))
             if protected(b) != protected(a):
-                raise ValueError('Protected Ozon attributes changed: '+key)
+                old_values,new_values=protected(b),protected(a)
+                def group(items):
+                    output={}
+                    for item in items:
+                        output.setdefault((item.get('complex_id',0),item['id']),[]).append(item)
+                    return output
+                old_group,new_group=group(old_values),group(new_values)
+                changed=sorted(k for k in old_group.keys()|new_group.keys()
+                               if old_group.get(k)!=new_group.get(k))
+                raise ValueError('Protected Ozon attributes changed: '+key+'; IDs '+str(changed))
         first, last = ozon_gallery(b), ozon_gallery(a)
     elif channel == 'wb':
         unchanged_fields(b,a,['nmID','vendorCode','title','brand','subjectID','dimensions','sizes','video','kizMarked'])
