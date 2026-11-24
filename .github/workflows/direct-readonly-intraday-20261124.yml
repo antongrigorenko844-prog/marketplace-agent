@@ -1,0 +1,65 @@
+name: LEOPARTS Direct intraday independent read-only audit
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-readonly-intraday-20261124.yml']
+permissions:
+  contents: write
+concurrency:
+  group: direct-readonly-intraday-20261124
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read only current settings, queries, placements, goals and traffic
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: |
+          python -u - <<'PY'
+          import sys,json
+          from pathlib import Path
+          sys.path.insert(0,'.github/scripts')
+          import direct_commercial_audit_20261124 as a
+          a.OUT=Path('data/direct_recovery_20261124/intraday_readonly.json')
+          a.CHANGED='2026-11-24'
+          a.run()
+          d=json.loads(a.OUT.read_text())
+          d['supplemental']={}
+          def extra(name,fn):
+              try: d['supplemental'][name]={'status':'ok','data':fn()}
+              except Exception as exc: d['supplemental'][name]={'status':'error','error':a.direct.scrub(exc)}
+              a.save(d)
+          def campaign_negatives():
+              c=a.direct.campaign()
+              return {'negatives':(c.get('NegativeKeywords') or {}).get('Items') or [],'strategy':(c.get('UnifiedCampaign') or {}).get('BiddingStrategy')}
+          extra('campaign_negatives',campaign_negatives)
+          def segments():
+              rows=a.report('CUSTOM_REPORT',['Date','CampaignId','Device','LocationOfPresenceName','AdGroupId','Impressions','Clicks','Cost','Conversions'],'device_region')
+              return {'by_device':a.aggreg(rows,['Device'],20),'by_region':a.aggreg(rows,['LocationOfPresenceName'],100)}
+          extra('segments',segments)
+          def goals():
+              r=a.mt.call('/management/v1/counter/113839860/goals')
+              return [{'id':g.get('id'),'name':g.get('name'),'type':g.get('type'),'status':g.get('status')} for g in r.get('goals',[])]
+          extra('goals',goals)
+          def metrika_paid():
+              m=['ym:s:visits','ym:s:bounceRate','ym:s:pageDepth','ym:s:avgVisitDurationSeconds']+['ym:s:goal'+str(g)+'visits' for g in a.GOALS]
+              out={}
+              for label,dim in [('source','ym:s:lastTrafficSource'),('campaign','ym:s:lastUTMSource,ym:s:lastUTMCampaign'),('device','ym:s:deviceCategory')]:
+                  params={'ids':str(a.COUNTER_ID),'date1':a.BEFORE,'date2':a.TO,'metrics':','.join(m),'dimensions':dim,'accuracy':'full','limit':'100','lang':'ru'}
+                  if label=='device':params['filters']="ym:s:lastUTMCampaign=='dq200_feed_search'"
+                  out[label]=a.mt.sanitize_stats(a.mt.call('/stat/v1/data',params))
+              return {'metric_names':m,'reports':out}
+          extra('metrika_traffic_quality',metrika_paid)
+          d['supplemental_finished_utc']=a.stamp();a.save(d)
+          PY
+      - name: Save only this audit file
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_recovery_20261124/intraday_readonly.json
