@@ -5,6 +5,7 @@ on:
     paths:
       - data/content_pipeline_request.json
       - data/content_manifest.json
+      - data/content_description_policy.json
   schedule:
     - cron: '17,47 * * * *'
   workflow_dispatch:
