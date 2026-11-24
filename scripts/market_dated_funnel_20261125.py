@@ -52,7 +52,11 @@ def run():
  if not rid and previous.get("report_id") and (prior.get("period") or {})=={"from":PERIOD["dateFrom"],"to":PERIOD["dateTo"]}:rid=previous["report_id"]
  # Never generate a second report within the stricter official ten-minute limit.
  if not rid:
-  recent=old.get("attempted_at") or prior.get("finished_utc")
+  recent=old.get("attempted_at") or old.get("last_attempt_at") or prior.get("finished_utc")
+  # A definite HTTP 400 mutual-exclusion rejection did not generate a report.
+  # Permit exactly one corrected request; all subsequent rate limits retain cooldown.
+  correction=old.get("status")=="generation_error" and "Both businessId and campaignId are specified" in str(old.get("errors",{}))
+  if correction:recent=prior.get("finished_utc")
   if recent:
    try:
     if (now()-dt.datetime.fromisoformat(recent)).total_seconds()<600:
@@ -60,7 +64,7 @@ def run():
    except ValueError:pass
   d["attempted_at"]=now().isoformat();save(d)
   try:
-   x=s.post("/v2/reports/shows-sales/generate",{"businessId":biz,"campaignId":int(cam),**PERIOD,"grouping":"OFFERS"},params={"format":"JSON"},retries=1)
+   x=s.post("/v2/reports/shows-sales/generate",{"campaignId":int(cam),**PERIOD,"grouping":"OFFERS"},params={"format":"JSON"},retries=1)
    rid=(x.get("result") or {}).get("reportId")
    if not rid:raise ValueError("No report identifier")
   except Exception as e:
