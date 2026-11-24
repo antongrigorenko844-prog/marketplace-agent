@@ -1,0 +1,26 @@
+name: LEOPARTS Market dated SKU baseline analytics
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/market-dated-sku-baseline-20261125.yml', 'scripts/market_dated_sku_baseline_20261125.py']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: market-dated-sku-baseline
+  cancel-in-progress: false
+jobs:
+  aggregate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile scripts/market_dated_sku_baseline_20261125.py
+      - run: python -u scripts/market_dated_sku_baseline_20261125.py
+      - run: bash .github/scripts/save_data.sh data/market_dated_sku_baseline_20261125.json
