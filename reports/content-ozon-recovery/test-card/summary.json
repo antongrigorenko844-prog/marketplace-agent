@@ -1,7 +1,7 @@
 {
   "candidates": {},
   "census_count": 147,
-  "checked_utc": "2026-11-24T02:32:36.249256+00:00",
+  "checked_utc": "2026-11-24T02:32:57.634467+00:00",
   "controls": {
     "0am325025H": {
       "attribute_changes": [
@@ -155,6 +155,10 @@
     }
   },
   "mass_hold_retained": true,
+  "model_info_after": {
+    "count": 1,
+    "model_id": 6436204867
+  },
   "model_info_before": {
     "count": 1,
     "model_id": 6436204867
@@ -162,14 +166,44 @@
   "normalized_singletons": [],
   "price_writes": 0,
   "product_id": 6236280437,
+  "protected_changes": [
+    "card:attributes_with_defaults",
+    "attribute:23173:added"
+  ],
   "request_id": "ozon-description-recovery-20261124-test001",
   "revision": "a7b0d13f5edaafac0020b154a3ba1e6124471ba0",
   "seller_description_writes": 1,
   "sku": "TEST001",
-  "status": "processing_no_blind_retry",
+  "status": "protected_drift_mass_hold_retained",
   "stock_writes": 0,
   "target_hash": "12e2fe7e39bbb7f30f3630a1550146910801af9972b6941564aa0d2ce333baad",
   "task_id": 6112583824,
+  "task_result": {
+    "items": [
+      {
+        "errors": [],
+        "offer_id": "TEST001",
+        "product_id": 6236280437,
+        "status": "imported"
+      }
+    ],
+    "total": 1
+  },
+  "test_card_after_default_ids": [],
+  "test_card_after_model_attrs": {
+    "23173": [
+      {
+        "dictionary_value_id": 0,
+        "value": "1"
+      }
+    ],
+    "9048": [
+      {
+        "dictionary_value_id": 0,
+        "value": "корпус фильтра1_TEST001_TEST001_TEST001_TEST001_TEST001_TEST001_TEST001"
+      }
+    ]
+  },
   "test_card_before_default_ids": [
     9905,
     10100,
@@ -207,5 +241,6 @@
   },
   "test_card_original_description": "Тестовая карточка для проверки автоматизации, будет удалена после теста",
   "test_card_zero_stock": true,
+  "text_matches": true,
   "write_intent": true
 }
