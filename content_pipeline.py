@@ -820,6 +820,18 @@ def run(live=False):
         entries=followup_entries(state['rows'],ch,rules)
         if entries:
             worker_api(ch,entries,rules,snaps[ch],paused,master,save,report_dir,False)
+    audit_request=cfg.get('public_audit_request')
+    audit_path=BASE/'public_verification.json'
+    if audit_request and read_json(audit_path,{}).get('request')!=audit_request:
+        from content_public_audit import audit
+        # Refresh after publication; this audit never writes to a seller.
+        fresh_ids,fresh_errors,fresh_extra,fresh_snaps=inventory()
+        for mapping in fresh_ids.values():
+            for sku in TEST_SKUS:mapping.pop(sku,None)
+        report=audit(state,fresh_ids,fresh_errors,fresh_snaps,rules)
+        report['request']=audit_request
+        write_json(audit_path,report)
+        save([audit_path])
     evidence=pending_evidence(state,ids,snaps,master_rows,duplicates,errors)
     pending_path=BASE/'pending_review.json'
     write_json(pending_path,evidence)
