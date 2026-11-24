@@ -37,9 +37,9 @@
     "control_descriptions_match": true,
     "grouping_value_mutated": true,
     "causation": "Historical cache comparison plus write verification failures; exact original protected snapshots are encrypted.",
-    "mass_write_status": "guarded_autonomous_queue_resume",
+    "mass_write_status": "strict_hold_owner_requires_exact_9048_23173_preservation",
     "legacy_hold_reason": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
-    "guarded_resume": true,
+    "guarded_resume": false,
     "recovery_evidence": {
       "run": 45313082317,
       "test_sku": "TEST001",
@@ -49,6 +49,11 @@
       "default_KIZ_1_materialized": true,
       "legacy_publisher_still_held": true,
       "scope": "only attribute 4191; compare exact actual model_info, product ID, SKU, seller price and other actual attributes; normalize observed effective default and redundant repeated exact SKU suffix only; stop on real drift"
+    },
+    "strict_hold_evidence": {
+      "prior_run": "45314149052-1",
+      "reason": "Owner explicitly requires exact protected attributes; effective-default normalization is not sufficient evidence. Readback only; do not repeat 4191 experiment.",
+      "preserve_recovery_evidence": true
     }
   }
 }

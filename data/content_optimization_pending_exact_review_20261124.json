@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "source_revision": "6bc95a8fba5df60bd1a4e9bb38d00134e3c7cc47",
+  "source": "reports/content-pipeline/pending_review.json",
+  "scope": "Exact existing master SKU only; source-backed conservative descriptions; no seller writes; no changes to identities or non-description fields",
+  "status": "approved_for_existing_queue_pending_control_read",
+  "reviewed": [
+    {
+      "sku": "02E305045E",
+      "channels": {
+        "wb": "836194897"
+      },
+      "description": "Корпус масляного фильтра АКПП DSG6 DQ250 (02E). Предназначен для установки фильтрующего элемента в масляном контуре коробки передач. Номер для подбора по каталогу — 02E305045. Перед заказом сравните резьбу, посадочную поверхность и конструкцию корпуса со снятой деталью. Внутренний артикул магазина 02E305045E не следует считать подтверждённым OEM-номером.",
+      "source": [
+        "Exact live WB title and unique master SKU",
+        "https://www.ecstuning.com/b-genuine-volkswagen-audi-parts/transmission-filter-housing/02e305045/"
+      ],
+      "semantic": [
+        "корпус масляного фильтра",
+        "DSG6 DQ250",
+        "02E305045"
+      ]
+    },
+    {
+      "sku": "0AM325091E / 0AM325091F",
+      "channels": {
+        "wb": "711488868"
+      },
+      "description": "Оригинальный сальник штока мехатроника Volkswagen DSG7 DQ200 (0AM/0CW). Уплотняет узел штока сцепления; это не защитный пыльник и не шток в сборе. Применяется при обслуживании узлов штоков 0AM325091E и 0AM325091F. Перед заказом сверьте профиль и размеры уплотнения со снятой деталью. Обозначения штоков приведены для подбора узла, а не как OEM-номер самого сальника.",
+      "source": [
+        "Exact live WB title and saved master description; no seal OEM asserted"
+      ],
+      "semantic": [
+        "оригинальный сальник штока",
+        "мехатроник DSG7 DQ200",
+        "0AM 0CW"
+      ]
+    },
+    {
+      "sku": "0AM927769D-plata",
+      "channels": {
+        "wb": "1922846685"
+      },
+      "description": "Электронная плата управления мехатроником DSG7 DQ200 с обозначением 0AM927769D. Плата предназначена для ремонта электронной части мехатроника. Перед заказом проверьте полный номер и исполнение своей платы; не подбирайте замену только по модели автомобиля или коробки передач. После установки требуется перенос необходимых данных и адаптация в соответствии с исполнением узла. Гидравлическая часть мехатроника в состав этой позиции не входит.",
+      "source": [
+        "Exact active WB title and unique master SKU; separate from retired exact SKU 0AM927769D; no claim of interchangeable suffixes or restoration state"
+      ],
+      "semantic": [
+        "электронная плата мехатроника",
+        "DSG7 DQ200",
+        "0AM927769D"
+      ]
+    },
+    {
+      "sku": "0BH325183BB",
+      "channels": {
+        "wb": "711572626"
+      },
+      "description": "Алюминиевый корпус масляного фильтра DSG7 DQ500 с уплотнительным кольцом. Предназначен для установки фильтрующего элемента в масляном контуре АКПП. Номер корпуса для сравнения по каталогу — 0BH325159; обозначение 0BH325183B относится к фильтрующему элементу. Перед заказом сравните резьбу, посадку уплотнения и форму корпуса со снятой деталью. Подбирайте по конкретному исполнению коробки.",
+      "source": [
+        "Exact live WB title and historical master description (aluminium housing, ring included)",
+        "https://www.az-teile.de/oelfiltergehaeuse-aluminiumguss-mit-oelfilter-dsg-dq500-dq381-7-gang-0bh325159/2026-617",
+        "https://www.em-racing.de/Filtereinsatz-0BH325183B-VW-DSG-DQ381-D500-Getriebeoelfilter"
+      ],
+      "semantic": [
+        "алюминиевый корпус масляного фильтра",
+        "DQ500 DSG7",
+        "0BH325159"
+      ]
+    },
+    {
+      "sku": "31705-1XF1A",
+      "channels": {
+        "wb": "711439292",
+        "market": "4872038927"
+      },
+      "description": "Гидроблок вариатора JF011E / RE0F10A, исполнение старого поколения. Гидравлический блок управления распределяет потоки рабочей жидкости и регулирует давление в вариаторе. Номер для подбора — 31705-1XF1A. Перед заказом сверьте номер, разъёмы, расположение датчиков и исполнение снятого гидроблока. Причину рывков, задержек включения D/R или ошибок давления необходимо установить диагностикой: замена гидроблока не устраняет неисправности других узлов вариатора.",
+      "source": [
+        "Exact live WB and Market title; unique master SKU",
+        "https://parts.nissanusa.com/parts/nissan-title-317051xf1a",
+        "https://berkeleystandard.com/jf011e-transmissions/"
+      ],
+      "semantic": [
+        "гидроблок вариатора JF011E",
+        "RE0F10A",
+        "31705-1XF1A"
+      ]
+    }
+  ],
+  "held": [
+    {
+      "sku": "0am3250066AE",
+      "reason": "Confirm complete BOM and actual original components; historical copy confuses board and gasket OEM."
+    },
+    {
+      "sku": "0am325025HC",
+      "reason": "Confirm whether hydraulic plate is included; historical BOM and benefits disagree."
+    },
+    {
+      "sku": "0am325025ze",
+      "reason": "Title and historical condition conflict (new versus restored); verify condition and actual BOM."
+    },
+    {
+      "sku": "0am325025j",
+      "reason": "WB title lacks separator plate; prior hold remains."
+    },
+    {
+      "sku": "0cw0am",
+      "reason": "Prior identity stop retained."
+    },
+    {
+      "sku": "Ea888gen3",
+      "reason": "Title magnet versus historical valve identity."
+    },
+    {
+      "sku": "TEST001",
+      "reason": "Test card not for sale."
+    },
+    {
+      "sku": "TESTWB001",
+      "reason": "Test card not for sale."
+    }
+  ],
+  "policy": "Strict Ozon hold reinstated; exact WB/Market only; seller success requires live readback."
+}
