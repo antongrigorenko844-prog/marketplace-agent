@@ -801,7 +801,7 @@
       "key": "oem_clear:datchik-scepleniya-dq200",
       "sku": "datchik-scepleniya-dq200",
       "kind": "oem_clear",
-      "status": "submitted",
+      "status": "pending_readback",
       "protected": {
         "identity": {
           "offerId": "datchik-scepleniya-dq200",
@@ -1051,7 +1051,15 @@
         ]
       },
       "moved": [],
-      "reviews_before": null
+      "reviews_before": null,
+      "readback": {
+        "protected_diff": [],
+        "parameters_match": false,
+        "category": 71380208,
+        "target": 71380208,
+        "card_status": "HAS_CARD_CAN_UPDATE",
+        "campaign_status": "DISABLED_AUTOMATICALLY"
+      }
     },
     {
       "key": "oem_clear:fpc-shleif-dq200",
@@ -4307,5 +4315,5 @@
     "NO_STOCKS": 16,
     "DISABLED_BY_PARTNER": 1
   },
-  "updated_at": "2026-11-24T20:11:54.740133+00:00"
+  "updated_at": "2026-11-24T20:11:59.570209+00:00"
 }
