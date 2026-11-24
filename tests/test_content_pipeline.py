@@ -57,3 +57,9 @@ class PipelineTests(unittest.TestCase):
         self.assertFalse(queue_covers([MANIFEST],old,new,{'enabled':False}))
         new['products']['A']['text']['wb']['title']='changed title'
         self.assertFalse(queue_covers([MANIFEST],old,new,cfg))
+
+    def test_fast_followup_never_resends_or_selects_unaccepted_work(self):
+        states=['prepared','submitted','processing','verified','retry_pending','blocked']
+        rows={s:{'wb':{'status':s,'card_id':s}} for s in states}
+        rules={s:{'text':{'wb':{'description':'text'}}} for s in states}
+        self.assertEqual(set(p.followup_entries(rows,'wb',rules)),{'submitted','processing'})

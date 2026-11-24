@@ -459,6 +459,57 @@ def worker_avito(entries,rules,master,report_dir,save,apply):
             e['evidence']=str((report_dir/'avito'/str(offset)/'summary.json').relative_to(ROOT))
         save([report_dir/'avito'/str(offset)/'summary.json'])
 
+def followup_entries(rows, ch, rules):
+    """A read-only sweep of accepted writes after independent work has run.
+    Never include a prepared, rejected, blocked, or already verified card."""
+    return {sku: channels[ch] for sku,channels in rows.items()
+            if channels[ch].get('status') in ('submitted','processing')
+            and channels[ch].get('card_id')
+            and rules.get(sku,{}).get('text',{}).get(ch,{}).get('description')}
+
+def pending_evidence(state, ids, snapshots, master_rows, duplicates, inventory_errors):
+    """Compact review queue for live identities without reviewed copy.
+    Do not assign identities by normalized SKU or titles."""
+    rows={}
+    for sku, channels in state['rows'].items():
+        need=[ch for ch,e in channels.items() if e.get('status')=='pending' and e.get('card_id')]
+        if not need:continue
+        record={'master_found':sku in master_rows,'master_duplicate':sku in duplicates,
+                'master_description':str(master_rows.get(sku,{}).get('description') or '')[:2400],
+                'channels':{}}
+        for ch in need:
+            e=channels[ch]
+            matches=ids.get(ch,{}).get(sku,[])
+            record['channels'][ch]={'id':e['card_id'],'matches':matches,'error':None}
+        rows[sku]=record
+    for ch in ('ozon','market','wb','tilda'):
+        wanted=[s for s,r in rows.items() if ch in r['channels']]
+        if not wanted or ch in inventory_errors:continue
+        try:
+            if ch=='tilda':
+                cards=snapshots[ch]
+                for s in wanted:
+                    item=cards.get(rows[s]['channels'][ch]['id'],{})
+                    rows[s]['channels'][ch].update(title=item.get('title'),description=str(item.get('text') or '')[:2400])
+                continue
+            if ch=='wb':
+                snapshot=snapshots[ch]
+            else:
+                with guard([],allow_write=False,descriptions_only=True):
+                    snapshot=read_api(ch,wanted,snapshots.get(ch))
+            for sku in wanted:
+                entry=rows[sku]['channels'][ch]
+                try:
+                    card,detail=api.description_card(ch,snapshot,sku)
+                    if identity(ch,card,detail)!=entry['id']:
+                        raise ValueError('Evidence identity differs from census')
+                    entry.update(title=card.get('title') or card.get('name'),
+                                 description=str(api.description_value(ch,card))[:2400])
+                except Exception as exc:entry['error']=str(exc)[:300]
+        except Exception as exc:
+            for sku in wanted:rows[sku]['channels'][ch]['error']=str(exc)[:300]
+    return {'version':1,'checked_utc':stamp(),'rows':rows}
+
 def run(live=False):
     cfg=read_json(CONFIG,{})
     if not cfg.get('enabled'):
@@ -536,7 +587,18 @@ def run(live=False):
             for e in entries.values():
                 if e['status'] not in TERMINAL:read_failure(e,type(exc).__name__+': '+str(exc)[:300])
             save()
-    save()
+    # Give accepted WB/Market writes a second readback after the other queues
+    # have had their turn. This is one read per channel, not per product or a
+    # replay of the write batch. Later scheduled runs keep the bounded polling.
+    for ch in ('wb','market'):
+        if ch in errors:continue
+        entries=followup_entries(state['rows'],ch,rules)
+        if entries:
+            worker_api(ch,entries,rules,snaps[ch],paused,master,save,report_dir,False)
+    evidence=pending_evidence(state,ids,snaps,master_rows,duplicates,errors)
+    pending_path=BASE/'pending_review.json'
+    write_json(pending_path,evidence)
+    save([pending_path])
     print(json.dumps({'master_count':state['master_count'],'inventory_counts':state['inventory_counts'],'counts':state['counts'],'paused_channels':paused},ensure_ascii=False,indent=2))
     return 0
 
