@@ -402,6 +402,26 @@ def apply_description_batches(result, rules, skus, mode):
                 for sku in prepared:
                     result['products'][sku][channel]={'verified':False,'error':'Channel halted after protected-field change'}
                 continue
+            # Read a fresh group before sending full WB cards / retained Market
+            # characteristics; do not overwrite a concurrent non-content edit.
+            if mode == 'apply' and payload:
+                try:
+                    fresh=read_description_channel(channel,list(prepared),before)
+                except Exception as exc:
+                    for sku in prepared:
+                        result['products'][sku][channel]={'verified':False,'error':'Prewrite read failed: '+str(exc)[:1000]}
+                    continue
+                payload=[]
+                for sku in list(prepared):
+                    try:
+                        verify_description_preservation(channel,sku,before,fresh)
+                        item=description_payload(channel,sku,rules[sku],fresh)
+                        prepared[sku]=item is not None
+                        if item is not None: payload.append(item)
+                    except Exception as exc:
+                        result['products'][sku][channel]={'verified':False,'error':'Prewrite drift: '+str(exc)[:1000]}
+                        del prepared[sku]
+                if not prepared: continue
             send_error = None
             if mode == 'apply' and payload:
                 try: send_description_batch(channel,payload,before)
@@ -442,12 +462,13 @@ def apply_description_batches(result, rules, skus, mode):
 
 
 def run(mode='inspect',only=None, descriptions_only=False):
+    if mode not in {'inspect','apply','verify'}:raise ValueError('Unknown mode')
     rules=load();skus=only or list(rules)
     if descriptions_only:
         rules=description_rules(rules, only)
     if not skus or set(skus)-set(rules):raise ValueError('Only explicitly approved exact SKUs')
     result={'mode':mode,'descriptions_only':descriptions_only,'started_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'revision':os.environ.get('GITHUB_SHA'),'writes':[],'products':{}}
-    with guard(result['writes'],allow_write=(mode=='apply')):
+    with guard(result['writes'],allow_write=(mode=='apply'),descriptions_only=descriptions_only):
         result['before']=capture(skus, include_aux=False) if descriptions_only else capture(skus)
         encrypt_report(result)
         if descriptions_only:
@@ -469,6 +490,17 @@ def run(mode='inspect',only=None, descriptions_only=False):
                     except Exception as exc:result['products'][sku][channel]={'verified':False,'error':str(exc)[:1500]}
                     encrypt_report(result)
         result['after']=capture(skus, include_aux=False) if descriptions_only else capture(skus)
+        if descriptions_only and mode != 'inspect':
+            # Final shared snapshot: do not count a transient intermediate match.
+            for sku,channels in result['products'].items():
+                for ch,entry in channels.items():
+                    if not entry.get('verified'): continue
+                    try:
+                        card=verify_description_preservation(ch,sku,result['before'][ch],result['after'][ch])
+                        if description_value(ch,card)!=rules[sku]['text'][ch]['description']:
+                            raise ValueError('Description changed after initial readback')
+                    except Exception as exc:
+                        entry.update(verified=False,error='Final readback: '+str(exc)[:1000])
         # An unchanged stock value is not required: legitimate new orders can arrive.
         # Safety is enforced at transport level; raw before/after values are kept for review.
         result['finished_at']=datetime.datetime.now(datetime.timezone.utc).isoformat()
