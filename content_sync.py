@@ -69,11 +69,12 @@ def wb_gallery(row):
     return [p.get('big') or p.get('c516x688') or p.get('square') for p in row.get('photos',[])]
 
 
-def capture(skus, include_aux=True):
+def capture(skus, include_aux=True, channels=None):
     import ozon_client as oz, wb_client as wb, yandex_market_client as ym
     from market_content import read_rows
     result={}
     def call(channel,fn):
+        if channels is not None and channel not in channels: return
         try:result[channel]=fn()
         except Exception as exc:result[channel]={'error':str(exc)[:1000]}
     def ozon():
@@ -250,16 +251,19 @@ def encrypt_report(result):
     (OUT/'evidence.enc').write_text(json.dumps({k:base64.b64encode(v).decode() for k,v in {'key':wrapped,'nonce':nonce,'data':enc}.items()}))
 
 
-def description_rules(rules, skus):
+def description_rules(rules, skus, channels=None):
     """Project approved rules onto description-only payloads; never copy media or attributes."""
     if not skus or len(set(skus)) != len(skus) or set(skus)-set(rules):
         raise ValueError('Explicit unique approved SKU list required')
+    channels=('ozon','wb','market') if channels is None else channels
+    if not channels or len(set(channels))!=len(channels) or set(channels)-{'ozon','wb','market'}:
+        raise ValueError('Invalid API channel scope')
     selected = {}
     for sku in skus:
         original = rules[sku]
         text = {ch: {'description': fields['description']}
                 for ch, fields in original.get('text', {}).items()
-                if ch in ('ozon', 'wb', 'market') and isinstance(fields.get('description'), str)
+                if ch in channels and isinstance(fields.get('description'), str)
                 and fields['description'].strip()}
         if not text:
             raise ValueError('No approved API description for '+sku)
@@ -388,8 +392,9 @@ def apply_description_batches(result, rules, skus, mode):
     for sku in skus:
         result['products'][sku] = {}
     for channel in ('ozon','wb','market'):
-        before = result['before'][channel]
         targets = [s for s in skus if channel in rules[s]['text']]
+        if not targets: continue
+        before = result['before'][channel]
         stopped = False
         for offset in range(0,len(targets),DESCRIPTION_BATCH_SIZE):
             group = targets[offset:offset+DESCRIPTION_BATCH_SIZE]
@@ -470,15 +475,16 @@ def apply_description_batches(result, rules, skus, mode):
             encrypt_report(result)
 
 
-def run(mode='inspect',only=None, descriptions_only=False):
+def run(mode='inspect',only=None, descriptions_only=False, channels=None):
     if mode not in {'inspect','apply','verify'}:raise ValueError('Unknown mode')
     rules=load();skus=only or list(rules)
     if descriptions_only:
-        rules=description_rules(rules, only)
+        rules=description_rules(rules, only, channels)
+        channels=sorted({ch for row in rules.values() for ch in row['text']})
     if not skus or set(skus)-set(rules):raise ValueError('Only explicitly approved exact SKUs')
     result={'mode':mode,'descriptions_only':descriptions_only,'started_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'revision':os.environ.get('GITHUB_SHA'),'writes':[],'products':{}}
     with guard(result['writes'],allow_write=(mode=='apply'),descriptions_only=descriptions_only):
-        result['before']=capture(skus, include_aux=False) if descriptions_only else capture(skus)
+        result['before']=capture(skus, include_aux=False, channels=channels) if descriptions_only else capture(skus)
         encrypt_report(result)
         if descriptions_only:
             apply_description_batches(result,rules,skus,mode)
@@ -498,7 +504,7 @@ def run(mode='inspect',only=None, descriptions_only=False):
                         result['products'][sku][channel]=check
                     except Exception as exc:result['products'][sku][channel]={'verified':False,'error':str(exc)[:1500]}
                     encrypt_report(result)
-        result['after']=capture(skus, include_aux=False) if descriptions_only else capture(skus)
+        result['after']=capture(skus, include_aux=False, channels=channels) if descriptions_only else capture(skus)
         if descriptions_only and mode != 'inspect':
             # Final shared snapshot: do not count a transient intermediate match.
             for sku,channels in result['products'].items():
@@ -521,14 +527,17 @@ def run(mode='inspect',only=None, descriptions_only=False):
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--mode',choices=['inspect','apply','verify']);parser.add_argument('--article',default='');parser.add_argument('--descriptions-only',action='store_true');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--mode',choices=['inspect','apply','verify']);parser.add_argument('--article',default='');parser.add_argument('--descriptions-only',action='store_true');parser.add_argument('--channels',default='');args=parser.parse_args()
     request=json.loads(REQUEST.read_text()) if REQUEST.exists() else {}
     mode=args.mode or request.get('mode','inspect')
     if mode not in {'inspect','apply','verify'}:raise ValueError('Unknown mode')
     only=[x.strip() for x in args.article.split(',') if x.strip()] or request.get('skus')
     if args.descriptions_only and not args.article:
         raise ValueError('--descriptions-only requires an explicit --article list')
-    return run(mode,only,descriptions_only=args.descriptions_only)
+    if args.channels and not args.descriptions_only:
+        raise ValueError('--channels is only for descriptions-only mode')
+    return run(mode,only,descriptions_only=args.descriptions_only,
+               channels=args.channels.split(',') if args.channels else None)
 
 
 if __name__=='__main__':sys.exit(main())

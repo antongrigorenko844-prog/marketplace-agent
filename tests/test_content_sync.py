@@ -134,6 +134,14 @@ class ContentBoundaryTests(unittest.TestCase):
                 (cm.check_market_description_write,('/v2/businesses/1/offer-mappings/update',{'offerMappings':[{'offer':{'offerId':'A','description':'stale'}}]}))]:
                 with self.assertRaises(ValueError):fn(*args)
 
+    def test_description_channel_selection_never_includes_unselected_ozon(self):
+        import content_sync as cs
+        rules={'A':{'text':{'ozon':{'description':'O'},'wb':{'description':'W'},
+                           'market':{'description':'M'}}}}
+        self.assertEqual(cs.description_rules(rules,['A'],['wb','market'])['A']['text'],
+                         {'wb':{'description':'W'},'market':{'description':'M'}})
+        with self.assertRaises(ValueError):cs.description_rules(rules,['A'],['avito'])
+
     def test_ozon_composition_override_is_platform_and_sku_specific(self):
         import content_updates as cu
         rules = {'PART': {'text': {'ozon': {'composition': 'Reviewed Ozon contents'}}}}
