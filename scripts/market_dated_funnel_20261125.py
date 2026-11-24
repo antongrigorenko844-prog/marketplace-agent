@@ -41,7 +41,7 @@ def run():
     if not k:continue
     n=int(it.get("count") or 0);counts[k]["ordered_units"]+=n
     if o.get("status")=="DELIVERED":counts[k]["delivered_units"]+=n
-    if o.get("status")=="CANCELLED":counts[k]["cancelled_units"]+=n
+    if str(o.get("status","")).startswith("CANCELLED"):counts[k]["cancelled_units"]+=n
    for a,key,field in [(comm,"commissions","actual"),(pay,"payments","total"),(sub,"subsidies","amount")]:
     for x in o.get(key,[]):
      if isinstance(x.get(field),(int,float)):a[str(x.get("type"))+":"+str(x.get("source") or x.get("operationType") or "")]+=x[field]
@@ -64,7 +64,16 @@ def run():
    except ValueError:pass
   d["attempted_at"]=now().isoformat();save(d)
   try:
-   x=s.post("/v2/reports/shows-sales/generate",{"campaignId":int(cam),**PERIOD,"grouping":"OFFERS"},params={"format":"JSON"},retries=1)
+   # Report generation only; no seller catalog mutation. One HTTP request, no retry.
+   token,_=ym._creds()
+   response=requests.post(ym.BASE_URL+"/v2/reports/shows-sales/generate",headers=ym._headers(token),params={"format":"JSON"},json={"campaignId":int(cam),**PERIOD,"grouping":"OFFERS"},timeout=60)
+   d["generation_http"]=response.status_code
+   d["retry_after"]=response.headers.get("Retry-After")
+   try:x=response.json()
+   except ValueError:x={}
+   if response.status_code!=200 or x.get("status")!="OK":
+    d["generation_api_errors"]=[{k:e.get(k) for k in ("code","message")} for e in x.get("errors",[]) if isinstance(e,dict)]
+    raise ValueError("HTTP "+str(response.status_code)+" "+ym._errors_text(x)[:240])
    rid=(x.get("result") or {}).get("reportId")
    if not rid:raise ValueError("No report identifier")
   except Exception as e:
@@ -82,7 +91,7 @@ def run():
     if not u or urlsplit(u).scheme!="https":raise ValueError("Missing secure report URL")
     response=requests.get(u,timeout=40);response.raise_for_status()
     if len(response.content)>15*1024*1024:raise ValueError("Report too large")
-    fields={"day","month","year","offerId","offerName","categoryName","brandName","byMskuShows","visibilityIndex","shows","showsWithPromotion","showsShare","clicks","clicksWithPromotion","toCartConversion","toCart","toCartWithPromotion","toCartShare","orderItems","orderItemsWithPromotion","orderItemsTotalAmount","orderItemsTotalAmountWithPromotion","toOrderConversion","orderItemsShare","orderItemsDeliveredCount","orderItemsDeliveredTotalAmount","orderItemsDeliveredFromOrderedCount","orderItemsDeliveredFromOrderedTotalAmount","orderItemsCanceledCount","orderItemsReturnedCount"}
+    fields={"day","month","year","offerId","offerName","categoryName","brandName","byMskuShows","visibilityIndex","shows","showsWithPromotion","showsShare","clicks","clicksWithPromotion","toCartConversion","toCart","toCartWithPromotion","toCartShare","orderItems","orderItemsWithPromotion","orderItemsTotalAmount","orderItemsTotalAmountWithPromotion","toOrderConversion","orderItemsShare","orderItemsDeliveredCount","orderItemsDeliveredTotalAmount","orderItemsDeliveredFromOrderedCount","orderItemsDeliveredFromOrderedTotalAmount","orderItemsCanceledCount","orderItemsCanceledByCreatedAtCount","orderItemsReturnedCount","orderItemsReturnedByCreatedAtCount","orderItemsDeliveredCountWithPromotion","orderItemsDeliveredTotalAmountWithPromotion","orderItemsDeliveredFromOrderedTotalAmountWithPromotion"}
     daily=[]
     with zipfile.ZipFile(io.BytesIO(response.content)) as z:
      for n in z.namelist():
@@ -90,6 +99,9 @@ def run():
       if z.getinfo(n).file_size>30*1024*1024:raise ValueError("Report entry too large")
       daily.extend({k:v for k,v in row.items() if k in fields} for row in extract(json.loads(z.read(n))))
     if not daily:raise ValueError("No recognized dated funnel rows; format requires review")
+    if any(not all(k in row for k in ("day","month","year","offerId")) for row in daily):raise ValueError("Missing dated SKU key")
+    keys=[(row["year"],row["month"],row["day"],row["offerId"]) for row in daily]
+    if len(keys)!=len(set(keys)):raise ValueError("Duplicate dated SKU rows; review report structure")
     d["daily_rows"]=daily;d["row_count"]=len(daily)
     d["totals"]={k:sum(x[k] for x in daily if isinstance(x.get(k),(int,float))) for k in ("shows","clicks","toCart","orderItems","orderItemsTotalAmount","orderItemsDeliveredCount","orderItemsDeliveredTotalAmount","orderItemsCanceledCount","orderItemsReturnedCount")}
     break
