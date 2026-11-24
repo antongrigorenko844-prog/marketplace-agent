@@ -1,0 +1,80 @@
+{
+  "mode": "apply",
+  "revision": "60b9ad4c21702f5b60d4b1c3cd3d922c064192b7",
+  "seller_price_writes": 0,
+  "stock_writes": 0,
+  "products": {
+    "avito": {
+      "0am325025H": {
+        "avito_id": "8312205273",
+        "feed_id": "0am325025H",
+        "needs_feed_change": true,
+        "description_verified": false,
+        "live_description_available": false,
+        "feed_verified": true,
+        "autoload_section": "success_published",
+        "autoload_status": "active",
+        "autoload_messages": [
+          {
+            "code": 3002,
+            "type": "info",
+            "title": ""
+          },
+          {
+            "code": 2303,
+            "type": "warning",
+            "title": "Произведена автоподстановка номера телефона"
+          }
+        ],
+        "post_publication_report": true,
+        "autoload_processed": false,
+        "status": "feed_published_pending_live_description"
+      }
+    }
+  },
+  "avito_autoload_report": {
+    "report_id": null,
+    "upload_id": 640070447,
+    "started_at": "2026-11-24T07:34:04Z",
+    "finished_at": null,
+    "status": "success_warning"
+  },
+  "avito_autoload_api": "v4",
+  "avito_autoload_evidence": {
+    "current": {
+      "upload_id": 640097169,
+      "status": "processing",
+      "started_at": "2026-11-24T08:34:05Z",
+      "finished_at": null
+    },
+    "last_successful": {
+      "upload_id": 640070447,
+      "status": "success_warning",
+      "started_at": "2026-11-24T07:34:04Z",
+      "finished_at": null
+    }
+  },
+  "avito_feed_sha_before": "282823d5f217fabdcd343e1d8954ac6dce88f7aaa01f9972fa2150f4fcb5096c",
+  "avito_feed_sha_staged": "1d045a88012b57790ba8da79438823477e3fb395d840926d1b668974b138d5d3",
+  "avito_report_after_known_publication": true,
+  "checked_utc": "2026-11-24T09:10:47.334030+00:00",
+  "avito_feed_publication": {
+    "status": "published_sha_verified",
+    "sha256": "1d045a88012b57790ba8da79438823477e3fb395d840926d1b668974b138d5d3",
+    "old_feed_backup": "avito_feed.before_owner_excel_785405119.xlsx"
+  },
+  "avito_feed_persisted": true,
+  "avito_publication_receipt": {
+    "publication_run": "45362393253",
+    "revision": "60b9ad4c21702f5b60d4b1c3cd3d922c064192b7",
+    "feed_sha256": "1d045a88012b57790ba8da79438823477e3fb395d840926d1b668974b138d5d3",
+    "await_report_started_after_utc": "2026-11-24T09:10:45.815743+00:00",
+    "items": {
+      "0am325025H": {
+        "avito_id": "8312205273",
+        "feed_id": "0am325025H"
+      }
+    },
+    "live_text_verified": false
+  }
+}

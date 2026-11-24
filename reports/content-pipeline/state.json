@@ -2,7 +2,7 @@
   "counts": {
     "avito": {
       "blocked": 164,
-      "submitted": 1
+      "processing": 1
     },
     "market": {
       "blocked": 2,
@@ -3095,13 +3095,15 @@
         "attempts": 1,
         "card_id": "8312205273",
         "channel": "avito",
-        "error": null,
-        "polls": 0,
+        "error": "Feed matched; live description not verified",
+        "evidence": "reports/content-pipeline/runs/45362393253-1/avito/0/summary.json",
+        "next_attempt_utc": "2026-11-24T09:40:47.334767+00:00",
+        "polls": 1,
         "read_failures": 0,
         "sku": "0am325025H",
-        "status": "submitted",
+        "status": "processing",
         "target_hash": "793e5eb567e1d0334f992358e491385d53129bc6872d739700bdfe25b60152ad",
-        "updated_utc": "2026-11-24T09:10:32.350458+00:00"
+        "updated_utc": "2026-11-24T09:10:47.334777+00:00"
       },
       "market": {
         "after_hash": "52594355fb1a9c396030b2313cbdff42e2972149d03defbc3e19e2e9422fcb90",
@@ -14362,6 +14364,6 @@
     }
   },
   "run_id": "45362393253-1",
-  "updated_utc": "2026-11-24T09:10:32.350473+00:00",
+  "updated_utc": "2026-11-24T09:10:47.334808+00:00",
   "version": 1
 }
