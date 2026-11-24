@@ -6,9 +6,10 @@
       "processing": 100
     },
     "market": {
+      "blocked": 1,
       "not_applicable": 9,
       "pending": 10,
-      "prepared": 2,
+      "prepared": 1,
       "verified": 146
     },
     "ozon": {
@@ -7400,11 +7401,15 @@
         "updated_utc": "2026-11-24T02:35:07.281066+00:00"
       },
       "market": {
+        "after_hash": "8e9399761d3b549aa3daf4e6ae1563ea7ef761c1cf7156448ffeeb1e5d5521ca",
         "attempts": 0,
+        "before_hash": "8e9399761d3b549aa3daf4e6ae1563ea7ef761c1cf7156448ffeeb1e5d5521ca",
         "card_id": "4855509033",
         "channel": "market",
         "error": null,
+        "last_checked_utc": "2026-11-24T02:35:18.957020+00:00",
         "polls": 0,
+        "protected_hash": "639976bb0517c010ba427cc4554be6e57cb487d462192fa33db46114fe034117",
         "read_failures": 0,
         "sku": "Ea888gen3",
         "status": "prepared",
@@ -9114,14 +9119,14 @@
         "attempts": 0,
         "card_id": "6245067593",
         "channel": "market",
-        "error": null,
-        "last_checked_utc": "2026-11-24T02:22:34.343853+00:00",
+        "error": "Canonical workbook description not verified for this SKU/channel",
+        "last_checked_utc": "2026-11-24T02:35:18.957193+00:00",
         "polls": 0,
         "read_failures": 0,
         "sku": "nakladki-pedali",
-        "status": "prepared",
+        "status": "blocked",
         "target_hash": "03082abe03fbc58f93cce45931dc364f0958feca7e534adb44149deee5e36e9f",
-        "updated_utc": "2026-11-24T02:35:07.282631+00:00"
+        "updated_utc": "2026-11-24T02:35:18.957207+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -12864,6 +12869,6 @@
     }
   },
   "run_id": "45313380183-1",
-  "updated_utc": "2026-11-24T02:35:16.388427+00:00",
+  "updated_utc": "2026-11-24T02:35:18.957211+00:00",
   "version": 1
 }
