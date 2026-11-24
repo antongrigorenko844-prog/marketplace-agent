@@ -134,6 +134,17 @@ class ContentBoundaryTests(unittest.TestCase):
                 (cm.check_market_description_write,('/v2/businesses/1/offer-mappings/update',{'offerMappings':[{'offer':{'offerId':'A','description':'stale'}}]}))]:
                 with self.assertRaises(ValueError):fn(*args)
 
+    def test_paused_channel_does_not_send_description_write(self):
+        import content_sync as cs
+        card={'offer_id':'A','name':'A','primary_image':'https://images.test/a','images':[],
+              'attributes':[{'id':4191,'values':[{'value':'old'}]}]}
+        result={'before':{'ozon':{'cards':[card]}},'products':{}}
+        rules={'A':{'text':{'ozon':{'description':'approved'}}}}
+        with patch.object(cs,'send_description_batch') as send:
+            cs.apply_description_batches(result,rules,['A'],'apply',{'ozon':'attribute drift'})
+            send.assert_not_called()
+        self.assertIn('Channel writes paused',result['products']['A']['ozon']['error'])
+
     def test_description_channel_selection_never_includes_unselected_ozon(self):
         import content_sync as cs
         rules={'A':{'text':{'ozon':{'description':'O'},'wb':{'description':'W'},
