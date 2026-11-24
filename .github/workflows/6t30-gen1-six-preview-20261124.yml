@@ -1,0 +1,25 @@
+name: LEOPARTS Gen1 six cover exact pixel preview
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/6t30-gen1-six-preview-20261124.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pillow
+      - run: python scripts/6t30_gen1_six_preview_20261124.py
+      - run: bash .github/scripts/save_data.sh assets/product-intake-v2/bridge/6t30-gen1-six-20261124.png data/6t30_gen1_six_preview_20261124.json
