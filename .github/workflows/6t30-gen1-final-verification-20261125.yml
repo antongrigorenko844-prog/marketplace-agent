@@ -1,0 +1,37 @@
+name: LEOPARTS final Gen1 gallery verification
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/6t30-gen1-final-verification-20261125.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt pillow
+      - name: Exact card and feed readback
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: python -u scripts/6t30_gen1_final_verification_20261125.py
+      - name: Preserve result only
+        if: always()
+        run: |
+          test ! -f data/6t30_gen1_final_verification_20261125.json || bash .github/scripts/save_data.sh data/6t30_gen1_final_verification_20261125.json
