@@ -20,13 +20,13 @@ MONTHS={name:i for i,variants in enumerate([
  ("декабрь","декабря","dec","december")],1) for name in variants}
 def date_of(row):
  day=str(row["day"]).strip();month=str(row["month"]).strip();year=int(row["year"])
- for fmt in ("%Y-%m-%d","%d.%m.%Y","%d.%m.%y","%d/%m/%Y"):
+ for fmt in ("%Y-%m-%d","%d-%m-%Y","%d.%m.%Y","%d.%m.%y","%d/%m/%Y"):
   try:return dt.datetime.strptime(day,fmt).date()
   except ValueError:pass
  if day.isdigit():
   m=int(month) if month.isdigit() else MONTHS.get(month.casefold())
   if m:return dt.date(year,m,int(day))
- for fmt in ("%Y-%m-%d","%Y-%m"):
+ for fmt in ("%Y-%m-%d","%Y-%m","%m-%Y"):
   try:
    m=dt.datetime.strptime(month,fmt).month
    if day.isdigit():return dt.date(year,m,int(day))
