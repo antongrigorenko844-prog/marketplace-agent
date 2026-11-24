@@ -1,0 +1,36 @@
+name: LEOPARTS verify Gen1 second photo removal
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/6t30-gen1-remove-second-readback-20261125.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt pillow
+      - name: Verify existing cards and recover only exact Avito photo cell
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: python -u scripts/6t30_gen1_remove_second_readback_20261125.py
+      - name: Save report if necessary
+        if: always()
+        run: |
+          test ! -f data/6t30_gen1_remove_second_readback_20261125.json || bash .github/scripts/save_data.sh data/6t30_gen1_remove_second_readback_20261125.json
