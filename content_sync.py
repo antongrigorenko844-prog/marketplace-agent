@@ -388,7 +388,8 @@ def verify_description_preservation(channel, sku, old, new):
         raise ValueError('Protected gallery changed')
     return a
 
-def apply_description_batches(result, rules, skus, mode):
+def apply_description_batches(result, rules, skus, mode, paused_writes=None):
+    paused_writes=paused_writes or {}
     for sku in skus:
         result['products'][sku] = {}
     for channel in ('ozon','wb','market'):
@@ -402,6 +403,8 @@ def apply_description_batches(result, rules, skus, mode):
             for sku in group:
                 try:
                     item = description_payload(channel,sku,rules[sku],before)
+                    if item is not None and mode=='apply' and channel in paused_writes:
+                        raise ValueError('Channel writes paused: '+paused_writes[channel])
                     prepared[sku] = item is not None
                     if item is not None: payload.append(item)
                 except Exception as exc:
@@ -487,7 +490,11 @@ def run(mode='inspect',only=None, descriptions_only=False, channels=None):
         result['before']=capture(skus, include_aux=False, channels=channels) if descriptions_only else capture(skus)
         encrypt_report(result)
         if descriptions_only:
-            apply_description_batches(result,rules,skus,mode)
+            policy_path=ROOT/'data/content_description_policy.json'
+            paused=json.loads(policy_path.read_text()).get('paused_writes',{}) if policy_path.exists() else {}
+            if not isinstance(paused,dict) or any(ch not in {'ozon','wb','market'} or not isinstance(reason,str) or not reason for ch,reason in paused.items()):
+                raise ValueError('Invalid description write policy')
+            apply_description_batches(result,rules,skus,mode,paused_writes=paused)
         elif mode!='inspect':
             for sku in skus:
                 result['products'][sku]={}
