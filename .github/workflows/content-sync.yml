@@ -43,6 +43,8 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
+      - name: Remove stale local verification artifacts
+        run: rm -f reports/content-sync/summary.json reports/content-sync/evidence.enc
       - name: Test the content boundary before accessing seller accounts
         env:
           TMPDIR: ${{ runner.temp }}
@@ -70,6 +72,14 @@ jobs:
           set -euo pipefail
           if [ "$DESCRIPTION_ONLY" = "true" ]; then
             test -n "$ARTICLES"
+            if [ "$CONTENT_MODE" = "apply" ]; then
+              test "$GITHUB_REF" = "refs/heads/main"
+              git fetch --no-tags origin main
+              cmp <(git show FETCH_HEAD:data/content_manifest.json) data/content_manifest.json
+              if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+                cmp <(git show FETCH_HEAD:data/description_sync_request.json) data/description_sync_request.json
+              fi
+            fi
             python content_sync.py --descriptions-only --mode "$CONTENT_MODE" --article "$ARTICLES"
           elif [ -n "$CONTENT_MODE" ]; then
             python content_sync.py --mode "$CONTENT_MODE"
