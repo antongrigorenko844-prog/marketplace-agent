@@ -2,8 +2,7 @@
   "counts": {
     "avito": {
       "blocked": 161,
-      "processing": 1,
-      "submitted": 3
+      "processing": 4
     },
     "market": {
       "blocked": 2,
@@ -9989,13 +9988,15 @@
         "attempts": 1,
         "card_id": "8302042942",
         "channel": "avito",
-        "error": null,
+        "error": "Stable published Avito feed differs from repository; refuse update",
+        "evidence": "reports/content-pipeline/runs/45394924441-1/avito/1/summary.json",
+        "next_attempt_utc": "2026-11-24T12:46:15.839842+00:00",
         "polls": 0,
-        "read_failures": 0,
+        "read_failures": 1,
         "sku": "kryshka-mehatronika-dq200",
-        "status": "submitted",
+        "status": "processing",
         "target_hash": "5c890489a74daac912d707d6d13e765e6e7b57cf41424b886e256e69eead0197",
-        "updated_utc": "2026-11-24T12:36:13.173338+00:00"
+        "updated_utc": "2026-11-24T12:36:15.839849+00:00"
       },
       "market": {
         "after_hash": "5c890489a74daac912d707d6d13e765e6e7b57cf41424b886e256e69eead0197",
@@ -10828,13 +10829,15 @@
         "attempts": 1,
         "card_id": "8236475560",
         "channel": "avito",
-        "error": null,
+        "error": "Stable published Avito feed differs from repository; refuse update",
+        "evidence": "reports/content-pipeline/runs/45394924441-1/avito/1/summary.json",
+        "next_attempt_utc": "2026-11-24T12:46:15.839873+00:00",
         "polls": 0,
-        "read_failures": 0,
+        "read_failures": 1,
         "sku": "plita-filtr-pylniki",
-        "status": "submitted",
+        "status": "processing",
         "target_hash": "134472d1054b7310e69e3778ef300e5df136bd106a7f802f782240f7ae7508df",
-        "updated_utc": "2026-11-24T12:36:13.173363+00:00"
+        "updated_utc": "2026-11-24T12:36:15.839875+00:00"
       },
       "market": {
         "after_hash": "134472d1054b7310e69e3778ef300e5df136bd106a7f802f782240f7ae7508df",
@@ -11087,13 +11090,15 @@
         "attempts": 1,
         "card_id": "8326892857",
         "channel": "avito",
-        "error": null,
+        "error": "Stable published Avito feed differs from repository; refuse update",
+        "evidence": "reports/content-pipeline/runs/45394924441-1/avito/1/summary.json",
+        "next_attempt_utc": "2026-11-24T12:46:15.839888+00:00",
         "polls": 0,
-        "read_failures": 0,
+        "read_failures": 1,
         "sku": "plita-filtr-pylniki-sal-orig",
-        "status": "submitted",
+        "status": "processing",
         "target_hash": "a3d5ca8c5c2bd4084821bd43a83713140fb158c7478a720b48ef08dfbb6b77ac",
-        "updated_utc": "2026-11-24T12:36:13.173366+00:00"
+        "updated_utc": "2026-11-24T12:36:15.839889+00:00"
       },
       "market": {
         "after_hash": "a3d5ca8c5c2bd4084821bd43a83713140fb158c7478a720b48ef08dfbb6b77ac",
@@ -14364,6 +14369,6 @@
     }
   },
   "run_id": "45394924441-1",
-  "updated_utc": "2026-11-24T12:36:13.173369+00:00",
+  "updated_utc": "2026-11-24T12:36:15.839902+00:00",
   "version": 1
 }
