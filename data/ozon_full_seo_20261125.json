@@ -3612,7 +3612,30 @@
       "catalog_title": "Поршень (толкатель) вилки мехатроника DSG7 DQ200",
       "title_drift": false,
       "category_result": {
-        "status": "submission_started"
+        "status": "review",
+        "task_id": 6118439365,
+        "checks": {
+          "product_id_same": true,
+          "sku_same": true,
+          "model_same": true,
+          "protected_diff": [
+            "attribute:23173"
+          ],
+          "stock_snapshot_same": true,
+          "moderation": {
+            "status": "imported",
+            "status_failed": "",
+            "moderate_status": "",
+            "validation_status": "pending",
+            "status_name": "Продаётся",
+            "status_description": "Обновляется",
+            "is_created": true,
+            "status_tooltip": "",
+            "status_updated_at": "2026-11-24T19:03:45.824986Z"
+          },
+          "errors": [],
+          "category_verified": true
+        }
       }
     },
     "0am325025m": {
@@ -15928,7 +15951,7 @@
       "items": [
         "0am325025l"
       ],
-      "status": "submitted",
+      "status": "checked",
       "started": "2026-11-24T19:03:41.682329+00:00",
       "before": {
         "card": {
@@ -16532,11 +16555,24 @@
           "task_id": 6118439365
         }
       },
-      "task_id": 6118439365
+      "task_id": 6118439365,
+      "import_status": {
+        "result": {
+          "items": [
+            {
+              "offer_id": "0am325025l",
+              "product_id": 1504174370,
+              "status": "imported",
+              "errors": []
+            }
+          ],
+          "total": 1
+        }
+      }
     }
   ],
   "errors": {},
-  "updated_utc": "2026-11-24T19:03:43.594475+00:00",
+  "updated_utc": "2026-11-24T19:03:47.598994+00:00",
   "counts": {
     "list_products": 147,
     "attributes": 147,
