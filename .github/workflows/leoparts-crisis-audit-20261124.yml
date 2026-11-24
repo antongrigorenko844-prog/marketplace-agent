@@ -1,0 +1,60 @@
+name: LEOPARTS crisis audit read-only November 24
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/leoparts-crisis-audit-20261124.yml']
+permissions:
+  contents: write
+concurrency:
+  group: leoparts-crisis-audit-20261124
+  cancel-in-progress: false
+jobs:
+  audit:
+    strategy:
+      fail-fast: false
+      matrix:
+        section: [orders, finance, traffic]
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Read aggregates only
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+          WORDSTAT_API_KEY: ${{ secrets.WORDSTAT_API_KEY }}
+          WORDSTAT_FOLDER_ID: ${{ secrets.WORDSTAT_FOLDER_ID }}
+        run: |
+          python -m py_compile scripts/leoparts_crisis_audit_20261124.py
+          python -u scripts/leoparts_crisis_audit_20261124.py "${{ matrix.section }}"
+      - name: Save only this section's aggregated reports
+        if: always()
+        run: |
+          dir=data/crisis_audit_20261124
+          if [ "${{ matrix.section }}" = orders ]; then
+            files=(ozon_fbs ozon_fbo wb market avito)
+          elif [ "${{ matrix.section }}" = finance ]; then
+            files=(ozon_finance)
+          else
+            files=(traffic wordstat)
+          fi
+          paths=()
+          for f in "${files[@]}"; do
+            if test -f "$dir/$f.json"; then paths+=("$dir/$f.json"); fi
+          done
+          if [ "${#paths[@]}" -gt 0 ]; then bash .github/scripts/save_data.sh "${paths[@]}"; fi
