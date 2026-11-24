@@ -763,7 +763,7 @@
     {
       "sku": "plita-filtr",
       "kind": "type",
-      "status": "submitted",
+      "status": "verified",
       "before": {
         "offerId": "plita-filtr",
         "name": "Усиленная гидроплита + фильтр мехатроника DSG7 DQ200, комплект",
@@ -992,6 +992,85 @@
       },
       "response": {
         "status": "OK"
+      },
+      "after": {
+        "offerId": "plita-filtr",
+        "name": "Усиленная гидроплита + фильтр мехатроника DSG7 DQ200, комплект",
+        "identity": {
+          "offerId": "plita-filtr",
+          "marketSku": 6255889487,
+          "groupId": "плита"
+        },
+        "model": 6255889488,
+        "category": 71380208,
+        "categoryName": "Запчасти для трансмиссии автомобиля",
+        "card_status": "HAS_CARD_CAN_UPDATE",
+        "campaign_status": "PUBLISHED",
+        "errors": [],
+        "warnings": [
+          {
+            "message": "Не заполнено обязательное поле",
+            "comment": "Укажите код ТН ВЭД"
+          }
+        ],
+        "card_errors": [],
+        "card_warnings": [
+          {
+            "message": "Не заполнено обязательное поле",
+            "comment": "Укажите код ТН ВЭД"
+          }
+        ],
+        "ugc": null,
+        "rating": 79,
+        "price": {
+          "value": 9350.0,
+          "currencyId": "RUR",
+          "discountBase": 13500.0,
+          "updatedAt": "2026-11-24T01:40:43+03:00"
+        },
+        "campaigns": [
+          {
+            "campaignId": 141377963,
+            "status": "PUBLISHED"
+          }
+        ],
+        "sellingPrograms": null,
+        "parameterValues": [
+          {
+            "parameterId": 72668284,
+            "value": "Volkswagen Skoda Audi Seat"
+          },
+          {
+            "parameterId": 16617043,
+            "value": "Volkswagen Skoda Audi Seat"
+          },
+          {
+            "parameterId": 21194330,
+            "valueId": 22269110,
+            "value": "комплект"
+          },
+          {
+            "parameterId": 7351754,
+            "value": "Комплектация: Усиленная гидроплита — 1 шт.; фильтр мехатроника — 1 шт."
+          },
+          {
+            "parameterId": 60134505,
+            "value": "0am325066ae"
+          },
+          {
+            "parameterId": 200,
+            "value": "плита"
+          }
+        ]
+      },
+      "checks": {
+        "protected_diff": [],
+        "other_attributes_unchanged": true,
+        "group_preserved": true,
+        "category_verified": true,
+        "type_verified": true,
+        "card_status": "HAS_CARD_CAN_UPDATE",
+        "campaign_status": "PUBLISHED"
       }
     }
   ],
@@ -1005,7 +1084,7 @@
     "Dq200dsg70am0cw": "Await verified alternate category endpoint canary",
     "0am325025": "Group not verified singleton"
   },
-  "updated_utc": "2026-11-24T19:33:37.633919+00:00",
+  "updated_utc": "2026-11-24T19:34:41.072019+00:00",
   "initial_counts": {
     "PUBLISHED": 118,
     "DISABLED_AUTOMATICALLY": 23,
