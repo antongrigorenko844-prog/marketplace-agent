@@ -2714,7 +2714,7 @@
     {
       "sku": "122390AKAF",
       "kind": "type",
-      "status": "submitted",
+      "status": "pending_readback",
       "target": 71380208,
       "before_category": 71380208,
       "before_protected": {
@@ -2863,12 +2863,19 @@
         ]
       },
       "reviews_before": null,
-      "remapped": []
+      "remapped": [],
+      "readback": {
+        "protected_diff": [],
+        "category": 71380208,
+        "parameters_match": true,
+        "status": "PUBLISHED",
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING"
+      }
     },
     {
       "sku": "filtr-setka-0b5-orig",
       "kind": "type",
-      "status": "submitted",
+      "status": "pending_readback",
       "target": 71380208,
       "before_category": 71380208,
       "before_protected": {
@@ -3110,7 +3117,14 @@
         ]
       },
       "reviews_before": null,
-      "remapped": []
+      "remapped": [],
+      "readback": {
+        "protected_diff": [],
+        "category": 71380208,
+        "parameters_match": true,
+        "status": "PUBLISHED",
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING"
+      }
     }
   ],
   "submitted_skus": [
@@ -3244,7 +3258,7 @@
   },
   "rows": {},
   "status": "preflight",
-  "updated_at": "2026-11-24T20:03:16.653324+00:00",
+  "updated_at": "2026-11-24T20:03:31.889330+00:00",
   "before_counts": {
     "PUBLISHED": 118,
     "DISABLED_AUTOMATICALLY": 23,
