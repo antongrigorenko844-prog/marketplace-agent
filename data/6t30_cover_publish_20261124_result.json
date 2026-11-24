@@ -36,6 +36,11 @@
       "row": 71,
       "status": "updated"
     },
+    "tilda": {
+      "file": "data/6t30_cover_tilda_editor_patch_20261124.json",
+      "secondary_count": 3,
+      "status": "editor_required"
+    },
     "wb": {
       "status": "submitted_pending_readback"
     },
@@ -49,6 +54,32 @@
   },
   "description_writes": 0,
   "price_writes": 0,
+  "recovery_readback": {
+    "avito_received": {
+      "current": {
+        "error": "Avito identity mismatch 6t30"
+      },
+      "last_successful": {
+        "error": "Avito identity mismatch 6t30"
+      }
+    },
+    "avito_stable": {
+      "error": "Avito identity mismatch 6t30",
+      "status": "read_error_or_mismatch"
+    },
+    "checked_utc": "2026-11-24T10:43:56.404423+00:00",
+    "feed_writes": 0,
+    "previous_run": "45366487615",
+    "seller_writes": 0,
+    "tilda": {
+      "public_cover_not_verified": true,
+      "status": "existing_editor_required"
+    },
+    "wb": {
+      "error": "Cover aspect ratio changed",
+      "status": "read_error"
+    }
+  },
   "sku": "6t30",
   "source_sha256": "6d5af9507dd8bb6eaabf26a3b2b9c2084d2f82b8cbd9c906503df951fddc296d",
   "source_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30-gen1-cover-20261124.png?v=6d5af9507d",
