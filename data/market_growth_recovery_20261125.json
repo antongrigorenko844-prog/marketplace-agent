@@ -2985,7 +2985,7 @@
     {
       "sku": "0am325025С",
       "kind": "type",
-      "status": "submitted",
+      "status": "pending_or_unchanged",
       "before": {
         "offerId": "0am325025С",
         "name": "Кольцо гидроаккумулятора мехатроника DSG7 DQ200",
@@ -3201,6 +3201,84 @@
       },
       "response": {
         "status": "OK"
+      },
+      "after": {
+        "offerId": "0am325025С",
+        "name": "Кольцо гидроаккумулятора мехатроника DSG7 DQ200",
+        "identity": {
+          "offerId": "0am325025С",
+          "marketSku": 4332495142,
+          "groupId": "кольцо гидроаккумулятора"
+        },
+        "model": 1112588193,
+        "category": 71380208,
+        "categoryName": "Запчасти для трансмиссии автомобиля",
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED",
+        "errors": [],
+        "warnings": [
+          {
+            "message": "Не заполнено обязательное поле",
+            "comment": "Укажите код ТН ВЭД"
+          }
+        ],
+        "card_errors": [],
+        "card_warnings": [
+          {
+            "message": "Не заполнено обязательное поле",
+            "comment": "Укажите код ТН ВЭД"
+          }
+        ],
+        "ugc": {
+          "rating": 5.0
+        },
+        "rating": 66,
+        "price": {
+          "value": 1350.0,
+          "currencyId": "RUR",
+          "discountBase": 2000.0,
+          "updatedAt": "2026-11-24T01:40:36+03:00"
+        },
+        "campaigns": [
+          {
+            "campaignId": 141377963,
+            "status": "PUBLISHED"
+          }
+        ],
+        "sellingPrograms": null,
+        "parameterValues": [
+          {
+            "parameterId": 14805583,
+            "unitId": 6145205,
+            "value": "1"
+          },
+          {
+            "parameterId": 21194330,
+            "valueId": 25968470,
+            "value": "кольцо"
+          },
+          {
+            "parameterId": 7351754,
+            "value": "Комплектация: Уплотнительное кольцо гидроаккумулятора мехатроника DSG7 DQ200 — 1 шт."
+          },
+          {
+            "parameterId": 60134505,
+            "value": "0am325025С"
+          },
+          {
+            "parameterId": 200,
+            "value": "кольцо гидроаккумулятора"
+          }
+        ]
+      },
+      "checks": {
+        "protected_diff": [],
+        "other_attributes_unchanged": true,
+        "group_preserved": true,
+        "category_verified": true,
+        "type_verified": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     }
   ],
@@ -3216,7 +3294,7 @@
     "separatornaya-plastiny-solenoid-dq200": "Group not verified singleton",
     "0am325025e": "Exact master/title not confirmed"
   },
-  "updated_utc": "2026-11-24T19:41:24.287007+00:00",
+  "updated_utc": "2026-11-24T19:42:27.529871+00:00",
   "initial_counts": {
     "PUBLISHED": 118,
     "DISABLED_AUTOMATICALLY": 23,
