@@ -77,7 +77,7 @@ jobs:
           save()
           try:
               # Exact dated baseline; never overwrite original unknown-period Excel.
-              r=s.post("/v2/reports/shows-sales/generate",{"businessId":biz,"campaignId":int(cam),"dateFrom":d["period"]["from"],"dateTo":d["period"]["to"],"grouping":"OFFERS"},params={"format":"JSON"},retries=1)
+              r=s.post("/v2/reports/shows-sales/generate",{"campaignId":int(cam),"dateFrom":d["period"]["from"],"dateTo":d["period"]["to"],"grouping":"OFFERS"},params={"format":"JSON"},retries=1)
               rid=(r.get("result") or {}).get("reportId")
               if not rid:raise ValueError("No report identifier")
               d["sales_report"]={"report_id":rid,"status":"submitted"};save()
