@@ -1410,7 +1410,29 @@
       "catalog_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769E",
       "title_drift": false,
       "attribute_result": {
-        "status": "submission_started"
+        "status": "verified",
+        "task_id": 6118435920,
+        "checks": {
+          "product_id_same": true,
+          "sku_same": true,
+          "model_same": true,
+          "protected_diff": [],
+          "stock_snapshot_same": true,
+          "moderation": {
+            "status": "imported",
+            "status_failed": "",
+            "moderate_status": "",
+            "validation_status": "pending",
+            "status_name": "Продаётся",
+            "status_description": "Обновляется",
+            "is_created": true,
+            "status_tooltip": "",
+            "status_updated_at": "2026-11-24T19:02:45.427339Z"
+          },
+          "errors": [],
+          "attributes_verified": true
+        },
+        "count": 1
       }
     },
     "0AM927769F": {
@@ -12849,7 +12871,7 @@
       "items": [
         "0AM927769E"
       ],
-      "status": "submitted",
+      "status": "checked",
       "started": "2026-11-24T19:02:41.418416+00:00",
       "before": {
         "0AM927769E": {
@@ -13280,11 +13302,24 @@
       "response": {
         "task_id": 6118435920
       },
-      "task_id": 6118435920
+      "task_id": 6118435920,
+      "import_status": {
+        "result": {
+          "items": [
+            {
+              "offer_id": "0AM927769E",
+              "product_id": 6976328449,
+              "status": "imported",
+              "errors": []
+            }
+          ],
+          "total": 1
+        }
+      }
     }
   ],
   "errors": {},
-  "updated_utc": "2026-11-24T19:02:43.260829+00:00",
+  "updated_utc": "2026-11-24T19:02:47.373174+00:00",
   "counts": {
     "list_products": 147,
     "attributes": 147,
