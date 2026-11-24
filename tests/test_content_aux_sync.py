@@ -77,3 +77,22 @@ class AuxContentTests(unittest.TestCase):
                          {'id':4191,'values':[{'value':'new'}]}]}
         self.assertEqual({v['id']:v['kind'] for v in attribute_diff(a,b)},
                          {1:'order_only',2:'value_or_metadata_changed'})
+
+
+    def test_tilda_canary_import_contains_only_existing_identity_and_text(self):
+        import xml.etree.ElementTree as ET
+        xml=aux.tilda_single_description_xml({'sku':'A','externalid':'A','title':'keep'},'new')
+        root=ET.fromstring(xml)
+        self.assertEqual(root.find('Каталог').attrib,{'СодержитТолькоИзменения':'true'})
+        product=root.find('.//Товар')
+        self.assertEqual({x.tag:x.text for x in product},
+                         {'Ид':'A','Артикул':'A','Наименование':'keep','Описание':'new'})
+
+    def test_tilda_canary_protects_other_products_and_commercial_fields(self):
+        a={'1':{'uid':'1','price':100,'text':'old'},'2':{'uid':'2','price':200,'text':'other'}}
+        b={'1':{'uid':'1','price':100,'text':'new'},'2':{'uid':'2','price':200,'text':'other'}}
+        self.assertEqual(aux.tilda_protected_state(a,'1'),aux.tilda_protected_state(b,'1'))
+        b['2']['text']='changed'
+        self.assertNotEqual(aux.tilda_protected_state(a,'1'),aux.tilda_protected_state(b,'1'))
+        b['2']['text']='other';b['1']['price']=1
+        self.assertNotEqual(aux.tilda_protected_state(a,'1'),aux.tilda_protected_state(b,'1'))
