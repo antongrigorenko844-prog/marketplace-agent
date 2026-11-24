@@ -19840,7 +19840,17 @@
         "reason": "Номер самой детали подтверждён текущим названием и мастер-каталогом."
       },
       "attribute_result": {
-        "status": "submission_started"
+        "status": "review",
+        "checks": {
+          "identity_preserved": true,
+          "protected_diff": [],
+          "parameters_verified": true,
+          "new_unexpected_parameters": [],
+          "category_verified": true,
+          "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+          "campaign_status": "NO_STOCKS",
+          "errors": []
+        }
       }
     },
     "31705-X428B": {
@@ -24889,7 +24899,7 @@
     {
       "kind": "attribute",
       "sku": "31705-1XF0C",
-      "status": "submitted",
+      "status": "review",
       "old_identity": {
         "offerId": "31705-1XF0C",
         "marketSku": 4868851451,
@@ -25088,6 +25098,186 @@
       "started_utc": "2026-11-24T19:23:21.166329+00:00",
       "response": {
         "status": "OK"
+      },
+      "after": {
+        "mapping": {
+          "offer": {
+            "offerId": "31705-1XF0C",
+            "name": "Гидроблок вариатора JF011E (RE0F10A), 2 датчика, 31705-1XF0C",
+            "category": "Запчасти для трансмиссии автомобиля",
+            "pictures": [
+              "https://ir.ozone.ru/s3/multimedia-1-f/10611206151.jpg"
+            ],
+            "vendor": "Нет бренда",
+            "description": "Гидроблок вариатора JF011E (RE0F10A), старое исполнение с двумя датчиками, номер 31705-1XF0C. Применяется при ремонте гидравлической системы вариатора соответствующей модификации. Перед заказом сравните полный номер снятого блока, количество датчиков и разъёмы с фото. Одного обозначения JF011E для подбора недостаточно. Рывки и ошибки вариатора требуют диагностики до замены узла.\n\nПеред покупкой сравните полную маркировку гидроблока, его разъёмы и крепления с установленным узлом. Нельзя выбирать исполнение только по названию модели автомобиля. Если неисправность ещё не установлена, сначала проведите диагностику: одинаковые симптомы могут иметь разные причины.",
+            "weightDimensions": {
+              "length": 50,
+              "width": 40,
+              "height": 40,
+              "weight": 7
+            },
+            "vendorCode": "31705-1XF0C",
+            "customsCommodityCode": "8708409909",
+            "commodityCodes": [
+              {
+                "code": "8708409909",
+                "type": "CUSTOMS_COMMODITY_CODE"
+              }
+            ],
+            "type": "DEFAULT",
+            "markingDeclared": false,
+            "params": [
+              {
+                "name": "Бренд",
+                "value": "Нет бренда"
+              },
+              {
+                "name": "Название модели (для объединения в одну карточку)",
+                "value": "гидроблок jf011"
+              },
+              {
+                "name": "#Хештеги",
+                "value": "#гидроблокjf011e"
+              },
+              {
+                "name": "Партномер (артикул производителя)",
+                "value": "31705-1XF0C"
+              },
+              {
+                "name": "Название",
+                "value": "Гидроблок вариатора JF011Новое поколение (RE0F10A) CVT для Nissan, Mitsubishi, Renault, Jeep"
+              },
+              {
+                "name": "Вес с упаковкой, г",
+                "value": "7000"
+              },
+              {
+                "name": "Код продавца",
+                "value": "31705-1XF0C"
+              },
+              {
+                "name": "Комплектация",
+                "value": "Гидроблок вариатора — 1 шт."
+              }
+            ],
+            "basicPrice": {
+              "value": 58850.0,
+              "currencyId": "RUR",
+              "discountBase": 80000.0,
+              "updatedAt": "2026-11-24T01:40:37+03:00"
+            },
+            "cardStatus": "HAS_CARD_CAN_UPDATE_PROCESSING",
+            "campaigns": [
+              {
+                "campaignId": 141377963,
+                "status": "NO_STOCKS"
+              }
+            ],
+            "mediaFiles": {
+              "pictures": [
+                {
+                  "url": "https://ir.ozone.ru/s3/multimedia-1-f/10611206151.jpg",
+                  "marketUrl": "https://avatars.mds.yandex.net/get-mpic/16490989/2a0000019e42c1aaaf84cad2a28443c2e2e8/orig",
+                  "uploadState": "UPLOADED"
+                }
+              ]
+            },
+            "groupId": "гидроблок jf011"
+          },
+          "mapping": {
+            "marketSku": 4868851451,
+            "marketSkuName": "Гидроблок вариатора JF011E (RE0F10A), 2 датчика, 31705-1XF0C",
+            "marketModelId": 4868851450,
+            "marketModelName": "",
+            "marketCategoryId": 71380208,
+            "marketCategoryName": "Запчасти для трансмиссии автомобиля"
+          },
+          "showcaseUrls": [
+            {
+              "showcaseType": "B2C",
+              "showcaseUrl": "https://market.yandex.ru/card/slug/4868851451?businessId=194752944"
+            }
+          ]
+        },
+        "card": {
+          "offerId": "31705-1XF0C",
+          "mapping": {
+            "marketSku": 4868851451,
+            "marketSkuName": "Гидроблок вариатора JF011E (RE0F10A), 2 датчика, 31705-1XF0C",
+            "marketModelId": 4868851450,
+            "marketModelName": "",
+            "marketCategoryId": 71380208,
+            "marketCategoryName": "Запчасти для трансмиссии автомобиля"
+          },
+          "parameterValues": [
+            {
+              "parameterId": 7351754,
+              "value": "Комплектация: Гидроблок вариатора — 1 шт."
+            },
+            {
+              "parameterId": 60134505,
+              "value": "31705-1XF0C"
+            },
+            {
+              "parameterId": 200,
+              "value": "гидроблок jf011"
+            }
+          ],
+          "cardStatus": "HAS_CARD_CAN_UPDATE_PROCESSING",
+          "contentRating": 72,
+          "averageContentRating": 37,
+          "contentRatingStatus": "UPDATING",
+          "recommendations": [
+            {
+              "type": "ADDITIONAL",
+              "percent": 15,
+              "remainingRatingPoints": 13
+            },
+            {
+              "type": "PICTURE_COUNT",
+              "percent": 17,
+              "remainingRatingPoints": 7
+            },
+            {
+              "type": "FIRST_VIDEO_SIZE",
+              "remainingRatingPoints": 2
+            },
+            {
+              "type": "FIRST_VIDEO_LENGTH",
+              "remainingRatingPoints": 2
+            },
+            {
+              "type": "AVERAGE_VIDEO_SIZE",
+              "remainingRatingPoints": 2
+            },
+            {
+              "type": "VIDEO_COUNT",
+              "percent": 0,
+              "remainingRatingPoints": 2
+            }
+          ],
+          "groupId": "гидроблок jf011"
+        },
+        "campaign": {
+          "offerId": "31705-1XF0C",
+          "basicPrice": {
+            "value": 58850.0,
+            "currencyId": "RUR",
+            "discountBase": 80000.0,
+            "updatedAt": "2026-11-24T01:40:37+03:00"
+          },
+          "status": "NO_STOCKS"
+        }
+      },
+      "checks": {
+        "identity_preserved": true,
+        "protected_diff": [],
+        "parameters_verified": true,
+        "new_unexpected_parameters": [],
+        "category_verified": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "NO_STOCKS",
+        "errors": []
       }
     }
   ],
@@ -25106,7 +25296,7 @@
     "main_transmission_category": 100,
     "other_categories": 43
   },
-  "updated_utc": "2026-11-24T19:23:23.111851+00:00",
+  "updated_utc": "2026-11-24T19:23:47.647330+00:00",
   "counts": {
     "active_catalog": 158,
     "cards": 158,
