@@ -39,6 +39,9 @@ def _headers() -> Dict[str, str]:
 
 
 def _request(method: str, base: str, path: str, json_body: Optional[dict] = None, retries: int = 3) -> dict:
+    if method.upper()=='POST':
+        from content_manifest import check_wb_description_write
+        check_wb_description_write(path,json_body)
     url = f"{base}{path}"
     last_error: Optional[Exception] = None
     for attempt in range(1, retries + 1):

@@ -72,6 +72,9 @@ def _headers(token: str) -> Dict[str, str]:
 
 def _request(method: str, path: str, *, params=None, json_body=None, timeout: int = 60, retries: int = 3) -> Tuple[int, dict]:
     """HTTP response. Writes may opt out of automatic retries on unknown outcomes."""
+    if method.upper()=="POST":
+        from content_manifest import check_market_description_write
+        check_market_description_write(path,json_body)
     if type(retries) is not int or retries < 1 or retries > 3:
         raise YandexMarketError("Invalid HTTP retry budget")
     token, _ = _creds()

@@ -124,3 +124,49 @@ def market_parameters_for(card, plan, definitions):
         if len(str(p.get('value','')))>d.get('constraints',{}).get('maxLength',100000):raise ValueError('Parameter too long')
         values.append(copy.deepcopy(p))
     return new,values
+
+
+def assert_canonical_description(sku, channel, value, *, present=True):
+    """Reject stale content writes from legacy scripts, not just the new pipeline."""
+    if not isinstance(sku, str) or not sku:
+        return
+    wanted=load().get(sku,{}).get('text',{}).get(channel,{}).get('description')
+    if wanted is None:
+        return
+    if not present or value != wanted:
+        raise ValueError(f'Canonical description mismatch for {channel}/{sku}; update content_manifest.json first')
+
+
+def check_ozon_description_write(path, payload):
+    if path not in {'/v1/product/attributes/update','/v3/product/import'}:
+        return
+    for row in payload.get('items',[]):
+        sku=row.get('offer_id')
+        descriptions=[attr for attr in row.get('attributes',[]) if attr.get('id')==4191]
+        values=[v.get('value') for attr in descriptions for v in attr.get('values',[])]
+        if descriptions or path=='/v3/product/import':
+            if len(values)>1:
+                raise ValueError(f'Ambiguous Ozon description for {sku}')
+            assert_canonical_description(sku,'ozon',values[0] if values else None,present=bool(values))
+
+
+def check_wb_description_write(path, payload):
+    if path=='/content/v2/cards/update':
+        rows=payload or []
+    elif path=='/content/v2/cards/upload':
+        rows=[row for group in (payload or []) for row in group.get('variants',[])]
+    else:
+        return
+    for row in rows:
+        assert_canonical_description(row.get('vendorCode'),'wb',row.get('description'),
+                                     present='description' in row)
+
+
+def check_market_description_write(path, payload):
+    import re
+    if not re.fullmatch(r'/v2/businesses/\d+/offer-mappings/update',path):
+        return
+    for mapping in (payload or {}).get('offerMappings',[]):
+        row=mapping.get('offer',{})
+        if 'description' in row:
+            assert_canonical_description(row.get('offerId'),'market',row['description'])
