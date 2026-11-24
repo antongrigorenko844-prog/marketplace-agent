@@ -6246,7 +6246,7 @@
     {
       "sku": "plita-pylniki-salniki-orig-v2",
       "kind": "type",
-      "status": "submitted",
+      "status": "pending_or_unchanged",
       "before": {
         "offerId": "plita-pylniki-salniki-orig-v2",
         "name": "Усиленная гидроплита + 2 оригинальных пыльника + 2 оригинальных сальника DQ200 DSG7",
@@ -6491,6 +6491,89 @@
       },
       "response": {
         "status": "OK"
+      },
+      "after": {
+        "offerId": "plita-pylniki-salniki-orig-v2",
+        "name": "Усиленная гидроплита + 2 оригинальных пыльника + 2 оригинальных сальника DQ200 DSG7",
+        "identity": {
+          "offerId": "plita-pylniki-salniki-orig-v2",
+          "marketSku": 6250214306,
+          "groupId": "плита_plita-pylniki-salniki-orig-v2_plita-pylniki-salniki-orig-v2_plita-pylniki-salniki-orig-v2_plita-pylniki-salniki-orig-v2"
+        },
+        "model": 6250214305,
+        "category": 71380208,
+        "categoryName": "Запчасти для трансмиссии автомобиля",
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED",
+        "errors": [],
+        "warnings": [
+          {
+            "message": "Не заполнено обязательное поле",
+            "comment": "Укажите код ТН ВЭД"
+          }
+        ],
+        "card_errors": [],
+        "card_warnings": [
+          {
+            "message": "Не заполнено обязательное поле",
+            "comment": "Укажите код ТН ВЭД"
+          }
+        ],
+        "ugc": null,
+        "rating": 58,
+        "price": {
+          "value": 11850.0,
+          "currencyId": "RUR",
+          "discountBase": 17000.0,
+          "updatedAt": "2026-11-24T01:40:43+03:00"
+        },
+        "campaigns": [
+          {
+            "campaignId": 141377963,
+            "status": "PUBLISHED"
+          }
+        ],
+        "sellingPrograms": null,
+        "parameterValues": [
+          {
+            "parameterId": 57046341,
+            "value": "Вид техники: Легковые автомобили"
+          },
+          {
+            "parameterId": 72668284,
+            "value": "Volkswagen Skoda Audi Seat"
+          },
+          {
+            "parameterId": 16617043,
+            "value": "Volkswagen Skoda Audi Seat"
+          },
+          {
+            "parameterId": 21194330,
+            "valueId": 22269110,
+            "value": "комплект"
+          },
+          {
+            "parameterId": 7351754,
+            "value": "Комплектация: Усиленная гидроплита — 1 шт.; оригинальные пыльники штоков VAG — 2 шт.; оригинальные сальники штоков VAG — 2 шт."
+          },
+          {
+            "parameterId": 60134505,
+            "value": "0am325066ae"
+          },
+          {
+            "parameterId": 200,
+            "value": "плита_plita-pylniki-salniki-orig-v2_plita-pylniki-salniki-orig-v2_plita-pylniki-salniki-orig-v2_plita-pylniki-salniki-orig-v2"
+          }
+        ]
+      },
+      "checks": {
+        "protected_diff": [],
+        "other_attributes_unchanged": true,
+        "group_preserved": true,
+        "category_verified": true,
+        "type_verified": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     }
   ],
@@ -6508,7 +6591,7 @@
     "0am325066ad": "Group not verified singleton",
     "0AM301212A": "Group not verified singleton"
   },
-  "updated_utc": "2026-11-24T19:53:26.367319+00:00",
+  "updated_utc": "2026-11-24T19:54:30.861934+00:00",
   "initial_counts": {
     "PUBLISHED": 118,
     "DISABLED_AUTOMATICALLY": 23,
