@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "source_revision": "fcb77f937d9c1b6066cb8d38bcd94f286a02f6e2",
+  "scope": "supplemental descriptions only; exact master identities and observed channel IDs",
+  "reviewed": [
+    {
+      "sku": "0ambset",
+      "channels": [
+        "ozon",
+        "market",
+        "tilda"
+      ],
+      "source": "Exact master and verified live Tilda title, saved Tilda feed and historical BOM"
+    },
+    {
+      "sku": "0BH325",
+      "channels": [
+        "ozon",
+        "market",
+        "tilda"
+      ],
+      "source": "Exact master and live Tilda title; historical exact SKU feed"
+    },
+    {
+      "sku": "korpus-filtra-0bh325159",
+      "channels": [
+        "ozon",
+        "market",
+        "tilda",
+        "wb"
+      ],
+      "source": "Exact master and live Tilda title, WB nmID 1988502364, historical Tilda feed"
+    },
+    {
+      "sku": "remkomplekt-shtokov-orig-v2",
+      "channels": [
+        "ozon",
+        "market",
+        "tilda"
+      ],
+      "source": "Exact master and live Tilda title; exact SKU feed confirms 2+2+2"
+    },
+    {
+      "sku": "nakladki-pedali",
+      "channels": [
+        "market",
+        "tilda"
+      ],
+      "source": "Exact master and live Tilda title confirm material and quantity"
+    },
+    {
+      "sku": "EA888",
+      "channels": [
+        "ozon",
+        "market",
+        "tilda"
+      ],
+      "source": "Exact master title and historical feed distinguish the housing itself from separate valve; live Tilda exact UID"
+    },
+    {
+      "sku": "0cw0amdsgdq200",
+      "channels": [
+        "ozon",
+        "market",
+        "tilda",
+        "wb",
+        "avito"
+      ],
+      "source": "Exact master, live Tilda and saved WB titles agree on motor seal; remove historical conflation with board gasket"
+    },
+    {
+      "sku": "0cw325025h",
+      "channels": [
+        "ozon",
+        "market",
+        "tilda",
+        "wb",
+        "avito"
+      ],
+      "source": "Exact master/Tilda/WB title and saved descriptions agree on gasket, conflicting OEM references intentionally omitted"
+    },
+    {
+      "sku": "0am325025j",
+      "channels": [
+        "market",
+        "tilda",
+        "avito"
+      ],
+      "source": "Approved Ozon BOM 1+2; exact master and verified Tilda titles; approved Avito title; WB separately held"
+    }
+  ],
+  "held": [
+    {
+      "sku": "0cw0am",
+      "reason": "Existing stop/identity policy preserved until separately reconciled"
+    },
+    {
+      "sku": "Ea888gen3",
+      "reason": "Live title says magnet; master/historical description says valve. Do not infer product identity."
+    },
+    {
+      "sku": "0am325025j",
+      "channel": "wb",
+      "reason": "WB title omits separator and historical listing BOM is ambiguous."
+    }
+  ],
+  "notes": [
+    "Only missing descriptions added; existing descriptions and all non-description fields untouched.",
+    "Additional live-only SKUs without canonical product identity remain pending."
+  ]
+}
