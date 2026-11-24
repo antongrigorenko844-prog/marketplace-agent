@@ -1,0 +1,106 @@
+{
+  "channels": {
+    "avito": {
+      "after_count": 1,
+      "avito_id": "8425207775",
+      "backup": "avito_feed.backup_gen1remove2_787870892.xlsx",
+      "before_count": 2,
+      "changed_cells": [
+        "S65"
+      ],
+      "local_cells": [
+        "S65"
+      ],
+      "main_unchanged": true,
+      "new_feed_sha": "028f0a9184bb02feaa402fe62168646c820f25f9116237a169ff21b339c0194b",
+      "non_image_cells_unchanged": true,
+      "old_feed_sha": "b83a0b1c172a61491abb2d78c60e37619d9055f7e198ac3535904b804c6bffee",
+      "public_verified": false,
+      "removed": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/33e049bbab6a0c547501fe8ce3b06ccc00c74e78/photos/media-three-20261116/6t30-preview.png",
+      "repository_copy_correct": true,
+      "status": "stable_feed_verified_not_listing"
+    },
+    "market": {
+      "actual_count": 1,
+      "before_count": 2,
+      "expected_count": 1,
+      "other_media_unchanged": true,
+      "primary_after": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30-gen1-six-20261124.png?v=083f4c63f0",
+      "primary_before": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30-gen1-six-20261124.png?v=083f4c63f0",
+      "primary_content_unchanged": true,
+      "primary_url_preserved": true,
+      "protected_unchanged": true,
+      "removed_url": "https://datacamp.market.yandex.ru/pictures/194752944/ZVtyPdGd07HAkUSBEcw2xQ",
+      "status": "verified"
+    },
+    "ozon": {
+      "composition_verified": true,
+      "count": 2,
+      "cover_difference": 0.723,
+      "description_verified": true,
+      "gallery": [
+        "https://ir-20.ozone.ru/s3/multimedia-1-d/21691694857.jpg",
+        "https://ir-20.ozone.ru/s3/multimedia-1-2/21377525330.jpg"
+      ],
+      "main_verified": true,
+      "prior_task": {
+        "result": {
+          "items": [
+            {
+              "errors": [
+                {
+                  "attribute_id": 0,
+                  "attribute_name": "",
+                  "code": "double_without_merger_offer",
+                  "description": "Не удалось объединить с другими товарами. Есть товары, у которых вариативные характеристики заполнены также: 0AM325473, klipsy-shtokov-2sht, 0am325025P. Измените хотя бы одну вариативную характеристику.",
+                  "field": "spu",
+                  "level": "warning",
+                  "message": "Не удалось объединить с другими товарами. Есть товары, у которых вариативные характеристики заполнены также: 0AM325473, klipsy-shtokov-2sht, 0am325025P. Измените хотя бы одну вариативную характеристику.",
+                  "state": "moderated"
+                }
+              ],
+              "offer_id": "6t30",
+              "product_id": 6287285958,
+              "status": "imported"
+            }
+          ],
+          "total": 1
+        }
+      },
+      "quantity_six": true,
+      "same_primary_url": true,
+      "status": "not_verified"
+    },
+    "tilda": {
+      "before_count": 4,
+      "expected_count": 3,
+      "patch": "data/6t30_gen1_remove_second_tilda_20261125.json",
+      "primary_before": "https://static.tildacdn.com/stor6237-3434-4165-b732-313734653666/63ec681dc317124d6b0e3c8983ab8471.png",
+      "primary_unchanged_in_plan": true,
+      "reason": "No supported existing-product gallery delete through the connected Tilda API; CommerceML photo import appends instead of deleting.",
+      "removed_url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/photos/media-three-20261116/6t30-preview.png",
+      "status": "editor_required"
+    },
+    "wb": {
+      "all_prior_characteristics_exact": null,
+      "composition_verified": true,
+      "count": 1,
+      "cover_difference": 0.851,
+      "description_verified": true,
+      "gallery": [
+        "https://basket-57.wbbasket.ru/vol22541/part2254117/2254117475/images/big/1.webp"
+      ],
+      "main_verified": true,
+      "same_primary_url": true,
+      "status": "verified",
+      "title_verified": true
+    }
+  },
+  "description_writes": 0,
+  "finished_utc": "2026-11-24T16:17:09.585639+00:00",
+  "other_sku_writes": 0,
+  "price_writes": 0,
+  "scope": "verify only second removed; retry exact Avito feed",
+  "sku": "6t30",
+  "stock_writes": 0
+}
