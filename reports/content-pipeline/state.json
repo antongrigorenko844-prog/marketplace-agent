@@ -20,7 +20,7 @@
     },
     "wb": {
       "not_applicable": 22,
-      "submitted": 1,
+      "processing": 1,
       "verified": 142
     }
   },
@@ -1854,17 +1854,17 @@
         "before_hash": "7019450ce08cac821ccd9275644ad970616e4af2bb11f95408baaba35ee764ea",
         "card_id": "670860344",
         "channel": "wb",
-        "error": null,
+        "error": "Awaiting exact live readback",
         "evidence": "reports/content-pipeline/runs/45355707321-1/wb/0",
-        "last_checked_utc": "2026-11-24T08:25:01.341311+00:00",
-        "next_attempt_utc": null,
+        "last_checked_utc": "2026-11-24T08:25:08.499127+00:00",
+        "next_attempt_utc": "2026-11-24T08:40:08.499163+00:00",
         "polls": 0,
         "protected_hash": "0784c43a21bcba1be0f3f2e0f9102c236c419e95e9f4af8a6be317ea8fa4104f",
         "read_failures": 0,
         "sku": "0AM927769D",
-        "status": "submitted",
+        "status": "processing",
         "target_hash": "92b3ffcd385e0b05b682f375ebe0980052d2fe6d71828d1dbb3e64ceb3bc65bd",
-        "updated_utc": "2026-11-24T08:25:01.341434+00:00"
+        "updated_utc": "2026-11-24T08:25:08.499171+00:00"
       }
     },
     "0AM927769D-plata": {
@@ -14360,6 +14360,6 @@
     }
   },
   "run_id": "45355707321-1",
-  "updated_utc": "2026-11-24T08:25:01.355557+00:00",
+  "updated_utc": "2026-11-24T08:25:08.499815+00:00",
   "version": 1
 }
