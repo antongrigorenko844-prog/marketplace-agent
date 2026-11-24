@@ -59,8 +59,8 @@ jobs:
               print('master='+str('master' in channels).lower(), file=out)
           PY
   descriptions:
-    needs: scope
-    if: needs.scope.outputs.api == 'true'
+    needs: [scope, master]
+    if: always() && needs.scope.result == 'success' && (needs.master.result == 'success' || needs.master.result == 'skipped') && needs.scope.outputs.api == 'true'
     uses: ./.github/workflows/content-sync.yml
     with:
       descriptions_only: true
@@ -70,8 +70,8 @@ jobs:
     secrets: inherit
 
   auxiliary:
-    needs: [scope, descriptions]
-    if: always() && needs.scope.result == 'success' && needs.scope.outputs.auxiliary != ''
+    needs: [scope, master, descriptions]
+    if: always() && needs.scope.result == 'success' && (needs.master.result == 'success' || needs.master.result == 'skipped') && needs.scope.outputs.auxiliary != ''
     runs-on: ubuntu-latest
     timeout-minutes: 20
     concurrency:
