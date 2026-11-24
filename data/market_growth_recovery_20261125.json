@@ -7198,7 +7198,7 @@
     {
       "sku": "02E305051C",
       "kind": "type",
-      "status": "submitted",
+      "status": "pending_or_unchanged",
       "before": {
         "offerId": "02E305051C",
         "name": "Фильтр мехатроника DSG6 DQ250 02E305051C",
@@ -7417,6 +7417,83 @@
       },
       "response": {
         "status": "OK"
+      },
+      "after": {
+        "offerId": "02E305051C",
+        "name": "Фильтр мехатроника DSG6 DQ250 02E305051C",
+        "identity": {
+          "offerId": "02E305051C",
+          "marketSku": 4332441059,
+          "groupId": "02e"
+        },
+        "model": 1112572248,
+        "category": 71380208,
+        "categoryName": "Запчасти для трансмиссии автомобиля",
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED",
+        "errors": [],
+        "warnings": [
+          {
+            "message": "Не заполнено обязательное поле",
+            "comment": "Укажите код ТН ВЭД"
+          }
+        ],
+        "card_errors": [],
+        "card_warnings": [
+          {
+            "message": "Не заполнено обязательное поле",
+            "comment": "Укажите код ТН ВЭД"
+          }
+        ],
+        "ugc": {
+          "rating": 0.0
+        },
+        "rating": 43,
+        "price": {
+          "value": 1450.0,
+          "currencyId": "RUR",
+          "discountBase": 3000.0,
+          "updatedAt": "2026-11-24T01:40:37+03:00"
+        },
+        "campaigns": [
+          {
+            "campaignId": 141377963,
+            "status": "PUBLISHED"
+          }
+        ],
+        "sellingPrograms": null,
+        "parameterValues": [
+          {
+            "parameterId": 14805583,
+            "unitId": 6145205,
+            "value": "1"
+          },
+          {
+            "parameterId": 21194330,
+            "value": "фильтр АКПП"
+          },
+          {
+            "parameterId": 7351754,
+            "value": "Комплектация: Фильтр мехатроника DSG6 DQ250 02E305051C — 1 шт."
+          },
+          {
+            "parameterId": 60134505,
+            "value": "02E305051C"
+          },
+          {
+            "parameterId": 200,
+            "value": "02e"
+          }
+        ]
+      },
+      "checks": {
+        "protected_diff": [],
+        "other_attributes_unchanged": true,
+        "group_preserved": true,
+        "category_verified": true,
+        "type_verified": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     }
   ],
@@ -7435,7 +7512,7 @@
     "0AM301212A": "Group not verified singleton",
     "0AM325433E": "Group not verified singleton"
   },
-  "updated_utc": "2026-11-24T19:57:12.998289+00:00",
+  "updated_utc": "2026-11-24T19:58:17.306081+00:00",
   "initial_counts": {
     "PUBLISHED": 118,
     "DISABLED_AUTOMATICALLY": 23,
