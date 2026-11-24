@@ -21,10 +21,10 @@
       "verified": 2
     },
     "wb": {
-      "blocked": 3,
+      "blocked": 4,
       "not_applicable": 16,
       "pending": 2,
-      "prepared": 5,
+      "prepared": 4,
       "verified": 134
     }
   },
@@ -2692,11 +2692,15 @@
         "updated_utc": "2026-11-24T04:44:49.660269+00:00"
       },
       "wb": {
+        "after_hash": "8672e7b4d17d3a4b9e5f7786aedc38a0b3a670504be92728031e107f9867e990",
         "attempts": 0,
+        "before_hash": "8672e7b4d17d3a4b9e5f7786aedc38a0b3a670504be92728031e107f9867e990",
         "card_id": "711549088",
         "channel": "wb",
         "error": null,
+        "last_checked_utc": "2026-11-24T04:44:59.014286+00:00",
         "polls": 0,
+        "protected_hash": "afc2f1b9bb49c89d8d4172103d12bcc03017c14ebf5d435e787efaf7944ecb2c",
         "read_failures": 0,
         "sku": "0am3250066AE",
         "status": "prepared",
@@ -3089,11 +3093,15 @@
         "updated_utc": "2026-11-24T04:44:49.660680+00:00"
       },
       "wb": {
+        "after_hash": "af4f12e09208713d65f4c07d5512de9997c0f9d905877bd2c713f607a114d01f",
         "attempts": 0,
+        "before_hash": "af4f12e09208713d65f4c07d5512de9997c0f9d905877bd2c713f607a114d01f",
         "card_id": "711552729",
         "channel": "wb",
         "error": null,
+        "last_checked_utc": "2026-11-24T04:44:59.014487+00:00",
         "polls": 0,
+        "protected_hash": "aabd455a487441b133dbe4b4d850c6137b377bf9df555fef973304c6210da761",
         "read_failures": 0,
         "sku": "0am325025HC",
         "status": "prepared",
@@ -3941,11 +3949,15 @@
         "updated_utc": "2026-11-24T03:45:40.021802+00:00"
       },
       "wb": {
+        "after_hash": "b05890683fb326b061f9e9e5850bb4f518f4db5fad8586f1b9aca53623481319",
         "attempts": 0,
+        "before_hash": "b05890683fb326b061f9e9e5850bb4f518f4db5fad8586f1b9aca53623481319",
         "card_id": "670862709",
         "channel": "wb",
         "error": null,
+        "last_checked_utc": "2026-11-24T04:44:59.014675+00:00",
         "polls": 0,
+        "protected_hash": "d1395caac357511effbea3f2ec60f8abd4d71fcd65eb30f4f41c916928270a19",
         "read_failures": 0,
         "sku": "0am325025j",
         "status": "prepared",
@@ -4692,11 +4704,15 @@
         "updated_utc": "2026-11-24T04:44:49.662243+00:00"
       },
       "wb": {
+        "after_hash": "859c1a9d16ce7f469af992e06808a416c7501f65eb042b9815de7ffc5e819380",
         "attempts": 0,
+        "before_hash": "859c1a9d16ce7f469af992e06808a416c7501f65eb042b9815de7ffc5e819380",
         "card_id": "716791826",
         "channel": "wb",
         "error": null,
+        "last_checked_utc": "2026-11-24T04:44:59.014803+00:00",
         "polls": 0,
+        "protected_hash": "92eba830140a72d0b5002989d174d88569ff955166f171c2e5073742c9fe0e5c",
         "read_failures": 0,
         "sku": "0am325025ze",
         "status": "prepared",
@@ -5716,16 +5732,18 @@
         "updated_utc": "2026-11-24T04:44:49.663039+00:00"
       },
       "wb": {
+        "after_hash": "d95f3f1e05c6d8d20bfcd844d9867eddbff26fcf5100c6e127ae12c96c703783",
         "attempts": 0,
         "card_id": "1949483512",
         "channel": "wb",
-        "error": null,
+        "error": "Canonical workbook description not verified for this SKU/channel",
+        "last_checked_utc": "2026-11-24T04:44:59.014954+00:00",
         "polls": 0,
         "read_failures": 0,
         "sku": "0cw0am",
-        "status": "prepared",
+        "status": "blocked",
         "target_hash": "27ff180f6313df0cc0cc01d1e34d8d849a72553724a3ca772aa7a5045c9c55d8",
-        "updated_utc": "2026-11-24T04:44:49.663003+00:00"
+        "updated_utc": "2026-11-24T04:44:59.014972+00:00"
       }
     },
     "0cw0am325025": {
@@ -13812,6 +13830,6 @@
     }
   },
   "run_id": "45328350048-1",
-  "updated_utc": "2026-11-24T04:44:53.125110+00:00",
+  "updated_utc": "2026-11-24T04:44:59.014977+00:00",
   "version": 1
 }
