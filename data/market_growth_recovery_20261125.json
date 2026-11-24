@@ -4,7 +4,7 @@
   "campaign_id": "141377963",
   "started_utc": "2026-11-24T19:30:39.868846+00:00",
   "external_writes": 25,
-  "status": "readback_complete",
+  "status": "processed_with_review",
   "errors": {},
   "readback": {
     "0cw325025h": {
@@ -8091,9 +8091,10 @@
     "0am325066ad": "Group not verified singleton",
     "0AM301212A": "Group not verified singleton",
     "0AM325433E": "Group not verified singleton",
-    "filtr-dsg7-dq500": "Group not verified singleton"
+    "filtr-dsg7-dq500": "Group not verified singleton",
+    "317053TX0C": "Group not verified singleton"
   },
-  "updated_utc": "2026-11-24T20:00:54.901386+00:00",
+  "updated_utc": "2026-11-24T20:01:06.266098+00:00",
   "initial_counts": {
     "PUBLISHED": 118,
     "DISABLED_AUTOMATICALLY": 23,
@@ -10866,5 +10867,25 @@
       }
     },
     "note": "Delivered order-item prices and purchase cost only; commissions, subsidies, returns, fulfillment and tax not reconciled; not net profit."
-  }
+  },
+  "final_counts": {
+    "PUBLISHED": 118,
+    "DISABLED_AUTOMATICALLY": 23,
+    "NO_STOCKS": 16,
+    "DISABLED_BY_PARTNER": 1
+  },
+  "publication_recovered": [],
+  "publication_lost": [],
+  "summary": {
+    "readback": {
+      "verified": 5,
+      "review": 5
+    },
+    "operations": {
+      "type:pending_or_unchanged": 20,
+      "type:verified": 5
+    },
+    "blocked": 15
+  },
+  "finished_utc": "2026-11-24T20:01:06.266089+00:00"
 }
