@@ -1,5 +1,5 @@
 {
-  "status": "running",
+  "status": "blocked_or_unverified",
   "campaign": 716316525,
   "feed": 4061297,
   "started_utc": "2026-11-24T11:17:43.465324+00:00",
@@ -49,7 +49,9 @@
       "after_sha256": "061270b818527b3c76785ed583923975cab40e112fa2ee6fe9ef283972169cb4"
     }
   },
-  "errors": [],
+  "errors": [
+    "Public updated feed bytes not confirmed"
+  ],
   "site_writes": 0,
   "metrika_writes": 0,
   "ads_writes": 0,
@@ -196,5 +198,6 @@
       "old_feed_stock": "5",
       "old_available": "true"
     }
-  }
+  },
+  "finished_utc": "2026-11-24T11:18:45.529655+00:00"
 }
