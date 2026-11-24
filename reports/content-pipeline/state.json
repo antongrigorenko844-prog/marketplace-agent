@@ -5,9 +5,10 @@
       "processing": 118
     },
     "market": {
+      "blocked": 1,
       "not_applicable": 9,
       "pending": 9,
-      "prepared": 2,
+      "prepared": 1,
       "verified": 147
     },
     "ozon": {
@@ -6822,11 +6823,15 @@
         "updated_utc": "2026-11-24T03:43:54.135463+00:00"
       },
       "market": {
+        "after_hash": "0794e63005d9cb3ee52d915350a250e15a663d31f57aa310854afcd8714fbad9",
         "attempts": 0,
+        "before_hash": "0794e63005d9cb3ee52d915350a250e15a663d31f57aa310854afcd8714fbad9",
         "card_id": "4872038927",
         "channel": "market",
         "error": null,
+        "last_checked_utc": "2026-11-24T03:44:17.239502+00:00",
         "polls": 0,
+        "protected_hash": "e374d7811c4fd60105bc4fc55a917f7cff0f639e88c9a97d0d90e428ac780f02",
         "read_failures": 0,
         "sku": "31705-1XF1A",
         "status": "prepared",
@@ -10023,14 +10028,14 @@
         "attempts": 0,
         "card_id": "6245067593",
         "channel": "market",
-        "error": null,
-        "last_checked_utc": "2026-11-24T02:46:08.800120+00:00",
+        "error": "Canonical workbook description not verified for this SKU/channel",
+        "last_checked_utc": "2026-11-24T03:44:17.239672+00:00",
         "polls": 0,
         "read_failures": 0,
         "sku": "nakladki-pedali",
-        "status": "prepared",
+        "status": "blocked",
         "target_hash": "03082abe03fbc58f93cce45931dc364f0958feca7e534adb44149deee5e36e9f",
-        "updated_utc": "2026-11-24T03:43:54.138346+00:00"
+        "updated_utc": "2026-11-24T03:44:17.239687+00:00"
       },
       "ozon": {
         "attempts": 0,
@@ -14215,6 +14220,6 @@
     }
   },
   "run_id": "45321428322-1",
-  "updated_utc": "2026-11-24T03:44:13.976631+00:00",
+  "updated_utc": "2026-11-24T03:44:17.239691+00:00",
   "version": 1
 }
