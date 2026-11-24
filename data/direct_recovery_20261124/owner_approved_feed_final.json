@@ -50,7 +50,7 @@
       }
     },
     "feed_refresh": {
-      "status": "intent_persisted",
+      "status": "submitted_pending_processing",
       "request": {
         "Feeds": [
           {
@@ -61,7 +61,31 @@
           }
         ]
       },
-      "at_utc": "2026-11-24T11:20:20.657589+00:00"
+      "at_utc": "2026-11-24T11:20:20.657589+00:00",
+      "api_results": [
+        {
+          "Id": 4061297,
+          "Errors": []
+        }
+      ],
+      "accepted": true,
+      "after": {
+        "Id": 4061297,
+        "Name": "Leoparts DQ200 — проверка.",
+        "SourceType": "URL",
+        "UpdatedAt": "2026-11-24T14:20:23",
+        "NumberOfItems": 12,
+        "Status": "UPDATING",
+        "UrlFeed": {
+          "Url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml?copy_rev=20261124_576471faed3476d25bd5c36e98e341a0270ffb5e"
+        },
+        "TitleAndTextSources": {
+          "Items": [
+            "name"
+          ]
+        }
+      },
+      "verified_utc": "2026-11-24T11:21:18.068166+00:00"
     }
   },
   "errors": [],
