@@ -94,3 +94,30 @@ class PipelineTests(unittest.TestCase):
               'D':{'ozon':{'status':'blocked'}}}
         self.assertEqual(p.ozon_strict_coverage(rows),{'text_verified':3,'protected_fields_normalized':1,
                                                        'exact_protection_verified':1,'already_matching_no_write':1})
+
+    def test_standalone_exact_channel_identity_only(self):
+        cfg={'standalone_reviewed':{'market':{'A':'123'}}}
+        self.assertTrue(p.standalone_allowed(cfg,'market','A','123',{},set()))
+        self.assertFalse(p.standalone_allowed(cfg,'market','A','456',{},set()))
+        self.assertFalse(p.standalone_allowed(cfg,'wb','A','123',{},set()))
+        self.assertFalse(p.standalone_allowed(cfg,'market','A','123',{'A':{}},set()))
+        self.assertFalse(p.standalone_allowed(cfg,'market','A','123',{}, {'A'}))
+
+    def test_ozon_model_supplement_requires_exact_identity_and_group(self):
+        card={'offer_id':'A','id':1,'sku':2,'model_info':{'model_id':0,'count':0}}
+        self.assertFalse(p.supplement_ozon_model(card,{'offer_id':'B','id':1,'model_info':{'model_id':3,'count':1}}))
+        self.assertFalse(p.supplement_ozon_model(card,{'offer_id':'A','id':2,'model_info':{'model_id':3,'count':1}}))
+        self.assertFalse(p.supplement_ozon_model(card,{'offer_id':'A','id':1,'model_info':{'model_id':0,'count':1}}))
+        self.assertTrue(p.supplement_ozon_model(card,{'offer_id':'A','id':1,'model_info':{'model_id':3,'count':1}}))
+        self.assertFalse(p.supplement_ozon_model(card,{'offer_id':'A','id':1,'model_info':{'model_id':4,'count':1}}))
+
+    def test_exact_tool_payload_empty_characteristics(self):
+        card={'vendorCode':'tool-dq200-acc-restore','nmID':2340040049,'brand':'','title':'tool','description':'old','dimensions':{},'sizes':[]}
+        snapshot={'cards':[card]}
+        rule={'text':{'wb':{'description':'new'}},'ids':{'wb':'2340040049'}}
+        payload=p.pipeline_payload('wb','tool-dq200-acc-restore',rule,snapshot)
+        self.assertEqual(payload['characteristics'],[])
+        self.assertEqual(payload['description'],'new')
+        self.assertNotIn('characteristics',card)
+        card['nmID']=1
+        with self.assertRaises(ValueError):p.pipeline_payload('wb','tool-dq200-acc-restore',rule,snapshot)

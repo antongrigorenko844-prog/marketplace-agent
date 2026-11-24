@@ -30,6 +30,35 @@ CHANNELS = ('ozon', 'wb', 'market', 'avito', 'tilda')
 MAX_ATTEMPTS = 3
 MAX_POLLS = 6
 RETIRED = {('wb', '0AM927769D'): 'Previously confirmed retired WB card collision; exact active identity requires separate investigation'}
+TEST_SKUS = {'TEST001', 'TESTWB001'}
+WB_EMPTY_CHARACTERISTICS = {'tool-dq200-acc-restore': '2340040049', 'tool-dsg-pressure-hp': '2340040122'}
+
+def standalone_allowed(cfg, ch, sku, identity_value, master_rows, duplicates):
+    return (ch in ('wb','market') and sku not in master_rows and sku not in duplicates
+            and identity_value is not None
+            and str(cfg.get('standalone_reviewed',{}).get(ch,{}).get(sku,'')) == str(identity_value))
+
+def supplement_ozon_model(card, info):
+    """Only use an independent seller response for the same exact product."""
+    if str(info.get('offer_id','')) != str(card.get('offer_id','')) or str(info.get('id') or info.get('product_id') or '') != str(card.get('id') or card.get('product_id') or ''):
+        return False
+    group=info.get('model_info')
+    if not isinstance(group,dict) or not group.get('model_id') or not group.get('count'):
+        return False
+    current=card.get('model_info') or {}
+    if not isinstance(current,dict) or any(current.get(k) and current[k]!=group.get(k) for k in ('model_id','count')):
+        return False
+    card['model_info']=copy.deepcopy(group)
+    return True
+
+def pipeline_payload(ch,sku,rule,snapshot):
+    # Two exact tool cards have no characteristics member in the list response.
+    # Preserve the empty set rather than crashing before description-only update.
+    if ch=='wb' and sku in WB_EMPTY_CHARACTERISTICS:
+        card,_=api.description_card(ch,snapshot,sku)
+        if str(card.get('nmID'))==WB_EMPTY_CHARACTERISTICS[sku] and 'characteristics' not in card:
+            snapshot=dict(snapshot,cards=[dict(x,characteristics=[]) if x is card else x for x in snapshot['cards']])
+    return api.description_payload(ch,sku,rule,snapshot)
 TERMINAL = {'verified', 'blocked', 'not_applicable'}
 
 def now():
@@ -302,6 +331,14 @@ def read_channel(ch,skus,context):
     if ch=='ozon':
         import ozon_client as oz
         data['prices']=oz.get_prices_and_stocks(skus)
+        missing=[c for c in data.get('cards',[]) if not isinstance(c.get('model_info'),dict) or not c['model_info'].get('model_id') or not c['model_info'].get('count')]
+        if missing:
+            # The v3 product-info endpoint independently exposes model identity.
+            # Missing/zero/contradictory identities remain blocked, never invented.
+            info=oz.get_product_info_list([c['offer_id'] for c in missing])
+            for card in missing:
+                hits=[x for x in info if x.get('offer_id')==card.get('offer_id')]
+                if len(hits)==1:supplement_ozon_model(card,hits[0])
     return data
 
 def verify_preservation(ch,sku,old,new):
@@ -371,13 +408,13 @@ def worker_api(ch,entries,rules,context,paused,master,save,report_dir,apply):
             if ch in paused or not apply:
                 row_status(e,'blocked' if ch in paused and apply else 'validated',paused.get(ch),before_hash=digest(actual))
                 continue
-            if not master_ok(master,sku,ch):
+            if not master_ok(master,sku,ch) and not e.get('standalone_reviewed'):
                 row_status(e,'blocked','Canonical workbook description not verified for this SKU/channel')
                 continue
             if e.get('attempts',0)>=MAX_ATTEMPTS:
                 row_status(e,'blocked','Retry budget exhausted');continue
             rule={'text':{ch:{'description':target}},'ids':{'wb':e['card_id']} if ch=='wb' else {}}
-            payload=api.description_payload(ch,sku,rule,snap)
+            payload=pipeline_payload(ch,sku,rule,snap)
             if payload is None:raise ValueError('Inconsistent readback')
             e.update(before_hash=digest(actual),protected_hash=fingerprint)
             candidates.append((sku,payload))
@@ -419,7 +456,7 @@ def worker_api(ch,entries,rules,context,paused,master,save,report_dir,apply):
                     if e['status']=='verified':continue
                     if fp!=e['protected_hash']:raise ValueError('Fresh protected baseline differs')
                     rule={'text':{ch:rules[sku]['text'][ch]},'ids':{'wb':e['card_id']} if ch=='wb' else {}}
-                    payload=api.description_payload(ch,sku,rule,fresh)
+                    payload=pipeline_payload(ch,sku,rule,fresh)
                     if payload is not None:safe.append((sku,payload))
                 except Exception as exc:
                     if isinstance(exc,RuntimeError) and 'Protected fields changed' in str(exc):paused[ch]='Protected-field drift: '+sku
@@ -551,7 +588,7 @@ def worker_avito(entries,rules,master,report_dir,save,apply):
             elif r.get('feed_verified') or e['status'] in ('submitted','processing'):
                 n=e.get('polls',0)+1;e['polls']=n
                 defer(e,'processing' if n<MAX_POLLS else 'blocked',
-                      'Feed matched; live description not verified' if r.get('feed_verified') else 'Uncertain feed write; verify before any resend',30)
+                      ('Feed matched; latest report skipped listing; live description not verified' if r.get('autoload_section')=='success_skipped' else 'Feed matched; live description not verified') if r.get('feed_verified') else 'Uncertain feed write; verify before any resend',30)
             elif not master_ok(master,sku,'avito') and apply:
                 row_status(e,'blocked','Canonical workbook description not verified')
             else:
@@ -657,7 +694,9 @@ def run(live=False):
     if old.get('version')!=1:raise ValueError('Unknown state version')
     ids,errors,extra,snaps=inventory()
     _,master_rows,duplicates=cms.read_rows((ROOT/'data/master_control.xlsx').read_bytes(),'Товары',12)
-    universe=sorted(set(master_rows)|set(rules)|set().union(*(set(x) for x in ids.values())))
+    universe=sorted((set(master_rows)|set(rules)|set().union(*(set(x) for x in ids.values())))-TEST_SKUS)
+    for mapping in ids.values():
+        for sku in TEST_SKUS:mapping.pop(sku,None)
     run_id=os.getenv('GITHUB_RUN_ID','local')+'-'+os.getenv('GITHUB_RUN_ATTEMPT','1')
     report_dir=BASE/'runs'/run_id
     policy=read_json(ROOT/'data/content_description_policy.json',{})
@@ -692,18 +731,61 @@ def run(live=False):
                     row_status(e,'blocked',RETIRED[ch,sku])
                 elif not target:
                     row_status(e,'pending','No reviewed target description')
-                elif sku not in master_rows or sku in duplicates:
+                elif (sku not in master_rows or sku in duplicates) and not standalone_allowed(cfg,ch,sku,identity_value,master_rows,duplicates):
                     row_status(e,'blocked','Missing or ambiguous master SKU; no automatic creation')
                 elif ch=='ozon' and resume and ch not in paused and e['status']=='blocked' and e.get('error')==legacy_hold and not e.get('attempts'):
                     row_status(e,'prepared',None,next_attempt_utc=None)
                 elif e['status']=='not_applicable' or (e['status']=='blocked' and e.get('error') in ('No exact active mapping in observed inventory; absence not confirmed','Missing or ambiguous master SKU; no automatic creation','Canonical workbook description not verified for this SKU/channel','Canonical workbook description not verified')):
                     row_status(e,'prepared',None)
+                if standalone_allowed(cfg,ch,sku,identity_value,master_rows,duplicates):
+                    e['standalone_reviewed']=True
+                else:e.pop('standalone_reviewed',None)
+                # Reopen only exact, never-submitted cards for explicitly reviewed
+                # recoverable errors; preserve all actual protected-field stops.
+                retry=cfg.get('recover_exact',{}).get(ch,{}).get(sku,{})
+                if (e['status']=='blocked' and not e.get('attempts') and identity_value
+                    and str(retry.get('id',''))==identity_value and retry.get('error')==e.get('error')
+                    and (ch!='ozon' or ch not in paused)):
+                    row_status(e,'prepared',None,next_attempt_utc=None)
             state['rows'][sku][ch]=e
     def save(more=()):
         state['updated_utc']=stamp()
         state['counts']={ch:dict(Counter(v[ch]['status'] for v in state['rows'].values())) for ch in CHANNELS}
         state['ozon_strict_coverage']=ozon_strict_coverage(state['rows'])
         write_json(STATE,state);checkpoint([STATE,*more],live=live)
+    # A customer-reported discrepancy requires a fresh seller read even when
+    # an earlier exact description match was already recorded. Never represent
+    # seller API equality as independent storefront verification.
+    checks=cfg.get('recheck_exact',{})
+    if checks:
+        recheck={}
+        for sku,targets in checks.items():
+            recheck[sku]={}
+            for ch,expected in targets.items():
+                e=state['rows'].get(sku,{}).get(ch,{})
+                if ch not in ('ozon','wb','market') or ch in errors or e.get('card_id')!=str(expected):
+                    recheck[sku][ch]={'status':'identity_or_channel_unavailable'};continue
+                try:
+                    with guard([],allow_write=False,descriptions_only=True):
+                        snapshot=read_api(ch,[sku],snaps[ch])
+                    card,detail=card_detail(ch,snapshot,sku)
+                    if identity(ch,card,detail)!=str(expected):raise ValueError('Exact identity mismatch')
+                    actual=api.description_value(ch,card)
+                    target=rules[sku]['text'][ch]['description']
+                    match=digest(actual)==digest(target)
+                    recheck[sku][ch]={'card_id':str(expected),'seller_text_matches':match,'actual_description':actual,'target_hash':digest(target),'storefront_verified':False}
+                    e['last_checked_utc']=stamp();e['after_hash']=digest(actual)
+                    if not match and e['status']=='verified':
+                        # A confirmed mismatch invalidates the old terminal text proof.
+                        # Preserve history; the regular worker must obtain a fresh baseline.
+                        e['previous_verification']={k:e.get(k) for k in ('verification_basis','protected_hash','evidence','attempts')}
+                        e.pop('protected_hash',None)
+                        row_status(e,'prepared','Fresh seller description differs',attempts=0,polls=0,next_attempt_utc=None)
+                except Exception as exc:
+                    recheck[sku][ch]={'status':'read_failed','error':str(exc)[:300]}
+        rp=report_dir/'requested_recheck.json'
+        write_json(rp,{'checked_utc':stamp(),'rows':recheck})
+        save([rp])
     selected=[s for s in universe if s in master_rows and s not in duplicates and any(rules.get(s,{}).get('text',{}).get(c,{}).get('description') for c in CHANNELS)]
     master=materialize(rules,selected,live,apply,master_rules_for_census(rules,ids,errors))
     mp=report_dir/'master.json';write_json(mp,master)

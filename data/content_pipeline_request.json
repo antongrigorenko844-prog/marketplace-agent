@@ -6,6 +6,61 @@
   "checkpoint": {
     "after_run": "45328350048-1",
     "after_merge": "e9d5b51ce3c59f6e318750902cc709c4d5e563e1",
-    "reason": "First execution of merged PR34: materialize exact reviewed 0cw0am with independent WB/Tilda census, retry transient Market census failure, verify published Avito feed without blind resend; strict Ozon hold remains."
+    "reason": "Owner-reported 0am325025H discrepancy: fresh exact seller read; recover only known never-submitted errors; standalone exact reviewed live SKU, no creation; exclude tests."
+  },
+  "standalone_reviewed": {
+    "market": {
+      "0am325025L": "4387619789",
+      "0am325025Y": "4384120991",
+      "0am325025e": "5881268930",
+      "0am325025p": "4572656430",
+      "0am325066ac": "4384122583",
+      "0b5": "4392843289",
+      "jf015": "4461049245"
+    },
+    "wb": {
+      "dq500-korpus-gladkiy": "2338475459"
+    }
+  },
+  "recover_exact": {
+    "ozon": {
+      "0BH325": {
+        "id": "6278180950",
+        "error": "Missing actual Ozon model identity"
+      },
+      "plita-filtr": {
+        "id": "6287286115",
+        "error": "Missing actual Ozon model identity"
+      },
+      "remkomplekt-shtokov-orig": {
+        "id": "6287285820",
+        "error": "Missing actual Ozon model identity"
+      },
+      "remkomplekt-shtokov-orig-v2": {
+        "id": "6291485626",
+        "error": "Missing actual Ozon model identity"
+      },
+      "solenoid-02e-0b5-bolshoy": {
+        "id": "6447289467",
+        "error": "Missing actual Ozon model identity"
+      }
+    },
+    "wb": {
+      "tool-dq200-acc-restore": {
+        "id": "2340040049",
+        "error": "'characteristics'"
+      },
+      "tool-dsg-pressure-hp": {
+        "id": "2340040122",
+        "error": "'characteristics'"
+      }
+    }
+  },
+  "recheck_exact": {
+    "0am325025H": {
+      "ozon": "3171023605",
+      "wb": "681503332",
+      "market": "4817587494"
+    }
   }
 }
