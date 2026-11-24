@@ -7,7 +7,7 @@
   "operations": [
     {
       "sku": "0am325025hfe",
-      "status": "submitted",
+      "status": "pending_model_readback",
       "before_model": "3651862555",
       "before_count": 2,
       "before_label": [
@@ -254,7 +254,35 @@
           }
         ]
       },
-      "task_id": 6118848843
+      "task_id": 6118848843,
+      "import_status": {
+        "result": {
+          "items": [
+            {
+              "offer_id": "0am325025hfe",
+              "product_id": 1504157360,
+              "status": "imported",
+              "errors": []
+            }
+          ],
+          "total": 1
+        }
+      },
+      "readback": {
+        "protected_diff": [],
+        "label_matches": false,
+        "label_actual": [
+          "ремштока_0am325025h_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe"
+        ],
+        "previous_model": "3651862555",
+        "model_id": "3651862555",
+        "model_count": 2,
+        "moderation": "approved",
+        "status": "Продаётся",
+        "new_non_group_errors": [],
+        "review_metadata_before": {},
+        "review_metadata_after": {}
+      }
     }
   ],
   "submitted": [
@@ -1951,5 +1979,5 @@
     "tolkateli-4-salniki-4",
     "tolkateli-salniki-alum-komplekt"
   ],
-  "updated_utc": "2026-11-24T20:57:35.120002+00:00"
+  "updated_utc": "2026-11-24T20:57:40.368401+00:00"
 }
