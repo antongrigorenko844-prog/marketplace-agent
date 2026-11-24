@@ -1,6 +1,6 @@
 {
   "mode": "inspect",
-  "revision": "0bfc32a500dd2f527f4f81b7bc8d6e0d2792a4db",
+  "revision": "437f793d33d333c0b1ec6b5ea8e13ce013359ff8",
   "seller_price_writes": 0,
   "stock_writes": 0,
   "products": {
@@ -25,7 +25,10 @@
             "type": "warning",
             "title": "Произведена автоподстановка номера телефона"
           }
-        ]
+        ],
+        "post_publication_report": false,
+        "autoload_processed": false,
+        "status": "pending_fresh_report_or_text"
       },
       "6t30": {
         "avito_id": "8425207775",
@@ -47,31 +50,56 @@
             "type": "info",
             "title": ""
           }
-        ]
+        ],
+        "post_publication_report": false,
+        "autoload_processed": false,
+        "status": "pending_fresh_report_or_text"
       }
     },
     "tilda": {
       "0am325025H": {
         "uid": "908157881413",
         "description_verified": false,
+        "full_text_verified": false,
+        "short_description_verified": false,
         "status": "csv_import_required"
       },
       "6t30": {
         "uid": "695009271403",
         "description_verified": false,
+        "full_text_verified": false,
+        "short_description_verified": false,
         "status": "csv_import_required"
       }
     }
   },
   "avito_autoload_report": {
-    "report_id": 639879882,
-    "started_at": "2026-11-23T23:34:03Z",
-    "finished_at": "2026-11-24T00:34:04Z",
+    "report_id": 639904222,
+    "upload_id": null,
+    "started_at": "2026-11-24T00:34:04Z",
+    "finished_at": "2026-11-24T01:34:03Z",
     "status": "success_warning"
+  },
+  "avito_autoload_api": "v2_fallback",
+  "avito_autoload_evidence": {
+    "current": {
+      "upload_id": 639925741,
+      "status": "processing",
+      "started_at": "2026-11-24T01:34:03Z",
+      "finished_at": null
+    },
+    "last_successful": {
+      "upload_id": 639879882,
+      "status": "success_warning",
+      "started_at": "2026-11-23T23:34:03Z",
+      "finished_at": null
+    },
+    "v4_error": "ValueError: Duplicate v4 report item"
   },
   "avito_feed_sha_before": "284eb88f9c91d76640751f2877e360b077083f1fef165c4b3537cc23d4629822",
   "avito_feed_sha_staged": "284eb88f9c91d76640751f2877e360b077083f1fef165c4b3537cc23d4629822",
-  "checked_utc": "2026-11-24T01:26:40.028717+00:00",
+  "avito_report_after_known_publication": false,
+  "checked_utc": "2026-11-24T01:41:24.064472+00:00",
   "tilda_protected_snapshot_sha256": "5542dcc1f7c25c1ecc8f16a61fb9dd470375c8bfd18f924b94c8673c1101ce34",
   "tilda_csv_rows": 2,
   "tilda_csv_sha256": "e6a5f62bf1f8a45b2612950683390dd19503627e963c898710d9fc29a4f33e2d",
