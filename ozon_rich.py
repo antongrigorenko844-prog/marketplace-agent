@@ -70,6 +70,26 @@ def run(dry_run: bool = False) -> int:
     import ozon_client as oc
 
     docs = _files()
+    # The description job owns only the explicitly scoped rich cards until
+    # guarded live readback and canonical-source persistence are complete.
+    # Do not let a stale local rich template overwrite those cards meanwhile.
+    try:
+        with open(os.path.join(DATA,"content_pipeline_request.json"),encoding="utf-8") as f:
+            request=json.load(f)
+        scope=request.get("rich_text_update",{})
+        if request.get("enabled") and scope.get("owner_authorized"):
+            journal_path=os.path.join(os.path.dirname(DATA),"reports","content-pipeline","rich_state.json")
+            journal={}
+            if os.path.isfile(journal_path):
+                with open(journal_path,encoding="utf-8") as f:journal=json.load(f)
+            for sku in scope.get("targets",{}):
+                if journal.get("rows",{}).get(sku,{}).get("status")!="verified":
+                    docs.pop(sku,None)
+    except (OSError,ValueError):
+        # A malformed queue cannot be interpreted as permission to replay
+        # the historical rich documents.
+        print("Rich: очередь описаний недоступна; rich-запись пропущена")
+        return 0
     if not docs:
         print("Rich-контент: файлов в data/ozon_rich/ нет — пропускаю.")
         return 0

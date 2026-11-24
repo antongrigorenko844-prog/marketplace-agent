@@ -119,7 +119,9 @@ def build(items,address,mode):
         require(len(config["title"])<=50,"Truncated title needed")
         schema[sku]=verify_category_schema(config["leaf"],config["type"])
         ad=ET.SubElement(root,"Ad")
-        vals={"Id":sku,"Address":address,"Title":config["title"],"Description":item["description"],
+        from content_manifest import load as load_content_manifest
+        description=load_content_manifest().get(sku,{}).get("text",{}).get("avito",{}).get("description") or item["description"]
+        vals={"Id":sku,"Address":address,"Title":config["title"],"Description":description,
               "Price":str(item["prices"]["avito"]),**FIELDS,"ToolType":config["type"]}
         for k,v in vals.items():ET.SubElement(ad,k).text=v
         imgs=ET.SubElement(ad,"Images")

@@ -693,6 +693,9 @@ def run(live=False):
     old=read_json(STATE,{'version':1,'rows':{},'paused_channels':{}})
     if old.get('version')!=1:raise ValueError('Unknown state version')
     ids,errors,extra,snaps=inventory()
+    if cfg.get('ozon_uncreated') and 'ozon' not in errors:
+        from content_completion import exclude_uncreated
+        exclude_uncreated(cfg,ids,extra)
     _,master_rows,duplicates=cms.read_rows((ROOT/'data/master_control.xlsx').read_bytes(),'Товары',12)
     universe=sorted((set(master_rows)|set(rules)|set().union(*(set(x) for x in ids.values())))-TEST_SKUS)
     for mapping in ids.values():
@@ -723,6 +726,9 @@ def run(live=False):
                 expected=rules.get(sku,{}).get('ids',{}).get(ch)
                 if len(matches)>1 or (expected is not None and identity_value is not None and str(expected)!=identity_value):
                     row_status(e,'blocked','Ambiguous or mismatched live identity')
+                elif ch=='ozon' and sku in extra.get('ozon_uncreated',{}):
+                    proof=extra['ozon_uncreated'][sku]
+                    row_status(e,'not_applicable','Seller API independently confirms card not created; no public SKU',card_id=str(proof['id']),uncreated=True)
                 elif not matches:
                     if ch in ('avito','tilda') or expected or (prev and prev.get('card_id')):
                         row_status(e,'blocked','No exact active mapping in observed inventory; absence not confirmed')
@@ -820,6 +826,9 @@ def run(live=False):
         entries=followup_entries(state['rows'],ch,rules)
         if entries:
             worker_api(ch,entries,rules,snaps[ch],paused,master,save,report_dir,False)
+    if cfg.get('rich_text_update') or cfg.get('avito_tools_description_update'):
+        from content_completion import finish
+        finish(cfg,state,rules,ids,errors,save,apply)
     audit_request=cfg.get('public_audit_request')
     audit_path=BASE/'public_verification.json'
     if audit_request and read_json(audit_path,{}).get('request')!=audit_request:
