@@ -1,0 +1,29 @@
+name: LEOPARTS Ozon model groups audit (read only)
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/ozon-model-groups-audit-20261125.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: ozon-model-groups-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+      OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - run: python -m py_compile scripts/ozon_model_groups_audit_20261125.py
+      - run: python -u scripts/ozon_model_groups_audit_20261125.py
+      - run: bash .github/scripts/save_data.sh data/ozon_model_groups_audit_20261125.json
