@@ -86,8 +86,30 @@ def classify(method, url, body=None):
     raise ValueError(f'Endpoint not allowed in content job: {method} {host}{path}')
 
 
+def enforce_description_only(url, body):
+    """Narrow the transport boundary further when writing descriptions only."""
+    p=urlsplit(url)
+    if p.hostname=='api-seller.ozon.ru' and p.path=='/v1/product/attributes/update':
+        if any(len(item['attributes']) != 1 or item['attributes'][0]['id'] != 4191
+               for item in body['items']):
+            raise ValueError('Only Ozon description attribute is allowed')
+        return
+    if p.hostname=='content-api.wildberries.ru' and p.path=='/content/v2/cards/update':
+        # WB requires the existing full card. The batch planner copies the live
+        # protected fields and verifies them before and after sending.
+        if any('description' not in row or 'nmID' not in row or 'vendorCode' not in row for row in body):
+            raise ValueError('WB existing card and description required')
+        return
+    if p.hostname=='api.partner.market.yandex.ru' and re.fullmatch(r'/v2/businesses/\d+/offer-mappings/update',p.path):
+        for row in body['offerMappings']:
+            offer=row['offer']
+            if 'description' not in offer or set(offer)-{'offerId','description','parameterValues','marketCategoryId'}:
+                raise ValueError('Only Market description and retained parameters allowed')
+        return
+    raise ValueError('Endpoint forbidden in description-only mode')
+
 @contextlib.contextmanager
-def guard(audit, allow_write=False):
+def guard(audit, allow_write=False, descriptions_only=False):
     original = requests.sessions.Session.request
     def checked(session, method, url, **kwargs):
         kind = classify(method, url, kwargs.get('json'))
@@ -95,6 +117,8 @@ def guard(audit, allow_write=False):
         if kind == 'content':
             if not allow_write:
                 raise ValueError('Read-only content inspection cannot write')
+            if descriptions_only:
+                enforce_description_only(url, kwargs.get('json'))
             entry = {'method':method, 'url':url, 'payload':kwargs.get('json')}
             audit.append(entry)
         response = original(session, method, url, **kwargs)
