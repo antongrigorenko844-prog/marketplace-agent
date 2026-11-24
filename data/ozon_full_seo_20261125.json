@@ -2,7 +2,7 @@
   "version": 1,
   "status": "planned",
   "started_utc": "2026-11-24T19:02:12.537962+00:00",
-  "external_writes": 0,
+  "external_writes": 1,
   "registry": {
     "01X301127C": {
       "sku": "01X301127C",
@@ -1408,7 +1408,10 @@
       },
       "master_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769E",
       "catalog_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769E",
-      "title_drift": false
+      "title_drift": false,
+      "attribute_result": {
+        "status": "submission_started"
+      }
     },
     "0AM927769F": {
       "sku": "0AM927769F",
@@ -12840,9 +12843,444 @@
       "title_drift": false
     }
   },
-  "batches": [],
+  "batches": [
+    {
+      "kind": "attributes",
+      "items": [
+        "0AM927769E"
+      ],
+      "status": "sending",
+      "started": "2026-11-24T19:02:41.418416+00:00",
+      "before": {
+        "0AM927769E": {
+          "card": {
+            "id": 6976328449,
+            "barcode": "",
+            "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769E",
+            "offer_id": "0AM927769E",
+            "height": 200,
+            "depth": 400,
+            "width": 300,
+            "dimension_unit": "mm",
+            "weight": 1000,
+            "weight_unit": "g",
+            "description_category_id": 17028756,
+            "type_id": 971100605,
+            "primary_image": "https://ir-20.ozone.ru/s3/multimedia-1-c/21309487212.jpg",
+            "model_info": {
+              "model_id": 6792914545,
+              "count": 1
+            },
+            "images": [
+              "https://ir-20.ozone.ru/s3/multimedia-1-y/21309482878.jpg",
+              "https://ir-20.ozone.ru/s3/multimedia-1-w/21309482336.jpg"
+            ],
+            "pdf_list": [],
+            "attributes": [
+              {
+                "id": 85,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 126745801,
+                    "value": "Нет бренда"
+                  }
+                ]
+              },
+              {
+                "id": 9048,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 0,
+                    "value": "DQ200 electronic boards"
+                  }
+                ]
+              },
+              {
+                "id": 23171,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 0,
+                    "value": "#плата_мехатроника_dq200 #плата_dsg_dq200 #плата_dsg_7_dq200"
+                  }
+                ]
+              },
+              {
+                "id": 4191,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 0,
+                    "value": "Электронная плата мехатроника DSG7 DQ200 0AM927769E — электронный блок управления семиступенчатой роботизированной коробкой передач DSG 7 (0AM/0CW).\n\nКомплектация: электронная плата — 1 шт. Гидравлическая часть мехатроника в комплект не входит.\n\nПлата применяется при ремонте мехатроника после диагностики электронной части. Ошибки переключения передач и аварийный режим сами по себе не подтверждают неисправность платы.\n\nПодбор по полному номеру: 0AM927769E (0AM 927 769 E). Для соответствующих исполнений DQ200 автомобилей Volkswagen, Audi, Skoda и SEAT. Не выбирайте плату только по модели автомобиля: сверяйте VIN, маркировку и аппаратное исполнение исходного блока.\n\nПеред эксплуатацией требуется корректный перенос данных электронной платы и адаптация коробки передач. Работы выполняются специалистом по DSG7 DQ200."
+                  }
+                ]
+              },
+              {
+                "id": 11254,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 0,
+                    "value": "{\"content\": [{\"widgetName\": \"raShowcase\", \"type\": \"roll\", \"blocks\": [{\"imgLink\": \"\", \"img\": {\"src\": \"https://ir-20.ozone.ru/s3/multimedia-1-n/20735111723.jpg\", \"srcMobile\": \"https://ir-20.ozone.ru/s3/multimedia-1-n/20735111723.jpg\", \"alt\": \"Электронная плата мехатроника DSG7 DQ200 0AM927769F\", \"position\": \"width_full\", \"positionMobile\": \"width_full\", \"widthMobile\": 1200, \"heightMobile\": 1600, \"isParandjaMobile\": false}, \"title\": {\"content\": [\"Электронная плата мехатроника DSG7 DQ200 0AM927769E\"], \"size\": \"size4\", \"align\": \"left\", \"color\": \"color1\"}, \"text\": {\"content\": [\"Электронная плата мехатроника DSG7 DQ200 0AM927769E — электронный блок управления\", \"семиступенчатой роботизированной коробкой передач DSG 7 (0AM/0CW). Комплектация:\"], \"size\": \"size2\", \"align\": \"left\", \"color\": \"color1\"}}]}, {\"widgetName\": \"raTextBlock\", \"title\": {\"content\": [\"Комплектация\"], \"size\": \"size4\", \"align\": \"left\", \"color\": \"color1\"}, \"theme\": \"default\", \"padding\": \"type2\", \"gapSize\": \"m\", \"text\": {\"content\": [\"электронная плата — 1 шт.\", \"Гидравлическая часть мехатроника в комплект не входит.\", \"Плата применяется при ремонте мехатроника после диагностики электронной части.\"], \"size\": \"size2\", \"align\": \"left\", \"color\": \"color1\"}}, {\"widgetName\": \"raShowcase\", \"type\": \"roll\", \"blocks\": [{\"imgLink\": \"\", \"img\": {\"src\": \"https://ir-20.ozone.ru/s3/multimedia-1-l/20771171841.jpg\", \"srcMobile\": \"https://ir-20.ozone.ru/s3/multimedia-1-l/20771171841.jpg\", \"alt\": \"Установка электронной платы DQ200 0AM927769F: клонирование и адаптация\", \"position\": \"width_full\", \"positionMobile\": \"width_full\", \"widthMobile\": 1200, \"heightMobile\": 1600, \"isParandjaMobile\": false}, \"title\": {\"content\": [\"Подбор детали\"], \"size\": \"size4\", \"align\": \"left\", \"color\": \"color1\"}, \"text\": {\"content\": [\"Ошибки переключения передач и аварийный режим сами\", \"по себе не подтверждают неисправность платы.\", \"Подбор по полному номеру: 0AM927769E (0AM 927 769 E).\"], \"size\": \"size2\", \"align\": \"left\", \"color\": \"color1\"}}]}, {\"widgetName\": \"raTextBlock\", \"title\": {\"content\": [\"Сведения о товаре\"], \"size\": \"size4\", \"align\": \"left\", \"color\": \"color1\"}, \"theme\": \"default\", \"padding\": \"type2\", \"gapSize\": \"m\", \"text\": {\"content\": [\"Для соответствующих исполнений DQ200 автомобилей Volkswagen, Audi, Skoda и SEAT.\", \"Не выбирайте плату только по модели автомобиля: сверяйте VIN, маркировку и аппаратное исполнение исходного блока.\"], \"size\": \"size2\", \"align\": \"left\", \"color\": \"color1\"}}, {\"widgetName\": \"raShowcase\", \"type\": \"roll\", \"blocks\": [{\"imgLink\": \"\", \"img\": {\"src\": \"https://ir-20.ozone.ru/s3/multimedia-1-7/20771172295.jpg\", \"srcMobile\": \"https://ir-20.ozone.ru/s3/multimedia-1-7/20771172295.jpg\", \"alt\": \"Плата 0AM927769F подходит на Volkswagen, Skoda, Audi, Seat\", \"position\": \"width_full\", \"positionMobile\": \"width_full\", \"widthMobile\": 1200, \"heightMobile\": 1600, \"isParandjaMobile\": false}, \"title\": {\"content\": [\"Установка и адаптация\"], \"size\": \"size4\", \"align\": \"left\", \"color\": \"color1\"}, \"text\": {\"content\": [\"Перед эксплуатацией требуется корректный перенос данных электронной платы и адаптация коробки передач. Работы выполняются специалистом по DSG7 DQ200.\"], \"size\": \"size2\", \"align\": \"left\", \"color\": \"color1\"}}]}], \"version\": 0.3}"
+                  }
+                ]
+              },
+              {
+                "id": 7236,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 0,
+                    "value": "0AM927769E"
+                  }
+                ]
+              },
+              {
+                "id": 7324,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 0,
+                    "value": "0AM927769D"
+                  }
+                ]
+              },
+              {
+                "id": 7202,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 45536,
+                    "value": "1"
+                  }
+                ]
+              },
+              {
+                "id": 8513,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 0,
+                    "value": "1"
+                  }
+                ]
+              },
+              {
+                "id": 7199,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 61936,
+                    "value": "Металл"
+                  },
+                  {
+                    "dictionary_value_id": 62015,
+                    "value": "Пластик"
+                  }
+                ]
+              },
+              {
+                "id": 7206,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 41233,
+                    "value": "Легковые автомобили"
+                  }
+                ]
+              },
+              {
+                "id": 10096,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 61574,
+                    "value": "черный"
+                  },
+                  {
+                    "dictionary_value_id": 61610,
+                    "value": "серебристый"
+                  }
+                ]
+              },
+              {
+                "id": 4384,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 0,
+                    "value": "Электронная плата — 1 шт."
+                  }
+                ]
+              },
+              {
+                "id": 22232,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 971400283,
+                    "value": "8708409909 - Части коробок передач, прочие: прочие"
+                  }
+                ]
+              },
+              {
+                "id": 23536,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 0,
+                    "value": "false"
+                  }
+                ]
+              },
+              {
+                "id": 4180,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 0,
+                    "value": "Электронная плата мехатроника DSG7 DQ200 0AM927769E"
+                  }
+                ]
+              },
+              {
+                "id": 4497,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 0,
+                    "value": "1000"
+                  }
+                ]
+              },
+              {
+                "id": 9024,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 0,
+                    "value": "0AM927769E"
+                  }
+                ]
+              },
+              {
+                "id": 23173,
+                "complex_id": 0,
+                "values": [
+                  {
+                    "dictionary_value_id": 0,
+                    "value": "1"
+                  }
+                ]
+              }
+            ],
+            "complex_attributes": [
+              {
+                "id": 21837,
+                "complex_id": 100001,
+                "values": [
+                  {
+                    "dictionary_value_id": 0,
+                    "value": "0AM927769D"
+                  }
+                ]
+              },
+              {
+                "id": 21841,
+                "complex_id": 100001,
+                "values": [
+                  {
+                    "dictionary_value_id": 0,
+                    "value": "https://v-1.ozone.ru/vod/video-73/01M60SXZSN6C0R9Z6AMCJW40BN/asset_3_h264.mp4"
+                  }
+                ]
+              }
+            ],
+            "color_image": "",
+            "sku": 6344654983,
+            "barcodes": [],
+            "attributes_with_defaults": [
+              23152,
+              9905,
+              10100,
+              11794,
+              12006,
+              22074,
+              22366,
+              22806,
+              23120,
+              23121,
+              23133,
+              23134,
+              23137,
+              23138,
+              23183,
+              23184,
+              23185,
+              23186,
+              23187,
+              23188,
+              23379,
+              23380,
+              23524,
+              23975
+            ]
+          },
+          "price": {
+            "acquiring": 748.5,
+            "offer_id": "0AM927769E",
+            "product_id": 6976328449,
+            "volume_weight": 4.8,
+            "commissions": {
+              "fbo_deliv_to_customer_amount": 25,
+              "fbo_direct_flow_trans_max_amount": 904,
+              "fbo_direct_flow_trans_min_amount": 75,
+              "fbo_return_flow_amount": 177,
+              "fbs_deliv_to_customer_amount": 25,
+              "fbs_direct_flow_trans_min_amount": 75,
+              "fbs_direct_flow_trans_max_amount": 904,
+              "fbs_first_mile_max_amount": 10,
+              "fbs_first_mile_min_amount": 0,
+              "fbs_return_flow_amount": 904,
+              "sales_percent_fbo": 47,
+              "sales_percent_fbs": 47,
+              "sales_percent_rfbs": 47,
+              "sales_percent_fbp": 47
+            },
+            "marketing_actions": {
+              "current_period_from": null,
+              "current_period_to": null,
+              "actions": [
+                {
+                  "title": "РК. Рассрочка 0-0-12 до 31.12.2026",
+                  "value": 12,
+                  "date_from": "2026-09-10T08:00:00Z",
+                  "date_to": "2027-01-20T20:59:00Z"
+                },
+                {
+                  "title": "РК. Рассрочка 0-0-6 до 20.01.2027",
+                  "value": 6,
+                  "date_from": "2026-09-10T21:00:00Z",
+                  "date_to": "2027-01-20T20:59:00Z"
+                },
+                {
+                  "title": "0024 рассрочка в РК 30.11-13.12.26",
+                  "value": 24,
+                  "date_from": "2026-11-29T15:00:00Z",
+                  "date_to": "2026-12-14T07:01:00Z"
+                }
+              ],
+              "ozon_actions_exist": false
+            },
+            "price": {
+              "auto_action_enabled": false,
+              "currency_code": "RUB",
+              "marketing_seller_price": 74850,
+              "min_price": 0,
+              "old_price": 118850,
+              "price": 74850,
+              "retail_price": 0,
+              "vat": 0,
+              "auto_add_to_ozon_actions_list_enabled": false,
+              "net_price": 0,
+              "declared_price": {
+                "amount": "0",
+                "currency": "RUB"
+              }
+            },
+            "price_indexes": {
+              "external_index_data": {
+                "min_price": 0,
+                "min_price_currency": "",
+                "price_index_value": 0,
+                "price_index_color": "WITHOUT_INDEX",
+                "min_price_in_seller": 0,
+                "min_price_in_seller_currency": ""
+              },
+              "ozon_index_data": {
+                "min_price": 0,
+                "min_price_currency": "",
+                "price_index_value": 0,
+                "price_index_color": "WITHOUT_INDEX",
+                "min_price_in_seller": 0,
+                "min_price_in_seller_currency": ""
+              },
+              "color_index": "WITHOUT_INDEX",
+              "self_marketplaces_index_data": {
+                "min_price": 0,
+                "min_price_currency": "",
+                "price_index_value": 0,
+                "price_index_color": "WITHOUT_INDEX",
+                "min_price_in_seller": 0,
+                "min_price_in_seller_currency": ""
+              },
+              "competitor_index_data": null
+            }
+          },
+          "stock": {
+            "product_id": 6976328449,
+            "offer_id": "0AM927769E",
+            "stocks": [
+              {
+                "type": "fbs",
+                "present": 5,
+                "reserved": 0,
+                "sku": 6344654983,
+                "shipment_type": "SHIPMENT_TYPE_GENERAL",
+                "warehouse_ids": []
+              }
+            ]
+          },
+          "info": {
+            "product_id": 6976328449,
+            "sku": 6344654983,
+            "model_info": {
+              "model_id": 6792914545,
+              "count": 1
+            },
+            "statuses": {
+              "status": "price_sent",
+              "status_failed": "",
+              "moderate_status": "approved",
+              "validation_status": "success",
+              "status_name": "Продаётся",
+              "status_description": "",
+              "is_created": true,
+              "status_tooltip": "",
+              "status_updated_at": "2026-11-24T08:17:46.076548Z"
+            },
+            "errors": [],
+            "archived": false,
+            "price": "74850.00",
+            "old_price": "118850.00",
+            "min_price": "",
+            "reviews": {}
+          }
+        }
+      },
+      "payload": [
+        {
+          "offer_id": "0AM927769E",
+          "attributes": [
+            {
+              "id": 7324,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 0,
+                  "value": "0AM927769E"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "errors": {},
-  "updated_utc": "2026-11-24T19:02:36.489953+00:00",
+  "updated_utc": "2026-11-24T19:02:41.418471+00:00",
   "counts": {
     "list_products": 147,
     "attributes": 147,
