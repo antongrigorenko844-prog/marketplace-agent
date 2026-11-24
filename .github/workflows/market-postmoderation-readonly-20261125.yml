@@ -1,0 +1,65 @@
+name: LEOPARTS Market postmoderation read-only reconciliation
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/market-postmoderation-readonly-20261125.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+      YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Compare catalog without Market mutations
+        run: |
+          PYTHONPATH=.:scripts python - <<'PY'
+          import collections, json, datetime
+          from pathlib import Path
+          import market_final_readback_20261125 as a
+          import market_full_seo_20261125 as s
+          import market_growth_recovery_20261125 as r
+          biz,cam=s.account()
+          if biz!=194752944 or int(cam)!=141377963:raise ValueError("Wrong Market account")
+          old=a.load("market_final_readback_20261125.json")
+          m,c,st=r.read_all(biz,cam)
+          counts=dict(collections.Counter(x.get("status") for x in st.values()))
+          target_by_sku={x["sku"]:int(x["target"]) for x in a.load("market_growth_next_plan_20261125.json")["category_remaining"]}
+          verified=[];remaining=[]
+          for k,v in target_by_sku.items():
+              (verified if k in m and s.catid(m[k],c[k])==v else remaining).append(k)
+          ops=[]
+          for op in old["operations"]:
+              k=op["sku"]
+              if op["key"] not in old["submitted"]:continue
+              try:
+                  a.verify(op,m,c,st,biz)
+                  actual=a.normalize(s.groups(c[k]));want=a.normalize(op["expected"])
+                  op["parameter_diff"]=[i for i in sorted(set(actual)|set(want)) if actual.get(i)!=want.get(i)]
+              except Exception as e:op["status"]="readback_error";op["error"]=str(e)[:200]
+              ops.append({i:op.get(i) for i in ("sku","kind","status","readback","parameter_diff","error")})
+          blockers={}
+          for k,v in st.items():
+              if v.get("status")!="DISABLED_AUTOMATICALLY":continue
+              card=c[k]; warnings=(v.get("warnings") or [])+(card.get("warnings") or [])
+              blockers[k]={"reason":"duplicate_variant" if any("Дубль варианта" in str(x) for x in warnings) else "specific_reason_not_returned" if not v.get("errors") and not card.get("errors") else "explicit_API_errors","warnings":warnings,"errors":(v.get("errors") or [])+(card.get("errors") or [])}
+          k="122390AKAF"
+          result={"checked_at":datetime.datetime.now(datetime.timezone.utc).isoformat(),"business_id":biz,"campaign_id":int(cam),"market_mutations":0,"counts":counts,"operations":ops,"category_verified":verified,"category_remaining":remaining,"automatic_blockers":blockers,"pending_previous_card":{"sku":k,"status":c[k].get("cardStatus"),"errors":c[k].get("errors"),"warnings":c[k].get("warnings")},"lost_publication":[k for k,v in old["rows"].items() if v.get("campaign_status")=="PUBLISHED" and st.get(k,{}).get("status")!="PUBLISHED"]}
+          Path("data/market_postmoderation_readonly_20261125.json").write_text(json.dumps(result,ensure_ascii=False,indent=2,default=str)+"\n")
+          print(json.dumps({k:result[k] for k in ("counts","category_verified","category_remaining","operations","pending_previous_card","lost_publication")},ensure_ascii=False))
+          PY
+          bash .github/scripts/save_data.sh data/market_postmoderation_readonly_20261125.json
