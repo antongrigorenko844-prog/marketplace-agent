@@ -1,0 +1,29 @@
+name: LEOPARTS Ozon independent final SEO readback
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/ozon-full-seo-readback-20261125.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+      OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - run: python -u scripts/ozon_full_seo_readback_20261125.py
+      - if: always()
+        run: |
+          if [ -f data/ozon_full_seo_readback_20261125.json ]; then bash .github/scripts/save_data.sh data/ozon_full_seo_readback_20261125.json; fi
