@@ -758,6 +758,16 @@ def run(live=False):
     if apply and (not live or os.getenv('GITHUB_REF')!='refs/heads/main'):
         raise ValueError('Apply requires main with persistent checkpoints')
     if live:current_main()
+    closure_request=cfg.get('final_closure_readonly')
+    closure_path=BASE/'final_closure_readonly.json'
+    if closure_request and read_json(closure_path,{}).get('request')!=closure_request:
+        from content_closure_readonly import probe
+        result=probe(cmf.load())
+        result['request']=closure_request
+        write_json(closure_path,result)
+        if live:checkpoint([closure_path],live=True)
+        print(json.dumps({'closure_probe':closure_request,'seller_writes':0},ensure_ascii=False))
+        return 0
     rules=cmf.load()
     old=read_json(STATE,{'version':1,'rows':{},'paused_channels':{}})
     if old.get('version')!=1:raise ValueError('Unknown state version')
