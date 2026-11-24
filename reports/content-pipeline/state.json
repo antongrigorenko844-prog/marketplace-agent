@@ -12,10 +12,9 @@
       "verified": 146
     },
     "ozon": {
-      "blocked": 131,
+      "blocked": 132,
       "not_applicable": 20,
       "pending": 1,
-      "prepared": 1,
       "verified": 14
     },
     "tilda": {
@@ -7413,16 +7412,19 @@
         "updated_utc": "2026-11-24T02:35:07.281057+00:00"
       },
       "ozon": {
+        "after_hash": "1d4b1d8a51452a4d2779cf62e6c077e0481d199d4ce5dc2f25ba90ce60a35252",
         "attempts": 0,
+        "before_hash": "1d4b1d8a51452a4d2779cf62e6c077e0481d199d4ce5dc2f25ba90ce60a35252",
         "card_id": "3223381624",
         "channel": "ozon",
-        "error": null,
+        "error": "Ozon description-only requests changed protected attributes on two existing cards: cached-to-live model 9048 gained an extra _SKU suffix and 23173 appeared with value 1. Eight comparison cards were unchanged; repeated live reads are stable. Do not exempt model grouping or resume mass writes without a tested method that preserves these fields.",
+        "last_checked_utc": "2026-11-24T02:35:16.388391+00:00",
         "polls": 0,
         "read_failures": 0,
         "sku": "Ea888gen3",
-        "status": "prepared",
+        "status": "blocked",
         "target_hash": "e674c2718ed5b3adef1ea49ebdbd4dc6c667e613b9161c5319aee2c8e06e55c7",
-        "updated_utc": "2026-11-24T02:35:07.281037+00:00"
+        "updated_utc": "2026-11-24T02:35:16.388422+00:00"
       },
       "tilda": {
         "attempts": 0,
@@ -12862,6 +12864,6 @@
     }
   },
   "run_id": "45313380183-1",
-  "updated_utc": "2026-11-24T02:35:14.288290+00:00",
+  "updated_utc": "2026-11-24T02:35:16.388427+00:00",
   "version": 1
 }
