@@ -1,9 +1,9 @@
 {
   "platform": "Ozon",
   "owner_scope": "separate clearly different actual models; only 9048; no new merges",
-  "started_utc": "2026-11-24T20:57:25.575329+00:00",
-  "status": "canary_not_confirmed",
-  "external_write_requests": 1,
+  "started_utc": "2026-11-24T21:00:02.341661+00:00",
+  "status": "preflight",
+  "external_write_requests": 0,
   "operations": [
     {
       "sku": "0am325025hfe",
@@ -292,10 +292,154 @@
     "pylniki-shtokov-orig": "Potential physical duplicate; review exact composition before detaching",
     "pylniki-shtokov-orig-v2": "Potential physical duplicate; review exact composition before detaching",
     "porshni-usil-pylniki-kryshki": "Potential physical duplicate; review exact composition before detaching",
-    "porshni-usil-pylniki-kryshki-v2": "Potential physical duplicate; review exact composition before detaching",
-    "remaining_plan": "Canary split not independently verified; use documented Seller UI/support if model persists. No mass speculative edits."
+    "porshni-usil-pylniki-kryshki-v2": "Potential physical duplicate; review exact composition before detaching"
   },
   "before_model_census": {
+    "tool-dsg-pressure-hp": {
+      "model_id": "6862669857",
+      "count": 1,
+      "sku": "6443881294",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "kryshka-mehatronika-dq200": {
+      "model_id": "6427415903",
+      "count": 1,
+      "sku": "5891100627",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325025z": {
+      "model_id": "3651874696",
+      "count": 1,
+      "sku": "2367419515",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "jf011e": {
+      "model_id": "3474383073",
+      "count": 1,
+      "sku": "2304029969",
+      "status": "Готов к продаже",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325025j": {
+      "model_id": "3651865850",
+      "count": 2,
+      "sku": "1950727386",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "0am325025G": {
+      "model_id": "3651867334",
+      "count": 5,
+      "sku": "2153044349",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "podshipnik-vilki-6": {
+      "model_id": "6871371059",
+      "count": 1,
+      "sku": "5753727927",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "6t30-tcm-gen1": {
+      "model_id": "6862506396",
+      "count": 1,
+      "sku": "6443660836",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "prokladka-vtulki-niz-dq200": {
+      "model_id": "3651865771",
+      "count": 4,
+      "sku": "6161096744",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "plita-filtr-orig": {
+      "model_id": "6625150264",
+      "count": 1,
+      "sku": "6097724998",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0AM927769N": {
+      "model_id": "6653249745",
+      "count": 1,
+      "sku": "2169581289",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "EA888gen3": {
+      "model_id": "4102654369",
+      "count": 3,
+      "sku": "4204089399",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325025l": {
+      "model_id": "3651862623",
+      "count": 1,
+      "sku": "1947309601",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "salnik-tolkatelya-alum": {
+      "model_id": "3644410476",
+      "count": 12,
+      "sku": "5753723169",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "prokladka-kryshki-dq200": {
+      "model_id": "6427416276",
+      "count": 1,
+      "sku": "5891101141",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
     "Dq500": {
       "model_id": "6351621034",
       "count": 1,
@@ -309,18 +453,94 @@
         }
       ]
     },
-    "0AM927769E": {
-      "model_id": "6792914545",
+    "plita-pylniki-salniki-orig-v2": {
+      "model_id": "3651862708",
+      "count": 10,
+      "sku": "6155468874",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
+          "level": "ERROR_LEVEL_ERROR"
+        }
+      ]
+    },
+    "salnikprivod-l": {
+      "model_id": "3644410476",
+      "count": 12,
+      "sku": "5753727557",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
+          "level": "ERROR_LEVEL_ERROR"
+        }
+      ]
+    },
+    "0am325025HX": {
+      "model_id": "5247039656",
       "count": 1,
-      "sku": "6344654983",
+      "sku": "4166152715",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": []
     },
-    "salnik-tolkatelya-alum": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "5753723169",
+    "pylniki-shtokov-orig-v2": {
+      "model_id": "3651867334",
+      "count": 5,
+      "sku": "5776942621",
+      "status": "Не продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
+          "level": "ERROR_LEVEL_ERROR"
+        }
+      ]
+    },
+    "solenoid-02e-0b5-bolshoy": {
+      "model_id": "",
+      "count": 0,
+      "sku": "",
+      "status": "Не продаётся",
+      "moderation": "",
+      "errors": [
+        {
+          "code": "image_absent",
+          "level": "ERROR_LEVEL_ERROR"
+        }
+      ]
+    },
+    "EA888gen3-filter-kit": {
+      "model_id": "4102654369",
+      "count": 3,
+      "sku": "6442706937",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "klipsa-datchika-peredach-dq200": {
+      "model_id": "6778193241",
+      "count": 1,
+      "sku": "6322581278",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325025": {
+      "model_id": "6653250153",
+      "count": 1,
+      "sku": "1945722947",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325025P": {
+      "model_id": "3651869562",
+      "count": 4,
+      "sku": "2173657417",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": [
@@ -343,21 +563,52 @@
         }
       ]
     },
-    "0am325025z": {
-      "model_id": "3651874696",
+    "plita-filtr-pylniki-sal": {
+      "model_id": "3651862708",
+      "count": 10,
+      "sku": "5753726521",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "0am325025H": {
+      "model_id": "3651862555",
+      "count": 2,
+      "sku": "3190533531",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "0AM325467J": {
+      "model_id": "3651890356",
       "count": 1,
-      "sku": "2367419515",
+      "sku": "2804936350",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": []
     },
-    "55565480": {
-      "model_id": "820329082",
-      "count": 1,
-      "sku": "2092798387",
+    "plita-pylniki-salniki": {
+      "model_id": "3651862708",
+      "count": 10,
+      "sku": "6155471329",
       "status": "Продаётся",
       "moderation": "approved",
-      "errors": []
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
     },
     "salniki-shtokov-2sht": {
       "model_id": "3644410476",
@@ -372,105 +623,10 @@
         }
       ]
     },
-    "plastiny-solenoid-orig": {
-      "model_id": "3651865850",
+    "0am325091f": {
+      "model_id": "3651865869",
       "count": 2,
-      "sku": "5753725682",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0сц": {
-      "model_id": "4148110420",
-      "count": 1,
-      "sku": "3245425193",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "Dq200dsg7": {
-      "model_id": "4124581906",
-      "count": 1,
-      "sku": "3237040853",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM325587E": {
-      "model_id": "3651865500",
-      "count": 1,
-      "sku": "1950714942",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025l": {
-      "model_id": "3651862623",
-      "count": 1,
-      "sku": "1947309601",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plita-filtr-orig": {
-      "model_id": "6625150264",
-      "count": 1,
-      "sku": "6097724998",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plita-filtr-v2": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "5776942761",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "solenoid-02e-0b5-bolshoy": {
-      "model_id": "",
-      "count": 0,
-      "sku": "",
-      "status": "Не продаётся",
-      "moderation": "",
-      "errors": [
-        {
-          "code": "image_absent",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "separatornaya-plastiny-solenoid-dq200": {
-      "model_id": "6668252694",
-      "count": 1,
-      "sku": "6161285981",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "kryshka-platy-dq200": {
-      "model_id": "6778193437",
-      "count": 1,
-      "sku": "6322581595",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325091e-set": {
-      "model_id": "3651866069",
-      "count": 2,
-      "sku": "5753725265",
+      "sku": "1950704555",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": [
@@ -485,6 +641,185 @@
       "count": 1,
       "sku": "1950722078",
       "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "filtr-dsg7-dq500": {
+      "model_id": "6427415976",
+      "count": 1,
+      "sku": "5891021230",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325025m": {
+      "model_id": "3651862399",
+      "count": 1,
+      "sku": "1947306632",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "separatornaya-plastina-dq200": {
+      "model_id": "6427416317",
+      "count": 1,
+      "sku": "5891101128",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "porshni-usil-pylniki-kryshki": {
+      "model_id": "3651867334",
+      "count": 5,
+      "sku": "6155470467",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
+          "level": "ERROR_LEVEL_ERROR"
+        }
+      ]
+    },
+    "0cw325025h": {
+      "model_id": "4102398674",
+      "count": 1,
+      "sku": "3230413489",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "porshni-usil-pylniki-kryshki-v2": {
+      "model_id": "3651867334",
+      "count": 5,
+      "sku": "6155471104",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "0AM927769K": {
+      "model_id": "6792914755",
+      "count": 1,
+      "sku": "6344654802",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "tolkateli-salniki-alum-komplekt": {
+      "model_id": "3644410476",
+      "count": 12,
+      "sku": "5753724798",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "salnikvihod": {
+      "model_id": "3644410476",
+      "count": 12,
+      "sku": "5753732751",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
+          "level": "ERROR_LEVEL_ERROR"
+        }
+      ]
+    },
+    "tolkateli-4-salniki-4": {
+      "model_id": "3651867989",
+      "count": 2,
+      "sku": "5753726787",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "02e305045": {
+      "model_id": "6436205634",
+      "count": 1,
+      "sku": "1950715359",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325091f-set": {
+      "model_id": "3651865869",
+      "count": 2,
+      "sku": "5753723143",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "shleif-platy-dq200": {
+      "model_id": "6777932442",
+      "count": 1,
+      "sku": "6322289624",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "fpc-shleif-dq200": {
+      "model_id": "6778193232",
+      "count": 1,
+      "sku": "6322581244",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "prokladka-vtulki-verh-dq200": {
+      "model_id": "3651865771",
+      "count": 4,
+      "sku": "6161095639",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "derzhatel-datchikov-dq200": {
+      "model_id": "6777932328",
+      "count": 1,
+      "sku": "6322289233",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325025n": {
+      "model_id": "6653250188",
+      "count": 1,
+      "sku": "2615648706",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "31705-X428B": {
+      "model_id": "4147317832",
+      "count": 1,
+      "sku": "3245174839",
+      "status": "Готов к продаже",
       "moderation": "approved",
       "errors": []
     },
@@ -504,10 +839,147 @@
       "moderation": "approved",
       "errors": []
     },
-    "0am325025ae": {
-      "model_id": "3651864273",
+    "0ambset": {
+      "model_id": "6664379742",
       "count": 1,
-      "sku": "1996546333",
+      "sku": "2304008862",
+      "status": "Не продаётся",
+      "moderation": "declined",
+      "errors": [
+        {
+          "code": "DESCRIPTION_DECLINE",
+          "level": "ERROR_LEVEL_ERROR"
+        }
+      ]
+    },
+    "plita-filtr-pylniki-orig": {
+      "model_id": "3651862708",
+      "count": 10,
+      "sku": "5753726811",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "stalnaya-vstavka-plity": {
+      "model_id": "3651862708",
+      "count": 10,
+      "sku": "5753724953",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "klipsy-shtokov-2sht": {
+      "model_id": "3651869562",
+      "count": 4,
+      "sku": "5756308746",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "gidroakkumulyator-orig": {
+      "model_id": "6601647550",
+      "count": 1,
+      "sku": "6064093373",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325025u": {
+      "model_id": "3651876312",
+      "count": 1,
+      "sku": "2384682253",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325025HXK": {
+      "model_id": "6792915099",
+      "count": 1,
+      "sku": "6344655964",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0AM927769F": {
+      "model_id": "6668819719",
+      "count": 1,
+      "sku": "6162093020",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "6t30-solenoids-gen2": {
+      "model_id": "6862526094",
+      "count": 1,
+      "sku": "6443690337",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "plastiny-solenoid-orig": {
+      "model_id": "3651865850",
+      "count": 2,
+      "sku": "5753725682",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "01X301127C": {
+      "model_id": "3651865886",
+      "count": 1,
+      "sku": "2152628178",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "317053TX0C": {
+      "model_id": "4147471818",
+      "count": 1,
+      "sku": "3245228502",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "TEST001": {
+      "model_id": "6436204867",
+      "count": 1,
+      "sku": "5742839074",
+      "status": "Готов к продаже",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0cw0am325025": {
+      "model_id": "4107645681",
+      "count": 1,
+      "sku": "3231725309",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325025HXG": {
+      "model_id": "6793171244",
+      "count": 1,
+      "sku": "6345035202",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": []
@@ -520,110 +992,18 @@
       "moderation": "approved",
       "errors": []
     },
-    "0AM325443D": {
-      "model_id": "3651240662",
+    "plastiny-solenoid-dq200-2sht": {
+      "model_id": "6668254249",
       "count": 1,
-      "sku": "2092749373",
+      "sku": "6161287718",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": []
     },
-    "pylniki-shtokov-orig-v2": {
-      "model_id": "3651867334",
-      "count": 5,
-      "sku": "5776942621",
-      "status": "Не продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "derzhatel-datchikov-dq200": {
-      "model_id": "6777932328",
-      "count": 1,
-      "sku": "6322289233",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025": {
-      "model_id": "6653250153",
-      "count": 1,
-      "sku": "1945722947",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM325120A": {
-      "model_id": "3651870468",
-      "count": 1,
-      "sku": "2169594669",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "salnikvihod": {
+    "salniki-shtokov-orig": {
       "model_id": "3644410476",
       "count": 12,
-      "sku": "5753732751",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "0am325025HX": {
-      "model_id": "5247039656",
-      "count": 1,
-      "sku": "4166152715",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "vtulki-shtokov-2sht": {
-      "model_id": "3651865771",
-      "count": 4,
-      "sku": "5753726793",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "DQ500": {
-      "model_id": "6871360807",
-      "count": 1,
-      "sku": "5747230950",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0am325025n": {
-      "model_id": "6653250188",
-      "count": 1,
-      "sku": "2615648706",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "porshni-usil-pylniki-kryshki-v2": {
-      "model_id": "3651867334",
-      "count": 5,
-      "sku": "6155471104",
+      "sku": "5753726778",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": [
@@ -641,10 +1021,10 @@
       "moderation": "approved",
       "errors": []
     },
-    "0am325091f-set": {
-      "model_id": "3651865869",
-      "count": 2,
-      "sku": "5753723143",
+    "0am325066ae": {
+      "model_id": "3651862708",
+      "count": 10,
+      "sku": "1947292186",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": [
@@ -654,42 +1034,10 @@
         }
       ]
     },
-    "6t30-solenoids-gen2": {
-      "model_id": "6862526094",
-      "count": 1,
-      "sku": "6443690337",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "prokladka-kryshki-dq200": {
-      "model_id": "6427416276",
-      "count": 1,
-      "sku": "5891101141",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0cw325025h": {
-      "model_id": "4102398674",
-      "count": 1,
-      "sku": "3230413489",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "122390AK-AF": {
-      "model_id": "3651865280",
-      "count": 1,
-      "sku": "1974187724",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325066AC": {
-      "model_id": "3651867989",
-      "count": 2,
-      "sku": "2169484129",
+    "plita-filtr-salniki-orig": {
+      "model_id": "3651862708",
+      "count": 10,
+      "sku": "5753725634",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": [
@@ -699,10 +1047,187 @@
         }
       ]
     },
-    "salnikprivod-r": {
+    "0cw0amdsgdq200": {
+      "model_id": "4124583611",
+      "count": 1,
+      "sku": "3237041426",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0AM927769E": {
+      "model_id": "6792914545",
+      "count": 1,
+      "sku": "6344654983",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "123014‑AF": {
+      "model_id": "6871357532",
+      "count": 1,
+      "sku": "2176060503",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "0am325025x": {
+      "model_id": "4192285848",
+      "count": 1,
+      "sku": "3260518430",
+      "status": "Готов к продаже",
+      "moderation": "approved",
+      "errors": []
+    },
+    "datchik-peredach-dq200": {
+      "model_id": "6777932289",
+      "count": 1,
+      "sku": "6322289465",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325025f": {
+      "model_id": "3651865010",
+      "count": 1,
+      "sku": "1950688200",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "pylniki-shtokov-orig": {
+      "model_id": "3651867334",
+      "count": 5,
+      "sku": "5776942459",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
+          "level": "ERROR_LEVEL_ERROR"
+        }
+      ]
+    },
+    "filtr-dsg7-dq200": {
+      "model_id": "6427416221",
+      "count": 1,
+      "sku": "5891100996",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325091e": {
+      "model_id": "3651866069",
+      "count": 2,
+      "sku": "1997389863",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "0AM325587E": {
+      "model_id": "3651865500",
+      "count": 1,
+      "sku": "1950714942",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "Dq200dsg70am0cw": {
+      "model_id": "4107748897",
+      "count": 1,
+      "sku": "3231757428",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0AM927769G": {
+      "model_id": "6793172029",
+      "count": 1,
+      "sku": "6345036432",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325025q": {
+      "model_id": "3651869377",
+      "count": 1,
+      "sku": "2169591363",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0AM927769D": {
+      "model_id": "3651869579",
+      "count": 1,
+      "sku": "4701687690",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0сц": {
+      "model_id": "4148110420",
+      "count": 1,
+      "sku": "3245425193",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "salnik-shtoka-orig": {
       "model_id": "3644410476",
       "count": 12,
-      "sku": "5753727883",
+      "sku": "6155470503",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
+          "level": "ERROR_LEVEL_ERROR"
+        }
+      ]
+    },
+    "31705-1XF0C": {
+      "model_id": "4147576374",
+      "count": 1,
+      "sku": "3245270130",
+      "status": "Готов к продаже",
+      "moderation": "approved",
+      "errors": []
+    },
+    "salnikvhod": {
+      "model_id": "3644410476",
+      "count": 12,
+      "sku": "5753732657",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
+          "level": "ERROR_LEVEL_ERROR"
+        }
+      ]
+    },
+    "Ea888gen3": {
+      "model_id": "6627438267",
+      "count": 1,
+      "sku": "3230487161",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "DQ500": {
+      "model_id": "6871360807",
+      "count": 1,
+      "sku": "5747230950",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": [
@@ -725,7 +1250,31 @@
         }
       ]
     },
-    "remkomplekt-shtokov-orig": {
+    "122390AKAF": {
+      "model_id": "4147871508",
+      "count": 1,
+      "sku": "3245375133",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "kryshka-platy-dq200": {
+      "model_id": "6778193437",
+      "count": 1,
+      "sku": "6322581595",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325025HXE": {
+      "model_id": "6792915418",
+      "count": 1,
+      "sku": "6344655716",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "remkomplekt-shtokov-orig-v2": {
       "model_id": "",
       "count": 0,
       "sku": "",
@@ -737,6 +1286,258 @@
           "level": "ERROR_LEVEL_ERROR"
         }
       ]
+    },
+    "planka-solenoid-2sht": {
+      "model_id": "4172860487",
+      "count": 3,
+      "sku": "5753725921",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "0AM325120A": {
+      "model_id": "3651870468",
+      "count": 1,
+      "sku": "2169594669",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0BH325183": {
+      "model_id": "6874022048",
+      "count": 1,
+      "sku": "2663595903",
+      "status": "Готов к продаже",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "0AM325413A": {
+      "model_id": "3644410476",
+      "count": 12,
+      "sku": "2152721180",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "02E305051C": {
+      "model_id": "3651862641",
+      "count": 1,
+      "sku": "1947312961",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "tool-dq200-acc-restore": {
+      "model_id": "6862662013",
+      "count": 1,
+      "sku": "6443868665",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "Dq200dsg7": {
+      "model_id": "4124581906",
+      "count": 1,
+      "sku": "3237040853",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "osnovanie-platy-dq200": {
+      "model_id": "6777931480",
+      "count": 1,
+      "sku": "6322288908",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "salnikprivod-r": {
+      "model_id": "3644410476",
+      "count": 12,
+      "sku": "5753727883",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "0AM325443D": {
+      "model_id": "3651240662",
+      "count": 1,
+      "sku": "2092749373",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "datchik-scepleniya-dq200": {
+      "model_id": "6777932050",
+      "count": 1,
+      "sku": "6322289047",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325477": {
+      "model_id": "4172860487",
+      "count": 3,
+      "sku": "6103961048",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "0am325477ae": {
+      "model_id": "4172860487",
+      "count": 3,
+      "sku": "3253030346",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "0am325025HXF": {
+      "model_id": "6668819948",
+      "count": 1,
+      "sku": "6162093251",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "plita-pylniki-salniki-orig": {
+      "model_id": "3651862708",
+      "count": 10,
+      "sku": "6155468585",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
+          "level": "ERROR_LEVEL_ERROR"
+        }
+      ]
+    },
+    "122390AK-AF": {
+      "model_id": "3651865280",
+      "count": 1,
+      "sku": "1974187724",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "plita-filtr": {
+      "model_id": "",
+      "count": 0,
+      "sku": "",
+      "status": "Не продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
+          "level": "ERROR_LEVEL_ERROR"
+        }
+      ]
+    },
+    "6t30-tcm-gen2": {
+      "model_id": "6862505985",
+      "count": 1,
+      "sku": "6443661084",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325066AC": {
+      "model_id": "3651867989",
+      "count": 2,
+      "sku": "2169484129",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "6t30": {
+      "model_id": "3651869562",
+      "count": 4,
+      "sku": "5753726628",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "kolodka-solenoidov-dq200": {
+      "model_id": "6778019282",
+      "count": 1,
+      "sku": "6322392821",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "0am325091e-set": {
+      "model_id": "3651866069",
+      "count": 2,
+      "sku": "5753725265",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "0am325025hfe": {
+      "model_id": "3651862555",
+      "count": 2,
+      "sku": "1947299158",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": [
+        {
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
+        }
+      ]
+    },
+    "plastina-solenoid-dq200": {
+      "model_id": "6427416418",
+      "count": 1,
+      "sku": "5891021503",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
     },
     "0BH325183 B": {
       "model_id": "6871348492",
@@ -751,26 +1552,42 @@
         }
       ]
     },
-    "EA888gen3": {
-      "model_id": "4102654369",
-      "count": 3,
-      "sku": "4204089399",
+    "55565480": {
+      "model_id": "820329082",
+      "count": 1,
+      "sku": "2092798387",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": []
     },
-    "pylniki-shtokov-orig": {
-      "model_id": "3651867334",
-      "count": 5,
-      "sku": "5776942459",
+    "plita-filtr-v2": {
+      "model_id": "3651862708",
+      "count": 10,
+      "sku": "5776942761",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": [
         {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
         }
       ]
+    },
+    "korpus-filtra-0bh325159": {
+      "model_id": "6351175942",
+      "count": 1,
+      "sku": "5753726812",
+      "status": "Готов к продаже",
+      "moderation": "approved",
+      "errors": []
+    },
+    "EA888": {
+      "model_id": "4102654369",
+      "count": 3,
+      "sku": "3230488334",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
     },
     "0BH325": {
       "model_id": "",
@@ -797,40 +1614,24 @@
         }
       ]
     },
-    "jf011e": {
-      "model_id": "3474383073",
-      "count": 1,
-      "sku": "2304029969",
-      "status": "Готов к продаже",
+    "0am325025D": {
+      "model_id": "3651865771",
+      "count": 4,
+      "sku": "1950709566",
+      "status": "Продаётся",
       "moderation": "approved",
-      "errors": []
-    },
-    "0ambset": {
-      "model_id": "6664379742",
-      "count": 1,
-      "sku": "2304008862",
-      "status": "Не продаётся",
-      "moderation": "declined",
       "errors": [
         {
-          "code": "DESCRIPTION_DECLINE",
-          "level": "ERROR_LEVEL_ERROR"
+          "code": "double_without_merger_offer",
+          "level": "ERROR_LEVEL_WARNING"
         }
       ]
     },
-    "tool-dq200-acc-restore": {
-      "model_id": "6862662013",
-      "count": 1,
-      "sku": "6443868665",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plita-pylniki-salniki-orig-v2": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "6155468874",
-      "status": "Продаётся",
+    "remkomplekt-shtokov-orig": {
+      "model_id": "",
+      "count": 0,
+      "sku": "",
+      "status": "Не продаётся",
       "moderation": "approved",
       "errors": [
         {
@@ -838,6 +1639,30 @@
           "level": "ERROR_LEVEL_ERROR"
         }
       ]
+    },
+    "0AM325219C": {
+      "model_id": "3651867640",
+      "count": 1,
+      "sku": "1996476628",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "separatornaya-plastiny-solenoid-dq200": {
+      "model_id": "6668252694",
+      "count": 1,
+      "sku": "6161285981",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "chip-02e927770": {
+      "model_id": "6777677293",
+      "count": 1,
+      "sku": "6321988307",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
     },
     "plita-filtr-pylniki": {
       "model_id": "3651862708",
@@ -852,247 +1677,26 @@
         }
       ]
     },
-    "6t30-tcm-gen1": {
-      "model_id": "6862506396",
+    "0am325025r": {
+      "model_id": "3651865593",
       "count": 1,
-      "sku": "6443660836",
+      "sku": "1950719912",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": []
     },
-    "0am325025HXK": {
-      "model_id": "6792915099",
+    "0AM325025B": {
+      "model_id": "3651265865",
       "count": 1,
-      "sku": "6344655964",
+      "sku": "1947273007",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": []
     },
-    "0AM325467J": {
-      "model_id": "3651890356",
+    "02E 305 045": {
+      "model_id": "865055491",
       "count": 1,
-      "sku": "2804936350",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "EA888": {
-      "model_id": "4102654369",
-      "count": 3,
-      "sku": "3230488334",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM927769D": {
-      "model_id": "3651869579",
-      "count": 1,
-      "sku": "4701687690",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "datchik-peredach-dq200": {
-      "model_id": "6777932289",
-      "count": 1,
-      "sku": "6322289465",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "korpus-filtra-0bh325159": {
-      "model_id": "6351175942",
-      "count": 1,
-      "sku": "5753726812",
-      "status": "Готов к продаже",
-      "moderation": "approved",
-      "errors": []
-    },
-    "prokladka-vtulki-niz-dq200": {
-      "model_id": "3651865771",
-      "count": 4,
-      "sku": "6161096744",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0am325025D": {
-      "model_id": "3651865771",
-      "count": 4,
-      "sku": "1950709566",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0AM927769K": {
-      "model_id": "6792914755",
-      "count": 1,
-      "sku": "6344654802",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plita-filtr-pylniki-orig": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "5753726811",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "Dq200dsg70am0cw": {
-      "model_id": "4107748897",
-      "count": 1,
-      "sku": "3231757428",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025HXF": {
-      "model_id": "6668819948",
-      "count": 1,
-      "sku": "6162093251",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plita-filtr-pylniki-sal-orig": {
-      "model_id": "",
-      "count": 0,
-      "sku": "",
-      "status": "Не продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "0am325091f": {
-      "model_id": "3651865869",
-      "count": 2,
-      "sku": "1950704555",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "plastina-solenoid-dq200": {
-      "model_id": "6427416418",
-      "count": 1,
-      "sku": "5891021503",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025j": {
-      "model_id": "3651865850",
-      "count": 2,
-      "sku": "1950727386",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "separatornaya-plastina-dq200": {
-      "model_id": "6427416317",
-      "count": 1,
-      "sku": "5891101128",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "podshipnik-vilki-6": {
-      "model_id": "6871371059",
-      "count": 1,
-      "sku": "5753727927",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "salnik-shtoka-orig": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "6155470503",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "0AM927769G": {
-      "model_id": "6793172029",
-      "count": 1,
-      "sku": "6345036432",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plastiny-solenoid-dq200-2sht": {
-      "model_id": "6668254249",
-      "count": 1,
-      "sku": "6161287718",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "remkomplekt-shtokov-orig-v2": {
-      "model_id": "",
-      "count": 0,
-      "sku": "",
-      "status": "Не продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "TEST001": {
-      "model_id": "6436204867",
-      "count": 1,
-      "sku": "5742839074",
-      "status": "Готов к продаже",
-      "moderation": "approved",
-      "errors": []
-    },
-    "6t30-tcm-gen2": {
-      "model_id": "6862505985",
-      "count": 1,
-      "sku": "6443661084",
+      "sku": "2175780889",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": []
@@ -1110,230 +1714,7 @@
         }
       ]
     },
-    "fpc-shleif-dq200": {
-      "model_id": "6778193232",
-      "count": 1,
-      "sku": "6322581244",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "kryshka-mehatronika-dq200": {
-      "model_id": "6427415903",
-      "count": 1,
-      "sku": "5891100627",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "filtr-dsg7-dq500": {
-      "model_id": "6427415976",
-      "count": 1,
-      "sku": "5891021230",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "stalnaya-vstavka-plity": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "5753724953",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0am325025m": {
-      "model_id": "3651862399",
-      "count": 1,
-      "sku": "1947306632",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025H": {
-      "model_id": "3651862555",
-      "count": 2,
-      "sku": "3190533531",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "chip-02e927770": {
-      "model_id": "6777677293",
-      "count": 1,
-      "sku": "6321988307",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "123014‑AF": {
-      "model_id": "6871357532",
-      "count": 1,
-      "sku": "2176060503",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0BH325183": {
-      "model_id": "6874022048",
-      "count": 1,
-      "sku": "2663595903",
-      "status": "Готов к продаже",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "planka-solenoid-2sht": {
-      "model_id": "4172860487",
-      "count": 3,
-      "sku": "5753725921",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0am325025G": {
-      "model_id": "3651867334",
-      "count": 5,
-      "sku": "2153044349",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0am325025P": {
-      "model_id": "3651869562",
-      "count": 4,
-      "sku": "2173657417",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "filtr-setka-0b5-orig": {
-      "model_id": "6871364129",
-      "count": 1,
-      "sku": "5755927856",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0am325025hfe": {
-      "model_id": "3651862555",
-      "count": 2,
-      "sku": "1947299158",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "filtr-dsg7-dq200": {
-      "model_id": "6427416221",
-      "count": 1,
-      "sku": "5891100996",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM927769N": {
-      "model_id": "6653249745",
-      "count": 1,
-      "sku": "2169581289",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "kolodka-solenoidov-dq200": {
-      "model_id": "6778019282",
-      "count": 1,
-      "sku": "6322392821",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325091e": {
-      "model_id": "3651866069",
-      "count": 2,
-      "sku": "1997389863",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "tolkateli-salniki-alum-komplekt": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "5753724798",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0am325025x": {
-      "model_id": "4192285848",
-      "count": 1,
-      "sku": "3260518430",
-      "status": "Готов к продаже",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM325025B": {
-      "model_id": "3651265865",
-      "count": 1,
-      "sku": "1947273007",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plita-filtr": {
+    "plita-filtr-pylniki-sal-orig": {
       "model_id": "",
       "count": 0,
       "sku": "",
@@ -1346,26 +1727,18 @@
         }
       ]
     },
-    "0am325025HXG": {
-      "model_id": "6793171244",
+    "0AM301212A": {
+      "model_id": "6653249651",
       "count": 1,
-      "sku": "6345035202",
+      "sku": "1950726378",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": []
     },
-    "klipsa-datchika-peredach-dq200": {
-      "model_id": "6778193241",
-      "count": 1,
-      "sku": "6322581278",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plita-filtr-salniki-orig": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "5753725634",
+    "vtulki-shtokov-2sht": {
+      "model_id": "3651865771",
+      "count": 4,
+      "sku": "5753726793",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": [
@@ -1375,18 +1748,26 @@
         }
       ]
     },
-    "01X301127C": {
-      "model_id": "3651865886",
+    "0am325025ae": {
+      "model_id": "3651864273",
       "count": 1,
-      "sku": "2152628178",
+      "sku": "1996546333",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": []
     },
-    "0am325477ae": {
-      "model_id": "4172860487",
-      "count": 3,
-      "sku": "3253030346",
+    "WHT001922": {
+      "model_id": "3651870448",
+      "count": 1,
+      "sku": "2152594086",
+      "status": "Продаётся",
+      "moderation": "approved",
+      "errors": []
+    },
+    "filtr-setka-0b5-orig": {
+      "model_id": "6871364129",
+      "count": 1,
+      "sku": "5755927856",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": [
@@ -1404,392 +1785,10 @@
       "moderation": "approved",
       "errors": []
     },
-    "plita-pylniki-salniki": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "6155471329",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "plita-pylniki-salniki-orig": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "6155468585",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "02e305045": {
-      "model_id": "6436205634",
-      "count": 1,
-      "sku": "1950715359",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM325219C": {
-      "model_id": "3651867640",
-      "count": 1,
-      "sku": "1996476628",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "EA888gen3-filter-kit": {
-      "model_id": "4102654369",
-      "count": 3,
-      "sku": "6442706937",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM301212A": {
-      "model_id": "6653249651",
-      "count": 1,
-      "sku": "1950726378",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "tool-dsg-pressure-hp": {
-      "model_id": "6862669857",
-      "count": 1,
-      "sku": "6443881294",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "Ea888gen3": {
-      "model_id": "6627438267",
-      "count": 1,
-      "sku": "3230487161",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "porshni-usil-pylniki-kryshki": {
-      "model_id": "3651867334",
-      "count": 5,
-      "sku": "6155470467",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
     "prokladka-vtulki-dq200": {
       "model_id": "6427416032",
       "count": 1,
       "sku": "5891021116",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "6t30": {
-      "model_id": "3651869562",
-      "count": 4,
-      "sku": "5753726628",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "122390AKAF": {
-      "model_id": "4147871508",
-      "count": 1,
-      "sku": "3245375133",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025r": {
-      "model_id": "3651865593",
-      "count": 1,
-      "sku": "1950719912",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "shleif-platy-dq200": {
-      "model_id": "6777932442",
-      "count": 1,
-      "sku": "6322289624",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325477": {
-      "model_id": "4172860487",
-      "count": 3,
-      "sku": "6103961048",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0AM325413A": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "2152721180",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "gidroakkumulyator-orig": {
-      "model_id": "6601647550",
-      "count": 1,
-      "sku": "6064093373",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025u": {
-      "model_id": "3651876312",
-      "count": 1,
-      "sku": "2384682253",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "klipsy-shtokov-2sht": {
-      "model_id": "3651869562",
-      "count": 4,
-      "sku": "5756308746",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "plita-filtr-pylniki-sal": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "5753726521",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "prokladka-vtulki-verh-dq200": {
-      "model_id": "3651865771",
-      "count": 4,
-      "sku": "6161095639",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0cw0am325025": {
-      "model_id": "4107645681",
-      "count": 1,
-      "sku": "3231725309",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "WHT001922": {
-      "model_id": "3651870448",
-      "count": 1,
-      "sku": "2152594086",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "tolkateli-4-salniki-4": {
-      "model_id": "3651867989",
-      "count": 2,
-      "sku": "5753726787",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0cw0amdsgdq200": {
-      "model_id": "4124583611",
-      "count": 1,
-      "sku": "3237041426",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM927769F": {
-      "model_id": "6668819719",
-      "count": 1,
-      "sku": "6162093020",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "02E305051C": {
-      "model_id": "3651862641",
-      "count": 1,
-      "sku": "1947312961",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "salniki-shtokov-orig": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "5753726778",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0am325025f": {
-      "model_id": "3651865010",
-      "count": 1,
-      "sku": "1950688200",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "salnikprivod-l": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "5753727557",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "0am325066ae": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "1947292186",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0am325025HXE": {
-      "model_id": "6792915418",
-      "count": 1,
-      "sku": "6344655716",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "317053TX0C": {
-      "model_id": "4147471818",
-      "count": 1,
-      "sku": "3245228502",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "31705-X428B": {
-      "model_id": "4147317832",
-      "count": 1,
-      "sku": "3245174839",
-      "status": "Готов к продаже",
-      "moderation": "approved",
-      "errors": []
-    },
-    "02E 305 045": {
-      "model_id": "865055491",
-      "count": 1,
-      "sku": "2175780889",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "salnikvhod": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "5753732657",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "osnovanie-platy-dq200": {
-      "model_id": "6777931480",
-      "count": 1,
-      "sku": "6322288908",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "31705-1XF0C": {
-      "model_id": "4147576374",
-      "count": 1,
-      "sku": "3245270130",
-      "status": "Готов к продаже",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025q": {
-      "model_id": "3651869377",
-      "count": 1,
-      "sku": "2169591363",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "datchik-scepleniya-dq200": {
-      "model_id": "6777932050",
-      "count": 1,
-      "sku": "6322289047",
       "status": "Продаётся",
       "moderation": "approved",
       "errors": []
@@ -1980,1581 +1979,5 @@
     "tolkateli-4-salniki-4",
     "tolkateli-salniki-alum-komplekt"
   ],
-  "updated_utc": "2026-11-24T20:58:39.755701+00:00",
-  "after_model_census": {
-    "EA888": {
-      "model_id": "4102654369",
-      "count": 3,
-      "sku": "3230488334",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plita-filtr-pylniki-sal-orig": {
-      "model_id": "",
-      "count": 0,
-      "sku": "",
-      "status": "Не продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "plastiny-solenoid-orig": {
-      "model_id": "3651865850",
-      "count": 2,
-      "sku": "5753725682",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0am325477": {
-      "model_id": "4172860487",
-      "count": 3,
-      "sku": "6103961048",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0am325025С": {
-      "model_id": "3651865389",
-      "count": 1,
-      "sku": "1950722078",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM325443D": {
-      "model_id": "3651240662",
-      "count": 1,
-      "sku": "2092749373",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "tool-dq200-acc-restore": {
-      "model_id": "6862662013",
-      "count": 1,
-      "sku": "6443868665",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0BH325": {
-      "model_id": "",
-      "count": 0,
-      "sku": "",
-      "status": "Не продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "primary_image_load_failed",
-          "level": "ERROR_LEVEL_WARNING"
-        },
-        {
-          "code": "pics_invalid_dimensions",
-          "level": "ERROR_LEVEL_WARNING"
-        },
-        {
-          "code": "some_image_failed",
-          "level": "ERROR_LEVEL_WARNING"
-        },
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "prokladka-kryshki-dq200": {
-      "model_id": "6427416276",
-      "count": 1,
-      "sku": "5891101141",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM301212A": {
-      "model_id": "6653249651",
-      "count": 1,
-      "sku": "1950726378",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "Dq200dsg7": {
-      "model_id": "4124581906",
-      "count": 1,
-      "sku": "3237040853",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025x": {
-      "model_id": "4192285848",
-      "count": 1,
-      "sku": "3260518430",
-      "status": "Готов к продаже",
-      "moderation": "approved",
-      "errors": []
-    },
-    "123014‑AF": {
-      "model_id": "6871357532",
-      "count": 1,
-      "sku": "2176060503",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0AM325433E": {
-      "model_id": "3651865842",
-      "count": 1,
-      "sku": "1950721121",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "chip-0am927769d": {
-      "model_id": "6777402658",
-      "count": 1,
-      "sku": "6321625406",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025H": {
-      "model_id": "3651862555",
-      "count": 2,
-      "sku": "3190533531",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "kolodka-solenoidov-dq200": {
-      "model_id": "6778019282",
-      "count": 1,
-      "sku": "6322392821",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0BH325183 B": {
-      "model_id": "6871348492",
-      "count": 1,
-      "sku": "2664990177",
-      "status": "Готов к продаже",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "gidroakkumulyator-orig": {
-      "model_id": "6601647550",
-      "count": 1,
-      "sku": "6064093373",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "6t30-solenoids-gen2": {
-      "model_id": "6862526094",
-      "count": 1,
-      "sku": "6443690337",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0cw325025h": {
-      "model_id": "4102398674",
-      "count": 1,
-      "sku": "3230413489",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plastina-solenoid-dq200": {
-      "model_id": "6427416418",
-      "count": 1,
-      "sku": "5891021503",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM325219C": {
-      "model_id": "3651867640",
-      "count": 1,
-      "sku": "1996476628",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "Ea888gen3": {
-      "model_id": "6627438267",
-      "count": 1,
-      "sku": "3230487161",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "6t30": {
-      "model_id": "3651869562",
-      "count": 4,
-      "sku": "5753726628",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "02E 305 045": {
-      "model_id": "865055491",
-      "count": 1,
-      "sku": "2175780889",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plita-filtr-pylniki-sal": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "5753726521",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "plita-pylniki-salniki-orig": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "6155468585",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "0AM325473": {
-      "model_id": "3651869562",
-      "count": 4,
-      "sku": "2617081401",
-      "status": "Продаётся",
-      "moderation": "declined",
-      "errors": [
-        {
-          "code": "DESCRIPTION_DECLINE",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "salnikprivod-r": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "5753727883",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "tolkateli-salniki-alum-komplekt": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "5753724798",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0AM325120A": {
-      "model_id": "3651870468",
-      "count": 1,
-      "sku": "2169594669",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "stalnaya-vstavka-plity": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "5753724953",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "jf011e": {
-      "model_id": "3474383073",
-      "count": 1,
-      "sku": "2304029969",
-      "status": "Готов к продаже",
-      "moderation": "approved",
-      "errors": []
-    },
-    "prokladka-vtulki-niz-dq200": {
-      "model_id": "3651865771",
-      "count": 4,
-      "sku": "6161096744",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0am325025j": {
-      "model_id": "3651865850",
-      "count": 2,
-      "sku": "1950727386",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "plita-filtr-v2": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "5776942761",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "salnik-tolkatelya-alum": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "5753723169",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "solenoid-02e-0b5-bolshoy": {
-      "model_id": "",
-      "count": 0,
-      "sku": "",
-      "status": "Не продаётся",
-      "moderation": "",
-      "errors": [
-        {
-          "code": "image_absent",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "0am325066AC": {
-      "model_id": "3651867989",
-      "count": 2,
-      "sku": "2169484129",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "chip-02e927770": {
-      "model_id": "6777677293",
-      "count": 1,
-      "sku": "6321988307",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025HXF": {
-      "model_id": "6668819948",
-      "count": 1,
-      "sku": "6162093251",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "6t30-tcm-gen2": {
-      "model_id": "6862505985",
-      "count": 1,
-      "sku": "6443661084",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "filtr-dsg7-dq200": {
-      "model_id": "6427416221",
-      "count": 1,
-      "sku": "5891100996",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0cw0am325025": {
-      "model_id": "4107645681",
-      "count": 1,
-      "sku": "3231725309",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM927769G": {
-      "model_id": "6793172029",
-      "count": 1,
-      "sku": "6345036432",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "kryshka-platy-dq200": {
-      "model_id": "6778193437",
-      "count": 1,
-      "sku": "6322581595",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "remkomplekt-shtokov-orig": {
-      "model_id": "",
-      "count": 0,
-      "sku": "",
-      "status": "Не продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "remkomplekt-shtokov-orig-v2": {
-      "model_id": "",
-      "count": 0,
-      "sku": "",
-      "status": "Не продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "0am325025HX": {
-      "model_id": "5247039656",
-      "count": 1,
-      "sku": "4166152715",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "derzhatel-datchikov-dq200": {
-      "model_id": "6777932328",
-      "count": 1,
-      "sku": "6322289233",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "klipsy-shtokov-2sht": {
-      "model_id": "3651869562",
-      "count": 4,
-      "sku": "5756308746",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0am325025z": {
-      "model_id": "3651874696",
-      "count": 1,
-      "sku": "2367419515",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM927769D": {
-      "model_id": "3651869579",
-      "count": 1,
-      "sku": "4701687690",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025n": {
-      "model_id": "6653250188",
-      "count": 1,
-      "sku": "2615648706",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025r": {
-      "model_id": "3651865593",
-      "count": 1,
-      "sku": "1950719912",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "salnikvhod": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "5753732657",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "0am325091f-set": {
-      "model_id": "3651865869",
-      "count": 2,
-      "sku": "5753723143",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "prokladka-vtulki-dq200": {
-      "model_id": "6427416032",
-      "count": 1,
-      "sku": "5891021116",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plita-pylniki-salniki": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "6155471329",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "Dq500": {
-      "model_id": "6351621034",
-      "count": 1,
-      "sku": "1950713046",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "tool-dsg-pressure-hp": {
-      "model_id": "6862669857",
-      "count": 1,
-      "sku": "6443881294",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025ae": {
-      "model_id": "3651864273",
-      "count": 1,
-      "sku": "1996546333",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "tolkateli-4-salniki-4": {
-      "model_id": "3651867989",
-      "count": 2,
-      "sku": "5753726787",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "porshni-usil-pylniki-kryshki": {
-      "model_id": "3651867334",
-      "count": 5,
-      "sku": "6155470467",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "02e305045": {
-      "model_id": "6436205634",
-      "count": 1,
-      "sku": "1950715359",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "02E927770AL": {
-      "model_id": "6653249695",
-      "count": 1,
-      "sku": "5753727324",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "podshipnik-vilki-6": {
-      "model_id": "6871371059",
-      "count": 1,
-      "sku": "5753727927",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "salniki-shtokov-orig": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "5753726778",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "EA888gen3-filter-kit": {
-      "model_id": "4102654369",
-      "count": 3,
-      "sku": "6442706937",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025": {
-      "model_id": "6653250153",
-      "count": 1,
-      "sku": "1945722947",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "fpc-shleif-dq200": {
-      "model_id": "6778193232",
-      "count": 1,
-      "sku": "6322581244",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0BH325183": {
-      "model_id": "6874022048",
-      "count": 1,
-      "sku": "2663595903",
-      "status": "Готов к продаже",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0am325477ae": {
-      "model_id": "4172860487",
-      "count": 3,
-      "sku": "3253030346",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "plastiny-solenoid-dq200-2sht": {
-      "model_id": "6668254249",
-      "count": 1,
-      "sku": "6161287718",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "shleif-platy-dq200": {
-      "model_id": "6777932442",
-      "count": 1,
-      "sku": "6322289624",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325091e": {
-      "model_id": "3651866069",
-      "count": 2,
-      "sku": "1997389863",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0сц": {
-      "model_id": "4148110420",
-      "count": 1,
-      "sku": "3245425193",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plita-filtr-salniki-orig": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "5753725634",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "plita-filtr-pylniki": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "5753723453",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "122390AKAF": {
-      "model_id": "4147871508",
-      "count": 1,
-      "sku": "3245375133",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "salnikprivod-l": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "5753727557",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "WHT001922": {
-      "model_id": "3651870448",
-      "count": 1,
-      "sku": "2152594086",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plita-filtr": {
-      "model_id": "",
-      "count": 0,
-      "sku": "",
-      "status": "Не продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "0am325066ad": {
-      "model_id": "3644406272",
-      "count": 1,
-      "sku": "2169503811",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM927769F": {
-      "model_id": "6668819719",
-      "count": 1,
-      "sku": "6162093020",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "01X301127C": {
-      "model_id": "3651865886",
-      "count": 1,
-      "sku": "2152628178",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM927769N": {
-      "model_id": "6653249745",
-      "count": 1,
-      "sku": "2169581289",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025u": {
-      "model_id": "3651876312",
-      "count": 1,
-      "sku": "2384682253",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025f": {
-      "model_id": "3651865010",
-      "count": 1,
-      "sku": "1950688200",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025q": {
-      "model_id": "3651869377",
-      "count": 1,
-      "sku": "2169591363",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "planka-solenoid-2sht": {
-      "model_id": "4172860487",
-      "count": 3,
-      "sku": "5753725921",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "separatornaya-plastina-dq200": {
-      "model_id": "6427416317",
-      "count": 1,
-      "sku": "5891101128",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "vint-kollektora-ea888": {
-      "model_id": "6861786631",
-      "count": 1,
-      "sku": "6442821330",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "55565480": {
-      "model_id": "820329082",
-      "count": 1,
-      "sku": "2092798387",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025l": {
-      "model_id": "3651862623",
-      "count": 1,
-      "sku": "1947309601",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "pylniki-shtokov-orig": {
-      "model_id": "3651867334",
-      "count": 5,
-      "sku": "5776942459",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "salniki-shtokov-2sht": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "5753724657",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "vtulki-shtokov-2sht": {
-      "model_id": "3651865771",
-      "count": 4,
-      "sku": "5753726793",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0AM325025B": {
-      "model_id": "3651265865",
-      "count": 1,
-      "sku": "1947273007",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025HXK": {
-      "model_id": "6792915099",
-      "count": 1,
-      "sku": "6344655964",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "klipsa-datchika-peredach-dq200": {
-      "model_id": "6778193241",
-      "count": 1,
-      "sku": "6322581278",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025m": {
-      "model_id": "3651862399",
-      "count": 1,
-      "sku": "1947306632",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325066ae": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "1947292186",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "DQ500": {
-      "model_id": "6871360807",
-      "count": 1,
-      "sku": "5747230950",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "TEST001": {
-      "model_id": "6436204867",
-      "count": 1,
-      "sku": "5742839074",
-      "status": "Готов к продаже",
-      "moderation": "approved",
-      "errors": []
-    },
-    "EA888gen3": {
-      "model_id": "4102654369",
-      "count": 3,
-      "sku": "4204089399",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM927769E": {
-      "model_id": "6792914545",
-      "count": 1,
-      "sku": "6344654983",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025HXG": {
-      "model_id": "6793171244",
-      "count": 1,
-      "sku": "6345035202",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM927769K": {
-      "model_id": "6792914755",
-      "count": 1,
-      "sku": "6344654802",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "filtr-dsg7-dq500": {
-      "model_id": "6427415976",
-      "count": 1,
-      "sku": "5891021230",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "filtr-setka-0b5-orig": {
-      "model_id": "6871364129",
-      "count": 1,
-      "sku": "5755927856",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "0am325025hfe": {
-      "model_id": "3651862555",
-      "count": 2,
-      "sku": "1947299158",
-      "status": "Продаётся",
-      "moderation": "in-moderating",
-      "errors": []
-    },
-    "salnik-shtoka-orig-v2": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "6155470164",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "31705-X428B": {
-      "model_id": "4147317832",
-      "count": 1,
-      "sku": "3245174839",
-      "status": "Готов к продаже",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025HXE": {
-      "model_id": "6792915418",
-      "count": 1,
-      "sku": "6344655716",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plita-pylniki-salniki-orig-v2": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "6155468874",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "porshni-usil-pylniki-kryshki-v2": {
-      "model_id": "3651867334",
-      "count": 5,
-      "sku": "6155471104",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "korpus-filtra-0bh325159": {
-      "model_id": "6351175942",
-      "count": 1,
-      "sku": "5753726812",
-      "status": "Готов к продаже",
-      "moderation": "approved",
-      "errors": []
-    },
-    "datchik-scepleniya-dq200": {
-      "model_id": "6777932050",
-      "count": 1,
-      "sku": "6322289047",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM325587E": {
-      "model_id": "3651865500",
-      "count": 1,
-      "sku": "1950714942",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0ambset": {
-      "model_id": "6664379742",
-      "count": 1,
-      "sku": "2304008862",
-      "status": "Не продаётся",
-      "moderation": "declined",
-      "errors": [
-        {
-          "code": "DESCRIPTION_DECLINE",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "salnik-shtoka-orig": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "6155470503",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "osnovanie-platy-dq200": {
-      "model_id": "6777931480",
-      "count": 1,
-      "sku": "6322288908",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025G": {
-      "model_id": "3651867334",
-      "count": 5,
-      "sku": "2153044349",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "salnikvihod": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "5753732751",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "6t30-tcm-gen1": {
-      "model_id": "6862506396",
-      "count": 1,
-      "sku": "6443660836",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "122390AK-AF": {
-      "model_id": "3651865280",
-      "count": 1,
-      "sku": "1974187724",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025D": {
-      "model_id": "3651865771",
-      "count": 4,
-      "sku": "1950709566",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "pylniki-shtokov-orig-v2": {
-      "model_id": "3651867334",
-      "count": 5,
-      "sku": "5776942621",
-      "status": "Не продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "SPU_ALREADY_EXISTS_IN_ANOTHER_ACCOUNT",
-          "level": "ERROR_LEVEL_ERROR"
-        }
-      ]
-    },
-    "0AM325413A": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "2152721180",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "02E305051C": {
-      "model_id": "3651862641",
-      "count": 1,
-      "sku": "1947312961",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plita-filtr-pylniki-orig": {
-      "model_id": "3651862708",
-      "count": 10,
-      "sku": "5753726811",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "prokladka-vtulki-verh-dq200": {
-      "model_id": "3651865771",
-      "count": 4,
-      "sku": "6161095639",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "kryshka-mehatronika-dq200": {
-      "model_id": "6427415903",
-      "count": 1,
-      "sku": "5891100627",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "datchik-peredach-dq200": {
-      "model_id": "6777932289",
-      "count": 1,
-      "sku": "6322289465",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0cw0amdsgdq200": {
-      "model_id": "4124583611",
-      "count": 1,
-      "sku": "3237041426",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "Dq200dsg70am0cw": {
-      "model_id": "4107748897",
-      "count": 1,
-      "sku": "3231757428",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0AM325467J": {
-      "model_id": "3651890356",
-      "count": 1,
-      "sku": "2804936350",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325091f": {
-      "model_id": "3651865869",
-      "count": 2,
-      "sku": "1950704555",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "salniki-tolkatelya-4sht": {
-      "model_id": "3644410476",
-      "count": 12,
-      "sku": "5753728159",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "317053TX0C": {
-      "model_id": "4147471818",
-      "count": 1,
-      "sku": "3245228502",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325025P": {
-      "model_id": "3651869562",
-      "count": 4,
-      "sku": "2173657417",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "31705-1XF0C": {
-      "model_id": "4147576374",
-      "count": 1,
-      "sku": "3245270130",
-      "status": "Готов к продаже",
-      "moderation": "approved",
-      "errors": []
-    },
-    "plita-filtr-orig": {
-      "model_id": "6625150264",
-      "count": 1,
-      "sku": "6097724998",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    },
-    "0am325091e-set": {
-      "model_id": "3651866069",
-      "count": 2,
-      "sku": "5753725265",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": [
-        {
-          "code": "double_without_merger_offer",
-          "level": "ERROR_LEVEL_WARNING"
-        }
-      ]
-    },
-    "separatornaya-plastiny-solenoid-dq200": {
-      "model_id": "6668252694",
-      "count": 1,
-      "sku": "6161285981",
-      "status": "Продаётся",
-      "moderation": "approved",
-      "errors": []
-    }
-  },
-  "actual_splits": [],
-  "lost_selling": [],
-  "identity_drift": [],
-  "remaining_actual_groups": {
-    "4102654369": [
-      "EA888",
-      "EA888gen3-filter-kit",
-      "EA888gen3"
-    ],
-    "3651865850": [
-      "plastiny-solenoid-orig",
-      "0am325025j"
-    ],
-    "4172860487": [
-      "0am325477",
-      "0am325477ae",
-      "planka-solenoid-2sht"
-    ],
-    "3651862555": [
-      "0am325025H",
-      "0am325025hfe"
-    ],
-    "3651869562": [
-      "6t30",
-      "0AM325473",
-      "klipsy-shtokov-2sht",
-      "0am325025P"
-    ],
-    "3651862708": [
-      "plita-filtr-pylniki-sal",
-      "plita-pylniki-salniki-orig",
-      "stalnaya-vstavka-plity",
-      "plita-filtr-v2",
-      "plita-pylniki-salniki",
-      "plita-filtr-salniki-orig",
-      "plita-filtr-pylniki",
-      "0am325066ae",
-      "plita-pylniki-salniki-orig-v2",
-      "plita-filtr-pylniki-orig"
-    ],
-    "3644410476": [
-      "salnikprivod-r",
-      "tolkateli-salniki-alum-komplekt",
-      "salnik-tolkatelya-alum",
-      "salnikvhod",
-      "salniki-shtokov-orig",
-      "salnikprivod-l",
-      "salniki-shtokov-2sht",
-      "salnik-shtoka-orig-v2",
-      "salnik-shtoka-orig",
-      "salnikvihod",
-      "0AM325413A",
-      "salniki-tolkatelya-4sht"
-    ],
-    "3651865771": [
-      "prokladka-vtulki-niz-dq200",
-      "vtulki-shtokov-2sht",
-      "0am325025D",
-      "prokladka-vtulki-verh-dq200"
-    ],
-    "3651867989": [
-      "0am325066AC",
-      "tolkateli-4-salniki-4"
-    ],
-    "3651865869": [
-      "0am325091f-set",
-      "0am325091f"
-    ],
-    "3651867334": [
-      "porshni-usil-pylniki-kryshki",
-      "pylniki-shtokov-orig",
-      "porshni-usil-pylniki-kryshki-v2",
-      "0am325025G",
-      "pylniki-shtokov-orig-v2"
-    ],
-    "3651866069": [
-      "0am325091e",
-      "0am325091e-set"
-    ]
-  },
-  "finished_utc": "2026-11-24T20:58:39.755685+00:00"
+  "updated_utc": "2026-11-24T21:00:03.562806+00:00"
 }
