@@ -1,6 +1,54 @@
 {
-  "channels": {},
+  "channels": {
+    "avito": {
+      "error": "Command '['git', 'rev-parse', 'FETCH_HEAD']' returned non-zero exit status 128.",
+      "status": "blocked_or_uncertain"
+    },
+    "market": {
+      "actual_count": 1,
+      "before_count": 2,
+      "expected_count": 1,
+      "other_media_unchanged": true,
+      "primary_after": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30-gen1-six-20261124.png?v=083f4c63f0",
+      "primary_before": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/6t30-gen1-six-20261124.png?v=083f4c63f0",
+      "primary_content_unchanged": true,
+      "primary_url_preserved": true,
+      "protected_unchanged": true,
+      "removed_url": "https://datacamp.market.yandex.ru/pictures/194752944/ZVtyPdGd07HAkUSBEcw2xQ",
+      "status": "verified"
+    },
+    "ozon": {
+      "actual_count": 2,
+      "before_count": 2,
+      "expected_count": 1,
+      "primary_before": "https://ir-20.ozone.ru/s3/multimedia-1-d/21691694857.jpg",
+      "removed_url": "https://ir-20.ozone.ru/s3/multimedia-1-2/21377525330.jpg",
+      "status": "submitted_pending_readback",
+      "task_id": 6117840260
+    },
+    "tilda": {
+      "before_count": 4,
+      "expected_count": 3,
+      "patch": "data/6t30_gen1_remove_second_tilda_20261125.json",
+      "primary_before": "https://static.tildacdn.com/stor6237-3434-4165-b732-313734653666/63ec681dc317124d6b0e3c8983ab8471.png",
+      "primary_unchanged_in_plan": true,
+      "reason": "No supported existing-product gallery delete through the connected Tilda API; CommerceML photo import appends instead of deleting.",
+      "removed_url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/photos/media-three-20261116/6t30-preview.png",
+      "status": "editor_required"
+    },
+    "wb": {
+      "before_count": 2,
+      "expected_count": 1,
+      "primary_before": "https://basket-57.wbbasket.ru/vol22541/part2254117/2254117475/images/big/1.webp",
+      "protected_differences": [
+        "characteristics"
+      ],
+      "removed_url": "https://basket-57.wbbasket.ru/vol22541/part2254117/2254117475/images/big/2.webp",
+      "status": "protected_drift"
+    }
+  },
   "description_writes": 0,
+  "finished_utc": "2026-11-24T16:15:06.504878+00:00",
   "other_sku_writes": 0,
   "owner_approved": true,
   "price_writes": 0,
