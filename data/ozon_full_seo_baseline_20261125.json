@@ -1,7 +1,7 @@
 {
   "source": "sales_funnel_report_194752944_24-11-2026.xlsx",
   "as_of": "2026-11-24",
-  "note": "Исходная выгрузка, период в файле не указан; пустые поля сохранены как null; CTR не вычисляется",
+  "note": "ИСТОЧНИК ОШИБОЧНО БЫЛ НАЗВАН OZON. Это данные Яндекс Маркета. Не использовать для оценки Ozon. Верный источник и категории сохранены в data/market_full_seo_baseline_20261125.json. Историческая запись сохранена.",
   "summary": {
     "rows": 143,
     "unique_skus": 143,
@@ -1155,5 +1155,8 @@
       "orders": null,
       "revenue": null
     }
-  ]
+  ],
+  "platform": "Yandex Market",
+  "valid_for_ozon": false,
+  "superseded_by": "data/market_full_seo_baseline_20261125.json"
 }
