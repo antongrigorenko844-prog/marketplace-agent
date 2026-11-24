@@ -26,8 +26,7 @@
       "blocked": 3,
       "not_applicable": 23,
       "pending": 2,
-      "submitted": 1,
-      "verified": 138
+      "verified": 139
     }
   },
   "inventory_counts": {
@@ -6125,22 +6124,24 @@
         "updated_utc": "2026-11-24T04:47:00.784287+00:00"
       },
       "wb": {
-        "after_hash": "d95f3f1e05c6d8d20bfcd844d9867eddbff26fcf5100c6e127ae12c96c703783",
+        "after_hash": "27ff180f6313df0cc0cc01d1e34d8d849a72553724a3ca772aa7a5045c9c55d8",
         "attempts": 1,
         "before_hash": "d95f3f1e05c6d8d20bfcd844d9867eddbff26fcf5100c6e127ae12c96c703783",
         "card_id": "1949483512",
         "channel": "wb",
         "error": null,
         "evidence": "reports/content-pipeline/runs/45346054856-1/wb/0",
-        "last_checked_utc": "2026-11-24T07:12:22.836933+00:00",
+        "last_checked_utc": "2026-11-24T07:12:30.638711+00:00",
         "next_attempt_utc": null,
         "polls": 0,
         "protected_hash": "674a2ee4b8fdbf69e878f4247cb3637f1f4a58410a6a266e51b73094e4507a36",
+        "protection_verified": true,
         "read_failures": 0,
         "sku": "0cw0am",
-        "status": "submitted",
+        "status": "verified",
         "target_hash": "27ff180f6313df0cc0cc01d1e34d8d849a72553724a3ca772aa7a5045c9c55d8",
-        "updated_utc": "2026-11-24T07:12:22.837035+00:00"
+        "updated_utc": "2026-11-24T07:12:30.638737+00:00",
+        "verification_basis": "postwrite_protected_readback"
       }
     },
     "0cw0am325025": {
@@ -14289,6 +14290,6 @@
     }
   },
   "run_id": "45346054856-1",
-  "updated_utc": "2026-11-24T07:12:22.848505+00:00",
+  "updated_utc": "2026-11-24T07:12:30.639431+00:00",
   "version": 1
 }
