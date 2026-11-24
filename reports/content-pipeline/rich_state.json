@@ -1,8 +1,7 @@
 {
   "counts": {
     "prepared": 27,
-    "processing": 1,
-    "verified": 16
+    "verified": 17
   },
   "pause": null,
   "rows": {
@@ -3032,8 +3031,8 @@
     "0am325025": {
       "attempts": 1,
       "canonical_description_hash": "4cb3bd243aac26baa434dd63c1212ab2ae02640757253501d41910c834a5504b",
-      "error": "Awaiting exact rich readback",
-      "matching_reads": 1,
+      "error": null,
+      "matching_reads": 2,
       "original_hash": "f48098ad57ccfedf655914287a31b03ce17472e3cc5450a5d0f2134a264a66ce",
       "original_rich": {
         "content": [
@@ -3223,7 +3222,8 @@
         "seller_price": "ed902296210ba0be479155a8f75930b5caa93bfb3852d4a87f64b2a7c93b51d0",
         "stocks": "2cb6f52addcdf9a11c5700f89bea45869649c4a9c26ad90f7d88eee55db928b9"
       },
-      "status": "processing",
+      "public_verified": false,
+      "status": "verified",
       "submitted_utc": "2026-11-24T08:16:57.736204+00:00",
       "target_hash": "92a03d6fe5ae2e02534ee3a0cfa069768e7791aefac828fb0babe0ce36f3434a",
       "target_rich": {
@@ -3367,7 +3367,8 @@
         ],
         "version": 0.3
       },
-      "task_id": 6115053323
+      "task_id": 6115053323,
+      "verified_utc": "2026-11-24T08:18:16.149429+00:00"
     },
     "0am325025H": {
       "attempts": 1,
@@ -11988,6 +11989,6 @@
       }
     }
   },
-  "updated_utc": "2026-11-24T08:18:07.573099+00:00",
+  "updated_utc": "2026-11-24T08:18:16.151064+00:00",
   "version": 1
 }
