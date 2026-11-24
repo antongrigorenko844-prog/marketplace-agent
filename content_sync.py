@@ -162,8 +162,8 @@ def apply_ozon(sku,rule,before):
     for key in ['attributes','complex_attributes']:
         keep=lambda values:[a for a in values if key!='attributes' or a['id'] not in desired_attrs]
         if sorted(keep(b.get(key,[])),key=lambda x:(x.get('complex_id',0),x['id'])) != sorted(keep(after.get(key,[])),key=lambda x:(x.get('complex_id',0),x['id'])):
-            raise ValueError('Ozon unrelated attributes changed')
-    return {'changed':changed,'verified':True,'photos':len(desired),'cover_preserved':same_picture(current[0],ozon_gallery(after)[0]),'after':after}
+            raise ValueError('Ozon unrelated attributes changed: '+key+'; before/after IDs '+str(sorted((x.get('complex_id',0),x['id']) for x in keep(b.get(key,[]))))+' / '+str(sorted((x.get('complex_id',0),x['id']) for x in keep(after.get(key,[])))))
+    return {'changed':changed,'verified':True,'photos':len(desired),'cover_preserved':(not current or same_picture(current[0],ozon_gallery(after)[0])),'after':after}
 
 
 def apply_wb(sku,rule,before):
@@ -201,7 +201,7 @@ def apply_wb(sku,rule,before):
     if not equal_gallery(wb_gallery(after),desired) or not all(after.get(k)==v for k,v in fields.items()):raise ValueError('WB content still not verified')
     unchanged_fields(b,after,[k for k in ['title','description','brand','subjectID','dimensions','sizes','video'] if k not in fields])
     if sorted(characteristics,key=lambda x:x['id'])!=sorted(after.get('characteristics',[]),key=lambda x:x['id']):raise ValueError('WB characteristics not verified')
-    return {'changed':changed,'verified':True,'photos':len(desired),'cover_preserved':same_picture(current[0],wb_gallery(after)[0]),'after':after}
+    return {'changed':changed,'verified':True,'photos':len(desired),'cover_preserved':(not current or same_picture(current[0],wb_gallery(after)[0])),'after':after}
 
 
 def apply_market(sku,rule,before):
@@ -235,7 +235,7 @@ def apply_market(sku,rule,before):
     if b.get('mediaFiles',{}).get('videos')!=after.get('mediaFiles',{}).get('videos'):raise ValueError('Market video changed')
     if grouped(parameters)!=grouped(after_card.get('parameterValues',[])):raise ValueError('Market typed characteristics not verified')
     if after_card['mapping']['marketCategoryId']!=category:raise ValueError('Market category not verified')
-    return {'changed':changed,'verified':True,'photos':len(desired),'cover_preserved':same_picture(current[0],after['pictures'][0]),'after':after,'card_after':after_card,'rating':after_card.get('contentRating'),'rating_status':after_card.get('contentRatingStatus')}
+    return {'changed':changed,'verified':True,'photos':len(desired),'cover_preserved':(not current or same_picture(current[0],after['pictures'][0])),'after':after,'card_after':after_card,'rating':after_card.get('contentRating'),'rating_status':after_card.get('contentRatingStatus')}
 
 
 def encrypt_report(result):
@@ -250,17 +250,235 @@ def encrypt_report(result):
     (OUT/'evidence.enc').write_text(json.dumps({k:base64.b64encode(v).decode() for k,v in {'key':wrapped,'nonce':nonce,'data':enc}.items()}))
 
 
-def run(mode='inspect',only=None):
+def description_rules(rules, skus):
+    """Project approved rules onto description-only payloads; never copy media or attributes."""
+    if not skus or len(set(skus)) != len(skus) or set(skus)-set(rules):
+        raise ValueError('Explicit unique approved SKU list required')
+    selected = {}
+    for sku in skus:
+        original = rules[sku]
+        text = {ch: {'description': fields['description']}
+                for ch, fields in original.get('text', {}).items()
+                if ch in ('ozon', 'wb', 'market') and isinstance(fields.get('description'), str)
+                and fields['description'].strip()}
+        if not text:
+            raise ValueError('No approved API description for '+sku)
+        selected[sku] = {'text': text, 'ids': copy.deepcopy(original.get('ids', {}))}
+    return selected
+
+
+
+# Description batches reuse the established adapters and preserve the existing
+# full-content path. Only the description is mutable in this mode.
+DESCRIPTION_BATCH_SIZE = 10
+
+def description_card(channel, snapshot, sku):
+    if snapshot.get('error'):
+        raise ValueError(snapshot['error'])
+    if channel == 'ozon':
+        return one(snapshot['cards'], 'offer_id', sku), None
+    if channel == 'wb':
+        return one(snapshot['cards'], 'vendorCode', sku), None
+    return (one([r['offer'] for r in snapshot['offers']], 'offerId', sku),
+            one(snapshot['cards'], 'offerId', sku))
+
+def description_value(channel, card):
+    if channel == 'ozon':
+        return next((a['values'][0].get('value', '') for a in card.get('attributes', [])
+                     if a['id'] == 4191 and a.get('values')), '')
+    return card.get('description') or ''
+
+def description_payload(channel, sku, rule, snapshot):
+    card, detail = description_card(channel, snapshot, sku)
+    desired = rule['text'][channel]['description']
+    if channel == 'wb':
+        expected = rule.get('ids', {}).get('wb')
+        if expected is not None and str(card['nmID']) != str(expected):
+            raise ValueError('WB identity mismatch')
+    if description_value(channel, card) == desired:
+        return None
+    if channel == 'ozon':
+        return {'offer_id': sku, 'attributes': [{'id': 4191, 'complex_id': 0,
+                'values': [{'value': desired}]}]}
+    if channel == 'wb':
+        if not (0 < len(desired) <= 2000):
+            raise ValueError('WB description length exceeds limit')
+        payload = {k: copy.deepcopy(card[k]) for k in
+                   ['nmID','vendorCode','brand','title','description','dimensions','characteristics','sizes']}
+        payload['description'] = desired
+        payload['kizMarked'] = card.get('kizMarked', False)
+        payload['sizes'] = [{k:v for k,v in size.items() if k in
+                             {'chrtID','techSize','wbSize','skus'}} for size in payload['sizes']]
+        return payload
+    return market_offer_payload(card, detail, text={'description': desired})
+
+def read_description_channel(channel, skus, before):
+    if channel == 'ozon':
+        import ozon_client as oz
+        return {'cards': oz.get_product_names(skus)}
+    if channel == 'wb':
+        import wb_client as wb
+        wanted = set(skus)
+        return {'cards': [r for r in wb.list_cards() if r.get('vendorCode') in wanted]}
+    from market_content import read_rows
+    biz = before['business_id']
+    return {'business_id': biz, 'offers': read_rows(biz,'offer-mappings',skus),
+            'cards': read_rows(biz,'offer-cards',skus)}
+
+def send_description_batch(channel, payload, before):
+    if channel == 'ozon':
+        import ozon_client as oz
+        reply = oz.update_attributes(payload)
+        if not reply or reply.get('error'):
+            raise ValueError('Ozon description request not acknowledged')
+    elif channel == 'wb':
+        import wb_client as wb
+        reply = wb.update_cards(payload)
+        if not isinstance(reply, dict) or reply.get('error'):
+            raise ValueError('WB description request not acknowledged')
+    else:
+        import yandex_market_client as ym
+        status, reply = ym._request('POST',f"/v2/businesses/{before['business_id']}/offer-mappings/update",
+                                    json_body={'offerMappings':payload})
+        if status != 200 or reply.get('status') != 'OK' or any(r.get('errors') for r in reply.get('results', [])):
+            raise ValueError('Market description request not acknowledged')
+
+def verify_description_preservation(channel, sku, old, new):
+    b, bc = description_card(channel, old, sku)
+    a, ac = description_card(channel, new, sku)
+    if channel == 'ozon':
+        unchanged_fields(b,a,['id','product_id','offer_id','name','description_category_id','type_id',
+                              'height','depth','width','weight','color_image'])
+        for key in ['attributes','complex_attributes']:
+            def protected(row):
+                return sorted([x for x in row.get(key,[]) if key != 'attributes' or x['id'] != 4191],
+                              key=lambda x:(x.get('complex_id',0),x['id']))
+            if protected(b) != protected(a):
+                raise ValueError('Protected Ozon attributes changed: '+key)
+        first, last = ozon_gallery(b), ozon_gallery(a)
+    elif channel == 'wb':
+        unchanged_fields(b,a,['nmID','vendorCode','title','brand','subjectID','dimensions','sizes','video','kizMarked'])
+        if sorted(b.get('characteristics',[]),key=lambda x:x['id']) != sorted(a.get('characteristics',[]),key=lambda x:x['id']):
+            raise ValueError('Protected WB characteristics changed')
+        first, last = wb_gallery(b), wb_gallery(a)
+    else:
+        from market_content import grouped
+        unchanged_fields(b,a,['offerId','name','basicPrice','purchasePrice','vendor','vendorCode','barcodes',
+                              'params','videos','weightDimensions'])
+        if bc['mapping'] != ac['mapping'] or grouped(bc.get('parameterValues',[])) != grouped(ac.get('parameterValues',[])):
+            raise ValueError('Protected Market mapping or parameters changed')
+        if b.get('mediaFiles',{}).get('videos') != a.get('mediaFiles',{}).get('videos'):
+            raise ValueError('Protected Market video changed')
+        bind_market_images(b);bind_market_images(a)
+        first,last=b.get('pictures',[]),a.get('pictures',[])
+    if not equal_gallery(first,last):
+        raise ValueError('Protected gallery changed')
+    return a
+
+def apply_description_batches(result, rules, skus, mode):
+    for sku in skus:
+        result['products'][sku] = {}
+    for channel in ('ozon','wb','market'):
+        before = result['before'][channel]
+        targets = [s for s in skus if channel in rules[s]['text']]
+        stopped = False
+        for offset in range(0,len(targets),DESCRIPTION_BATCH_SIZE):
+            group = targets[offset:offset+DESCRIPTION_BATCH_SIZE]
+            prepared, payload = {}, []
+            for sku in group:
+                try:
+                    item = description_payload(channel,sku,rules[sku],before)
+                    prepared[sku] = item is not None
+                    if item is not None: payload.append(item)
+                except Exception as exc:
+                    result['products'][sku][channel]={'verified':False,'error':str(exc)[:1500]}
+            if not prepared:
+                continue
+            if mode == 'inspect':
+                for sku,changed in prepared.items():
+                    result['products'][sku][channel]={'changed':False,'needs_change':changed,'verified':not changed}
+                continue
+            if stopped and mode == 'apply':
+                for sku in prepared:
+                    result['products'][sku][channel]={'verified':False,'error':'Channel halted after protected-field change'}
+                continue
+            # Read a fresh group before sending full WB cards / retained Market
+            # characteristics; do not overwrite a concurrent non-content edit.
+            if mode == 'apply' and payload:
+                try:
+                    fresh=read_description_channel(channel,list(prepared),before)
+                except Exception as exc:
+                    for sku in prepared:
+                        result['products'][sku][channel]={'verified':False,'error':'Prewrite read failed: '+str(exc)[:1000]}
+                    continue
+                payload=[]
+                for sku in list(prepared):
+                    try:
+                        verify_description_preservation(channel,sku,before,fresh)
+                        item=description_payload(channel,sku,rules[sku],fresh)
+                        prepared[sku]=item is not None
+                        if item is not None: payload.append(item)
+                    except Exception as exc:
+                        result['products'][sku][channel]={'verified':False,'error':'Prewrite drift: '+str(exc)[:1000]}
+                        del prepared[sku]
+                if not prepared: continue
+            send_error = None
+            if mode == 'apply' and payload:
+                try: send_description_batch(channel,payload,before)
+                except Exception as exc: send_error=str(exc)[:1000]
+            # One shared readback for the entire group per attempt. Never resend
+            # an uncertain write; accept only observed desired text and protection.
+            pending = set(prepared)
+            failures = {}
+            for attempt in range(12 if mode == 'apply' and payload else 1):
+                if attempt: time.sleep(10 if channel=='wb' else 5)
+                try: after=read_description_channel(channel,list(prepared),before)
+                except Exception as exc:
+                    for sku in pending: failures[sku]=str(exc)[:1000]
+                    continue
+                for sku in list(pending):
+                    try:
+                        card=verify_description_preservation(channel,sku,before,after)
+                    except Exception as exc:
+                        failures[sku]=str(exc)[:1000]
+                        # An incomplete read is not proof of collateral change.
+                        # A specific preservation failure, however, stops the channel.
+                        if 'Protected' in str(exc) or 'Unrelated fields changed' in str(exc):
+                            stopped=True
+                            result['products'][sku][channel]={'verified':False,'error':failures[sku]}
+                            pending.remove(sku)
+                        continue
+                    if description_value(channel,card) == rules[sku]['text'][channel]['description']:
+                        result['products'][sku][channel]={'verified':True,
+                            'changed':bool(mode=='apply' and prepared[sku]),'cover_preserved':True,'after':card}
+                        pending.remove(sku)
+                    else: failures[sku]='Description not verified'
+                if not pending: break
+            for sku in pending:
+                error=failures.get(sku,'No readback')
+                if send_error: error+='; write acknowledgement: '+send_error
+                result['products'][sku][channel]={'verified':False,'error':error[:1500]}
+            encrypt_report(result)
+
+
+def run(mode='inspect',only=None, descriptions_only=False):
+    if mode not in {'inspect','apply','verify'}:raise ValueError('Unknown mode')
     rules=load();skus=only or list(rules)
+    if descriptions_only:
+        rules=description_rules(rules, only)
     if not skus or set(skus)-set(rules):raise ValueError('Only explicitly approved exact SKUs')
-    result={'mode':mode,'started_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'revision':os.environ.get('GITHUB_SHA'),'writes':[],'products':{}}
-    with guard(result['writes'],allow_write=(mode=='apply')):
-        result['before']=capture(skus)
+    result={'mode':mode,'descriptions_only':descriptions_only,'started_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'revision':os.environ.get('GITHUB_SHA'),'writes':[],'products':{}}
+    with guard(result['writes'],allow_write=(mode=='apply'),descriptions_only=descriptions_only):
+        result['before']=capture(skus, include_aux=False) if descriptions_only else capture(skus)
         encrypt_report(result)
-        if mode!='inspect':
+        if descriptions_only:
+            apply_description_batches(result,rules,skus,mode)
+        elif mode!='inspect':
             for sku in skus:
                 result['products'][sku]={}
                 for channel,fn in [('ozon',apply_ozon),('wb',apply_wb),('market',apply_market)]:
+                    if descriptions_only and channel not in rules[sku]['text']:
+                        continue
                     try:
                         before=result['before'][channel]
                         if before.get('error'):raise ValueError(before['error'])
@@ -271,24 +489,37 @@ def run(mode='inspect',only=None):
                         result['products'][sku][channel]=check
                     except Exception as exc:result['products'][sku][channel]={'verified':False,'error':str(exc)[:1500]}
                     encrypt_report(result)
-        result['after']=capture(skus)
+        result['after']=capture(skus, include_aux=False) if descriptions_only else capture(skus)
+        if descriptions_only and mode != 'inspect':
+            # Final shared snapshot: do not count a transient intermediate match.
+            for sku,channels in result['products'].items():
+                for ch,entry in channels.items():
+                    if not entry.get('verified'): continue
+                    try:
+                        card=verify_description_preservation(ch,sku,result['before'][ch],result['after'][ch])
+                        if description_value(ch,card)!=rules[sku]['text'][ch]['description']:
+                            raise ValueError('Description changed after initial readback')
+                    except Exception as exc:
+                        entry.update(verified=False,error='Final readback: '+str(exc)[:1000])
         # An unchanged stock value is not required: legitimate new orders can arrive.
         # Safety is enforced at transport level; raw before/after values are kept for review.
         result['finished_at']=datetime.datetime.now(datetime.timezone.utc).isoformat()
         encrypt_report(result)
-    summary={'mode':mode,'revision':result['revision'],'checked_at':result['finished_at'],'content_write_calls':len(result['writes']),'price_write_calls':0,'stock_write_calls':0,'products':{sku:{ch:{k:v for k,v in row.items() if k in {'verified','changed','photos','cover_preserved','error','rating','rating_status'}} for ch,row in channels.items()} for sku,channels in result['products'].items()},'read_errors':{phase+':'+ch:v['error'] for phase in ['before','after'] for ch,v in result[phase].items() if isinstance(v,dict) and v.get('error')}}
+    summary={'mode':mode,'descriptions_only':descriptions_only,'revision':result['revision'],'checked_at':result['finished_at'],'content_write_calls':len(result['writes']),'price_write_calls':0,'stock_write_calls':0,'products':{sku:{ch:{k:v for k,v in row.items() if k in {'verified','changed','needs_change','photos','cover_preserved','error','rating','rating_status'}} for ch,row in channels.items()} for sku,channels in result['products'].items()},'read_errors':{phase+':'+ch:v['error'] for phase in ['before','after'] for ch,v in result[phase].items() if isinstance(v,dict) and v.get('error')}}
     (OUT/'summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2))
     print(json.dumps(summary,ensure_ascii=False))
-    return 1 if summary['read_errors'] or any(not r.get('verified') for c in summary['products'].values() for r in c.values()) else 0
+    return 1 if summary['read_errors'] or any(r.get('error') or (mode!='inspect' and not r.get('verified')) for c in summary['products'].values() for r in c.values()) else 0
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--mode',choices=['inspect','apply','verify']);parser.add_argument('--article',default='');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--mode',choices=['inspect','apply','verify']);parser.add_argument('--article',default='');parser.add_argument('--descriptions-only',action='store_true');args=parser.parse_args()
     request=json.loads(REQUEST.read_text()) if REQUEST.exists() else {}
     mode=args.mode or request.get('mode','inspect')
     if mode not in {'inspect','apply','verify'}:raise ValueError('Unknown mode')
     only=[x.strip() for x in args.article.split(',') if x.strip()] or request.get('skus')
-    return run(mode,only)
+    if args.descriptions_only and not args.article:
+        raise ValueError('--descriptions-only requires an explicit --article list')
+    return run(mode,only,descriptions_only=args.descriptions_only)
 
 
 if __name__=='__main__':sys.exit(main())

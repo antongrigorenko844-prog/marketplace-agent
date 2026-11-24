@@ -33,6 +33,86 @@ class ContentBoundaryTests(unittest.TestCase):
             self.assertEqual(cu.title_for('PART','stale','avito'),'Reviewed')
             self.assertEqual(cu.title_for('OTHER','untouched','avito'),'untouched')
 
+    def test_description_only_projection_excludes_media_titles_and_attributes(self):
+        import content_sync as cs
+        rules = {'A': {'ids': {'wb': 42}, 'second_slide': {'url': 'https://example.org/a'},
+                       'market_parameters': {'category': 1}, 'wb_characteristics': [{'id': 378533}],
+                       'text': {'wb': {'title': 'old', 'description': 'approved'},
+                                'ozon': {'composition': 'other'}, 'avito': {'description': 'feed'}}}}
+        original = copy.deepcopy(rules)
+        self.assertEqual(cs.description_rules(rules, ['A']),
+                         {'A': {'ids': {'wb': 42}, 'text': {'wb': {'description': 'approved'}}}})
+        self.assertEqual(rules, original)
+        for scope in (None, [], ['A', 'A'], ['a']):
+            with self.assertRaises(ValueError):
+                cs.description_rules(rules, scope)
+
+
+    def test_description_transport_rejects_non_description_writes(self):
+        oz='https://api-seller.ozon.ru/v1/product/attributes/update'
+        ym='https://api.partner.market.yandex.ru/v2/businesses/123/offer-mappings/update'
+        valid={'items':[{'offer_id':'A','attributes':[{'id':4191,'values':[{'value':'approved'}]}]}]}
+        ct.enforce_description_only(oz,valid)
+        invalid=copy.deepcopy(valid)
+        invalid['items'][0]['attributes'][0]['id']=4384
+        with self.assertRaises(ValueError):ct.enforce_description_only(oz,invalid)
+        ct.enforce_description_only(ym,{'offerMappings':[{'offer':{'offerId':'A','description':'approved'}}]})
+        with self.assertRaises(ValueError):
+            ct.enforce_description_only(ym,{'offerMappings':[{'offer':{'offerId':'A','description':'approved','name':'new title'}}]})
+        with self.assertRaises(ValueError):
+            ct.enforce_description_only('https://content-api.wildberries.ru/content/v3/media/save',{})
+
+    def test_description_batch_uses_shared_readbacks_and_noop_retry(self):
+        import content_sync as cs
+        skus=['A','B']
+        def card(sku,desc):
+            return {'offer_id':sku,'name':sku,'id':sku,'primary_image':'https://images.test/a',
+                    'images':[],'attributes':[{'id':4191,'values':[{'value':desc}]}]}
+        before={'cards':[card(s,'old') for s in skus]}
+        after={'cards':[card(s,'approved') for s in skus]}
+        rules={s:{'text':{'ozon':{'description':'approved'}}} for s in skus}
+        result={'before':{'ozon':before,'wb':{},'market':{}},'products':{}}
+        with patch.object(cs,'read_description_channel',side_effect=[before,after]) as read, \
+             patch.object(cs,'send_description_batch') as send, patch.object(cs,'encrypt_report'):
+            cs.apply_description_batches(result,rules,skus,'apply')
+            self.assertEqual(send.call_count,1)
+            self.assertEqual(len(send.call_args.args[1]),2)
+            self.assertEqual(read.call_count,2)
+        self.assertTrue(all(result['products'][s]['ozon']['verified'] for s in skus))
+        retry={'before':{'ozon':after,'wb':{},'market':{}},'products':{}}
+        with patch.object(cs,'read_description_channel',return_value=after), \
+             patch.object(cs,'send_description_batch') as send, patch.object(cs,'encrypt_report'):
+            cs.apply_description_batches(retry,rules,skus,'apply')
+            send.assert_not_called()
+        self.assertTrue(all(retry['products'][s]['ozon']['verified'] and not retry['products'][s]['ozon']['changed'] for s in skus))
+
+    def test_description_batch_never_overwrites_prewrite_wb_drift(self):
+        import content_sync as cs
+        b={'nmID':1,'vendorCode':'A','brand':'X','title':'original','description':'old',
+           'dimensions':{'width':5},'characteristics':[],'sizes':[],'photos':[]}
+        a=copy.deepcopy(b);a['title']='concurrent edit'
+        rules={'A':{'ids':{'wb':1},'text':{'wb':{'description':'approved'}}}}
+        result={'before':{'ozon':{},'wb':{'cards':[b]},'market':{}},'products':{}}
+        with patch.object(cs,'read_description_channel',return_value={'cards':[a]}), \
+             patch.object(cs,'send_description_batch') as send, patch.object(cs,'encrypt_report'):
+            cs.apply_description_batches(result,rules,['A'],'apply')
+            send.assert_not_called()
+        self.assertFalse(result['products']['A']['wb']['verified'])
+        self.assertIn('Prewrite drift',result['products']['A']['wb']['error'])
+
+    def test_wb_description_payload_preserves_live_identity_and_other_fields(self):
+        import content_sync as cs
+        b={'nmID':1,'vendorCode':'A','brand':'X','title':'original','description':'old',
+           'dimensions':{'width':5},'characteristics':[{'id':1,'value':['original']}],
+           'sizes':[{'chrtID':5,'skus':['123'],'techSize':'0'}]}
+        rule={'ids':{'wb':1},'text':{'wb':{'description':'approved'}}}
+        p=cs.description_payload('wb','A',rule,{'cards':[b]})
+        self.assertEqual(p['description'],'approved')
+        self.assertEqual({k:p[k] for k in b if k!='description'},{k:b[k] for k in b if k!='description'})
+        self.assertEqual(b['description'],'old')
+        rule['ids']['wb']=2
+        with self.assertRaises(ValueError):cs.description_payload('wb','A',rule,{'cards':[b]})
+
     def test_ozon_composition_override_is_platform_and_sku_specific(self):
         import content_updates as cu
         rules = {'PART': {'text': {'ozon': {'composition': 'Reviewed Ozon contents'}}}}

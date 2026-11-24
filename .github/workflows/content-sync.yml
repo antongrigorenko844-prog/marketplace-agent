@@ -1,6 +1,16 @@
 name: Content only — verified media and text
 on:
   workflow_call:
+    inputs:
+      mode:
+        type: string
+        default: ''
+      descriptions_only:
+        type: boolean
+        default: false
+      article:
+        type: string
+        default: ''
   workflow_dispatch:
     inputs:
       mode:
@@ -8,6 +18,14 @@ on:
         default: inspect
         options: [inspect, apply, verify]
         description: Content only; inspect and verify cannot write to marketplaces
+      descriptions_only:
+        type: boolean
+        default: false
+        description: Only descriptions of explicitly selected existing cards
+      article:
+        type: string
+        default: ''
+        description: Exact comma-separated SKUs; required for descriptions_only
 permissions:
   contents: write
 concurrency:
@@ -25,10 +43,19 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
+      - name: Remove stale local verification artifacts
+        run: rm -f reports/content-sync/summary.json reports/content-sync/evidence.enc
       - name: Test the content boundary before accessing seller accounts
         env:
           TMPDIR: ${{ runner.temp }}
-        run: python -m unittest discover -s tests -v
+          DESCRIPTION_ONLY: ${{ inputs.descriptions_only }}
+        run: |
+          set -euo pipefail
+          if [ "$DESCRIPTION_ONLY" = 'true' ]; then
+            python -m unittest discover -s tests -p test_content_sync.py -v
+          else
+            python -m unittest discover -s tests -v
+          fi
       - name: Read, plan or apply only approved content
         env:
           OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
@@ -39,8 +66,22 @@ jobs:
           AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
           AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
           CONTENT_MODE: ${{ inputs.mode }}
+          DESCRIPTION_ONLY: ${{ inputs.descriptions_only }}
+          ARTICLES: ${{ inputs.article }}
         run: |
-          if [ -n "$CONTENT_MODE" ]; then
+          set -euo pipefail
+          if [ "$DESCRIPTION_ONLY" = "true" ]; then
+            test -n "$ARTICLES"
+            if [ "$CONTENT_MODE" = "apply" ]; then
+              test "$GITHUB_REF" = "refs/heads/main"
+              git fetch --no-tags origin main
+              cmp <(git show FETCH_HEAD:data/content_manifest.json) data/content_manifest.json
+              if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+                cmp <(git show FETCH_HEAD:data/description_sync_request.json) data/description_sync_request.json
+              fi
+            fi
+            python content_sync.py --descriptions-only --mode "$CONTENT_MODE" --article "$ARTICLES"
+          elif [ -n "$CONTENT_MODE" ]; then
             python content_sync.py --mode "$CONTENT_MODE"
           else
             python content_sync.py

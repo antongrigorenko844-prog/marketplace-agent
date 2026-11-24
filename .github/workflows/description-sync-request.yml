@@ -1,0 +1,47 @@
+name: LEOPARTS approved description request
+on:
+  push:
+    branches: [main]
+    paths:
+      - data/description_sync_request.json
+permissions:
+  contents: write
+jobs:
+  scope:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      mode: ${{ steps.request.outputs.mode }}
+      articles: ${{ steps.request.outputs.articles }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: request
+        name: Validate explicit exact SKU request without seller access
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          request = json.loads(Path('data/description_sync_request.json').read_text())
+          manifest = json.loads(Path('data/content_manifest.json').read_text())['products']
+          mode = request.get('mode')
+          skus = request.get('skus')
+          if mode not in {'inspect', 'verify', 'apply'}:
+              raise SystemExit('Invalid mode')
+          if not isinstance(skus, list) or not skus or len(skus) > 50:
+              raise SystemExit('Explicit list of 1–50 SKUs required')
+          if any(not isinstance(s, str) or not s or s != s.strip() or any(c in s for c in ',\r\n') or s not in manifest for s in skus):
+              raise SystemExit('Invalid or unknown SKU')
+          if len(skus) != len(set(skus)):
+              raise SystemExit('Duplicate SKU')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              print('mode='+mode, file=out)
+              print('articles='+','.join(skus), file=out)
+          PY
+  descriptions:
+    needs: scope
+    uses: ./.github/workflows/content-sync.yml
+    with:
+      descriptions_only: true
+      mode: ${{ needs.scope.outputs.mode }}
+      article: ${{ needs.scope.outputs.articles }}
+    secrets: inherit
