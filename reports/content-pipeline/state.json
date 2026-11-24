@@ -8,8 +8,7 @@
       "blocked": 1,
       "not_applicable": 9,
       "pending": 9,
-      "processing": 1,
-      "verified": 147
+      "verified": 148
     },
     "ozon": {
       "blocked": 5,
@@ -6830,22 +6829,24 @@
         "updated_utc": "2026-11-24T03:43:54.135463+00:00"
       },
       "market": {
-        "after_hash": "0794e63005d9cb3ee52d915350a250e15a663d31f57aa310854afcd8714fbad9",
+        "after_hash": "3b2c6fcebd00d71b7c022132fab3253f2197ef2fdb5838ade3ae7c7494f423fd",
         "attempts": 1,
         "before_hash": "0794e63005d9cb3ee52d915350a250e15a663d31f57aa310854afcd8714fbad9",
         "card_id": "4872038927",
         "channel": "market",
-        "error": "Awaiting exact live readback",
+        "error": null,
         "evidence": "reports/content-pipeline/runs/45321428322-1/market/0",
-        "last_checked_utc": "2026-11-24T03:44:25.015353+00:00",
-        "next_attempt_utc": "2026-11-24T03:59:25.015393+00:00",
+        "last_checked_utc": "2026-11-24T03:45:49.375092+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "protected_hash": "e374d7811c4fd60105bc4fc55a917f7cff0f639e88c9a97d0d90e428ac780f02",
+        "protection_verified": true,
         "read_failures": 0,
         "sku": "31705-1XF1A",
-        "status": "processing",
+        "status": "verified",
         "target_hash": "3b2c6fcebd00d71b7c022132fab3253f2197ef2fdb5838ade3ae7c7494f423fd",
-        "updated_utc": "2026-11-24T03:44:25.015402+00:00"
+        "updated_utc": "2026-11-24T03:45:49.375116+00:00",
+        "verification_basis": "postwrite_protected_readback"
       },
       "ozon": {
         "attempts": 0,
@@ -14231,6 +14232,6 @@
     }
   },
   "run_id": "45321428322-1",
-  "updated_utc": "2026-11-24T03:45:46.373547+00:00",
+  "updated_utc": "2026-11-24T03:45:49.375122+00:00",
   "version": 1
 }
