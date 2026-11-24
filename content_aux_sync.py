@@ -13,6 +13,8 @@ import os
 from pathlib import Path
 import re
 import subprocess
+import time
+import xml.etree.ElementTree as ET
 
 from openpyxl import load_workbook
 from content_manifest import load
@@ -163,6 +165,118 @@ def tilda_rows(rules,skus,records):
     return results,patch
 
 
+def tilda_protected_state(records,target_uid):
+    """Compare entire catalog, including text of all non-target products."""
+    from scripts.tilda_price_pipeline_v1 import STABLE_FIELDS
+    return {uid:{k:row.get(k) for k in STABLE_FIELDS
+                 if uid!=target_uid or k not in ('text','descr')}
+                | {'price':row.get('price'),'editions':row.get('editions')}
+            for uid,row in records.items()}
+
+def tilda_single_description_xml(row,text):
+    """Existing CommerceML ID, minimal changes-only import, never offers."""
+    import tilda_commerceml as tc
+    root=ET.Element('КоммерческаяИнформация',{'ВерсияСхемы':'2.05',
+        'ДатаФормирования':datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%S')})
+    cat=ET.SubElement(root,'Каталог',{'СодержитТолькоИзменения':'true'})
+    ET.SubElement(cat,'Ид').text=tc.CATALOG_ID
+    ET.SubElement(cat,'ИдКлассификатора').text=tc.CLASSIFIER_ID
+    product=ET.SubElement(ET.SubElement(cat,'Товары'),'Товар')
+    for key,val in [('Ид',row['externalid']),('Артикул',row['sku']),
+                    ('Наименование',row['title']),('Описание',text)]:
+        ET.SubElement(product,key).text=val
+    if {x.tag for x in product}!={'Ид','Артикул','Наименование','Описание'}:
+        raise ValueError('Unexpected Tilda import fields')
+    return ET.tostring(root,encoding='utf-8',xml_declaration=True)
+
+def tilda_import_only(xml):
+    """Use the existing authenticated connector; never upload offers or images."""
+    import requests
+    from tilda_commerceml import _url,_check
+    url,user,password=(os.environ[k] for k in ('TILDA_COMMERCEML_URL','TILDA_COMMERCEML_USER','TILDA_COMMERCEML_PASSWORD'))
+    if not all((url,user,password)): raise ValueError('Tilda connection not configured')
+    s=requests.Session();s.auth=(user,password)
+    response=s.get(_url(url,type='catalog',mode='checkauth'),timeout=45)
+    _check(response,'checkauth')
+    lines=response.text.strip().splitlines()
+    if len(lines)>=3 and lines[1].strip() and lines[2].strip() and lines[1].strip() not in s.cookies:
+        s.cookies.set(lines[1].strip(),lines[2].strip())
+    response=s.get(_url(url,type='catalog',mode='init'),timeout=45)
+    _check(response,'init')
+    filename='import0_1.xml'
+    response=s.post(_url(url,type='catalog',mode='file',filename=filename),
+                    data=xml,headers={'Content-Type':'application/octet-stream'},timeout=90)
+    _check(response,'file '+filename)
+    for attempt in range(12):
+        response=s.get(_url(url,type='catalog',mode='import',filename=filename),timeout=90)
+        outcome=_check(response,'import '+filename).splitlines()[0].lower()
+        if outcome=='success': return
+        time.sleep(5)
+    raise RuntimeError('Tilda import acknowledgement timeout')
+
+def tilda_canary(rules,sku,report):
+    """A single proven existing identity; no auto retry or bulk promotion."""
+    from scripts.leoparts_direct_operation_nov21 import site_records
+    from scripts.tilda_price_pipeline_v1 import index_by_uid
+    if os.getenv('GITHUB_REF')!='refs/heads/main':
+        raise ValueError('Tilda canary requires main')
+    rule=rules[sku]
+    expected=str(rule.get('ids',{}).get('tilda') or '')
+    previous=json.loads((ROOT/'data/tilda_price_pipeline_result.json').read_text())
+    identity=previous.get('targets',{}).get(sku,{})
+    if previous.get('status')!='verified_all_tilda_prices' or not expected or str(identity.get('uid'))!=expected or identity.get('externalid')!=sku:
+        raise ValueError('No previously verified CommerceML identity for this exact UID and SKU')
+    before=index_by_uid(site_records())
+    row=one([r for r in before.values() if r.get('sku')==sku],f'exact Tilda SKU {sku}')
+    if str(row.get('uid'))!=expected or row.get('externalid')!=sku or not row.get('title'):
+        raise ValueError('Tilda UID/external ID mismatch')
+    if len([r for r in before.values() if r.get('externalid')==sku])!=1:
+        raise ValueError('Duplicate CommerceML identity')
+    editions=row.get('editions') or []
+    if len(editions)>1 or any(str(ed.get('uid'))!=expected or ed.get('sku')!=sku for ed in editions):
+        raise ValueError('Variant ambiguity')
+    results,patch=tilda_rows(rules,[sku],before)
+    report['products']['tilda']=results
+    if results[sku].get('error'): raise ValueError(results[sku]['error'])
+    if not patch:
+        results[sku]['status']='already_verified_no_write';return
+    target=patch[0]
+    xml=tilda_single_description_xml(row,target['Text'])
+    baseline=tilda_protected_state(before,expected)
+    report['tilda_canary']={'sku':sku,'uid':expected,'catalog_count_before':len(before),
+                           'offers_sent':False,'photos_sent':False,'xml_sha256':digest(xml),
+                           'status':'prepared'}
+    write_report(report)
+    send_error=None
+    try:
+        tilda_import_only(xml)
+        report['tilda_canary']['status']='import_acknowledged'
+    except Exception as exc:
+        send_error=type(exc).__name__
+        report['tilda_canary']['status']='unknown_import_outcome'
+        report['tilda_canary']['send_error_type']=send_error
+    write_report(report)
+    # Acknowledgement alone never implies public text publication.
+    for attempt in range(5):
+        if attempt: time.sleep(8)
+        after=index_by_uid(site_records())
+        current=tilda_protected_state(after,expected)
+        if baseline!=current:
+            changed=sorted(uid for uid in baseline.keys()|current.keys() if baseline.get(uid)!=current.get(uid))
+            report['tilda_canary'].update(status='protected_catalog_drift',changed_uids=changed)
+            results[sku].update(status='protected_catalog_drift',description_verified=False)
+            return
+        live=after[expected]
+        results[sku]['description_verified']=normalized(live.get('text'))==normalized(target['Text'])
+        results[sku]['short_description_verified']=normalized(live.get('descr'))==normalized(target['Description'])
+        if results[sku]['description_verified']:
+            results[sku]['status']='verified'
+            report['tilda_canary'].update(status='verified_full_text',protected_catalog_unchanged=True)
+            return
+    results[sku]['status']='csv_import_required'
+    report['tilda_canary'].update(status='full_text_not_updated',protected_catalog_unchanged=True)
+
+
 def write_report(report):
     OUT.mkdir(parents=True,exist_ok=True)
     report['checked_utc']=datetime.datetime.now(datetime.timezone.utc).isoformat()
@@ -173,8 +287,10 @@ def run(mode,skus,channels):
     rules=load()
     if mode not in {'inspect','apply','verify'} or not skus or len(skus)>50 or len(set(skus))!=len(skus) or set(skus)-set(rules):
         raise ValueError('Explicit unique approved SKU scope of 1–50 required')
-    if not channels or set(channels)-{'avito','tilda'}:
+    if not channels or set(channels)-{'avito','tilda','tilda_canary'}:
         raise ValueError('Explicit auxiliary channels required')
+    if 'tilda_canary' in channels and (mode!='apply' or len(skus)!=1 or channels!=['tilda_canary']):
+        raise ValueError('Explicit one-SKU Tilda canary apply only')
     report={'mode':mode,'revision':os.getenv('GITHUB_SHA'),'seller_price_writes':0,'stock_writes':0,'products':{}}
     if 'avito' in channels:
         try:
@@ -236,6 +352,11 @@ def run(mode,skus,channels):
                 report['tilda_csv_imported']=False
         except Exception as exc:
             report['tilda_error']=str(exc)[:1000]
+    if 'tilda_canary' in channels:
+        try:
+            tilda_canary(rules,skus[0],report)
+        except Exception as exc:
+            report['tilda_canary_error']=type(exc).__name__+': '+str(exc)[:300]
     write_report(report)
     return 1 if any(report.get(ch+'_error') for ch in channels) or any(
         entry.get('error') or (mode!='inspect' and not entry.get('description_verified'))

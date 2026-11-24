@@ -30,7 +30,7 @@ jobs:
           manifest = json.loads(Path('data/content_manifest.json').read_text())['products']
           mode = request.get('mode')
           channels = request.get('channels', ['api'])
-          if not isinstance(channels, list) or not channels or any(c not in {'api','ozon','wb','market','avito','tilda','ozon_diagnose'} for c in channels):
+          if not isinstance(channels, list) or not channels or any(c not in {'api','ozon','wb','market','avito','tilda','ozon_diagnose','tilda_canary'} for c in channels):
               raise SystemExit('Invalid channel scope')
           skus = request.get('skus')
           if 'ozon_diagnose' in channels and mode != 'inspect':
@@ -41,6 +41,8 @@ jobs:
               raise SystemExit('Explicit list of 1–50 SKUs required')
           if any(not isinstance(s, str) or not s or s != s.strip() or any(c in s for c in ',\r\n') or s not in manifest for s in skus):
               raise SystemExit('Invalid or unknown SKU')
+          if 'tilda_canary' in channels and (channels!=['tilda_canary'] or len(skus)!=1 or mode!='apply'):
+              raise SystemExit('Tilda canary must be one exact existing SKU')
           if len(skus) != len(set(skus)) or len(channels)!=len(set(channels)):
               raise SystemExit('Duplicate SKU or channel')
           api = [c for c in ('ozon','wb','market') if c in channels or 'api' in channels]
@@ -51,7 +53,7 @@ jobs:
               print('api='+str(bool(api_skus)).lower(), file=out)
               print('api_channels='+','.join(api), file=out)
               print('api_articles='+','.join(api_skus), file=out)
-              print('auxiliary='+','.join(c for c in channels if c in {'avito','tilda'}), file=out)
+              print('auxiliary='+','.join(c for c in channels if c in {'avito','tilda','tilda_canary'}), file=out)
               print('diagnose='+str('ozon_diagnose' in channels).lower(), file=out)
           PY
   descriptions:
@@ -82,11 +84,16 @@ jobs:
           python-version: '3.11'
       - run: pip install -r requirements.txt
       - run: python -m unittest discover -s tests -p test_content_aux_sync.py -v
+      - name: Remove stale local reports
+        run: rm -f reports/content-aux/summary.json reports/content-aux/tilda_description_update.csv
       - name: Verify or publish approved auxiliary descriptions
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
           AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          TILDA_COMMERCEML_URL: ${{ needs.scope.outputs.auxiliary == 'tilda_canary' && secrets.TILDA_COMMERCEML_URL || '' }}
+          TILDA_COMMERCEML_USER: ${{ needs.scope.outputs.auxiliary == 'tilda_canary' && secrets.TILDA_COMMERCEML_USER || '' }}
+          TILDA_COMMERCEML_PASSWORD: ${{ needs.scope.outputs.auxiliary == 'tilda_canary' && secrets.TILDA_COMMERCEML_PASSWORD || '' }}
           MODE: ${{ needs.scope.outputs.mode }}
           ARTICLES: ${{ needs.scope.outputs.articles }}
           CHANNELS: ${{ needs.scope.outputs.auxiliary }}
