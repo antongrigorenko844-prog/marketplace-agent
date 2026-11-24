@@ -5,9 +5,8 @@
       "prepared": 1
     },
     "market": {
-      "blocked": 1,
+      "blocked": 2,
       "not_applicable": 8,
-      "prepared": 1,
       "verified": 155
     },
     "ozon": {
@@ -3107,16 +3106,17 @@
       "market": {
         "after_hash": "52594355fb1a9c396030b2313cbdff42e2972149d03defbc3e19e2e9422fcb90",
         "attempts": 0,
+        "before_hash": "52594355fb1a9c396030b2313cbdff42e2972149d03defbc3e19e2e9422fcb90",
         "card_id": "4817587494",
         "channel": "market",
-        "error": null,
-        "last_checked_utc": "2026-11-24T09:09:41.153227+00:00",
+        "error": "Protected-field drift: 0am325025Y",
+        "last_checked_utc": "2026-11-24T09:10:30.814985+00:00",
         "polls": 0,
         "read_failures": 0,
         "sku": "0am325025H",
-        "status": "prepared",
+        "status": "blocked",
         "target_hash": "793e5eb567e1d0334f992358e491385d53129bc6872d739700bdfe25b60152ad",
-        "updated_utc": "2026-11-24T09:09:33.913138+00:00"
+        "updated_utc": "2026-11-24T09:10:30.815043+00:00"
       },
       "ozon": {
         "after_hash": "793e5eb567e1d0334f992358e491385d53129bc6872d739700bdfe25b60152ad",
@@ -14362,6 +14362,6 @@
     }
   },
   "run_id": "45362393253-1",
-  "updated_utc": "2026-11-24T09:10:27.337933+00:00",
+  "updated_utc": "2026-11-24T09:10:30.815047+00:00",
   "version": 1
 }
