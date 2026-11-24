@@ -459,6 +459,38 @@ def worker_avito(entries,rules,master,report_dir,save,apply):
             e['evidence']=str((report_dir/'avito'/str(offset)/'summary.json').relative_to(ROOT))
         save([report_dir/'avito'/str(offset)/'summary.json'])
 
+def held_ozon_readback(rows,rules):
+    """Ozon hold forbids writes, not verification. Re-read exact paused targets
+    so that descriptions updated in the seller UI or safe isolated probes
+    become verified without removing the write hold or replaying anything."""
+    return {sku:chs['ozon'] for sku,chs in rows.items()
+            if chs['ozon'].get('card_id') and chs['ozon'].get('status')=='blocked'
+            and chs['ozon'].get('error','').startswith('Ozon description-only requests')
+            and rules.get(sku,{}).get('text',{}).get('ozon',{}).get('description')}
+
+def verify_held_ozon(entries,rules,context,save):
+    if not entries:return
+    try:
+        with guard([],allow_write=False,descriptions_only=True):
+            snapshot=read_api('ozon',list(entries),context)
+        for sku,e in entries.items():
+            try:
+                # Never discard a protected-field failure or alter the hold
+                # based on mere matching text.
+                if e.get('protected_hash'):continue
+                card,_=api.description_card('ozon',snapshot,sku)
+                if identity('ozon',card,None)!=e['card_id']:continue
+                e['last_checked_utc']=stamp()
+                if api.description_value('ozon',card)==rules[sku]['text']['ozon']['description']:
+                    row_status(e,'verified',None,verification_basis='already_matching_live_text_no_write',
+                               after_hash=digest(rules[sku]['text']['ozon']['description']),protection_verified=False)
+            except Exception:continue
+        save()
+    except subprocess.CalledProcessError:raise
+    except RuntimeError:raise
+    except Exception as exc:
+        print('Paused Ozon verification failed: '+str(exc)[:200])
+
 def followup_entries(rows, ch, rules):
     """A read-only sweep of accepted writes after independent work has run.
     Never include a prepared, rejected, blocked, or already verified card."""
@@ -569,6 +601,8 @@ def run(live=False):
     save([mp])
     for ch in CHANNELS:
         if ch in errors:continue
+        if ch=='ozon' and ch in paused:
+            verify_held_ozon(held_ozon_readback(state['rows'],rules),rules,snaps[ch],save)
         entries={s:v[ch] for s,v in state['rows'].items() if v[ch].get('card_id') and rules.get(s,{}).get('text',{}).get(ch,{}).get('description') and due(v[ch]) and (v[ch]['status'] not in TERMINAL or (ch=='tilda' and v[ch].get('error','') and 'UID-scoped CSV' in v[ch]['error']))}
         try:
             if ch in ('ozon','wb','market'):
