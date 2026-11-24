@@ -7559,7 +7559,17 @@
         "reason": "Номер самой детали подтверждён текущим названием и мастер-каталогом."
       },
       "attribute_result": {
-        "status": "submission_started"
+        "status": "review",
+        "checks": {
+          "identity_preserved": true,
+          "protected_diff": [],
+          "parameters_verified": true,
+          "new_unexpected_parameters": [],
+          "category_verified": true,
+          "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+          "campaign_status": "DISABLED_AUTOMATICALLY",
+          "errors": []
+        }
       }
     },
     "0am325025С": {
@@ -22795,7 +22805,7 @@
     {
       "kind": "attribute",
       "sku": "0AM927769F",
-      "status": "submitted",
+      "status": "review",
       "old_identity": {
         "offerId": "0AM927769F",
         "marketSku": 240878386636324864,
@@ -23074,6 +23084,247 @@
       "started_utc": "2026-11-24T19:20:39.501114+00:00",
       "response": {
         "status": "OK"
+      },
+      "after": {
+        "mapping": {
+          "offer": {
+            "offerId": "0AM927769F",
+            "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769F",
+            "category": "Ремкомплект КПП",
+            "pictures": [
+              "https://ir.ozone.ru/s3/multimedia-1-n/20735111723.jpg",
+              "https://ir.ozone.ru/s3/multimedia-1-l/20771171841.jpg",
+              "https://ir.ozone.ru/s3/multimedia-1-7/20771172295.jpg"
+            ],
+            "videos": [
+              "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0AM927769F_video.mp4?v=843d5fd39f"
+            ],
+            "vendor": "Нет бренда",
+            "description": "Электронная плата мехатроника DSG7 DQ200 0AM927769F — электронный блок управления семиступенчатой роботизированной коробкой передач DSG 7 (0AM/0CW).\n\nКомплектация: электронная плата — 1 шт. Гидравлическая часть мехатроника в комплект не входит.\n\nПлата применяется при ремонте мехатроника после диагностики электронной части. Ошибки переключения передач и аварийный режим сами по себе не подтверждают неисправность платы.\n\nПодбор по полному номеру: 0AM927769F (0AM 927 769 F). Для соответствующих исполнений DQ200 автомобилей Volkswagen, Audi, Skoda и SEAT. Не выбирайте плату только по модели автомобиля: сверяйте VIN, маркировку и аппаратное исполнение исходного блока.\n\nПеред эксплуатацией требуется корректный перенос данных электронной платы и адаптация коробки передач. Работы выполняются специалистом по DSG7 DQ200.",
+            "weightDimensions": {
+              "length": 40,
+              "width": 30,
+              "height": 20,
+              "weight": 1
+            },
+            "vendorCode": "0AM927769F",
+            "customsCommodityCode": "8708409909",
+            "commodityCodes": [
+              {
+                "code": "8708409909",
+                "type": "CUSTOMS_COMMODITY_CODE"
+              }
+            ],
+            "params": [
+              {
+                "name": "Бренд",
+                "value": "Нет бренда"
+              },
+              {
+                "name": "Название модели (для объединения в одну карточку)",
+                "value": "DQ200 electronic boards"
+              },
+              {
+                "name": "#Хештеги",
+                "value": "#плата_мехатроника_dq200 #плата_dsg_dq200 #плата_dsg_7_dq200"
+              },
+              {
+                "name": "Партномер (артикул производителя)",
+                "value": "0AM927769F"
+              },
+              {
+                "name": "OEM-номер",
+                "value": "0AM927769D"
+              },
+              {
+                "name": "Количество, штук",
+                "value": "1"
+              },
+              {
+                "name": "Количество в упаковке, шт",
+                "value": "1"
+              },
+              {
+                "name": "Материал",
+                "value": "Металл"
+              },
+              {
+                "name": "Материал",
+                "value": "Пластик"
+              },
+              {
+                "name": "Вид техники",
+                "value": "Легковые автомобили"
+              },
+              {
+                "name": "Цвет товара",
+                "value": "черный"
+              },
+              {
+                "name": "Цвет товара",
+                "value": "серебристый"
+              },
+              {
+                "name": "Комплектация",
+                "value": "Электронная плата — 1 шт."
+              },
+              {
+                "name": "ТН ВЭД коды ЕАЭС",
+                "value": "8708409909 - Части коробок передач, прочие: прочие"
+              },
+              {
+                "name": "Нужен код маркировки",
+                "value": "false"
+              },
+              {
+                "name": "Название",
+                "value": "Электронная плата мехатроника DSG7 DQ200 0AM927769F"
+              },
+              {
+                "name": "Вес с упаковкой, г",
+                "value": "1000"
+              },
+              {
+                "name": "Код продавца",
+                "value": "0AM927769F"
+              }
+            ],
+            "basicPrice": {
+              "value": 74850.0,
+              "currencyId": "RUR",
+              "discountBase": 118850.0,
+              "updatedAt": "2026-11-24T01:40:46+03:00"
+            },
+            "cardStatus": "HAS_CARD_CAN_UPDATE",
+            "campaigns": [
+              {
+                "campaignId": 141377963,
+                "status": "DISABLED_AUTOMATICALLY"
+              }
+            ],
+            "mediaFiles": {
+              "videos": [
+                {
+                  "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0AM927769F_video.mp4?v=843d5fd39f",
+                  "uploadState": "UPLOADED"
+                }
+              ],
+              "pictures": [
+                {
+                  "url": "https://ir.ozone.ru/s3/multimedia-1-n/20735111723.jpg",
+                  "marketUrl": "https://avatars.mds.yandex.net/get-mpic/21649305/picf068ff25c9a2dd51d47de13c1650dd80/orig",
+                  "uploadState": "UPLOADED"
+                },
+                {
+                  "url": "https://ir.ozone.ru/s3/multimedia-1-l/20771171841.jpg",
+                  "marketUrl": "https://avatars.mds.yandex.net/get-mpic/11379035/pic7a58e2f63174d9e88eecaf3fa92ae3f4/orig",
+                  "uploadState": "UPLOADED"
+                },
+                {
+                  "url": "https://ir.ozone.ru/s3/multimedia-1-7/20771172295.jpg",
+                  "marketUrl": "https://avatars.mds.yandex.net/get-mpic/21110118/picecc6efd9baf0f6ea1a662ec8ba31b5f0/orig",
+                  "uploadState": "UPLOADED"
+                }
+              ]
+            },
+            "groupId": "DQ200 electronic boards"
+          },
+          "mapping": {
+            "marketSku": 240878386636324864,
+            "marketSkuName": "Электронная плата мехатроника DSG7 DQ200 0AM927769F",
+            "marketModelId": 6359569089,
+            "marketModelName": "",
+            "marketCategoryId": 71220512,
+            "marketCategoryName": "Автомобильные бортовые компьютеры"
+          },
+          "showcaseUrls": [
+            {
+              "showcaseType": "B2C",
+              "showcaseUrl": "https://market.yandex.ru/card/slug/240878386636324864?businessId=194752944"
+            }
+          ]
+        },
+        "card": {
+          "offerId": "0AM927769F",
+          "mapping": {
+            "marketSku": 240878386636324864,
+            "marketSkuName": "Электронная плата мехатроника DSG7 DQ200 0AM927769F",
+            "marketModelId": 6359569089,
+            "marketModelName": "",
+            "marketCategoryId": 71220512,
+            "marketCategoryName": "Автомобильные бортовые компьютеры"
+          },
+          "parameterValues": [
+            {
+              "parameterId": 57046341,
+              "value": "Вид техники: Легковые автомобили"
+            },
+            {
+              "parameterId": 14871214,
+              "valueId": 15272376,
+              "value": "черный, серебристый"
+            },
+            {
+              "parameterId": 14805583,
+              "unitId": 6145205,
+              "value": "1"
+            },
+            {
+              "parameterId": 13887626,
+              "valueId": 13899071,
+              "value": "черный"
+            },
+            {
+              "parameterId": 60134505,
+              "value": "0AM927769F"
+            },
+            {
+              "parameterId": 200,
+              "value": "DQ200 electronic boards"
+            }
+          ],
+          "cardStatus": "HAS_CARD_CAN_UPDATE_PROCESSING",
+          "contentRating": 78,
+          "averageContentRating": 27,
+          "contentRatingStatus": "UPDATING",
+          "recommendations": [
+            {
+              "type": "ADDITIONAL",
+              "percent": 56,
+              "remainingRatingPoints": 7
+            },
+            {
+              "type": "PICTURE_COUNT",
+              "percent": 50,
+              "remainingRatingPoints": 5
+            },
+            {
+              "type": "TITLE_LENGTH",
+              "remainingRatingPoints": 11
+            }
+          ],
+          "groupId": "DQ200 electronic boards"
+        },
+        "campaign": {
+          "offerId": "0AM927769F",
+          "basicPrice": {
+            "value": 74850.0,
+            "currencyId": "RUR",
+            "discountBase": 118850.0,
+            "updatedAt": "2026-11-24T01:40:46+03:00"
+          },
+          "status": "DISABLED_AUTOMATICALLY"
+        }
+      },
+      "checks": {
+        "identity_preserved": true,
+        "protected_diff": [],
+        "parameters_verified": true,
+        "new_unexpected_parameters": [],
+        "category_verified": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "DISABLED_AUTOMATICALLY",
+        "errors": []
       }
     }
   ],
@@ -23092,7 +23343,7 @@
     "main_transmission_category": 100,
     "other_categories": 43
   },
-  "updated_utc": "2026-11-24T19:20:41.442405+00:00",
+  "updated_utc": "2026-11-24T19:20:44.914163+00:00",
   "counts": {
     "active_catalog": 158,
     "cards": 158,
