@@ -5247,7 +5247,7 @@
     {
       "sku": "plita-filtr-pylniki",
       "kind": "type",
-      "status": "submitted",
+      "status": "pending_or_unchanged",
       "before": {
         "offerId": "plita-filtr-pylniki",
         "name": "Усиленная гидроплита + фильтр + 2 пыльника штоков DSG7 DQ200, комплект",
@@ -5492,6 +5492,89 @@
       },
       "response": {
         "status": "OK"
+      },
+      "after": {
+        "offerId": "plita-filtr-pylniki",
+        "name": "Усиленная гидроплита + фильтр + 2 пыльника штоков DSG7 DQ200, комплект",
+        "identity": {
+          "offerId": "plita-filtr-pylniki",
+          "marketSku": 6245077872,
+          "groupId": "плита_plita-filtr-pylniki_plita-filtr-pylniki_plita-filtr-pylniki_plita-filtr-pylniki_plita-filtr-pylniki"
+        },
+        "model": 6245077871,
+        "category": 71380208,
+        "categoryName": "Запчасти для трансмиссии автомобиля",
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED",
+        "errors": [],
+        "warnings": [
+          {
+            "message": "Не заполнено обязательное поле",
+            "comment": "Укажите код ТН ВЭД"
+          }
+        ],
+        "card_errors": [],
+        "card_warnings": [
+          {
+            "message": "Не заполнено обязательное поле",
+            "comment": "Укажите код ТН ВЭД"
+          }
+        ],
+        "ugc": null,
+        "rating": 81,
+        "price": {
+          "value": 10850.0,
+          "currencyId": "RUR",
+          "discountBase": 15500.0,
+          "updatedAt": "2026-11-24T01:40:43+03:00"
+        },
+        "campaigns": [
+          {
+            "campaignId": 141377963,
+            "status": "PUBLISHED"
+          }
+        ],
+        "sellingPrograms": null,
+        "parameterValues": [
+          {
+            "parameterId": 57046341,
+            "value": "Вид техники: Легковые автомобили"
+          },
+          {
+            "parameterId": 72668284,
+            "value": "Volkswagen Skoda Audi Seat"
+          },
+          {
+            "parameterId": 16617043,
+            "value": "Volkswagen Skoda Audi Seat"
+          },
+          {
+            "parameterId": 21194330,
+            "valueId": 22269110,
+            "value": "комплект"
+          },
+          {
+            "parameterId": 7351754,
+            "value": "Комплектация: Усиленная гидроплита — 1 шт.; фильтр — 1 шт.; пыльники штоков — 2 шт."
+          },
+          {
+            "parameterId": 60134505,
+            "value": "0am325066ae"
+          },
+          {
+            "parameterId": 200,
+            "value": "плита_plita-filtr-pylniki_plita-filtr-pylniki_plita-filtr-pylniki_plita-filtr-pylniki_plita-filtr-pylniki"
+          }
+        ]
+      },
+      "checks": {
+        "protected_diff": [],
+        "other_attributes_unchanged": true,
+        "group_preserved": true,
+        "category_verified": true,
+        "type_verified": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     }
   ],
@@ -5509,7 +5592,7 @@
     "0am325066ad": "Group not verified singleton",
     "0AM301212A": "Group not verified singleton"
   },
-  "updated_utc": "2026-11-24T19:49:54.320840+00:00",
+  "updated_utc": "2026-11-24T19:50:59.296277+00:00",
   "initial_counts": {
     "PUBLISHED": 118,
     "DISABLED_AUTOMATICALLY": 23,
