@@ -1,0 +1,61 @@
+name: LEOPARTS Market visibility and variant diagnostics
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/market-seo-disabled-diagnosis-20261125.yml']
+permissions:
+  contents: write
+concurrency:
+  group: market-seo-readonly-20261125
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+      YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Read Market-only status reasons and true distinctive fields
+        run: |
+          python -u - <<'PY'
+          import json,sys,datetime
+          from pathlib import Path
+          sys.path.insert(0,"scripts")
+          import market_full_seo_20261125 as s
+          biz,cam=s.account()
+          p=Path("data/market_seo_disabled_diagnosis_20261125.json")
+          d={"platform":"Yandex Market","business_id":biz,"campaign_id":cam,"external_writes":0,"errors":{},"started_utc":datetime.datetime.now(datetime.timezone.utc).isoformat()}
+          def save():p.write_text(json.dumps(d,ensure_ascii=False,indent=2,default=str)+"\n")
+          save()
+          source=json.loads(Path("data/market_full_seo_20261125.json").read_text())
+          sku=[r["sku"] for r in source["registry"].values() if r.get("campaign_status")=="DISABLED_AUTOMATICALLY"]
+          group=["0AM927769"+v for v in "DEFGK"]+["0am325025HX"+v for v in ("","E","F","G","K")]
+          try:
+              d["disabled_statuses"]=s.campaign_status(cam,sku)
+          except Exception as e:d["errors"]["statuses"]=str(e)[:400]
+          save()
+          try:
+              d["group_cards"]=s.batched_read(biz,"offer-cards",group)
+          except Exception as e:d["errors"]["cards"]=str(e)[:400]
+          save()
+          d["category_definitions"]={}
+          for cid in (71380208,4953550,71220512,71051282,90442):
+              try:
+                  defs=s.schema(biz,cid)["parameters"]
+                  d["category_definitions"][str(cid)]=[{k:v for k,v in x.items() if k!="values"}|{"values":x.get("values",[]) if x.get("distinctive") or x.get("name")=="Тип" else []} for x in defs]
+              except Exception as e:d["errors"][str(cid)]=str(e)[:400]
+              save()
+          d["finished_utc"]=datetime.datetime.now(datetime.timezone.utc).isoformat()
+          save()
+          PY
+      - if: always()
+        run: |
+          if [ -f data/market_seo_disabled_diagnosis_20261125.json ]; then bash .github/scripts/save_data.sh data/market_seo_disabled_diagnosis_20261125.json; fi
