@@ -1,5 +1,5 @@
 {
-  "status": "running",
+  "status": "partial_or_pending",
   "campaign": 716316525,
   "feed": 4061297,
   "started_utc": "2026-11-24T11:20:03.412329+00:00",
@@ -134,5 +134,66 @@
       "bytes_exact": true,
       "full_xml_equivalent": true
     }
-  ]
+  ],
+  "final_ad_states": {
+    "1927186476439690942": {
+      "state": "ON",
+      "status": "ACCEPTED",
+      "processing": "PROCESSED",
+      "filter": {
+        "Items": [
+          {
+            "Operand": "categoryId",
+            "Operator": "EQUALS_ANY",
+            "Arguments": [
+              "1"
+            ]
+          }
+        ]
+      }
+    },
+    "1927189770678081700": {
+      "state": "ON",
+      "status": "ACCEPTED",
+      "processing": "PROCESSED",
+      "filter": {
+        "Items": [
+          {
+            "Operand": "categoryId",
+            "Operator": "EQUALS_ANY",
+            "Arguments": [
+              "2"
+            ]
+          }
+        ]
+      }
+    },
+    "1927190920657966611": {
+      "state": "ON",
+      "status": "ACCEPTED",
+      "processing": "PROCESSED",
+      "filter": {
+        "Items": [
+          {
+            "Operand": "categoryId",
+            "Operator": "EQUALS_ANY",
+            "Arguments": [
+              "3"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "protection": {
+    "campaign_unchanged": true,
+    "groups_unchanged": true,
+    "keywords_unchanged": true,
+    "ad_fields_unchanged": true,
+    "all_filters_correct": true,
+    "budget_rub": 4000.0,
+    "negative_count": 678
+  },
+  "ads_ready": true,
+  "finished_utc": "2026-11-24T11:21:26.565176+00:00"
 }
