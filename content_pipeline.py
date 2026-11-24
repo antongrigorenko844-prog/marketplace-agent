@@ -758,6 +758,16 @@ def run(live=False):
     if apply and (not live or os.getenv('GITHUB_REF')!='refs/heads/main'):
         raise ValueError('Apply requires main with persistent checkpoints')
     if live:current_main()
+    avito_diagnosis=cfg.get('avito_skip_diagnosis')
+    avito_diagnosis_path=BASE/'avito_skip_diagnosis.json'
+    if avito_diagnosis and read_json(avito_diagnosis_path,{}).get('request')!=avito_diagnosis:
+        from content_avito_skip_diagnosis import run as diagnose_avito
+        result=diagnose_avito(cmf.load())
+        result['request']=avito_diagnosis
+        write_json(avito_diagnosis_path,result)
+        if live:checkpoint([avito_diagnosis_path],live=True)
+        print(json.dumps({'avito_diagnosis':avito_diagnosis,'seller_writes':0},ensure_ascii=False))
+        return 0
     closure_request=cfg.get('final_closure_readonly')
     closure_path=BASE/'final_closure_readonly.json'
     if closure_request and read_json(closure_path,{}).get('request')!=closure_request:
