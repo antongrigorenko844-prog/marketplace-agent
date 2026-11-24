@@ -1,6 +1,16 @@
 name: Content only — verified media and text
 on:
   workflow_call:
+    inputs:
+      mode:
+        type: string
+        default: ''
+      descriptions_only:
+        type: boolean
+        default: false
+      article:
+        type: string
+        default: ''
   workflow_dispatch:
     inputs:
       mode:
