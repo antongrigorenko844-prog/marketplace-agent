@@ -133,3 +133,14 @@ class PipelineTests(unittest.TestCase):
         self.assertNotIn('characteristics',card)
         card['nmID']=1
         with self.assertRaises(ValueError):p.pipeline_payload('wb','tool-dq200-acc-restore',rule,snapshot)
+
+class ExactWBReadbackTests(unittest.TestCase):
+    def test_exact_wb_read_never_uses_other_nmID(self):
+        from unittest.mock import patch
+        import wb_client
+        card={'vendorCode':'0AM927769D','nmID':670860344,'description':'new'}
+        other={'vendorCode':'0AM927769D','nmID':123,'description':'other'}
+        with patch.object(wb_client,'_request',return_value={'cards':[other,card,card],'cursor':{'total':3}}):
+            self.assertEqual(p.read_wb_exact('0AM927769D','670860344'),card)
+        with patch.object(wb_client,'_request',return_value={'cards':[card,dict(card,description='conflict')],'cursor':{'total':2}}):
+            with self.assertRaises(ValueError):p.read_wb_exact('0AM927769D','670860344')

@@ -33,6 +33,32 @@ RETIRED = {('wb', '0AM927769D'): 'Previously confirmed retired WB card collision
 TEST_SKUS = {'TEST001', 'TESTWB001'}
 WB_EMPTY_CHARACTERISTICS = {'tool-dq200-acc-restore': '2340040049', 'tool-dsg-pressure-hp': '2340040122'}
 
+def read_wb_exact(sku, expected):
+    """Search the seller list by exact nmID and retain only an identical exact row.
+    The broad paginated list can repeat a row during a card update."""
+    import wb_client
+    cursor={'limit':100}
+    seen_cursors=set()
+    found=[]
+    for _ in range(10):
+        result=wb_client._request('POST',wb_client.config.wb_content_base,
+            '/content/v2/get/cards/list',
+            {'settings':{'cursor':cursor,'filter':{'withPhoto':-1,'textSearch':str(expected)}}},retries=1)
+        page=result.get('cards')
+        if not isinstance(page,list):raise ValueError('WB exact read did not return cards')
+        found.extend(x for x in page if str(x.get('nmID'))==str(expected))
+        nxt=result.get('cursor',{})
+        if not page or nxt.get('total',0)<100:break
+        key=(nxt.get('updatedAt'),nxt.get('nmID'))
+        if None in key or key in seen_cursors:raise ValueError('WB exact read pagination ambiguous')
+        seen_cursors.add(key);cursor={'limit':100,'updatedAt':key[0],'nmID':key[1]}
+    else:raise ValueError('WB exact read incomplete')
+    if not found or any(x.get('vendorCode')!=sku for x in found):
+        raise ValueError('WB exact nmID/vendorCode mismatch')
+    if any(x!=found[0] for x in found[1:]):
+        raise ValueError('Conflicting copies of exact WB nmID')
+    return found[0]
+
 def reviewed_wb_active(cfg, ids, errors, snaps, master_rows, duplicates):
     """Reopen only the explicitly reviewed old plate, proven active and not in trash."""
     sku='0AM927769D'; expected='670860344'
@@ -41,10 +67,13 @@ def reviewed_wb_active(cfg, ids, errors, snaps, master_rows, duplicates):
         return set()
     if master_rows.get(sku,{}).get('wb_status')!='Действующий':
         return set()
-    if [x['id'] for x in ids.get('wb',{}).get(sku,[])]!=[expected]:
+    if {x['id'] for x in ids.get('wb',{}).get(sku,[])}!={expected}:
         return set()
-    cards=[x for x in (snaps.get('wb') or {}).get('cards',[]) if x.get('vendorCode')==sku and str(x.get('nmID'))==expected]
-    if len(cards)!=1 or cards[0].get('title')!=review.get('title'):
+    try:
+        with guard([],allow_write=False,descriptions_only=True):
+            cards=[read_wb_exact(sku,expected)]
+    except Exception:return set()
+    if cards[0].get('title')!=review.get('title'):
         return set()
     chars=cards[0].get('characteristics',[])
     if not any(x.get('id')==5522881 and sku in x.get('value',[]) for x in chars):
@@ -60,6 +89,9 @@ def reviewed_wb_active(cfg, ids, errors, snaps, master_rows, duplicates):
                     return set()
     except Exception:
         return set()
+    # Bind only the separately approved active nmID; no other card is touched.
+    ids['wb'][sku]=[{'id':expected,'name':cards[0].get('title')}]
+    snaps['wb']['exact_ids']={sku:expected}
     return {sku}
 
 def standalone_allowed(cfg, ch, sku, identity_value, master_rows, duplicates):
@@ -356,6 +388,14 @@ def card_detail(ch,snapshot,sku):
     return card,detail
 
 def read_channel(ch,skus,context):
+    if ch=='wb':
+        bindings=(context or {}).get('exact_ids',{})
+        exact={s:bindings[s] for s in skus if s in bindings}
+        if exact:
+            other=[s for s in skus if s not in exact]
+            data=api.read_description_channel(ch,other,context or {}) if other else {'cards':[]}
+            data['cards'].extend(read_wb_exact(s,expected) for s,expected in exact.items())
+            return data
     data=api.read_description_channel(ch,skus,context or {})
     if ch=='ozon':
         import ozon_client as oz
@@ -817,6 +857,23 @@ def run(live=False):
                     match=digest(actual)==digest(target)
                     recheck[sku][ch]={'card_id':str(expected),'seller_text_matches':match,'actual_description':actual,'target_hash':digest(target),'storefront_verified':False}
                     e['last_checked_utc']=stamp();e['after_hash']=digest(actual)
+                    # Recover the accepted/uncertain WB attempt by readback only.
+                    # Never resend merely because the earlier broad census duplicated rows.
+                    if (ch=='wb' and sku in reviewed_active and e.get('status')=='blocked'
+                        and e.get('attempts',0)>0 and e.get('protected_hash')
+                        and e.get('error','').startswith('Expected one existing vendorCode=')):
+                        fp=protected_hash(ch,card,detail)
+                        recheck[sku][ch]['original_protected_hash_matches']=fp==e['protected_hash']
+                        if fp!=e['protected_hash']:
+                            row_status(e,'blocked','Protected fields changed after prior WB submission')
+                        elif match:
+                            with guard([],allow_write=False,descriptions_only=True):
+                                second=read_wb_exact(sku,expected)
+                            if protected_hash(ch,second,None)==fp and digest(api.description_value(ch,second))==digest(target):
+                                row_status(e,'verified',None,next_attempt_utc=None,protection_verified=True,
+                                           verification_basis='two_exact_nmID_readbacks_against_original_baseline')
+                        else:
+                            recheck[sku][ch]['prior_write_still_unresolved']=True
                     if not match and e['status']=='verified':
                         # A confirmed mismatch invalidates the old terminal text proof.
                         # Preserve history; the regular worker must obtain a fresh baseline.
