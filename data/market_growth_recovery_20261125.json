@@ -441,7 +441,7 @@
     {
       "sku": "0am325025ae",
       "kind": "type",
-      "status": "submitted",
+      "status": "pending_or_unchanged",
       "before": {
         "offerId": "0am325025ae",
         "name": "Оригинальная крышка + усиленная прокладка мехатроника DSG7 DQ200",
@@ -676,6 +676,88 @@
       },
       "response": {
         "status": "OK"
+      },
+      "after": {
+        "offerId": "0am325025ae",
+        "name": "Оригинальная крышка + усиленная прокладка мехатроника DSG7 DQ200",
+        "identity": {
+          "offerId": "0am325025ae",
+          "marketSku": 4332447227,
+          "groupId": null
+        },
+        "model": 1112563161,
+        "category": 71380208,
+        "categoryName": "Запчасти для трансмиссии автомобиля",
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED",
+        "errors": [],
+        "warnings": [
+          {
+            "message": "Не заполнено обязательное поле",
+            "comment": "Укажите код ТН ВЭД"
+          }
+        ],
+        "card_errors": [],
+        "card_warnings": [
+          {
+            "message": "Не заполнено обязательное поле",
+            "comment": "Укажите код ТН ВЭД"
+          }
+        ],
+        "ugc": {
+          "rating": 5.0
+        },
+        "rating": 79,
+        "price": {
+          "value": 4490.0,
+          "currencyId": "RUR",
+          "discountBase": 8000.0,
+          "updatedAt": "2026-11-24T01:40:36+03:00"
+        },
+        "campaigns": [
+          {
+            "campaignId": 141377963,
+            "status": "PUBLISHED"
+          }
+        ],
+        "sellingPrograms": null,
+        "parameterValues": [
+          {
+            "parameterId": 57046341,
+            "value": "Вид техники: Легковые автомобили"
+          },
+          {
+            "parameterId": 14805583,
+            "unitId": 6145205,
+            "value": "1"
+          },
+          {
+            "parameterId": 21194330,
+            "valueId": 22269110,
+            "value": "комплект"
+          },
+          {
+            "parameterId": 7351754,
+            "value": "Комплектация: Крышка мехатроника — 1 шт.; усиленная прокладка крышки — 1 шт."
+          },
+          {
+            "parameterId": 60134505,
+            "value": "0amdq200"
+          },
+          {
+            "parameterId": 200,
+            "value": ""
+          }
+        ]
+      },
+      "checks": {
+        "protected_diff": [],
+        "other_attributes_unchanged": true,
+        "group_preserved": true,
+        "category_verified": true,
+        "type_verified": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     }
   ],
@@ -689,7 +771,7 @@
     "Dq200dsg70am0cw": "Await verified alternate category endpoint canary",
     "0am325025": "Group not verified singleton"
   },
-  "updated_utc": "2026-11-24T19:32:24.312829+00:00",
+  "updated_utc": "2026-11-24T19:33:27.878994+00:00",
   "initial_counts": {
     "PUBLISHED": 118,
     "DISABLED_AUTOMATICALLY": 23,
