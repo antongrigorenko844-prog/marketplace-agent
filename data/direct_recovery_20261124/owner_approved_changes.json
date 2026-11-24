@@ -5,7 +5,7 @@
   "started_utc": "2026-11-24T11:15:57.204769+00:00",
   "stages": {
     "category_filters": {
-      "status": "intent_persisted",
+      "status": "verified",
       "request": {
         "Ads": [
           {
@@ -58,7 +58,64 @@
           }
         ]
       },
-      "at_utc": "2026-11-24T11:16:05.947073+00:00"
+      "at_utc": "2026-11-24T11:16:05.947073+00:00",
+      "api_results": [
+        {
+          "Id": 1927186476439690942,
+          "Errors": []
+        },
+        {
+          "Id": 1927189770678081700,
+          "Errors": []
+        },
+        {
+          "Id": 1927190920657966611,
+          "Errors": []
+        }
+      ],
+      "accepted": true,
+      "verified_utc": "2026-11-24T11:16:12.603221+00:00",
+      "filters": {
+        "1927186476439690942": {
+          "Items": [
+            {
+              "Operand": "categoryId",
+              "Operator": "EQUALS_ANY",
+              "Arguments": [
+                "1"
+              ]
+            }
+          ]
+        },
+        "1927189770678081700": {
+          "Items": [
+            {
+              "Operand": "categoryId",
+              "Operator": "EQUALS_ANY",
+              "Arguments": [
+                "2"
+              ]
+            }
+          ]
+        },
+        "1927190920657966611": {
+          "Items": [
+            {
+              "Operand": "categoryId",
+              "Operator": "EQUALS_ANY",
+              "Arguments": [
+                "3"
+              ]
+            }
+          ]
+        }
+      },
+      "other_ad_fields_preserved": true,
+      "counts": {
+        "1": 2,
+        "2": 5,
+        "3": 5
+      }
     }
   },
   "errors": [],
