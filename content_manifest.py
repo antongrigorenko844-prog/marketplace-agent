@@ -142,9 +142,9 @@ def check_ozon_description_write(path, payload):
         return
     for row in payload.get('items',[]):
         sku=row.get('offer_id')
-        values=[v.get('value') for attr in row.get('attributes',[]) if attr.get('id')==4191
-                for v in attr.get('values',[])]
-        if values or path=='/v3/product/import':
+        descriptions=[attr for attr in row.get('attributes',[]) if attr.get('id')==4191]
+        values=[v.get('value') for attr in descriptions for v in attr.get('values',[])]
+        if descriptions or path=='/v3/product/import':
             if len(values)>1:
                 raise ValueError(f'Ambiguous Ozon description for {sku}')
             assert_canonical_description(sku,'ozon',values[0] if values else None,present=bool(values))
