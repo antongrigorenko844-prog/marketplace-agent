@@ -1,8 +1,7 @@
 {
   "counts": {
     "prepared": 11,
-    "processing": 3,
-    "verified": 30
+    "verified": 33
   },
   "pause": null,
   "rows": {
@@ -8140,8 +8139,8 @@
     "0am325091f": {
       "attempts": 1,
       "canonical_description_hash": "dd8cecc80ab9e789bc19f7647b129f64817eec97a3efcb0bae22b67ed6b280fe",
-      "error": "Awaiting exact rich readback",
-      "matching_reads": 1,
+      "error": null,
+      "matching_reads": 2,
       "original_hash": "e0ad275ac2b2fcc92127fd83232f79b4bac22e320a085803941eabcc3b31db62",
       "original_rich": {
         "content": [
@@ -8240,7 +8239,8 @@
         "seller_price": "a355678a6d5575cf221f5c27009556c3c11f4e719517c34b09ca3f299e95ca6a",
         "stocks": "561df8960b034292c28f24d48792bd328a7c24f2556e1081baddcdfa069abfc3"
       },
-      "status": "processing",
+      "public_verified": false,
+      "status": "verified",
       "submitted_utc": "2026-11-24T08:20:09.299612+00:00",
       "target_hash": "ebdd1dd9190344e1bd304f88516d31f419979429353f42f9db8c33f5063a899c",
       "target_rich": {
@@ -8293,7 +8293,8 @@
         ],
         "version": 0.3
       },
-      "task_id": 6115080730
+      "task_id": 6115080730,
+      "verified_utc": "2026-11-24T08:21:28.339342+00:00"
     },
     "0am325091f-set": {
       "attempts": 1,
@@ -8459,8 +8460,8 @@
     "chip-0am927769d": {
       "attempts": 1,
       "canonical_description_hash": "dc97597af7b9bb66d1cfa258af9cca01210eab1c8e3312f884efb0212b3c9dbd",
-      "error": "Awaiting exact rich readback",
-      "matching_reads": 1,
+      "error": null,
+      "matching_reads": 2,
       "original_hash": "5a87c350b0379d22a86773219791fc84679b11dd54bdbe0f25081e5e2c4c7250",
       "original_rich": {
         "content": [
@@ -8666,7 +8667,8 @@
         "seller_price": "e03b35c70511359412e2ba9df38c798a81aa6a890d947555f895caa5f8ca2a10",
         "stocks": "f97dc20e1901b13fcb0fbc5c13338fa06ef5b893d2c1097bcdd407fefb6818b2"
       },
-      "status": "processing",
+      "public_verified": false,
+      "status": "verified",
       "submitted_utc": "2026-11-24T08:20:09.299616+00:00",
       "target_hash": "393f0c5a6462c9e7c48106ef859f84bb29352ba3d2b4fb859cfddc5c6c77cfed",
       "target_rich": {
@@ -8829,13 +8831,14 @@
         ],
         "version": 0.3
       },
-      "task_id": 6115080730
+      "task_id": 6115080730,
+      "verified_utc": "2026-11-24T08:21:28.341794+00:00"
     },
     "datchik-peredach-dq200": {
       "attempts": 1,
       "canonical_description_hash": "756f55e8ba5a67079dc30d7b6db3f232ca30570b5f7d02a97e3ebd0ceccee453",
-      "error": "Awaiting exact rich readback",
-      "matching_reads": 1,
+      "error": null,
+      "matching_reads": 2,
       "original_hash": "5a87c350b0379d22a86773219791fc84679b11dd54bdbe0f25081e5e2c4c7250",
       "original_rich": {
         "content": [
@@ -9041,7 +9044,8 @@
         "seller_price": "fef90e597c71a3f685806dd097b6d3785a8a84b1449a3441fc66c38ccca295cc",
         "stocks": "415e0fd97cb526b7fe12d84c66ce6ac3388965cc65329e50775ece4c5011314e"
       },
-      "status": "processing",
+      "public_verified": false,
+      "status": "verified",
       "submitted_utc": "2026-11-24T08:20:09.299617+00:00",
       "target_hash": "24002a974daf2750577c05e95179991dd88c4093a51a103e4128be43023456a8",
       "target_rich": {
@@ -9204,7 +9208,8 @@
         ],
         "version": 0.3
       },
-      "task_id": 6115080730
+      "task_id": 6115080730,
+      "verified_utc": "2026-11-24T08:21:28.343547+00:00"
     },
     "datchik-scepleniya-dq200": {
       "attempts": 1,
@@ -12064,6 +12069,6 @@
       }
     }
   },
-  "updated_utc": "2026-11-24T08:21:19.867829+00:00",
+  "updated_utc": "2026-11-24T08:21:28.344704+00:00",
   "version": 1
 }
