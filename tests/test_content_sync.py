@@ -113,6 +113,27 @@ class ContentBoundaryTests(unittest.TestCase):
         rule['ids']['wb']=2
         with self.assertRaises(ValueError):cs.description_payload('wb','A',rule,{'cards':[b]})
 
+
+    def test_canonical_write_guard_blocks_stale_legacy_payloads(self):
+        rules={'A':{'text':{'ozon':{'description':'O'},'wb':{'description':'W'},'market':{'description':'M'}}}}
+        oz={'items':[{'offer_id':'A','attributes':[{'id':4191,'values':[{'value':'O'}]}]}]}
+        wb=[{'vendorCode':'A','description':'W'}]
+        ym={'offerMappings':[{'offer':{'offerId':'A','description':'M'}}]}
+        with patch.object(cm,'load',return_value=rules):
+            cm.check_ozon_description_write('/v1/product/attributes/update',oz)
+            cm.check_wb_description_write('/content/v2/cards/update',wb)
+            cm.check_market_description_write('/v2/businesses/1/offer-mappings/update',ym)
+            cm.check_ozon_description_write('/v1/product/attributes/update',{'items':[{'offer_id':'A','attributes':[{'id':4384,'values':[{'value':'other'}]}]}]})
+            cm.check_market_description_write('/v2/businesses/1/offer-mappings/update',{'offerMappings':[{'offer':{'offerId':'A','name':'title'}}]})
+            cm.check_wb_description_write('/content/v2/cards/update',[{'vendorCode':'a','description':'unmapped'}])
+            for fn,args in [
+                (cm.check_ozon_description_write,('/v1/product/attributes/update',{'items':[{'offer_id':'A','attributes':[{'id':4191,'values':[{'value':'stale'}]}]}]})),
+                (cm.check_ozon_description_write,('/v3/product/import',{'items':[{'offer_id':'A','attributes':[]}]})),
+                (cm.check_wb_description_write,('/content/v2/cards/update',[{'vendorCode':'A','description':'stale'}])),
+                (cm.check_wb_description_write,('/content/v2/cards/update',[{'vendorCode':'A'}])),
+                (cm.check_market_description_write,('/v2/businesses/1/offer-mappings/update',{'offerMappings':[{'offer':{'offerId':'A','description':'stale'}}]}))]:
+                with self.assertRaises(ValueError):fn(*args)
+
     def test_ozon_composition_override_is_platform_and_sku_specific(self):
         import content_updates as cu
         rules = {'PART': {'text': {'ozon': {'composition': 'Reviewed Ozon contents'}}}}

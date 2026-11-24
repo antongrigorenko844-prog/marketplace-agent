@@ -40,6 +40,8 @@ def _headers() -> Dict[str, str]:
 
 
 def _post(path: str, payload: dict, retries: int = 3) -> dict:
+    from content_manifest import check_ozon_description_write
+    check_ozon_description_write(path,payload)
     url = f"{config.ozon_api_base}{path}"
     last_error: Optional[Exception] = None
     for attempt in range(1, retries + 1):
