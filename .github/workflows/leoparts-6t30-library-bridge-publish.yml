@@ -4,7 +4,7 @@ on:
     branches: [main]
     paths:
       - 'assets/product-intake-v2/leoparts-five-20261123/**'
-      - 'assets/product-intake-v2/bridge/**'
+      - 'assets/product-intake-v2/bridge/6t30-tcm-gen2.part*.b64.txt'
       - 'scripts/restore_approved_6t30_media_from_library.py'
   workflow_dispatch:
 permissions: {contents: write}
