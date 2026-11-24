@@ -8,8 +8,7 @@
       "blocked": 1,
       "not_applicable": 9,
       "pending": 10,
-      "processing": 1,
-      "verified": 146
+      "verified": 147
     },
     "ozon": {
       "blocked": 132,
@@ -7400,22 +7399,24 @@
         "updated_utc": "2026-11-24T02:35:07.281066+00:00"
       },
       "market": {
-        "after_hash": "8e9399761d3b549aa3daf4e6ae1563ea7ef761c1cf7156448ffeeb1e5d5521ca",
+        "after_hash": "e674c2718ed5b3adef1ea49ebdbd4dc6c667e613b9161c5319aee2c8e06e55c7",
         "attempts": 1,
         "before_hash": "8e9399761d3b549aa3daf4e6ae1563ea7ef761c1cf7156448ffeeb1e5d5521ca",
         "card_id": "4855509033",
         "channel": "market",
-        "error": "Awaiting exact live readback",
+        "error": null,
         "evidence": "reports/content-pipeline/runs/45313380183-1/market/0",
-        "last_checked_utc": "2026-11-24T02:35:27.634457+00:00",
-        "next_attempt_utc": "2026-11-24T02:50:27.634488+00:00",
+        "last_checked_utc": "2026-11-24T02:35:51.044182+00:00",
+        "next_attempt_utc": null,
         "polls": 0,
         "protected_hash": "639976bb0517c010ba427cc4554be6e57cb487d462192fa33db46114fe034117",
+        "protection_verified": true,
         "read_failures": 0,
         "sku": "Ea888gen3",
-        "status": "processing",
+        "status": "verified",
         "target_hash": "e674c2718ed5b3adef1ea49ebdbd4dc6c667e613b9161c5319aee2c8e06e55c7",
-        "updated_utc": "2026-11-24T02:35:27.634496+00:00"
+        "updated_utc": "2026-11-24T02:35:51.044207+00:00",
+        "verification_basis": "postwrite_protected_readback"
       },
       "ozon": {
         "after_hash": "1d4b1d8a51452a4d2779cf62e6c077e0481d199d4ce5dc2f25ba90ce60a35252",
@@ -12908,6 +12909,6 @@
     }
   },
   "run_id": "45313380183-1",
-  "updated_utc": "2026-11-24T02:35:48.316437+00:00",
+  "updated_utc": "2026-11-24T02:35:51.044213+00:00",
   "version": 1
 }
