@@ -1,0 +1,31 @@
+name: LEOPARTS Ozon exact category SEO preflight
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/ozon-category-seo-preflight-20261125.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Read live categories and exact SKU identities
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          python -m py_compile scripts/ozon_category_seo_preflight_20261125.py
+          python -u scripts/ozon_category_seo_preflight_20261125.py
+      - name: Persist audit evidence
+        if: always()
+        run: |
+          if [ -f data/ozon_category_seo_preflight_20261125.json ]; then bash .github/scripts/save_data.sh data/ozon_category_seo_preflight_20261125.json; fi
