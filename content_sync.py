@@ -162,8 +162,8 @@ def apply_ozon(sku,rule,before):
     for key in ['attributes','complex_attributes']:
         keep=lambda values:[a for a in values if key!='attributes' or a['id'] not in desired_attrs]
         if sorted(keep(b.get(key,[])),key=lambda x:(x.get('complex_id',0),x['id'])) != sorted(keep(after.get(key,[])),key=lambda x:(x.get('complex_id',0),x['id'])):
-            raise ValueError('Ozon unrelated attributes changed')
-    return {'changed':changed,'verified':True,'photos':len(desired),'cover_preserved':same_picture(current[0],ozon_gallery(after)[0]),'after':after}
+            raise ValueError('Ozon unrelated attributes changed: '+key+'; before/after IDs '+str(sorted((x.get('complex_id',0),x['id']) for x in keep(b.get(key,[]))))+' / '+str(sorted((x.get('complex_id',0),x['id']) for x in keep(after.get(key,[])))))
+    return {'changed':changed,'verified':True,'photos':len(desired),'cover_preserved':(not current or same_picture(current[0],ozon_gallery(after)[0])),'after':after}
 
 
 def apply_wb(sku,rule,before):
@@ -201,7 +201,7 @@ def apply_wb(sku,rule,before):
     if not equal_gallery(wb_gallery(after),desired) or not all(after.get(k)==v for k,v in fields.items()):raise ValueError('WB content still not verified')
     unchanged_fields(b,after,[k for k in ['title','description','brand','subjectID','dimensions','sizes','video'] if k not in fields])
     if sorted(characteristics,key=lambda x:x['id'])!=sorted(after.get('characteristics',[]),key=lambda x:x['id']):raise ValueError('WB characteristics not verified')
-    return {'changed':changed,'verified':True,'photos':len(desired),'cover_preserved':same_picture(current[0],wb_gallery(after)[0]),'after':after}
+    return {'changed':changed,'verified':True,'photos':len(desired),'cover_preserved':(not current or same_picture(current[0],wb_gallery(after)[0])),'after':after}
 
 
 def apply_market(sku,rule,before):
@@ -235,7 +235,7 @@ def apply_market(sku,rule,before):
     if b.get('mediaFiles',{}).get('videos')!=after.get('mediaFiles',{}).get('videos'):raise ValueError('Market video changed')
     if grouped(parameters)!=grouped(after_card.get('parameterValues',[])):raise ValueError('Market typed characteristics not verified')
     if after_card['mapping']['marketCategoryId']!=category:raise ValueError('Market category not verified')
-    return {'changed':changed,'verified':True,'photos':len(desired),'cover_preserved':same_picture(current[0],after['pictures'][0]),'after':after,'card_after':after_card,'rating':after_card.get('contentRating'),'rating_status':after_card.get('contentRatingStatus')}
+    return {'changed':changed,'verified':True,'photos':len(desired),'cover_preserved':(not current or same_picture(current[0],after['pictures'][0])),'after':after,'card_after':after_card,'rating':after_card.get('contentRating'),'rating_status':after_card.get('contentRatingStatus')}
 
 
 def encrypt_report(result):
