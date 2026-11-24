@@ -1,0 +1,27 @@
+name: Content pipeline v2 regression
+on:
+  pull_request:
+    paths:
+      - 'content_pipeline.py'
+      - 'tests/test_content_pipeline.py'
+      - 'content_request_scope.py'
+      - '.github/workflows/description-sync-request.yml'
+      - '.github/workflows/content-pipeline.yml'
+      - '.github/workflows/content-pipeline-ci.yml'
+  push:
+    branches: [content-pipeline-v2-20261124]
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - run: python -m py_compile content_pipeline.py content_request_scope.py
+      - run: python -m unittest discover -s tests -p 'test_content*.py' -v
+      - run: git diff --exit-code -- data/ photos/ photos_avito/
