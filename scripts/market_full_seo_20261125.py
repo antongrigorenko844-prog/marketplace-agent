@@ -49,12 +49,12 @@ def index(rows,key):
   if k in d:raise ValueError("Duplicate exact identity "+str(k))
   d[k]=r
  return d
-def get_mappings(biz):
+def get_mappings(biz,archived=False):
  rows=[];token=None;seen=set()
  for _ in range(20):
   p={"limit":100}
   if token:p["pageToken"]=token
-  d=post(f"/v2/businesses/{biz}/offer-mappings",{"archived":False},params=p)["result"]
+  d=post(f"/v2/businesses/{biz}/offer-mappings",{"archived":archived},params=p)["result"]
   rows+=d.get("offerMappings",[])
   token=(d.get("paging") or {}).get("nextPageToken")
   if not token:return rows
@@ -257,6 +257,28 @@ def apply():
  if d["business_id"]!=biz or str(d["campaign_id"])!=str(cam) or d["status"]!="planned":raise ValueError("Unsafe state")
  read_tree()
  stop_category=False
+ # groupId is the seller's variant-name field, not proof of multiple members.
+ # Permit only explicitly inspected singleton groups with no lost/invalid fields.
+ singleton_allow={"0cw325025h","porshni-usil-pylniki-kryshki","porshni-usil-pylniki-kryshki-v2","Ea888gen3","0cw0amdsgdq200","Dq200dsg7","0am325477ae","Dq200dsg70am0cw"}
+ def groupkey(v):
+  import unicodedata
+  return unicodedata.normalize("NFKC",str(v or "")).strip().casefold()
+ current_ids=sorted({x["offer"]["offerId"] for x in get_mappings(biz)+get_mappings(biz,True)})
+ current_cards=batched_read(biz,"offer-cards",current_ids)
+ # If an archived card has no group information, do not guess.
+ membership=collections.defaultdict(list)
+ for c in current_cards:
+  if groupkey(c.get("groupId")):membership[groupkey(c["groupId"])].append(c["offerId"])
+ d["group_recheck"]={"cards":len(current_cards),"catalog_ids":len(current_ids),"singleton_candidates":[]}
+ for s in sorted(singleton_allow):
+  row=d["registry"].get(s)
+  if not row:continue
+  p=row.get("category_plan") or {}
+  key=groupkey(row.get("identity",{}).get("groupId"))
+  if p.get("status")=="blocked_group" and not any(p.get(k) for k in ("missing_required","removed_nonempty","invalid_preserved")) and key and membership[key]==[s]:
+   p["status"]="candidate";p["singleton_group_verified"]=True;row["status"]="planned"
+   d["group_recheck"]["singleton_candidates"].append(s)
+ persist(d)
  # Independent exact one-SKU writes; only documented Market content endpoint.
  for s,row in d["registry"].items():
   for kind in ("attribute","category"):
@@ -284,7 +306,7 @@ def apply():
      flat=[x for vs in expected.values() for x in vs]
     else:
      target=p["new"]
-     if c.get("groupId"):raise ValueError("Grouped card")
+     if c.get("groupId") and not (p.get("singleton_group_verified") and membership[groupkey(c["groupId"])]==[s]):raise ValueError("Grouped card")
      defs=definition_map(biz,target)
      if any(k not in defs and any(x.get("value") or x.get("valueId") for x in vs) for k,vs in g.items()):raise ValueError("Migration loses existing attributes")
      flat=[x for k,vs in g.items() if k in defs for x in vs if x.get("value") or x.get("valueId")]
@@ -297,6 +319,7 @@ def apply():
     d["batches"].append(rec);row[kind+"_result"]={"status":"submission_started"};d["external_writes"]+=1;persist(d)
     resp=post(f"/v2/businesses/{biz}/offer-mappings/update",rec["payload"],retries=1)
     rec["response"]=resp;rec["status"]="submitted";persist(d)
+    if any(x.get("errors") for x in resp.get("results",[]) if isinstance(x,dict)):raise ValueError("Market returned item errors")
     for attempt in range(5):
      if attempt:time.sleep(5)
      m2,c2,st2=live(biz,cam,s);after=protected(m2,c2,st2)
@@ -312,7 +335,7 @@ def apply():
      checks={"identity_preserved":pre["identity"]==after["identity"],"protected_diff":diff,"parameters_verified":expected_ok,"new_unexpected_parameters":unexpected,"category_verified":catid(m2,c2)==target,"card_status":c2.get("cardStatus"),"campaign_status":st2.get("status"),"errors":c2.get("errors",[])}
      rec["after"]={"mapping":m2,"card":c2,"campaign":st2};rec["checks"]=checks
      if not diff and expected_ok and not unexpected and checks["category_verified"]:break
-    ok=not diff and expected_ok and not unexpected and checks["category_verified"] and c2.get("cardStatus") not in ("HAS_CARD_CAN_UPDATE_ERRORS","NO_CARD_ERRORS")
+    ok=not diff and expected_ok and not unexpected and checks["category_verified"] and c2.get("cardStatus") not in ("HAS_CARD_CAN_UPDATE_ERRORS","NO_CARD_ERRORS","HAS_CARD_CAN_UPDATE_PROCESSING","NO_CARD_PROCESSING")
     rec["status"]="verified" if ok else "review";row[kind+"_result"]={"status":rec["status"],"checks":checks}
     if diff or unexpected:
      # Stop category transfers if actual identity or protected content drifts.
