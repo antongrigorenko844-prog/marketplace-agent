@@ -13030,7 +13030,17 @@
         "changes": []
       },
       "category_result": {
-        "status": "submission_started"
+        "status": "review",
+        "checks": {
+          "identity_preserved": true,
+          "protected_diff": [],
+          "parameters_verified": true,
+          "new_unexpected_parameters": [],
+          "category_verified": false,
+          "card_status": "HAS_CARD_CAN_UPDATE",
+          "campaign_status": "PUBLISHED",
+          "errors": []
+        }
       }
     },
     "planka-solenoid-2sht": {
@@ -24500,7 +24510,7 @@
     {
       "kind": "category",
       "sku": "Dq200dsg70am0cw",
-      "status": "submitted",
+      "status": "review",
       "old_identity": {
         "offerId": "Dq200dsg70am0cw",
         "marketSku": 4859220987,
@@ -24695,6 +24705,182 @@
       "started_utc": "2026-11-24T19:22:43.832628+00:00",
       "response": {
         "status": "OK"
+      },
+      "after": {
+        "mapping": {
+          "offer": {
+            "offerId": "Dq200dsg70am0cw",
+            "name": "Прокладки + сальники + пыльники мехатроника DSG7 DQ200, оригинал Германия",
+            "category": "Запчасти для трансмиссии автомобиля",
+            "pictures": [
+              "https://ir.ozone.ru/s3/multimedia-1-o/8529557856.jpg"
+            ],
+            "vendor": "Нет бренда",
+            "description": "Комплект прокладок и уплотнений мехатроника DSG7 DQ200 (0AM/0CW) с оригинальными сальниками и пыльниками Volkswagen.\n\nВ набор входят прокладки и уплотнения мехатроника, крышка и её прокладка, фильтр, оригинальные сальники и пыльники. Состав представлен на фотографиях. Это комплект для обслуживания и ремонта, а не готовый мехатроник или набор с гидроплитой. Сверьте каждую необходимую деталь перед заказом.",
+            "weightDimensions": {
+              "length": 8,
+              "width": 8,
+              "height": 8,
+              "weight": 0.8
+            },
+            "vendorCode": "Dq200dsg",
+            "customsCommodityCode": "8708409909",
+            "commodityCodes": [
+              {
+                "code": "8708409909",
+                "type": "CUSTOMS_COMMODITY_CODE"
+              }
+            ],
+            "type": "DEFAULT",
+            "markingDeclared": false,
+            "params": [
+              {
+                "name": "Бренд",
+                "value": "Нет бренда"
+              },
+              {
+                "name": "Название модели (для объединения в одну карточку)",
+                "value": "Прокладки0cw0am"
+              },
+              {
+                "name": "Партномер (артикул производителя)",
+                "value": "Dq200dsg"
+              },
+              {
+                "name": "Название",
+                "value": "Прокладки DQ200 DSG7+сальники и пыльники Оригинал Германия Volkswagen"
+              },
+              {
+                "name": "Вес с упаковкой, г",
+                "value": "800"
+              },
+              {
+                "name": "Код продавца",
+                "value": "Dq200dsg70am0cw"
+              },
+              {
+                "name": "Комплектация",
+                "value": "Комплект прокладок и уплотнений мехатроника, крышка и её прокладка, фильтр, оригинальные сальники и пыльники Volkswagen. Состав показан на фото."
+              }
+            ],
+            "basicPrice": {
+              "value": 8850.0,
+              "currencyId": "RUR",
+              "discountBase": 12000.0,
+              "updatedAt": "2026-11-24T01:40:36+03:00"
+            },
+            "cardStatus": "HAS_CARD_CAN_UPDATE",
+            "campaigns": [
+              {
+                "campaignId": 141377963,
+                "status": "PUBLISHED"
+              }
+            ],
+            "mediaFiles": {
+              "pictures": [
+                {
+                  "url": "https://ir.ozone.ru/s3/multimedia-1-o/8529557856.jpg",
+                  "marketUrl": "https://avatars.mds.yandex.net/get-mpic/18329881/2a0000019b1c00c8678018daa853b09d8d9e/orig",
+                  "uploadState": "UPLOADED"
+                }
+              ]
+            },
+            "groupId": "Прокладки0cw0am"
+          },
+          "mapping": {
+            "marketSku": 4859220987,
+            "marketSkuName": "Прокладки + сальники + пыльники мехатроника DSG7 DQ200, оригинал Германия",
+            "marketModelId": 4859220986,
+            "marketModelName": "",
+            "marketCategoryId": 76968421,
+            "marketCategoryName": "Прокладки двигателя"
+          },
+          "showcaseUrls": [
+            {
+              "showcaseType": "B2C",
+              "showcaseUrl": "https://market.yandex.ru/card/slug/4859220987?businessId=194752944"
+            }
+          ]
+        },
+        "card": {
+          "offerId": "Dq200dsg70am0cw",
+          "mapping": {
+            "marketSku": 4859220987,
+            "marketSkuName": "Прокладки + сальники + пыльники мехатроника DSG7 DQ200, оригинал Германия",
+            "marketModelId": 4859220986,
+            "marketModelName": "",
+            "marketCategoryId": 76968421,
+            "marketCategoryName": "Прокладки двигателя"
+          },
+          "parameterValues": [
+            {
+              "parameterId": 7351754,
+              "value": "Комплектация: Комплект прокладок и уплотнений мехатроника, крышка и её прокладка, фильтр, оригинальные сальники и пыльники Volkswagen. Состав показан на фото."
+            },
+            {
+              "parameterId": 200,
+              "value": "Прокладки0cw0am"
+            }
+          ],
+          "cardStatus": "HAS_CARD_CAN_UPDATE",
+          "contentRating": 48,
+          "averageContentRating": 35,
+          "contentRatingStatus": "ACTUAL",
+          "recommendations": [
+            {
+              "type": "ADDITIONAL",
+              "percent": 7,
+              "remainingRatingPoints": 14
+            },
+            {
+              "type": "PICTURE_COUNT",
+              "percent": 17,
+              "remainingRatingPoints": 7
+            },
+            {
+              "type": "DESCRIPTION_LENGTH",
+              "remainingRatingPoints": 23
+            },
+            {
+              "type": "FIRST_VIDEO_SIZE",
+              "remainingRatingPoints": 2
+            },
+            {
+              "type": "FIRST_VIDEO_LENGTH",
+              "remainingRatingPoints": 2
+            },
+            {
+              "type": "AVERAGE_VIDEO_SIZE",
+              "remainingRatingPoints": 2
+            },
+            {
+              "type": "VIDEO_COUNT",
+              "percent": 0,
+              "remainingRatingPoints": 2
+            }
+          ],
+          "groupId": "Прокладки0cw0am"
+        },
+        "campaign": {
+          "offerId": "Dq200dsg70am0cw",
+          "basicPrice": {
+            "value": 8850.0,
+            "currencyId": "RUR",
+            "discountBase": 12000.0,
+            "updatedAt": "2026-11-24T01:40:36+03:00"
+          },
+          "status": "PUBLISHED"
+        }
+      },
+      "checks": {
+        "identity_preserved": true,
+        "protected_diff": [],
+        "parameters_verified": true,
+        "new_unexpected_parameters": [],
+        "category_verified": false,
+        "card_status": "HAS_CARD_CAN_UPDATE",
+        "campaign_status": "PUBLISHED",
+        "errors": []
       }
     }
   ],
@@ -24713,7 +24899,7 @@
     "main_transmission_category": 100,
     "other_categories": 43
   },
-  "updated_utc": "2026-11-24T19:22:45.898429+00:00",
+  "updated_utc": "2026-11-24T19:23:17.728587+00:00",
   "counts": {
     "active_catalog": 158,
     "cards": 158,
