@@ -2,7 +2,7 @@
   "version": 1,
   "status": "planned",
   "started_utc": "2026-11-24T19:02:12.537962+00:00",
-  "external_writes": 2,
+  "external_writes": 3,
   "registry": {
     "01X301127C": {
       "sku": "01X301127C",
@@ -238,7 +238,11 @@
       },
       "master_title": "Фильтр мехатроника DSG6 DQ250 02E305051C",
       "catalog_title": "Фильтр мехатроника DSG6 DQ250 02E305051C",
-      "title_drift": false
+      "title_drift": false,
+      "category_result": {
+        "status": "blocked_preflight",
+        "reason": "destination would lose existing attributes: [(7202, 'Количество, штук'), (8513, 'Количество в упаковке, шт'), (10096, 'Цвет товара')]"
+      }
     },
     "02E927770AL": {
       "sku": "02E927770AL",
@@ -882,7 +886,11 @@
       },
       "master_title": "Фильтр мехатроника DSG7 DQ200 0AM325433E",
       "catalog_title": "Фильтр мехатроника DSG7 DQ200 0AM325433E",
-      "title_drift": false
+      "title_drift": false,
+      "category_result": {
+        "status": "blocked_preflight",
+        "reason": "destination would lose existing attributes: [(7202, 'Количество, штук'), (8513, 'Количество в упаковке, шт'), (10096, 'Цвет товара')]"
+      }
     },
     "0AM325443D": {
       "sku": "0AM325443D",
@@ -1304,7 +1312,11 @@
       },
       "master_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769D",
       "catalog_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769D",
-      "title_drift": false
+      "title_drift": false,
+      "category_result": {
+        "status": "blocked_preflight",
+        "reason": "complex attributes require separate review"
+      }
     },
     "0AM927769E": {
       "sku": "0AM927769E",
@@ -1433,6 +1445,10 @@
           "attributes_verified": true
         },
         "count": 1
+      },
+      "category_result": {
+        "status": "blocked_preflight",
+        "reason": "complex attributes require separate review"
       }
     },
     "0AM927769F": {
@@ -1562,6 +1578,10 @@
           "attributes_verified": false
         },
         "count": 1
+      },
+      "category_result": {
+        "status": "blocked_preflight",
+        "reason": "unresolved attribute operation"
       }
     },
     "0AM927769G": {
@@ -1691,6 +1711,10 @@
           "attributes_verified": true
         },
         "count": 1
+      },
+      "category_result": {
+        "status": "blocked_preflight",
+        "reason": "complex attributes require separate review"
       }
     },
     "0AM927769K": {
@@ -1820,6 +1844,10 @@
           "attributes_verified": true
         },
         "count": 1
+      },
+      "category_result": {
+        "status": "blocked_preflight",
+        "reason": "complex attributes require separate review"
       }
     },
     "0AM927769N": {
@@ -3582,7 +3610,10 @@
       },
       "master_title": "Поршень (толкатель) вилки мехатроника DSG7 DQ200",
       "catalog_title": "Поршень (толкатель) вилки мехатроника DSG7 DQ200",
-      "title_drift": false
+      "title_drift": false,
+      "category_result": {
+        "status": "submission_started"
+      }
     },
     "0am325025m": {
       "sku": "0am325025m",
@@ -15891,10 +15922,615 @@
           "total": 6
         }
       }
+    },
+    {
+      "kind": "category",
+      "items": [
+        "0am325025l"
+      ],
+      "status": "sending",
+      "started": "2026-11-24T19:03:41.682329+00:00",
+      "before": {
+        "card": {
+          "id": 1504174370,
+          "barcode": "",
+          "name": "Поршень (толкатель) вилки мехатроника DSG7 DQ200",
+          "offer_id": "0am325025l",
+          "height": 50,
+          "depth": 80,
+          "width": 50,
+          "dimension_unit": "mm",
+          "weight": 350,
+          "weight_unit": "g",
+          "description_category_id": 17028756,
+          "type_id": 98840,
+          "primary_image": "https://ir-20.ozone.ru/s3/multimedia-1-v/14851642351.jpg",
+          "model_info": {
+            "model_id": 3651862623,
+            "count": 1
+          },
+          "images": [
+            "https://ir-20.ozone.ru/s3/multimedia-1-9/20764006857.jpg",
+            "https://ir-20.ozone.ru/s3/multimedia-1-w/20764004288.jpg"
+          ],
+          "pdf_list": [],
+          "attributes": [
+            {
+              "id": 85,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 126745801,
+                  "value": "Нет бренда"
+                }
+              ]
+            },
+            {
+              "id": 9048,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 0,
+                  "value": "поршень"
+                }
+              ]
+            },
+            {
+              "id": 23171,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 0,
+                  "value": "#толкатель_вилки_dq200 #поршень_вилки_dq200 #толкатель_мехатроника_dsg7 #0am325025l"
+                }
+              ]
+            },
+            {
+              "id": 4191,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 0,
+                  "value": "Поршень (толкатель) вилки мехатроника DSG7 DQ200, семейство 0AM/0CW. По этому артикулу поставляется один новый толкатель. Если при ремонте меняется и сальник толкателя, учитывайте его отдельно при подборе деталей. Перед заказом сравните форму рабочей части и посадочной поверхности с демонтированным поршнем. Артикул магазина — 0am325025l."
+                }
+              ]
+            },
+            {
+              "id": 7236,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 0,
+                  "value": "0am325025l"
+                }
+              ]
+            },
+            {
+              "id": 7324,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 0,
+                  "value": "0AM325025L"
+                }
+              ]
+            },
+            {
+              "id": 7202,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 45536,
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "id": 8513,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 0,
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "id": 7199,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 62099,
+                  "value": "Сталь"
+                }
+              ]
+            },
+            {
+              "id": 7206,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 41233,
+                  "value": "Легковые автомобили"
+                }
+              ]
+            },
+            {
+              "id": 10096,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 61610,
+                  "value": "серебристый"
+                }
+              ]
+            },
+            {
+              "id": 4384,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 0,
+                  "value": "Поршень (толкатель) вилки — 1 шт."
+                }
+              ]
+            },
+            {
+              "id": 22232,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 971400283,
+                  "value": "8708409909 - Части коробок передач, прочие: прочие"
+                }
+              ]
+            },
+            {
+              "id": 23536,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 0,
+                  "value": "false"
+                }
+              ]
+            },
+            {
+              "id": 4180,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 0,
+                  "value": "Поршень (толкатель) вилки мехатроника DSG7 DQ200"
+                }
+              ]
+            },
+            {
+              "id": 4497,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 0,
+                  "value": "350"
+                }
+              ]
+            },
+            {
+              "id": 9024,
+              "complex_id": 0,
+              "values": [
+                {
+                  "dictionary_value_id": 0,
+                  "value": "0am325025l"
+                }
+              ]
+            }
+          ],
+          "complex_attributes": [],
+          "color_image": "",
+          "sku": 1947309601,
+          "barcodes": [],
+          "attributes_with_defaults": [
+            23152,
+            9905,
+            10100,
+            11794,
+            12006,
+            22074,
+            22366,
+            23120,
+            23121,
+            23133,
+            23134,
+            23137,
+            23138,
+            23173,
+            23183,
+            23184,
+            23185,
+            23186,
+            23187,
+            23188,
+            23379,
+            23380,
+            23524,
+            23975
+          ]
+        },
+        "price": {
+          "acquiring": 18.5,
+          "offer_id": "0am325025l",
+          "product_id": 1504174370,
+          "volume_weight": 0.4,
+          "commissions": {
+            "fbo_deliv_to_customer_amount": 25,
+            "fbo_direct_flow_trans_max_amount": 202,
+            "fbo_direct_flow_trans_min_amount": 35,
+            "fbo_return_flow_amount": 93,
+            "fbs_deliv_to_customer_amount": 25,
+            "fbs_direct_flow_trans_min_amount": 35,
+            "fbs_direct_flow_trans_max_amount": 202,
+            "fbs_first_mile_max_amount": 10,
+            "fbs_first_mile_min_amount": 0,
+            "fbs_return_flow_amount": 202,
+            "sales_percent_fbo": 47,
+            "sales_percent_fbs": 47,
+            "sales_percent_rfbs": 47,
+            "sales_percent_fbp": 47
+          },
+          "marketing_actions": {
+            "current_period_from": null,
+            "current_period_to": null,
+            "actions": [
+              {
+                "title": "Эластичный бустинг. Без ограничения срока действия",
+                "value": 1850,
+                "date_from": "2025-03-19T21:00:44Z",
+                "date_to": "2026-12-31T20:59:59Z"
+              },
+              {
+                "title": "РК. Рассрочка 0-0-4",
+                "value": 4,
+                "date_from": "2026-09-03T11:00:00Z",
+                "date_to": "2027-01-27T20:59:00Z"
+              },
+              {
+                "title": "РК. Рассрочка 0-0-12 до 31.12.2026",
+                "value": 12,
+                "date_from": "2026-09-10T08:00:00Z",
+                "date_to": "2027-01-20T20:59:00Z"
+              },
+              {
+                "title": "РК. Рассрочка 0-0-6 до 20.01.2027",
+                "value": 6,
+                "date_from": "2026-09-10T21:00:00Z",
+                "date_to": "2027-01-20T20:59:00Z"
+              },
+              {
+                "title": "Призоловля в Узбекистане // Моментальные призы (лутбоксы) // 2-21.11 скидка 15%",
+                "value": 15,
+                "date_from": "2026-11-01T21:00:00Z",
+                "date_to": "2026-12-31T20:59:00Z"
+              },
+              {
+                "title": "Супербустинг 11.11",
+                "value": 1850,
+                "date_from": "2026-11-10T21:00:00Z",
+                "date_to": "2026-12-02T20:59:59Z"
+              },
+              {
+                "title": "0024 рассрочка в РК 30.11-13.12.26",
+                "value": 24,
+                "date_from": "2026-11-29T15:00:00Z",
+                "date_to": "2026-12-14T07:01:00Z"
+              }
+            ],
+            "ozon_actions_exist": false
+          },
+          "price": {
+            "auto_action_enabled": false,
+            "currency_code": "RUB",
+            "marketing_seller_price": 1850,
+            "min_price": 1850,
+            "old_price": 2300,
+            "price": 1850,
+            "retail_price": 0,
+            "vat": 0,
+            "auto_add_to_ozon_actions_list_enabled": false,
+            "net_price": 250,
+            "declared_price": {
+              "amount": "0",
+              "currency": "RUB"
+            }
+          },
+          "price_indexes": {
+            "external_index_data": {
+              "min_price": 1363,
+              "min_price_currency": "RUB",
+              "price_index_value": 0.82,
+              "price_index_color": "SUPER",
+              "min_price_in_seller": 1363,
+              "min_price_in_seller_currency": "RUB"
+            },
+            "ozon_index_data": {
+              "min_price": 0,
+              "min_price_currency": "",
+              "price_index_value": 0,
+              "price_index_color": "WITHOUT_INDEX",
+              "min_price_in_seller": 0,
+              "min_price_in_seller_currency": ""
+            },
+            "color_index": "SUPER",
+            "self_marketplaces_index_data": {
+              "min_price": 1363,
+              "min_price_currency": "RUB",
+              "price_index_value": 0.82,
+              "price_index_color": "SUPER",
+              "min_price_in_seller": 1363,
+              "min_price_in_seller_currency": "RUB"
+            },
+            "competitor_index_data": null
+          }
+        },
+        "stock": {
+          "product_id": 1504174370,
+          "offer_id": "0am325025l",
+          "stocks": [
+            {
+              "type": "fbo",
+              "present": 5,
+              "reserved": 0,
+              "sku": 1947309601,
+              "shipment_type": "SHIPMENT_TYPE_GENERAL",
+              "warehouse_ids": []
+            },
+            {
+              "type": "fbs",
+              "present": 79,
+              "reserved": 0,
+              "sku": 1947309601,
+              "shipment_type": "SHIPMENT_TYPE_GENERAL",
+              "warehouse_ids": []
+            }
+          ]
+        },
+        "info": {
+          "product_id": 1504174370,
+          "sku": 1947309601,
+          "model_info": {
+            "model_id": 3651862623,
+            "count": 1
+          },
+          "statuses": {
+            "status": "price_sent",
+            "status_failed": "",
+            "moderate_status": "approved",
+            "validation_status": "success",
+            "status_name": "Продаётся",
+            "status_description": "",
+            "is_created": true,
+            "status_tooltip": "",
+            "status_updated_at": "2026-11-20T20:21:01.904709Z"
+          },
+          "errors": [],
+          "archived": false,
+          "price": "1850.00",
+          "old_price": "2300.00",
+          "min_price": "1850.00",
+          "reviews": {}
+        }
+      },
+      "payload": {
+        "offer_id": "0am325025l",
+        "name": "Поршень (толкатель) вилки мехатроника DSG7 DQ200",
+        "description_category_id": 17028756,
+        "type_id": 971100605,
+        "attributes": [
+          {
+            "id": 85,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 126745801,
+                "value": "Нет бренда"
+              }
+            ]
+          },
+          {
+            "id": 9048,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 0,
+                "value": "поршень"
+              }
+            ]
+          },
+          {
+            "id": 23171,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 0,
+                "value": "#толкатель_вилки_dq200 #поршень_вилки_dq200 #толкатель_мехатроника_dsg7 #0am325025l"
+              }
+            ]
+          },
+          {
+            "id": 4191,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 0,
+                "value": "Поршень (толкатель) вилки мехатроника DSG7 DQ200, семейство 0AM/0CW. По этому артикулу поставляется один новый толкатель. Если при ремонте меняется и сальник толкателя, учитывайте его отдельно при подборе деталей. Перед заказом сравните форму рабочей части и посадочной поверхности с демонтированным поршнем. Артикул магазина — 0am325025l."
+              }
+            ]
+          },
+          {
+            "id": 7236,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 0,
+                "value": "0am325025l"
+              }
+            ]
+          },
+          {
+            "id": 7324,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 0,
+                "value": "0AM325025L"
+              }
+            ]
+          },
+          {
+            "id": 7202,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 45536,
+                "value": "1"
+              }
+            ]
+          },
+          {
+            "id": 8513,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 0,
+                "value": "1"
+              }
+            ]
+          },
+          {
+            "id": 7199,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 62099,
+                "value": "Сталь"
+              }
+            ]
+          },
+          {
+            "id": 7206,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 41233,
+                "value": "Легковые автомобили"
+              }
+            ]
+          },
+          {
+            "id": 10096,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 61610,
+                "value": "серебристый"
+              }
+            ]
+          },
+          {
+            "id": 4384,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 0,
+                "value": "Поршень (толкатель) вилки — 1 шт."
+              }
+            ]
+          },
+          {
+            "id": 22232,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 971400283,
+                "value": "8708409909 - Части коробок передач, прочие: прочие"
+              }
+            ]
+          },
+          {
+            "id": 23536,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 0,
+                "value": "false"
+              }
+            ]
+          },
+          {
+            "id": 4180,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 0,
+                "value": "Поршень (толкатель) вилки мехатроника DSG7 DQ200"
+              }
+            ]
+          },
+          {
+            "id": 4497,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 0,
+                "value": "350"
+              }
+            ]
+          },
+          {
+            "id": 9024,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 0,
+                "value": "0am325025l"
+              }
+            ]
+          },
+          {
+            "id": 8229,
+            "complex_id": 0,
+            "values": [
+              {
+                "dictionary_value_id": 971100605,
+                "value": "Ремкомплект КПП"
+              }
+            ]
+          }
+        ],
+        "complex_attributes": [],
+        "primary_image": "https://ir-20.ozone.ru/s3/multimedia-1-v/14851642351.jpg",
+        "images": [
+          "https://ir-20.ozone.ru/s3/multimedia-1-9/20764006857.jpg",
+          "https://ir-20.ozone.ru/s3/multimedia-1-w/20764004288.jpg"
+        ],
+        "depth": 80,
+        "width": 50,
+        "height": 50,
+        "dimension_unit": "mm",
+        "weight": 350,
+        "weight_unit": "g",
+        "price": "1850",
+        "old_price": "2300",
+        "vat": "0",
+        "currency_code": "RUB",
+        "barcode": "",
+        "color_image": "",
+        "pdf_list": []
+      }
     }
   ],
   "errors": {},
-  "updated_utc": "2026-11-24T19:03:19.201450+00:00",
+  "updated_utc": "2026-11-24T19:03:41.682370+00:00",
   "counts": {
     "list_products": 147,
     "attributes": 147,
