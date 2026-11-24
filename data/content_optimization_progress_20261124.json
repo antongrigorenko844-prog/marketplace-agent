@@ -4367,58 +4367,169 @@
     "market_error": "YandexMarketError: POST /v2/businesses/194752944/offer-mappings: не удалось выполнить запрос (HTTP 500)"
   },
   "latest_pipeline_checkpoint": {
-    "run_id": "45328350048-1",
-    "updated_utc": "2026-11-24T04:47:09.577231+00:00",
+    "run_id": "45346054856-1",
+    "updated_utc": "2026-11-24T07:14:04.269434+00:00",
     "counts": {
       "avito": {
-        "blocked": 42,
+        "blocked": 49,
         "processing": 118
       },
       "market": {
-        "retry_pending": 12,
-        "verified": 148
+        "not_applicable": 9,
+        "pending": 8,
+        "verified": 150
       },
       "ozon": {
         "blocked": 5,
-        "not_applicable": 13,
+        "not_applicable": 20,
         "pending": 1,
         "verified": 141
       },
       "tilda": {
-        "blocked": 156,
+        "blocked": 163,
         "pending": 2,
         "verified": 2
       },
       "wb": {
-        "blocked": 4,
-        "not_applicable": 16,
+        "blocked": 3,
+        "not_applicable": 23,
         "pending": 2,
-        "verified": 138
+        "verified": 139
       }
     },
+    "inventory_counts": {
+      "avito": 120,
+      "market": 158,
+      "ozon": 147,
+      "tilda": 150,
+      "wb": 144
+    },
     "ozon_strict_coverage": {
-      "text_verified": 141,
-      "protected_fields_normalized": 125,
-      "exact_protection_verified": 2,
       "already_matching_no_write": 14,
-      "kiz_materialized": 117
+      "exact_protection_verified": 2,
+      "protected_fields_normalized": 125,
+      "text_verified": 141
     },
     "source": "reports/content-pipeline/state.json",
-    "blockers": {
-      "0cw0am": "stale master Ozon flag; exact WB and Tilda IDs found; fix proposed with fresh census and identical approved text",
-      "dq500-korpus-gladkiy": "no exact master row in observed census; no creation in description project",
-      "Ea888gen3": "Tilda title says magnet while description says valve; identity requires resolution",
-      "tool-dq200-acc-restore": "WB characteristics missing in seller response; do not synthesize protected field",
-      "tool-dsg-pressure-hp": "WB characteristics missing in seller response; do not synthesize protected field"
+    "verified_new": [
+      {
+        "sku": "0cw0am",
+        "channel": "wb",
+        "card_id": "1949483512",
+        "protection_verified": true,
+        "evidence": "reports/content-pipeline/runs/45346054856-1/wb/0",
+        "after_hash": "27ff180f6313df0cc0cc01d1e34d8d849a72553724a3ca772aa7a5045c9c55d8"
+      },
+      {
+        "sku": "0cw0am",
+        "channel": "market",
+        "card_id": "4858753907",
+        "protection_verified": true,
+        "evidence": "reports/content-pipeline/runs/45346054856-1/market/0",
+        "after_hash": "27ff180f6313df0cc0cc01d1e34d8d849a72553724a3ca772aa7a5045c9c55d8"
+      },
+      {
+        "sku": "nakladki-pedali",
+        "channel": "market",
+        "card_id": "6245067593",
+        "protection_verified": true,
+        "evidence": "reports/content-pipeline/runs/45346054856-1/market/0",
+        "after_hash": "03082abe03fbc58f93cce45931dc364f0958feca7e534adb44149deee5e36e9f"
+      }
+    ],
+    "master_verified": 157,
+    "tilda_csv": {
+      "path": "reports/content-pipeline/runs/45346054856-1/tilda_description_update.csv",
+      "rows": 144,
+      "unique_uid": 144,
+      "unique_sku": 144,
+      "imported": false
     },
-    "resume_request": {
-      "after_run": "45328350048-1",
-      "after_merge": "e9d5b51ce3c59f6e318750902cc709c4d5e563e1",
-      "regression_runs": [
-        45335381945,
-        45335381871
+    "avito": {
+      "report_id": 640018918,
+      "finished_at": "2026-11-24T06:34:02Z",
+      "status": "success_warning",
+      "controls": [
+        {
+          "sku": "0am325025H",
+          "id": "8312205273",
+          "processed": true,
+          "live_text_verified": false
+        },
+        {
+          "sku": "6t30",
+          "id": "8425207775",
+          "processed": true,
+          "live_text_verified": false
+        }
       ],
-      "status": "requested_not_verified"
+      "feed_sha256": "282823d5f217fabdcd343e1d8954ac6dce88f7aaa01f9972fa2150f4fcb5096c",
+      "resend": false
+    },
+    "blockers": {
+      "missing_exact_master": [
+        {
+          "sku": "0am325025L",
+          "channel": "market",
+          "id": "4387619789",
+          "unresolved": "Точное исполнение, количество и OEM; не присваивать номер 0AM325025Q без подтверждения."
+        },
+        {
+          "sku": "0am325025Y",
+          "channel": "market",
+          "id": "4384120991",
+          "unresolved": "Подтвердить количество, маркировку и соответствие WHT001922."
+        },
+        {
+          "sku": "0am325025e",
+          "channel": "market",
+          "id": "5881268930",
+          "unresolved": "Не доказано, транспортная ли это заглушка 0AM325120A или иная деталь; не смешивать с 0AM301212A."
+        },
+        {
+          "sku": "0am325025p",
+          "channel": "market",
+          "id": "4572656430",
+          "unresolved": "Старое описание заявляет Hiltie, контрактные, оригинальные, стендовый тест; нужны подтверждение маркировки, состава и состояния. Прямой регистронезависимый конфликт с 0am325025P — клипса."
+        },
+        {
+          "sku": "0am325066ac",
+          "channel": "market",
+          "id": "4384122583",
+          "unresolved": "Прямой регистронезависимый конфликт с 0am325066AC — поршень. OEM и количество манжет требуют подтверждения."
+        },
+        {
+          "sku": "0b5",
+          "channel": "market",
+          "id": "4392843289",
+          "unresolved": "Не подтверждены количество, оригинальность и OEM. Не переносить автоматически данные filtr-setka-0b5-orig."
+        },
+        {
+          "sku": "jf015",
+          "channel": "market",
+          "id": "4461049245",
+          "unresolved": "NSK и оригинальность заявлены в исторической карточке, но маркировки четырёх подшипников не подтверждены. Не смешивать с гидроблоком JF015E."
+        },
+        {
+          "sku": "dq500-korpus-gladkiy",
+          "channel": "wb",
+          "id": "2338475459",
+          "unresolved": "Старый текст указывает 0BH325183B и внутренний Dq500; точный OEM, наличие уплотнения и связь с мастер-SKU не доказаны. DQ500 в каноническом BOM — комплект с фильтром."
+        }
+      ],
+      "wb_missing_characteristics": [
+        "tool-dq200-acc-restore",
+        "tool-dsg-pressure-hp"
+      ],
+      "wb_retired_collision": "0AM927769D",
+      "tilda_identity_conflict": "Ea888gen3",
+      "test_cards_excluded": [
+        "TEST001",
+        "TESTWB001"
+      ],
+      "ozon": "guarded_resume=false; no new write; exact protected attribute causation unresolved",
+      "avito": "Both exact controls processed in report 640018918; seller response does not expose descriptions. No resend.",
+      "tilda": "Official update-only import access not available; latest validated CSV 144 unique UID/SKU, not imported."
     }
   }
 }
