@@ -1,0 +1,53 @@
+name: LEOPARTS product sitelinks final state check
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-product-sitelinks-final-check-20261125.yml']
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  readback:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify all six current ad states and sitelink sets, read only
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: |
+          python - <<'PY'
+          import json,sys,datetime
+          from pathlib import Path
+          sys.path.insert(0,'.github/scripts')
+          import direct_preflight_20261120 as d
+          from direct_mass_negatives_apply_20261120 import ADS_GET
+          d.ALLOWED=tuple(set(d.ALLOWED)|{'ads','sitelinks'})
+          root=Path('data/direct_recovery_20261124')
+          old=json.loads((root/'product_sitelinks_20261125.json').read_text())
+          wanted={int(k):v for k,v in old['ad_results'].items()}
+          ids={v['set_id'] for v in wanted.values()}
+          ads={x['Id']:x for x in d.get('ads',ADS_GET,'Ads')}
+          sets={x['Id']:x['Sitelinks'] for x in d.get('sitelinks',{'SelectionCriteria':{'Ids':sorted(ids)},'FieldNames':['Id','Sitelinks'],'Page':{'Limit':1000}},'SitelinksSets')}
+          out={'checked_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'read_only':True,'ads':{}}
+          for i,v in wanted.items():
+              ad=ads[i]
+              p=ad['ShoppingAd'] if ad['Type']=='SHOPPING_AD' else ad['ResponsiveAd']
+              sid=p.get('SitelinkSetId')
+              got=[{k:x.get(k) for k in ('Title','Href','Description') if x.get(k) is not None} for x in sets.get(sid,[])]
+              out['ads'][str(i)]={'group':ad['AdGroupId'],'state':ad['State'],'status':ad['Status'],'clarification':ad.get('StatusClarification'),'sitelinks_moderation':(p.get('SitelinksModeration') or {}).get('Status'),'feed_processing':p.get('FeedProcessingStatus'),'set_verified':sid==v['set_id'] and got==old['groups'][str(v['group'])]['links']}
+          out['all_saved']=all(x['set_verified'] for x in out['ads'].values())
+          out['all_active']=all(x['state']=='ON' and x['status']=='ACCEPTED' for x in out['ads'].values())
+          (root/'product_sitelinks_final_check_20261125.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n')
+          PY
+      - name: Save read-only report
+        run: bash .github/scripts/save_data.sh data/direct_recovery_20261124/product_sitelinks_final_check_20261125.json
