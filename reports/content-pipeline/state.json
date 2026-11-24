@@ -12,8 +12,7 @@
     },
     "ozon": {
       "not_applicable": 25,
-      "submitted": 1,
-      "verified": 139
+      "verified": 140
     },
     "tilda": {
       "blocked": 162,
@@ -306,8 +305,8 @@
   "ozon_strict_coverage": {
     "already_matching_no_write": 12,
     "exact_protection_verified": 2,
-    "protected_fields_normalized": 125,
-    "text_verified": 139
+    "protected_fields_normalized": 126,
+    "text_verified": 140
   },
   "paused_channels": {
     "market": "Protected-field drift: 0am325025Y"
@@ -3121,22 +3120,29 @@
         "updated_utc": "2026-11-24T09:09:33.913138+00:00"
       },
       "ozon": {
-        "after_hash": "52594355fb1a9c396030b2313cbdff42e2972149d03defbc3e19e2e9422fcb90",
+        "after_hash": "793e5eb567e1d0334f992358e491385d53129bc6872d739700bdfe25b60152ad",
         "attempts": 1,
         "before_hash": "52594355fb1a9c396030b2313cbdff42e2972149d03defbc3e19e2e9422fcb90",
         "card_id": "3171023605",
         "channel": "ozon",
         "error": null,
         "evidence": "reports/content-pipeline/runs/45362393253-1/ozon/0",
-        "last_checked_utc": "2026-11-24T09:09:51.843334+00:00",
+        "last_checked_utc": "2026-11-24T09:10:08.921161+00:00",
         "next_attempt_utc": null,
+        "observed_ozon_normalization": {
+          "default_metadata_changed": true,
+          "kiz_materialized": false,
+          "redundant_model_suffix_changed": false
+        },
         "polls": 0,
         "protected_hash": "757649f964478bdeaae1f097e9c5dd9c62ba96fb2c0d6227fbab771a490ba10c",
+        "protection_verified": true,
         "read_failures": 0,
         "sku": "0am325025H",
-        "status": "submitted",
+        "status": "verified",
         "target_hash": "793e5eb567e1d0334f992358e491385d53129bc6872d739700bdfe25b60152ad",
-        "updated_utc": "2026-11-24T09:09:51.843414+00:00"
+        "updated_utc": "2026-11-24T09:10:08.921199+00:00",
+        "verification_basis": "postwrite_protected_readback"
       },
       "tilda": {
         "attempts": 0,
@@ -14351,6 +14357,6 @@
     }
   },
   "run_id": "45362393253-1",
-  "updated_utc": "2026-11-24T09:09:51.855916+00:00",
+  "updated_utc": "2026-11-24T09:10:08.922193+00:00",
   "version": 1
 }
