@@ -155,7 +155,7 @@ def prepare_book(raw,sheet,desc_col,channel,rules,skus):
         if sku in duplicates:
             results[sku]={'status':'blocked_duplicate'}
             continue
-        if channel=='wb' and sku=='0AM927769D':
+        if channel=='wb' and sku=='0AM927769D' and rules[sku].get('_wb_active_review') is not True:
             results[sku]={'status':'blocked_retired_wb_collision'}
             continue
         value=target_description(rules[sku],row,channel)

@@ -33,6 +33,35 @@ RETIRED = {('wb', '0AM927769D'): 'Previously confirmed retired WB card collision
 TEST_SKUS = {'TEST001', 'TESTWB001'}
 WB_EMPTY_CHARACTERISTICS = {'tool-dq200-acc-restore': '2340040049', 'tool-dsg-pressure-hp': '2340040122'}
 
+def reviewed_wb_active(cfg, ids, errors, snaps, master_rows, duplicates):
+    """Reopen only the explicitly reviewed old plate, proven active and not in trash."""
+    sku='0AM927769D'; expected='670860344'
+    review=cfg.get('wb_active_review',{}).get(sku,{})
+    if str(review.get('nmID',''))!=expected or 'wb' in errors or sku in duplicates:
+        return set()
+    if master_rows.get(sku,{}).get('wb_status')!='Действующий':
+        return set()
+    if [x['id'] for x in ids.get('wb',{}).get(sku,[])]!=[expected]:
+        return set()
+    cards=[x for x in (snaps.get('wb') or {}).get('cards',[]) if x.get('vendorCode')==sku and str(x.get('nmID'))==expected]
+    if len(cards)!=1 or cards[0].get('title')!=review.get('title'):
+        return set()
+    chars=cards[0].get('characteristics',[])
+    if not any(x.get('id')==5522881 and sku in x.get('value',[]) for x in chars):
+        return set()
+    if not any(x.get('id')==378533 and 'Электронная плата — 1 шт.' in x.get('value',[]) for x in chars):
+        return set()
+    import wb_client
+    try:
+        with guard([],allow_write=False,descriptions_only=True):
+            for term in (expected,sku):
+                result=wb_client._request('POST',wb_client.config.wb_content_base,'/content/v2/get/cards/trash',{'settings':{'cursor':{'limit':100},'filter':{'textSearch':term}}},retries=1)
+                if result.get('cards')!=[] or result.get('cursor',{}).get('total')!=0:
+                    return set()
+    except Exception:
+        return set()
+    return {sku}
+
 def standalone_allowed(cfg, ch, sku, identity_value, master_rows, duplicates):
     return (ch in ('wb','market') and sku not in master_rows and sku not in duplicates
             and identity_value is not None
@@ -697,6 +726,10 @@ def run(live=False):
         from content_completion import exclude_uncreated
         exclude_uncreated(cfg,ids,extra)
     _,master_rows,duplicates=cms.read_rows((ROOT/'data/master_control.xlsx').read_bytes(),'Товары',12)
+    reviewed_active=reviewed_wb_active(cfg,ids,errors,snaps,master_rows,duplicates)
+    for sku in reviewed_active:
+        if sku in rules:rules[sku]=dict(rules[sku],_wb_active_review=True)
+    extra['wb_reviewed_active']=sorted(reviewed_active)
     universe=sorted((set(master_rows)|set(rules)|set().union(*(set(x) for x in ids.values())))-TEST_SKUS)
     for mapping in ids.values():
         for sku in TEST_SKUS:mapping.pop(sku,None)
@@ -733,8 +766,11 @@ def run(live=False):
                     if ch in ('avito','tilda') or expected or (prev and prev.get('card_id')):
                         row_status(e,'blocked','No exact active mapping in observed inventory; absence not confirmed')
                     else:row_status(e,'not_applicable','No exact active SKU in seller census')
-                elif (ch,sku) in RETIRED:
-                    row_status(e,'blocked',RETIRED[ch,sku])
+                elif (ch,sku) in RETIRED and not (ch=='wb' and sku in reviewed_active):
+                    if e.get('status')!='verified':
+                        row_status(e,'blocked',RETIRED[ch,sku])
+                elif ch=='wb' and sku in reviewed_active and e.get('status')=='blocked' and e.get('error')==RETIRED.get((ch,sku)) and not e.get('attempts'):
+                    row_status(e,'prepared',None,next_attempt_utc=None)
                 elif not target:
                     row_status(e,'pending','No reviewed target description')
                 elif (sku not in master_rows or sku in duplicates) and not standalone_allowed(cfg,ch,sku,identity_value,master_rows,duplicates):

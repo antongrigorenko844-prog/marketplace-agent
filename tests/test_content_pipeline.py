@@ -34,6 +34,18 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(b['C4'].value,'=1+2')
         self.assertEqual(b['D3'].value,123)
 
+    def test_reviewed_active_wb_exact_workbook_description_only(self):
+        w=Workbook(); s=w.active
+        s.append(['SKU','status','Описание','price'])
+        s.append(['0AM927769D','active','old',17])
+        f=BytesIO(); w.save(f)
+        rules={'0AM927769D':{'text':{'wb':{'description':'approved'}},'_wb_active_review':True}}
+        updated, rows=p.isolate_book(f.getvalue(),None,3,'wb',rules,['0AM927769D'])
+        self.assertEqual(rows['0AM927769D']['status'],'pending')
+        b=load_workbook(BytesIO(updated)).active
+        self.assertEqual(b['C2'].value,'approved')
+        self.assertEqual(b['D2'].value,17)
+
     def test_retry_only_explicit_rejection(self):
         self.assertTrue(p.confirmed_rejection([{'http_status':429}]))
         self.assertTrue(p.confirmed_rejection([{'http_status':400},{'http_status':422}]))

@@ -57,7 +57,7 @@ def classify(method, url, body=None):
             no_commercial_fields(body)
             return 'content'
     if host == 'content-api.wildberries.ru':
-        if method == 'POST' and path in {'/content/v2/get/cards/list','/content/v2/cards/error/list'}:
+        if method == 'POST' and path in {'/content/v2/get/cards/list','/content/v2/cards/error/list','/content/v2/get/cards/trash'}:
             return 'read'
         if method == 'POST' and path == '/content/v3/media/save':
             if not isinstance(body,dict) or set(body) != {'nmId','data'}:

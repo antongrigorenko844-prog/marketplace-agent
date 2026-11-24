@@ -3,11 +3,7 @@
   "enabled": true,
   "mode": "apply",
   "scope": "all existing exact-SKU reviewed manifest descriptions; no new cards",
-  "checkpoint": {
-    "after_run": "45328350048-1",
-    "after_merge": "e9d5b51ce3c59f6e318750902cc709c4d5e563e1",
-    "reason": "Owner authorizes existing Rich Content text only. Guarded canary then exact live-layout batches; exclude independently confirmed uncreated Ozon drafts; separately update two existing Avito XML tool descriptions."
-  },
+  "checkpoint": "owner-final-wb-active-review-20261124",
   "standalone_reviewed": {
     "market": {
       "0am325025L": "4387619789",
@@ -61,6 +57,9 @@
       "ozon": "3171023605",
       "wb": "681503332",
       "market": "4817587494"
+    },
+    "0AM927769D": {
+      "wb": "670860344"
     }
   },
   "public_audit_request": "owner-final-public-verification-20261124-1",
@@ -260,6 +259,13 @@
     "targets": {
       "tool-dq200-acc-restore": "8486296644",
       "tool-dsg-pressure-hp": "8392608781"
+    }
+  },
+  "wb_active_review": {
+    "0AM927769D": {
+      "nmID": "670860344",
+      "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769D",
+      "evidence": "reports/content-pipeline/targeted_final_readback.json"
     }
   }
 }
