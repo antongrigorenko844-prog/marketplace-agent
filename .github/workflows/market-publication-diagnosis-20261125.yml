@@ -1,0 +1,32 @@
+name: LEOPARTS Market blocked publication diagnostics and safe exact repair
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/market-publication-diagnosis-20261125.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  recovery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+      YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - run: python -m py_compile scripts/market_publication_diagnosis_20261125.py
+      - run: python -u scripts/market_publication_diagnosis_20261125.py
+      - if: always()
+        run: |
+          if [ -f data/market_publication_diagnosis_20261125.json ]; then bash .github/scripts/save_data.sh data/market_publication_diagnosis_20261125.json; fi
