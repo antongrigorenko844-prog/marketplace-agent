@@ -1,0 +1,29 @@
+name: Content description regression (offline)
+on:
+  pull_request:
+    paths:
+      - 'content_sync.py'
+      - 'content_transport.py'
+      - 'content_manifest.py'
+      - 'content_updates.py'
+      - 'build_master_control.py'
+      - 'sync_master_control.py'
+      - 'tests/test_content_sync.py'
+      - '.github/workflows/content-description-ci.yml'
+  push:
+    branches: [content-description-safety-20261124]
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - run: python -m py_compile content_sync.py content_transport.py content_manifest.py content_updates.py build_master_control.py sync_master_control.py
+      - run: python -m unittest discover -s tests -p test_content_sync.py -v
+      - run: git diff --exit-code -- data/ photos/ photos_avito/
