@@ -1,0 +1,47 @@
+{
+  "sku": "0am325025H",
+  "scope": "existing Ozon, Wildberries, Yandex Market, Tilda and Yandex Direct product feed 4061297 only",
+  "owner_approved": true,
+  "source": {
+    "filename": "photo_2026-11-26 05.46.58.jpeg",
+    "library_file_id": "file_0000000076308207976bb41c163a837d",
+    "bytes": 271055,
+    "sha256": "1f0b5739a1b476268c9d6217970dbdc0a0c23dba728405ce67d65551eca4ed0c",
+    "git_blob_sha": "2d75e74a3d8bd723ad7b9c05678fc9a20f13c34e",
+    "dimensions": [
+      960,
+      1280
+    ],
+    "required_repository_path": "assets/product-intake-v2/bridge/0am325025H-cover-20261126.jpeg",
+    "status": "original_materialized_in_chat_container_not_transferred_to_repository"
+  },
+  "confirmed_old_source": {
+    "path": "photos/0am325025H/0am325025H-1.png",
+    "git_blob_sha": "e24cf5f427dec188f96fb7cac4a1cd03d9326229",
+    "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0am325025H-1.png?v=0593c687c2"
+  },
+  "channel_requirements": {
+    "ozon": "Read exact existing offer and ordered gallery; prepend verified new asset, move old first to second, preserve every remaining image and Rich Content.",
+    "wb": "Exact vendorCode 0am325025H, nmID 681503332; read current media, prepend new, preserve previous order, verify delivered pixels.",
+    "market": "Read exact offer mapping and existing pictures; change pictures only; preserve all other fields.",
+    "tilda": "Resolve live exact SKU and existing gallery before changing; do not use an append-only import if it cannot set order; preserve product details and old photos.",
+    "direct": "Update only the picture URL of exact SKU in feed 4061297 and source generator; keep offer ID, names, prices, links and campaign settings unchanged; verify published feed and ingestion."
+  },
+  "exclude": [
+    "Avito existing listings and Avito draft",
+    "0am325025HX and all other SKUs",
+    "prices",
+    "stock",
+    "text",
+    "video",
+    "other products"
+  ],
+  "preconditions": [
+    "Verify SHA256 of actual uploaded file against exact original, not a generated Avito version or another similar release asset.",
+    "Capture per-channel old gallery and current commercial fields before any write.",
+    "No duplicate of the approved cover; previous first becomes second, all remaining photos retain order.",
+    "Read back actual seller gallery and storefront where accessible; separately report pending moderation, failures and verified status."
+  ],
+  "status": "BLOCKED_IMAGE_TRANSFER_AND_LIVE_READBACK",
+  "seller_writes": 0
+}
