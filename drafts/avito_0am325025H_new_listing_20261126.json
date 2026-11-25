@@ -26,7 +26,7 @@
     "source": "data/exchange_items.json"
   },
   "gallery": {
-    "status": "SIX_EXISTING_FILES_SELECTED_NOT_UPLOADED",
+    "status": "SEVEN_EXISTING_FILES_SELECTED_NOT_UPLOADED",
     "cover_candidate": {
       "filename": "LEOPARTS_DQ200_Avito_original_4x3.png",
       "sha256": "f6878045d3ec3d9c67c9e158c3cb758ebb560983a401fb893eba512c8877f790",
@@ -78,6 +78,19 @@
       },
       {
         "position": 5,
+        "filename": "photo_2026-11-26 06.32.30.jpeg",
+        "sha256": "689c3d068983feff3a48924d3d88f6298bc021e1d533bb9d8b371a626eb850aa",
+        "dimensions": [
+          960,
+          1280
+        ],
+        "role": "Крупный план крышки мехатроника, маркировки VAG и предупреждающей наклейки",
+        "source": "owner original conversation attachment",
+        "library_file_ref": "file_000000002e8c8207bac9b3326aff73b5",
+        "repository_binary_uploaded": false
+      },
+      {
+        "position": 6,
         "filename": "Мехатроник: реальные отзывы покупателей.png",
         "sha256": "578322477df73a581ec7c7f3773389ea296cd89147427fcdc50daeec5cbc6f64",
         "dimensions": [
@@ -91,7 +104,7 @@
         "prepublication_check": "Verify exact review quotations, SKU, rating and source attribution; do not misrepresent Ozon reviews as Avito reviews."
       },
       {
-        "position": 6,
+        "position": 7,
         "filename": "Инфографика LEOPARTS АКПП: Как заказать.png",
         "sha256": "adbbeb15892c03549fad5f8f4c2b4d199f4d2ad48aa6234a7b091e31e963e083",
         "dimensions": [
@@ -134,7 +147,7 @@
     "blockers": [
       "Same SKU already has an active listing; verify compliant distinct offer before publishing",
       "No verified direct Avito cabinet draft endpoint in connected API",
-      "Six original-file bytes verified in working container; no binary uploads to repository or Avito performed",
+      "Seven gallery files selected; no binary uploads to repository or Avito performed",
       "Verify anonymized review infographic source, quotations and platform attribution; check delivery promise"
     ]
   },
