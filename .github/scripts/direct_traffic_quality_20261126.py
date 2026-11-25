@@ -188,7 +188,25 @@ def run():
             cost=total(cd,"Cost");detail=total(r,"Cost")
             result[label]={"from":lo,"to":hi,"campaign":aggregate(cd),"detail":scope_stats(r),"by_targeting":group(r,["CriterionType"],scope_stats),"by_group":group(r,["AdGroupId"],scope_stats),"by_group_targeting":group(r,["AdGroupId","CriterionType"],scope_stats),"unmatched_cost":amount(cost-detail) if cost is not None and detail is not None else None,"detail_coverage_pct":ratio(detail,cost,100)}
         after=[x for x in rows if x["Date"]>CHANGE and x["Date"]<deep.TODAY.isoformat()]
-        result["post_change"]={"full_days":max(0,(deep.TODAY-deep.TODAY.fromisoformat(CHANGE)).days-1),"status":"MONITORING" if len(after)<30 else "REVIEW","detail":scope_stats(after),"change_day_excluded":True,"note":"No causal inference; compare equal complete days once available."}
+        change_date=deep.TODAY.fromisoformat(CHANGE)
+        complete_after=max(0,(deep.TODAY-change_date).days-1)
+        # Before/after windows use the frozen pre-change export when the
+        # rolling report has moved past it; no zero-filled days outside launch.
+        baseline=load(BASE/"live_30d.json")
+        historical=triage(baseline["sections"]["queries"]["data"]["paid_rows"],prior)
+        active_dates=[x["Date"] for x in baseline["sections"]["daily"]["data"]["by_date"] if (value(x.get("Cost")) or 0)>0]
+        launch=min(active_dates) if active_dates else None
+        comparisons={}
+        for n in (3,7,14,30):
+            b0=(change_date-timedelta(days=n)).isoformat();b1=(change_date-timedelta(days=1)).isoformat()
+            a0=(change_date+timedelta(days=1)).isoformat();a1=(change_date+timedelta(days=n)).isoformat()
+            before=[x for x in historical if b0<=x["Date"]<=b1]
+            post=[x for x in rows if a0<=x["Date"]<=a1 and x["Date"]<deep.TODAY.isoformat()]
+            ready=complete_after>=n and a0>=deep.START.isoformat()
+            comparability=bool(launch and b0>=launch)
+            status="MONITORING" if not ready else ("REVIEW" if comparability else "INSUFFICIENT_COMPARABLE_BASELINE")
+            comparisons[str(n)]={"before_range":[b0,b1],"after_range":[a0,a1],"before":scope_stats(before),"after":scope_stats(post),"after_window_complete":ready,"before_active_coverage":comparability,"status":status}
+        result["post_change"]={"full_days":complete_after,"status":"MONITORING" if complete_after<3 else "REVIEW","detail":scope_stats(after),"change_day_excluded":True,"comparisons":comparisons,"note":"No causal inference. 14/30-day pre-change comparison may include pre-launch dates and is flagged. Historical baseline can differ due to delayed attribution."}
         return {"row_count":len(rows),"distinct_queries":len(set(x["Query"] for x in rows)),"windows":result,"top_mismatch":[x for x in sorted(group([r for r in rows if r["intent"] in CLEAR],["Query","intent"]),key=lambda r:r["Cost"] or 0,reverse=True)[:20]],"method":"exact prior review and conservative refinements; new queries not automatically excluded"}
     go("traffic",traffic)
     def direct_criteria():
