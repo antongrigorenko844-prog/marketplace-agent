@@ -46,9 +46,45 @@
           }
         ]
       }
+    },
+    {
+      "sku": "0AM927769N",
+      "kind": "category",
+      "status": "SUBMISSION_STARTED",
+      "before": 17712007,
+      "target": 71380208,
+      "target_parameters": [
+        {
+          "parameterId": 57046341,
+          "value": "Количество в упаковке, шт: 1\nЦвет товара: черный"
+        },
+        {
+          "parameterId": 7351754,
+          "value": "Прокладки электронной платы — 1 шт."
+        },
+        {
+          "parameterId": 200,
+          "value": "прокладка мех_0AM927769N_0AM927769N_0AM927769N_0AM927769N"
+        },
+        {
+          "parameterId": 21194330,
+          "valueId": 22269110,
+          "value": "комплект"
+        }
+      ],
+      "reviews": {
+        "available": true,
+        "count_at_least": 0,
+        "complete": true
+      },
+      "identity": {
+        "offerId": "0AM927769N",
+        "marketSku": 5840506209,
+        "groupId": "прокладка мех_0AM927769N_0AM927769N_0AM927769N_0AM927769N"
+      }
     }
   ],
-  "new_requests": 1,
+  "new_requests": 2,
   "registry": {
     "01X301127C": {
       "sku": "01X301127C",
@@ -17868,8 +17904,10 @@
         },
         "categories": {
           "target": 71380208,
-          "status": "ALREADY_OPTIMAL",
-          "verified_match": true
+          "status": "VERIFIED",
+          "verified_match": true,
+          "prior_submission": true,
+          "all_semantics_verified": true
         },
         "attributes": {
           "status": "BLOCKED_DOCUMENTS",
@@ -18914,5 +18952,5 @@
     "media": "market_design_tasks_20261126.json + exact preview assets"
   },
   "policy": "No document, brand, price, stock, barcode, ad, deletion, other marketplace writes.",
-  "updated_utc": "2026-11-25T17:58:51.022733+00:00"
+  "updated_utc": "2026-11-25T17:58:56.268740+00:00"
 }
