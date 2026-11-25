@@ -1,0 +1,187 @@
+name: LEOPARTS Market exact package facts and specifications 20261126
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/market-exact-facts-20261126.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  market-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+      YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Fill verified factual specifications only
+        run: |
+          cat > /tmp/market_exact_facts.py <<'PY'
+          import collections, copy, datetime, json, re, subprocess, time, unicodedata
+          from pathlib import Path
+          import market_full_seo_20261125 as s
+          import market_growth_recovery_20261125 as r
+          import yandex_market_client as ym
+          
+          ROOT=Path("data");OUT=ROOT/"market_exact_facts_20261126.json"
+          biz,cam=s.account();assert biz==194752944 and int(cam)==141377963
+          def load(p):return json.loads((ROOT/p).read_text())
+          def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+          def present(p):return p.get("valueId") is not None or bool(str(p.get("value") or "").strip())
+          def exists(c,pid):return any(present(x) for x in s.groups(c).get(pid,[]))
+          def g(c):return unicodedata.normalize("NFKC",str(c.get("groupId") or "")).strip().casefold()
+          def norm(p):return {"id":p.get("valueId"),"value":str(p.get("value") or "").strip() if not p.get("valueId") else None,"unit":p.get("unitId")}
+          def typed(c,omit=()):return {pid:sorted([norm(p) for p in vs if present(p)],key=s.canon) for pid,vs in s.groups(c).items() if pid not in omit and any(present(p) for p in vs)}
+          def match(c,p):return typed(c).get(p["parameterId"])==[norm(p)]
+          def protect(m,c,st):
+           v=r.protected(m,c,st);v["offer"].pop("mediaFiles",None);return v
+          def doc(c,st):
+           diag=(c.get("warnings") or [])+(c.get("errors") or [])+(st.get("warnings") or [])+(st.get("errors") or [])
+           return bool(re.search(r"сертификат|деклараци|документ|подлинност|отказное письмо|код тн вэд|маркировк",json.dumps(diag,ensure_ascii=False),re.I))
+          def read(ids):
+           m=s.index(s.batched_read(biz,"offer-mappings",ids),lambda x:x["offer"]["offerId"])
+           c=s.index(s.batched_read(biz,"offer-cards",ids),lambda x:x["offerId"])
+           st=s.campaign_status(cam,ids)
+           assert set(m)==set(c)==set(st)==set(ids)
+           return m,c,st
+          def stock(ids):
+           out={}
+           for i in range(0,len(ids),50):
+            z,b=ym._request("POST",f"/v2/campaigns/{cam}/stats/skus",json_body={"shopSkus":ids[i:i+50]},retries=1)
+            assert z==200 and b.get("status")=="OK"
+            for x in b.get("result",{}).get("shopSkus",[]):out[x["shopSku"]]=x.get("warehouses") or []
+           assert set(out)==set(ids)
+           return out
+          # Exact factual excerpts from owner-approved manifest, not inferred from seller SKU.
+          # For quantity only unambiguous sold unit/kit count, no guesses about number of packages.
+          facts={
+           "01X301127C":[("info","Длинный болт WHT001922 является отдельной позицией; полный комплект крепежа включает три коротких и четыре длинных болта.")],
+           "02e305045":[("info","Корпус — 1 шт., уплотнительное кольцо. Фильтрующий элемент приобретается отдельно.")],
+           "0am325025G":[("info","В наборе шесть деталей: два пыльника, два сальника и две крышки штоков."),("qty",6,"В наборе шесть деталей: два пыльника, два сальника и две крышки штоков.")],
+           "0am325025j":[("info","Комплект из трёх пластин для мехатроника DSG7 DQ200 (0AM/0CW): одна сепараторная пластина под гидроплиту и две пластины на соленоиды.")],
+           "0am325025l":[("info","Рабочая деталь механизма переключения передач, отличается от штока управления сцеплением. Сальник приобретается отдельно.")],
+           "0am325025q":[("info","В продаже одна крышка для обслуживания одного штока.")],
+           "0am325091f-set":[("qty",4,"В поставке 2 штока с дополнительным уплотнением и 2 втулки (гильзы).")],
+           "0AM325413A":[("info","Комплектация: сальник — 1 шт.")],
+           "0am325477ae":[("qty",1,"Комплектация: Пластина — 1 шт.")],
+           "0AM325473":[("info","Комплектация: Соленоиды — 4 шт. Гидроплита и мехатроник в сборе не входят.")],
+           "123014‑AF":[("qty",1,"Комплектация: Фильтр-сетка — 1 шт.")],
+           "filtr-setka-0b5-orig":[("info","Комплектация: Оригинальная сетка — 1 шт. Соленоид в сборе не входит."),("qty",1,"Комплектация: Оригинальная сетка — 1 шт.")],
+           "plastiny-solenoid-orig":[("info","Комплектация: Две оригинальные пластины. Сепараторная пластина 0AM325467J не входит.")],
+           "plita-filtr-pylniki-orig":[("qty",4,"Комплект из четырёх деталей.")],
+           "plita-pylniki-salniki":[("qty",5,"Пять деталей для ремонта гидравлической части и обслуживания двух штоков.")],
+           "podshipnik-vilki-6":[("info","Подшипник вилки 6-й передачи и заднего хода коробки DSG7 DQ200, 1 шт.")],
+           "porshni-usil-pylniki-kryshki-v2":[("qty",6,"В наборе шесть перечисленных деталей для ремонта имеющихся штоков.")],
+           "tolkateli-4-salniki-4":[("qty",8,"В поставку входят восемь перечисленных деталей для ремонта узла.")]
+          }
+          manifest=load("content_manifest.json")["products"]
+          m0,c0,st0=r.read_all(biz,cam);stock0=stock(list(m0))
+          arch=s.get_mappings(biz,True);aids=[x["offer"]["offerId"] for x in arch]
+          ac=s.batched_read(biz,"offer-cards",aids) if aids else []
+          assert {x["offerId"] for x in ac}==set(aids)
+          members=collections.defaultdict(list)
+          for k,c in list(c0.items())+[(x["offerId"],x) for x in ac]:
+           if g(c):members[g(c)].append(k)
+          old=load(OUT.name) if OUT.exists() else {}
+          d={"business_id":biz,"campaign_id":int(cam),"started_utc":now(),"source":"Exact current manifest and live description both contain evidence; missing fields only; no physical packaging assumptions","operations":old.get("operations",[]),"rows":{},"requests":0}
+          touched={x["sku"] for x in d["operations"]}
+          def save():
+           d["updated_utc"]=now();OUT.write_text(json.dumps(d,ensure_ascii=False,indent=2,default=str)+"\n")
+           subprocess.run(["bash",".github/scripts/save_data.sh",str(OUT)],check=True)
+          defs=s.definition_map(biz,71380208)
+          assert defs[7351754]["name"]=="Дополнительная информация" and defs[14805583]["name"]=="Единиц в одной упаковке"
+          def normalized(x):return " ".join(str(x or "").casefold().split())
+          def plan(k,m,c,st):
+           row=d["rows"][k];o=m["offer"]
+           if k in touched:return []
+           if st.get("status")!="PUBLISHED" or c.get("cardStatus")!="HAS_CARD_CAN_UPDATE" or doc(c,st) or s.catid(m,c)!=71380208 or (g(c) and members[g(c)]!=[k]):
+            row.update(status="BLOCKED",reason="Not independently editable or explicit document warning");return []
+           md=normalized(manifest.get(k,{}).get("text",{}).get("market",{}).get("description"))
+           live=normalized(o.get("description"))
+           target=[]
+           for f in facts[k]:
+            pid=7351754 if f[0]=="info" else 14805583
+            if exists(c,pid):continue
+            evidence=f[-1]
+            if normalized(evidence) not in md or normalized(evidence) not in live:
+             row.setdefault("unconfirmed",[]).append({"field":pid,"evidence":evidence});continue
+            if pid==7351754:p={"parameterId":pid,"value":evidence[0].lower()+evidence[1:]}
+            else:p={"parameterId":pid,"value":str(f[1]),"unitId":6145205}
+            if s.valid_value(p,defs[pid]):target.append(p)
+           row.update(status="READY" if target else "ALREADY_MATCHING_OR_UNCONFIRMED",target=target)
+           return target
+          for k in facts:
+           d["rows"][k]={"status":"CHECKED"}
+           if k in m0:plan(k,m0[k],c0[k],st0[k])
+           else:d["rows"][k].update(status="BLOCKED",reason="Missing exact SKU")
+          save()
+          ready=[k for k,x in d["rows"].items() if x["status"]=="READY"]
+          for ids in ([ready[:1]]+[ready[i:i+6] for i in range(1,len(ready),6)] if ready else []):
+           if not ids:continue
+           bm,bc,bs=read(ids);items=[];ops=[];before={}
+           for k in ids:
+            m,c,st=bm[k],bc[k],bs[k];patch=plan(k,m,c,st)
+            if not patch:continue
+            omit={p["parameterId"] for p in patch}
+            vals=[p for pid,vs in s.groups(c).items() if pid not in omit for p in vs]+patch
+            if any(present(p) and (p["parameterId"] not in defs or not s.valid_value(p,defs[p["parameterId"]])) for p in vals):
+             d["rows"][k].update(status="BLOCKED",reason="Existing schema value cannot be carried safely");continue
+            rec={"sku":k,"status":"SUBMISSION_STARTED","target":patch};d["operations"].append(rec);ops.append(rec)
+            before[k]=(protect(m,c,st),typed(c,omit),omit)
+            items.append({"offerId":k,"categoryId":71380208,"parameterValues":vals})
+           if not items:continue
+           d["requests"]+=1;save()
+           try:
+            resp=s.post(f"/v2/businesses/{biz}/offer-cards/update",{"offersContent":items},retries=1)
+            for rec in ops:rec.update(status="ACCEPTED",response=resp)
+            save()
+            for attempt in range(3):
+             if attempt:time.sleep(10)
+             am,cc,ss=read([x["sku"] for x in ops]);complete=True
+             for rec in ops:
+              k=rec["sku"];pre,others,omit=before[k]
+              drift=pre!=protect(am[k],cc[k],ss[k]) or others!=typed(cc[k],omit) or ss[k].get("status")!="PUBLISHED"
+              exact=all(match(cc[k],p) for p in rec["target"])
+              rec["checks"]={"protected_unchanged":not drift,"exact":exact,"card_status":cc[k].get("cardStatus"),"campaign_status":ss[k].get("status")}
+              rec["status"]="PROTECTED_DRIFT" if drift else "VERIFIED" if exact and cc[k].get("cardStatus")=="HAS_CARD_CAN_UPDATE" else "PENDING_MODERATION" if exact or cc[k].get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING" else "UNCONFIRMED"
+              if not drift and not exact:complete=False
+             if complete or any(x["status"]=="PROTECTED_DRIFT" for x in ops):break
+           except Exception as ex:
+            for rec in ops:rec.update(status="UNCONFIRMED",error=str(ex)[:250])
+           for rec in ops:d["rows"][rec["sku"]]["status"]=rec["status"]
+           save()
+           if any(x["status"]=="PROTECTED_DRIFT" for x in ops):break
+          ma,ca,sa=r.read_all(biz,cam);stocka=stock(list(ma))
+          d["before_counts"]=dict(collections.Counter(v.get("status") for v in st0.values()))
+          d["after_counts"]=dict(collections.Counter(v.get("status") for v in sa.values()))
+          d["stock_differences"]=[k for k in m0 if stock0.get(k)!=stocka.get(k)]
+          d["lost_publication"]=[k for k in m0 if st0[k].get("status")=="PUBLISHED" and sa.get(k,{}).get("status")!="PUBLISHED"]
+          d["protected_changes"]=[]
+          for k in m0:
+           try:
+            if protect(m0[k],c0[k],st0[k])!=protect(ma[k],ca[k],sa[k]):d["protected_changes"].append(k)
+           except Exception as ex:d["protected_changes"].append({"sku":k,"error":str(ex)[:150]})
+          for rec in d["operations"]:
+           k=rec["sku"]
+           if k not in ma or rec["status"]=="PROTECTED_DRIFT":continue
+           exact=all(match(ca[k],p) for p in rec["target"])
+           rec["final_readback"]={"exact":exact,"card_status":ca[k].get("cardStatus"),"campaign_status":sa[k].get("status")}
+           rec["status"]="VERIFIED" if exact and ca[k].get("cardStatus")=="HAS_CARD_CAN_UPDATE" and sa[k].get("status")=="PUBLISHED" else "PENDING_MODERATION" if exact or ca[k].get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING" else "UNCONFIRMED"
+           d["rows"][k]["status"]=rec["status"]
+          d["summary"]={"rows":dict(collections.Counter(v["status"] for v in d["rows"].values())),"saved_fields":sum(len(x["target"]) for x in d["operations"] if x.get("final_readback",{}).get("exact")),"requests":d["requests"]}
+          d["status"]="finished";d["finished_utc"]=now();save()
+          print(json.dumps(d["summary"],ensure_ascii=False))
+          PY
+          python -m py_compile /tmp/market_exact_facts.py
+          PYTHONPATH=.:scripts python /tmp/market_exact_facts.py
