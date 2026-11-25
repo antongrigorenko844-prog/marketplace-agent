@@ -1,0 +1,32 @@
+name: LEOPARTS WB advanced optimization (verified attributes and evidence)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/wb-advanced-optimization.yml
+      - data/wb_advanced_request_20261126.json
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  work:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    env:
+      WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+      WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - run: python -m unittest discover -s tests -p 'test_wb_identity_policy.py' -v
+      - run: python -m py_compile scripts/wb_advanced_audit.py
+      - run: PYTHONPATH=. python scripts/wb_advanced_audit.py
