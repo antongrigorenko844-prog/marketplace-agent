@@ -36,7 +36,7 @@ jobs:
           def load(p): return json.loads(Path("data/"+p).read_text())
           def counts(v): return dict(collections.Counter(v))
           def norm(v): return sorted(v or [],key=s.canon)
-          def digest(v): return hashlib.sha256(str(v or "").encode()).hexdigest()
+          def digest(v): return hashlib.sha256(json.dumps(v,ensure_ascii=False,sort_keys=True,default=str,separators=(",",":")).encode()).hexdigest()
           biz,cam=s.account()
           if biz!=194752944 or int(cam)!=141377963: raise ValueError("Wrong account")
           prior=load("market_final_execution_20261126.json")
