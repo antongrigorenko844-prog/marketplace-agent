@@ -1927,7 +1927,7 @@
           "unitId": 6145205
         }
       ],
-      "status": "ACCEPTED",
+      "status": "PENDING_MODERATION",
       "started_utc": "2026-11-25T18:10:07.545726+00:00",
       "allow_parameters": [
         14805583
@@ -2099,6 +2099,13 @@
       "source": "Approved exact facts or manifest; missing fields only",
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "exact": true,
+        "protected_diff": [],
+        "typed_diff": [],
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     }
   },
@@ -2280,7 +2287,7 @@
     },
     "target_saved": true
   },
-  "updated_utc": "2026-11-25T18:10:09.674348+00:00",
+  "updated_utc": "2026-11-25T18:10:24.270265+00:00",
   "group_checks": {
     "0AM927769E": {
       "kind": "group",
