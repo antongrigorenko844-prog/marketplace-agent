@@ -185,6 +185,7 @@ jobs:
              # Do not retroactively call drift on a historical operation; immediate checks below are strict.
            if op["status"]!="VERIFIED" or not exact:
             op["status"]=state(c,st,exact)
+            if op["kind"]=="category" and exact and c.get("cardStatus")=="HAS_CARD_CAN_UPDATE":op["status"]="VERIFIED"
             if op["kind"]=="group" and exact and c.get("cardStatus")=="HAS_CARD_CAN_UPDATE" and not any(x.get("message")=="Дубль варианта" for x in diags(c,st)):
              op["status"]="VERIFIED" if st.get("status")=="PUBLISHED" else "GROUP_VERIFIED_PUBLICATION_BLOCKED"
           for op in journal.values():
@@ -561,14 +562,26 @@ jobs:
            try:
             m,c,st=s.live(biz,cam,k) if any(m0[k]["offer"].get(f)!=t["new_"+f] for f in ("name","description") if "new_"+f in t) else (m0[k],c0[k],st0[k])
             fields={f:t["new_"+f] for f in ("name","description") if "new_"+f in t and m["offer"].get(f)!=t["new_"+f]}
-            if not fields or not eligible(c,st) or (key(c) and members.get(key(c))!=[k]):continue
-            op=newop("text",k,fields,allow_offer=list(fields),before_protected=protect(m,c,st,fields),before_typed=typed(c))
+            if not fields or not eligible(c,st):continue
+            # Content is independent of variant membership once the card is editable. Guard all related offers.
+            group_ids=members.get(key(c),[]) if key(c) else [k]
+            if k not in group_ids or any(v not in m0 for v in group_ids):continue
+            gm,gc,gs=read(group_ids)
+            if gm[k]["offer"].get("name")!=m["offer"].get("name") or gm[k]["offer"].get("description")!=m["offer"].get("description") or key(gc[k])!=key(c) or not eligible(gc[k],gs[k]):continue
+            op=newop("text",k,fields,allow_offer=list(fields),before_protected=protect(gm[k],gc[k],gs[k],fields),before_typed=typed(gc[k]))
+            related_before={v:{"protected":protect(gm[v],gc[v],gs[v]),"typed":typed(gc[v]),"campaign_status":gs[v].get("status")} for v in group_ids if v!=k}
             if not op:continue
             d["requests"]+=1;save()
             op["response"]=s.post(f"/v2/businesses/{biz}/offer-mappings/update",{"offerMappings":[{"offer":{"offerId":k,**fields}}]},retries=1);op["status"]="ACCEPTED";save()
-            a,b,z=s.live(biz,cam,k);p=delta(op["before_protected"],protect(a,b,z,fields));t=delta(op["before_typed"],typed(b))
-            exact=check(op,a,b,z);op["checks"]={"exact":exact,"protected_diff":p,"typed_diff":t,"card_status":b.get("cardStatus"),"campaign_status":z.get("status")}
-            op["status"]="PROTECTED_DRIFT" if p or t or z.get("status")!="PUBLISHED" else state(b,z,exact);save()
+            am,cc,ss=read(group_ids);a,b,z=am[k],cc[k],ss[k]
+            p=delta(op["before_protected"],protect(a,b,z,fields));t=delta(op["before_typed"],typed(b))
+            related={}
+            for v,old in related_before.items():
+             dif=delta(old["protected"],protect(am[v],cc[v],ss[v]))+delta(old["typed"],typed(cc[v]))
+             if old["campaign_status"]=="PUBLISHED" and ss[v].get("status")!="PUBLISHED":dif.append({"path":"publication","before":old["campaign_status"],"after":ss[v].get("status")})
+             if dif:related[v]=dif
+            exact=check(op,a,b,z);op["checks"]={"exact":exact,"protected_diff":p,"typed_diff":t,"related_group_diff":related,"card_status":b.get("cardStatus"),"campaign_status":z.get("status")}
+            op["status"]="PROTECTED_DRIFT" if p or t or related or z.get("status")!="PUBLISHED" else state(b,z,exact);save()
            except Exception as ex:d["errors"]["text:"+k]=str(ex)[:350];save()
           
           
@@ -651,6 +664,21 @@ jobs:
           # Media review: approved source A015 previously applied; no unapproved or old cache media resubmitted.
           d["media_review"]={"approved_existing":next((p["url"] for p in preview["records"] if p["id"]=="A015"),None),"new_writes":sum(op["kind"]=="media" and not op.get("legacy") for op in journal.values()),"inventory":d.get("fresh_media_inventory"),"reason":"Fresh read-only own Ozon gallery scan. Only exact visually reviewed hash-approved images may be appended."}
           d["disabled_diagnosis"]={k:{"stock":row["stock"],"category":row["category"],"group":row["group"],"reason":"document_warning" if row["document_warning"] else "duplicate_variant" if any(x.get("message")=="Дубль варианта" for x in row["diagnostics"]) else "explicit_diagnostic" if row["diagnostics"] else "specific_reason_not_returned","diagnostics":row["diagnostics"]} for k,row in d["registry"].items() if row["campaign_status"]=="DISABLED_AUTOMATICALLY"}
+          # This endpoint reports offers hidden by the seller only; never change this list.
+          try:
+           manual_hidden=[];token=None;seen=set()
+           for _ in range(10):
+            q={"limit":500}
+            if token:q["pageToken"]=token
+            code,res=ym._request("GET",f"/v2/campaigns/{cam}/hidden-offers",params=q,retries=1)
+            if code!=200 or res.get("status")!="OK":raise ValueError("Hidden offers read failed")
+            page=res["result"];manual_hidden.extend(x["offerId"] for x in page.get("hiddenOffers",[]))
+            token=(page.get("paging") or {}).get("nextPageToken")
+            if not token:break
+            if token in seen:raise ValueError("Hidden offer pagination repeated")
+            seen.add(token)
+           d["manual_hidden_readonly"]={"count":len(manual_hidden),"skus":manual_hidden,"intersection_with_automatic_disabled":sorted(set(manual_hidden)&set(d["disabled_diagnosis"]))}
+          except Exception as ex:d["errors"]["manual_hidden_readonly"]=str(ex)[:200]
           rated=[row["rating"] for row in d["registry"].values() if row["campaign_status"]=="PUBLISHED" and isinstance(row["rating"],(int,float))]
           d["rating_distribution"]={"rated":len(rated),"under_50":sum(v<50 for v in rated),"above_80":sum(v>80 for v in rated),"above_90":sum(v>90 for v in rated)}
           d["recommendations"]=count(x.get("type") for k,c in ca.items() if sa[k].get("status")=="PUBLISHED" for x in (c.get("recommendations") or []))
