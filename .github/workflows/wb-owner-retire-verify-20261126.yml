@@ -1,0 +1,132 @@
+name: LEOPARTS WB owner-confirmed sales holds
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/wb-owner-retire-verify-20261126.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+      WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Test exact retirement and content guards
+        run: |
+          python -m unittest discover -s tests -p 'test_wb_identity_policy.py' -v
+          python -m unittest discover -s tests -p 'test_content_pipeline.py' -v
+          python -m py_compile main.py wb_client.py wb_catalog_editor.py content_pipeline.py content_master_sync.py wb_identity_policy.py
+      - name: Apply zero stock only to the two exact held cards and verify
+        run: |
+          PYTHONPATH=. python - <<'PY'
+          import collections, datetime as dt, json, time, re, subprocess
+          from pathlib import Path
+          import wb_client as wb
+          from config import config
+          from wb_identity_policy import HELD, ACTIVE_BOARD, ACTIVE_GASKET
+          import content_manifest as cm
+          import sync_master_control as sm
+          ROOT=Path("data")
+          OUT=ROOT/"wb_owner_retire_result_20261126.json"
+          def now():return dt.datetime.now(dt.timezone.utc).isoformat()
+          assert sm._WB_FORCED_OZON_TO_VENDOR["0AM927769D"]=="0AM927769D-plata"
+          assert "Комплект прокладок" in cm.load()["0AM927769D"]["text"]["wb"]["description"]
+          assert "Электронная плата" in cm.load()["0AM927769D"]["text"]["ozon"]["description"]
+          original=wb._request
+          allowed_write=None
+          def guard(method,base,path,json_body=None,retries=1):
+              method=method.upper();clean=path.split("?")[0]
+              if method=="PUT":
+                  assert allowed_write==(base,path,json_body)
+                  assert base==config.wb_marketplace_base and re.fullmatch(r"/api/v3/stocks/\d+",clean)
+                  assert json_body and all(v["chrtId"] in {x["chrtID"] for x in HELD.values()} and v["amount"]==0 for v in json_body["stocks"])
+              else:
+                  assert (method=="POST" and (clean=="/content/v2/get/cards/list" or (base==config.wb_marketplace_base and re.fullmatch(r"/api/v3/stocks/\d+",clean)))) or (method=="GET" and clean in {"/api/v2/list/goods/filter","/api/v3/warehouses","/api/v1/supplier/stocks"}),(method,path)
+              return original(method,base,path,json_body,retries=1)
+          wb._request=guard
+          def cards():
+              a=wb.list_cards()
+              assert len({v["nmID"] for v in a})==len(a)
+              assert len({v["vendorCode"] for v in a})==len(a)
+              return {v["vendorCode"]:v for v in a}
+          before=cards()
+          for k,v in HELD.items():
+              c=before[k];assert c["nmID"]==v["nmID"]
+              assert len(c.get("sizes",[]))==1 and c["sizes"][0]["chrtID"]==v["chrtID"] and c["sizes"][0]["skus"]==[v["barcode"]]
+          for v in (ACTIVE_BOARD,ACTIVE_GASKET):assert before[v["vendorCode"]]["nmID"]==v["nmID"]
+          wh=wb.get_warehouses();assert isinstance(wh,list) and wh and all(x.get("id") for x in wh)
+          ids=sorted({int(s["chrtID"]) for c in before.values() for s in c.get("sizes",[]) if s.get("chrtID")})
+          def stocks():
+              out={}
+              for w in wh:
+                  k=str(w["id"]);j=wb._request("POST",config.wb_marketplace_base,"/api/v3/stocks/"+k,{"chrtIds":ids},retries=1)
+                  assert isinstance(j.get("stocks"),list)
+                  rr=j["stocks"]
+                  out[k]={int(x["chrtId"]):x["amount"] for x in rr}
+                  assert len(rr)==len(out[k])
+                  # Never infer absent stock as zero for a held or active identity.
+                  required={v["chrtID"] for v in HELD.values()}|{before[v["vendorCode"]]["sizes"][0]["chrtID"] for v in (ACTIVE_BOARD,ACTIVE_GASKET)}
+                  assert required<=set(out[k]),("Missing exact stock row",k)
+              return out
+          def prices():
+              return {v["nmID"]:v for v in wb.get_prices()}
+          sb=stocks();pb=prices()
+          target_ids={v["chrtID"] for v in HELD.values()}
+          d={"platform":"wb","started":now(),"policy":"wb_identity_policy.py","scope":"Two exact held identities, only FBS stock zero, no deletion or content changes","before_stock":{k:{sku:vv[v["chrtID"]] for sku,v in HELD.items()} for k,vv in sb.items()},"requests":[]}
+          def save():
+              OUT.write_text(json.dumps(d,ensure_ascii=False,indent=2)+"\n")
+              subprocess.run(["bash",".github/scripts/save_data.sh",str(OUT)],check=True)
+          # Persist intention, then write only actual nonzero held rows.
+          save()
+          for w,a in sb.items():
+              payload={"stocks":[{"chrtId":i,"amount":0} for i in sorted(target_ids) if a[i]!=0]}
+              if not payload["stocks"]:continue
+              endpoint="/api/v3/stocks/"+w
+              rec={"warehouse":w,"payload":payload,"status":"SUBMISSION_STARTED"};d["requests"].append(rec);save()
+              allowed_write=(config.wb_marketplace_base,endpoint,payload)
+              try:
+                  ack=wb._request("PUT",config.wb_marketplace_base,endpoint,payload,retries=1)
+                  rec.update(status="ACCEPTED",response=ack)
+              except Exception as ex:
+                  rec.update(status="UNCONFIRMED",error=str(ex)[:300])
+              finally:allowed_write=None
+              save()
+          for i in range(6):
+              if i:time.sleep(6)
+              sa=stocks()
+              if all(ss[n]==0 for ss in sa.values() for n in target_ids):break
+          ca=cards();pa=prices()
+          d["after_stock"]={k:{sku:vv[v["chrtID"]] for sku,v in HELD.items()} for k,vv in sa.items()}
+          d["other_stock_changes"]=[{"warehouse":k,"chrtId":n,"before":v,"after":sa.get(k,{}).get(n)} for k,vv in sb.items() for n,v in vv.items() if n not in target_ids and sa.get(k,{}).get(n)!=v]
+          d["price_changes"]=[n for n in sorted(set(pb)|set(pa)) if pb.get(n)!=pa.get(n)]
+          d["card_content_changes"]=[k for k in sorted(set(before)|set(ca)) if {x:v for x,v in before.get(k,{}).items() if x!="updatedAt"}!={x:v for x,v in ca.get(k,{}).items() if x!="updatedAt"}]
+          d["active_products"]={v["vendorCode"]:{"nmID":ca[v["vendorCode"]]["nmID"],"title":ca[v["vendorCode"]]["title"],"fbs_stock":sum(ss[ca[v["vendorCode"]]["sizes"][0]["chrtID"]] for ss in sa.values()),"price":(pa.get(v["nmID"],{}).get("sizes") or [{}])[0].get("discountedPrice")} for v in (ACTIVE_BOARD,ACTIVE_GASKET)}
+          d["held_cards"]={k:{"nmID":ca[k]["nmID"],"live_title":ca[k]["title"],"fbs_stock":sum(ss[v["chrtID"]] for ss in sa.values()),"card_retained":True} for k,v in HELD.items()}
+          # WB warehouse inventory is separate from seller FBS stock. Read it, never mutate it.
+          try:
+              raw=wb._request("GET",config.wb_statistics_base,"/api/v1/supplier/stocks?dateFrom=2020-01-01",retries=1)
+              if not isinstance(raw,list):raise ValueError("Unknown supplier stocks response")
+              found=[{f:x.get(f) for f in ("supplierArticle","nmId","warehouseName","quantity","quantityFull","inWayToClient","inWayFromClient")} for x in raw if x.get("supplierArticle") in HELD or str(x.get("nmId")) in {str(v["nmID"]) for v in HELD.values()}]
+              d["wb_warehouse_inventory"]={"available":True,"matched_rows":found,"positive_warehouse_stock":sum(max(0,x.get("quantity") or 0) for x in found),"note":"Supplier stocks endpoint reports WB warehouse stock; no positive returned row is not an independent public availability test."}
+          except Exception as ex:d["wb_warehouse_inventory"]={"available":False,"error":str(ex)[:250]}
+          d["fbs_verified_zero"]=all(ss[n]==0 for ss in sa.values() for n in target_ids)
+          d["finished"]=now()
+          d["status"]="VERIFIED_FBS_HOLDS" if d["fbs_verified_zero"] else "UNCONFIRMED"
+          save()
+          print(json.dumps({k:v for k,v in d.items() if k!="requests"},ensure_ascii=False),flush=True)
+          assert d["fbs_verified_zero"]
+          PY
