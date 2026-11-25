@@ -226,7 +226,29 @@
         "reason": "Та же фотография комплекта и практически та же информация, только другая раскладка макета.",
         "checked_utc": "2026-11-25T18:17:15.275692+00:00",
         "source": "actual current Market/Ozon visual sheet reviewed"
-      }
+      },
+      "cross_channel_review": [
+        {
+          "sku": "0am325025m",
+          "id": "M001",
+          "url": "https://basket-32.wbbasket.ru/vol6708/part670862/670862784/images/big/2.webp",
+          "sha256": "3c32d2cdbb1e64716455b9340d32c5c3ed6af3c04ac28d396a3bc57eee250664",
+          "source": "current exact-SKU own Wildberries gallery",
+          "status": "APPROVED_APPEND",
+          "reason": "Другой ракурс и расположение деталей того же ремкомплекта без гидроплиты; текст о комплектации соответствует SKU, рекламных обещаний и чужих логотипов нет.",
+          "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+        },
+        {
+          "sku": "0am325025m",
+          "id": "M002",
+          "url": "https://basket-32.wbbasket.ru/vol6708/part670862/670862784/images/big/3.webp",
+          "sha256": "a14a9aaa4140927c5f399e7fab6025cbadc37146596f8219b7ee4c5b9d043c84",
+          "source": "current exact-SKU own Wildberries gallery",
+          "status": "REDUNDANT",
+          "reason": "Те же компоненты и изображение обложки в серой цветовой версии; дополнительной информации нет.",
+          "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+        }
+      ]
     },
     {
       "sku": "0am325025n",
@@ -674,7 +696,49 @@
       "existing": 1,
       "priority": "high",
       "candidates": [],
-      "task": "Подготовить оригинальные фотографии именно этого SKU: общий вид, обратная сторона, разъёмы/маркировка/размеры, реальная комплектация; инфографика только подтверждённых характеристик. Не добавлять логотип магазина, скидки, рекламные обещания; состояние и количество строго по SKU."
+      "task": "Только комплект 6 соленоидов Gen1. Сохранить актуальную утвержденную обложку. Запросить реальные дополнительные ракурсы шести клапанов без возвращения старых версий на семь штук.",
+      "cross_channel_review": [
+        {
+          "sku": "6t30",
+          "id": "M003",
+          "url": "https://basket-57.wbbasket.ru/vol22541/part2254117/2254117475/images/big/1.webp",
+          "sha256": "b0b35ea659fa891ab935b961a01d14c4856e1807a47476edc28c3480e855d415",
+          "source": "current exact-SKU own Wildberries gallery",
+          "status": "REDUNDANT",
+          "reason": "Та же утвержденная обложка Gen1 с 6 соленоидами, повторно не добавлять.",
+          "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+        },
+        {
+          "sku": "6t30",
+          "id": "M004",
+          "url": "https://static.tildacdn.com/stor6237-3434-4165-b732-313734653666/63ec681dc317124d6b0e3c8983ab8471.png",
+          "sha256": "25a8ec5df9563485a19c69e2d58c3a694bcc751940570552c50161652607fa7d",
+          "source": "current exact-SKU own Tilda gallery",
+          "status": "OUTDATED_WRONG_QUANTITY",
+          "reason": "Старый слайд показывает 7 соленоидов, а также содержит утверждения о новизне и работоспособности. Не возвращать.",
+          "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+        },
+        {
+          "sku": "6t30",
+          "id": "M005",
+          "url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/photos/media-three-20261116/6t30-preview.png",
+          "sha256": "f21b3fb17a43a6604a7ce0e6b0243b6024c539e9c739f6c15a994d0c6229ea8c",
+          "source": "current exact-SKU own Tilda gallery",
+          "status": "OUTDATED_WRONG_QUANTITY",
+          "reason": "Старая инфографика прямо указывает 7 соленоидов вместо 6.",
+          "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+        },
+        {
+          "sku": "6t30",
+          "id": "M006",
+          "url": "https://static.tildacdn.com/stor6265-3736-4735-b363-363061343166/d8a2d2f63ed887e059d4c826aa3691b1.jpg",
+          "sha256": "20cea0c4a021ffd95450112dd4ad41776074519a3be22d37a7d74058d5e33c85",
+          "source": "current exact-SKU own Tilda gallery",
+          "status": "OUTDATED_WRONG_QUANTITY",
+          "reason": "Старая обложка Gen1 с 7 соленоидами вместо 6; владелец ранее удалял эту версию.",
+          "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+        }
+      ]
     },
     {
       "sku": "02E 305 045",
@@ -705,7 +769,19 @@
           "reason": "Дубликат существующего изображения по визуальному сравнению."
         }
       ],
-      "task": "Подготовить оригинальные фотографии именно этого SKU: общий вид, обратная сторона, разъёмы/маркировка/размеры, реальная комплектация; инфографика только подтверждённых характеристик. Не добавлять логотип магазина, скидки, рекламные обещания; состояние и количество строго по SKU."
+      "task": "Подготовить оригинальные фотографии именно этого SKU: общий вид, обратная сторона, разъёмы/маркировка/размеры, реальная комплектация; инфографика только подтверждённых характеристик. Не добавлять логотип магазина, скидки, рекламные обещания; состояние и количество строго по SKU.",
+      "cross_channel_review": [
+        {
+          "sku": "123014‑AF",
+          "id": "M011",
+          "url": "https://static.tildacdn.com/stor6361-6666-4565-b837-353263386330/6525432bfca43cded341e070c3f06935.png",
+          "sha256": "37e86eea8511a0945e276fdf57e56744dcedffb658500709f62ea0ddcbb9225b",
+          "source": "current exact-SKU own Tilda gallery",
+          "status": "WRONG_ORIGINALITY",
+          "reason": "Кандидат помечен «Оригинал», а точный SKU 123014-AF является аналогом. Не менять достоверность.",
+          "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+        }
+      ]
     },
     {
       "sku": "Dq200dsg7",
@@ -802,7 +878,19 @@
           "reason": "Не утверждено для Маркета после визуального просмотра: проверить устаревшие утверждения, водяные знаки, состав и состояние товара. Не загружать без новой проверки."
         }
       ],
-      "task": "Подготовить оригинальные фотографии именно этого SKU: общий вид, обратная сторона, разъёмы/маркировка/размеры, реальная комплектация; инфографика только подтверждённых характеристик. Не добавлять логотип магазина, скидки, рекламные обещания; состояние и количество строго по SKU."
+      "task": "Подготовить дополнительные фото точного ребристого корпуса 0BH325183B, его резьбы и посадочного места. Не использовать гладкий 0BH325159.",
+      "cross_channel_review": [
+        {
+          "sku": "Dq500",
+          "id": "M008",
+          "url": "https://static.tildacdn.com/stor3939-3439-4232-b161-376333326531/6545c9ac6e66ec2007142850ea3a16bf.jpg",
+          "sha256": "34d94b6ab7030c1f8d117e0cc09736ce6b3c2bdef9e8e82026c881831908ac78",
+          "source": "current exact-SKU own Tilda gallery",
+          "status": "WRONG_SKU",
+          "reason": "На фото серебристый гладкий корпус и номер 0BH325159, а карточка относится к 0BH325183B. Не смешивать исполнения.",
+          "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+        }
+      ]
     },
     {
       "sku": "DQ500",
@@ -897,7 +985,29 @@
           "reason": "Дубликат существующего изображения по визуальному сравнению."
         }
       ],
-      "task": "Подготовить оригинальные фотографии именно этого SKU: общий вид, обратная сторона, разъёмы/маркировка/размеры, реальная комплектация; инфографика только подтверждённых характеристик. Не добавлять логотип магазина, скидки, рекламные обещания; состояние и количество строго по SKU."
+      "task": "Добавить реальные фотографии обеих сторон точной оригинальной сетки, крупный план маркировки и посадочного контура; убрать коммерческие скидки из будущих слайдов.",
+      "cross_channel_review": [
+        {
+          "sku": "filtr-setka-0b5-orig",
+          "id": "M009",
+          "url": "https://basket-53.wbbasket.ru/vol19498/part1949842/1949842440/images/big/2.webp",
+          "sha256": "8ffb8b15ae2ff0ff0701881895998216cf05cdbb0b65726dfd99e15dbdbdc9e3",
+          "source": "current exact-SKU own Wildberries gallery",
+          "status": "POLICY",
+          "reason": "Фото фильтра сопровождается рекламой оптовой скидки.",
+          "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+        },
+        {
+          "sku": "filtr-setka-0b5-orig",
+          "id": "M010",
+          "url": "https://basket-53.wbbasket.ru/vol19498/part1949842/1949842440/images/big/3.webp",
+          "sha256": "47f3aebc69c652a4d2aa2436e7ffdfaebf25a11a4f36c8d405ad763495a73e8e",
+          "source": "current exact-SKU own Wildberries gallery",
+          "status": "POLICY",
+          "reason": "Старый слайд с оптовой скидкой и рекламными утверждениями.",
+          "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+        }
+      ]
     },
     {
       "sku": "gidroakkumulyator-orig",
@@ -1321,7 +1431,19 @@
           "reason": "Не утверждено для Маркета после визуального просмотра: проверить устаревшие утверждения, водяные знаки, состав и состояние товара. Не загружать без новой проверки."
         }
       ],
-      "task": "Подготовить оригинальные фотографии именно этого SKU: общий вид, обратная сторона, разъёмы/маркировка/размеры, реальная комплектация; инфографика только подтверждённых характеристик. Не добавлять логотип магазина, скидки, рекламные обещания; состояние и количество строго по SKU."
+      "task": "Сверить точный OEM на детали и упаковке до подготовки фото: действующее изображение 0AM321371, другой канал 0AM310189B. Не подменять исполнения.",
+      "cross_channel_review": [
+        {
+          "sku": "salnikvhod",
+          "id": "M012",
+          "url": "https://basket-53.wbbasket.ru/vol19498/part1949870/1949870656/images/big/2.webp",
+          "sha256": "91c3992beb2eff4105ffac88d5f3150dea181aea6245673677bfee6264f642a3",
+          "source": "current exact-SKU own Wildberries gallery",
+          "status": "WRONG_SKU",
+          "reason": "На кандидате другой номер 0AM310189B и другая форма детали; действующая карточка содержит 0AM321371. Не переносить без проверки фактических номеров.",
+          "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+        }
+      ]
     },
     {
       "sku": "salnikvihod",
@@ -1434,7 +1556,19 @@
         "reason": "Действующая обложка Маркета ошибочно называется «Прокладка мехатроника», хотя показывает четыре соленоида. Кандидат содержит рекламный штамп «100% рабочие» и заявление об оригинальности.",
         "checked_utc": "2026-11-25T18:17:15.275692+00:00",
         "source": "actual current Market/Ozon visual sheet reviewed"
-      }
+      },
+      "cross_channel_review": [
+        {
+          "sku": "0AM325473",
+          "id": "M007",
+          "url": "https://static.tildacdn.com/stor3231-3166-4462-a662-623439333438/88840d149a216dc3ffb8bda73b3ba6f0.jpg",
+          "sha256": "1d88443a0034113bcde88a7e9e54ff6affa25c8894051329ff3e8fecdb37a8a9",
+          "source": "current exact-SKU own Tilda gallery",
+          "status": "UNSUPPORTED_CLAIMS",
+          "reason": "Точная фотография четырех соленоидов Hiltie, но на слайде присутствует «100% рабочие». Существующее критическое задание на исправление обложки сохраняется.",
+          "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+        }
+      ]
     }
   ],
   "current_ozon_review": {
@@ -1515,6 +1649,139 @@
         "sha256": "c2c355b3c286ef974a7ce4d1f88b9352f6e76ab33f10dd4543e781a9063bd59c",
         "status": "POLICY_AND_VERSION",
         "reason": "Штамп «оригинал», сравнение «не Китай», маркетинговые фразы; вместо старой обложки нужны полезные реальные ракурсы."
+      }
+    ]
+  },
+  "cross_channel_review": {
+    "checked_utc": "2026-11-25T18:28:01.896213+00:00",
+    "scanned": {
+      "Ozon": 68,
+      "Wildberries": 62,
+      "Tilda": 67
+    },
+    "candidates": 260,
+    "reviewed": 12,
+    "approved": 1,
+    "decisions": [
+      {
+        "sku": "0am325025m",
+        "id": "M001",
+        "url": "https://basket-32.wbbasket.ru/vol6708/part670862/670862784/images/big/2.webp",
+        "sha256": "3c32d2cdbb1e64716455b9340d32c5c3ed6af3c04ac28d396a3bc57eee250664",
+        "source": "current exact-SKU own Wildberries gallery",
+        "status": "APPROVED_APPEND",
+        "reason": "Другой ракурс и расположение деталей того же ремкомплекта без гидроплиты; текст о комплектации соответствует SKU, рекламных обещаний и чужих логотипов нет.",
+        "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+      },
+      {
+        "sku": "0am325025m",
+        "id": "M002",
+        "url": "https://basket-32.wbbasket.ru/vol6708/part670862/670862784/images/big/3.webp",
+        "sha256": "a14a9aaa4140927c5f399e7fab6025cbadc37146596f8219b7ee4c5b9d043c84",
+        "source": "current exact-SKU own Wildberries gallery",
+        "status": "REDUNDANT",
+        "reason": "Те же компоненты и изображение обложки в серой цветовой версии; дополнительной информации нет.",
+        "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+      },
+      {
+        "sku": "6t30",
+        "id": "M003",
+        "url": "https://basket-57.wbbasket.ru/vol22541/part2254117/2254117475/images/big/1.webp",
+        "sha256": "b0b35ea659fa891ab935b961a01d14c4856e1807a47476edc28c3480e855d415",
+        "source": "current exact-SKU own Wildberries gallery",
+        "status": "REDUNDANT",
+        "reason": "Та же утвержденная обложка Gen1 с 6 соленоидами, повторно не добавлять.",
+        "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+      },
+      {
+        "sku": "6t30",
+        "id": "M004",
+        "url": "https://static.tildacdn.com/stor6237-3434-4165-b732-313734653666/63ec681dc317124d6b0e3c8983ab8471.png",
+        "sha256": "25a8ec5df9563485a19c69e2d58c3a694bcc751940570552c50161652607fa7d",
+        "source": "current exact-SKU own Tilda gallery",
+        "status": "OUTDATED_WRONG_QUANTITY",
+        "reason": "Старый слайд показывает 7 соленоидов, а также содержит утверждения о новизне и работоспособности. Не возвращать.",
+        "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+      },
+      {
+        "sku": "6t30",
+        "id": "M005",
+        "url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/photos/media-three-20261116/6t30-preview.png",
+        "sha256": "f21b3fb17a43a6604a7ce0e6b0243b6024c539e9c739f6c15a994d0c6229ea8c",
+        "source": "current exact-SKU own Tilda gallery",
+        "status": "OUTDATED_WRONG_QUANTITY",
+        "reason": "Старая инфографика прямо указывает 7 соленоидов вместо 6.",
+        "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+      },
+      {
+        "sku": "6t30",
+        "id": "M006",
+        "url": "https://static.tildacdn.com/stor6265-3736-4735-b363-363061343166/d8a2d2f63ed887e059d4c826aa3691b1.jpg",
+        "sha256": "20cea0c4a021ffd95450112dd4ad41776074519a3be22d37a7d74058d5e33c85",
+        "source": "current exact-SKU own Tilda gallery",
+        "status": "OUTDATED_WRONG_QUANTITY",
+        "reason": "Старая обложка Gen1 с 7 соленоидами вместо 6; владелец ранее удалял эту версию.",
+        "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+      },
+      {
+        "sku": "0AM325473",
+        "id": "M007",
+        "url": "https://static.tildacdn.com/stor3231-3166-4462-a662-623439333438/88840d149a216dc3ffb8bda73b3ba6f0.jpg",
+        "sha256": "1d88443a0034113bcde88a7e9e54ff6affa25c8894051329ff3e8fecdb37a8a9",
+        "source": "current exact-SKU own Tilda gallery",
+        "status": "UNSUPPORTED_CLAIMS",
+        "reason": "Точная фотография четырех соленоидов Hiltie, но на слайде присутствует «100% рабочие». Существующее критическое задание на исправление обложки сохраняется.",
+        "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+      },
+      {
+        "sku": "Dq500",
+        "id": "M008",
+        "url": "https://static.tildacdn.com/stor3939-3439-4232-b161-376333326531/6545c9ac6e66ec2007142850ea3a16bf.jpg",
+        "sha256": "34d94b6ab7030c1f8d117e0cc09736ce6b3c2bdef9e8e82026c881831908ac78",
+        "source": "current exact-SKU own Tilda gallery",
+        "status": "WRONG_SKU",
+        "reason": "На фото серебристый гладкий корпус и номер 0BH325159, а карточка относится к 0BH325183B. Не смешивать исполнения.",
+        "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+      },
+      {
+        "sku": "filtr-setka-0b5-orig",
+        "id": "M009",
+        "url": "https://basket-53.wbbasket.ru/vol19498/part1949842/1949842440/images/big/2.webp",
+        "sha256": "8ffb8b15ae2ff0ff0701881895998216cf05cdbb0b65726dfd99e15dbdbdc9e3",
+        "source": "current exact-SKU own Wildberries gallery",
+        "status": "POLICY",
+        "reason": "Фото фильтра сопровождается рекламой оптовой скидки.",
+        "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+      },
+      {
+        "sku": "filtr-setka-0b5-orig",
+        "id": "M010",
+        "url": "https://basket-53.wbbasket.ru/vol19498/part1949842/1949842440/images/big/3.webp",
+        "sha256": "47f3aebc69c652a4d2aa2436e7ffdfaebf25a11a4f36c8d405ad763495a73e8e",
+        "source": "current exact-SKU own Wildberries gallery",
+        "status": "POLICY",
+        "reason": "Старый слайд с оптовой скидкой и рекламными утверждениями.",
+        "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+      },
+      {
+        "sku": "123014‑AF",
+        "id": "M011",
+        "url": "https://static.tildacdn.com/stor6361-6666-4565-b837-353263386330/6525432bfca43cded341e070c3f06935.png",
+        "sha256": "37e86eea8511a0945e276fdf57e56744dcedffb658500709f62ea0ddcbb9225b",
+        "source": "current exact-SKU own Tilda gallery",
+        "status": "WRONG_ORIGINALITY",
+        "reason": "Кандидат помечен «Оригинал», а точный SKU 123014-AF является аналогом. Не менять достоверность.",
+        "checked_utc": "2026-11-25T18:28:01.896213+00:00"
+      },
+      {
+        "sku": "salnikvhod",
+        "id": "M012",
+        "url": "https://basket-53.wbbasket.ru/vol19498/part1949870/1949870656/images/big/2.webp",
+        "sha256": "91c3992beb2eff4105ffac88d5f3150dea181aea6245673677bfee6264f642a3",
+        "source": "current exact-SKU own Wildberries gallery",
+        "status": "WRONG_SKU",
+        "reason": "На кандидате другой номер 0AM310189B и другая форма детали; действующая карточка содержит 0AM321371. Не переносить без проверки фактических номеров.",
+        "checked_utc": "2026-11-25T18:28:01.896213+00:00"
       }
     ]
   }
