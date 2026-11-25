@@ -1,0 +1,84 @@
+name: LEOPARTS Market resume read-only verification 20261126
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/market-resume-audit-20261126.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  market-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+      YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Read current catalog, verify previous writes and investigate photo drift
+        run: |
+          PYTHONPATH=.:scripts python - <<'PY'
+          import collections, datetime, hashlib, json
+          from pathlib import Path
+          import market_full_seo_20261125 as s
+          import market_growth_recovery_20261125 as r
+          import yandex_market_client as ym
+          def load(p): return json.loads(Path("data/"+p).read_text())
+          def counts(v): return dict(collections.Counter(v))
+          def norm(v): return sorted(v or [],key=s.canon)
+          def digest(v): return hashlib.sha256(str(v or "").encode()).hexdigest()
+          biz,cam=s.account()
+          if biz!=194752944 or int(cam)!=141377963: raise ValueError("Wrong account")
+          prior=load("market_final_execution_20261126.json")
+          photo=load("market_safe_finish_20261126.json")
+          cp=load("market_content_enrichment_plan_20261126.json")
+          legacy=load("market_final_readback_20261125.json")["rows"]
+          desc=load("market_description_readback_20261126.json")["rows"]
+          ca=load("market_current_card_audit_20261125.json")["rows"]
+          m,c,st=r.read_all(biz,cam)
+          stock={}
+          for i in range(0,len(m),50):
+              ids=list(m)[i:i+50]
+              code,z=ym._request("POST",f"/v2/campaigns/{cam}/stats/skus",json_body={"shopSkus":ids},retries=1)
+              if code!=200 or z.get("status")!="OK": raise ValueError("Stock read failed")
+              for x in z.get("result",{}).get("shopSkus",[]): stock[x["shopSku"]]=x.get("warehouses") or []
+          if set(stock)!=set(m): raise ValueError("Incomplete stock read")
+          def available(k): return sum(v.get("count",0) for w in stock[k] for v in w.get("stocks",[]) if v.get("type")=="AVAILABLE")
+          def price(v): return {k:v.get(k) for k in ("value","currencyId","discountBase")} if isinstance(v,dict) else v
+          def warnings(k): return (st[k].get("warnings") or [])+(c[k].get("warnings") or [])
+          def errors(k): return (st[k].get("errors") or [])+(c[k].get("errors") or [])
+          def summary(k):
+              o=m[k]["offer"]; return {"name":o.get("name"),"status":st[k].get("status"),"card_status":c[k].get("cardStatus"),"category":s.catid(m[k],c[k]),"group":c[k].get("groupId"),"available":available(k),"price":price(st[k].get("basicPrice")),"warnings":warnings(k),"errors":errors(k)}
+          result={"checked_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),"business_id":biz,"campaign_id":int(cam),"market_mutations":0,"counts":counts(z.get("status") for z in st.values()),"coverage":len(m),"content":{},"attributes":{},"categories":{},"disabled":{}}
+          for k,t in cp["rows"].items():
+              if k not in m: result["content"][k]={"status":"missing"};continue
+              fields={f:m[k]["offer"].get(f)==t["new_"+f] for f in ("name","description") if "new_"+f in t}
+              status="verified" if all(fields.values()) and c[k].get("cardStatus")=="HAS_CARD_CAN_UPDATE" and st[k].get("status")=="PUBLISHED" else "saved_pending_review" if all(fields.values()) and st[k].get("status")=="PUBLISHED" else "blocked_or_unconfirmed"
+              result["content"][k]={"status":status,"fields":fields,**summary(k)}
+              result["content"][k]["status"]=status
+          for k,row in prior["attributes"].items():
+              if k not in m: continue
+              vals={pid:r.value_matches(c[k],v["target"]) for pid,v in row["fields"].items()}
+              result["attributes"][k]={"saved":vals,"card_status":c[k].get("cardStatus")}
+          for k,row in prior["categories"].items():
+              if k in m: result["categories"][k]={**summary(k),"target":row["target"],"category_matches":s.catid(m[k],c[k])==row["target"]}
+          for k,z in st.items():
+              if z.get("status")=="DISABLED_AUTOMATICALLY": result["disabled"][k]=summary(k)
+          k="0AM325025B"; o=m[k]["offer"]; old=legacy[k]; rec=photo["operations"][0]
+          checks={"gallery_exact":o.get("pictures")==rec["after_expected"],"identity_unchanged_vs_legacy":s.identity(m[k],c[k])==old["identity"],"model_unchanged_vs_legacy":r.model(m[k],c[k])==old["model"],"category_unchanged_vs_legacy":s.catid(m[k],c[k])==old["category"],"name_unchanged_vs_description_readback":o.get("name")==desc[k]["name"],"description_hash_unchanged_vs_description_readback":digest(o.get("description"))==desc[k]["actual_hash"],"price_unchanged_vs_legacy":price(st[k].get("basicPrice"))==price(old["price"]),"price_unchanged_vs_card_audit":price(st[k].get("basicPrice")).get("value")==ca[k]["price"],"params_unchanged_vs_legacy":norm(c[k].get("parameterValues"))==norm(old["parameterValues"]),"ugc_unchanged_vs_legacy":o.get("ugc")==old.get("ugc"),"stock_unchanged_vs_last_execution":stock[k]==prior.get("stock_after",{}).get("stocks",{}).get(k),"publication_unchanged":st[k].get("status")=="PUBLISHED"}
+          result["photo"]={"sku":k,"checks":checks,"current":summary(k),"identity":s.identity(m[k],c[k]),"model":r.model(m[k],c[k]),"current_pictures":o.get("pictures"),"media_upload_states":[x.get("uploadState") for x in (o.get("mediaFiles") or {}).get("pictures",[])],"parameterValues":c[k].get("parameterValues"),"ugc":o.get("ugc"),"legacy_baseline_note":"Earlier snapshots, not the exact immediately-before photo payload. Cannot establish cause of all drift."}
+          result["summary"]={"content":counts(v["status"] for v in result["content"].values()),"attributes_saved":sum(v for a in result["attributes"].values() for v in a["saved"].values()),"disabled":len(result["disabled"]),"disabled_available_units":sum(v["available"] for v in result["disabled"].values()),"lost_publication_since_final_execution":[k for k,v in prior["content"].items() if v.get("campaign_status")=="PUBLISHED" and st.get(k,{}).get("status")!="PUBLISHED"],"remaining_category_count":sum(not v["category_matches"] and v["status"]!="DISABLED_BY_PARTNER" for v in result["categories"].values())}
+          Path("data/market_resume_audit_20261126.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n")
+          print(json.dumps({"summary":result["summary"],"counts":result["counts"],"photo_checks":checks},ensure_ascii=False))
+          PY
+          bash .github/scripts/save_data.sh data/market_resume_audit_20261126.json
