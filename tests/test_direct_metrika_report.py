@@ -60,16 +60,21 @@ class MetricaSummarySafetyTests(unittest.TestCase):
         metrika={"visits":22,"goal_visits":{675272284:1,675487735:7,
                 682257540:0,675506966:0,675507028:0,685988392:2,686020680:1},
                  "attribution":"all_ads_sitewide","sampled":False}
+        exact=direct_tools.commercial.commercial_summary(
+            [{"dimensions":[{"id":str(CID)}],"metrics":[237,1,40416.25,0,11]}],
+            1,False,date(2026,11,16),date(2026,11,25))
         with patch.dict(direct_tools.os.environ,{"YANDEX_DIRECT_TOKEN":"d",
                                                  "YANDEX_METRIKA_TOKEN":"m"}), \
              patch.object(direct_tools,"_report",side_effect=fake_direct), \
              patch.object(direct_tools,"_metrika_paid_summary",return_value=metrika) as read, \
              patch.object(direct_tools,"_metrika_utm_campaign_summary",return_value=metrika) as read_utm, \
+             patch.object(direct_tools,"_metrika_direct_campaign_summary",return_value=exact) as read_exact, \
              patch.object(direct_tools,"_tg_owner") as send:
             ok=direct_tools.cmd_direct_report()
         self.assertEqual(ok,0)
         self.assertEqual(read.call_count,2)
         self.assertEqual(read_utm.call_count,2)
+        self.assertEqual(read_exact.call_count,2)
         m=send.call_args.args[0]
         self.assertIn("Метрика",m)
         self.assertIn("все рекламные визиты сайта",m)
@@ -82,6 +87,9 @@ class MetricaSummarySafetyTests(unittest.TestCase):
         self.assertIn("Начало оплаты (не покупка) 2",m)
         self.assertIn("промежуточное событие",m)
         self.assertIn("не подтверждают оплату",m)
+        self.assertIn("атрибуция по ID кампании 716316525",m)
+        self.assertIn("известные неоплаченные заказы 1",m)
+        self.assertIn("Сумма Ecommerce — не оплаченная выручка",m)
         self.assertNotIn("(заявка ",m)
     def test_utm_campaign_aggregates_only_expected_yandex_traffic(self):
         response = Mock(status_code=200)
@@ -129,6 +137,7 @@ class MetricaSummarySafetyTests(unittest.TestCase):
              patch.object(direct_tools,"_report",side_effect=fake_report), \
              patch.object(direct_tools,"_metrika_paid_summary",
                           side_effect=RuntimeError("sensitive")) as read, \
+             patch.object(direct_tools,"_metrika_direct_campaign_summary",side_effect=RuntimeError("sensitive")), \
              patch.object(direct_tools,"_tg_owner") as send:
             self.assertEqual(direct_tools.cmd_direct_report(),0)
         msg=send.call_args.args[0]
