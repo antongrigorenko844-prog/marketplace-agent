@@ -1,0 +1,40 @@
+name: LEOPARTS new DQ200 Avito ordinary moderation submission
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/avito-dq200-submit-20261126.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Validate script syntax
+        run: python -m py_compile scripts/avito_dq200_submit_20261126.py
+      - name: Submit only new approved listing using separate normal autoload source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: python -u scripts/avito_dq200_submit_20261126.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: avito-dq200-submission-${{ github.run_id }}
+          path: data/avito_dq200_new_20261126_result.json
+          if-no-files-found: warn
+          retention-days: 14
