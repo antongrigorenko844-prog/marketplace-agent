@@ -18,6 +18,7 @@ jobs:
     timeout-minutes: 12
     env:
       WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+      WB_ANALYTICS_TOKEN: ${{ secrets.WB_ANALYTICS_TOKEN }}
       WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
     steps:
       - uses: actions/checkout@v4
@@ -48,16 +49,24 @@ jobs:
           def now():return dt.datetime.now(dt.timezone.utc).isoformat()
           d={"version":1,"platform":"wb","started":now(),"marketplace_writes":0,"api":{},"errors":{},"rows":{}}
           token=os.environ["WB_API_TOKEN"]
+          analytics_token=os.environ.get("WB_ANALYTICS_TOKEN","").strip()
+          analytics_hosts={"analytics","finance","advert","feedback"}
+          d["credentials"]={"operational_token_present":bool(token),"analytics_token_present":bool(analytics_token),"analytics_hosts":sorted(analytics_hosts)}
           # All requests use specific read methods; no general write transport.
           hosts={"content":"https://content-api.wildberries.ru","prices":"https://discounts-prices-api.wildberries.ru","market":"https://marketplace-api.wildberries.ru","analytics":"https://seller-analytics-api.wildberries.ru","finance":"https://finance-api.wildberries.ru","statistics":"https://statistics-api.wildberries.ru","advert":"https://advert-api.wildberries.ru","feedback":"https://feedbacks-api.wildberries.ru"}
           post_paths={"content":{"/content/v2/get/cards/list","/content/v2/get/cards/trash","/content/v2/cards/error/list"},"analytics":{"/api/analytics/v3/sales-funnel/products","/api/v2/search-report/report"},"finance":{"/api/finance/v1/sales-reports/detailed"}}
           def api(name,host,method,path,body=None,params=None):
               assert host in hosts and (method=="GET" or (method=="POST" and (path in post_paths.get(host,set()) or (host=="market" and re.fullmatch(r"/api/v3/stocks/[0-9]+",path)))))
+              credential=analytics_token if host in analytics_hosts else token
+              credential_kind="analytics" if host in analytics_hosts else "operational"
+              if not credential:
+                  d["api"][name]={"http":None,"error":"required_token_missing","credential":credential_kind}
+                  return None
               try:
-                  res=requests.request(method,hosts[host]+path,json=body,params=params,headers={"Authorization":token,"Content-Type":"application/json"},timeout=45)
+                  res=requests.request(method,hosts[host]+path,json=body,params=params,headers={"Authorization":credential,"Content-Type":"application/json"},timeout=45)
                   try:j=res.json()
                   except ValueError:j=None
-                  d["api"][name]={"http":res.status_code,"response_type":type(j).__name__,"keys":list(j)[:15] if isinstance(j,dict) else None}
+                  d["api"][name]={"http":res.status_code,"credential":credential_kind,"response_type":type(j).__name__,"keys":list(j)[:15] if isinstance(j,dict) else None}
                   if not res.ok:
                       if isinstance(j,dict):d["api"][name]["error"]={k:str(j.get(k))[:350] for k in ("title","detail","errorText","message","code") if j.get(k)}
                       return None
