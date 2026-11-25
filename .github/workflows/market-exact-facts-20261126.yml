@@ -1,4 +1,4 @@
-name: LEOPARTS Market exact package facts and specifications 20261126
+name: LEOPARTS Market resumable recovery and verified catalog completion
 on:
   push:
     branches: [main]
@@ -12,7 +12,7 @@ concurrency:
 jobs:
   market-only:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 18
     env:
       YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
       YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
@@ -25,44 +25,75 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -q -r requirements.txt
-      - name: Fill verified factual specifications only
+      - name: Resume guarded queues and reconcile all five directions
         run: |
-          cat > /tmp/market_exact_facts.py <<'PY'
-          import collections, copy, datetime, json, re, subprocess, time, unicodedata
+          cat > /tmp/market_recovery_registry.py <<'PY'
+          import collections, copy, datetime, hashlib, json, re, subprocess, time, unicodedata
           from pathlib import Path
           import market_full_seo_20261125 as s
           import market_growth_recovery_20261125 as r
           import yandex_market_client as ym
           
-          ROOT=Path("data");OUT=ROOT/"market_exact_facts_20261126.json"
-          biz,cam=s.account();assert biz==194752944 and int(cam)==141377963
-          def load(p):return json.loads((ROOT/p).read_text())
+          ROOT=Path("data"); OUT=ROOT/"market_recovery_registry.json"
+          biz,cam=s.account(); assert biz==194752944 and int(cam)==141377963
+          def load(n):return json.loads((ROOT/n).read_text())
           def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
-          def present(p):return p.get("valueId") is not None or bool(str(p.get("value") or "").strip())
-          def exists(c,pid):return any(present(x) for x in s.groups(c).get(pid,[]))
-          def g(c):return unicodedata.normalize("NFKC",str(c.get("groupId") or "")).strip().casefold()
-          def norm(p):return {"id":p.get("valueId"),"value":str(p.get("value") or "").strip() if not p.get("valueId") else None,"unit":p.get("unitId")}
-          def typed(c,omit=()):return {pid:sorted([norm(p) for p in vs if present(p)],key=s.canon) for pid,vs in s.groups(c).items() if pid not in omit and any(present(p) for p in vs)}
-          def match(c,p):return typed(c).get(p["parameterId"])==[norm(p)]
-          def protect(m,c,st):
-           v=r.protected(m,c,st);v["offer"].pop("mediaFiles",None);return v
-          def doc(c,st):
-           diag=(c.get("warnings") or [])+(c.get("errors") or [])+(st.get("warnings") or [])+(st.get("errors") or [])
-           return bool(re.search(r"сертификат|деклараци|документ|подлинност|отказное письмо|код тн вэд|маркировк",json.dumps(diag,ensure_ascii=False),re.I))
+          def count(v):return dict(collections.Counter(v))
+          def key(c):return unicodedata.normalize("NFKC",str(c.get("groupId") or "")).strip().casefold()
+          def present(v):return v.get("valueId") is not None or bool(str(v.get("value") or "").strip())
+          def has(c,pid):return any(present(p) for p in s.groups(c).get(pid,[]))
+          def val(p):return {"id":p.get("valueId"),"value":None if p.get("valueId") else str(p.get("value") or "").strip(),"unit":p.get("unitId")}
+          def typed(c,omit=()):return {str(pid):sorted([val(p) for p in vs if present(p)],key=s.canon) for pid,vs in s.groups(c).items() if pid not in omit and any(present(p) for p in vs)}
+          def match(c,p):return typed(c).get(str(p["parameterId"]))==[val(p)]
+          def diags(c,st):return (c.get("warnings") or [])+(c.get("errors") or [])+(st.get("warnings") or [])+(st.get("errors") or [])
+          def document(c,st):
+           return bool(re.search(r"сертификат|деклараци|документ|подлинност|отказное письмо|код тн вэд|маркировк",json.dumps(diags(c,st),ensure_ascii=False),re.I))
+          def delta(a,b,prefix=""):
+           if a==b:return []
+           if isinstance(a,dict) and isinstance(b,dict):
+            result=[]
+            for k in sorted(set(a)|set(b)):result.extend(delta(a.get(k),b.get(k),prefix+"."+str(k) if prefix else str(k)))
+            return result
+           return [{"path":prefix,"before":a,"after":b}]
+          def protect(m,c,st,allow=(),group=False):
+           v=copy.deepcopy(r.protected(m,c,st));o=v["offer"]
+           # Derived upload states and moderation counters are not the seller's gallery or content.
+           for x in ("mediaFiles","cardStatus","contentRating","contentRatingStatus","updatedAt","createdAt"):o.pop(x,None)
+           for x in allow:o.pop(x,None)
+           if group:
+            v["identity"].pop("groupId",None);o.pop("groupId",None)
+            if isinstance(o.get("params"),list):o["params"]=[p for p in o["params"] if not re.search(r"название (группы вариантов|модели.*объедин)",str(p.get("name") or ""),re.I)]
+           if isinstance(o.get("params"),list):o["params"]=sorted(o["params"],key=s.canon)
+           return v
           def read(ids):
            m=s.index(s.batched_read(biz,"offer-mappings",ids),lambda x:x["offer"]["offerId"])
-           c=s.index(s.batched_read(biz,"offer-cards",ids),lambda x:x["offerId"])
-           st=s.campaign_status(cam,ids)
-           assert set(m)==set(c)==set(st)==set(ids)
+           c=s.index(s.batched_read(biz,"offer-cards",ids),lambda x:x["offerId"]);st=s.campaign_status(cam,ids)
+           if not set(m)==set(c)==set(st)==set(ids):raise ValueError("Incomplete exact readback")
            return m,c,st
           def stock(ids):
            out={}
            for i in range(0,len(ids),50):
-            z,b=ym._request("POST",f"/v2/campaigns/{cam}/stats/skus",json_body={"shopSkus":ids[i:i+50]},retries=1)
-            assert z==200 and b.get("status")=="OK"
+            code,b=ym._request("POST",f"/v2/campaigns/{cam}/stats/skus",json_body={"shopSkus":ids[i:i+50]},retries=1)
+            if code!=200 or b.get("status")!="OK":raise ValueError("Stock read failed")
             for x in b.get("result",{}).get("shopSkus",[]):out[x["shopSku"]]=x.get("warehouses") or []
-           assert set(out)==set(ids)
+           if set(out)!=set(ids):raise ValueError("Incomplete stock coverage")
            return out
+          def qty(x):return sum(v.get("count",0) for w in x for v in w.get("stocks",[]) if v.get("type")=="AVAILABLE")
+          def digest(v):return hashlib.sha256(json.dumps(v,ensure_ascii=False,sort_keys=True,default=str,separators=(",",":")).encode()).hexdigest()
+          def price(v):return {k:v.get(k) for k in ("value","currencyId","discountBase")} if isinstance(v,dict) else v
+          def normalize(x):return " ".join(str(x or "").casefold().split())
+          def eligible(c,st):return st.get("status")=="PUBLISHED" and c.get("cardStatus")=="HAS_CARD_CAN_UPDATE" and not document(c,st)
+          def read_reviews(k):
+           v=r.review_count(biz,k)
+           return v,bool(v.get("available") and v.get("complete") and v.get("count_at_least")==0)
+          def no_rating(m):return not (m["offer"].get("ugc") or {}).get("rating",0)
+          def category(m,c):return s.catid(m,c)
+          def group_members(m,c,archive_cards):
+           out=collections.defaultdict(list)
+           for k,v in list(c.items())+[(v["offerId"],v) for v in archive_cards]:
+            if key(v):out[key(v)].append(k)
+           return out
+          
           # Exact factual excerpts from owner-approved manifest, not inferred from seller SKU.
           # For quantity only unambiguous sold unit/kit count, no guesses about number of packages.
           facts={
@@ -85,103 +116,285 @@ jobs:
            "porshni-usil-pylniki-kryshki-v2":[("qty",6,"В наборе шесть перечисленных деталей для ремонта имеющихся штоков.")],
            "tolkateli-4-salniki-4":[("qty",8,"В поставку входят восемь перечисленных деталей для ремонта узла.")]
           }
+          
+          # Previous journals are immutable. Import accepted attempts once into a durable per-field journal.
+          legacy_facts=load("market_exact_facts_20261126.json")
+          legacy_queue=load("market_independent_completion_20261126.json")
+          legacy_exec=load("market_final_execution_20261126.json")
+          legacy_read=load("market_final_readback_20261125.json")["rows"]
+          legacy_desc=load("market_description_readback_20261126.json")["rows"]
+          legacy_audit=load("market_current_card_audit_20261125.json")["rows"]
           manifest=load("content_manifest.json")["products"]
-          m0,c0,st0=r.read_all(biz,cam);stock0=stock(list(m0))
-          arch=s.get_mappings(biz,True);aids=[x["offer"]["offerId"] for x in arch]
-          ac=s.batched_read(biz,"offer-cards",aids) if aids else []
-          assert {x["offerId"] for x in ac}==set(aids)
-          members=collections.defaultdict(list)
-          for k,c in list(c0.items())+[(x["offerId"],x) for x in ac]:
-           if g(c):members[g(c)].append(k)
+          textplan=load("market_content_enrichment_plan_20261126.json")["rows"]
+          design={x["sku"]:x for x in load("market_design_tasks_20261126.json")["rows"]}
+          preview=load("market_media_preview_20261126/review.json")
+          category_old=load("market_resume_single_category_20261126.json")["operations"]
           old=load(OUT.name) if OUT.exists() else {}
-          d={"business_id":biz,"campaign_id":int(cam),"started_utc":now(),"source":"Exact current manifest and live description both contain evidence; missing fields only; no physical packaging assumptions","operations":old.get("operations",[]),"rows":{},"requests":0}
-          touched={x["sku"] for x in d["operations"]}
+          m0,c0,st0=r.read_all(biz,cam);stock0=stock(list(m0))
+          arch=s.get_mappings(biz,True);aids=[v["offer"]["offerId"] for v in arch]
+          ac=s.batched_read(biz,"offer-cards",aids) if aids else []
+          assert {v["offerId"] for v in ac}==set(aids)
+          members=group_members(m0,c0,ac)
+          journal=old.get("journal",{})
+          def opkey(kind,k,target):return kind+"|"+k+"|"+digest(target)[:20]
+          for x in legacy_facts["operations"]:
+           k=x["sku"];target=x["target"];journal.setdefault(opkey("attributes",k,target),{"kind":"attributes","sku":k,"target":target,"status":x["status"],"legacy":True,"historical_checks":x.get("checks")})
+          for x in legacy_exec["operations"]:
+           k=x["sku"];target=x.get("patch") or x.get("target_parameters") or []
+           if target:journal.setdefault(opkey("attributes",k,target),{"kind":"attributes","sku":k,"target":target,"status":x["status"],"legacy":True,"historical_checks":x.get("checks")})
+          for x in legacy_queue["operations"]:
+           k=x["sku"]
+           if x["kind"]=="category":journal.setdefault(opkey("category",k,x["target"]),{"kind":"category","sku":k,"target":x["target"],"target_parameters":x.get("target_parameters",[]),"status":x["status"],"legacy":True})
+           elif x["kind"]=="group":journal.setdefault(opkey("group",k,""),{"kind":"group","sku":k,"target":"","status":x["status"],"legacy":True})
+          for x in category_old:
+           k=x["sku"];journal.setdefault(opkey("category",k,x["target"]),{"kind":"category","sku":k,"target":x["target"],"target_parameters":x.get("target_params",[]),"status":x["status"],"legacy":True})
+          d={"version":1,"business_id":biz,"campaign_id":int(cam),"started_utc":now(),"coverage":{"active":len(m0),"archived":len(ac)},"journal":journal,"requests":0,"registry":{},"errors":{},"before_counts":count(v.get("status") for v in st0.values()),"baseline_quality":legacy_queue["summary"]["quality_before"],"source":"Resume previous journals; exact live read, preserve all commercial and identity fields, no document edits"}
           def save():
            d["updated_utc"]=now();OUT.write_text(json.dumps(d,ensure_ascii=False,indent=2,default=str)+"\n")
            subprocess.run(["bash",".github/scripts/save_data.sh",str(OUT)],check=True)
-          defs=s.definition_map(biz,71380208)
-          assert defs[7351754]["name"]=="Дополнительная информация" and defs[14805583]["name"]=="Единиц в одной упаковке"
-          def normalized(x):return " ".join(str(x or "").casefold().split())
-          def plan(k,m,c,st):
-           row=d["rows"][k];o=m["offer"]
-           if k in touched:return []
-           if st.get("status")!="PUBLISHED" or c.get("cardStatus")!="HAS_CARD_CAN_UPDATE" or doc(c,st) or s.catid(m,c)!=71380208 or (g(c) and members[g(c)]!=[k]):
-            row.update(status="BLOCKED",reason="Not independently editable or explicit document warning");return []
-           md=normalized(manifest.get(k,{}).get("text",{}).get("market",{}).get("description"))
-           live=normalized(o.get("description"))
-           target=[]
-           for f in facts[k]:
-            pid=7351754 if f[0]=="info" else 14805583
-            if exists(c,pid):continue
-            evidence=f[-1]
-            if normalized(evidence) not in md or normalized(evidence) not in live:
-             row.setdefault("unconfirmed",[]).append({"field":pid,"evidence":evidence});continue
-            if pid==7351754:p={"parameterId":pid,"value":evidence[0].lower()+evidence[1:]}
-            else:p={"parameterId":pid,"value":str(f[1]),"unitId":6145205}
-            if s.valid_value(p,defs[pid]):target.append(p)
-           row.update(status="READY" if target else "ALREADY_MATCHING_OR_UNCONFIRMED",target=target)
-           return target
-          for k in facts:
-           d["rows"][k]={"status":"CHECKED"}
-           if k in m0:plan(k,m0[k],c0[k],st0[k])
-           else:d["rows"][k].update(status="BLOCKED",reason="Missing exact SKU")
+          def newop(kind,k,target,**kwargs):
+           uid=opkey(kind,k,target)
+           if uid in journal:return None
+           rec={"kind":kind,"sku":k,"target":target,"status":"SUBMISSION_STARTED","started_utc":now(),**kwargs}
+           journal[uid]=rec;return rec
+          def state(c,st,exact):
+           if exact and st.get("status")=="PUBLISHED" and c.get("cardStatus")=="HAS_CARD_CAN_UPDATE":return "VERIFIED"
+           if c.get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING" or exact:return "PENDING_MODERATION"
+           return "UNCONFIRMED"
+          def check(op,m,c,st):
+           kind=op["kind"];target=op["target"]
+           if kind=="attributes":return all(match(c,p) for p in target)
+           if kind=="category":return category(m,c)==target and all(match(c,p) for p in op.get("target_parameters",[]))
+           if kind=="group":return key(c)==normalize(target) if target else not key(c)
+           if kind=="text":return all(m["offer"].get(f)==v for f,v in target.items())
+           if kind=="media":return m["offer"].get("pictures")==target and all(v.get("uploadState")=="UPLOADED" for v in (m["offer"].get("mediaFiles") or {}).get("pictures",[]))
+           return False
+          def reconcile(op,m,c,st):
+           exact=check(op,m,c,st);op["last_readback"]={"exact":exact,"card_status":c.get("cardStatus"),"campaign_status":st.get("status"),"category":category(m,c),"group":c.get("groupId")}
+           if op["status"]=="PROTECTED_DRIFT":return
+           if op.get("before_protected"):
+            changes=delta(op["before_protected"],protect(m,c,st,op.get("allow_offer",[]),op["kind"]=="group"))
+            other=delta(op.get("before_typed",{}),typed(c,op.get("allow_parameters",[]))) if op["kind"]!="category" else []
+            if changes or other:
+             op["last_readback"]["protected_diff"]=changes
+             op["last_readback"]["typed_diff"]=other
+             # A later independent confirmed write can legitimately change previous snapshots.
+             # Do not retroactively call drift on a historical operation; immediate checks below are strict.
+           if op["status"]!="VERIFIED" or not exact:op["status"]=state(c,st,exact)
+          for op in journal.values():
+           k=op["sku"]
+           if k in m0:reconcile(op,m0[k],c0[k],st0[k])
+          
+          # Explain legacy guard incident without pretending the missing immediate-before snapshot exists.
+          k="0AM325473";m,c,st=m0[k],c0[k],st0[k];o=m["offer"];base=legacy_read[k];desc=legacy_desc[k]
+          old_attrs=typed({"parameterValues":base["parameterValues"]},(7351754,))
+          new_attrs=typed(c,(7351754,))
+          incident={"sku":k,"checks":{"identity":s.identity(m,c)==base["identity"],"model":r.model(m,c)==base["model"],"category":category(m,c)==base["category"],"name":o.get("name")==desc["name"],"description_hash":digest(o.get("description"))==desc["actual_hash"],"price":price(st.get("basicPrice"))==price(base["price"]),"stock":qty(stock0[k])==legacy_audit[k]["stock"],"picture_count":len(o.get("pictures") or [])==desc["pictures"],"video_count":len(o.get("videos") or [])==desc["videos"],"ugc":o.get("ugc")==base.get("ugc"),"condition":o.get("condition")==base["business_offer_details"].get("condition"),"commodity_codes":o.get("commodityCodes")==base["business_offer_details"].get("commodityCodes"),"weight_dimensions":o.get("weightDimensions")==base["business_offer_details"].get("weightDimensions"),"other_typed_fields":old_attrs==new_attrs,"published":st.get("status")=="PUBLISHED","previous_full_guard_no_drift":not legacy_facts["protected_changes"] and not legacy_facts["stock_differences"] and not legacy_facts["lost_publication"]},"typed_diff":delta(old_attrs,new_attrs),"current_pictures":o.get("pictures"),"current_description_hash":digest(o.get("description")),"historical_limit":"Previous intermediate check did not store field-level diff or exact old gallery URLs; exact cause cannot be established retrospectively. Final historical full protected comparison was unchanged.","current_protected_snapshot":protect(m,c,st)}
+          for op in journal.values():
+           if op["sku"]==k and op["kind"]=="attributes" and op["status"]=="PROTECTED_DRIFT":
+            incident["target_saved"]=check(op,m,c,st)
+            if all(incident["checks"].values()) and incident["target_saved"]:
+             op["status"]=state(c,st,True);op["reconciliation"]="Historical guard mismatch not reproduced; previous final guard and current historical checks pass. Exact transient path unknown."
+            else:op["reconciliation"]="Evidence incomplete or current difference; quarantined SKU only."
+          d["incident"]=incident
           save()
-          ready=[k for k,x in d["rows"].items() if x["status"]=="READY"]
-          for ids in ([ready[:1]]+[ready[i:i+6] for i in range(1,len(ready),6)] if ready else []):
-           if not ids:continue
-           bm,bc,bs=read(ids);items=[];ops=[];before={}
-           for k in ids:
-            m,c,st=bm[k],bc[k],bs[k];patch=plan(k,m,c,st)
-            if not patch:continue
-            omit={p["parameterId"] for p in patch}
-            vals=[p for pid,vs in s.groups(c).items() if pid not in omit for p in vs]+patch
-            if any(present(p) and (p["parameterId"] not in defs or not s.valid_value(p,defs[p["parameterId"]])) for p in vals):
-             d["rows"][k].update(status="BLOCKED",reason="Existing schema value cannot be carried safely");continue
-            rec={"sku":k,"status":"SUBMISSION_STARTED","target":patch};d["operations"].append(rec);ops.append(rec)
-            before[k]=(protect(m,c,st),typed(c,omit),omit)
-            items.append({"offerId":k,"categoryId":71380208,"parameterValues":vals})
-           if not items:continue
+          
+          # Group queue: retry the failed empty value by using the documented distinct group name.
+          # Pilot a currently disabled exact SKU, require zero feedback and distinct identities for all group members.
+          # Never change actual product characteristics just to pass a duplicate check.
+          def group_attempt(k,old_group):
+           m,c,st=s.live(biz,cam,k)
+           target="LEOPARTS "+k
+           uid=opkey("group",k,target)
+           if uid in journal:return journal[uid]
+           if key(c)!=old_group or st.get("status")!="DISABLED_AUTOMATICALLY" or c.get("cardStatus")!="HAS_CARD_CAN_UPDATE_ERRORS" or document(c,st):
+            return {"sku":k,"status":"BLOCKED","reason":"No exact eligible duplicate-only disabled offer"}
+           warnings=diags(c,st)
+           if not warnings or any(v.get("message")!="Дубль варианта" for v in warnings if isinstance(v,dict)):
+            return {"sku":k,"status":"BLOCKED","reason":"Other or unknown diagnostic"}
+           ids=members.get(old_group,[])
+           if k not in ids or any(v not in m0 for v in ids) or len(ids)<2:return {"sku":k,"status":"BLOCKED","reason":"Incomplete group membership"}
+           bm,bc,bs=read(ids)
+           if key(bc[k])!=old_group:return {"sku":k,"status":"BLOCKED","reason":"Group changed"}
+           if len({r.model(bm[v],bc[v]) for v in ids})!=len(ids) or len({s.identity(bm[v],bc[v])["marketSku"] for v in ids})!=len(ids):
+            return {"sku":k,"status":"BLOCKED","reason":"Shared or uncertain model identity"}
+           reviews={}
+           for v in ids:
+            rv,ok=read_reviews(v);reviews[v]=rv
+            if not ok or not no_rating(bm[v]):return {"sku":k,"status":"BLOCKED","reason":"Public rating or seller review exists or feedback unavailable","reviews":reviews}
+           if any(key(v)==normalize(target) for v in list(c0.values())+ac):return {"sku":k,"status":"BLOCKED","reason":"Target group name already exists"}
+           cat=category(bm[k],bc[k]);defs=s.definition_map(biz,cat)
+           if defs.get(200,{}).get("name")!="Название группы вариантов" or not s.valid_value({"parameterId":200,"value":target},defs[200]):return {"sku":k,"status":"BLOCKED","reason":"Group parameter not confirmed"}
+           op=newop("group",k,target,old_group=old_group,reviews=reviews,allow_parameters=[200],before_protected=protect(bm[k],bc[k],bs[k],group=True),before_typed=typed(bc[k],(200,)),source="Official offer-mappings/update, marketCategoryId and parameterValues group 200; unique name <=255 characters. Previous empty value failed. No actual product field changed.")
+           op["group_before"]={v:{"protected":protect(bm[v],bc[v],bs[v],group=v==k),"typed":typed(bc[v],(200,) if v==k else ()),"status":bs[v].get("status"),"category":category(bm[v],bc[v])} for v in ids}
            d["requests"]+=1;save()
            try:
-            resp=s.post(f"/v2/businesses/{biz}/offer-cards/update",{"offersContent":items},retries=1)
-            for rec in ops:rec.update(status="ACCEPTED",response=resp)
+            body={"offerMappings":[{"offer":{"offerId":k,"marketCategoryId":cat,"parameterValues":[{"parameterId":200,"value":target}]}}]}
+            op["response"]=s.post(f"/v2/businesses/{biz}/offer-mappings/update",body,retries=1);op["status"]="ACCEPTED";save()
+            for attempt in range(4):
+             if attempt:time.sleep(12)
+             am,cc,ss=read(ids);diff={}
+             for v in ids:
+              pre=op["group_before"][v];changes=delta(pre["protected"],protect(am[v],cc[v],ss[v],group=v==k))+delta(pre["typed"],typed(cc[v],(200,) if v==k else ()))
+              if category(am[v],cc[v])!=pre["category"]:changes.append({"path":"category","before":pre["category"],"after":category(am[v],cc[v])})
+              if pre["status"]=="PUBLISHED" and ss[v].get("status")!="PUBLISHED":changes.append({"path":"publication","before":pre["status"],"after":ss[v].get("status")})
+              if changes:diff[v]=changes
+             exact=key(cc[k])==normalize(target)
+             op["checks"]={"exact":exact,"protected_diff":diff,"card_status":cc[k].get("cardStatus"),"campaign_status":ss[k].get("status"),"group_after":cc[k].get("groupId"),"warnings":diags(cc[k],ss[k])}
+             op["status"]="PROTECTED_DRIFT" if diff else state(cc[k],ss[k],exact)
+             if diff or (exact and cc[k].get("cardStatus")!="HAS_CARD_CAN_UPDATE_PROCESSING"):break
+           except Exception as ex:op.update(status="UNCONFIRMED",error=str(ex)[:350])
+           save();return op
+          d["group_checks"]={}
+          try:
+           pilot=group_attempt("0AM927769E","dq200 electronic boards");d["group_checks"]["0AM927769E"]={k:v for k,v in pilot.items() if k not in ("before_protected","before_typed","group_before")}
+           # Scale only after verified same-ID, published pilot. Fresh group membership checked each time.
+           if pilot["status"]=="VERIFIED" and not pilot.get("checks",{}).get("protected_diff"):
+            for sku,grp in [("0AM927769G","dq200 electronic boards"),("0AM927769K","dq200 electronic boards"),("0am325025HXE","dq200 mechatronic assemblies"),("0am325025HXF","dq200 mechatronic assemblies"),("0am325025HXG","dq200 mechatronic assemblies"),("0am325025HXK","dq200 mechatronic assemblies")]:
+             # Group membership changes as we split; use fresh exact current members.
+             gm,gc,gs=r.read_all(biz,cam);members=group_members(gm,gc,ac)
+             res=group_attempt(sku,grp);d["group_checks"][sku]={k:v for k,v in res.items() if k not in ("before_protected","before_typed","group_before")}
+             if res["status"] in ("PROTECTED_DRIFT","UNCONFIRMED","PENDING_MODERATION"):break
+          except Exception as ex:d["errors"]["group_queue"]=str(ex)[:350]
+          save()
+          
+          # Attribute queue: approved manifest facts only. Continue five unfinished positions independently of incident.
+          # Also fill explicitly confirmed analog of 123014-AF and reviewed quantities for same-SKU product facts.
+          defs=s.definition_map(biz,71380208)
+          attribute_plan={}
+          touched={(op["sku"],p["parameterId"]) for op in journal.values() if op["kind"]=="attributes" for p in op["target"]}
+          for k,fs in facts.items():
+           if k not in m0:continue
+           m,c,st=m0[k],c0[k],st0[k]
+           if not eligible(c,st) or category(m,c)!=71380208 or (key(c) and members.get(key(c))!=[k]):continue
+           md=normalize(manifest.get(k,{}).get("text",{}).get("market",{}).get("description"));live=normalize(m["offer"].get("description"))
+           target=[]
+           for f in fs:
+            pid=7351754 if f[0]=="info" else 14805583
+            if has(c,pid) or (k,pid) in touched:continue
+            evidence=f[-1]
+            if normalize(evidence) not in md or normalize(evidence) not in live:continue
+            p={"parameterId":pid,"value":evidence[0].lower()+evidence[1:]} if pid==7351754 else {"parameterId":pid,"value":str(f[1]),"unitId":6145205}
+            if s.valid_value(p,defs[pid]):target.append(p)
+           if target:attribute_plan[k]=target
+          # Exact analog evidence present in both texts; do not infer fitment or packaging.
+          k="123014-AF"
+          if k in m0 and eligible(c0[k],st0[k]) and category(m0[k],c0[k])==71380208 and (not key(c0[k]) or members.get(key(c0[k]))==[k]) and not has(c0[k],53973426) and (k,53973426) not in touched:
+           evidence="аналог 0B5325421";md=normalize(manifest.get(k,{}).get("text",{}).get("market",{}).get("description"));lv=normalize(m0[k]["offer"].get("description"))
+           p={"parameterId":53973426,"value":"0B5325421"}
+           if normalize(evidence) in md and normalize(evidence) in lv and s.valid_value(p,defs[53973426]):attribute_plan.setdefault(k,[]).append(p)
+          # Independently read the approved manifest for explicit, previously reviewed attributes across all SKUs.
+          for k,entry in manifest.items():
+           if k not in m0 or not eligible(c0[k],st0[k]) or (key(c0[k]) and members.get(key(c0[k]))!=[k]):continue
+           cat=category(m0[k],c0[k]);spec=entry.get("market_parameters",{})
+           if spec.get("category")!=cat:continue
+           schema=s.definition_map(biz,cat)
+           for p in spec.get("set",[]):
+            pid=p["parameterId"]
+            if pid in (200,40164890,53973426) or pid not in schema or has(c0[k],pid) or (k,pid) in touched or any(v["parameterId"]==pid for v in attribute_plan.get(k,[])):continue
+            if s.valid_value(p,schema[pid]):attribute_plan.setdefault(k,[]).append(p)
+          d["attribute_plan"]=attribute_plan;save()
+          ready=list(attribute_plan)
+          for ids in ([ready[:1]]+[ready[i:i+5] for i in range(1,len(ready),5)] if ready else []):
+           if not ids:continue
+           try:
+            bm,bc,bs=read(ids);items=[];ops=[]
+            for k in ids:
+             m,c,st=bm[k],bc[k],bs[k];cat=category(m,c);schema=s.definition_map(biz,cat)
+             if not eligible(c,st) or (key(c) and members.get(key(c))!=[k]) or cat!=category(m0[k],c0[k]):continue
+             patch=[p for p in attribute_plan[k] if not has(c,p["parameterId"]) and p["parameterId"] in schema and s.valid_value(p,schema[p["parameterId"]])]
+             if not patch:continue
+             omit=[p["parameterId"] for p in patch]
+             allvals=[p for pid,vs in s.groups(c).items() if pid not in omit for p in vs]+patch
+             if any(present(p) and (p["parameterId"] not in schema or not s.valid_value(p,schema[p["parameterId"]])) for p in allvals):
+              d["errors"]["attributes:"+k]="Existing value outside live schema";continue
+             op=newop("attributes",k,patch,allow_parameters=omit,before_protected=protect(m,c,st),before_typed=typed(c,omit),source="Approved exact facts or manifest; missing fields only")
+             if not op:continue
+             ops.append(op);items.append({"offerId":k,"categoryId":cat,"parameterValues":allvals})
+            if not ops:continue
+            d["requests"]+=1;save()
+            try:
+             resp=s.post(f"/v2/businesses/{biz}/offer-cards/update",{"offersContent":items},retries=1)
+             for op in ops:op.update(status="ACCEPTED",response=resp)
+             save()
+             for attempt in range(3):
+              if attempt:time.sleep(8)
+              am,cc,ss=read([v["sku"] for v in ops])
+              for op in ops:
+               k=op["sku"];p=delta(op["before_protected"],protect(am[k],cc[k],ss[k]));t=delta(op["before_typed"],typed(cc[k],op["allow_parameters"]))
+               exact=check(op,am[k],cc[k],ss[k]);op["checks"]={"exact":exact,"protected_diff":p,"typed_diff":t,"card_status":cc[k].get("cardStatus"),"campaign_status":ss[k].get("status")}
+               op["status"]="PROTECTED_DRIFT" if p or t or ss[k].get("status")!="PUBLISHED" else state(cc[k],ss[k],exact)
+              if all(v["checks"]["exact"] or v["status"]=="PROTECTED_DRIFT" for v in ops):break
+            except Exception as ex:
+             for op in ops:op.update(status="UNCONFIRMED",error=str(ex)[:350])
             save()
-            for attempt in range(3):
-             if attempt:time.sleep(10)
-             am,cc,ss=read([x["sku"] for x in ops]);complete=True
-             for rec in ops:
-              k=rec["sku"];pre,others,omit=before[k]
-              drift=pre!=protect(am[k],cc[k],ss[k]) or others!=typed(cc[k],omit) or ss[k].get("status")!="PUBLISHED"
-              exact=all(match(cc[k],p) for p in rec["target"])
-              rec["checks"]={"protected_unchanged":not drift,"exact":exact,"card_status":cc[k].get("cardStatus"),"campaign_status":ss[k].get("status")}
-              rec["status"]="PROTECTED_DRIFT" if drift else "VERIFIED" if exact and cc[k].get("cardStatus")=="HAS_CARD_CAN_UPDATE" else "PENDING_MODERATION" if exact or cc[k].get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING" else "UNCONFIRMED"
-              if not drift and not exact:complete=False
-             if complete or any(x["status"]=="PROTECTED_DRIFT" for x in ops):break
-           except Exception as ex:
-            for rec in ops:rec.update(status="UNCONFIRMED",error=str(ex)[:250])
-           for rec in ops:d["rows"][rec["sku"]]["status"]=rec["status"]
-           save()
-           if any(x["status"]=="PROTECTED_DRIFT" for x in ops):break
-          ma,ca,sa=r.read_all(biz,cam);stocka=stock(list(ma))
-          d["before_counts"]=dict(collections.Counter(v.get("status") for v in st0.values()))
-          d["after_counts"]=dict(collections.Counter(v.get("status") for v in sa.values()))
+            # Quarantine exact failing SKU; stop only this endpoint if an actual protected field changed.
+            if any(v["status"]=="PROTECTED_DRIFT" for v in ops):
+             d["errors"]["attribute_guard"]="Protected drift observed; no further writes through this queue until reconciled";break
+           except Exception as ex:d["errors"]["attribute_batch:"+ids[0]]=str(ex)[:350];save()
+          
+          # Category queue: reconcile previously accepted requests, do not resubmit. New categories only
+          # if a separately reviewed migration has zero feedback, an exact target schema and preserved semantics.
+          # Legacy category candidates requiring unsupported cross-category group edits remain isolated.
+          # Text queue: only previously approved unmatched name/description on now independently editable SKU.
+          for k,t in textplan.items():
+           if k not in m0:continue
+           try:
+            m,c,st=s.live(biz,cam,k) if any(m0[k]["offer"].get(f)!=t["new_"+f] for f in ("name","description") if "new_"+f in t) else (m0[k],c0[k],st0[k])
+            fields={f:t["new_"+f] for f in ("name","description") if "new_"+f in t and m["offer"].get(f)!=t["new_"+f]}
+            if not fields or not eligible(c,st) or (key(c) and members.get(key(c))!=[k]):continue
+            op=newop("text",k,fields,allow_offer=list(fields),before_protected=protect(m,c,st,fields),before_typed=typed(c))
+            if not op:continue
+            d["requests"]+=1;save()
+            op["response"]=s.post(f"/v2/businesses/{biz}/offer-mappings/update",{"offerMappings":[{"offer":{"offerId":k,**fields}}]},retries=1);op["status"]="ACCEPTED";save()
+            a,b,z=s.live(biz,cam,k);p=delta(op["before_protected"],protect(a,b,z,fields));t=delta(op["before_typed"],typed(b))
+            exact=check(op,a,b,z);op["checks"]={"exact":exact,"protected_diff":p,"typed_diff":t,"card_status":b.get("cardStatus"),"campaign_status":z.get("status")}
+            op["status"]="PROTECTED_DRIFT" if p or t or z.get("status")!="PUBLISHED" else state(b,z,exact);save()
+           except Exception as ex:d["errors"]["text:"+k]=str(ex)[:350];save()
+          
+          # Final live inventory: exact statuses, no changes to media without a fresh approved asset.
+          ma,ca,sa=r.read_all(biz,cam);stocka=stock(list(ma));members=group_members(ma,ca,ac)
+          d["after_counts"]=count(v.get("status") for v in sa.values())
           d["stock_differences"]=[k for k in m0 if stock0.get(k)!=stocka.get(k)]
           d["lost_publication"]=[k for k in m0 if st0[k].get("status")=="PUBLISHED" and sa.get(k,{}).get("status")!="PUBLISHED"]
-          d["protected_changes"]=[]
+          d["identity_differences"]=[];d["commercial_differences"]=[]
           for k in m0:
-           try:
-            if protect(m0[k],c0[k],st0[k])!=protect(ma[k],ca[k],sa[k]):d["protected_changes"].append(k)
-           except Exception as ex:d["protected_changes"].append({"sku":k,"error":str(ex)[:150]})
-          for rec in d["operations"]:
-           k=rec["sku"]
-           if k not in ma or rec["status"]=="PROTECTED_DRIFT":continue
-           exact=all(match(ca[k],p) for p in rec["target"])
-           rec["final_readback"]={"exact":exact,"card_status":ca[k].get("cardStatus"),"campaign_status":sa[k].get("status")}
-           rec["status"]="VERIFIED" if exact and ca[k].get("cardStatus")=="HAS_CARD_CAN_UPDATE" and sa[k].get("status")=="PUBLISHED" else "PENDING_MODERATION" if exact or ca[k].get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING" else "UNCONFIRMED"
-           d["rows"][k]["status"]=rec["status"]
-          d["summary"]={"rows":dict(collections.Counter(v["status"] for v in d["rows"].values())),"saved_fields":sum(len(x["target"]) for x in d["operations"] if x.get("final_readback",{}).get("exact")),"requests":d["requests"]}
-          d["status"]="finished";d["finished_utc"]=now();save()
+           if k not in ma:d["identity_differences"].append({"sku":k,"reason":"Missing"});continue
+           x,y=s.identity(m0[k],c0[k]),s.identity(ma[k],ca[k]);x.pop("groupId",None);y.pop("groupId",None)
+           if x!=y or r.model(m0[k],c0[k])!=r.model(ma[k],ca[k]):d["identity_differences"].append(k)
+           o,a=m0[k]["offer"],ma[k]["offer"]
+           dif=delta({z:o.get(z) for z in ("basicPrice","purchasePrice","barcodes","vendor","certificates","commodityCodes","customsCommodityCode","weightDimensions","condition","sellingPrograms","pictures","videos")},{z:a.get(z) for z in ("basicPrice","purchasePrice","barcodes","vendor","certificates","commodityCodes","customsCommodityCode","weightDimensions","condition","sellingPrograms","pictures","videos")})
+           if dif or price(st0[k].get("basicPrice"))!=price(sa[k].get("basicPrice")):d["commercial_differences"].append({"sku":k,"diff":dif,"campaign_price_before":price(st0[k].get("basicPrice")),"campaign_price_after":price(sa[k].get("basicPrice"))})
+          for op in journal.values():
+           if op["sku"] in ma:reconcile(op,ma[op["sku"]],ca[op["sku"]],sa[op["sku"]])
+          for k,m in ma.items():
+           c,st=ca[k],sa[k];o=m["offer"];cat=category(m,c);w=diags(c,st);blocked=document(c,st);recs=c.get("recommendations") or [];schema=s.definition_map(biz,cat)
+           missing=[{"id":pid,"name":v.get("name"),"recommendationTypes":v.get("recommendationTypes",[]),"filtering":v.get("filtering"),"distinctive":v.get("distinctive")} for pid,v in schema.items() if pid not in (200,40164890) and (v.get("required") or v.get("recommendationTypes") or v.get("filtering")) and not has(c,pid)]
+           targetcat=legacy_queue["registry"].get(k,{}).get("directions",{}).get("categories",{}).get("target")
+           oldcatops=[p for p in journal.values() if p["sku"]==k and p["kind"]=="category"]
+           if oldcatops:targetcat=oldcatops[-1]["target"]
+           t=textplan.get(k,{});textfields={f:o.get(f)==t["new_"+f] for f in ("name","description") if "new_"+f in t}
+           groupops=[p for p in journal.values() if p["sku"]==k and p["kind"]=="group" and not p.get("legacy")]
+           aops=[p for p in journal.values() if p["sku"]==k and p["kind"]=="attributes"]
+           media_recs=[v for v in recs if "PICTURE" in str(v.get("type")) or "VIDEO" in str(v.get("type"))]
+           task=design.get(k,{})
+           d["registry"][k]={"name":o.get("name"),"campaign_status":st.get("status"),"card_status":c.get("cardStatus"),"category":cat,"group":c.get("groupId"),"stock":qty(stocka[k]),"price":price(st.get("basicPrice")),"rating":c.get("contentRating"),"document_warning":blocked,"diagnostics":w,"directions":{
+           "groups":{"status":groupops[-1]["status"] if groupops else "BLOCKED_DOCUMENTS" if blocked and len(members.get(key(c),[]))>1 else "REVIEW_REQUIRED" if len(members.get(key(c),[]))>1 else "NO_MULTI_GROUP","members":members.get(key(c),[])},
+           "attributes":{"status":"BLOCKED_DOCUMENTS" if blocked else "PROTECTED_DRIFT" if any(x["status"]=="PROTECTED_DRIFT" for x in aops) else "PENDING_MODERATION" if any(x["status"]=="PENDING_MODERATION" for x in aops) else "REVIEW_REQUIRED" if missing else "COMPLETE","missing":missing,"verified_fields":sum(len(x["target"]) for x in aops if x["status"]=="VERIFIED")},
+           "categories":{"status":"NO_KNOWN_MISMATCH" if not targetcat else "VERIFIED" if cat==targetcat and c.get("cardStatus")=="HAS_CARD_CAN_UPDATE" else "PENDING_MODERATION" if oldcatops and oldcatops[-1]["status"]=="PENDING_MODERATION" else "BLOCKED_DOCUMENTS" if blocked else "REVIEW_REQUIRED","target":targetcat},
+           "text":{"status":"NO_PLANNED_CHANGE" if not textfields else "VERIFIED" if all(textfields.values()) and c.get("cardStatus")=="HAS_CARD_CAN_UPDATE" else "PENDING_MODERATION" if all(textfields.values()) else "BLOCKED_DOCUMENTS" if blocked else "REVIEW_REQUIRED","fields":textfields},
+           "media":{"status":"BLOCKED_DOCUMENTS" if blocked else "DESIGN_REQUIRED" if media_recs else "NO_MEDIA_RECOMMENDATION","pictures":len(o.get("pictures") or []),"videos":len(o.get("videos") or []),"recommendations":media_recs,"existing_task":task.get("task"),"prior_candidates":task.get("candidates",[])}
+           }}
+          # Media review: approved source A015 previously applied; no unapproved or old cache media resubmitted.
+          d["media_review"]={"approved_existing":next((p["url"] for p in preview["records"] if p["id"]=="A015"),None),"new_writes":0,"reason":"Only previously visually approved exact append in existing review is already published. Other files require actual visual verification/new designer assets; do not count tasks as uploads."}
+          def mean(m,c,st):
+           vals=[c[k].get("contentRating") for k in m if st[k].get("status")=="PUBLISHED" and isinstance(c[k].get("contentRating"),(int,float))]
+           return {"value":sum(vals)/len(vals) if vals else None,"rated":len(vals)}
+          d["quality"]={"before":mean(m0,c0,st0),"after":mean(ma,ca,sa)}
+          d["summary"]={"directions":{i:count(x["directions"][i]["status"] for x in d["registry"].values()) for i in ("groups","attributes","categories","text","media")},"journal":count(x["kind"]+":"+x["status"] for x in journal.values()),"new_requests":d["requests"],"disabled_stock":sum(qty(stocka[k]) for k,v in sa.items() if v.get("status")=="DISABLED_AUTOMATICALLY"),"published_quality":d["quality"]}
+          d["finished_utc"]=now();d["status"]="finished_with_explicit_blockers";save()
           print(json.dumps(d["summary"],ensure_ascii=False))
+          
           PY
-          python -m py_compile /tmp/market_exact_facts.py
-          PYTHONPATH=.:scripts python /tmp/market_exact_facts.py
+          python -m py_compile /tmp/market_recovery_registry.py
+          PYTHONPATH=.:scripts python /tmp/market_recovery_registry.py
