@@ -1,0 +1,30 @@
+name: LEOPARTS Market final independent attributes 20261126
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/market-final-execution-20261126.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  market-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+      YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - run: python -m py_compile scripts/market_final_execution_20261126.py
+      - name: Reconcile existing work and apply safe missing attributes
+        run: PYTHONPATH=.:scripts python scripts/market_final_execution_20261126.py
