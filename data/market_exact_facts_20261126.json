@@ -6,7 +6,7 @@
   "operations": [
     {
       "sku": "01X301127C",
-      "status": "ACCEPTED",
+      "status": "PENDING_MODERATION",
       "target": [
         {
           "parameterId": 7351754,
@@ -15,12 +15,18 @@
       ],
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "protected_unchanged": true,
+        "exact": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     }
   ],
   "rows": {
     "01X301127C": {
-      "status": "READY",
+      "status": "PENDING_MODERATION",
       "target": [
         {
           "parameterId": 7351754,
@@ -200,5 +206,5 @@
     }
   },
   "requests": 1,
-  "updated_utc": "2026-11-25T18:00:52.385253+00:00"
+  "updated_utc": "2026-11-25T18:00:57.299871+00:00"
 }
