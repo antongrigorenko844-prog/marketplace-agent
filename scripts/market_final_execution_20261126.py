@@ -32,6 +32,8 @@ def fingerprint(m,c,st,omit=()):
 def media_count(o,k):return len(o.get(k) or [])
 def count_status(st):return dict(collections.Counter(v.get("status") for v in st.values()))
 def same_group(c,groups,k):return not group_key(c) or groups.get(group_key(c))==[k]
+def independent_warning(c):
+    return all(v.get("message")=="Не заполнено обязательное поле" and v.get("comment")=="Укажите код ТН ВЭД" for v in (c.get("warnings") or []))
 def stock_snapshot(ids):
     # Read only, existing script uses this endpoint; collect quantity, not orders or buyers.
     try:
@@ -109,7 +111,7 @@ for k,vals in desired.items():
         if (k,pid,s.canon(p)) in submitted:row["fields"][key]["status"]="previously_submitted_wait_readback";continue
         patch.append(p)
     if not patch:row["status"]="no_write_needed";continue
-    if ss[k].get("status")!="PUBLISHED" or c.get("cardStatus")!="HAS_CARD_CAN_UPDATE" or c.get("errors") or c.get("warnings"):
+    if ss[k].get("status")!="PUBLISHED" or c.get("cardStatus")!="HAS_CARD_CAN_UPDATE" or c.get("errors") or not independent_warning(c):
         row.update(status="blocked",reason="Not error-free editable published card");continue
     if not same_group(c,groups,k):row.update(status="blocked",reason="Multiple group members; shared characteristics must be preserved");continue
     if k not in baseline:row.update(status="blocked",reason="Identity not verified");continue
@@ -122,7 +124,7 @@ def submit(ks):
     items=[];ops=[]
     for k in ks:
         c=fresh_c[k];m=fresh_m[k];st=fresh_s[k];row=d["attributes"][k];patch=ready[k];pids={p["parameterId"] for p in patch};cat=s.catid(m,c)
-        if fingerprint(m,c,st)!=baseline[k] or c.get("cardStatus")!="HAS_CARD_CAN_UPDATE" or c.get("errors") or c.get("warnings") or not same_group(c,groups,k):
+        if fingerprint(m,c,st)!=baseline[k] or c.get("cardStatus")!="HAS_CARD_CAN_UPDATE" or c.get("errors") or not independent_warning(c) or not same_group(c,groups,k):
             row.update(status="blocked",reason="Fresh snapshot changed");continue
         defs=s.definition_map(biz,cat)
         retained=[p for pid,vs in s.groups(c).items() if pid not in pids for p in vs if pid in defs and present(p)]
