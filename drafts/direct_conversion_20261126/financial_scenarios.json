@@ -1,0 +1,411 @@
+{
+  "mode": "scenario_only",
+  "as_of": "2026-11-25T20:55:37.412610+00:00",
+  "source": "data/direct_audit_20261126/site_economics.json",
+  "assumptions": {
+    "direct_spend_including_vat": 8479.32,
+    "tax_pct": 6,
+    "other_variable_expense_reserve_pct": 10,
+    "cac_target": "Illustration only: retain half of pre-ad contribution; no recommendation to change bids.",
+    "weekly_budget_input": 4000,
+    "note": "Budget cap is a setting, not proof of expense inclusive of VAT. For exchange use net payment plus verified realizable value of core less shipping/restoration. No actual profit/ROI without payment and fee proof."
+  },
+  "rows": [
+    {
+      "sku": "0am325025H",
+      "price": 33500,
+      "cost": 13800,
+      "stock": 13,
+      "scenario_contribution": 14340,
+      "break_even_orders_full_spend": 1,
+      "break_even_orders_weekly_budget_if_spent_4000": 1,
+      "max_cac_to_retain_50pct_of_contribution": 7170,
+      "scenario_cpc_for_conversion_pct": {
+        "0.2%": 28.68,
+        "0.5%": 71.7,
+        "1.0%": 143.4,
+        "2.0%": 286.8,
+        "3.0%": 430.2
+      },
+      "blocker": null,
+      "source": "feed matched latest verified protected site price",
+      "price_checked_at": "2026-11-25T19:57:19.442522+00:00"
+    },
+    {
+      "sku": "0am325025x",
+      "price": 38500,
+      "cost": 15000,
+      "stock": 0,
+      "scenario_contribution": 17340,
+      "break_even_orders_full_spend": 1,
+      "break_even_orders_weekly_budget_if_spent_4000": 1,
+      "max_cac_to_retain_50pct_of_contribution": 8670,
+      "scenario_cpc_for_conversion_pct": {
+        "0.2%": 34.68,
+        "0.5%": 86.7,
+        "1.0%": 173.4,
+        "2.0%": 346.8,
+        "3.0%": 520.2
+      },
+      "blocker": null,
+      "source": "feed matched latest verified protected site price",
+      "price_checked_at": "2026-11-25T19:57:19.442522+00:00"
+    },
+    {
+      "sku": "0am325025HX",
+      "price": 64500,
+      "cost": 31000,
+      "stock": 9,
+      "scenario_contribution": 23180,
+      "break_even_orders_full_spend": 1,
+      "break_even_orders_weekly_budget_if_spent_4000": 1,
+      "max_cac_to_retain_50pct_of_contribution": 11590,
+      "scenario_cpc_for_conversion_pct": {
+        "0.2%": 46.36,
+        "0.5%": 115.9,
+        "1.0%": 231.8,
+        "2.0%": 463.6,
+        "3.0%": 695.4
+      },
+      "blocker": null,
+      "source": "feed matched latest verified protected site price",
+      "price_checked_at": "2026-11-25T19:57:19.442522+00:00"
+    },
+    {
+      "sku": "0am325025HXF",
+      "price": 68500,
+      "cost": 31000,
+      "stock": 3,
+      "scenario_contribution": 26540,
+      "break_even_orders_full_spend": 1,
+      "break_even_orders_weekly_budget_if_spent_4000": 1,
+      "max_cac_to_retain_50pct_of_contribution": 13270,
+      "scenario_cpc_for_conversion_pct": {
+        "0.2%": 53.08,
+        "0.5%": 132.7,
+        "1.0%": 265.4,
+        "2.0%": 530.8,
+        "3.0%": 796.2
+      },
+      "blocker": null,
+      "source": "feed matched latest verified protected site price",
+      "price_checked_at": "2026-11-25T19:57:19.442522+00:00"
+    },
+    {
+      "sku": "0am325025HXE",
+      "price": 68500,
+      "cost": null,
+      "stock": 5,
+      "scenario_contribution": null,
+      "break_even_orders_full_spend": null,
+      "break_even_orders_weekly_budget_if_spent_4000": null,
+      "max_cac_to_retain_50pct_of_contribution": null,
+      "scenario_cpc_for_conversion_pct": null,
+      "blocker": "Missing positive purchase cost or site price",
+      "source": "feed matched latest verified protected site price",
+      "price_checked_at": "2026-11-25T19:57:19.442522+00:00"
+    },
+    {
+      "sku": "0am325025HXG",
+      "price": 68500,
+      "cost": null,
+      "stock": 5,
+      "scenario_contribution": null,
+      "break_even_orders_full_spend": null,
+      "break_even_orders_weekly_budget_if_spent_4000": null,
+      "max_cac_to_retain_50pct_of_contribution": null,
+      "scenario_cpc_for_conversion_pct": null,
+      "blocker": "Missing positive purchase cost or site price",
+      "source": "feed matched latest verified protected site price",
+      "price_checked_at": "2026-11-25T19:57:19.442522+00:00"
+    },
+    {
+      "sku": "0am325025HXK",
+      "price": 68500,
+      "cost": null,
+      "stock": 5,
+      "scenario_contribution": null,
+      "break_even_orders_full_spend": null,
+      "break_even_orders_weekly_budget_if_spent_4000": null,
+      "max_cac_to_retain_50pct_of_contribution": null,
+      "scenario_cpc_for_conversion_pct": null,
+      "blocker": "Missing positive purchase cost or site price",
+      "source": "feed matched latest verified protected site price",
+      "price_checked_at": "2026-11-25T19:57:19.442522+00:00"
+    },
+    {
+      "sku": "0AM927769D",
+      "price": 37500,
+      "cost": 17500,
+      "stock": 7,
+      "scenario_contribution": 14000,
+      "break_even_orders_full_spend": 1,
+      "break_even_orders_weekly_budget_if_spent_4000": 1,
+      "max_cac_to_retain_50pct_of_contribution": 7000,
+      "scenario_cpc_for_conversion_pct": {
+        "0.2%": 28,
+        "0.5%": 70,
+        "1.0%": 140,
+        "2.0%": 280,
+        "3.0%": 420
+      },
+      "blocker": null,
+      "source": "feed matched latest verified protected site price",
+      "price_checked_at": "2026-11-25T19:57:19.442522+00:00"
+    },
+    {
+      "sku": "0AM927769F",
+      "price": 39500,
+      "cost": 17500,
+      "stock": 3,
+      "scenario_contribution": 15680,
+      "break_even_orders_full_spend": 1,
+      "break_even_orders_weekly_budget_if_spent_4000": 1,
+      "max_cac_to_retain_50pct_of_contribution": 7840,
+      "scenario_cpc_for_conversion_pct": {
+        "0.2%": 31.36,
+        "0.5%": 78.4,
+        "1.0%": 156.8,
+        "2.0%": 313.6,
+        "3.0%": 470.4
+      },
+      "blocker": null,
+      "source": "feed matched latest verified protected site price",
+      "price_checked_at": "2026-11-25T19:57:19.442522+00:00"
+    },
+    {
+      "sku": "0AM927769E",
+      "price": 39500,
+      "cost": null,
+      "stock": 5,
+      "scenario_contribution": null,
+      "break_even_orders_full_spend": null,
+      "break_even_orders_weekly_budget_if_spent_4000": null,
+      "max_cac_to_retain_50pct_of_contribution": null,
+      "scenario_cpc_for_conversion_pct": null,
+      "blocker": "Missing positive purchase cost or site price",
+      "source": "feed matched latest verified protected site price",
+      "price_checked_at": "2026-11-25T19:57:19.442522+00:00"
+    },
+    {
+      "sku": "0AM927769G",
+      "price": 39500,
+      "cost": null,
+      "stock": 5,
+      "scenario_contribution": null,
+      "break_even_orders_full_spend": null,
+      "break_even_orders_weekly_budget_if_spent_4000": null,
+      "max_cac_to_retain_50pct_of_contribution": null,
+      "scenario_cpc_for_conversion_pct": null,
+      "blocker": "Missing positive purchase cost or site price",
+      "source": "feed matched latest verified protected site price",
+      "price_checked_at": "2026-11-25T19:57:19.442522+00:00"
+    },
+    {
+      "sku": "0AM927769K",
+      "price": 39500,
+      "cost": null,
+      "stock": 5,
+      "scenario_contribution": null,
+      "break_even_orders_full_spend": null,
+      "break_even_orders_weekly_budget_if_spent_4000": null,
+      "max_cac_to_retain_50pct_of_contribution": null,
+      "scenario_cpc_for_conversion_pct": null,
+      "blocker": "Missing positive purchase cost or site price",
+      "source": "feed matched latest verified protected site price",
+      "price_checked_at": "2026-11-25T19:57:19.442522+00:00"
+    },
+    {
+      "sku": "0am325066ae",
+      "price": 5350,
+      "cost": 1900,
+      "stock": null,
+      "scenario_contribution": 2594,
+      "break_even_orders_full_spend": 4,
+      "break_even_orders_weekly_budget_if_spent_4000": 2,
+      "max_cac_to_retain_50pct_of_contribution": 1297,
+      "scenario_cpc_for_conversion_pct": {
+        "0.2%": 5.19,
+        "0.5%": 12.97,
+        "1.0%": 25.94,
+        "2.0%": 51.88,
+        "3.0%": 77.82
+      },
+      "blocker": null,
+      "source": "public site snapshot",
+      "price_checked_at": "2026-11-23T22:05:17.677142+00:00"
+    },
+    {
+      "sku": "0AM325587E",
+      "price": 5350,
+      "cost": 1800,
+      "stock": null,
+      "scenario_contribution": 2694,
+      "break_even_orders_full_spend": 4,
+      "break_even_orders_weekly_budget_if_spent_4000": 2,
+      "max_cac_to_retain_50pct_of_contribution": 1347,
+      "scenario_cpc_for_conversion_pct": {
+        "0.2%": 5.39,
+        "0.5%": 13.47,
+        "1.0%": 26.94,
+        "2.0%": 53.88,
+        "3.0%": 80.82
+      },
+      "blocker": null,
+      "source": "public site snapshot",
+      "price_checked_at": "2026-11-23T22:05:17.677142+00:00"
+    },
+    {
+      "sku": "gidroakkumulyator-orig",
+      "price": 4850,
+      "cost": 1800,
+      "stock": null,
+      "scenario_contribution": 2274,
+      "break_even_orders_full_spend": 4,
+      "break_even_orders_weekly_budget_if_spent_4000": 2,
+      "max_cac_to_retain_50pct_of_contribution": 1137,
+      "scenario_cpc_for_conversion_pct": {
+        "0.2%": 4.55,
+        "0.5%": 11.37,
+        "1.0%": 22.74,
+        "2.0%": 45.48,
+        "3.0%": 68.22
+      },
+      "blocker": null,
+      "source": "public site snapshot",
+      "price_checked_at": "2026-11-23T22:05:17.677142+00:00"
+    },
+    {
+      "sku": "0am325025",
+      "price": 7850,
+      "cost": 3000,
+      "stock": null,
+      "scenario_contribution": 3594,
+      "break_even_orders_full_spend": 3,
+      "break_even_orders_weekly_budget_if_spent_4000": 2,
+      "max_cac_to_retain_50pct_of_contribution": 1797,
+      "scenario_cpc_for_conversion_pct": {
+        "0.2%": 7.19,
+        "0.5%": 17.97,
+        "1.0%": 35.94,
+        "2.0%": 71.88,
+        "3.0%": 107.82
+      },
+      "blocker": null,
+      "source": "public site snapshot",
+      "price_checked_at": "2026-11-23T22:05:17.677142+00:00"
+    },
+    {
+      "sku": "0am325025D",
+      "price": 980,
+      "cost": 200,
+      "stock": null,
+      "scenario_contribution": 623.2,
+      "break_even_orders_full_spend": 14,
+      "break_even_orders_weekly_budget_if_spent_4000": 7,
+      "max_cac_to_retain_50pct_of_contribution": 311.6,
+      "scenario_cpc_for_conversion_pct": {
+        "0.2%": 1.25,
+        "0.5%": 3.12,
+        "1.0%": 6.23,
+        "2.0%": 12.46,
+        "3.0%": 18.7
+      },
+      "blocker": null,
+      "source": "public site snapshot",
+      "price_checked_at": "2026-11-23T22:05:17.677142+00:00"
+    },
+    {
+      "sku": "0am325091e-set",
+      "price": 3450,
+      "cost": 1000,
+      "stock": null,
+      "scenario_contribution": 1898,
+      "break_even_orders_full_spend": 5,
+      "break_even_orders_weekly_budget_if_spent_4000": 3,
+      "max_cac_to_retain_50pct_of_contribution": 949,
+      "scenario_cpc_for_conversion_pct": {
+        "0.2%": 3.8,
+        "0.5%": 9.49,
+        "1.0%": 18.98,
+        "2.0%": 37.96,
+        "3.0%": 56.94
+      },
+      "blocker": null,
+      "source": "public site snapshot",
+      "price_checked_at": "2026-11-23T22:05:17.677142+00:00"
+    },
+    {
+      "sku": "0am325091f-set",
+      "price": 3450,
+      "cost": 1000,
+      "stock": null,
+      "scenario_contribution": 1898,
+      "break_even_orders_full_spend": 5,
+      "break_even_orders_weekly_budget_if_spent_4000": 3,
+      "max_cac_to_retain_50pct_of_contribution": 949,
+      "scenario_cpc_for_conversion_pct": {
+        "0.2%": 3.8,
+        "0.5%": 9.49,
+        "1.0%": 18.98,
+        "2.0%": 37.96,
+        "3.0%": 56.94
+      },
+      "blocker": null,
+      "source": "public site snapshot",
+      "price_checked_at": "2026-11-23T22:05:17.677142+00:00"
+    },
+    {
+      "sku": "0am325025z",
+      "price": 1880,
+      "cost": 500,
+      "stock": null,
+      "scenario_contribution": 1079.2,
+      "break_even_orders_full_spend": 8,
+      "break_even_orders_weekly_budget_if_spent_4000": 4,
+      "max_cac_to_retain_50pct_of_contribution": 539.6,
+      "scenario_cpc_for_conversion_pct": {
+        "0.2%": 2.16,
+        "0.5%": 5.4,
+        "1.0%": 10.79,
+        "2.0%": 21.58,
+        "3.0%": 32.38
+      },
+      "blocker": null,
+      "source": "public site snapshot",
+      "price_checked_at": "2026-11-23T22:05:17.677142+00:00"
+    },
+    {
+      "sku": "0am325025u",
+      "price": 1880,
+      "cost": 500,
+      "stock": null,
+      "scenario_contribution": 1079.2,
+      "break_even_orders_full_spend": 8,
+      "break_even_orders_weekly_budget_if_spent_4000": 4,
+      "max_cac_to_retain_50pct_of_contribution": 539.6,
+      "scenario_cpc_for_conversion_pct": {
+        "0.2%": 2.16,
+        "0.5%": 5.4,
+        "1.0%": 10.79,
+        "2.0%": 21.58,
+        "3.0%": 32.38
+      },
+      "blocker": null,
+      "source": "public site snapshot",
+      "price_checked_at": "2026-11-23T22:05:17.677142+00:00"
+    }
+  ],
+  "exchange_example": {
+    "sku": "0am325025H",
+    "reference_site_price": 33500,
+    "reference_procurement": 13800,
+    "exchange_refund": 4000,
+    "net_customer_cash_if_refund_paid": 29500,
+    "scenario_contribution_before_core_recovery": 10340,
+    "core_realizable_value": null,
+    "extra_reverse_logistics_restoration": null,
+    "note": "Conservative illustrative calculation subtracts full 4000 from no-exchange scenario and assumes no tax adjustment or recovery value. Actual payout, tax treatment and resale value need confirmation."
+  },
+  "external_mutations": 0
+}
