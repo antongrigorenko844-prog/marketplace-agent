@@ -1,0 +1,206 @@
+name: LEOPARTS Market bounded enrichment 20261126
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/market-content-enrichment-20261126.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: market-content-enrichment-20261126
+  cancel-in-progress: false
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+      YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Exact baseline, small batches, protected-field readback
+        run: |
+          PYTHONPATH=.:scripts python - <<'PY'
+          import collections, copy, datetime, hashlib, json, subprocess, time
+          from pathlib import Path
+          import market_full_seo_20261125 as s
+          import market_growth_recovery_20261125 as r
+
+          PLAN=Path("data/market_content_enrichment_plan_20261126.json")
+          OUT=Path("data/market_content_enrichment_result_20261126.json")
+          MAN=Path("data/content_manifest.json")
+          def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+          def save(commit=False):
+              OUT.write_text(json.dumps(report,ensure_ascii=False,indent=2,default=str)+"\n")
+              if commit:subprocess.run(["bash",".github/scripts/save_data.sh",str(OUT)],check=True)
+          def digest(v):return hashlib.sha256(json.dumps(v,ensure_ascii=False,sort_keys=True,default=str,separators=(',',':')).encode()).hexdigest()
+          def fingerprint(m,c,st,allowed):
+              x=r.protected(m,c,st)
+              for k in allowed:x["offer"].pop(k,None)
+              x["category"]=s.catid(m,c)
+              x["parameters"]=s.grouped_norm(c)
+              return x
+          def read(ids):
+              m=s.index(s.batched_read(biz,"offer-mappings",ids),lambda x:x["offer"]["offerId"])
+              c=s.index(s.batched_read(biz,"offer-cards",ids),lambda x:x["offerId"])
+              st=s.campaign_status(cam,ids)
+              if set(m)!=set(ids) or set(c)!=set(ids) or set(st)!=set(ids):raise ValueError("Incomplete exact readback")
+              return m,c,st
+
+          p=json.loads(PLAN.read_text())
+          biz,cam=s.account()
+          if biz!=194752944 or int(cam)!=141377963 or p["business_id"]!=biz or p["campaign_id"]!=int(cam):raise ValueError("Unexpected account")
+          assert p["description_count"]==60 and p["title_count"]==55 and len(p["rows"])==80
+          assert sum("new_description" in x for x in p["rows"].values())==60
+          assert sum("new_name" in x for x in p["rows"].values())==55
+          report={"platform":"Yandex Market","business_id":biz,"campaign_id":int(cam),"started_utc":now(),"status":"preflight","external_writes":0,"rows":{},"batches":[],"other_tasks":{}}
+          m,c,st=r.read_all(biz,cam)
+          report["coverage_before"]=len(m)
+          report["before_catalog"]={k:{"name":x["offer"].get("name"),"status":st[k].get("status"),"category":s.catid(x,c[k]),"group":c[k].get("groupId"),"rating":c[k].get("contentRating"),"pictures":x["offer"].get("pictures"),"videos":x["offer"].get("videos"),"protected_hash":digest(fingerprint(x,c[k],st[k],{"name","description"}))} for k,x in m.items() if (x.get("mapping") or {}).get("marketSku") or (c[k].get("mapping") or {}).get("marketSku")}
+          ready={}
+          for k,t in p["rows"].items():
+              row=report["rows"][k]={"status":"preflight","fields":[f for f in ("description","name") if "new_"+f in t]}
+              if k not in m:row.update(status="blocked",reason="SKU absent");continue
+              o=m[k]["offer"];card=c[k]
+              changes={f:t["new_"+f] for f in ("description","name") if "new_"+f in t}
+              try:
+                  if st[k].get("status")!="PUBLISHED" or card.get("cardStatus")!="HAS_CARD_CAN_UPDATE":raise ValueError("Not published/editable")
+                  if s.catid(m[k],card)!=t["old_category"]:raise ValueError("Category changed")
+                  if any(f=="description" and not 500<=len(v)<=6000 or f=="name" and not 60<=len(v)<=120 for f,v in changes.items()):raise ValueError("Length outside planned bounds")
+                  if o.get("name") not in (t["old_name"],changes.get("name",t["old_name"])):raise ValueError("Name changed after planning")
+                  if digest(o.get("description"))!=t["old_hash"] and o.get("description")!=changes.get("description",object()):raise ValueError("Description changed after planning")
+                  if all(o.get(f)==v for f,v in changes.items()):
+                      row["status"]="already_matching";continue
+                  actual={f:v for f,v in changes.items() if o.get(f)!=v}
+                  row["before"]={"mapping":m[k],"card":card,"campaign":st[k]}
+                  row["protected"]=fingerprint(m[k],card,st[k],set(actual))
+                  row["payload"]={"offerId":k,**actual}
+                  ready[k]=actual
+                  row["status"]="ready"
+              except Exception as exc:row.update(status="blocked",reason=str(exc)[:300])
+          report["status"]="prepared";save(True)
+          # Never rerun uncertain requests. Fresh read and exact baseline before each submission.
+          order=sorted(ready,key=lambda k:(0 if k=="01X301127C" else 1,k))
+          chunks=[order[:1]]+[order[i:i+10] for i in range(1,len(order),10)] if order else []
+          stop=False
+          for ids in chunks:
+              if stop:
+                  for k in ids:report["rows"][k]["status"]="held_after_guard"
+                  continue
+              batch={"ids":ids,"started_utc":now(),"status":"preflight"}
+              report["batches"].append(batch)
+              try:
+                  mm,cc,ss=read(ids)
+                  send=[]
+                  for k in ids:
+                      row=report["rows"][k];actual=ready[k];o=mm[k]["offer"]
+                      if ss[k].get("status")!="PUBLISHED" or cc[k].get("cardStatus")!="HAS_CARD_CAN_UPDATE" or fingerprint(mm[k],cc[k],ss[k],set(actual))!=row["protected"] or any(o.get(f)!=row["before"]["mapping"]["offer"].get(f) for f in actual):
+                          row.update(status="blocked",reason="Fresh preflight changed");continue
+                      send.append(k)
+                  if not send:batch["status"]="no_eligible";continue
+                  payload={"offerMappings":[{"offer":{"offerId":k,**ready[k]}} for k in send]}
+                  assert all(set(x["offer"])<= {"offerId","name","description"} for x in payload["offerMappings"])
+                  batch["payload"]=payload;batch["status"]="submission_started"
+                  for k in send:report["rows"][k]["status"]="submission_started"
+                  report["external_writes"]+=1;save(True)
+                  try:batch["response"]=s.post(f"/v2/businesses/{biz}/offer-mappings/update",payload,retries=1)
+                  except Exception as exc:batch["request_error"]=str(exc)[:400]
+                  batch["status"]="readback";save()
+                  for attempt in range(7):
+                      if attempt:time.sleep(5)
+                      aa,bb,dd=read(send)
+                      all_done=True
+                      for k in send:
+                          row=report["rows"][k];actual=ready[k]
+                          newp=fingerprint(aa[k],bb[k],dd[k],set(actual))
+                          diff=[f for f in row["protected"] if row["protected"][f]!=newp.get(f)]
+                          fields={f:aa[k]["offer"].get(f)==v for f,v in actual.items()}
+                          row["after"]={"mapping":aa[k],"card":bb[k],"campaign":dd[k]}
+                          row["checks"]={"protected_diff":diff,"fields_match":fields,"campaign_status":dd[k].get("status"),"card_status":bb[k].get("cardStatus")}
+                          if diff or dd[k].get("status")!="PUBLISHED":
+                              row["status"]="protected_drift_or_publication_change";stop=True
+                          elif all(fields.values()) and bb[k].get("cardStatus")=="HAS_CARD_CAN_UPDATE":
+                              row["status"]="verified"
+                          elif all(fields.values()):
+                              row["status"]="saved_pending_review";all_done=False
+                          else:
+                              row["status"]="unconfirmed";all_done=False
+                      if stop or all_done:break
+                  batch["status"]="checked"
+                  if len(ids)==1 and any(report["rows"][k]["status"]!="verified" for k in send):stop=True
+                  if any(report["rows"][k]["status"]=="unconfirmed" for k in send):stop=True
+              except Exception as exc:
+                  batch.update(status="uncertain",error=str(exc)[:400]);stop=True
+                  for k in ids:
+                      if report["rows"][k]["status"] in ("ready","submission_started"):report["rows"][k]["status"]="uncertain"
+              save(True)
+          # Final catalog readback and independent audit of remaining content tasks.
+          m2,c2,st2=r.read_all(biz,cam)
+          report["coverage_after"]=len(m2)
+          report["protected_catalog_changes"]=[]
+          for k,old in report["before_catalog"].items():
+              if k not in m2:report["protected_catalog_changes"].append({"sku":k,"reason":"missing"});continue
+              try:
+                  new=digest(fingerprint(m2[k],c2[k],st2[k],{"name","description"}))
+                  if new!=old["protected_hash"] or old["status"]!=st2[k].get("status"):
+                      report["protected_catalog_changes"].append({"sku":k,"reason":"protected or campaign state changed"})
+              except Exception as exc:report["protected_catalog_changes"].append({"sku":k,"reason":str(exc)[:200]})
+          quality=[]
+          for k,x in m2.items():
+              o=x["offer"];card=c2[k]
+              quality.append({"sku":k,"name":o.get("name"),"category":s.catid(x,card),"status":st2[k].get("status"),"card_status":card.get("cardStatus"),"rating":card.get("contentRating"),"recommendations":card.get("recommendations") or [],"pictures":len(o.get("pictures") or []),"videos":len(o.get("videos") or []),"group":card.get("groupId"),"parameterValues":card.get("parameterValues") or [],"errors":card.get("errors") or [],"warnings":card.get("warnings") or []})
+          report["quality_after"]=quality
+          active=[q for q in quality if q["status"]=="PUBLISHED"]
+          report["recommendations_published"]=dict(collections.Counter(v.get("type") for q in active for v in q["recommendations"]))
+          report["groups"]={}
+          for q in quality:
+              if q["group"]:report["groups"].setdefault(str(q["group"]).strip().casefold(),[]).append({"sku":q["sku"],"name":q["name"],"category":q["category"]})
+          # Exact archived membership audit, no group mutations.
+          try:
+              arch=s.get_mappings(biz,True)
+              archids=[x["offer"]["offerId"] for x in arch]
+              archcards=s.batched_read(biz,"offer-cards",archids) if archids else []
+              report["archived_group_coverage"]={"offers":len(archids),"cards":len(archcards),"complete":{x["offerId"] for x in archcards}==set(archids)}
+              for x in archcards:
+                  if x.get("groupId"):report["groups"].setdefault(str(x["groupId"]).strip().casefold(),[]).append({"sku":x["offerId"],"archived":True})
+          except Exception as exc:report["archived_group_error"]=str(exc)[:300]
+          # Inspect exact category schema: report blank searchable and required parameters, not guesses.
+          try:
+              defs={}
+              for cid in sorted({q["category"] for q in quality if q["category"]}):
+                  try:defs[cid]=s.definition_map(biz,cid)
+                  except Exception as exc:report.setdefault("schema_errors",{})[str(cid)]=str(exc)[:200]
+              report["missing_parameters"]={}
+              for q in quality:
+                  known={int(x["parameterId"]) for x in q["parameterValues"] if x.get("value") is not None or x.get("valueId") is not None}
+                  report["missing_parameters"][q["sku"]]=[{"id":pid,"name":v.get("name"),"type":v.get("type"),"required":v.get("required"),"recommendations":v.get("recommendations"),"filtering":v.get("filtering")} for pid,v in defs.get(q["category"],{}).items() if pid not in known and (v.get("required") or v.get("recommendations") or v.get("filtering"))]
+          except Exception as exc:report["schema_audit_error"]=str(exc)[:300]
+          # Existing files are candidates only, not proof of SKU/media correspondence.
+          photo_paths=[str(f) for base in ("photos","photos_avito","social") if Path(base).exists() for f in Path(base).rglob("*") if f.is_file() and f.suffix.lower() in (".jpg",".jpeg",".png",".webp",".mp4",".mov")]
+          report["media_candidates"]={q["sku"]:[f for f in photo_paths if Path(f).stem==q["sku"] or Path(f).stem.startswith(q["sku"]+"_")] for q in quality if q["pictures"]<6 or not q["videos"]}
+          # Update only verified Market descriptions in shared manifest. Other channels remain untouched.
+          manifest=json.loads(MAN.read_text());updated=[];conflicts=[]
+          for k,t in p["rows"].items():
+              if "new_description" not in t:continue
+              row=report["rows"][k]
+              if row["status"] not in ("verified","already_matching"):continue
+              if m2[k]["offer"].get("description")!=t["new_description"] or st2[k].get("status")!="PUBLISHED":continue
+              dest=manifest["products"][k]["text"]["market"]
+              if dest.get("description") not in (t["old_description"],t["new_description"]):conflicts.append(k);continue
+              if dest["description"]!=t["new_description"]:dest["description"]=t["new_description"];updated.append(k)
+          report["manifest_updates"]=updated;report["manifest_conflicts"]=conflicts
+          if updated:MAN.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n")
+          report["summary"]=dict(collections.Counter(row["status"] for row in report["rows"].values()))
+          report["field_verification"]={f:{state:sum(f in row["fields"] and row["status"]==state for row in report["rows"].values()) for state in report["summary"]} for f in ("description","name")}
+          report["finished_utc"]=now();report["status"]="completed_with_review" if stop or conflicts or report["protected_catalog_changes"] or any(k not in ("verified","already_matching") for k in report["summary"]) else "content_verified"
+          save()
+          subprocess.run(["bash",".github/scripts/save_data.sh",str(OUT),str(MAN)],check=True)
+          print(json.dumps({"summary":report["summary"],"field_verification":report["field_verification"],"status":report["status"],"external_writes":report["external_writes"],"protected_changes":len(report["protected_catalog_changes"]),"recommendations":report["recommendations_published"]},ensure_ascii=False))
+          PY
