@@ -1,0 +1,345 @@
+{
+  "platform": "Yandex Market",
+  "business_id": 194752944,
+  "campaign_id": 141377963,
+  "status": "prepared_only_no_api_mutations",
+  "source": "data/market_content_enrichment_result_20261126.json",
+  "schema_source": "data/market_seo_disabled_diagnosis_20261125.json",
+  "guard": [
+    "fresh exact readback",
+    "only PUBLISHED and HAS_CARD_CAN_UPDATE",
+    "same category and existing group, no multi-variant group changes",
+    "fill missing type only; preserve all other parameters and commercial fields",
+    "dictionary valueId exact; custom values require confirmation of search indexing",
+    "verify via API; do not retry accepted uncertain requests"
+  ],
+  "dictionary_candidates": 8,
+  "custom_candidates": 7,
+  "rows": {
+    "0am325025j": {
+      "name": "Сепараторная пластина + пластины на соленоиды мехатроника DSG7 DQ200, оригинал VAG",
+      "categoryId": 71380208,
+      "group": "сепараторка_0am325025j_0am325025j_0am325025j_0am325025j_0am325025j_0am325025j_0am325025j",
+      "parameterId": 21194330,
+      "label": "комплект",
+      "valueId": 22269110,
+      "status": "dictionary_candidate",
+      "baseline_parameters": [
+        {
+          "parameterId": 57046341,
+          "value": "Вид техники: Легковые автомобили"
+        },
+        {
+          "parameterId": 14805583,
+          "unitId": 6145205,
+          "value": "1"
+        },
+        {
+          "parameterId": 60134505,
+          "value": "0am325025j"
+        },
+        {
+          "parameterId": 200,
+          "value": "сепараторка_0am325025j_0am325025j_0am325025j_0am325025j_0am325025j_0am325025j_0am325025j"
+        }
+      ]
+    },
+    "0am325025L": {
+      "name": "Крышка штока мехатроника DSG7 DQ200 0AM 0CW",
+      "categoryId": 71380208,
+      "group": null,
+      "parameterId": 21194330,
+      "label": "крышка",
+      "valueId": 23090250,
+      "status": "dictionary_candidate",
+      "baseline_parameters": [
+        {
+          "parameterId": 60134505,
+          "value": "0am325025m"
+        },
+        {
+          "parameterId": 200,
+          "value": ""
+        }
+      ]
+    },
+    "0am325025p": {
+      "name": "Соленоиды мехатроника DSG7 DQ200 0AM 0CW Hiltie",
+      "categoryId": 71380208,
+      "group": "соленоиды дсг7_0am325025p",
+      "parameterId": 21194330,
+      "label": "клапан",
+      "valueId": 34063110,
+      "status": "dictionary_candidate",
+      "baseline_parameters": [
+        {
+          "parameterId": 14805583,
+          "unitId": 6145205,
+          "value": "1"
+        },
+        {
+          "parameterId": 60134505,
+          "value": "0am325025p"
+        },
+        {
+          "parameterId": 200,
+          "value": "соленоиды дсг7_0am325025p"
+        }
+      ]
+    },
+    "0am325066ac": {
+      "name": "Сальник манжет штока мехатроника DSG7 DQ200 0AM 0CW",
+      "categoryId": 71380208,
+      "group": null,
+      "parameterId": 21194330,
+      "label": "манжета",
+      "valueId": 34068685,
+      "status": "dictionary_candidate",
+      "baseline_parameters": [
+        {
+          "parameterId": 60134505,
+          "value": "0am325066ac"
+        },
+        {
+          "parameterId": 200,
+          "value": ""
+        }
+      ]
+    },
+    "122390AK-AF": {
+      "name": "Пыльник штока мехатроника DSG7 DQ200 122390AK-AF",
+      "categoryId": 71380208,
+      "group": "пыльник",
+      "parameterId": 21194330,
+      "label": "чехол",
+      "valueId": 22798650,
+      "status": "dictionary_candidate",
+      "baseline_parameters": [
+        {
+          "parameterId": 57046341,
+          "value": "Вид техники: Легковые автомобили"
+        },
+        {
+          "parameterId": 14805583,
+          "unitId": 6145205,
+          "value": "1"
+        },
+        {
+          "parameterId": 7351754,
+          "value": "Комплектация: Пыльник штока — 1 шт."
+        },
+        {
+          "parameterId": 60134505,
+          "value": "122390AK-AF"
+        },
+        {
+          "parameterId": 200,
+          "value": "пыльник"
+        }
+      ]
+    },
+    "Dq200dsg70am0cw": {
+      "name": "Прокладки + сальники + пыльники мехатроника DSG7 DQ200, оригинал Германия",
+      "categoryId": 71380208,
+      "group": "Прокладки0cw0am",
+      "parameterId": 21194330,
+      "label": "комплект",
+      "valueId": 22269110,
+      "status": "dictionary_candidate",
+      "baseline_parameters": [
+        {
+          "parameterId": 7351754,
+          "value": "Комплектация: Комплект прокладок и уплотнений мехатроника, крышка и её прокладка, фильтр, оригинальные сальники и пыльники Volkswagen. Состав показан на фото."
+        },
+        {
+          "parameterId": 200,
+          "value": "Прокладки0cw0am"
+        }
+      ]
+    },
+    "porshni-usil-pylniki-kryshki": {
+      "name": "Ремкомплект штоков DSG7 DQ200: 2 усиленных поршня + 2 пыльника + 2 крышки",
+      "categoryId": 71380208,
+      "group": "ремкомлект штока_porshni-usil-pylniki-kryshki_porshni-usil-pylniki-kryshki_porshni-usil-pylniki-kryshki",
+      "parameterId": 21194330,
+      "label": "ремкомплект",
+      "valueId": 34071233,
+      "status": "dictionary_candidate",
+      "baseline_parameters": [
+        {
+          "parameterId": 7351754,
+          "value": "Комплектация: Усиленные поршни штоков — 2 шт.; пыльники — 2 шт.; крышки — 2 шт."
+        },
+        {
+          "parameterId": 200,
+          "value": "ремкомлект штока_porshni-usil-pylniki-kryshki_porshni-usil-pylniki-kryshki_porshni-usil-pylniki-kryshki"
+        }
+      ]
+    },
+    "porshni-usil-pylniki-kryshki-v2": {
+      "name": "Ремкомплект штоков DQ200 DSG7: 2 усиленных поршня + 2 пыльника + 2 крышки",
+      "categoryId": 71380208,
+      "group": "ремкомлект штока_porshni-usil-pylniki-kryshki-v2_porshni-usil-pylniki-kryshki-v2_porshni-usil-pylniki-kryshki-v2",
+      "parameterId": 21194330,
+      "label": "ремкомплект",
+      "valueId": 34071233,
+      "status": "dictionary_candidate",
+      "baseline_parameters": [
+        {
+          "parameterId": 7351754,
+          "value": "Комплектация: Усиленные поршни штоков — 2 шт.; пыльники — 2 шт.; крышки — 2 шт."
+        },
+        {
+          "parameterId": 200,
+          "value": "ремкомлект штока_porshni-usil-pylniki-kryshki-v2_porshni-usil-pylniki-kryshki-v2_porshni-usil-pylniki-kryshki-v2"
+        }
+      ]
+    },
+    "0AM325413A": {
+      "name": "Сальник толкателя вилки мехатроника DSG7 DQ200 0AM325413A",
+      "categoryId": 71380208,
+      "group": null,
+      "parameterId": 21194330,
+      "label": "сальник",
+      "valueId": null,
+      "status": "custom_value_requires_filtering_check",
+      "baseline_parameters": [
+        {
+          "parameterId": 57046341,
+          "value": "Вид техники: Легковые автомобили"
+        },
+        {
+          "parameterId": 14805583,
+          "unitId": 6145205,
+          "value": "1"
+        },
+        {
+          "parameterId": 60134505,
+          "value": "0AM325413A"
+        },
+        {
+          "parameterId": 200,
+          "value": ""
+        }
+      ]
+    },
+    "0am325477ae": {
+      "name": "Пластина соленоидов мехатроника DSG7 DQ200 0AM325477AE ОРИГИНАЛ VAG",
+      "categoryId": 71380208,
+      "group": "планка_0am325477ae_0am325477ae_0am325477ae_0am325477ae_0am325477ae_0am325477ae_0am325477ae_0am325477ae_0am325477ae",
+      "parameterId": 21194330,
+      "label": "пластина соленоидов",
+      "valueId": null,
+      "status": "custom_value_requires_filtering_check",
+      "baseline_parameters": [
+        {
+          "parameterId": 7351754,
+          "value": "Комплектация: Пластина соленоидов — 1 шт."
+        },
+        {
+          "parameterId": 200,
+          "value": "планка_0am325477ae_0am325477ae_0am325477ae_0am325477ae_0am325477ae_0am325477ae_0am325477ae_0am325477ae_0am325477ae"
+        }
+      ]
+    },
+    "0b5": {
+      "name": "Фильтр-сетка соленоидов АКПП DSG7 0B5 DL501",
+      "categoryId": 71380208,
+      "group": "0b5",
+      "parameterId": 21194330,
+      "label": "фильтр-сетка",
+      "valueId": null,
+      "status": "custom_value_requires_filtering_check",
+      "baseline_parameters": [
+        {
+          "parameterId": 60134505,
+          "value": "0b5"
+        },
+        {
+          "parameterId": 200,
+          "value": "0b5"
+        }
+      ]
+    },
+    "0cw0amdsgdq200": {
+      "name": "Уплотнение электромотора гидроблока мехатроника DSG7 DQ200",
+      "categoryId": 71380208,
+      "group": "Прокладка 0cw 0am",
+      "parameterId": 21194330,
+      "label": "уплотнение",
+      "valueId": null,
+      "status": "custom_value_requires_filtering_check",
+      "baseline_parameters": [
+        {
+          "parameterId": 200,
+          "value": "Прокладка 0cw 0am"
+        }
+      ]
+    },
+    "0cw325025h": {
+      "name": "Прокладка электронной платы мехатроника DSG7 DQ200 0AM927769N",
+      "categoryId": 71380208,
+      "group": "Прокладкаплатыdq200",
+      "parameterId": 21194330,
+      "label": "прокладка",
+      "valueId": null,
+      "status": "custom_value_requires_filtering_check",
+      "baseline_parameters": [
+        {
+          "parameterId": 200,
+          "value": "Прокладкаплатыdq200"
+        }
+      ]
+    },
+    "123014‑AF": {
+      "name": "Фильтр-сетка соленоидов DSG7 0B5 DL501 123014AF (аналог 0B5325421)",
+      "categoryId": 71380208,
+      "group": null,
+      "parameterId": 21194330,
+      "label": "фильтр-сетка",
+      "valueId": null,
+      "status": "custom_value_requires_filtering_check",
+      "baseline_parameters": [
+        {
+          "parameterId": 57046341,
+          "value": "Вид техники: Легковые автомобили"
+        },
+        {
+          "parameterId": 16617043,
+          "valueId": 16617418
+        },
+        {
+          "parameterId": 7351754,
+          "value": "Комплектация: Фильтр-сетка соленоидов — 1 шт."
+        },
+        {
+          "parameterId": 60134505,
+          "value": "0B5325421"
+        },
+        {
+          "parameterId": 200,
+          "value": ""
+        }
+      ]
+    },
+    "Dq200dsg7": {
+      "name": "Уплотнение насоса гидроблока мехатроника DSG7 DQ200",
+      "categoryId": 71380208,
+      "group": "Прокладка насоса мехатроника dsg7",
+      "parameterId": 21194330,
+      "label": "уплотнение",
+      "valueId": null,
+      "status": "custom_value_requires_filtering_check",
+      "baseline_parameters": [
+        {
+          "parameterId": 7351754,
+          "value": "Комплектация: Уплотнение насоса гидроблока — 1 шт."
+        },
+        {
+          "parameterId": 200,
+          "value": "Прокладка насоса мехатроника dsg7"
+        }
+      ]
+    }
+  }
+}
