@@ -1,0 +1,64 @@
+name: LEOPARTS Direct performance audit 20261125
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-performance-deep-20261125.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: direct-performance-deep-20261125
+  cancel-in-progress: false
+jobs:
+  performance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile .github/scripts/direct_performance_deep_20261125.py
+      - name: Read Direct and Metrika, no external changes
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: python -u .github/scripts/direct_performance_deep_20261125.py
+      - name: Commit scoped evidence only
+        if: always()
+        run: |
+          if test -f data/direct_performance_20261125/live_30d.json; then
+            bash .github/scripts/save_data.sh data/direct_performance_20261125/live_30d.json
+          fi
+          if test -f data/direct_performance_20261125/live_30d_summary.json; then
+            bash .github/scripts/save_data.sh data/direct_performance_20261125/live_30d_summary.json
+          fi
+  site:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q openpyxl playwright==1.56.0
+      - run: python -m playwright install chromium
+      - run: python -m py_compile .github/scripts/direct_site_economics_20261125.py
+      - name: Public SEO and checkout diagnostic without submissions
+        run: python -u .github/scripts/direct_site_economics_20261125.py
+      - name: Commit scoped evidence only
+        if: always()
+        run: |
+          if test -f data/direct_performance_20261125/site_economics.json; then
+            bash .github/scripts/save_data.sh data/direct_performance_20261125/site_economics.json
+          fi
+          if test -f data/direct_performance_20261125/cart_runtime.json; then
+            bash .github/scripts/save_data.sh data/direct_performance_20261125/cart_runtime.json
+          fi
