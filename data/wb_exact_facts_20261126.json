@@ -2,14 +2,6 @@
   "version": 1,
   "platform": "wb",
   "journal": {
-    "2254117475:90702:e7f6c011776e": {
-      "sku": "6t30",
-      "nmID": 2254117475,
-      "field": 90702,
-      "target": 6,
-      "status": "REVIEW_REQUIRED",
-      "error": ""
-    },
     "670858043:90702:4b227777d4dd": {
       "sku": "jf011e",
       "nmID": 670858043,
@@ -520,10 +512,120 @@
       "target": null,
       "status": "REVIEW_REQUIRED",
       "error": ""
+    },
+    "2254117475:90702:e7f6c011776e": {
+      "sku": "6t30",
+      "nmID": 2254117475,
+      "field": 90702,
+      "target": 6,
+      "previous": null,
+      "source": "Owner-confirmed 6 Gen1 solenoids; exact approved description and composition agree",
+      "status": "SUBMISSION_STARTED",
+      "protected_hash": "dfd4d13a425b06bba62a943d6b6b0c56773945dcc42a40717512cbeaa61aaf07",
+      "before": {
+        "nmID": 2254117475,
+        "imtID": 4505575814,
+        "nmUUID": "01a1d510-9358-73bd-ba9f-684abcb0baf5",
+        "subjectID": 7807,
+        "subjectName": "Клапаны автомобильные",
+        "vendorCode": "6t30",
+        "brand": "Нет бренда",
+        "title": "Соленоиды АКПП 6T30 6T40 6T45 6T50, 1 поколение, 6 шт",
+        "description": "Комплект 6 соленоидов гидроблока АКПП 6T30, 6T40, 6T45 и 6T50 первого поколения (Gen1).\n\nКомплектация: 6 соленоидов. Гидроблок и электронная плата не входят.\n\nСоленоиды проверены на стенде.\n\nПодбор: сверяйте поколение Gen1, маркировку исходных деталей и исполнение АКПП. Принадлежность к одному семейству коробок не гарантирует взаимозаменяемость Gen1 и Gen2.\n\nСоленоиды управляют потоками и давлением рабочей жидкости в гидравлической системе АКПП. Комплект используется при ремонте после диагностики.",
+        "needKiz": false,
+        "kizMarked": false,
+        "photos": [
+          {
+            "big": "https://basket-57.wbbasket.ru/vol22541/part2254117/2254117475/images/big/1.webp",
+            "c246x328": "https://basket-57.wbbasket.ru/vol22541/part2254117/2254117475/images/c246x328/1.webp",
+            "c516x688": "https://basket-57.wbbasket.ru/vol22541/part2254117/2254117475/images/c516x688/1.webp",
+            "hq": "https://basket-57.wbbasket.ru/vol22541/part2254117/2254117475/images/hq/1.webp",
+            "square": "https://basket-57.wbbasket.ru/vol22541/part2254117/2254117475/images/square/1.webp",
+            "tm": "https://basket-57.wbbasket.ru/vol22541/part2254117/2254117475/images/tm/1.webp"
+          }
+        ],
+        "dimensions": {
+          "width": 7,
+          "height": 6,
+          "length": 10,
+          "weightBrutto": 0.5,
+          "isValid": true
+        },
+        "characteristics": [
+          {
+            "id": 378533,
+            "name": "Комплектация",
+            "value": [
+              "Соленоиды АКПП 6T30/6T40/6T45/6T50 первого поколения — 6 шт."
+            ]
+          },
+          {
+            "id": 16532,
+            "name": "Марка автомобиля",
+            "value": [
+              "Chevrolet",
+              "Opel"
+            ]
+          },
+          {
+            "id": 15001175,
+            "name": "Модель автомобиля",
+            "value": [
+              "Chevrolet Cruze",
+              "Opel Astra J",
+              "Opel Insignia"
+            ]
+          },
+          {
+            "id": 5522881,
+            "name": "Артикул производителя",
+            "value": [
+              "6t30"
+            ]
+          },
+          {
+            "id": 15003115,
+            "name": "Вид автотранспорта",
+            "value": [
+              "Легковые автомобили"
+            ]
+          }
+        ],
+        "sizes": [
+          {
+            "chrtID": 4018648852,
+            "techSize": "0",
+            "wbSize": "",
+            "skus": [
+              "2061907175473"
+            ]
+          }
+        ],
+        "createdAt": "2026-11-13T13:19:59.066961Z",
+        "updatedAt": "2026-11-24T16:14:18.952435Z",
+        "documents": {
+          "overallVerdict": {
+            "isFullyChecked": true,
+            "status": 2,
+            "reason": "documents_missing",
+            "createdAt": "2026-11-13T16:20:14.79217+03:00"
+          },
+          "issues": [
+            {
+              "code": "document_missing",
+              "documentTypes": [
+                1
+              ]
+            }
+          ],
+          "excludeDocuments": false
+        }
+      },
+      "started": "2026-11-25T19:19:15.788668+00:00"
     }
   },
   "requests": 4,
-  "checked": "2026-11-25T19:17:00.417227+00:00",
+  "checked": "2026-11-25T19:19:05.799478+00:00",
   "baseline_cards": 144,
   "stock_coverage": {
     "known": 143,
