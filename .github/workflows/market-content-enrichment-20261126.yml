@@ -67,9 +67,15 @@ jobs:
           canary="01X301127C"
           prior_canary=(prior.get("rows") or {}).get(canary,{})
           canary_plan=p["rows"][canary]
-          trusted_canary=bool(prior_canary.get("protected") and canary in m and st[canary].get("status")=="PUBLISHED" and c[canary].get("cardStatus")=="HAS_CARD_CAN_UPDATE" and all(m[canary]["offer"].get(f)==canary_plan["new_"+f] for f in ("name","description")) and fingerprint(m[canary],c[canary],st[canary],set(prior_canary.get("fields",[])))==prior_canary["protected"])
-          accepted_prior=any(canary in b.get("ids",[]) and (b.get("response") or {}).get("status")=="OK" for b in prior.get("batches",[]))
-          report["canary_recheck"]={"trusted":trusted_canary,"previous_accepted":accepted_prior,"fields":{f:m[canary]["offer"].get(f)==canary_plan["new_"+f] for f in ("name","description")},"protected_unchanged":bool(prior_canary.get("protected") and fingerprint(m[canary],c[canary],st[canary],set(prior_canary.get("fields",[])))==prior_canary["protected"])}
+          # An exact API readback is sufficient to proceed with independent cards.
+          # A published canary being reprocessed must not be written again.
+          old_recheck=prior.get("canary_recheck") or {}
+          prior_hash=(prior.get("before_catalog") or {}).get(canary,{}).get("protected_hash")
+          unchanged=bool(canary in m and ((prior_canary.get("protected") and fingerprint(m[canary],c[canary],st[canary],set(prior_canary.get("fields",[])))==prior_canary["protected"]) or (old_recheck.get("protected_unchanged") and prior_hash and digest(fingerprint(m[canary],c[canary],st[canary],{"name","description"}))==prior_hash)))
+          accepted_prior=bool(old_recheck.get("previous_accepted") or any(canary in b.get("ids",[]) and (b.get("response") or {}).get("status")=="OK" for b in prior.get("batches",[])))
+          exact=all(m[canary]["offer"].get(f)==canary_plan["new_"+f] for f in ("name","description"))
+          trusted_canary=bool(accepted_prior and unchanged and exact and st[canary].get("status")=="PUBLISHED" and c[canary].get("cardStatus") in ("HAS_CARD_CAN_UPDATE","HAS_CARD_CAN_UPDATE_PROCESSING") and not c[canary].get("errors"))
+          report["canary_recheck"]={"trusted":trusted_canary,"previous_accepted":accepted_prior,"fields":{f:m[canary]["offer"].get(f)==canary_plan["new_"+f] for f in ("name","description")},"protected_unchanged":unchanged,"card_status":c[canary].get("cardStatus"),"published":st[canary].get("status")=="PUBLISHED"}
           report["before_catalog"]={k:{"name":x["offer"].get("name"),"status":st[k].get("status"),"category":s.catid(x,c[k]),"group":c[k].get("groupId"),"rating":c[k].get("contentRating"),"pictures":x["offer"].get("pictures"),"videos":x["offer"].get("videos"),"protected_hash":digest(fingerprint(x,c[k],st[k],{"name","description"}))} for k,x in m.items() if (x.get("mapping") or {}).get("marketSku") or (c[k].get("mapping") or {}).get("marketSku")}
           ready={}
           for k,t in p["rows"].items():
@@ -78,13 +84,14 @@ jobs:
               o=m[k]["offer"];card=c[k]
               changes={f:t["new_"+f] for f in ("description","name") if "new_"+f in t}
               try:
-                  if st[k].get("status")!="PUBLISHED" or card.get("cardStatus")!="HAS_CARD_CAN_UPDATE":raise ValueError("Not published/editable")
+                  if st[k].get("status")!="PUBLISHED":raise ValueError("Not published")
                   if s.catid(m[k],card)!=t["old_category"]:raise ValueError("Category changed")
                   if any(f=="description" and not 500<=len(v)<=6000 or f=="name" and not 60<=len(v)<=120 for f,v in changes.items()):raise ValueError("Length outside planned bounds")
                   if o.get("name") not in (t["old_name"],changes.get("name",t["old_name"])):raise ValueError("Name changed after planning")
                   if digest(o.get("description"))!=t["old_hash"] and o.get("description")!=changes.get("description",object()):raise ValueError("Description changed after planning")
                   if all(o.get(f)==v for f,v in changes.items()):
                       row["status"]="already_matching";continue
+                  if card.get("cardStatus")!="HAS_CARD_CAN_UPDATE":raise ValueError("Not editable")
                   actual={f:v for f,v in changes.items() if o.get(f)!=v}
                   row["before"]={"mapping":m[k],"card":card,"campaign":st[k]}
                   row["protected"]=fingerprint(m[k],card,st[k],set(actual))
