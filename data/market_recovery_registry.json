@@ -9319,7 +9319,7 @@
       "kind": "category",
       "sku": "0am325025HX",
       "target": 71380208,
-      "status": "ACCEPTED",
+      "status": "PENDING_MODERATION",
       "started_utc": "2026-11-25T18:40:06.608645+00:00",
       "target_parameters": [
         {
@@ -9543,6 +9543,13 @@
       },
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "exact": false,
+        "protected_diff": [],
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED",
+        "category": 4953550
       }
     }
   },
@@ -9724,7 +9731,7 @@
     },
     "target_saved": true
   },
-  "updated_utc": "2026-11-25T18:40:08.909846+00:00",
+  "updated_utc": "2026-11-25T18:40:32.404886+00:00",
   "source_readback": {
     "errors": {},
     "avito": {
