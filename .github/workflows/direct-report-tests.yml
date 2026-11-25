@@ -4,6 +4,11 @@ on:
     branches: [main]
     paths:
       - direct_tools.py
+      - direct_commercial_evidence.py
+      - tests/test_direct_commercial_evidence.py
+      - .github/scripts/direct_traffic_quality_20261126.py
+      - .github/scripts/direct_targeted_readonly_20261126.py
+      - data/direct_audit_20261126/payment_evidence.json
       - tests/test_direct_report_scope.py
       - tests/test_direct_metrika_report.py
       - .github/workflows/run-command.yml
@@ -25,3 +30,7 @@ jobs:
         run: python -m unittest discover -s tests -p test_direct_report_scope.py -v
       - name: Test Metrica aggregate reporting and secrets redaction
         run: python -m unittest discover -s tests -p test_direct_metrika_report.py -v
+      - name: Verify exact campaign attribution and unpaid-order separation
+        run: |
+          python -m py_compile direct_commercial_evidence.py direct_tools.py .github/scripts/direct_traffic_quality_20261126.py .github/scripts/direct_targeted_readonly_20261126.py
+          python -m unittest discover -s tests -p test_direct_commercial_evidence.py -v
