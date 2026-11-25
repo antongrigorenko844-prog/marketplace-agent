@@ -4,7 +4,7 @@ other SKUs, Avito existing listings, or unverified Tilda import operations.
 A journal is committed before external catalog writes; retry by reading live media.
 """
 from __future__ import annotations
-import copy, hashlib, io, json, os, re, subprocess, sys, tempfile, time
+import copy, hashlib, io, json, os, re, shutil, subprocess, sys, tempfile, time
 from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 import requests
@@ -177,6 +177,37 @@ def host_avito():
     journal('avito_media',status='verified',images=proofs,count=7,price_rub=29500)
     save(CACHE)
 
+def ozon_protection(r):
+    return {k:r.get(k) for k in ('id','product_id','offer_id','name','description_category_id','type_id','height','width','depth','weight','attributes','complex_attributes','color_image')}
+
+def canon_attrs(v):
+    # The attributes API does not guarantee list order. Compare identities and
+    # every value (including full description and complex Rich Content), not
+    # the incidental order of rows. Preserve multiplicity, nulls, and types.
+    if isinstance(v,dict):return {k:canon_attrs(x) for k,x in sorted(v.items())}
+    if isinstance(v,list):
+        return sorted((canon_attrs(x) for x in v),key=lambda x:json.dumps(x,ensure_ascii=False,sort_keys=True,separators=(',',':')))
+    return v
+
+def ozon_protection_diff(before,after):
+    fields={}
+    for k,v in before.items():
+        a=after.get(k)
+        if k in ('attributes','complex_attributes'):
+            if canon_attrs(v)==canon_attrs(a):continue
+            if isinstance(v,list) and isinstance(a,list):
+                def by_id(rows):
+                    out={}
+                    for row in rows:
+                        key=str(row.get('complex_id',0))+':'+str(row.get('id'))
+                        out.setdefault(key,[]).append(row)
+                    return out
+                bmap,amap=by_id(v),by_id(a)
+                fields[k]=[i for i in sorted(set(bmap)|set(amap)) if canon_attrs(bmap.get(i))!=canon_attrs(amap.get(i))]
+            else:fields[k]='schema_or_value_changed'
+        elif v!=a:fields[k]={'before':v,'after':a}
+    return fields
+
 def ozon(url):
     import ozon_client as oz
     def read():return one(oz.get_product_names([SKU]),'offer_id',SKU)
@@ -185,34 +216,45 @@ def ozon(url):
         a=r.get('images') or []
         require(isinstance(a,list) and all(isinstance(x,str) for x in a),'Unknown Ozon gallery schema')
         return urls_only([p]+[x for x in a if not same_url(x,p)])
-    def protection(r):
-        return {k:r.get(k) for k in ('id','product_id','offer_id','name','description_category_id','type_id','height','width','depth','weight','attributes','complex_attributes','color_image')}
-    before=read(); old=ordered(before); desired=prepend(old,url)
+    def ordered_matches(actual,desired):
+        if actual==desired:return True
+        if len(actual)!=len(desired):return False
+        return all(same_url(a,b) or match(a,digest_image(download(b))) for a,b in zip(actual,desired))
+    before=read();actual=ordered(before)
     entry=J['channels'].get('ozon',{})
     if entry.get('before_gallery'):
-        old=list(entry['before_gallery']);desired=prepend(old,url)
-        require(ordered(before)==old or ordered(before)==desired,'Ozon gallery changed since previous intent')
-    if desired!=ordered(before):
-        journal('ozon',status='intent',product_id=before.get('id') or before.get('product_id'),before_gallery=old,desired_gallery=desired,protected=protection(before))
+        old=entry['before_gallery'];desired=entry['desired_gallery']
+        require(desired==prepend(old,url),'Stored Ozon gallery plan differs')
+        protected=entry.get('protected');require(isinstance(protected,dict),'Original Ozon protection baseline absent')
+        # Never replay the already accepted media request. Preserve the original
+        # baseline from BEFORE task 6128640663, not a newly captured after-state.
+        task=entry.get('task_id')
+        task_status=None
+        if task:
+            try:task_status=oz.get_import_status(task)
+            except Exception as e:task_status={'read_error':str(e)[:180]}
+        diff=ozon_protection_diff(protected,ozon_protection(before))
+        ok=ordered_matches(actual,desired)
+        journal('ozon',status='verified' if ok and not diff else 'gallery_verified_protection_diff' if ok else 'submitted_pending_readback',product_id=before.get('id') or before.get('product_id'),actual_gallery=actual,desired_gallery=desired,before_gallery=old,protected_unchanged=not diff,protection_differences=diff,attribute_order_only=(protected!=ozon_protection(before) and not diff),task_status=task_status,readback_only=True,error=None)
         save()
-        pipeline.current_main()
+        if ok and not diff:persist_sources('ozon',desired)
+        return
+    old=actual;desired=prepend(old,url);protected=ozon_protection(before)
+    if desired!=actual:
+        journal('ozon',status='intent',product_id=before.get('id') or before.get('product_id'),before_gallery=old,desired_gallery=desired,protected=protected)
+        save();pipeline.current_main()
         body={'items':[{'offer_id':SKU,'primary_image':url,'images':desired[1:],'color_image':before.get('color_image') or ''}]}
         response=oz._post('/v2/product/pictures/import',body,retries=1)
         task=response.get('task_id') or (response.get('result') or {}).get('task_id')
-        journal('ozon',status='submitted',task_id=task)
-        save()
+        journal('ozon',status='submitted',task_id=task);save()
     after=read()
     for _ in range(12):
-        if ordered(after)==desired:break
+        if ordered_matches(ordered(after),desired):break
         time.sleep(5);after=read()
-    require(protection(before)==protection(after),'Ozon protected catalog fields changed')
-    actual=ordered(after)
-    ok=actual==desired
-    if not ok and len(actual)==len(desired):
-        ok=all(match(a,digest_image(download(b))) for a,b in zip(actual,desired))
-    journal('ozon',status='verified' if ok else 'submitted_pending_readback',product_id=after.get('id') or after.get('product_id'),before_gallery=old,desired_gallery=desired,actual_gallery=actual,protected_unchanged=True)
+    actual=ordered(after);ok=ordered_matches(actual,desired);diff=ozon_protection_diff(protected,ozon_protection(after))
+    journal('ozon',status='verified' if ok and not diff else 'gallery_verified_protection_diff' if ok else 'submitted_pending_readback',product_id=after.get('id') or after.get('product_id'),before_gallery=old,desired_gallery=desired,actual_gallery=actual,protected_unchanged=not diff,protection_differences=diff,error=None)
     save()
-    if ok:persist_sources('ozon',desired)
+    if ok and not diff:persist_sources('ozon',desired)
 
 def market(url):
     import yandex_market_client as ym
@@ -247,7 +289,12 @@ def market(url):
     if ok:persist_sources('market',desired)
 
 def frame(path,second):
-    data=subprocess.check_output(['ffmpeg','-v','error','-ss',str(second),'-i',str(path),'-frames:v','1','-f','image2pipe','-vcodec','png','-'],timeout=40)
+    ffmpeg=shutil.which('ffmpeg')
+    if not ffmpeg:
+        import imageio_ffmpeg
+        ffmpeg=imageio_ffmpeg.get_ffmpeg_exe()
+    require(bool(ffmpeg),'FFmpeg unavailable')
+    data=subprocess.check_output([ffmpeg,'-nostdin','-v','error','-ss',str(second),'-i',str(path),'-frames:v','1','-f','image2pipe','-vcodec','png','-'],timeout=55)
     require(bool(data),'Video frame unavailable')
     return digest_image(data)
 
@@ -350,6 +397,7 @@ def wb(url):
 
 def tilda(url):
     from scripts.leoparts_direct_operation_nov21 import site_records
+    from tilda_cover_csv import build_csv
     rows=[r for r in site_records().values() if r.get('sku')==SKU]
     require(len(rows)==1 and str(rows[0].get('uid'))==TILDA_UID,'Tilda exact product identity missing')
     r=rows[0];old=r.get('gallery')
@@ -358,13 +406,32 @@ def tilda(url):
     actual=[]
     for item in old:
         u=item if isinstance(item,str) else next((item.get(k) for k in ('img','url','original','src','large') if isinstance(item.get(k),str) and item[k].startswith('https://')),None)
+        require(isinstance(u,str) and u.startswith('https://'),'Unknown Tilda gallery entry')
         actual.append(u)
-    actual=urls_only(actual);desired=prepend(actual,url)
-    # Prior CommerceML evidence shows appending, not reordering. Do not run a
-    # destructive/append-only import. Read existing gallery and persist the exact
-    # required editor operation as a separate blocker, not a success.
-    journal('tilda',status='verified' if actual==desired else 'blocked_no_supported_gallery_reorder',uid=TILDA_UID,before_gallery=actual,desired_gallery=desired,actual_gallery=actual,site_writes=0)
-    save()
+    # Do not drop the site's pre-existing repeated photos or metadata.
+    # Detect duplicates rather than treating them as an invalid gallery.
+    duplicates={}
+    for n,u in enumerate(actual,1):duplicates.setdefault(cm.normalize_url(u),[]).append(n)
+    duplicates={k:v for k,v in duplicates.items() if len(v)>1}
+    ref=digest_image(SOURCE.read_bytes())
+    matched=[i for i,u in enumerate(actual) if same_url(u,url) or match(u,ref)]
+    if matched and matched[0]==0:
+        journal('tilda',status='new_cover_visible_prior_order_unverified',uid=TILDA_UID,actual_gallery=actual,duplicate_slots=duplicates,site_writes=0,error=None)
+        save();return
+    # Keep old photo sequence intact; if the exact approved cover was already
+    # added at the end, move that single occurrence instead of adding again.
+    require(len(matched)<=1,'Multiple copies of new cover; preserve existing gallery')
+    desired=[url]+[u for i,u in enumerate(actual) if i not in matched]
+    edit=ROOT/'data/dq200_cover_tilda_editor_patch_20261126.json'
+    payload={'sku':SKU,'uid':TILDA_UID,'external_id':r.get('externalid',r.get('external_id')),'before_gallery':actual,'before_gallery_raw':old,'desired_gallery':desired,'existing_duplicate_slots':duplicates,'retained_all_old_positions':len(desired)==len(actual)+1-len(matched),'mode':'existing product editor; CommerceML append-only is unsafe','site_writes':0}
+    pipeline.write_json(edit,payload)
+    paths=[edit]
+    csv=ROOT/'data/dq200_cover_tilda_20261126.csv'
+    if len(set(desired))==len(desired) and len(desired)<=15:
+        csv.write_text(build_csv(TILDA_UID,SKU,desired),encoding='utf-8-sig')
+        paths.append(csv)
+    journal('tilda',status='blocked_editor_required',uid=TILDA_UID,before_gallery=actual,desired_gallery=desired,actual_gallery=actual,duplicate_slots=duplicates,editor_patch=str(edit.relative_to(ROOT)),csv_ready=len(paths)>1,site_writes=0,error=None)
+    save(*paths)
 
 def patch_feed(raw,url):
     import xml.etree.ElementTree as ET
@@ -453,10 +520,17 @@ def main():
     pipeline.current_main()
     J=json.loads(OUT.read_text()) if OUT.exists() else {'sku':SKU,'started_utc':pipeline.stamp(),'channels':{},'price_writes':0,'stock_writes':0,'description_writes':0,'existing_avito_writes':0}
     require(J['sku']==SKU,'Journal scope mismatch')
-    url=host_cover()
+    url=J['channels'].get('source',{}).get('url')
+    if url:
+        require(sha(download(url))==EXPECTED,'Previously hosted exact original changed')
+    else:url=host_cover()
     for name,fn in [('ozon',lambda:ozon(url)),('market',lambda:market(url)),('wb',lambda:wb(url)),('direct',lambda:direct(url)),('tilda',lambda:tilda(url)),('avito_media',host_avito),('avito',avito_preflight)]:
+        # Do not replay any already verified seller writes or re-upload media.
+        if J['channels'].get(name,{}).get('status')=='verified':continue
         guard(name,fn)
-    J['finished_utc']=pipeline.stamp();save()
+    J['finished_utc']=pipeline.stamp()
+    J['completion_status']='verified' if all(J['channels'].get(k,{}).get('status')=='verified' for k in ('source','ozon','market','wb','direct','tilda','avito_media','avito')) else 'partial_or_blocked'
+    save()
     return 0
 
 if __name__=='__main__':
@@ -466,5 +540,10 @@ if __name__=='__main__':
         test=ROOT/'feeds/dq200_candidate.yml'
         raw=test.read_bytes();assert patch_feed(raw,'https://x/new')!=raw
         assert patch_feed(patch_feed(raw,'https://x/new'),'https://x/new')==patch_feed(raw,'https://x/new')
-        print('PASS: old cover becomes second; retry idempotent; feed other fields unchanged')
+        aa={'attributes':[{'id':3,'values':[{'value':'x'},{'value':'y'}]},{'id':7,'values':[{'value':'z'}]}]}
+        bb={'attributes':[{'id':7,'values':[{'value':'z'}]},{'id':3,'values':[{'value':'y'},{'value':'x'}]}]}
+        assert ozon_protection_diff(aa,bb)=={}
+        bb['attributes'][1]['values'][0]['value']='different'
+        assert ozon_protection_diff(aa,bb)=={'attributes':['0:3']}
+        print('PASS: old cover becomes second; retry idempotent; feed other fields unchanged; Ozon exact attribute multiset comparison')
     else:sys.exit(main())
