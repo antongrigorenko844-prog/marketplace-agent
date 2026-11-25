@@ -2866,7 +2866,7 @@
           "source": "Exact approved description identifies 6T30/40/45/50; existing Gen2 uses 6T30 as the single family model. Full compatible family remains in title/description."
         }
       ],
-      "status": "ACCEPTED",
+      "status": "VERIFIED",
       "protected_hash": "4b159894279caf08914d6250727c96b0382342304c1fa0d3578f22960989c971",
       "before": {
         "nmID": 2254117475,
@@ -2978,6 +2978,15 @@
         "error": false,
         "errorText": "",
         "additionalErrors": {}
+      },
+      "readback": {
+        "values": {
+          "5023": [
+            "6T30"
+          ]
+        },
+        "protected_same": true,
+        "checked": "2026-11-25T20:11:40.376098+00:00"
       }
     }
   },
