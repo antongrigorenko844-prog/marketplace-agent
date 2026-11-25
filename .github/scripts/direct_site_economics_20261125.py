@@ -126,6 +126,39 @@ async def public_pages(offers):
   results=await asyncio.gather(*jobs)
   await browser.close()
   return results
+async def mobile_cart():
+ # Local browser only: do not submit forms, no tracking, no payment navigation.
+ async with async_playwright() as p:
+  b=await p.chromium.launch(headless=True,args=["--no-sandbox"])
+  ctx=await b.new_context(viewport={"width":390,"height":844},is_mobile=True,has_touch=True,device_scale_factor=1,service_workers="block")
+  async def route(rt):
+   req=rt.request;host=(urllib.parse.urlsplit(req.url).hostname or "").lower()
+   if req.method not in ("GET","HEAD") or any(x in host for x in ("mc.yandex","metrika","google-analytics","doubleclick","tinkoff","tbank","ozon","payment","paykeeper")):
+    await rt.abort()
+   else:await rt.continue_()
+  await ctx.route("**/*",route)
+  page=await ctx.new_page();res=await page.goto(SITE+"/mehatronik-dq200#bez-platy",wait_until="domcontentloaded",timeout=45000)
+  await page.wait_for_timeout(3000)
+  buttons=page.locator("a.js-catalog-prod-btn")
+  before=await cart.snapshot(page);clicked=False
+  for i in range(min(await buttons.count(),20)):
+   btn=buttons.nth(i)
+   if not await btn.is_visible():continue
+   if not await btn.evaluate("el => !!el.closest('.t-catalog__card, .t-store__card')"):continue
+   if "купить" not in (await btn.inner_text(timeout=3000)).strip().lower():continue
+   await btn.click(timeout=8000);clicked=True;break
+  await page.wait_for_timeout(1500)
+  after=await cart.snapshot(page)
+  checkout=await page.evaluate("""() => {
+    const visible=e=>{if(!e)return false;let r=e.getBoundingClientRect(),s=getComputedStyle(e);return r.width>0&&r.height>0&&s.display!=='none'&&s.visibility!=='hidden'};
+    const form=document.getElementById('form5260805101');
+    const cart=document.querySelector('.t706__cartwin');
+    return {cart_open:visible(cart)&&/showed|show/.test(cart.className),cart_element_present:!!cart,form_visible:visible(form),payment_options:form?[...form.querySelectorAll('input[name="paymentsystem"]')].map(x=>({value:x.value,checked:x.checked})):[],delivery_options:form?[...form.querySelectorAll('input[type=radio]')].filter(x=>x.name!=='paymentsystem').map(x=>({name:x.name,value:x.value.slice(0,100)})):[],form_visible_fields:form?[...form.querySelectorAll('input:not([type=hidden]),select,textarea')].filter(visible).map(x=>({name:x.name,type:x.type,required:x.required||x.getAttribute('data-tilda-req')==='1'})):[],cart_text_sample:cart&&visible(cart)?cart.innerText.replace(/\\s+/g,' ').slice(0,1500):null}
+  }""")
+  result={"http_status":res.status if res else None,"local_product_click":clicked,"before":before,"after":after,"checkout":checkout,"no_submissions":True,"no_payment_attempt":True}
+  await ctx.close();await b.close()
+  return result
+
 def run():
  d={"mode":"read_only_public_site_and_financial_scenarios","started_utc":now(),"site_mutations":0,"payments_attempted":0,"forms_submitted":0,"errors":{},"sections":{}}
  save(d)
@@ -137,6 +170,7 @@ def run():
  go("economics",lambda:econ(offers))
  go("robots_sitemap",sitemap)
  go("public_pages",lambda:asyncio.run(public_pages(offers)))
+ go("mobile_cart",lambda:asyncio.run(mobile_cart()))
  # Previously verified browser code; no real submission and analytics blocked.
  cart.OUT=ROOT/"cart_runtime.json"
  try:asyncio.run(cart.run());d["sections"]["cart_runtime"]={"status":"ok","data":json.loads(cart.OUT.read_text())}
