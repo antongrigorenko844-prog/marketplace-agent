@@ -383,7 +383,49 @@
     }
   ],
   "keyword_summary": {
-    "negative_buy": [],
+    "negative_buy": [
+      {
+        "id": "58544149377",
+        "group_id": "5826171512",
+        "keyword": "мехатроник dq200 без платы -купить -электронный -сбор",
+        "state": "ON",
+        "serving_status": "ELIGIBLE",
+        "positive_normalized": "мехатроник dq200 без платы",
+        "negative_buy": true,
+        "exact_normalized_duplicates": [
+          {
+            "id": "58582210258",
+            "group": "5826171512"
+          }
+        ],
+        "lexical_negative_overlap": [],
+        "query_intent": "potential_commercial"
+      },
+      {
+        "id": "58545151245",
+        "group_id": "5826183946",
+        "keyword": "мехатроник dq200 с платой -электронный -купить -сбор",
+        "state": "ON",
+        "serving_status": "ELIGIBLE",
+        "positive_normalized": "мехатроник dq200 с платой",
+        "negative_buy": true,
+        "exact_normalized_duplicates": [],
+        "lexical_negative_overlap": [],
+        "query_intent": "potential_commercial"
+      },
+      {
+        "id": "58545169890",
+        "group_id": "5826320196",
+        "keyword": "плата мехатроника dq200 -электронный -купить",
+        "state": "ON",
+        "serving_status": "ELIGIBLE",
+        "positive_normalized": "плата мехатроника dq200",
+        "negative_buy": true,
+        "exact_normalized_duplicates": [],
+        "lexical_negative_overlap": [],
+        "query_intent": "potential_commercial"
+      }
+    ],
     "normalized_duplicate_sets": [
       {
         "phrase": "мехатроник dq200 без платы",
@@ -397,7 +439,8 @@
         ]
       }
     ],
-    "lexical_overlap_count": 0
+    "lexical_overlap_count": 0,
+    "negative_buy_note": "Three deliberate-looking base phrases exclude купить while separate commercial exact positives exist; preserve pending overlap study."
   },
   "query_rows": [
     {
@@ -4297,7 +4340,7 @@
       "state": "ON",
       "serving_status": "ELIGIBLE",
       "positive_normalized": "мехатроник dq200 без платы",
-      "negative_buy": false,
+      "negative_buy": true,
       "exact_normalized_duplicates": [
         {
           "id": "58582210258",
@@ -4470,7 +4513,7 @@
       "state": "ON",
       "serving_status": "ELIGIBLE",
       "positive_normalized": "мехатроник dq200 с платой",
-      "negative_buy": false,
+      "negative_buy": true,
       "exact_normalized_duplicates": [],
       "lexical_negative_overlap": [],
       "query_intent": "potential_commercial"
@@ -4614,7 +4657,7 @@
       "state": "ON",
       "serving_status": "ELIGIBLE",
       "positive_normalized": "плата мехатроника dq200",
-      "negative_buy": false,
+      "negative_buy": true,
       "exact_normalized_duplicates": [],
       "lexical_negative_overlap": [],
       "query_intent": "potential_commercial"
