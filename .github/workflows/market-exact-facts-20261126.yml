@@ -15,6 +15,8 @@ jobs:
     timeout-minutes: 20
     env:
       OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+      AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+      AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
       WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
       OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
       YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
@@ -185,6 +187,7 @@ jobs:
              # Do not retroactively call drift on a historical operation; immediate checks below are strict.
            if op["status"]!="VERIFIED" or not exact:
             op["status"]=state(c,st,exact)
+            if op["kind"] in ("attributes","text") and exact and c.get("cardStatus")=="HAS_CARD_CAN_UPDATE_ERRORS":op["status"]="SAVED_WITH_CARD_ERRORS"
             if op["kind"]=="category" and exact and c.get("cardStatus")=="HAS_CARD_CAN_UPDATE":op["status"]="VERIFIED"
             if op["kind"]=="group" and exact and c.get("cardStatus")=="HAS_CARD_CAN_UPDATE" and not any(x.get("message")=="Дубль варианта" for x in diags(c,st)):
              op["status"]="VERIFIED" if st.get("status")=="PUBLISHED" else "GROUP_VERIFIED_PUBLICATION_BLOCKED"
@@ -210,10 +213,10 @@ jobs:
           # Pilot a currently disabled exact SKU, require zero feedback and distinct identities for all group members.
           # Never change actual product characteristics just to pass a duplicate check.
           def group_attempt(k,old_group):
-           m,c,st=s.live(biz,cam,k)
            target="LEOPARTS "+k
            uid=opkey("group",k,target)
            if uid in journal:return journal[uid]
+           m,c,st=s.live(biz,cam,k)
            category_only=(k=="0AM927769F" and category(m,c)==71220512 and c.get("cardStatus")=="HAS_CARD_CAN_UPDATE" and not diags(c,st))
            if key(c)!=old_group or st.get("status")!="DISABLED_AUTOMATICALLY" or (c.get("cardStatus")!="HAS_CARD_CAN_UPDATE_ERRORS" and not category_only) or document(c,st):
             return {"sku":k,"status":"BLOCKED","reason":"No exact eligible duplicate-only disabled offer"}
@@ -267,6 +270,7 @@ jobs:
            reviewed={x["id"]:x for x in prior_preview["records"]}
            bad_urls={reviewed[x["id"]]["url"] for v in design.values() for x in v.get("candidates",[]) if x["id"] in reviewed and x.get("status") in ("not_approved","duplicate_do_not_upload")}
            reviewed_live=[v.get("current_ozon_review",{}) for v in design.values() if v.get("current_ozon_review")]
+           reviewed_live.extend(x for v in design.values() for x in v.get("cross_channel_review",[]) if x.get("status")!="APPROVED_APPEND")
            bad_urls.update(x["url"] for x in reviewed_live if x.get("url"))
            bad_hashes={x["sha256"] for x in reviewed_live if x.get("sha256")}
            old_by={}
@@ -369,10 +373,122 @@ jobs:
            reportpath=dest/"inventory.json";reportpath.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
            subprocess.run(["bash",".github/scripts/save_data.sh",str(dest)],check=True)
            return report
+          
+          # Reuse the already inspected image inventory; independent media/video sources audit.
+          prior_media=load("market_recovery_media/inventory.json")
           try:
-           med=prepare_media(m0,c0,st0)
-           d["fresh_media_inventory"]={k:v for k,v in med.items() if k not in ("coverage","candidates","skipped")}
-          except Exception as ex:d["errors"]["media_inventory"]=str(ex)[:350]
+           import ozon_client as oz
+           import wb_client as wb
+           import avito_client as av
+           from scripts.leoparts_direct_operation_nov21 import site_records
+           from scripts.leoparts_dsg_tilda_visual_verify_20261123 import get_urls
+           import requests
+           d["source_readback"]={"errors":{}}
+           ids=[k for k in m0 if st0[k].get("status")=="PUBLISHED"]
+           missing_video=[k for k in ids if not (m0[k]["offer"].get("videos") or [])]
+           avmap={x["sku"]:x["primary_avito_id"] for x in load("avito_catalog_listing_index_20261124.json")["groups"] if x.get("primary_avito_id")}
+           try:
+            live=av.list_all_items(statuses=["active"])
+            avrows={x.get("id"):x for x in live}
+            matches={k:avrows[v] for k,v in avmap.items() if k in ids and v in avrows}
+            d["source_readback"]["avito"]={"active_exact_sku":len(matches),"gallery_fields_present":sum(bool(x.get("images") or x.get("photos")) for x in matches.values()),"note":"Only exact live item metadata and existing own Avito repository media; do not claim full public galleries if API omits them."}
+           except Exception as ex:d["source_readback"]["errors"]["avito"]=str(ex)[:240]
+           try:ozrows=oz.get_product_names(missing_video);ozmap={x.get("offer_id"):x for x in ozrows if x.get("offer_id") in missing_video}
+           except Exception as ex:ozmap={};d["source_readback"]["errors"]["ozon_videos"]=str(ex)[:240]
+           try:
+            wbc=collections.defaultdict(list)
+            for x in wb.list_cards():
+             if x.get("vendorCode") in ids:wbc[x["vendorCode"]].append(x)
+            wbmap={k:v[0] for k,v in wbc.items() if len(v)==1}
+           except Exception as ex:wbmap={};d["source_readback"]["errors"]["wb_videos"]=str(ex)[:240]
+           try:
+            tc=collections.defaultdict(list)
+            for x in site_records().values():
+             if x.get("sku") in missing_video:tc[x["sku"]].append(x)
+            tm={k:v[0] for k,v in tc.items() if len(v)==1}
+           except Exception as ex:tm={};d["source_readback"]["errors"]["tilda_videos"]=str(ex)[:240]
+           cache=load("market_video_cache.json");sources=load("market_video_sources.json");excluded=set(sources.get("excluded",[]))
+           local_queue=load("designer_video_queue.json")
+           video_inventory={}
+           for k in ids:
+            current=m0[k]["offer"].get("videos") or []
+            row={"existing":current,"upload_states":[x.get("uploadState") for x in (m0[k]["offer"].get("mediaFiles") or {}).get("videos",[])],"candidate_sources":[]}
+            if current:
+             video_inventory[k]=row;continue
+            if k in excluded:
+             row["status"]="EXCLUDED_EXACT_SKU";video_inventory[k]=row;continue
+            found={}
+            for x in ozmap.get(k,{}).get("complex_attributes",[]):
+             if x.get("id")==21841:
+              for v in x.get("values",[]):
+               if isinstance(v.get("value"),str) and v["value"].startswith("https://"):found[v["value"]]="own live Ozon exact SKU"
+            vv=wbmap.get(k,{}).get("video")
+            if isinstance(vv,str) and vv.startswith("https://"):found.setdefault(vv,"own live Wildberries exact SKU")
+            for u in get_urls(tm.get(k,{}).get("gallery") or []) if k in tm else []:
+             if re.search(r"\.(mp4|mov|webm|m3u8)(?:\?|$)",u,re.I):found.setdefault(u,"own live Tilda exact SKU")
+            for u in sources.get("overrides",{}).get(k,[])+cache.get(k,[]):
+             if isinstance(u,str) and u.startswith("https://"):found.setdefault(u,"previous exact-SKU video manifest")
+            for u,origin in found.items():
+             row["candidate_sources"].append({"url":u,"source":origin,"direct_media":bool(re.search(r"\.(mp4|mov|webm)(?:\?|$)",u,re.I))})
+            row["local_designer_sources"]=[x["file"] for x in local_queue if k in x.get("articles",[])]
+            row["status"]="VISUAL_REVIEW_REQUIRED" if found else "LOCAL_SOURCE_REVIEW_REQUIRED" if row["local_designer_sources"] else "NO_CONFIRMED_EXISTING_VIDEO"
+            video_inventory[k]=row
+           d["video_inventory"]={"checked_utc":now(),"published":len(ids),"without_video":len(missing_video),"rows":video_inventory,"candidate_skus":[k for k,v in video_inventory.items() if v.get("candidate_sources")],"source_coverage":{"ozon_missing_video_exact":len(ozmap),"wb_exact":len(wbmap),"tilda_missing_video_exact":len(tm)}}
+           # Produce actual video contact sheets only for new direct-media candidates without a Market video.
+           from PIL import Image, ImageDraw, ImageFont, ImageOps
+           dest=ROOT/"market_recovery_media";dest.mkdir(exist_ok=True)
+           video_candidates=[];frames=[]
+           for k in missing_video:
+            if not eligible(c0[k],st0[k]):continue
+            for x in video_inventory[k].get("candidate_sources",[]):
+             if not x["direct_media"]:continue
+             if any(v["sku"]==k and v["url"]==x["url"] for v in video_candidates):continue
+             try:
+              # Read file with strict size limit and confirm media properties before extracting actual frames.
+              resp=requests.get(x["url"],timeout=(10,35),stream=True);resp.raise_for_status()
+              if int(resp.headers.get("Content-Length",0) or 0)>100*1024*1024:continue
+              path=Path("/tmp/market_review_video.bin");hh=hashlib.sha256();total=0
+              with path.open("wb") as out:
+               for chunk in resp.iter_content(1024*1024):
+                total+=len(chunk)
+                if total>100*1024*1024:raise ValueError("Video size exceeds 100 MB")
+                hh.update(chunk);out.write(chunk)
+              meta=json.loads(subprocess.check_output(["ffprobe","-v","error","-show_streams","-show_format","-of","json",str(path)],timeout=15))
+              stream=[v for v in meta["streams"] if v.get("codec_type")=="video"]
+              duration=float(meta["format"].get("duration") or 0)
+              if len(stream)!=1 or not 0<duration<=1200:continue
+              stv=stream[0];width=stv.get("width",0);height=stv.get("height",0)
+              if max(width,height)<1080 or max(width,height)>1920:continue
+              times=[max(0.05,duration*t) for t in (0.05,0.25,0.5,0.75,0.95)]
+              ims=[]
+              for t in times:
+               jpg=subprocess.check_output(["ffmpeg","-v","error","-ss",str(t),"-i",str(path),"-frames:v","1","-vf","scale=360:-2","-f","image2pipe","-vcodec","mjpeg","-"],timeout=15)
+               im=Image.open(io.BytesIO(jpg)).convert("RGB");im.load();ims.append(im)
+              rec={"id":"V%03d"%(len(video_candidates)+1),"sku":k,**x,"sha256":hh.hexdigest(),"size_bytes":total,"duration_seconds":duration,"width":width,"height":height,"frame_rate":stv.get("avg_frame_rate"),"video_streams":len(stream),"current_videos":m0[k]["offer"].get("videos") or [],"status":"SAMPLED_VISUAL_REVIEW_REQUIRED"}
+              video_candidates.append(rec);frames.append(ims)
+             except Exception as ex:video_inventory[k].setdefault("inspection_errors",[]).append({"url":x["url"],"error":str(ex)[:150]})
+             if len(video_candidates)>=6:break
+            if len(video_candidates)>=6:break
+           sheets=[];font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",14)
+           for rec,ims in zip(video_candidates,frames):
+            sheet=Image.new("RGB",(1200,660),"white");draw=ImageDraw.Draw(sheet)
+            draw.text((8,6),rec["id"]+" | "+rec["sku"]+" | "+str(round(rec["duration_seconds"],1))+" sec",fill="black",font=font)
+            for i,im in enumerate(ims):
+             x=(i%3)*400;y=35+(i//3)*310
+             im=ImageOps.contain(im,(390,300));sheet.paste(im,(x+(400-im.width)//2,y+(300-im.height)//2))
+            buf=io.BytesIO();sheet.save(buf,"JPEG",quality=78,optimize=True)
+            fn=dest/("video_"+rec["id"]+".json");fn.write_text(json.dumps({"sku":rec["sku"],"id":rec["id"],"jpeg_base64":base64.b64encode(buf.getvalue()).decode()}));sheets.append(str(fn))
+           vr={"checked_utc":now(),"coverage":d["video_inventory"]["source_coverage"],"without_video":len(missing_video),"candidate_skus":d["video_inventory"]["candidate_skus"],"candidates":video_candidates,"sheets":sheets}
+           (dest/"video_inventory.json").write_text(json.dumps(vr,ensure_ascii=False,indent=2)+"\n")
+           subprocess.run(["bash",".github/scripts/save_data.sh",str(dest)],check=True)
+           d["video_inventory"]["reviewable"]=len(video_candidates)
+          except Exception as ex:d["errors"]["source_video_audit"]=str(ex)[:350]
+          save()
+          
+          # Do not rescan the same already reviewed 260 candidates. Use the dated source inventory,
+          # approved exact images remain bound to its original gallery and bytes.
+          d["fresh_media_inventory"]={k:v for k,v in prior_media.items() if k not in ("coverage","candidates","skipped")}
+          d["fresh_media_inventory"]["reused_reviewed_snapshot"]=True
           save()
           
           # Previously submitted exact-SKU factual group corrections: two distinct real kits, no fabricated distinguishing data.
@@ -428,12 +544,39 @@ jobs:
            if pilot["status"] in ("VERIFIED","GROUP_VERIFIED_PUBLICATION_BLOCKED") and not pilot.get("checks",{}).get("protected_diff") and pilot.get("last_readback",{}).get("exact",pilot.get("checks",{}).get("exact")) and not any(x.get("message")=="Дубль варианта" for x in diags(c0["0AM927769E"],st0["0AM927769E"])) and len(members.get(key(c0["0AM927769E"]),[]))==1:
             for sku,grp in [("0AM927769G","dq200 electronic boards"),("0AM927769K","dq200 electronic boards"),("0AM927769F","dq200 electronic boards"),("0am325025HXE","dq200 mechatronic assemblies"),("0am325025HXF","dq200 mechatronic assemblies"),("0am325025HXG","dq200 mechatronic assemblies"),("0am325025HXK","dq200 mechatronic assemblies")]:
              # Group membership changes as we split; use fresh exact current members.
-             gm,gc,gs=r.read_all(biz,cam);members=group_members(gm,gc,ac)
+             if opkey("group",sku,"LEOPARTS "+sku) not in journal:
+              gm,gc,gs=r.read_all(biz,cam);members=group_members(gm,gc,ac)
              res=group_attempt(sku,grp);d["group_checks"][sku]={k:v for k,v in res.items() if k not in ("before_protected","before_typed","group_before")}
              if res["status"]=="PROTECTED_DRIFT":break
              # The original pilot proves the endpoint; separate accepted operations are journaled, not blindly retried.
              if res["status"]=="UNCONFIRMED":break
           except Exception as ex:d["errors"]["group_queue"]=str(ex)[:350]
+          save()
+          
+          
+          # Remaining groups: record actual safeguards rather than guessing all are document-blocked.
+          try:
+           gm,gc,gs=r.read_all(biz,cam);members=group_members(gm,gc,ac)
+           d["remaining_group_preflight"]={}
+           for g,ids in members.items():
+            if len(ids)<2 or not all(k in gm for k in ids):continue
+            rows={k:{"model":r.model(gm[k],gc[k]),"marketSku":s.identity(gm[k],gc[k])["marketSku"],"public_rating":(gm[k]["offer"].get("ugc") or {}).get("rating"),"status":gs[k].get("status"),"card_status":gc[k].get("cardStatus"),"diagnostics":diags(gc[k],gs[k]),"category":category(gm[k],gc[k])} for k in ids}
+            has_conflict=any(any(x.get("message") in ("Дубль варианта","Не указаны отличия","Общие признаки не совпадают") for x in row["diagnostics"]) for row in rows.values())
+            cat_conflict=len({row["category"] for row in rows.values()})>1
+            if not has_conflict and not cat_conflict:continue
+            shared=len({row["model"] for row in rows.values()})!=len(ids)
+            rated=any(row["public_rating"] for row in rows.values())
+            entry={"members":rows,"shared_model":shared,"public_rating_present":rated,"cross_category":cat_conflict,"explicit_conflict":has_conflict,"status":"BLOCKED_SHARED_MODEL" if shared else "BLOCKED_UGC_RETENTION_UNCONFIRMED" if rated else "REVIEW_REQUIRED"}
+            if not shared and not rated:
+             reviews={}
+             for k in ids:
+              rv,ok=read_reviews(k);reviews[k]=rv
+             entry["seller_review_checks"]=reviews
+             if any(not v.get("available") or not v.get("complete") or v.get("count_at_least") for v in reviews.values()):entry["status"]="BLOCKED_UGC_RETENTION_UNCONFIRMED"
+             elif g=="ремкомлект штока":entry["status"]="BLOCKED_PRODUCT_IDENTITY_REVIEW";entry["reason"]="Two similar original kits; cannot prove different product without exact composition check."
+             elif g=="ea888":entry["status"]="BLOCKED_INDEPENDENT_CATEGORY_AND_DOCUMENTS";entry["reason"]="Distinct engine components and kit, but document warnings and exact category schema must be resolved separately."
+            d["remaining_group_preflight"][g]=entry
+          except Exception as ex:d["errors"]["remaining_group_preflight"]=str(ex)[:350]
           save()
           
           # Attribute queue: approved manifest facts only. Continue five unfinished positions independently of incident.
@@ -553,6 +696,54 @@ jobs:
               save()
           except Exception as ex:d["errors"]["category:0AM927769F"]=str(ex)[:350];save()
           
+          
+          # The D assembly is now alone after all four other assemblies left the old group.
+          # This incorrect "underbody protection" category must not receive fictitious protection parameters.
+          try:
+           k="0am325025HX";m,c,st=s.live(biz,cam,k)
+           gm,gc,gs=r.read_all(biz,cam);members=group_members(gm,gc,ac)
+           if category(m,c)==4953550 and eligible(c,st) and members.get(key(c))==[k] and no_rating(m):
+            rv,ok=read_reviews(k)
+            if not ok:raise ValueError("Zero seller reviews not confirmed")
+            oldschema=s.definition_map(biz,4953550);schema=s.definition_map(biz,71380208)
+            vals=[];notes=[]
+            for pid,vs in s.groups(c).items():
+             for p in vs:
+              if not present(p):continue
+              if pid==57046341:
+               if not p.get("value"):raise ValueError("Missing original supplementary text")
+               notes.append(p["value"]);continue
+              if pid in schema and s.valid_value(p,schema[pid]):vals.append(p);continue
+              # Retain exact human-readable facts for destination fields that do not exist.
+              if pid not in (14871214,23820510,16382542,13887626,17352854):raise ValueError("Unexpected source characteristic "+str(pid))
+              label=oldschema.get(pid,{}).get("name");value=p.get("value")
+              if not value and p.get("valueId"):value=next((v.get("value") for v in oldschema.get(pid,{}).get("values",[]) if v.get("id")==p["valueId"]),None)
+              if not label or not value:raise ValueError("Cannot preserve exact old characteristic "+str(pid))
+              notes.append(label+": "+str(value))
+            if notes:
+             q={"parameterId":57046341,"value":"; ".join(notes)}
+             if not s.valid_value(q,schema[57046341]):raise ValueError("Destination additional text is not valid")
+             vals.append(q)
+            if not any(x["parameterId"]==21194330 for x in vals):vals.append(r.type_value(schema,"мехатроник"))
+            if not all(s.valid_value(p,schema[p["parameterId"]]) for p in vals):raise ValueError("Destination schema rejection")
+            if any(v.get("required") and not any(p["parameterId"]==pid for p in vals) for pid,v in schema.items()):raise ValueError("Required destination value not established")
+            op=newop("category",k,71380208,target_parameters=vals,before_protected=protect(m,c,st),before_typed=typed(c),source="Exact D assembly, prior group now singleton; no reviews; preserve original kit/material/color facts",reviews=rv)
+            if op:
+             d["requests"]+=1;save()
+             try:
+              op["response"]=s.post(f"/v2/businesses/{biz}/offer-cards/update",{"offersContent":[{"offerId":k,"categoryId":71380208,"parameterValues":vals}]},retries=1);op["status"]="ACCEPTED";save()
+              for attempt in range(3):
+               if attempt:time.sleep(8)
+               a,b,z=s.live(biz,cam,k)
+               p=delta(op["before_protected"],protect(a,b,z));exact=check(op,a,b,z)
+               op["checks"]={"exact":exact,"protected_diff":p,"card_status":b.get("cardStatus"),"campaign_status":z.get("status"),"category":category(a,b)}
+               op["status"]="PROTECTED_DRIFT" if p or z.get("status")!="PUBLISHED" else state(b,z,exact)
+               if p or exact or b.get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING":break
+             except Exception as ex:op.update(status="UNCONFIRMED",error=str(ex)[:350])
+             save()
+           else:d["hx_category_preflight"]={"status":"not_eligible_or_already_changed","category":category(m,c),"card_status":c.get("cardStatus"),"members":members.get(key(c),[])}
+          except Exception as ex:d["errors"]["category:0am325025HX"]=str(ex)[:350];save()
+          
           # Category queue: reconcile previously accepted requests, do not resubmit. New categories only
           # if a separately reviewed migration has zero feedback, an exact target schema and preserved semantics.
           # Legacy category candidates requiring unsupported cross-category group edits remain isolated.
@@ -590,9 +781,13 @@ jobs:
           try:
            import requests
            approval_file=ROOT/"market_recovery_media_approvals.json"
-           if approval_file.exists():
-            approval=json.loads(approval_file.read_text())
-            inv=json.loads((ROOT/"market_recovery_media/inventory.json").read_text())
+           approval=json.loads(approval_file.read_text()) if approval_file.exists() else {"rows":{}}
+           for k,row in design.items():
+            for x in row.get("cross_channel_review",[]):
+             if x.get("status")=="APPROVED_APPEND":
+              approval.setdefault("rows",{}).setdefault(k,[]).append({**x,"reviewed":True})
+           if approval.get("rows"):
+            inv=prior_media
             invrows={(x["sku"],x["url"],x["sha256"]):x for x in inv["candidates"]}
             for k,entries in approval.get("rows",{}).items():
              m,c,st=s.live(biz,cam,k)
@@ -609,7 +804,7 @@ jobs:
              if not add:continue
              target=current+list(dict.fromkeys(add))[:max(0,6-len(current))]
              if target==current:continue
-             op=newop("media",k,target,allow_offer=["pictures"],before_protected=protect(m,c,st,["pictures"]),before_typed=typed(c),before_gallery=current,source="Reviewed exact current own Ozon photo with SHA-256")
+             op=newop("media",k,target,allow_offer=["pictures"],before_protected=protect(m,c,st,["pictures"]),before_typed=typed(c),before_gallery=current,source="Visually reviewed exact own marketplace photo with SHA-256")
              if not op:continue
              d["requests"]+=1;save()
              try:
@@ -620,7 +815,7 @@ jobs:
                p=delta(op["before_protected"],protect(a,b,z,["pictures"]));t=delta(op["before_typed"],typed(b))
                exact=check(op,a,b,z);saved=a["offer"].get("pictures")==target
                op["checks"]={"exact":exact,"gallery_saved":saved,"protected_diff":p,"typed_diff":t,"card_status":b.get("cardStatus"),"campaign_status":z.get("status")}
-               op["status"]="PROTECTED_DRIFT" if p or t or z.get("status")!="PUBLISHED" else state(b,z,exact or saved)
+               op["status"]="PROTECTED_DRIFT" if p or t or z.get("status")!="PUBLISHED" else "VERIFIED" if exact and b.get("cardStatus")=="HAS_CARD_CAN_UPDATE" else "PENDING_MODERATION" if saved or b.get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING" else "UNCONFIRMED"
                if p or t or saved:break
              except Exception as ex:op.update(status="UNCONFIRMED",error=str(ex)[:350])
              save()
@@ -682,6 +877,14 @@ jobs:
           rated=[row["rating"] for row in d["registry"].values() if row["campaign_status"]=="PUBLISHED" and isinstance(row["rating"],(int,float))]
           d["rating_distribution"]={"rated":len(rated),"under_50":sum(v<50 for v in rated),"above_80":sum(v>80 for v in rated),"above_90":sum(v>90 for v in rated)}
           d["recommendations"]=count(x.get("type") for k,c in ca.items() if sa[k].get("status")=="PUBLISHED" for x in (c.get("recommendations") or []))
+          rec_points=collections.defaultdict(lambda:{"offers":0,"remaining_points":0})
+          for k,c in ca.items():
+           if sa[k].get("status")!="PUBLISHED":continue
+           for v in c.get("recommendations") or []:
+            t=v.get("type")
+            rec_points[t]["offers"]+=1
+            rec_points[t]["remaining_points"]+=v.get("remainingRatingPoints") or 0
+          d["recommendation_points"]=dict(rec_points)
           def mean(m,c,st):
            vals=[c[k].get("contentRating") for k in m if st[k].get("status")=="PUBLISHED" and isinstance(c[k].get("contentRating"),(int,float))]
            return {"value":sum(vals)/len(vals) if vals else None,"rated":len(vals)}
