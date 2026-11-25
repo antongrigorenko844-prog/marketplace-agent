@@ -1,0 +1,178 @@
+name: LEOPARTS WB exact factual field correction and sales audit
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/wb-full-audit-verified-fields-20261126.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+      WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Exact SKU factual characteristics; preserve all other data
+        run: |
+          PYTHONPATH=.:scripts python - <<'PY'
+          import collections, copy, datetime as dt, json, hashlib, re, subprocess, time
+          from pathlib import Path
+          import wb_client as wb
+          import content_manifest as cm
+          from config import config
+          ROOT=Path("data")
+          BASE=ROOT/"wb_full_audit_registry_20261126.json"
+          OUT=ROOT/"wb_exact_facts_20261126.json"
+          src=json.loads(BASE.read_text())
+          assert src["finished"] and src["coverage"]["cards"]==144
+          manifest=cm.load()
+          def now():return dt.datetime.now(dt.timezone.utc).isoformat()
+          d=json.loads(OUT.read_text()) if OUT.exists() else {"version":1,"platform":"wb","journal":{},"requests":0}
+          d["checked"]=now()
+          def save():
+              OUT.write_text(json.dumps(d,ensure_ascii=False,indent=2)+"\n")
+              subprocess.run(["bash",".github/scripts/save_data.sh",str(OUT)],check=True)
+          def digest(x):return hashlib.sha256(json.dumps(x,ensure_ascii=False,sort_keys=True,separators=(",",":")).encode()).hexdigest()
+          plans={
+             "6t30":(2254117475,7807,90702,6,"Owner-confirmed 6 Gen1 solenoids; exact approved description and composition agree"),
+             "jf011e":(670858043,7890,90702,4,"Four bearings explicitly present in approved text and composition"),
+             "55565480":(670860836,7881,90702,1,"One impulse ring in exact existing composition, approved singular product"),
+             "tolkateli-salniki-alum-komplekt":(1949876400,5759,90702,12,"4 push rods + 4 standard seals + 4 aluminium seals; explicit owner-confirmed composition and total"),
+             "derzhatel-datchikov-dq200":(2239502050,5759,90702,2,"Two plastic holder strips; exact approved text and composition"),
+             "gidroakkumulyator-orig":(1949842970,8064,4572490,["0AM325587E"],"Approved exact restored VAG accumulator description explicitly identifies OE number"),
+             "0am325025q":(670854223,5823,4572490,["0AM325025Q"],"Exact approved cap text and existing manufacturer number agree"),
+             "dq500-korpus-gladkiy":(2338475459,7850,4572490,None,"Approved standalone reviewed housing description explicitly identifies 0BH325183B as filter element, not housing; remove false OEM only")
+          }
+          original=wb._request
+          pending_payload=None
+          def guard(method,base,path,json_body=None,retries=1):
+              clean=path.split("?")[0];method=method.upper()
+              if method=="POST" and clean=="/content/v2/cards/update":
+                  assert base==config.wb_content_base and pending_payload is not None and json_body==pending_payload
+                  return original(method,base,path,json_body,retries=1)
+              allowed=(method=="POST" and (clean in {"/content/v2/get/cards/list","/content/v2/get/cards/trash","/content/v2/cards/error/list"} or (base==config.wb_marketplace_base and re.fullmatch(r"/api/v3/stocks/\d+",clean)))) or (method=="GET" and (clean in {"/api/v2/list/goods/filter","/api/v3/warehouses"} or clean.startswith("/content/v2/object/charcs/")))
+              assert allowed,(method,path)
+              return original(method,base,path,json_body,retries=1)
+          wb._request=guard
+          def snapshot():
+              cards=wb.list_cards()
+              assert len(cards)==len({x["nmID"] for x in cards})==144
+              return {x["nmID"]:x for x in cards}
+          def stock(cards):
+              wh=wb.get_warehouses();assert isinstance(wh,list) and wh
+              ids=sorted({s["chrtID"] for c in cards.values() for s in c.get("sizes",[]) if s.get("chrtID")})
+              res={}
+              for w in wh:
+                  v=wb._request("POST",config.wb_marketplace_base,"/api/v3/stocks/"+str(w["id"]),{"chrtIds":ids})
+                  res[str(w["id"])]={int(x["chrtId"]):x["amount"] for x in v.get("stocks",[])}
+              return res
+          def exact(k,n):
+              result=wb._request("POST",config.wb_content_base,"/content/v2/get/cards/list",{"settings":{"cursor":{"limit":100},"filter":{"withPhoto":-1,"textSearch":str(n)}}})
+              found=[x for x in result.get("cards",[]) if x.get("nmID")==n and x.get("vendorCode")==k]
+              assert len(found)==1,(k,"exact identity")
+              return found[0]
+          def protect(c,field):
+              o={k:copy.deepcopy(v) for k,v in c.items() if k not in ("updatedAt","characteristics")}
+              o["characteristics"]=sorted([x for x in c.get("characteristics",[]) if x["id"]!=field],key=lambda x:x["id"])
+              return o
+          def chvalue(c,i):
+              v=[x["value"] for x in c.get("characteristics",[]) if x["id"]==i]
+              if len(v)>1:raise RuntimeError("duplicate characteristic")
+              return v[0] if v else None
+          def read_errors():
+              try:return wb.get_upload_errors(limit=100)
+              except Exception:return None
+          before=snapshot()
+          price_before={x["nmID"]:x for x in wb.get_prices()};assert set(before)<=set(price_before)
+          stock_before=stock(before)
+          d["baseline_cards"]=len(before)
+          d["stock_coverage"]={"known":sum(all(s["chrtID"] in w for w in stock_before.values() for s in c.get("sizes",[])) for c in before.values()),"warehouses":list(stock_before)}
+          # No full catalog resubmission. Each exact permitted change is independently journaled.
+          for k,(n,sub,field,value,source) in plans.items():
+              key=str(n)+":"+str(field)+":"+digest(value)[:12]
+              prev=d["journal"].get(key)
+              try:
+                  c=exact(k,n);old=src["rows"][str(n)]
+                  assert c["subjectID"]==sub and c["imtID"]==old["imtID"] and c["vendorCode"]==old["sku"]
+                  assert sum(x.get("vendorCode")==k for x in before.values())==1 and sum(x.get("imtID")==c["imtID"] for x in before.values())==1
+                  assert c["description"]==old["description"]==manifest[k]["text"]["wb"]["description"]
+                  assert c["title"]==old["title"] and c.get("brand")==old["brand"] and c.get("sizes")==old["sizes"]
+                  cur=chvalue(c,field)
+                  if prev:
+                      prev["last_readback"]={"value":cur,"target_matches":cur==value,"protected_same":digest(protect(c,field))==prev.get("protected_hash")}
+                      if cur==value and prev["last_readback"]["protected_same"]:prev["status"]="VERIFIED"
+                      elif not prev["last_readback"]["protected_same"]:prev["status"]="PROTECTED_DRIFT"
+                      save();continue
+                  if cur==value:
+                      d["journal"][key]={"sku":k,"nmID":n,"field":field,"target":value,"status":"NO_CHANGE_REQUIRED","protected_hash":digest(protect(c,field))};continue
+                  assert cur is None or (k=="dq500-korpus-gladkiy" and cur==["0BH325183B"])
+                  # Exact matching current card and approved data; no document mutation.
+                  schema={p["charcID"]:p for p in wb.get_subject_characteristics(sub)}
+                  rule=schema[field]
+                  assert rule["charcType"]==(4 if isinstance(value,int) else 1)
+                  assert not rule.get("existNamedField") and not rule.get("isVariable")
+                  if isinstance(value,list):assert len(value)<=rule["maxCount"]
+                  if field==90702:
+                      oldcomp=next(v["value"] for v in old["characteristics"] if v["id"]==378533)
+                      assert chvalue(c,378533)==oldcomp
+                  chars=[{"id":v["id"],"value":v["value"]} for v in c.get("characteristics",[]) if v["id"]!=field]
+                  if value is not None:chars.append({"id":field,"value":value})
+                  payload={x:copy.deepcopy(c[x]) for x in ("nmID","vendorCode","title","description","brand","dimensions","sizes","kizMarked") if x in c}
+                  assert all(x in payload for x in ("nmID","vendorCode","title","description","brand","dimensions","sizes","kizMarked"))
+                  payload["characteristics"]=chars
+                  rec={"sku":k,"nmID":n,"field":field,"target":value,"previous":cur,"source":source,"status":"SUBMISSION_STARTED","protected_hash":digest(protect(c,field)),"before":c,"started":now()}
+                  d["journal"][key]=rec
+                  save()
+                  pending_payload=[payload]
+                  d["requests"]+=1
+                  try:
+                      ack=wb._request("POST",config.wb_content_base,"/content/v2/cards/update",pending_payload,retries=1)
+                      rec["ack"]=ack
+                      rec["status"]="REJECTED" if ack.get("error") else "ACCEPTED"
+                  except Exception as e:
+                      rec.update(status="UNCONFIRMED",error=str(e)[:300])
+                  finally:pending_payload=None
+                  save()
+                  if rec["status"]!="ACCEPTED":continue
+                  for attempt in range(5):
+                      if attempt:time.sleep(6)
+                      a=exact(k,n)
+                      dif=chvalue(a,field)
+                      same=digest(protect(a,field))==rec["protected_hash"]
+                      rec["last_readback"]={"value":dif,"target_matches":dif==value,"protected_same":same,"checked":now()}
+                      if not same:
+                          rec["status"]="PROTECTED_DRIFT";rec["protected_changed_fields"]=[x for x in set(protect(c,field))|set(protect(a,field)) if protect(c,field).get(x)!=protect(a,field).get(x)];break
+                      if dif==value:
+                          rec["status"]="VERIFIED";break
+                      rec["status"]="PENDING_MODERATION"
+                  save()
+                  if rec["status"]=="PROTECTED_DRIFT":break
+              except Exception as e:
+                  d["journal"].setdefault(key,{"sku":k,"nmID":n,"field":field,"target":value,"status":"REVIEW_REQUIRED","error":str(e)[:300]})
+                  save()
+          after=snapshot();price_after={x["nmID"]:x for x in wb.get_prices()};stock_after=stock(after)
+          d["price_changes"]=[n for n in before if price_before.get(n)!=price_after.get(n)]
+          d["stock_changes"]=[{"warehouse":w,"chrtId":n,"before":v,"after":stock_after.get(w,{}).get(n)} for w,ss in stock_before.items() for n,v in ss.items() if stock_after.get(w,{}).get(n)!=v]
+          d["identity_changes"]=[n for n in before if any(before[n].get(k)!=after.get(n,{}).get(k) for k in ("vendorCode","nmID","imtID","nmUUID","subjectID","sizes","brand","photos","video","documents","dimensions","kizMarked"))]
+          d["upload_errors_after"]=[{"vendorCodes":v.get("vendorCodes"),"errors":v.get("errors"),"updatedAt":v.get("updatedAt")} for v in (read_errors() or [])]
+          d["remaining_description_mismatch"]=[{"sku":c["vendorCode"],"nmID":n} for n,c in after.items() if manifest.get(c["vendorCode"],{}).get("text",{}).get("wb",{}).get("description") is not None and c.get("description")!=manifest[c["vendorCode"]]["text"]["wb"]["description"]]
+          # Preserve the current Gen1 TCM description: it was previously verified, then changed; it contains same facts. Do not override later edits just for hash matching.
+          d["description_decision"]="6t30-tcm-gen1: later text remains technically correct; earlier canonical write had been verified. Review concurrent/latest source instead of blindly resending."
+          d["summary"]=dict(collections.Counter(x["status"] for x in d["journal"].values()))
+          d["finished"]=now()
+          save()
+          print(json.dumps({"summary":d["summary"],"requests":d["requests"],"price_changes":d["price_changes"],"stock_changes":d["stock_changes"],"identity_changes":d["identity_changes"],"remaining_description_mismatch":d["remaining_description_mismatch"]},ensure_ascii=False))
+          PY
