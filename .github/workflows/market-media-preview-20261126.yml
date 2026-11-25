@@ -1,0 +1,100 @@
+name: LEOPARTS Market exact media contact sheets
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/market-media-preview-20261126.yml']
+permissions:
+  contents: write
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q Pillow requests
+      - name: Read own media, compare against current gallery, generate contact sheets (no seller writes)
+        run: |
+          python - <<'PY'
+          import json,re,hashlib,io,concurrent.futures
+          from pathlib import Path
+          from PIL import Image,ImageDraw,ImageFont,ImageOps
+          import requests
+          p=Path("data/market_media_preview_20261126");p.mkdir(exist_ok=True)
+          report=json.loads(Path("data/market_content_enrichment_result_20261126.json").read_text())
+          cache=json.loads(Path("data/photo_upload_cache.json").read_text())
+          manifest=json.loads(Path("data/content_manifest.json").read_text())["products"]
+          records=[]; coverage={}
+          for q in report["quality_after"]:
+              k=q["sku"]
+              if q["status"]!="PUBLISHED" or not any(v.get("type")=="PICTURE_COUNT" for v in q.get("recommendations",[])):continue
+              own=[]
+              for base in ("photos","photos_avito"):
+                  folder=Path(base)/k
+                  if not folder.is_dir():continue
+                  for f in folder.iterdir():
+                      if f.is_file() and f.suffix.lower() in (".png",".jpg",".jpeg",".webp"):
+                          x=re.fullmatch(re.escape(k)+r"_(\d+)\.(jpg|jpeg|png|webp)",f.name,re.I)
+                          if x and f.name in cache:own.append((int(x.group(1)),f))
+              slots={}
+              for slot,f in own:
+                  if slot<=q["pictures"]:continue
+                  if slot not in slots or f.stat().st_size<slots[slot].stat().st_size:slots[slot]=f
+              coverage[k]={"name":q["name"],"existing":q["pictures"],"candidates":len(slots),"card_status":q["card_status"]}
+              if not slots:continue
+              for slot,f in sorted(slots.items()):
+                  url=cache[f.name]["url"]
+                  records.append({"sku":k,"name":q["name"],"slot":slot,"path":str(f),"url":url,"source_sha256":hashlib.sha256(f.read_bytes()).hexdigest(),"current_urls":report["before_catalog"].get(k,{}).get("pictures") or [],"kind":"local"})
+          for k in ("0AM325467J","filtr-setka-0b5-orig"):
+              for url in manifest.get(k,{}).get("sources",{}).get("ozon",[]):
+                  if url not in (report["before_catalog"].get(k,{}).get("pictures") or []) and not any(r["sku"]==k and r["url"]==url for r in records):
+                      records.append({"sku":k,"name":next(q["name"] for q in report["quality_after"] if q["sku"]==k),"slot":"approved","path":None,"url":url,"current_urls":report["before_catalog"].get(k,{}).get("pictures") or [],"kind":"approved_manifest"})
+          for i,r in enumerate(records,1):r["id"]=f"A{i:03}"
+          def load(url):
+              a=requests.get(url,timeout=12,headers={"User-Agent":"Mozilla/5.0"});a.raise_for_status()
+              im=Image.open(io.BytesIO(a.content)).convert("RGB");im.load()
+              return im,hashlib.sha256(a.content).hexdigest()
+          urls=set(r["url"] for r in records)|set(x for r in records for x in r["current_urls"])
+          def fetch(u):
+              try:return u,load(u)
+              except Exception as e:return u,(None,str(e)[:150])
+          with concurrent.futures.ThreadPoolExecutor(max_workers=12) as pool:downloads=dict(pool.map(fetch,sorted(urls)))
+          def dh(im):
+              a=list(im.convert("L").resize((9,8)).getdata())
+              return sum((a[y*9+x]>a[y*9+x+1])<<(y*8+x) for y in range(8) for x in range(8))
+          thumbnails={}
+          for r in records:
+              im,sha=downloads[r["url"]];r["url_sha256"]=sha if im else None
+              r["url_error"]=None if im else sha
+              if im is None and r["path"]:
+                  im=Image.open(r["path"]).convert("RGB")
+              if im is None:continue
+              r["size"]=list(im.size)
+              r["same_bytes_as_local"]=r.get("source_sha256")==r["url_sha256"] if r["path"] else None
+              r["current_images_read"]=sum(downloads[x][0] is not None for x in r["current_urls"])
+              r["near_duplicate"]=[]
+              for x in r["current_urls"]:
+                  a,b=downloads[x]
+                  if a is not None and ((dh(im)^dh(a)).bit_count()<=4 or b==r["url_sha256"]):r["near_duplicate"].append(x)
+              thumbnails[r["id"]]=im
+          font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",14)
+          for page,start in enumerate(range(0,len(records),12),1):
+              block=records[start:start+12];canvas=Image.new("RGB",(1200,((len(block)+3)//4)*345),"white");draw=ImageDraw.Draw(canvas)
+              for i,r in enumerate(block):
+                  x=i%4*300;y=i//4*345
+                  draw.rectangle((x,y,x+299,y+344),outline="#999")
+                  draw.text((x+7,y+5),r["id"]+" "+r["sku"][:30],fill="black",font=font)
+                  draw.text((x+7,y+24),"slot "+str(r["slot"])+" | "+("URL OK" if not r["url_error"] else "LOCAL ONLY"),fill="black",font=font)
+                  if r["id"] in thumbnails:
+                      im=ImageOps.contain(thumbnails[r["id"]],(284,282));canvas.paste(im,(x+(300-im.width)//2,y+44+(282-im.height)//2))
+                  draw.text((x+7,y+326),"existing match: "+str(len(r.get("near_duplicate",[]))),fill="black",font=font)
+              canvas.save(p/f"sheet_{page:02}.jpg",quality=82,optimize=True)
+          (p/"review.json").write_text(json.dumps({"coverage":coverage,"records":records,"external_market_writes":0},ensure_ascii=False,indent=2)+"\n")
+          print("candidates",len(records),"products",len(set(x["sku"] for x in records)),"images",len(thumbnails))
+          PY
+          bash .github/scripts/save_data.sh data/market_media_preview_20261126
