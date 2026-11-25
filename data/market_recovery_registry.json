@@ -9194,7 +9194,7 @@
     },
     "target_saved": true
   },
-  "updated_utc": "2026-11-25T18:31:20.108168+00:00",
+  "updated_utc": "2026-11-25T18:31:21.779535+00:00",
   "fresh_media_inventory": {
     "checked_utc": "2026-11-25T18:28:01.896213+00:00",
     "eligible_market_cards": 68,
@@ -9618,6 +9618,50 @@
         "campaign_status": "DISABLED_AUTOMATICALLY",
         "category": 71380208,
         "group": "LEOPARTS 0am325025HXG"
+      }
+    },
+    "0am325025HXK": {
+      "kind": "group",
+      "sku": "0am325025HXK",
+      "target": "LEOPARTS 0am325025HXK",
+      "status": "PENDING_MODERATION",
+      "started_utc": "2026-11-25T18:30:46.326527+00:00",
+      "old_group": "dq200 mechatronic assemblies",
+      "reviews": {
+        "0am325025HX": {
+          "available": true,
+          "count_at_least": 0,
+          "complete": true
+        },
+        "0am325025HXK": {
+          "available": true,
+          "count_at_least": 0,
+          "complete": true
+        }
+      },
+      "allow_parameters": [
+        200
+      ],
+      "source": "Official offer-mappings/update, marketCategoryId and parameterValues group 200; unique name <=255 characters. Previous empty value failed. No actual product field changed.",
+      "response": {
+        "status": "OK"
+      },
+      "checks": {
+        "exact": true,
+        "protected_diff": {},
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "DISABLED_AUTOMATICALLY",
+        "group_after": "LEOPARTS 0am325025HXK",
+        "warnings": [
+          {
+            "message": "Дубль варианта",
+            "comment": "Хотя бы один отличительный признак должен быть уникальным, иначе не опубликуем товар в этой группе"
+          },
+          {
+            "message": "Дубль варианта",
+            "comment": "Хотя бы один отличительный признак должен быть уникальным, иначе не опубликуем товар в этой группе"
+          }
+        ]
       }
     }
   }
