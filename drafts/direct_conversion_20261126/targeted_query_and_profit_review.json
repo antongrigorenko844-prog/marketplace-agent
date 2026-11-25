@@ -1,0 +1,5865 @@
+{
+  "mode": "draft_readonly",
+  "source_run": 45703549754,
+  "source_finished": "2026-11-25T21:22:23.450271+00:00",
+  "query_registry_rows": 254,
+  "groups_query_targeting_records": 234,
+  "goal_attribution": "LC",
+  "note": "Lexical negative checks only; operators and morphology not fully emulated; a match from historical rows does not show post-change leakage. No complete post-change days. No real paid-order proof.",
+  "records": [
+    {
+      "query": "купить плату мехатроник дсг 0am927769g в спб",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "oem_commercial",
+      "reason": "specific OEM and product",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "купить плату мехатроник дсг 0am927769g в спб"
+      ],
+      "spend": 124.59,
+      "clicks": 5,
+      "conversions": 1,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": 1,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "dsg dq 200 купить",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "dsg dq 200 купить"
+      ],
+      "spend": 123.83,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник dsg",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-19",
+        "2026-11-20",
+        "2026-11-25"
+      ],
+      "variants": [
+        "мехатроник dsg"
+      ],
+      "spend": 122.44,
+      "clicks": 4,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-25",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "замена корпуса мехатроника",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "repair/replacement may imply part purchase",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "замена корпуса мехатроника"
+      ],
+      "spend": 119.27,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "где в старом осколе ремонтируют дсг мехатроник коробки",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "где в старом осколе ремонтируют дсг мехатроник коробки"
+      ],
+      "spend": 116.31,
+      "clicks": 4,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "!где +в старом осколе !ремонтируют дсг мехатроник",
+        "+где ремонтируют"
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "сколько стоит плата от машины",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "generic automotive electronics, no DQ200 part",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "сколько стоит плата от машины"
+      ],
+      "spend": 107.8,
+      "clicks": 3,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"сколько стоит плата от машины\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "dq200 мехатроник купить",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-21",
+        "2026-11-25"
+      ],
+      "variants": [
+        "dq200 мехатроник купить"
+      ],
+      "spend": 98.7,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-25",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17",
+        "2026-11-19",
+        "2026-11-21"
+      ],
+      "variants": [
+        "мехатроник dq200"
+      ],
+      "spend": 93.62,
+      "clicks": 4,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "блок мехатроника dsg 7 dq200",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21",
+        "2026-11-22"
+      ],
+      "variants": [
+        "блок мехатроника dsg 7 dq200"
+      ],
+      "spend": 84.97,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-22",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "детали машин симферополь",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "детали машин симферополь"
+      ],
+      "spend": 81.88,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"детали машин симферополь\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "купить мехатроник дсг 7",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-22",
+        "2026-11-24"
+      ],
+      "variants": [
+        "купить мехатроник дсг 7"
+      ],
+      "spend": 80.99,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-24",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник dsg 7 dq200 цена",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "specific_part_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-17",
+        "2026-11-19"
+      ],
+      "variants": [
+        "мехатроник dsg 7 dq200 цена"
+      ],
+      "spend": 76.9,
+      "clicks": 3,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "0am927769d плата мехатроника",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "oem_commercial",
+      "reason": "specific OEM and product",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "0am927769d плата мехатроника"
+      ],
+      "spend": 76.54,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "плата мехатроника dsg 7 dq200 купить",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "плата мехатроника dsg 7 dq200 купить"
+      ],
+      "spend": 73.91,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник дку 200 второй генерации",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "мехатроник дку 200 второй генерации"
+      ],
+      "spend": 72.8,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "эбу мехатроник dsg 7",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "эбу мехатроник dsg 7"
+      ],
+      "spend": 72.74,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "запчасти",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "запчасти"
+      ],
+      "spend": 72.36,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"запчасти\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "ремонт dsg",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "repair/replacement may imply part purchase",
+      "dates": [
+        "2026-11-20",
+        "2026-11-21"
+      ],
+      "variants": [
+        "ремонт dsg"
+      ],
+      "spend": 69.56,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"ремонт dsg\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт акпп купить",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "mixed service/purchase intent",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "ремонт акпп купить"
+      ],
+      "spend": 68.83,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"ремонт акпп купить\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "авто запчасти",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-24"
+      ],
+      "variants": [
+        "авто запчасти"
+      ],
+      "spend": 68.74,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-24",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"авто запчасти\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "мехатроник на дсг 7 купить",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "мехатроник на дсг 7 купить"
+      ],
+      "spend": 67.62,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "плата мехатроника dsg7 dq200 купить в спб",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "explicit DQ200 part and purchase",
+      "dates": [
+        "2026-11-25"
+      ],
+      "variants": [
+        "плата мехатроника dsg7 dq200 купить в спб"
+      ],
+      "spend": 64.89,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-25",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "купить дсг коробку передач цена",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "outside_campaign_product",
+      "reason": "explicit non-feed product or other gearbox; stock not inferred",
+      "dates": [
+        "2026-11-22"
+      ],
+      "variants": [
+        "купить дсг коробку передач цена"
+      ],
+      "spend": 64.87,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-22",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"купить дсг коробку передач цена\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "плата мехатроника dsg цена",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-22"
+      ],
+      "variants": [
+        "плата мехатроника dsg цена"
+      ],
+      "spend": 64.18,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-22",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "автозапчасти купить",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "автозапчасти купить"
+      ],
+      "spend": 63.17,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"автозапчасти купить\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "какое масло заливать в мехатроник дсг 7 шкода етти 1 2",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "informational",
+      "reason": "information query",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "какое масло заливать в мехатроник дсг 7 шкода етти 1 2"
+      ],
+      "spend": 61.83,
+      "clicks": 1,
+      "conversions": 1,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": 1,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт дсг",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "repair/replacement may imply part purchase",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "ремонт дсг"
+      ],
+      "spend": 60.68,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"ремонт дсг\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "плата мехатроника dsg 7 dq200",
+      "group_id": "5826320196",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "плата мехатроника dsg 7 dq200"
+      ],
+      "spend": 60.37,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник шкода октавия а7 1.4",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "мехатроник шкода октавия а7 1.4"
+      ],
+      "spend": 58.05,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "поиск запчастей по vin коду автомобиля",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "generic VIN search, no specific component",
+      "dates": [
+        "2026-11-22"
+      ],
+      "variants": [
+        "поиск запчастей по vin коду автомобиля"
+      ],
+      "spend": 57.65,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-22",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"поиск запчастей по vin коду автомобиля\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "скачать сайт для покупки авто запчастей",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "скачать сайт для покупки авто запчастей"
+      ],
+      "spend": 57.42,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"скачать сайт для покупки авто запчастей\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "акпп dq200 купить",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "outside_campaign_product",
+      "reason": "explicit non-feed product or other gearbox; stock not inferred",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "акпп dq200 купить"
+      ],
+      "spend": 56.87,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"акпп dq200 купить\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "автозапчасти пикалево",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-22"
+      ],
+      "variants": [
+        "автозапчасти пикалево"
+      ],
+      "spend": 55.06,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-22",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"автозапчасти пикалево\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "замена мехатроника dsg с гарантией",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-18",
+        "2026-11-21"
+      ],
+      "variants": [
+        "замена мехатроника dsg с гарантией"
+      ],
+      "spend": 54.54,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"замена мехатроника dsg +с гарантией\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "автозапчасти прохладный",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-22"
+      ],
+      "variants": [
+        "автозапчасти прохладный"
+      ],
+      "spend": 54.02,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-22",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"автозапчасти прохладный\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "запчасти по вин номеру",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "generic VIN search, no specific component",
+      "dates": [
+        "2026-11-22"
+      ],
+      "variants": [
+        "запчасти по вин номеру"
+      ],
+      "spend": 52.8,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-22",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"запчасти по вин номеру\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "авито авто запчасти чебоксары",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-22"
+      ],
+      "variants": [
+        "авито авто запчасти чебоксары"
+      ],
+      "spend": 52.64,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-22",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"авито авто запчасти чебоксары\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "ремонт мехатроника",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "repair/replacement may imply part purchase",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "ремонт мехатроника"
+      ],
+      "spend": 52.45,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник вольцвагин поло",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-24"
+      ],
+      "variants": [
+        "мехатроник вольцвагин поло"
+      ],
+      "spend": 52.03,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-24",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "запчасти акпп москва",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "запчасти акпп москва"
+      ],
+      "spend": 51.65,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "запчасти на авто ру",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "запчасти на авто ру"
+      ],
+      "spend": 51.48,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"запчасти +на авто ру\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "ремонт мехатроника dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "repair/replacement may imply part purchase",
+      "dates": [
+        "2026-11-18",
+        "2026-11-21"
+      ],
+      "variants": [
+        "ремонт мехатроника dq200",
+        "ремонт мехатроника DQ200"
+      ],
+      "spend": 50.82,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"ремонт мехатроника dq200\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "трещина платы дсг",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "fault/fitment may precede part purchase",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "трещина платы дсг"
+      ],
+      "spend": 50.81,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "плата мехатроника dsg 7 dq200",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-19",
+        "2026-11-23"
+      ],
+      "variants": [
+        "плата мехатроника dsg 7 dq200"
+      ],
+      "spend": 49.64,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-23",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "признаки износа сцепления дсг 7 dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "fault/fitment may precede part purchase",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "признаки износа сцепления дсг 7 dq200"
+      ],
+      "spend": 49.29,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"признаки износа сцепления дсг 7 dq200\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "abtomat ru запчасти для акпп",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "abtomat ru запчасти для акпп"
+      ],
+      "spend": 49.23,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "dsg dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17",
+        "2026-11-20"
+      ],
+      "variants": [
+        "dsg dq200"
+      ],
+      "spend": 49.09,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "авито запчасти для авто",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "авито запчасти для авто"
+      ],
+      "spend": 48.8,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "MONITOR_REPEAT_POST_CHANGE"
+    },
+    {
+      "query": "где купить деталь оригинал для автомобиля",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "где купить деталь оригинал для автомобиля"
+      ],
+      "spend": 47.59,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "MONITOR_REPEAT_POST_CHANGE"
+    },
+    {
+      "query": "мехатроник шкода октавия а7 1.8",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "мехатроник шкода октавия а7 1.8"
+      ],
+      "spend": 47.46,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник мокрый купить",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "outside_campaign_product",
+      "reason": "explicit non-feed product or other gearbox; stock not inferred",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "мехатроник мокрый купить"
+      ],
+      "spend": 47.37,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"мехатроник мокрый купить\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "контрактные запчасти на форпост или евроавто",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-22"
+      ],
+      "variants": [
+        "контрактные запчасти на форпост или евроавто"
+      ],
+      "spend": 46.75,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-22",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"контрактные запчасти на форпост или евроавто\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "встанет ли мехатроник 0aw вместо 0am",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "diagnostic_possible",
+      "reason": "fitment question, potential purchase",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "встанет ли мехатроник 0aw вместо 0am"
+      ],
+      "spend": 46.49,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "пропадает давление в мехатронике dq200",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "diagnostic_possible",
+      "reason": "fault/fitment may precede part purchase",
+      "dates": [
+        "2026-11-24"
+      ],
+      "variants": [
+        "пропадает давление в мехатронике dq200"
+      ],
+      "spend": 46.03,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-24",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник цена ауди а6 с8",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "outside_campaign_product",
+      "reason": "explicit non-feed product or other gearbox; stock not inferred",
+      "dates": [
+        "2026-11-22"
+      ],
+      "variants": [
+        "мехатроник цена ауди а6 с8"
+      ],
+      "spend": 45.22,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-22",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "MONITOR_REPEAT_POST_CHANGE"
+    },
+    {
+      "query": "ремонт платы мехатроника dsg 7 dq200",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "repair/replacement may imply part purchase",
+      "dates": [
+        "2026-11-18",
+        "2026-11-24"
+      ],
+      "variants": [
+        "ремонт платы мехатроника dsg 7 dq200"
+      ],
+      "spend": 44.1,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-24",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт мехатроника dsg 7",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "repair/replacement may imply part purchase",
+      "dates": [
+        "2026-11-20",
+        "2026-11-21"
+      ],
+      "variants": [
+        "ремонт мехатроника dsg 7"
+      ],
+      "spend": 43.47,
+      "clicks": 2,
+      "conversions": 1,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": 1,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"ремонт мехатроника dsg 7\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "купить новый блок мехатроника для dsg 7 dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-16",
+        "2026-11-18"
+      ],
+      "variants": [
+        "купить новый блок мехатроника для dsg 7 dq200"
+      ],
+      "spend": 43.43,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "коробка робот замена",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "could be replacement part or service",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "коробка робот замена"
+      ],
+      "spend": 43.22,
+      "clicks": 1,
+      "conversions": 1,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": 1,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "dq200 купить",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-18",
+        "2026-11-20"
+      ],
+      "variants": [
+        "dq200 купить"
+      ],
+      "spend": 42.59,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "купить коробку дсг 7 dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "outside_campaign_product",
+      "reason": "explicit non-feed product or other gearbox; stock not inferred",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "купить коробку дсг 7 dq200"
+      ],
+      "spend": 42.06,
+      "clicks": 2,
+      "conversions": 1,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": 1,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"купить коробку дсг 7 dq200\""
+      ],
+      "recommendation": "PROTECT_CONVERSION_SIGNAL_REVIEW_NOT_EXCLUDE"
+    },
+    {
+      "query": "купить запчасти по вину",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "generic VIN search, no specific component",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "купить запчасти по вину"
+      ],
+      "spend": 41.81,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"купить запчасти +по вину\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник тигуан 2.0 цена",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-23"
+      ],
+      "variants": [
+        "мехатроник тигуан 2.0 цена"
+      ],
+      "spend": 41.78,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-23",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник акпп",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-24"
+      ],
+      "variants": [
+        "мехатроник акпп"
+      ],
+      "spend": 41.59,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-24",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник фольксваген тигуан 2018 года где расположен и как заменяют плату",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "informational",
+      "reason": "information query",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "мехатроник фольксваген тигуан 2018 года где расположен и как заменяют плату"
+      ],
+      "spend": 41.43,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник на пассат б6",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "мехатроник на пассат б6"
+      ],
+      "spend": 40.79,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник dsg ауди",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-23"
+      ],
+      "variants": [
+        "мехатроник dsg ауди"
+      ],
+      "spend": 40.56,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-23",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "плата управления коробки робот автомат",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "плата управления коробки робот автомат"
+      ],
+      "spend": 40.37,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник в коробке передач",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-23"
+      ],
+      "variants": [
+        "мехатроник в коробке передач"
+      ],
+      "spend": 40.17,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-23",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "dq200 купить",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "dq200 купить"
+      ],
+      "spend": 40.13,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "контрактные запчасти",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-25"
+      ],
+      "variants": [
+        "контрактные запчасти"
+      ],
+      "spend": 39.9,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-25",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"контрактные запчасти\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "dq200dsg купить",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "dq200dsg купить"
+      ],
+      "spend": 39.84,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник dsg 7 dq200 купить",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "мехатроник dsg 7 dq200 купить"
+      ],
+      "spend": 39.83,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "контрактные запчасти в улан",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "контрактные запчасти в улан"
+      ],
+      "spend": 39.15,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"контрактные запчасти +в улан\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "мехатроник пассат сс",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-23"
+      ],
+      "variants": [
+        "мехатроник пассат сс"
+      ],
+      "spend": 39.06,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-23",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "сколько стоит плата на ноутбук",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "сколько стоит плата на ноутбук"
+      ],
+      "spend": 38.76,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"сколько стоит плата на ноутбук\"",
+        "ноутбук"
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "рынок автозапчасти в москве",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "рынок автозапчасти в москве"
+      ],
+      "spend": 38.66,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"рынок автозапчасти +в москве\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "плата в коробке передач дсг",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "плата в коробке передач дсг"
+      ],
+      "spend": 38.42,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-18",
+        "2026-11-19"
+      ],
+      "variants": [
+        "dq200"
+      ],
+      "spend": 38.29,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "где отремонтировать без автомобиля мехатроник dsg 7 dq 200 в хмао югре",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "где отремонтировать без автомобиля мехатроник dsg 7 dq 200 в хмао югре"
+      ],
+      "spend": 37.62,
+      "clicks": 1,
+      "conversions": 1,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": 1,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "+где отремонтировать"
+      ],
+      "recommendation": "PROTECT_CONVERSION_SIGNAL_REVIEW_NOT_EXCLUDE"
+    },
+    {
+      "query": "отзывы покупателей заказывавших запчасти для автомашин на яндекс маркете",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "отзывы покупателей заказывавших запчасти для автомашин на яндекс маркете"
+      ],
+      "spend": 37.23,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "MONITOR_REPEAT_POST_CHANGE"
+    },
+    {
+      "query": "мехатроник dq200",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-18",
+        "2026-11-21"
+      ],
+      "variants": [
+        "мехатроник dq200"
+      ],
+      "spend": 37.12,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт дсг",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "repair/replacement may imply part purchase",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "ремонт дсг"
+      ],
+      "spend": 37.01,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"ремонт дсг\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "yuxiang avto купить мехатроник dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "yuxiang avto купить мехатроник dq200"
+      ],
+      "spend": 36.81,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "блок управления мехатроника дсг 7",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "блок управления мехатроника дсг 7"
+      ],
+      "spend": 36.6,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник на дсг 7 dq200 купить",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-23"
+      ],
+      "variants": [
+        "мехатроник на дсг 7 dq200 купить"
+      ],
+      "spend": 36.23,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-23",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "момент затяжки мехатроника dq200",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "informational",
+      "reason": "information query",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "момент затяжки мехатроника dq200"
+      ],
+      "spend": 36.18,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"момент затяжки мехатроника dq200\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт дсг оренбург",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-22"
+      ],
+      "variants": [
+        "ремонт дсг оренбург"
+      ],
+      "spend": 36.18,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-22",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"ремонт дсг оренбург\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "мехатроник дсг 7 цена в сборе",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "specific_part_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "мехатроник дсг 7 цена в сборе"
+      ],
+      "spend": 35.72,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт дсг вологда",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "ремонт дсг вологда"
+      ],
+      "spend": 35.42,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"ремонт дсг вологда\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "мехатроник в коробке передач фольксваген тигуан цена",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "fitment must be confirmed",
+      "dates": [
+        "2026-11-25"
+      ],
+      "variants": [
+        "мехатроник в коробке передач фольксваген тигуан цена"
+      ],
+      "spend": 35.12,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-25",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник dsg 7 dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "мехатроник dsg 7 dq200"
+      ],
+      "spend": 34.65,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "коробка дсг 7 цена новой",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "outside_campaign_product",
+      "reason": "explicit non-feed product or other gearbox; stock not inferred",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "коробка дсг 7 цена новой"
+      ],
+      "spend": 34.57,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"коробка дсг 7 цена новой\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "мехатроник пассат сс 2012 год купить",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-24"
+      ],
+      "variants": [
+        "мехатроник пассат сс 2012 год купить"
+      ],
+      "spend": 34.31,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-24",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "средняя стоимость ремонта снятого мехатроника dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "средняя стоимость ремонта снятого мехатроника dq200"
+      ],
+      "spend": 34.3,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"средняя стоимость ремонта снятого мехатроника dq200\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "купить мехатроник dsg 7 dq200 в оренбурге",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "купить мехатроник dsg 7 dq200 в оренбурге"
+      ],
+      "spend": 34.18,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "плата мехатроника dq200 dsg 7",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "плата мехатроника dq200 dsg 7"
+      ],
+      "spend": 34.13,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник dq200",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-25"
+      ],
+      "variants": [
+        "мехатроник dq200"
+      ],
+      "spend": 34.08,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-25",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник октавия а7 1.4 артикул",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "diagnostic_possible",
+      "reason": "part identification, possible purchase",
+      "dates": [
+        "2026-11-24"
+      ],
+      "variants": [
+        "мехатроник октавия а7 1.4 артикул"
+      ],
+      "spend": 33.95,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-24",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "дром запчасти",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "дром запчасти"
+      ],
+      "spend": 33.89,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"дром запчасти\"",
+        "дром запчасти"
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "мехатроник шкода октавия а7 1.4 купить",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "мехатроник шкода октавия а7 1.4 купить"
+      ],
+      "spend": 33.55,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "электронная плата dq200",
+      "group_id": "5826320196",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "электронная плата dq200"
+      ],
+      "spend": 33.41,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "dsg vag",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "dsg vag"
+      ],
+      "spend": 33.2,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник дсг",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "мехатроник дсг"
+      ],
+      "spend": 33.1,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник dsg 7",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "мехатроник dsg 7"
+      ],
+      "spend": 32.79,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт dq200 цена",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "ремонт dq200 цена"
+      ],
+      "spend": 32.72,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"ремонт dq200 цена\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "куда подходит мехатроник dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "fitment question",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "куда подходит мехатроник dq200"
+      ],
+      "spend": 32.52,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт дсг в калуге адреса",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "ремонт дсг в калуге адреса"
+      ],
+      "spend": 32.16,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"ремонт дсг +в калуге адреса\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "p17bf ошибка dsg 7 dq200",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "diagnostic_possible",
+      "reason": "fault/fitment may precede part purchase",
+      "dates": [
+        "2026-11-23"
+      ],
+      "variants": [
+        "p17bf ошибка dsg 7 dq200"
+      ],
+      "spend": 31.85,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-23",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник на поло седан",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "мехатроник на поло седан"
+      ],
+      "spend": 31.73,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "купить плату блока управления мехатроника дсг 7 дк200 люк",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "купить плату блока управления мехатроника дсг 7 дк200 люк"
+      ],
+      "spend": 31.66,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт мехатроника фольксваген гольф 6 цена в краснодаре",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "ремонт мехатроника фольксваген гольф 6 цена в краснодаре"
+      ],
+      "spend": 31.09,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "MONITOR_REPEAT_POST_CHANGE"
+    },
+    {
+      "query": "автозапчасти для иномарок рядом",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-22"
+      ],
+      "variants": [
+        "автозапчасти для иномарок рядом"
+      ],
+      "spend": 31.09,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-22",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"автозапчасти для иномарок рядом\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "мехатроник новый к сеат леон купить",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "condition and fitment must be confirmed",
+      "dates": [
+        "2026-11-25"
+      ],
+      "variants": [
+        "мехатроник новый к сеат леон купить"
+      ],
+      "spend": 31.08,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-25",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "детали роботизированной коробки передач",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "детали роботизированной коробки передач"
+      ],
+      "spend": 30.5,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "пульт для проверки мехатроника дсг 7",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "outside_campaign_product",
+      "reason": "tool, not an advertised mechatronic or board",
+      "dates": [
+        "2026-11-25"
+      ],
+      "variants": [
+        "пульт для проверки мехатроника дсг 7"
+      ],
+      "spend": 30.48,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-25",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "MONITOR_REPEAT_POST_CHANGE"
+    },
+    {
+      "query": "блок мехатроник",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "блок мехатроник"
+      ],
+      "spend": 30.34,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник на шкоду октавию",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-23"
+      ],
+      "variants": [
+        "мехатроник на шкоду октавию"
+      ],
+      "spend": 30.12,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-23",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "купить новый блок мехатроника для dsg 7 dq200",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-16"
+      ],
+      "variants": [
+        "купить новый блок мехатроника для dsg 7 dq200"
+      ],
+      "spend": 29.67,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-16",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "автокаталог запчастей",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "автокаталог запчастей"
+      ],
+      "spend": 29.29,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"автокаталог запчастей\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "замена платы мехатроника dq200",
+      "group_id": "5826320196",
+      "targeting": "KEYWORD",
+      "intent": "diagnostic_possible",
+      "reason": "repair/replacement may imply part purchase",
+      "dates": [
+        "2026-11-24"
+      ],
+      "variants": [
+        "замена платы мехатроника dq200"
+      ],
+      "spend": 28.92,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-24",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт дсг 7 фольксваген",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "repair/replacement may imply part purchase",
+      "dates": [
+        "2026-11-22"
+      ],
+      "variants": [
+        "ремонт дсг 7 фольксваген"
+      ],
+      "spend": 28.82,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-22",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"ремонт дсг 7 фольксваген\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник дк200 2019 г",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "мехатроник дк200 2019 г"
+      ],
+      "spend": 28.29,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник для гольф",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "мехатроник для гольф"
+      ],
+      "spend": 28.17,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ошибка 01315 пассат б6",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "diagnostic_possible",
+      "reason": "fault/fitment may precede part purchase",
+      "dates": [
+        "2026-11-24"
+      ],
+      "variants": [
+        "ошибка 01315 пассат б6"
+      ],
+      "spend": 28.11,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-24",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник на дсг 7 цена",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "specific_part_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "мехатроник на дсг 7 цена"
+      ],
+      "spend": 27.89,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт dsg dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "repair/replacement may imply part purchase",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "ремонт dsg dq200"
+      ],
+      "spend": 27.89,
+      "clicks": 1,
+      "conversions": 1,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": 1,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"ремонт dsg dq200\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "купить бу мехатроник цена на ауди а3 спортбайк 2012 года 2 поколение",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "купить бу мехатроник цена на ауди а3 спортбайк 2012 года 2 поколение"
+      ],
+      "spend": 27.8,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "0am325025h zdz мехатроник с прогр обеспеч",
+      "group_id": "5826171512",
+      "targeting": "KEYWORD",
+      "intent": "ambiguous",
+      "reason": "exact OEM but software requirement unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "0am325025h zdz мехатроник с прогр обеспеч"
+      ],
+      "spend": 27.78,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник dq200 цена",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "specific_part_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-17",
+        "2026-11-18"
+      ],
+      "variants": [
+        "мехатроник dq200 цена"
+      ],
+      "spend": 27.73,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт мехатроника сервисы",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "explicit service search",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "ремонт мехатроника сервисы"
+      ],
+      "spend": 27.24,
+      "clicks": 1,
+      "conversions": 1,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": 1,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"ремонт мехатроника сервисы\""
+      ],
+      "recommendation": "PROTECT_CONVERSION_SIGNAL_REVIEW_NOT_EXCLUDE"
+    },
+    {
+      "query": "мехатроник ауди а3 цена",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "fitment must be confirmed",
+      "dates": [
+        "2026-11-25"
+      ],
+      "variants": [
+        "мехатроник ауди а3 цена"
+      ],
+      "spend": 26.69,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-25",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник пассат 7",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "мехатроник пассат 7"
+      ],
+      "spend": 26.67,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник купить спб",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "мехатроник купить спб"
+      ],
+      "spend": 26.64,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мерседес мехатроник",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "outside_campaign_product",
+      "reason": "explicit non-feed product or other gearbox; stock not inferred",
+      "dates": [
+        "2026-11-16"
+      ],
+      "variants": [
+        "мерседес мехатроник"
+      ],
+      "spend": 26.25,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-16",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "мерседес мехатроник"
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "запчасти для акпп",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "запчасти для акпп"
+      ],
+      "spend": 26.23,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник dsg 7 dq200 купить",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-24"
+      ],
+      "variants": [
+        "мехатроник dsg 7 dq200 купить"
+      ],
+      "spend": 26.13,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-24",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "dsg 7 dq200 купить",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "dsg 7 dq200 купить"
+      ],
+      "spend": 26.02,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник dsg",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-25"
+      ],
+      "variants": [
+        "мехатроник dsg"
+      ],
+      "spend": 26.01,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-25",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроника в коробке передач",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "мехатроника в коробке передач"
+      ],
+      "spend": 25.51,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "плато и мехатроник на фольксваген поло",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-24"
+      ],
+      "variants": [
+        "плато и мехатроник на фольксваген поло"
+      ],
+      "spend": 25.43,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-24",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "сколько стоит ремонт dsg dq200 сухая",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "сколько стоит ремонт dsg dq200 сухая"
+      ],
+      "spend": 25.36,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"сколько стоит ремонт dsg dq200 сухая\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "плата мехатроника",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "плата мехатроника"
+      ],
+      "spend": 25.05,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "купить новый мехатроник для dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "купить новый мехатроник для dq200"
+      ],
+      "spend": 24.65,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "каталог запчастей акпп dsg",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "каталог запчастей акпп dsg"
+      ],
+      "spend": 24.53,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "отличия платы мехатроника 0am927769d от 0am927769g",
+      "group_id": "5826320196",
+      "targeting": "KEYWORD",
+      "intent": "diagnostic_possible",
+      "reason": "comparison of actual board revisions",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "отличия платы мехатроника 0am927769d от 0am927769g"
+      ],
+      "spend": 24.37,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "электронная плата мехатроника dq200 dsg 7 купить",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "электронная плата мехатроника dq200 dsg 7 купить"
+      ],
+      "spend": 24.3,
+      "clicks": 2,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник на коробке дсг",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-25"
+      ],
+      "variants": [
+        "мехатроник на коробке дсг"
+      ],
+      "spend": 24.27,
+      "clicks": 1,
+      "conversions": 1,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-25",
+      "goal_cart_LC": 1,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "дсг 7 контрактная",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "outside_campaign_product",
+      "reason": "explicit non-feed product or other gearbox; stock not inferred",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "дсг 7 контрактная"
+      ],
+      "spend": 24.21,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"дсг 7 контрактная\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "устройство dsg",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "informational",
+      "reason": "information query",
+      "dates": [
+        "2026-11-24"
+      ],
+      "variants": [
+        "устройство dsg"
+      ],
+      "spend": 23.99,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-24",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"устройство dsg\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт мехатроника dq200 электрика",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "repair/replacement may imply part purchase",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "ремонт мехатроника dq200 электрика"
+      ],
+      "spend": 23.8,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "dsg dq 200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "dsg dq 200"
+      ],
+      "spend": 23.73,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "коробка dq200 цена",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "outside_campaign_product",
+      "reason": "explicit non-feed product or other gearbox; stock not inferred",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "коробка dq200 цена"
+      ],
+      "spend": 23.71,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "MONITOR_REPEAT_POST_CHANGE"
+    },
+    {
+      "query": "мехатроник ауди 7",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "мехатроник ауди 7"
+      ],
+      "spend": 23.29,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "где в старом осколе ремонтируют дсг мехатроник",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "где в старом осколе ремонтируют дсг мехатроник"
+      ],
+      "spend": 23.28,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "!где +в старом осколе !ремонтируют дсг мехатроник",
+        "+где ремонтируют"
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "dq200 коробка",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "dq200 коробка"
+      ],
+      "spend": 23.27,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник пассат 2011",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "мехатроник пассат 2011"
+      ],
+      "spend": 23.21,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "в мехатроник какую жижу брать шкода октавия",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "informational",
+      "reason": "fluid specification",
+      "dates": [
+        "2026-11-25"
+      ],
+      "variants": [
+        "в мехатроник какую жижу брать шкода октавия"
+      ],
+      "spend": 23.18,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-25",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "дсг 7 dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "дсг 7 dq200"
+      ],
+      "spend": 23.1,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник dq200 схема",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "informational",
+      "reason": "information query",
+      "dates": [
+        "2026-11-24"
+      ],
+      "variants": [
+        "мехатроник dq200 схема"
+      ],
+      "spend": 22.97,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-24",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник коробки дсг",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "мехатроник коробки дсг"
+      ],
+      "spend": 22.91,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник dsg 7 dq200 цена",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "specific_part_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "мехатроник dsg 7 dq200 цена"
+      ],
+      "spend": 22.6,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "полная разборка платы мехатроника dsg 7 dq200",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "informational",
+      "reason": "information query",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "полная разборка платы мехатроника dsg 7 dq200"
+      ],
+      "spend": 22.49,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"полная разборка платы мехатроника dsg 7 dq200\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "dq 200 коробка",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "dq 200 коробка"
+      ],
+      "spend": 22.46,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "автомобильная плата",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "generic automotive electronics, no DQ200 part",
+      "dates": [
+        "2026-11-23"
+      ],
+      "variants": [
+        "автомобильная плата"
+      ],
+      "spend": 22.29,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-23",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "MONITOR_REPEAT_POST_CHANGE"
+    },
+    {
+      "query": "купить мехатроник шкода а7",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "купить мехатроник шкода а7"
+      ],
+      "spend": 22.27,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник дсг 7 дк200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "мехатроник дсг 7 дк200"
+      ],
+      "spend": 21.99,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "dq 200 при сбросе газа резкое торможение двигателем",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "fault/fitment may precede part purchase",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "dq 200 при сбросе газа резкое торможение двигателем"
+      ],
+      "spend": 21.98,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "vw b7 мехатроник",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-23"
+      ],
+      "variants": [
+        "vw b7 мехатроник"
+      ],
+      "spend": 21.83,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-23",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт мехатроника dq200 ставрополь",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "ремонт мехатроника dq200 ставрополь"
+      ],
+      "spend": 21.73,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"ремонт мехатроника dq200 ставрополь\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "мехатроник на шкоду октавия",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "мехатроник на шкоду октавия"
+      ],
+      "spend": 21.72,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт дсг пермь",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "ремонт дсг пермь"
+      ],
+      "spend": 21.59,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"ремонт дсг пермь\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "кпп дсг купить",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "outside_campaign_product",
+      "reason": "explicit non-feed product or other gearbox; stock not inferred",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "кпп дсг купить"
+      ],
+      "spend": 21.51,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"кпп дсг купить\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "блок управления на автомат коробку",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "блок управления на автомат коробку"
+      ],
+      "spend": 21.48,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "dq200 цена",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "dq200 цена"
+      ],
+      "spend": 21.43,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "купить новые мехатроники",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "купить новые мехатроники"
+      ],
+      "spend": 21.38,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "комплект гидроблока dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "комплект гидроблока dq200"
+      ],
+      "spend": 21.25,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "купить мехатроник в дсг 7",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "купить мехатроник в дсг 7"
+      ],
+      "spend": 21.2,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "неисправный мехатроник dq 500 купить",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "outside_campaign_product",
+      "reason": "explicit non-feed product or other gearbox; stock not inferred",
+      "dates": [
+        "2026-11-24"
+      ],
+      "variants": [
+        "неисправный мехатроник dq 500 купить"
+      ],
+      "spend": 20.62,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-24",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"неисправный мехатроник dq 500 купить\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "плата мехатроника dsg 7",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "part identified, fitment uncertain",
+      "dates": [
+        "2026-11-25"
+      ],
+      "variants": [
+        "плата мехатроника dsg 7"
+      ],
+      "spend": 20.06,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-25",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "диагностика мехатроника dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "fault/fitment may precede part purchase",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "диагностика мехатроника dq200"
+      ],
+      "spend": 19.89,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"диагностика мехатроника dq200\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "дсг дку 200",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-22"
+      ],
+      "variants": [
+        "дсг дку 200"
+      ],
+      "spend": 19.48,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-22",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "купить мехатроник на дсг 7 dq200 2010 год выпуска",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "купить мехатроник на дсг 7 dq200 2010 год выпуска"
+      ],
+      "spend": 19.46,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "dsg dq200 на каких машинах стоит по годам",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "informational",
+      "reason": "information query",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "dsg dq200 на каких машинах стоит по годам"
+      ],
+      "spend": 19.42,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "плата мехатроника ваг dq200 dsg 7",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "плата мехатроника ваг dq200 dsg 7"
+      ],
+      "spend": 18.51,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "сколько стоит мехатроник на vw tiguan",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "specific_part_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "сколько стоит мехатроник на vw tiguan"
+      ],
+      "spend": 18.3,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "dsg7 мехатроник с платой",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "dsg7 мехатроник с платой"
+      ],
+      "spend": 18.25,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "авто ру запчасти камчатский край",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "авто ру запчасти камчатский край"
+      ],
+      "spend": 18.25,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "MONITOR_REPEAT_POST_CHANGE"
+    },
+    {
+      "query": "дсг dq200 мехатроник ошибка u010100 видео",
+      "group_id": "5828476541",
+      "targeting": "KEYWORD",
+      "intent": "diagnostic_possible",
+      "reason": "fault/fitment may precede part purchase",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "дсг dq200 мехатроник ошибка u010100 видео"
+      ],
+      "spend": 18.25,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "dq200 стоимость ремонта",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "dq200 стоимость ремонта"
+      ],
+      "spend": 18.09,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"dq200 стоимость ремонта\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "мехатроник ремонт цена",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "мехатроник ремонт цена"
+      ],
+      "spend": 17.79,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"мехатроник ремонт цена\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "мехатроник dq200 устройство",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "informational",
+      "reason": "information query",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "мехатроник dq200 устройство"
+      ],
+      "spend": 17.28,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"мехатроник dq200 устройство\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник на дсг 7 dq200 купить",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "мехатроник на дсг 7 dq200 купить"
+      ],
+      "spend": 17.25,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "платы микросхемы",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "non_target",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-24"
+      ],
+      "variants": [
+        "платы микросхемы"
+      ],
+      "spend": 17.18,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-24",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"платы микросхемы\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "dsg 7 вместо aisin 09g",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "outside_campaign_product",
+      "reason": "explicit non-feed product or other gearbox; stock not inferred",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "dsg 7 вместо aisin 09g"
+      ],
+      "spend": 17.14,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"dsg 7 +вместо aisin 09g\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "сколько стоит мехатроник на дск шкода октавия а5",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "specific_part_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "сколько стоит мехатроник на дск шкода октавия а5"
+      ],
+      "spend": 17.1,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "запчасть для коробки передач dsg 7 купить",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "may be a relevant part, not specified",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "запчасть для коробки передач dsg 7 купить"
+      ],
+      "spend": 17.06,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "запчасти для DSG-7",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "possible relevant component",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "запчасти для DSG-7"
+      ],
+      "spend": 16.88,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "замена электронного плата мехатроника",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "repair/replacement may imply part purchase",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "замена электронного плата мехатроника"
+      ],
+      "spend": 16.83,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "как выглядит гидравлический аккумулятор в мехатронике dq200",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "part identification",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "как выглядит гидравлический аккумулятор в мехатронике dq200"
+      ],
+      "spend": 16.75,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "кпп dsg что это такое",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "informational",
+      "reason": "information query",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "кпп dsg что это такое"
+      ],
+      "spend": 16.72,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "кпп dsg !что !это !такое"
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "плата мехатроник дсг 7 dq200 купить китай",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "purchase, origin preference must be confirmed",
+      "dates": [
+        "2026-11-25"
+      ],
+      "variants": [
+        "плата мехатроник дсг 7 dq200 купить китай"
+      ],
+      "spend": 16.69,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-25",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник на коробку dq200",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "мехатроник на коробку dq200"
+      ],
+      "spend": 16.31,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник коробки dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "мехатроник коробки dq200"
+      ],
+      "spend": 16.18,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "купить дсг 7 dq200 новую",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "купить дсг 7 dq200 новую"
+      ],
+      "spend": 16.15,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник дсг 7 dq200",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "мехатроник дсг 7 dq200"
+      ],
+      "spend": 15.99,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "плата мехатроника dq200 dsg 7 с ручным стояночным тормозом",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "плата мехатроника dq200 dsg 7 с ручным стояночным тормозом"
+      ],
+      "spend": 15.85,
+      "clicks": 1,
+      "conversions": 1,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": 1,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": 1,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "01315 блок управления коробки передач 004 нет сигнала связи dq200",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "fault/fitment may precede part purchase",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "01315 блок управления коробки передач 004 нет сигнала связи dq200"
+      ],
+      "spend": 15.75,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "дсг 250 коробка что это",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "outside_campaign_product",
+      "reason": "explicit non-feed product or other gearbox; stock not inferred",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "дсг 250 коробка что это"
+      ],
+      "spend": 15.26,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "дсг 250 коробка !что !это"
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "мехатроник dsg 7 цена новый",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "specific_part_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "мехатроник dsg 7 цена новый"
+      ],
+      "spend": 15.26,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт гидроблока dsg",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "repair/replacement may imply part purchase",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "ремонт гидроблока dsg"
+      ],
+      "spend": 14.98,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт мехатроника dsg с гарантией",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "ремонт мехатроника dsg с гарантией"
+      ],
+      "spend": 14.98,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "MONITOR_REPEAT_POST_CHANGE"
+    },
+    {
+      "query": "02e мехатроник в сборе",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "outside_campaign_product",
+      "reason": "explicit non-feed product or other gearbox; stock not inferred",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "02e мехатроник в сборе"
+      ],
+      "spend": 14.8,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"02e мехатроник в сборе\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "блок управления мехатроника dq200",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "блок управления мехатроника dq200"
+      ],
+      "spend": 14.75,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "гидроблок мехатроник dsg 7",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "гидроблок мехатроник dsg 7"
+      ],
+      "spend": 14.74,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "восстановленная плата мехатроника в дсг",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "восстановленная плата мехатроника в дсг"
+      ],
+      "spend": 14.72,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "мехатроник"
+      ],
+      "spend": 14.68,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "дсг мехатроник",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "дсг мехатроник"
+      ],
+      "spend": 14.36,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "плата автоматической коробки передач",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "плата автоматической коробки передач"
+      ],
+      "spend": 14.3,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "кпп дсг 7 dq200 цена",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "outside_campaign_product",
+      "reason": "explicit non-feed product or other gearbox; stock not inferred",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "кпп дсг 7 dq200 цена"
+      ],
+      "spend": 14.14,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"кпп дсг 7 dq200 цена\""
+      ],
+      "recommendation": "EXISTING_NEGATIVE_MATCH_CANDIDATE_RECHECK_OPERATORS_AND_DATES"
+    },
+    {
+      "query": "ремонт мехатроника на dsg 7",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "repair/replacement may imply part purchase",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "ремонт мехатроника на dsg 7"
+      ],
+      "spend": 13.27,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "0am927769d плата мехатроника",
+      "group_id": "5826320196",
+      "targeting": "KEYWORD",
+      "intent": "oem_commercial",
+      "reason": "specific OEM and product",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "0am927769d плата мехатроника"
+      ],
+      "spend": 12.78,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "дсг7 dq200 цена ремонта",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-19"
+      ],
+      "variants": [
+        "дсг7 dq200 цена ремонта"
+      ],
+      "spend": 12.48,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-19",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"дсг7 dq200 цена ремонта\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "dq200",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "ambiguous",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "dq200"
+      ],
+      "spend": 12.24,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремкомплект для мехатроника dsg 7 dq200 купить",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "specific_part_commercial",
+      "reason": "LEOPARTS component family, not current feed offer",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "ремкомплект для мехатроника dsg 7 dq200 купить"
+      ],
+      "spend": 11.87,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "контрактный мехатроник цена саратов",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "контрактный мехатроник цена саратов"
+      ],
+      "spend": 11.66,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт dsg 7",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "repair/replacement may imply part purchase",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "ремонт dsg 7"
+      ],
+      "spend": 11.63,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [
+        "\"ремонт dsg 7\""
+      ],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "плата мехатроника dsg 7 dq200 фото",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "diagnostic_possible",
+      "reason": "part identification",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "плата мехатроника dsg 7 dq200 фото"
+      ],
+      "spend": 11.62,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "ремонт мехатроника dsg с гарантией",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "service_explicit",
+      "reason": "service search indicators",
+      "dates": [
+        "2026-11-21"
+      ],
+      "variants": [
+        "ремонт мехатроника dsg с гарантией"
+      ],
+      "spend": 11.36,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-21",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "MONITOR_REPEAT_POST_CHANGE"
+    },
+    {
+      "query": "мехатроник dq200 оригинал",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "мехатроник dq200 оригинал"
+      ],
+      "spend": 11.19,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "китайский мехатроник dw200 новый цена",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-20"
+      ],
+      "variants": [
+        "китайский мехатроник dw200 новый цена"
+      ],
+      "spend": 11.16,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-20",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "блок управления мехатроника дсг 7",
+      "group_id": "5826320196",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-22"
+      ],
+      "variants": [
+        "блок управления мехатроника дсг 7"
+      ],
+      "spend": 10.85,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-22",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник dq200",
+      "group_id": "5826171512",
+      "targeting": "AUTOTARGETING",
+      "intent": "potential_commercial",
+      "reason": "previous reviewed intent; verify fitment when unclear",
+      "dates": [
+        "2026-11-18"
+      ],
+      "variants": [
+        "мехатроник dq200"
+      ],
+      "spend": 9.25,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-18",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    },
+    {
+      "query": "мехатроник dq200 купить",
+      "group_id": "5826183946",
+      "targeting": "AUTOTARGETING",
+      "intent": "hot_commercial",
+      "reason": "commercial wording; condition/fitment not guaranteed",
+      "dates": [
+        "2026-11-17"
+      ],
+      "variants": [
+        "мехатроник dq200 купить"
+      ],
+      "spend": 6.3,
+      "clicks": 1,
+      "conversions": 0,
+      "post_change_complete_days_spend": 0,
+      "last_date": "2026-11-17",
+      "goal_cart_LC": null,
+      "goal_purchase_LC": null,
+      "goal_vin_LC": null,
+      "literal_negative_match_candidates": [],
+      "recommendation": "RETAIN_OR_REVIEW"
+    }
+  ],
+  "finance": {
+    "weekly_ad_spend_assumption": 4000,
+    "note": "Uses prior contribution scenario: USN 6%, assumed other variable expense reserve 10%; not actual profit. 4000 assumed total outlay for model, VAT treatment of actual cap may differ. Fixed costs excluded; no sales prediction.",
+    "rows": [
+      {
+        "sku": "0am325025H",
+        "stock": 13,
+        "site_price": 33500,
+        "procurement": 13800,
+        "contribution_scenario": 14340,
+        "weekly_profit_scenarios": {
+          "1": 10340,
+          "2": 24680,
+          "3": 39020,
+          "5": 67700
+        },
+        "eligible": true,
+        "break_even_cac": 14340,
+        "example_target_cac_50pct": 7170
+      },
+      {
+        "sku": "0am325025x",
+        "stock": 0,
+        "site_price": 38500,
+        "procurement": 15000,
+        "contribution_scenario": 17340,
+        "weekly_profit_scenarios": {
+          "1": 13340,
+          "2": 30680,
+          "3": 48020,
+          "5": 82700
+        },
+        "eligible": false,
+        "break_even_cac": 17340,
+        "example_target_cac_50pct": 8670
+      },
+      {
+        "sku": "0am325025HX",
+        "stock": 9,
+        "site_price": 64500,
+        "procurement": 31000,
+        "contribution_scenario": 23180,
+        "weekly_profit_scenarios": {
+          "1": 19180,
+          "2": 42360,
+          "3": 65540,
+          "5": 111900
+        },
+        "eligible": true,
+        "break_even_cac": 23180,
+        "example_target_cac_50pct": 11590
+      },
+      {
+        "sku": "0am325025HXF",
+        "stock": 3,
+        "site_price": 68500,
+        "procurement": 31000,
+        "contribution_scenario": 26540,
+        "weekly_profit_scenarios": {
+          "1": 22540,
+          "2": 49080,
+          "3": 75620,
+          "5": 128700
+        },
+        "eligible": true,
+        "break_even_cac": 26540,
+        "example_target_cac_50pct": 13270
+      },
+      {
+        "sku": "0am325025HXE",
+        "stock": 5,
+        "site_price": 68500,
+        "procurement": null,
+        "contribution_scenario": null,
+        "weekly_profit_scenarios": null,
+        "eligible": false,
+        "break_even_cac": null,
+        "example_target_cac_50pct": null
+      },
+      {
+        "sku": "0am325025HXG",
+        "stock": 5,
+        "site_price": 68500,
+        "procurement": null,
+        "contribution_scenario": null,
+        "weekly_profit_scenarios": null,
+        "eligible": false,
+        "break_even_cac": null,
+        "example_target_cac_50pct": null
+      },
+      {
+        "sku": "0am325025HXK",
+        "stock": 5,
+        "site_price": 68500,
+        "procurement": null,
+        "contribution_scenario": null,
+        "weekly_profit_scenarios": null,
+        "eligible": false,
+        "break_even_cac": null,
+        "example_target_cac_50pct": null
+      },
+      {
+        "sku": "0AM927769D",
+        "stock": 7,
+        "site_price": 37500,
+        "procurement": 17500,
+        "contribution_scenario": 14000,
+        "weekly_profit_scenarios": {
+          "1": 10000,
+          "2": 24000,
+          "3": 38000,
+          "5": 66000
+        },
+        "eligible": true,
+        "break_even_cac": 14000,
+        "example_target_cac_50pct": 7000
+      },
+      {
+        "sku": "0AM927769F",
+        "stock": 3,
+        "site_price": 39500,
+        "procurement": 17500,
+        "contribution_scenario": 15680,
+        "weekly_profit_scenarios": {
+          "1": 11680,
+          "2": 27360,
+          "3": 43040,
+          "5": 74400
+        },
+        "eligible": true,
+        "break_even_cac": 15680,
+        "example_target_cac_50pct": 7840
+      },
+      {
+        "sku": "0AM927769E",
+        "stock": 5,
+        "site_price": 39500,
+        "procurement": null,
+        "contribution_scenario": null,
+        "weekly_profit_scenarios": null,
+        "eligible": false,
+        "break_even_cac": null,
+        "example_target_cac_50pct": null
+      },
+      {
+        "sku": "0AM927769G",
+        "stock": 5,
+        "site_price": 39500,
+        "procurement": null,
+        "contribution_scenario": null,
+        "weekly_profit_scenarios": null,
+        "eligible": false,
+        "break_even_cac": null,
+        "example_target_cac_50pct": null
+      },
+      {
+        "sku": "0AM927769K",
+        "stock": 5,
+        "site_price": 39500,
+        "procurement": null,
+        "contribution_scenario": null,
+        "weekly_profit_scenarios": null,
+        "eligible": false,
+        "break_even_cac": null,
+        "example_target_cac_50pct": null
+      },
+      {
+        "sku": "0am325066ae",
+        "stock": null,
+        "site_price": 5350,
+        "procurement": 1900,
+        "contribution_scenario": 2594,
+        "weekly_profit_scenarios": {
+          "1": -1406,
+          "2": 1188,
+          "3": 3782,
+          "5": 8970
+        },
+        "eligible": false,
+        "break_even_cac": 2594,
+        "example_target_cac_50pct": 1297
+      },
+      {
+        "sku": "0AM325587E",
+        "stock": null,
+        "site_price": 5350,
+        "procurement": 1800,
+        "contribution_scenario": 2694,
+        "weekly_profit_scenarios": {
+          "1": -1306,
+          "2": 1388,
+          "3": 4082,
+          "5": 9470
+        },
+        "eligible": false,
+        "break_even_cac": 2694,
+        "example_target_cac_50pct": 1347
+      },
+      {
+        "sku": "gidroakkumulyator-orig",
+        "stock": null,
+        "site_price": 4850,
+        "procurement": 1800,
+        "contribution_scenario": 2274,
+        "weekly_profit_scenarios": {
+          "1": -1726,
+          "2": 548,
+          "3": 2822,
+          "5": 7370
+        },
+        "eligible": false,
+        "break_even_cac": 2274,
+        "example_target_cac_50pct": 1137
+      },
+      {
+        "sku": "0am325025",
+        "stock": null,
+        "site_price": 7850,
+        "procurement": 3000,
+        "contribution_scenario": 3594,
+        "weekly_profit_scenarios": {
+          "1": -406,
+          "2": 3188,
+          "3": 6782,
+          "5": 13970
+        },
+        "eligible": false,
+        "break_even_cac": 3594,
+        "example_target_cac_50pct": 1797
+      },
+      {
+        "sku": "0am325025D",
+        "stock": null,
+        "site_price": 980,
+        "procurement": 200,
+        "contribution_scenario": 623.2,
+        "weekly_profit_scenarios": {
+          "1": -3376.8,
+          "2": -2753.6,
+          "3": -2130.4,
+          "5": -884
+        },
+        "eligible": false,
+        "break_even_cac": 623.2,
+        "example_target_cac_50pct": 311.6
+      },
+      {
+        "sku": "0am325091e-set",
+        "stock": null,
+        "site_price": 3450,
+        "procurement": 1000,
+        "contribution_scenario": 1898,
+        "weekly_profit_scenarios": {
+          "1": -2102,
+          "2": -204,
+          "3": 1694,
+          "5": 5490
+        },
+        "eligible": false,
+        "break_even_cac": 1898,
+        "example_target_cac_50pct": 949
+      },
+      {
+        "sku": "0am325091f-set",
+        "stock": null,
+        "site_price": 3450,
+        "procurement": 1000,
+        "contribution_scenario": 1898,
+        "weekly_profit_scenarios": {
+          "1": -2102,
+          "2": -204,
+          "3": 1694,
+          "5": 5490
+        },
+        "eligible": false,
+        "break_even_cac": 1898,
+        "example_target_cac_50pct": 949
+      },
+      {
+        "sku": "0am325025z",
+        "stock": null,
+        "site_price": 1880,
+        "procurement": 500,
+        "contribution_scenario": 1079.2,
+        "weekly_profit_scenarios": {
+          "1": -2920.8,
+          "2": -1841.6,
+          "3": -762.4,
+          "5": 1396
+        },
+        "eligible": false,
+        "break_even_cac": 1079.2,
+        "example_target_cac_50pct": 539.6
+      },
+      {
+        "sku": "0am325025u",
+        "stock": null,
+        "site_price": 1880,
+        "procurement": 500,
+        "contribution_scenario": 1079.2,
+        "weekly_profit_scenarios": {
+          "1": -2920.8,
+          "2": -1841.6,
+          "3": -762.4,
+          "5": 1396
+        },
+        "eligible": false,
+        "break_even_cac": 1079.2,
+        "example_target_cac_50pct": 539.6
+      }
+    ]
+  },
+  "external_mutations": 0
+}
