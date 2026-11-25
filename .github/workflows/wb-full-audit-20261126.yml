@@ -1,0 +1,234 @@
+name: LEOPARTS WB full audit and guarded verification
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/wb-full-audit-20261126.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+      WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Read WB exact catalog and commercial data
+        run: |
+          PYTHONPATH=.:scripts python - <<'PY'
+          import collections, datetime as dt, json, os, re, time, concurrent.futures, hashlib
+          from pathlib import Path
+          import requests
+          import wb_client as wb
+          import content_manifest as cm
+          from openpyxl import load_workbook
+
+          ROOT=Path("data")
+          OUT=ROOT/"wb_full_audit_registry_20261126.json"
+          def now():return dt.datetime.now(dt.timezone.utc).isoformat()
+          d={"version":1,"platform":"wb","started":now(),"marketplace_writes":0,"api":{},"errors":{},"rows":{}}
+          token=os.environ["WB_API_TOKEN"]
+          # All requests use specific read methods; no general write transport.
+          hosts={"content":"https://content-api.wildberries.ru","prices":"https://discounts-prices-api.wildberries.ru","market":"https://marketplace-api.wildberries.ru","analytics":"https://seller-analytics-api.wildberries.ru","finance":"https://finance-api.wildberries.ru","statistics":"https://statistics-api.wildberries.ru","advert":"https://advert-api.wildberries.ru","feedback":"https://feedbacks-api.wildberries.ru"}
+          post_paths={"content":{"/content/v2/get/cards/list","/content/v2/get/cards/trash","/content/v2/cards/error/list"},"analytics":{"/api/analytics/v3/sales-funnel/products","/api/v2/search-report/report"},"finance":{"/api/finance/v1/sales-reports/detailed"}}
+          def api(name,host,method,path,body=None,params=None):
+              assert host in hosts and (method=="GET" or (method=="POST" and (path in post_paths.get(host,set()) or (host=="market" and re.fullmatch(r"/api/v3/stocks/[0-9]+",path)))))
+              try:
+                  res=requests.request(method,hosts[host]+path,json=body,params=params,headers={"Authorization":token,"Content-Type":"application/json"},timeout=45)
+                  try:j=res.json()
+                  except ValueError:j=None
+                  d["api"][name]={"http":res.status_code,"response_type":type(j).__name__,"keys":list(j)[:15] if isinstance(j,dict) else None}
+                  if not res.ok:
+                      if isinstance(j,dict):d["api"][name]["error"]={k:str(j.get(k))[:350] for k in ("title","detail","errorText","message","code") if j.get(k)}
+                      return None
+                  return j
+              except Exception as e:
+                  d["errors"][name]=type(e).__name__;return None
+          def list_cards(trash=False):
+              out=[];cursor={"limit":100};seen=set();kind="trash" if trash else "list"
+              for i in range(20):
+                  f={} if trash else {"withPhoto":-1}
+                  j=api(kind+"_"+str(i),"content","POST","/content/v2/get/cards/"+kind,{"settings":{"cursor":cursor,"filter":f}})
+                  if not isinstance(j,dict) or not isinstance(j.get("cards"),list):return out,False
+                  a=j["cards"];out+=a;c=j.get("cursor") or {}
+                  if len(a)<100 or c.get("total",100)<100:return out,True
+                  key=(c.get("trashedAt") if trash else c.get("updatedAt"),c.get("nmID"))
+                  if None in key or key in seen:return out,False
+                  seen.add(key);cursor={"limit":100,("trashedAt" if trash else "updatedAt"):key[0],"nmID":key[1]}
+                  time.sleep(0.7)
+              return out,False
+          def save():
+              d["updated"]=now()
+              OUT.write_text(json.dumps(d,ensure_ascii=False,indent=2,default=str)+"\n")
+          manifest=cm.load()
+          cached=json.loads((ROOT/"wb_cards.json").read_text())["cards"]
+          cards,complete=list_cards()
+          if not complete or not cards:raise RuntimeError("Incomplete live catalog")
+          trash,trash_complete=list_cards(True)
+          if len({c["nmID"] for c in cards})!=len(cards):raise RuntimeError("Repeated live nmID")
+          sku_groups=collections.defaultdict(list);group=collections.defaultdict(list);barcode=collections.defaultdict(list)
+          for c in cards:
+              sku_groups[c["vendorCode"]].append(c["nmID"]);group[c.get("imtID")].append(c["nmID"])
+              for s in c.get("sizes") or []:
+                  for b in s.get("skus") or []:barcode[b].append(c["nmID"])
+          master={};duplicates=[]
+          w=load_workbook(ROOT/"master_control.xlsx",read_only=True,data_only=True);ws=w["Товары"] if "Товары" in w.sheetnames else w.active
+          rr=ws.values;head=list(next(rr));cols={str(v):i for i,v in enumerate(head) if v}
+          for row in rr:
+              if "Артикул (offer_id)" not in cols:break
+              k=row[cols["Артикул (offer_id)"]]
+              if not k:continue
+              k=str(k).strip()
+              if k in master:duplicates.append(k)
+              master[k]={n:row[i] for n,i in cols.items() if n in ("Закупка, ₽","WB nmID","WB статус","Статус WB","Название","Артикул (offer_id)")}
+          w.close()
+          prices=[];price_complete=False
+          for pg in range(5):
+              j=api("prices_"+str(pg),"prices","GET","/api/v2/list/goods/filter",params={"limit":1000,"offset":pg*1000})
+              if not isinstance(j,dict) or not isinstance((j.get("data") or {}).get("listGoods"),list):break
+              a=j["data"]["listGoods"];prices+=a
+              if len(a)<1000:price_complete=True;break
+          pby={v["nmID"]:v for v in prices}
+          wh=api("warehouses","market","GET","/api/v3/warehouses")
+          ids=sorted({int(s["chrtID"]) for c in cards for s in c.get("sizes",[]) if s.get("chrtID")})
+          stocks={};stock_complete=isinstance(wh,list) and bool(wh)
+          for x in wh or []:
+              if not isinstance(x,dict) or not x.get("id"):stock_complete=False;continue
+              warehouse=str(x["id"])
+              j=api("stock_"+warehouse,"market","POST","/api/v3/stocks/"+warehouse,{"chrtIds":ids})
+              if not isinstance(j,dict) or not isinstance(j.get("stocks"),list):stock_complete=False;continue
+              ss={int(v.get("chrtId") or v.get("chrtID") or 0):v.get("amount") for v in j["stocks"]}
+              if not set(ids)<=set(ss):stock_complete=False
+              stocks[warehouse]=ss
+          er=api("upload_errors","content","POST","/content/v2/cards/error/list",{"cursor":{"limit":100},"order":{"ascending":False}})
+          eitems=(er.get("data") or {}).get("items",[]) if isinstance(er,dict) else []
+          d["upload_errors"]=[{"vendorCodes":v.get("vendorCodes"),"errors":v.get("errors"),"updatedAt":v.get("updatedAt")} for v in eitems if v.get("errors")]
+          defs={}
+          for sub in sorted({c["subjectID"] for c in cards}):
+              j=api("schema_"+str(sub),"content","GET","/content/v2/object/charcs/"+str(sub))
+              if isinstance(j,dict) and isinstance(j.get("data"),list):defs[sub]=j["data"]
+              time.sleep(0.65)
+          d["schemas"]=defs
+          d["coverage"]={"cards":len(cards),"trash":len(trash),"trash_complete":trash_complete,"price_complete":price_complete,"fbs_stock_complete":stock_complete,"master":len(master),"master_duplicate_skus":duplicates,"master_headers":head,"unique_sku":len(sku_groups),"schemas":len(defs)}
+          d["trash"]=[{k:c.get(k) for k in ("vendorCode","nmID","imtID","subjectName","title")} for c in trash]
+          d["duplicate_sku"]={k:v for k,v in sku_groups.items() if len(v)>1}
+          d["shared_barcodes"]={k:v for k,v in barcode.items() if len(set(v))>1}
+          d["multi_groups"]={str(k):v for k,v in group.items() if k and len(v)>1}
+          d["not_in_master"]=[k for k in sku_groups if k not in master]
+          d["master_not_in_wb"]=[k for k in master if k not in sku_groups]
+          d["legacy_snapshot_count"]=len(cached)
+          d["card_quality_rating_available"]=False
+          d["design_tasks"]=[]
+          for c in cards:
+              sku=c["vendorCode"];nm=c["nmID"];m=manifest.get(sku,{})
+              approved=m.get("text",{}).get("wb",{})
+              cvals={a["id"]:a.get("value") for a in c.get("characteristics") or []}
+              fields={a["id"]:a for a in defs.get(c["subjectID"],[]) if "charcID" not in a and "id" in a}
+              fields.update({a["charcID"]:a for a in defs.get(c["subjectID"],[]) if "charcID" in a})
+              filled=lambda v:v not in (None,[],{},"") and (not isinstance(v,list) or any(str(x).strip() for x in v))
+              missing=[{"id":i,"name":a.get("name"),"required":a.get("required"),"popular":a.get("popular")} for i,a in fields.items() if not filled(cvals.get(i))]
+              p=pby.get(nm,{})
+              sids=[str(s["chrtID"]) for s in c.get("sizes",[]) if s.get("chrtID")]
+              bywh={w:[s.get(int(i)) for i in sids] for w,s in stocks.items()}
+              quantity=sum(v for vs in bywh.values() for v in vs if isinstance(v,int)) if stock_complete and sids else None
+              photo=c.get("photos") or []
+              docs=c.get("documents") or {}
+              verdict=docs.get("overallVerdict") or {}
+              text_diff={k:{"current":c.get(k),"approved":v} for k,v in approved.items() if k in ("title","description") and c.get(k)!=v}
+              attr_diff=[v for v in m.get("wb_characteristics",[]) if cvals.get(v["id"])!=v["value"]]
+              title=c.get("title") or "";desc=c.get("description") or ""
+              flags=[]
+              if not title or len(title)>60:flags.append("TITLE_LENGTH")
+              if not desc:flags.append("NO_DESCRIPTION")
+              if not photo:flags.append("NO_PHOTO")
+              elif len(photo)==1:flags.append("ONE_PHOTO")
+              if not c.get("video"):flags.append("NO_VIDEO")
+              if any(v.get("required") for v in missing):flags.append("MISSING_REQUIRED_CHARACTERISTICS")
+              if sku not in master:flags.append("MASTER_IDENTITY_REVIEW")
+              if len(sku_groups[sku])>1:flags.append("DUPLICATE_SKU")
+              if any(nm in v for v in d["shared_barcodes"].values()):flags.append("SHARED_BARCODE")
+              if text_diff or attr_diff:flags.append("APPROVED_CONTENT_MISMATCH")
+              if not verdict.get("isFullyChecked") or verdict.get("reason"):flags.append("DOCUMENT_REVIEW")
+              row={"sku":sku,"nmID":nm,"imtID":c.get("imtID"),"subjectID":c["subjectID"],"subjectName":c.get("subjectName"),"title":title,"description":desc,"brand":c.get("brand"),"dimensions":c.get("dimensions"),"sizes":c.get("sizes"),"characteristics":c.get("characteristics") or [],"missing_characteristics":missing,"documents":docs,"flags":flags,"photo_urls":[a.get("big") or a.get("hq") for a in photo],"photo_count":len(photo),"video":c.get("video"),"price":p,"fbs_stock":quantity,"stock_by_warehouse":bywh,"cost":master.get(sku,{}).get("Закупка, ₽"),"approved_text_diff":text_diff,"approved_characteristics_diff":attr_diff,"manifest_ids":m.get("ids"),"updatedAt":c.get("updatedAt"),"status":"REVIEW_REQUIRED" if flags else "NO_CHANGE_REQUIRED"}
+              d["rows"][str(nm)]=row
+              if len(photo)<4 or not c.get("video"):
+                  d["design_tasks"].append({"sku":sku,"nmID":nm,"title":title,"priority":"high" if not photo else "normal","existing_photos":len(photo),"missing_video":not bool(c.get("video")),"status":"DESIGN_REQUIRED","brief":"Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки."})
+          d["summary"]={"flags":dict(collections.Counter(f for r in d["rows"].values() for f in r["flags"])),"subjects":dict(collections.Counter(c.get("subjectName") for c in cards)),"doc_status":dict(collections.Counter(str((c.get("documents") or {}).get("overallVerdict",{}).get("status")) for c in cards)),"with_photo":sum(bool(c.get("photos")) for c in cards),"with_video":sum(bool(c.get("video")) for c in cards),"descriptions_match":sum("description" in manifest.get(c["vendorCode"],{}).get("text",{}).get("wb",{}) and c.get("description")==manifest[c["vendorCode"]]["text"]["wb"]["description"] for c in cards),"descriptions_planned":sum("description" in manifest.get(c["vendorCode"],{}).get("text",{}).get("wb",{}) for c in cards),"stock_zero":sum(r["fbs_stock"]==0 for r in d["rows"].values()),"stock_unknown":sum(r["fbs_stock"] is None for r in d["rows"].values()),"design_tasks":len(d["design_tasks"])}
+          save()
+          print("CATALOG",json.dumps(d["summary"],ensure_ascii=False),flush=True)
+          today=dt.datetime.now(dt.timezone(dt.timedelta(hours=3))).date()
+          end=today-dt.timedelta(days=1)
+          def period(n):return {"start":str(end-dt.timedelta(days=n-1)),"end":str(end)}
+          def collect_funnel():
+              out={}
+              for n in (7,14,30,90):
+                  j=api("funnel_"+str(n),"analytics","POST","/api/analytics/v3/sales-funnel/products",{"selectedPeriod":period(n),"nmIds":[],"subjectIds":[],"brandNames":[],"tagIds":[],"skipDeletedNm":False,"limit":1000,"offset":0})
+                  data=(j.get("data") or {}) if isinstance(j,dict) else {}
+                  rows=data.get("products")
+                  if isinstance(rows,list):out[str(n)]={"period":period(n),"products":rows,"complete":len(rows)<1000}
+                  else:out[str(n)]={"period":period(n),"available":False}
+                  if j is None and d["api"].get("funnel_"+str(n),{}).get("http") in (401,403):break
+                  if n!=90:time.sleep(20)
+              return out
+          def collect_search():
+              j=api("search_30","analytics","POST","/api/v2/search-report/report",{"currentPeriod":period(30),"positionCluster":"all","orderBy":{"field":"avgPosition","mode":"asc"},"includeSubstitutedSKUs":True,"includeSearchTexts":True,"limit":1000,"offset":0})
+              return j if isinstance(j,dict) else None
+          def collect_finance():
+              # Compact aggregate only: do not retain buyer or order IDs.
+              j=api("finance_90","finance","POST","/api/finance/v1/sales-reports/detailed",{"dateFrom":period(90)["start"],"dateTo":period(90)["end"],"limit":100000,"rrdId":0,"period":"weekly"})
+              rows=j if isinstance(j,list) else (j.get("data") if isinstance(j,dict) else None)
+              if not isinstance(rows,list):return {"available":False}
+              names=("nmId","nmID","saName","vendorCode","supplierOperName","docTypeName","quantity","retailAmount","ppvzForPay","deliveryRub","storageFee","penalty","deduction","acceptance","additionalPayment","commissionPercent","ppvzSalesCommission","acquiringFee","returnAmount","rrDt","saleDt","rrdId")
+              return {"available":True,"row_count":len(rows),"complete":len(rows)<100000,"keys":list(rows[0]) if rows else [],"rows":[{k:r[k] for k in names if k in r} for r in rows]}
+          def collect_stats():
+              out={}
+              for n,endpoint in (("orders","orders"),("sales","sales")):
+                  j=api("stats_"+n,"statistics","GET","/api/v1/supplier/"+endpoint,params={"dateFrom":period(90)["start"],"flag":0})
+                  if not isinstance(j,list):out[n]={"available":False};continue
+                  fields=("date","lastChangeDate","supplierArticle","nmId","isCancel","cancelDate","totalPrice","discountPercent","finishedPrice","priceWithDisc","forPay","paymentSaleAmount","saleID","orderType")
+                  out[n]={"available":True,"returned":len(j),"rows":[{k:r[k] for k in fields if k in r} for r in j],"complete":len(j)<80000}
+              return out
+          def collect_advert():
+              return api("adverts","advert","GET","/adv/v1/promotion/count")
+          def collect_reviews():
+              # Aggregate ratings only; no customer data.
+              out=collections.defaultdict(lambda:{"count":0,"ratings":{}});coverage={}
+              for answered in ("true","false"):
+                  j=api("feedback_"+answered,"feedback","GET","/api/v1/feedbacks",params={"isAnswered":answered,"take":1000,"skip":0,"order":"dateDesc"})
+                  rows=(j.get("data") or {}).get("feedbacks") if isinstance(j,dict) else None
+                  if not isinstance(rows,list):coverage[answered]=False;continue
+                  coverage[answered]=len(rows)<1000
+                  for v in rows:
+                      nm=str((v.get("productDetails") or {}).get("nmId") or "")
+                      if nm:
+                          a=out[nm];a["count"]+=1;t=str(v.get("productValuation"));a["ratings"][t]=a["ratings"].get(t,0)+1
+              return {"coverage":coverage,"by_nm":dict(out)}
+          with concurrent.futures.ThreadPoolExecutor(max_workers=5) as ex:
+              tasks={k:ex.submit(fn) for k,fn in [("funnel",collect_funnel),("search",collect_search),("finance",collect_finance),("statistics",collect_stats),("advertising",collect_advert),("reviews",collect_reviews)]}
+              for k,f in tasks.items():
+                  try:d[k]=f.result()
+                  except Exception as e:d["errors"][k]=type(e).__name__
+          # Priority by actual accessible order funnel; no invented impression or profit values.
+          for n,v in d.get("funnel",{}).items():
+              for a in v.get("products",[]):
+                  p=a.get("product") or {};nm=str(p.get("nmId") or p.get("nmID") or a.get("nmId") or "")
+                  if nm in d["rows"]:
+                      stats=(a.get("statistic") or {}).get("selected") or a.get("selectedPeriod") or {}
+                      d["rows"][nm].setdefault("funnel",{})[n]=stats
+          d["finished"]=now()
+          save()
+          print("FINAL",json.dumps({"summary":d["summary"],"coverage":d["coverage"],"api":d["api"],"errors":d["errors"],"funnel":{k:len(v.get("products",[])) for k,v in d.get("funnel",{}).items()},"finance":{k:v for k,v in d.get("finance",{}).items() if k!="rows"}},ensure_ascii=False),flush=True)
+          PY
+          bash .github/scripts/save_data.sh data/wb_full_audit_registry_20261126.json
