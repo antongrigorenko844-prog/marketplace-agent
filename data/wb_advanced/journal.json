@@ -849,7 +849,7 @@
           "source": "Exact approved text states existing number refers to complete compatible TCU, not this component. Compatibility retained in description; own OEM unknown."
         }
       ],
-      "status": "ACCEPTED",
+      "status": "VERIFIED",
       "protected_hash": "2d573913940fb817de1f1736cd064e88276197296842551ed2996699ba7f0c18",
       "before": {
         "nmID": 2239502468,
@@ -974,6 +974,19 @@
         "error": false,
         "errorText": "",
         "additionalErrors": {}
+      },
+      "readback": {
+        "values": {
+          "4572490": null,
+          "16532": [
+            "Volkswagen",
+            "Audi",
+            "Skoda",
+            "SEAT"
+          ]
+        },
+        "protected_same": true,
+        "checked": "2026-11-25T20:08:53.010169+00:00"
       }
     }
   },
