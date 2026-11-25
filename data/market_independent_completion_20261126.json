@@ -12,8 +12,23 @@
     "NO_STOCKS": 16,
     "DISABLED_BY_PARTNER": 1
   },
-  "operations": [],
-  "new_requests": 0,
+  "operations": [
+    {
+      "sku": "0AM927769E",
+      "kind": "group",
+      "status": "SUBMISSION_STARTED",
+      "old_group": "DQ200 electronic boards",
+      "target_group": "",
+      "source": "official API text parameter 200 empty; support says removing variant leaves item in catalog; exact distinct models, zero seller reviews",
+      "identity_before": {
+        "offerId": "0AM927769E",
+        "marketSku": 246972214740684800,
+        "groupId": "DQ200 electronic boards"
+      },
+      "model_before": 6514995821
+    }
+  ],
+  "new_requests": 1,
   "registry": {
     "01X301127C": {
       "sku": "01X301127C",
@@ -18742,7 +18757,38 @@
         "0AM927769K": 71380208
       },
       "status": "REVIEW_REQUIRED",
-      "reason": "Check exact category, actual distinguishing values and group-specific rules; no fabricated values"
+      "reason": "Check exact category, actual distinguishing values and group-specific rules; no fabricated values",
+      "preflight": {
+        "review_counts": {
+          "0AM927769D": {
+            "available": true,
+            "count_at_least": 0,
+            "complete": true
+          },
+          "0AM927769E": {
+            "available": true,
+            "count_at_least": 0,
+            "complete": true
+          },
+          "0AM927769F": {
+            "available": true,
+            "count_at_least": 0,
+            "complete": true
+          },
+          "0AM927769G": {
+            "available": true,
+            "count_at_least": 0,
+            "complete": true
+          },
+          "0AM927769K": {
+            "available": true,
+            "count_at_least": 0,
+            "complete": true
+          }
+        },
+        "distinct_models": true,
+        "distinct_market_skus": true
+      }
     },
     "рем": {
       "members": [
@@ -18848,5 +18894,5 @@
     "media": "market_design_tasks_20261126.json + exact preview assets"
   },
   "policy": "No document, brand, price, stock, barcode, ad, deletion, other marketplace writes.",
-  "updated_utc": "2026-11-25T17:58:06.552188+00:00"
+  "updated_utc": "2026-11-25T17:58:18.816707+00:00"
 }
