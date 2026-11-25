@@ -1,0 +1,99 @@
+name: LEOPARTS Direct follow-up audit 20261126 (read only)
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-performance-audit-20261126.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: direct-audit-20261126
+  cancel-in-progress: false
+jobs:
+  performance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read Direct and Metrica, preserve previous audit
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: |
+          python -u - <<'PY'
+          import sys,json,hashlib
+          from pathlib import Path
+          from datetime import datetime,timezone
+          sys.path.insert(0,'.github/scripts')
+          import direct_performance_deep_20261125 as a
+          import direct_preflight_20261120 as api
+          a.ROOT=Path('data/direct_audit_20261126');a.ROOT.mkdir(parents=True,exist_ok=True)
+          a.OUT=a.ROOT/'live_30d.json'
+          # Get actual settings separately; no write-enabled modules or feed sync.
+          q={'mode':'strict_read_only','campaign_id':716316525,'external_mutations':0,'checked_utc':datetime.now(timezone.utc).isoformat(),'sections':{},'errors':{}}
+          def attempt(k,fn):
+              try:q['sections'][k]=fn()
+              except Exception as e:q['errors'][k]=api.scrub(e)
+          def compare():
+              c=api.campaign()
+              old=json.loads(Path('data/direct_performance_20261125/exact_query_filter.json').read_text())
+              actual=(c.get('NegativeKeywords') or {}).get('Items',[])
+              expected=old['after']
+              if not isinstance(expected,list):raise ValueError('Prior negative list unavailable')
+              return {'count':len(actual),'prior_count':len(expected),'missing':sorted(set(expected)-set(actual)),'added':sorted(set(actual)-set(expected)),'same_set':set(actual)==set(expected),'five_added':old['additions'],'five_present':all(x in actual for x in old['additions']),'actual':actual,'prior_change_at':old['finished_utc']}
+          attempt('negative_comparison',compare)
+          attempt('campaign_raw',api.campaign)
+          attempt('group_raw',api.groups)
+          attempt('keyword_raw',api.keywords)
+          (a.ROOT/'settings_readback.json').write_text(json.dumps(q,ensure_ascii=False,indent=2)+'\n')
+          a.run()
+          PY
+      - name: Save scoped audit evidence
+        if: always()
+        run: |
+          if test -d data/direct_audit_20261126; then
+            for f in settings_readback.json live_30d.json live_30d_summary.json; do
+              if test -f "data/direct_audit_20261126/$f"; then
+                bash .github/scripts/save_data.sh "data/direct_audit_20261126/$f"
+              fi
+            done
+          fi
+  site:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q openpyxl playwright==1.56.0
+      - run: python -m playwright install chromium
+      - name: Public site and isolated browser, no tracking or submissions
+        run: |
+          python -u - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0,'.github/scripts')
+          import direct_site_economics_20261125 as a
+          a.ROOT=Path('data/direct_audit_20261126');a.ROOT.mkdir(parents=True,exist_ok=True)
+          a.OUT=a.ROOT/'site_economics.json'
+          a.run()
+          PY
+      - name: Save only scoped public site observations
+        if: always()
+        run: |
+          for f in site_economics.json cart_runtime.json; do
+            if test -f "data/direct_audit_20261126/$f"; then
+              bash .github/scripts/save_data.sh "data/direct_audit_20261126/$f"
+            fi
+          done
