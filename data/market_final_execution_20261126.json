@@ -7,7 +7,7 @@
   "operations": [
     {
       "sku": "0AM325413A",
-      "status": "submission_started",
+      "status": "saved_pending_review",
       "kind": "attribute",
       "patch": [
         {
@@ -178,7 +178,16 @@
           ]
         }
       },
-      "category": 71380208
+      "category": 71380208,
+      "response": {
+        "status": "OK"
+      },
+      "checks": {
+        "protected_diff": [],
+        "fields_match": true,
+        "status": "PUBLISHED",
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING"
+      }
     }
   ],
   "new_requests": 1,
@@ -310,7 +319,7 @@
           "source": "reviewed exact SKU/type plan; dictionary or allowed custom"
         }
       },
-      "status": "submission_started",
+      "status": "saved_pending_review",
       "source": "reviewed exact SKU/type plan; dictionary or allowed custom"
     },
     "0am325477ae": {
