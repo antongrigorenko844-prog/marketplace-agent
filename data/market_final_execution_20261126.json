@@ -1805,7 +1805,7 @@
     },
     {
       "sku": "122390AK-AF",
-      "status": "submission_started",
+      "status": "saved_pending_review",
       "kind": "attribute",
       "patch": [
         {
@@ -2024,11 +2024,20 @@
           ]
         }
       },
-      "category": 71380208
+      "category": 71380208,
+      "response": {
+        "status": "OK"
+      },
+      "checks": {
+        "protected_diff": [],
+        "fields_match": true,
+        "status": "PUBLISHED",
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING"
+      }
     },
     {
       "sku": "Dq200dsg7",
-      "status": "submission_started",
+      "status": "saved_pending_review",
       "kind": "attribute",
       "patch": [
         {
@@ -2151,11 +2160,20 @@
           ]
         }
       },
-      "category": 71380208
+      "category": 71380208,
+      "response": {
+        "status": "OK"
+      },
+      "checks": {
+        "protected_diff": [],
+        "fields_match": true,
+        "status": "PUBLISHED",
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING"
+      }
     },
     {
       "sku": "porshni-usil-pylniki-kryshki",
-      "status": "submission_started",
+      "status": "saved_pending_review",
       "kind": "attribute",
       "patch": [
         {
@@ -2293,7 +2311,16 @@
           ]
         }
       },
-      "category": 71380208
+      "category": 71380208,
+      "response": {
+        "status": "OK"
+      },
+      "checks": {
+        "protected_diff": [],
+        "fields_match": true,
+        "status": "PUBLISHED",
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING"
+      }
     }
   ],
   "new_requests": 3,
@@ -2366,7 +2393,7 @@
           "source": "reviewed exact SKU/type plan; dictionary or allowed custom"
         }
       },
-      "status": "submission_started",
+      "status": "saved_pending_review",
       "source": "reviewed exact SKU/type plan; dictionary or allowed custom"
     },
     "Dq200dsg70am0cw": {
@@ -2395,7 +2422,7 @@
           "source": "reviewed exact SKU/type plan; dictionary or allowed custom"
         }
       },
-      "status": "submission_started",
+      "status": "saved_pending_review",
       "source": "reviewed exact SKU/type plan; dictionary or allowed custom"
     },
     "porshni-usil-pylniki-kryshki-v2": {
@@ -2504,7 +2531,7 @@
           "source": "reviewed exact SKU/type plan; dictionary or allowed custom"
         }
       },
-      "status": "submission_started",
+      "status": "saved_pending_review",
       "source": "reviewed exact SKU/type plan; dictionary or allowed custom"
     }
   },
