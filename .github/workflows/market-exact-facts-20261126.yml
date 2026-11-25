@@ -15,6 +15,7 @@ jobs:
     timeout-minutes: 20
     env:
       OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+      WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
       OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
       YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
       YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
@@ -248,7 +249,7 @@ jobs:
              exact=key(cc[k])==normalize(target)
              op["checks"]={"exact":exact,"protected_diff":diff,"card_status":cc[k].get("cardStatus"),"campaign_status":ss[k].get("status"),"group_after":cc[k].get("groupId"),"warnings":diags(cc[k],ss[k])}
              op["status"]="PROTECTED_DRIFT" if diff else state(cc[k],ss[k],exact)
-             if diff or (exact and cc[k].get("cardStatus")!="HAS_CARD_CAN_UPDATE_PROCESSING"):break
+             if diff or exact:break
            except Exception as ex:op.update(status="UNCONFIRMED",error=str(ex)[:350])
            save();return op
           
@@ -256,6 +257,7 @@ jobs:
           # Read-only outside Market. Never reuse a formerly removed photo, including perceptual matches.
           def prepare_media(m,c,st):
            import ozon_client as oz
+           import wb_client as wb
            from PIL import Image, ImageDraw, ImageFont, ImageOps
            import requests
            dest=ROOT/"market_recovery_media";dest.mkdir(exist_ok=True)
@@ -263,14 +265,34 @@ jobs:
            prior_preview=load("market_media_preview_20261126/review.json")
            reviewed={x["id"]:x for x in prior_preview["records"]}
            bad_urls={reviewed[x["id"]]["url"] for v in design.values() for x in v.get("candidates",[]) if x["id"] in reviewed and x.get("status") in ("not_approved","duplicate_do_not_upload")}
+           reviewed_live=[v.get("current_ozon_review",{}) for v in design.values() if v.get("current_ozon_review")]
+           bad_urls.update(x["url"] for x in reviewed_live if x.get("url"))
+           bad_hashes={x["sha256"] for x in reviewed_live if x.get("sha256")}
            old_by={}
            for k,v in old_media.items():
             if isinstance(v,dict):old_by[k]=set(v.get("pictures") or [])
            for v in prior_preview["records"]:old_by.setdefault(v["sku"],set()).update(v.get("current_urls") or [])
            ids=[k for k in m if eligible(c[k],st[k]) and len(m[k]["offer"].get("pictures") or [])<6]
            ids.sort(key=lambda k:(-(qty(stock0[k])*(st[k].get("basicPrice") or {}).get("value",0)),-len(m[k]["offer"].get("pictures") or []),k))
-           ozrows=oz.get_product_info_list(ids)
+           source_errors={}
+           try:ozrows=oz.get_product_info_list(ids)
+           except Exception as ex:ozrows=[];source_errors["ozon"]=str(ex)[:200]
            om={x["offer_id"]:x for x in ozrows if x.get("offer_id") in ids and not x.get("is_archived") and not x.get("is_autoarchived")}
+           try:wbrows=wb.list_cards()
+           except Exception as ex:wbrows=[];source_errors["wildberries"]=str(ex)[:200]
+           wbc=collections.defaultdict(list)
+           for x in wbrows:
+            if x.get("vendorCode") in ids:wbc[x["vendorCode"]].append(x)
+           wm={k:v[0] for k,v in wbc.items() if len(v)==1}
+           try:
+            from scripts.leoparts_direct_operation_nov21 import site_records
+            from scripts.leoparts_dsg_tilda_visual_verify_20261123 import get_urls
+            trows=site_records()
+            tc=collections.defaultdict(list)
+            for x in trows.values():
+             if x.get("sku") in ids:tc[x["sku"]].append(x)
+            tm={k:v[0] for k,v in tc.items() if len(v)==1}
+           except Exception as ex:tm={};source_errors["tilda"]=str(ex)[:200]
            candidates=[];coverage={};urls=set()
            def urls_of(v):
             if isinstance(v,str):return [v] if v.startswith("https://") else []
@@ -280,15 +302,24 @@ jobs:
             historical=old_by.get(k,set())-set(current)
             own=om.get(k,{})
             # Only actual current own seller photos, plus explicit currently-approved manifest Market assets.
-            src=list(dict.fromkeys(urls_of(own.get("primary_image"))+urls_of(own.get("images"))))
-            coverage[k]={"current_count":len(current),"ozon_exact_sku_present":k in om,"ozon_count":len(src),"candidate_urls":0}
+            sources={}
+            for u in urls_of(own.get("primary_image"))+urls_of(own.get("images")):sources[u]="Ozon"
+            for photo in wm.get(k,{}).get("photos") or []:
+             if isinstance(photo,dict):
+              u=photo.get("big") or photo.get("hq")
+              if isinstance(u,str) and u.startswith("https://"):sources.setdefault(u,"Wildberries")
+            if k in tm:
+             for u in get_urls(tm[k].get("gallery") or []):
+              if u.startswith("https://"):sources.setdefault(u,"Tilda")
+            src=list(sources)
+            coverage[k]={"current_count":len(current),"ozon_exact_sku_present":k in om,"wb_exact_sku_present":k in wm,"tilda_exact_sku_present":k in tm,"source_counts":count(sources.values()),"candidate_urls":0}
             if not current or not src:continue
             fresh=[u for u in src if u not in current and u not in historical and u not in bad_urls]
             if not fresh:continue
             coverage[k]["candidate_urls"]=len(fresh)
             # Never select from a history of deliberate removals; compare current and removed image bytes.
             for u in fresh:
-             candidates.append({"sku":k,"name":m[k]["offer"].get("name"),"url":u,"current_urls":current,"historical_removed_urls":sorted(historical),"source":"current exact-SKU own Ozon gallery"})
+             candidates.append({"sku":k,"name":m[k]["offer"].get("name"),"url":u,"current_urls":current,"historical_removed_urls":sorted(historical),"source":"current exact-SKU own "+sources[u]+" gallery"})
             urls.update(current);urls.update(historical);urls.update(fresh)
            def fetch(u):
             try:
@@ -299,7 +330,8 @@ jobs:
              return u,{"image":im,"sha":hashlib.sha256(z.content).hexdigest(),"dh":dh,"size":list(im.size)}
             except Exception as ex:return u,{"error":str(ex)[:120]}
            # Bounded visual review, all eligible catalog rows inventoried first.
-           selected=candidates[:140];wanted={u for v in selected for u in [v["url"]]+v["current_urls"]+v["historical_removed_urls"]}
+           selected=sorted(candidates,key=lambda v:(v["source"].endswith("Ozon gallery"),ids.index(v["sku"])))[:240]
+           wanted={u for v in selected for u in [v["url"]]+v["current_urls"]+v["historical_removed_urls"]}|{x["url"] for x in reviewed_live if x.get("url")}
            with concurrent.futures.ThreadPoolExecutor(max_workers=16) as pool:images=dict(pool.map(fetch,sorted(wanted)))
            clean=[];skipped=[]
            def similar(a,b):return a.get("sha")==b.get("sha") or ((a["dh"]^b["dh"]).bit_count()<=4)
@@ -308,6 +340,8 @@ jobs:
             compare=[images.get(u,{}) for u in rec["current_urls"]+rec["historical_removed_urls"]]
             if "image" not in f or any("image" not in x for x in compare):
              skipped.append({"sku":rec["sku"],"url":rec["url"],"reason":"Candidate or historical gallery not fully readable"});continue
+            if f.get("sha") in bad_hashes or any(similar(f,images[x["url"]]) for x in reviewed_live if x.get("url") in images and "image" in images[x["url"]]):
+             skipped.append({"sku":rec["sku"],"url":rec["url"],"reason":"Same visual as previously rejected candidate"});continue
             if any(similar(f,x) for x in compare):
              skipped.append({"sku":rec["sku"],"url":rec["url"],"reason":"Visual/hash duplicate or previously removed image"});continue
             if min(f["size"])<300:
@@ -325,12 +359,12 @@ jobs:
              x=i%2*540;y=i//2*330
              draw.rectangle((x,y,x+539,y+329),outline="#777")
              draw.text((x+6,y+5),v["id"]+" | "+v["sku"][:38],fill="black",font=font)
-             draw.text((x+6,y+24),"Market current",fill="black",font=font);draw.text((x+277,y+24),"Ozon candidate",fill="black",font=font)
+             draw.text((x+6,y+24),"Market current",fill="black",font=font);draw.text((x+277,y+24),v["source"].replace("current exact-SKU own ","").replace(" gallery","")+" candidate",fill="black",font=font)
              for offset,u in ((0,v["current_urls"][0]),(270,v["url"])):
               im=ImageOps.contain(images[u]["image"],(258,282));sheet.paste(im,(x+offset+(270-im.width)//2,y+40+(282-im.height)//2))
             buf=io.BytesIO();sheet.save(buf,format="JPEG",quality=78,optimize=True)
             file=dest/("sheet_%02d.json"%(n//6+1));file.write_text(json.dumps({"ids":[v["id"] for v in block],"jpeg_base64":base64.b64encode(buf.getvalue()).decode()}));files.append(str(file))
-           report={"checked_utc":now(),"eligible_market_cards":len(ids),"exact_live_ozon_cards":len(om),"raw_candidate_count":len(candidates),"processed_candidates":len(selected),"reviewable_candidates":len(clean),"coverage":coverage,"candidates":clean,"skipped":skipped,"sheets":files,"external_writes":0}
+           report={"checked_utc":now(),"eligible_market_cards":len(ids),"exact_live_ozon_cards":len(om),"exact_live_wb_cards":len(wm),"exact_live_tilda_cards":len(tm),"source_errors":source_errors,"raw_candidate_count":len(candidates),"processed_candidates":len(selected),"reviewable_candidates":len(clean),"coverage":coverage,"candidates":clean,"skipped":skipped,"sheets":files,"external_writes":0}
            reportpath=dest/"inventory.json";reportpath.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n")
            subprocess.run(["bash",".github/scripts/save_data.sh",str(dest)],check=True)
            return report
@@ -475,6 +509,48 @@ jobs:
             if any(v["status"]=="PROTECTED_DRIFT" for v in ops):
              d["errors"]["attribute_guard"]="Protected drift observed; no further writes through this queue until reconciled";break
            except Exception as ex:d["errors"]["attribute_batch:"+ids[0]]=str(ex)[:350];save()
+          
+          
+          # Board F: only after its unique group has actually persisted and moderation is complete.
+          # Preserve all old semantic fields, including the exact two color fields in destination text.
+          try:
+           k="0AM927769F";m,c,st=s.live(biz,cam,k)
+           if category(m,c)==71220512 and c.get("cardStatus")=="HAS_CARD_CAN_UPDATE" and not document(c,st) and key(c)==normalize("LEOPARTS "+k) and no_rating(m):
+            gm,gc,gs=r.read_all(biz,cam);members=group_members(gm,gc,ac)
+            if members.get(key(c))==[k]:
+             reviews,ok=read_reviews(k)
+             if not ok:raise ValueError("Zero seller feedback not established")
+             oldvals=s.groups(c);schema=s.definition_map(biz,71380208);vals=[];notes=[];colorvals=[]
+             for pid,vs in oldvals.items():
+              for p in vs:
+               if not present(p):continue
+               if pid==57046341:
+                if not p.get("value"):raise ValueError("Existing additional info without text")
+                notes.append(p["value"]);continue
+               if pid in (14871214,13887626):
+                if not p.get("value"):raise ValueError("Existing color without text")
+                colorvals.append(("Название цвета от производителя: " if pid==14871214 else "Цвет для фильтра: ")+p["value"]);continue
+               if pid not in schema or not s.valid_value(p,schema[pid]):raise ValueError("Destination cannot retain field "+str(pid))
+               vals.append(p)
+             if notes or colorvals:
+              p={"parameterId":57046341,"value":"; ".join(notes+colorvals)}
+              if not s.valid_value(p,schema[57046341]):raise ValueError("Destination cannot retain exact color information")
+              vals.append(p)
+             if not any(p["parameterId"]==21194330 for p in vals):vals.append(r.type_value(schema,"электронная плата"))
+             if not all(s.valid_value(p,schema[p["parameterId"]]) for p in vals):raise ValueError("Destination schema rejection")
+             if any(v.get("required") and not any(p["parameterId"]==pid for p in vals) for pid,v in schema.items()):raise ValueError("Missing required destination field")
+             op=newop("category",k,71380208,target_parameters=vals,before_protected=protect(m,c,st),before_typed=typed(c),source="Singleton group, zero reviews, exact transmission board, semantic color transfer",reviews=reviews)
+             if op:
+              d["requests"]+=1;save()
+              op["response"]=s.post(f"/v2/businesses/{biz}/offer-cards/update",{"offersContent":[{"offerId":k,"categoryId":71380208,"parameterValues":vals}]},retries=1);op["status"]="ACCEPTED";save()
+              for attempt in range(3):
+               if attempt:time.sleep(10)
+               a,b,z=s.live(biz,cam,k);diff=delta(op["before_protected"],protect(a,b,z))
+               exact=check(op,a,b,z);op["checks"]={"exact":exact,"protected_diff":diff,"card_status":b.get("cardStatus"),"campaign_status":z.get("status"),"category":category(a,b)}
+               op["status"]="PROTECTED_DRIFT" if diff else "VERIFIED" if exact and b.get("cardStatus")=="HAS_CARD_CAN_UPDATE" else "PENDING_MODERATION" if exact or b.get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING" else "UNCONFIRMED"
+               if diff or exact or b.get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING":break
+              save()
+          except Exception as ex:d["errors"]["category:0AM927769F"]=str(ex)[:350];save()
           
           # Category queue: reconcile previously accepted requests, do not resubmit. New categories only
           # if a separately reviewed migration has zero feedback, an exact target schema and preserved semantics.
