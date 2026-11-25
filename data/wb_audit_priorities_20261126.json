@@ -17,8 +17,8 @@
     "one_photo": 81,
     "no_video": 115,
     "known_cost": 110,
-    "category_review_candidates": 40,
-    "design_tasks": 139
+    "category_review_candidates": 39,
+    "design_tasks": 137
   },
   "priorities": {
     "category_review": [
@@ -239,16 +239,6 @@
         "subjectName": "Сальники КПП",
         "title": "Крышка мехатроника DSG7 DQ200 0AM 0CW",
         "stock": 19,
-        "status": "REVIEW_REQUIRED",
-        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
-      },
-      {
-        "sku": "solenoid-02e-0b5-bolshoy",
-        "nmID": 1722881122,
-        "subjectID": 9027,
-        "subjectName": "Корзины сцепления для авто",
-        "title": "Восстановленный соленоид 02E 0B5 DQ250 DQ500, большой",
-        "stock": 5,
         "status": "REVIEW_REQUIRED",
         "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
       },
@@ -1479,23 +1469,6 @@
         "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
       },
       {
-        "sku": "solenoid-02e-0b5-bolshoy",
-        "nmID": 1722881122,
-        "stock": 5,
-        "subject": "Корзины сцепления для авто",
-        "issues": [
-          {
-            "code": "document_missing",
-            "documentTypes": [
-              1
-            ]
-          }
-        ],
-        "excludeDocuments": false,
-        "status": "BLOCKED_DOCUMENTS",
-        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
-      },
-      {
         "sku": "prokladka-kryshki-dq200",
         "nmID": 1722881195,
         "stock": 20,
@@ -2551,22 +2524,6 @@
       }
     ],
     "design": [
-      {
-        "sku": "solenoid-02e-0b5-bolshoy",
-        "nmID": 1722881122,
-        "title": "Восстановленный соленоид 02E 0B5 DQ250 DQ500, большой",
-        "priority": "P0",
-        "existing_photos": 0,
-        "missing_video": true,
-        "status": "DESIGN_REQUIRED",
-        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
-        "stock": 5,
-        "sales_90d": 0,
-        "returns_90d": 0,
-        "net_forPay_90d": 0,
-        "existing_designer_task_refs": [],
-        "publish_allowed": false
-      },
       {
         "sku": "0am325025u",
         "nmID": 670860803,
@@ -4653,22 +4610,6 @@
         "publish_allowed": false
       },
       {
-        "sku": "0AM927769D",
-        "nmID": 670860344,
-        "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769D",
-        "priority": "P4",
-        "existing_photos": 3,
-        "missing_video": false,
-        "status": "DESIGN_REQUIRED",
-        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
-        "stock": 0,
-        "sales_90d": 1,
-        "returns_90d": 0,
-        "net_forPay_90d": 1695.37,
-        "existing_designer_task_refs": [],
-        "publish_allowed": false
-      },
-      {
         "sku": "0cw0am",
         "nmID": 1949483512,
         "title": "Прокладка электронной платы мехатроника DSG7 DQ200",
@@ -5029,7 +4970,12 @@
       "sku": "0AM927769D",
       "sales": 1,
       "returns": 0,
-      "net_forPay": 1695.37
+      "net_forPay": 1695.37,
+      "nmID": 670860344,
+      "actual_product": "Комплект прокладок электронной платы DSG7 DQ200",
+      "accounting_class": "legacy_gasket_kit",
+      "exclude_from_electronic_board_profit": true,
+      "historical_cost": null
     },
     {
       "sku": "0am325025С",
@@ -5074,8 +5020,13 @@
     "date": "2026-10-27",
     "sale_price_before_marketplace_discount": 2475,
     "forPay": 1695.37,
-    "current_cost": 17500,
-    "decision": "Review historical price and product identity; do not change current price. Current cost is not verified historical COGS."
+    "decision": "Owner confirmed actual sale was a gasket kit. Existing sync_master_control.py documents exact legacy WB collision since 2026-10-22. Do not attribute historical sale or cost to board. Historical COGS not verified.",
+    "status": "RESOLVED_IDENTITY_MISCLASSIFICATION",
+    "actual_product": "Комплект прокладок электронной платы DSG7 DQ200",
+    "historical_cost": null,
+    "reference_current_gasket_cost": 250,
+    "reference_current_gasket_sku": "0AM927769N",
+    "invalid_board_cost": 17500
   },
   "limitations": {
     "analytics": "HTTP 403: no impressions/CTR/search funnel",
@@ -5086,5 +5037,100 @@
     "design": "Photo count based queue, not complete visual evaluation",
     "competitors": "No verified direct comparable WB offers retrieved; do not claim competitor prices"
   },
-  "marketplace_writes": 0
+  "marketplace_writes": 0,
+  "retired_identity_review": {
+    "source": "Owner instruction 2026-11-26; historical raw registry retained unchanged",
+    "removed_from_current_priority_queue": {
+      "design": [
+        {
+          "sku": "solenoid-02e-0b5-bolshoy",
+          "nmID": 1722881122,
+          "title": "Восстановленный соленоид 02E 0B5 DQ250 DQ500, большой",
+          "priority": "P0",
+          "existing_photos": 0,
+          "missing_video": true,
+          "status": "DESIGN_REQUIRED",
+          "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+          "stock": 5,
+          "sales_90d": 0,
+          "returns_90d": 0,
+          "net_forPay_90d": 0,
+          "existing_designer_task_refs": [],
+          "publish_allowed": false
+        },
+        {
+          "sku": "0AM927769D",
+          "nmID": 670860344,
+          "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769D",
+          "priority": "P4",
+          "existing_photos": 3,
+          "missing_video": false,
+          "status": "DESIGN_REQUIRED",
+          "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+          "stock": 0,
+          "sales_90d": 1,
+          "returns_90d": 0,
+          "net_forPay_90d": 1695.37,
+          "existing_designer_task_refs": [],
+          "publish_allowed": false
+        }
+      ],
+      "category_review": [
+        {
+          "sku": "solenoid-02e-0b5-bolshoy",
+          "nmID": 1722881122,
+          "subjectID": 9027,
+          "subjectName": "Корзины сцепления для авто",
+          "title": "Восстановленный соленоид 02E 0B5 DQ250 DQ500, большой",
+          "stock": 5,
+          "status": "REVIEW_REQUIRED",
+          "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+        }
+      ],
+      "documents": [
+        {
+          "sku": "solenoid-02e-0b5-bolshoy",
+          "nmID": 1722881122,
+          "stock": 5,
+          "subject": "Корзины сцепления для авто",
+          "issues": [
+            {
+              "code": "document_missing",
+              "documentTypes": [
+                1
+              ]
+            }
+          ],
+          "excludeDocuments": false,
+          "status": "BLOCKED_DOCUMENTS",
+          "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+        }
+      ]
+    },
+    "holds": [
+      {
+        "sku": "0AM927769D",
+        "nmID": 670860344,
+        "status": "retired_legacy_gasket",
+        "sale_date": "2026-10-27",
+        "saleID": "S25807973238",
+        "net_forPay": 1695.37
+      },
+      {
+        "sku": "solenoid-02e-0b5-bolshoy",
+        "nmID": 1722881122,
+        "status": "owner_discontinued",
+        "target_wb_stock": 0
+      }
+    ],
+    "active_board": {
+      "sku": "0AM927769D-plata",
+      "nmID": 1922846685
+    },
+    "active_gasket": {
+      "sku": "0AM927769N",
+      "nmID": 1949822182
+    },
+    "note": "Original census counts reflect time of audit; live hold verification is a separate report."
+  }
 }

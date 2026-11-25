@@ -441,6 +441,9 @@ def build_wb_update_items(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
     items: List[dict] = []
     skipped = 0
     for vendor_code, edit in edits.items():
+        from wb_identity_policy import is_held
+        if is_held(vendor_code, (cards.get(vendor_code) or {}).get("nmID")):
+            continue
         card = cards.get(vendor_code)
         if not card:
             continue
@@ -513,6 +516,10 @@ def build_wb_price_updates(wb_data: dict, edits: Dict[str, dict], *, scoped: boo
     if rejected is None:
         rejected = {}
     for vendor_code, edit in edits.items():
+        from wb_identity_policy import is_held
+        if is_held(vendor_code, (cards.get(vendor_code) or {}).get("nmID")):
+            if rejected is not None: rejected[vendor_code] = "WB: снят с продажи, цена защищена"
+            continue
         new_price = edit.get("price")
         if new_price in (None, ""):
             if scoped:
@@ -678,6 +685,9 @@ def build_wb_media_updates(wb_data: dict, edits: Dict[str, dict]) -> List[dict]:
     out: List[dict] = []
     skipped = 0
     for vendor_code, edit in edits.items():
+        from wb_identity_policy import is_held
+        if is_held(vendor_code, (cards.get(vendor_code) or {}).get("nmID")):
+            continue
         images = list(edit.get("images") or [])
         video_url = (edit.get("video_url") or "").strip()
         if not images and not video_url:

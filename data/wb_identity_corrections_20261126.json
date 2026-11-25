@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "platform": "wb",
+  "owner_confirmed": "2026-11-26",
+  "legacy_identity": {
+    "vendorCode": "0AM927769D",
+    "nmID": 670860344,
+    "actual_product": "Комплект прокладок электронной платы DSG7 DQ200",
+    "retired": true,
+    "reason": "Original owner-confirmed product; previously incorrectly overwritten by board content; preexisting forced mapping in sync_master_control.py",
+    "do_not_reactivate": true
+  },
+  "active_board": {
+    "vendorCode": "0AM927769D-plata",
+    "nmID": 1922846685
+  },
+  "active_gasket_reference": {
+    "vendorCode": "0AM927769N",
+    "nmID": 1949822182,
+    "exact_historical_bom_and_cost_not_confirmed": true
+  },
+  "sales_corrections": [
+    {
+      "source_saleID": "S25807973238",
+      "source_vendorCode": "0AM927769D",
+      "source_nmID": 670860344,
+      "sale_date": "2026-10-27",
+      "actual_product": "Комплект прокладок электронной платы",
+      "accounting_class": "legacy_gasket_kit",
+      "seller_price": 2475,
+      "customer_price": 1769,
+      "forPay": 1695.37,
+      "historical_cost": null,
+      "exclude_from_board_profit": true
+    }
+  ],
+  "discontinued": [
+    {
+      "vendorCode": "solenoid-02e-0b5-bolshoy",
+      "nmID": 1722881122,
+      "target_wb_fbs_stock": 0
+    }
+  ],
+  "historical_stock_ledger_policy": "Do not replay/reassign past physical movements without exact order and component-cost evidence; preserve original order records."
+}

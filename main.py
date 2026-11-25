@@ -2585,7 +2585,8 @@ def _wb_stock_rows():
             best[r["vendor_code"]] = r
     rows = list(best.values())
     # снятые с продажи карточки WB: остаток всегда 0
-    for vc in sync_master_control.WB_RETIRED_VENDOR_CODES:
+    from wb_identity_policy import HELD
+    for vc in dict.fromkeys((*sync_master_control.WB_RETIRED_VENDOR_CODES, *HELD)):
         barcode = barcode_map.get(vc)
         if barcode:
             rows = [r for r in rows if r["vendor_code"] != vc]

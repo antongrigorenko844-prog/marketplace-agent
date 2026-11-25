@@ -34,16 +34,16 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(b['C4'].value,'=1+2')
         self.assertEqual(b['D3'].value,123)
 
-    def test_reviewed_active_wb_exact_workbook_description_only(self):
+    def test_stale_review_cannot_reopen_retired_wb_gasket(self):
         w=Workbook(); s=w.active
         s.append(['SKU','status','Описание','price'])
         s.append(['0AM927769D','active','old',17])
         f=BytesIO(); w.save(f)
         rules={'0AM927769D':{'text':{'wb':{'description':'approved'}},'_wb_active_review':True}}
         updated, rows=p.isolate_book(f.getvalue(),None,3,'wb',rules,['0AM927769D'])
-        self.assertEqual(rows['0AM927769D']['status'],'pending')
+        self.assertEqual(rows['0AM927769D']['status'],'blocked_retired_wb_collision')
         b=load_workbook(BytesIO(updated)).active
-        self.assertEqual(b['C2'].value,'approved')
+        self.assertEqual(b['C2'].value,'old')
         self.assertEqual(b['D2'].value,17)
 
     def test_retry_only_explicit_rejection(self):

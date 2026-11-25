@@ -39,6 +39,8 @@ def _headers() -> Dict[str, str]:
 
 
 def _request(method: str, base: str, path: str, json_body: Optional[dict] = None, retries: int = 3) -> dict:
+    from wb_identity_policy import guard_write
+    guard_write(method, path, json_body)
     if method.upper()=='POST':
         from content_manifest import check_wb_description_write
         check_wb_description_write(path,json_body)

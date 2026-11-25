@@ -60,39 +60,11 @@ def read_wb_exact(sku, expected):
     return found[0]
 
 def reviewed_wb_active(cfg, ids, errors, snaps, master_rows, duplicates):
-    """Reopen only the explicitly reviewed old plate, proven active and not in trash."""
-    sku='0AM927769D'; expected='670860344'
-    review=cfg.get('wb_active_review',{}).get(sku,{})
-    if str(review.get('nmID',''))!=expected or 'wb' in errors or sku in duplicates:
-        return set()
-    if master_rows.get(sku,{}).get('wb_status')!='Действующий':
-        return set()
-    if {x['id'] for x in ids.get('wb',{}).get(sku,[])}!={expected}:
-        return set()
-    try:
-        with guard([],allow_write=False,descriptions_only=True):
-            cards=[read_wb_exact(sku,expected)]
-    except Exception:return set()
-    if cards[0].get('title')!=review.get('title'):
-        return set()
-    chars=cards[0].get('characteristics',[])
-    if not any(x.get('id')==5522881 and sku in x.get('value',[]) for x in chars):
-        return set()
-    if not any(x.get('id')==378533 and 'Электронная плата — 1 шт.' in x.get('value',[]) for x in chars):
-        return set()
-    import wb_client
-    try:
-        with guard([],allow_write=False,descriptions_only=True):
-            for term in (expected,sku):
-                result=wb_client._request('POST',wb_client.config.wb_content_base,'/content/v2/get/cards/trash',{'settings':{'cursor':{'limit':100},'filter':{'textSearch':term}}},retries=1)
-                if result.get('cards')!=[] or result.get('cursor',{}).get('total')!=0:
-                    return set()
-    except Exception:
-        return set()
-    # Bind only the separately approved active nmID; no other card is touched.
-    ids['wb'][sku]=[{'id':expected,'name':cards[0].get('title')}]
-    snaps['wb']['exact_ids']={sku:expected}
-    return {sku}
+    """Owner confirmed the legacy WB identity is a gasket kit, not a board.
+    Stale review flags cannot reopen an intentionally retired identity.
+    """
+    return set()
+
 
 def standalone_allowed(cfg, ch, sku, identity_value, master_rows, duplicates):
     return (ch in ('wb','market') and sku not in master_rows and sku not in duplicates
@@ -849,6 +821,10 @@ def run(live=False):
                     and str(retry.get('id',''))==identity_value and retry.get('error')==e.get('error')
                     and (ch!='ozon' or ch not in paused)):
                     row_status(e,'prepared',None,next_attempt_utc=None)
+            if ch=='wb':
+                from wb_identity_policy import is_held
+                if is_held(sku, e.get('card_id')):
+                    row_status(e,'blocked','Owner WB sales hold / legacy identity quarantine')
             state['rows'][sku][ch]=e
     def save(more=()):
         state['updated_utc']=stamp()
