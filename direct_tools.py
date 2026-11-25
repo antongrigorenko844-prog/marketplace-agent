@@ -27,6 +27,8 @@ from datetime import date, datetime, timedelta
 from typing import Dict, List, Optional, Tuple
 
 import requests
+from zoneinfo import ZoneInfo
+import direct_commercial_evidence as commercial
 
 _ROOT = os.path.dirname(os.path.abspath(__file__))
 DIRECT_DIR = os.path.join(_ROOT, "data", "direct")
@@ -553,6 +555,26 @@ def _metrika_utm_campaign_summary(token: str, d_from: date, d_to: date) -> dict:
             "campaign": DIRECT_UTM_CAMPAIGN, "sampled": payload.get("sampled")}
 
 
+def _metrika_direct_campaign_summary(token: str, d_from: date, d_to: date) -> dict:
+    """Exact Direct campaign attribution, independent of UTM; not payment proof."""
+    if not token or d_from > d_to:
+        raise ValueError("Invalid campaign summary request")
+    response = requests.get(
+        "https://api-metrika.yandex.net/stat/v1/data",
+        params={"ids": METRIKA_COUNTER_ID, "date1": d_from.isoformat(),
+                "date2": d_to.isoformat(), "dimensions": commercial.DIMENSION,
+                "metrics": ",".join(commercial.METRICS), "filters": commercial.FILTER,
+                "accuracy": "full", "limit": 100},
+        headers={"Authorization": "OAuth " + token}, timeout=35, allow_redirects=False,
+    )
+    if response.status_code != 200:
+        raise RuntimeError(f"Метрика ID кампании HTTP {response.status_code}")
+    payload = response.json()
+    return commercial.commercial_summary(
+        payload.get("data"), payload.get("total_rows"), payload.get("sampled"),
+        d_from, d_to)
+
+
 def _format_metrika_paid(data: dict, caption: str) -> str:
     vals = data["goal_visits"]
     return (
@@ -572,7 +594,7 @@ def cmd_direct_report() -> int:
     if not token:
         print("YANDEX_DIRECT_TOKEN не задан — сводку Директа пропускаю.")
         return 0
-    yesterday = date.today() - timedelta(days=1)
+    yesterday = datetime.now(ZoneInfo("Europe/Moscow")).date() - timedelta(days=1)
     week = _perf(token, yesterday - timedelta(days=6), yesterday, "leoparts7")
     day = _perf(token, yesterday, yesterday, "leoparts1")
     if not week["Impressions"] and not day["Impressions"]:
@@ -628,6 +650,23 @@ def cmd_direct_report() -> int:
             lines.append("\nМетрика: агрегированные цели пока недоступны")
             print("Метрика: ошибка получения агрегированных целей",
                   type(exc).__name__)
+    if metr_token:
+        try:
+            exact_week = _metrika_direct_campaign_summary(
+                metr_token, yesterday - timedelta(days=6), yesterday)
+            lines += [
+                "\nМетрика — атрибуция по ID кампании 716316525 (включая визиты без UTM):",
+                commercial.format_commercial_summary(exact_week, "7 дней"),
+            ]
+            if yesterday >= commercial.LAUNCH_DATE:
+                exact_all = _metrika_direct_campaign_summary(
+                    metr_token, commercial.LAUNCH_DATE, yesterday)
+                lines.append(commercial.format_commercial_summary(exact_all, "С 16.11.2026"))
+            lines.append("Сумма Ecommerce — не оплаченная выручка. "
+                         "Фактические продажи, CAC, ROAS и ROMI — только после сверки оплат.")
+        except Exception as exc:
+            lines.append("Метрика ID кампании: точная коммерческая сводка пока недоступна")
+            print("Метрика ID кампании: ошибка агрегирования", type(exc).__name__)
     try:
         query_report = _report(token, {"params": {
             "SelectionCriteria": {
