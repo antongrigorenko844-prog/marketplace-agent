@@ -9019,7 +9019,7 @@
       "kind": "category",
       "sku": "0AM927769F",
       "target": 71380208,
-      "status": "ACCEPTED",
+      "status": "UNCONFIRMED",
       "started_utc": "2026-11-25T18:31:42.493705+00:00",
       "target_parameters": [
         {
@@ -9239,6 +9239,13 @@
       },
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "exact": false,
+        "protected_diff": [],
+        "card_status": "HAS_CARD_CAN_UPDATE",
+        "campaign_status": "DISABLED_AUTOMATICALLY",
+        "category": 71220512
       }
     }
   },
@@ -9420,7 +9427,7 @@
     },
     "target_saved": true
   },
-  "updated_utc": "2026-11-25T18:31:44.645894+00:00",
+  "updated_utc": "2026-11-25T18:32:12.544508+00:00",
   "fresh_media_inventory": {
     "checked_utc": "2026-11-25T18:28:01.896213+00:00",
     "eligible_market_cards": 68,
