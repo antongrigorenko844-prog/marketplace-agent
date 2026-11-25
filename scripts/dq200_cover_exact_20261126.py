@@ -135,11 +135,16 @@ def persist_sources(channel,urls,video=None):
         require(len(hits)==1,'Catalog exact row missing: '+filename)
         old=ws.cell(hits[0],col).value
         require(isinstance(old,str) and old.startswith('https://'),'Existing catalog media missing')
-        values=list(urls)+([video] if video else [])
+        old_values=[v.strip() for v in old.split('|') if v.strip()]
+        # Preserve every existing catalog media reference, including any video.
+        # The live manifest is independently pinned to the verified gallery.
+        # Legacy catalog cannot lose previous links because of a cover update.
+        values=[urls[0]]+[v for v in old_values if not same_url(v,urls[0])]
+        require(len(values)>=len(old_values),'Catalog media lost')
         ws.cell(hits[0],col).value='|'.join(values)
         book.save(catalog)
         paths.append(catalog)
-        journal(channel,catalog_row=hits[0],catalog_media_count=len(values))
+        journal(channel,catalog_row=hits[0],catalog_media_count=len(values),catalog_prior_media_count=len(old_values))
     path.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     cm.load()
     save(*paths)
@@ -214,7 +219,6 @@ def market(url):
     from market_content import read_rows,grouped
     biz=ym.get_business_id();require(int(biz)==BIZ,'Market business mismatch')
     def read():
-        row=one([r for r in read_rows(biz,'offer-mappings',[SKU]) if (r.get('offer') or {}).get('offerId')==SKU],'offer',next((r['offer'] for r in read_rows(biz,'offer-mappings',[SKU]) if r.get('offer',{}).get('offerId')==SKU),{})) if False else None
         rows=[r for r in read_rows(biz,'offer-mappings',[SKU]) if (r.get('offer') or {}).get('offerId')==SKU]
         require(len(rows)==1,'Market exact offer not unique')
         return rows[0]['offer'],one(read_rows(biz,'offer-cards',[SKU]),'offerId',SKU)
@@ -288,13 +292,37 @@ def wb(url):
     # content-addressed release URLs before replacing anything; use original
     # source files where a complete exact match is available.
     old_refs=[];stable=[]
+    cache=json.loads(CACHE.read_text())
+    sources=json.loads(MANIFEST.read_text())['products'][SKU].get('sources',{})
+    candidates=list(dict.fromkeys([u for ch in ('wb','ozon') for u in sources.get(ch,[])]+[v['url'] for name,v in cache.items() if (name.startswith(SKU+'_') or name.startswith(SKU+'-')) and name.lower().endswith(('.jpg','.jpeg','.png','.webp')) and isinstance(v,dict) and v.get('url')]))
+    source_images={}
+    for candidate in candidates:
+        try:source_images[candidate]=digest_image(download(candidate))
+        except (OSError,requests.RequestException,ValueError):pass
     with tempfile.TemporaryDirectory() as tmp:
         for i,u in enumerate(old,1):
-            im=digest_image(download(u));old_refs.append(im)
-            fn=Path(tmp)/f'wb-prior-{i:02d}.png';im.save(fn,'PNG')
+            raw=download(u);im=digest_image(raw);old_refs.append(im)
+            choices=[]
+            for candidate,ref in source_images.items():
+                try:
+                    diff=image_difference(im,ref)
+                    if diff<6:choices.append((diff,candidate))
+                except ValueError:pass
+            choices.sort()
+            if choices:
+                stable.append(choices[0][1]);continue
+            # Exact CDN bytes are used when already a JPEG/PNG; lossless PNG
+            # of the delivered old image is only a fallback for unsupported WebP.
+            with Image.open(io.BytesIO(raw)) as probe:
+                fmt=probe.format;size=list(probe.size)
+            ext={'JPEG':'.jpg','PNG':'.png'}.get(fmt,'.png')
+            fn=Path(tmp)/f'wb-prior-{i:02d}{ext}'
+            if fmt in ('JPEG','PNG'):fn.write_bytes(raw)
+            else:im.save(fn,'PNG');size=list(im.size)
             h=sha(fn.read_bytes())
-            proof=verified_host(fn,h,list(im.size),f'0am325025H-wb-prior-{i:02d}-{h[:12]}.png')
+            proof=verified_host(fn,h,size,f'0am325025H-wb-prior-{i:02d}-{h[:12]}{ext}')
             stable.append(proof['url'])
+    require(len(set(map(cm.normalize_url,stable)))==len(stable),'Ambiguous old WB gallery source mapping')
     video=video_source(before.get('video'))
     desired=[url]+stable
     refs=[reference]+old_refs
