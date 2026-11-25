@@ -49,8 +49,24 @@ def patch(raw,desired):
     if previous==desired:return raw
     check(s.sha(raw)==BEFORE_SHA,'Unexpected isolated feed version; no overwrite')
     check(isinstance(previous,str) and previous.count(OLD)==1 and previous.replace(OLD,NEW)==desired,'Only owner approved description paragraph may change')
-    sheet='xl/worksheets/sheet1.xml'
-    cell='Q'+str(FIRST_DATA_ROW)
+    # Discover the worksheet's exact package part via the workbook relationship.
+    from xml.etree import ElementTree as ET
+    from posixpath import normpath,join
+    from openpyxl.utils import get_column_letter
+    with zipfile.ZipFile(io.BytesIO(raw)) as z:
+        root=ET.fromstring(z.read('xl/workbook.xml'))
+        ns={'m':'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
+        matches=[x for x in root.findall('m:sheets/m:sheet',ns) if x.get('name')==SHEET_ADS]
+        check(len(matches)==1,'Exact worksheet name missing')
+        rid=matches[0].get('{http://schemas.openxmlformats.org/officeDocument/2006/relationships}id')
+        rels=ET.fromstring(z.read('xl/_rels/workbook.xml.rels'))
+        hits=[r for r in rels if r.get('Id')==rid]
+        check(len(hits)==1,'Exact worksheet relationship missing')
+        target=hits[0].get('Target')
+        check(isinstance(target,str),'Worksheet path missing')
+        sheet=target.lstrip('/') if target.startswith('/') else normpath(join('xl',target))
+        check(sheet.startswith('xl/worksheets/') and sheet in z.namelist(),'Unexpected worksheet part')
+    cell=get_column_letter(COL_DESCRIPTION)+str(FIRST_DATA_ROW)
     result=io.BytesIO()
     with zipfile.ZipFile(io.BytesIO(raw)) as src, zipfile.ZipFile(result,'w') as dst:
         check(sheet in src.namelist(),'Worksheet missing')
