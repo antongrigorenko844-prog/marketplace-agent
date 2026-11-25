@@ -17,7 +17,7 @@ from urllib.parse import quote, urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 PRODUCTS = [
-    ("0am325025h", "Мехатроник DSG7 DQ200 0AM325025H без электронной платы", "1", "photos/0am325025H/0am325025H-1.png"),
+    ("0am325025h", "Мехатроник DSG7 DQ200 0AM325025H без электронной платы", "1", "assets/product-intake-v2/bridge/0am325025H-cover-20261126.jpeg"),
     ("0am325025x", "Мехатроник DSG7 DQ200 0AM325025X без электронной платы", "1", "photos/0am325025x/0am325025x_1.png"),
     ("0am325025hx", "Мехатроник DSG7 DQ200 в сборе с платой D", "2", "photos/0am325025HX/0am325025HX_1.png"),
     ("0am325025hxf", "Мехатроник DSG7 DQ200 в сборе с платой F", "2", "photos/0am325025HXF/0am325025HXF_1.png"),
@@ -91,6 +91,8 @@ def build():
         if not (ROOT / picture).is_file():
             raise ValueError(f"Missing product photo: {picture}")
         photo_url = "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/" + "/".join(quote(x) for x in picture.split("/"))
+        if sku == "0am325025h":
+            photo_url = 'https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0am325025H-cover-20261126-1f0b5739a1.jpeg?v=1f0b5739a1'  # exact approved DQ200 cover 20261126
         report.append({"sku": sku, "catalog_stock": stocks.get(sku), "price_rub": price, "site_url": url, "stock_source": "data/ozon_catalog.xlsx", "availability": "disabled_pending_live_verification"})
         offer = ET.SubElement(offers, "offer", id=sku, available="false")
         for key, val in (("url", url), ("price", str(price)), ("currencyId", "RUR"), ("categoryId", category), ("picture", photo_url), ("name", MECH_AD_TITLE if category in {"1", "2"} else title), ("vendorCode", sku.upper())):
