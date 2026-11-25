@@ -26,5 +26,5 @@ jobs:
           python-version: '3.11'
       - run: pip install -q -r requirements.txt
       - run: python -m py_compile scripts/market_final_execution_20261126.py
-      - name: Reconcile existing work and apply safe missing attributes
+      - name: Reconcile saved attributes and apply remaining independently editable values
         run: PYTHONPATH=.:scripts python scripts/market_final_execution_20261126.py
