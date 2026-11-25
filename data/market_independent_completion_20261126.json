@@ -16,7 +16,7 @@
     {
       "sku": "0AM927769E",
       "kind": "group",
-      "status": "ACCEPTED",
+      "status": "UNCONFIRMED",
       "old_group": "DQ200 electronic boards",
       "target_group": "",
       "source": "official API text parameter 200 empty; support says removing variant leaves item in catalog; exact distinct models, zero seller reviews",
@@ -28,6 +28,23 @@
       "model_before": 6514995821,
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "protected_differences": [],
+        "group_removed": false,
+        "card_status": "HAS_CARD_CAN_UPDATE_ERRORS",
+        "campaign_status": "DISABLED_AUTOMATICALLY",
+        "group_after": "DQ200 electronic boards",
+        "warnings": [
+          {
+            "message": "Дубль варианта",
+            "comment": "Хотя бы один отличительный признак должен быть уникальным, иначе не опубликуем товар в этой группе"
+          },
+          {
+            "message": "Дубль варианта",
+            "comment": "Хотя бы один отличительный признак должен быть уникальным, иначе не опубликуем товар в этой группе"
+          }
+        ]
       }
     }
   ],
@@ -5596,7 +5613,7 @@
       ],
       "directions": {
         "groups": {
-          "status": "REVIEW_REQUIRED",
+          "status": "UNCONFIRMED",
           "members": [
             "0AM927769D",
             "0AM927769E",
@@ -18897,5 +18914,5 @@
     "media": "market_design_tasks_20261126.json + exact preview assets"
   },
   "policy": "No document, brand, price, stock, barcode, ad, deletion, other marketplace writes.",
-  "updated_utc": "2026-11-25T17:58:21.301035+00:00"
+  "updated_utc": "2026-11-25T17:58:51.022733+00:00"
 }
