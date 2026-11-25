@@ -1,0 +1,33 @@
+name: LEOPARTS Direct exact query safety filter
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-exact-query-filter-20261125.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  exact-filter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+      YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile .github/scripts/direct_exact_query_filter_20261125.py
+      - run: python -u .github/scripts/direct_exact_query_filter_20261125.py
+      - if: always()
+        run: |
+          if test -f data/direct_performance_20261125/exact_query_filter.json; then
+            bash .github/scripts/save_data.sh data/direct_performance_20261125/exact_query_filter.json
+          fi
