@@ -50,7 +50,7 @@
     {
       "sku": "0AM927769N",
       "kind": "category",
-      "status": "ACCEPTED",
+      "status": "PENDING_MODERATION",
       "before": 17712007,
       "target": 71380208,
       "target_parameters": [
@@ -84,6 +84,13 @@
       },
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "protected_unchanged": true,
+        "category": 17712007,
+        "all_semantics_verified": false,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     }
   ],
@@ -6122,7 +6129,7 @@
         },
         "categories": {
           "target": 71380208,
-          "status": "REVIEW_REQUIRED"
+          "status": "PENDING_MODERATION"
         },
         "attributes": {
           "status": "REVIEW_REQUIRED",
@@ -18955,5 +18962,5 @@
     "media": "market_design_tasks_20261126.json + exact preview assets"
   },
   "policy": "No document, brand, price, stock, barcode, ad, deletion, other marketplace writes.",
-  "updated_utc": "2026-11-25T17:58:58.646230+00:00"
+  "updated_utc": "2026-11-25T17:59:28.384861+00:00"
 }
