@@ -1900,7 +1900,7 @@
           "source": "Exact approved description says current 0BH325183B refers to filter element, not housing; do not guess replacement OEM."
         }
       ],
-      "status": "ACCEPTED",
+      "status": "VERIFIED",
       "protected_hash": "243cb41e04808e69bddff72fa148402b4a7b7e0e75fb2fc2734440959444b390",
       "before": {
         "nmID": 711572626,
@@ -2003,6 +2003,17 @@
         "error": false,
         "errorText": "",
         "additionalErrors": {}
+      },
+      "readback": {
+        "values": {
+          "4572490": null,
+          "378533": [
+            "Корпус масляного фильтра",
+            "Уплотнительное кольцо"
+          ]
+        },
+        "protected_same": true,
+        "checked": "2026-11-25T20:10:07.897041+00:00"
       }
     }
   },
