@@ -1,0 +1,88 @@
+name: LEOPARTS Direct current independent read-only audit 20261125
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-readonly-current-20261125.yml']
+permissions:
+  contents: write
+concurrency:
+  group: direct-readonly-current-20261125
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Read only current settings, queries, placements, goals and traffic
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: |
+          python -u - <<'PY'
+          import sys,json
+          from pathlib import Path
+          sys.path.insert(0,'.github/scripts')
+          import direct_commercial_audit_20261124 as a
+          a.OUT=Path('data/direct_current_20261125_live.json')
+          a.CHANGED='2026-11-24'
+          a.BEFORE='2026-11-12'
+          a.run()
+          d=json.loads(a.OUT.read_text())
+          d['supplemental']={}
+          def extra(name,fn):
+              try: d['supplemental'][name]={'status':'ok','data':fn()}
+              except Exception as exc: d['supplemental'][name]={'status':'error','error':a.direct.scrub(exc)}
+              a.save(d)
+          def campaign_negatives():
+              c=a.direct.campaign()
+              return {'negatives':(c.get('NegativeKeywords') or {}).get('Items') or [],'strategy':(c.get('UnifiedCampaign') or {}).get('BiddingStrategy')}
+          extra('campaign_negatives',campaign_negatives)
+          def segments():
+              rows=a.report('CUSTOM_REPORT',['Date','CampaignId','Device','LocationOfPresenceName','AdGroupId','Impressions','Clicks','Cost','Conversions'],'device_region')
+              return {'by_device':a.aggreg(rows,['Device'],20),'by_region':a.aggreg(rows,['LocationOfPresenceName'],100)}
+          extra('segments',segments)
+          def goals():
+              r=a.mt.call('/management/v1/counter/113839860/goals')
+              return [{'id':g.get('id'),'name':g.get('name'),'type':g.get('type'),'status':g.get('status')} for g in r.get('goals',[])]
+          extra('goals',goals)
+          def metrika_paid():
+              m=['ym:s:visits','ym:s:bounceRate','ym:s:pageDepth','ym:s:avgVisitDurationSeconds']+['ym:s:goal'+str(g)+'visits' for g in a.GOALS]
+              out={}
+              for label,dim in [('source','ym:s:lastTrafficSource'),('campaign','ym:s:lastUTMSource,ym:s:lastUTMCampaign'),('device','ym:s:deviceCategory')]:
+                  params={'ids':str(a.COUNTER_ID),'date1':a.BEFORE,'date2':a.TO,'metrics':','.join(m),'dimensions':dim,'accuracy':'full','limit':'100','lang':'ru'}
+                  if label=='device':params['filters']="ym:s:lastUTMCampaign=='dq200_feed_search'"
+                  out[label]=a.mt.sanitize_stats(a.mt.call('/stat/v1/data',params))
+              return {'metric_names':m,'reports':out}
+          extra('metrika_traffic_quality',metrika_paid)
+          def daily_queries():
+              rows=a.report('SEARCH_QUERY_PERFORMANCE_REPORT',['Date','CampaignId','AdGroupId','Query','CriterionType','MatchedKeyword','Impressions','Clicks','Cost','Conversions'],'query_by_day')
+              paid=[r for r in rows if (a.value(r.get('Cost')) or 0)>0]
+              return {'by_day':a.aggreg(rows,['Date'],60),'today_paid':a.aggreg([r for r in paid if r['Date']==a.TO],['Query','AdGroupId','CriterionType','MatchedKeyword'],1000),'yesterday_paid':a.aggreg([r for r in paid if r['Date']=='2026-11-24'],['Query','AdGroupId','CriterionType','MatchedKeyword'],1000),'post_change_by_criterion':a.aggreg([r for r in paid if r['Date']>='2026-11-24'],['Date','CriterionType'],100)}
+          extra('dated_queries',daily_queries)
+          def sitelinks_feed():
+              a.direct.ALLOWED=tuple(set((*a.direct.ALLOWED,'ads','feeds','sitelinks')))
+              ads=a.direct.get('ads',{'SelectionCriteria':{'CampaignIds':[a.CID]},'FieldNames':['Id','CampaignId','AdGroupId','Type','State','Status','StatusClarification'],'ResponsiveAdFieldNames':['Href','SitelinkSetId','SitelinksModeration'],'ShoppingAdFieldNames':['FeedId','FeedProcessingStatus','SitelinkSetId','SitelinksModeration'],'Page':{'Limit':1000}},'Ads')
+              sets=sorted({x.get('SitelinkSetId') for ad in ads for x in [ad.get('ResponsiveAd') or {},ad.get('ShoppingAd') or {}] if x.get('SitelinkSetId')})
+              feeds=a.direct.get('feeds',{'SelectionCriteria':{'Ids':[4061297]},'FieldNames':['Id','Name','SourceType','Status','UpdatedAt','NumberOfItems','UrlFeed']},'Feeds')
+              return {'ads':ads,'set_ids':sets,'feeds':feeds}
+          extra('sitelinks_feed',sitelinks_feed)
+          def metrika_paid_day():
+              goals=a.mt.call('/management/v1/counter/113839860/goals').get('goals',[])
+              ids=[int(g['id']) for g in goals if g.get('status')=='Active']
+              metrics=['ym:s:visits','ym:s:bounceRate','ym:s:pageDepth','ym:s:avgVisitDurationSeconds']+['ym:s:goal'+str(g)+'visits' for g in ids]
+              params={'ids':str(a.COUNTER_ID),'date1':a.BEFORE,'date2':a.TO,'metrics':','.join(metrics),'dimensions':'ym:s:date','filters':"ym:s:lastUTMCampaign=='dq200_feed_search'",'accuracy':'full','limit':'100','lang':'ru'}
+              return {'metrics':metrics,'goal_names':{str(g['id']):g.get('name') for g in goals},'report':a.mt.sanitize_stats(a.mt.call('/stat/v1/data',params))}
+          extra('metrika_paid_by_day',metrika_paid_day)
+          d['supplemental_finished_utc']=a.stamp();a.save(d)
+          PY
+      - name: Save only this audit file
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_current_20261125_live.json
