@@ -23,7 +23,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install -q -r requirements.txt pillow
+      - run: pip install -q -r requirements.txt pillow imageio-ffmpeg
+      - name: Confirm usable video verifier before catalog mutation
+        run: python -c "import imageio_ffmpeg, subprocess; subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), '-version'], check=True, stdout=subprocess.DEVNULL)"
       - name: Test exact prepend, idempotence, and protected feed fields
         run: |
           python -m py_compile scripts/dq200_cover_exact_20261126.py
