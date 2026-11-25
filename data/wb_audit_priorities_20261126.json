@@ -1,0 +1,5090 @@
+{
+  "version": 1,
+  "platform": "wb",
+  "source_snapshot": "data/wb_full_audit_registry_20261126.json",
+  "source_commit": "d3c44091bfa732a87eefff4fc61622c2850c1f93",
+  "source_time": "2026-11-25T19:14:44.447983+00:00",
+  "period": "2026-08-27 — 2026-11-24",
+  "scope": "143 business cards; one test excluded; FBS stock known for each business card from per-warehouse data",
+  "summary": {
+    "cards": 143,
+    "stock_positive": 128,
+    "stock_zero": 15,
+    "stock_positive_with_photo": 127,
+    "missing_documents": 125,
+    "missing_documents_stock_positive": 112,
+    "photos_zero": 1,
+    "one_photo": 81,
+    "no_video": 115,
+    "known_cost": 110,
+    "category_review_candidates": 40,
+    "design_tasks": 139
+  },
+  "priorities": {
+    "category_review": [
+      {
+        "sku": "0AM301212A",
+        "nmID": 670854126,
+        "subjectID": 9031,
+        "subjectName": "Фильтры АКПП",
+        "title": "Заглушка корпуса КПП мехатроника DSG7 DQ200 0AM301212A",
+        "stock": 107,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0am325025n",
+        "nmID": 670854144,
+        "subjectID": 9027,
+        "subjectName": "Корзины сцепления для авто",
+        "title": "Соленоид переключения (Shift) мехатроника DSG7 DQ200",
+        "stock": 25,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0AM325467J",
+        "nmID": 670854239,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Оригинальная сепараторная пластина VAG DSG7 DQ200 0AM325467J",
+        "stock": 32,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0am325025l",
+        "nmID": 670860204,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Поршень (толкатель) вилки мехатроника DSG7 DQ200",
+        "stock": 79,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0am325025С",
+        "nmID": 670860816,
+        "subjectID": 9031,
+        "subjectName": "Фильтры АКПП",
+        "title": "Кольцо гидроаккумулятора мехатроника DSG7 DQ200",
+        "stock": 107,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0am325025P",
+        "nmID": 670861565,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Клипса штока мехатроника DSG7 DQ200",
+        "stock": 80,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0am325025j",
+        "nmID": 670862709,
+        "subjectID": 7850,
+        "subjectName": "Корпусы топливных фильтров",
+        "title": "пластины на соленоиды мехатроника DSG7 DQ200, оригинал VAG",
+        "stock": 27,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0AM325473",
+        "nmID": 670869819,
+        "subjectID": 9027,
+        "subjectName": "Корзины сцепления для авто",
+        "title": "Соленоиды мехатроника DSG7 DQ200 Hiltie 0AM325473, 4 шт.",
+        "stock": 10,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0AM325120A",
+        "nmID": 670869831,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Транспортная заглушка мехатроника DSG7 DQ200 0AM325120A",
+        "stock": 107,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0am325025r",
+        "nmID": 670869838,
+        "subjectID": 9027,
+        "subjectName": "Корзины сцепления для авто",
+        "title": "Усиленное опорное кольцо толкателя мехатроника DSG7 DQ200",
+        "stock": 129,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "02e305045",
+        "nmID": 670914369,
+        "subjectID": 7850,
+        "subjectName": "Корпусы топливных фильтров",
+        "title": "Корпус масляного фильтра мехатроника DSG6 DQ250 02E305045",
+        "stock": 21,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0BH325183B",
+        "nmID": 670925512,
+        "subjectID": 7850,
+        "subjectName": "Корпусы топливных фильтров",
+        "title": "Корпус фильтра DQ500 DSG7 0BH325183B",
+        "stock": 0,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0AM325219C",
+        "nmID": 670925525,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Оригинальная крышка мехатроника VAG DSG7 DQ200 0AM325219C",
+        "stock": 19,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "122390AK-AF",
+        "nmID": 670925538,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Пыльник штока мехатроника DSG7 DQ200 122390AK-AF",
+        "stock": 116,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0BH325183 B",
+        "nmID": 672031719,
+        "subjectID": 7850,
+        "subjectName": "Корпусы топливных фильтров",
+        "title": "Корпус фильтра ребристый мехатроника DSG7 DQ500 0BH325183B",
+        "stock": 0,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0BH325183",
+        "nmID": 672031724,
+        "subjectID": 7850,
+        "subjectName": "Корпусы топливных фильтров",
+        "title": "Корпус фильтра ребристый мехатроника DSG7 DQ500 0BH325183B",
+        "stock": 0,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "02E 305 045",
+        "nmID": 837943386,
+        "subjectID": 7850,
+        "subjectName": "Корпусы топливных фильтров",
+        "title": "Корпус с масляным фильтром DSG6 DQ250 02E305045",
+        "stock": 21,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "plastina-solenoid-dq200",
+        "nmID": 1722879911,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Пластина на соленоиды мехатроника DSG7 DQ200, 1 шт",
+        "stock": 74,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "plastiny-solenoid-dq200-2sht",
+        "nmID": 1722879954,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Пластины на соленоиды мехатроника DSG7 DQ200, комплект 2 шт",
+        "stock": 37,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "separatornaya-plastina-dq200",
+        "nmID": 1722879969,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Сепараторная пластина мехатроника DSG7 DQ200",
+        "stock": 75,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "separatornaya-plastiny-solenoid-dq200",
+        "nmID": 1722879991,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Сепараторная пластина и 2 пластины соленоидов DSG7 DQ200",
+        "stock": 37,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "kryshka-mehatronika-dq200",
+        "nmID": 1722880947,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Крышка мехатроника DSG7 DQ200 0AM 0CW",
+        "stock": 19,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "solenoid-02e-0b5-bolshoy",
+        "nmID": 1722881122,
+        "subjectID": 9027,
+        "subjectName": "Корзины сцепления для авто",
+        "title": "Восстановленный соленоид 02E 0B5 DQ250 DQ500, большой",
+        "stock": 5,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0cw0am",
+        "nmID": 1949483512,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Прокладка электронной платы мехатроника DSG7 DQ200",
+        "stock": 0,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "plastiny-solenoid-orig",
+        "nmID": 1949665228,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Пластины на соленоиды VAG DSG7 DQ200, 2 шт",
+        "stock": 27,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0AM927769N",
+        "nmID": 1949822182,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Прокладки электронной платы DSG7 DQ200 0AM927769N",
+        "stock": 172,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0am325477ae",
+        "nmID": 1949830958,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Пластина соленоидов мехатроника DSG7 DQ200 0AM325477AE VAG",
+        "stock": 54,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "0cw325025h",
+        "nmID": 1949835790,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Прокладка электронной платы DSG7 DQ200 0AM927769N",
+        "stock": 148,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "klipsy-shtokov-2sht",
+        "nmID": 1949844548,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Клипсы штоков мехатроника DSG7 DQ200, комплект 2 шт",
+        "stock": 40,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "korpus-filtra-0bh325159",
+        "nmID": 1988502364,
+        "subjectID": 7850,
+        "subjectName": "Корпусы топливных фильтров",
+        "title": "Корпус масляного фильтра мехатроника DSG7 DQ500 0BH325159",
+        "stock": 0,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "chip-0am927769d",
+        "nmID": 2238877298,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Чип электронной платы мехатроника DSG7 DQ200 0AM927769D",
+        "stock": 9,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "derzhatel-datchikov-dq200",
+        "nmID": 2239502050,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Держатель датчиков DQ200 для плат 0AM927769D/G/K",
+        "stock": 5,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "osnovanie-platy-dq200",
+        "nmID": 2239502123,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Основание платы мехатроника DQ200 для 0AM927769D/G/K",
+        "stock": 10,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "datchik-scepleniya-dq200",
+        "nmID": 2239502134,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Датчик сцепления DSG7 DQ200 для плат 0AM927769D/G/K",
+        "stock": 5,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "datchik-peredach-dq200",
+        "nmID": 2239502207,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Датчик положения передач DQ200 для плат 0AM927769D/G/K",
+        "stock": 5,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "shleif-platy-dq200",
+        "nmID": 2239502468,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Шлейф платы мехатроника DSG7 DQ200 для 0AM927769E/N/P",
+        "stock": 5,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "kolodka-solenoidov-dq200",
+        "nmID": 2239544545,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Колодка разъёмов соленоидов DQ200 для плат 0AM927769D/G/K",
+        "stock": 6,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "klipsa-datchika-peredach-dq200",
+        "nmID": 2239732435,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Клипса датчика положения передач мехатроника DSG7 DQ200",
+        "stock": 20,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "kryshka-platy-dq200",
+        "nmID": 2239732586,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "Металлическая крышка электронной платы DSG7 DQ200",
+        "stock": 19,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      },
+      {
+        "sku": "fpc-shleif-dq200",
+        "nmID": 2239732711,
+        "subjectID": 5759,
+        "subjectName": "Сальники КПП",
+        "title": "FPC-шлейф электронной платы DQ200 для 0AM927769D/G/K",
+        "stock": 5,
+        "status": "REVIEW_REQUIRED",
+        "reason": "Potential mismatch from title/subject; target subject and retention of reviews require cabinet verification; not a confirmed error for all rows."
+      }
+    ],
+    "documents": [
+      {
+        "sku": "0AM301212A",
+        "nmID": 670854126,
+        "stock": 107,
+        "subject": "Фильтры АКПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025n",
+        "nmID": 670854144,
+        "stock": 25,
+        "subject": "Корзины сцепления для авто",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025D",
+        "nmID": 670854215,
+        "stock": 129,
+        "subject": "Втулки автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025q",
+        "nmID": 670854223,
+        "stock": 247,
+        "subject": "Сальники штока сцепления",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0AM325467J",
+        "nmID": 670854239,
+        "stock": 32,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0AM325433E",
+        "nmID": 670855815,
+        "stock": 155,
+        "subject": "Фильтры АКПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325066ad",
+        "nmID": 670855859,
+        "stock": 259,
+        "subject": "Сальники штока сцепления",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "02E305051C",
+        "nmID": 670858041,
+        "stock": 75,
+        "subject": "Фильтры АКПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "jf011e",
+        "nmID": 670858043,
+        "stock": 0,
+        "subject": "Подшипники автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025G",
+        "nmID": 670858166,
+        "stock": 58,
+        "subject": "Сальники штока сцепления",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0AM325443D",
+        "nmID": 670860106,
+        "stock": 36,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025l",
+        "nmID": 670860204,
+        "stock": 79,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025u",
+        "nmID": 670860803,
+        "stock": 129,
+        "subject": "Втулки автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025С",
+        "nmID": 670860816,
+        "stock": 107,
+        "subject": "Фильтры АКПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "55565480",
+        "nmID": 670860836,
+        "stock": 13,
+        "subject": "Комплектующие двигателя",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025P",
+        "nmID": 670861565,
+        "stock": 80,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025j",
+        "nmID": 670862709,
+        "stock": 27,
+        "subject": "Корпусы топливных фильтров",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325066AC",
+        "nmID": 670862819,
+        "stock": 26,
+        "subject": "Сальники штока сцепления",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0AM325413A",
+        "nmID": 670862903,
+        "stock": 195,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0AM325473",
+        "nmID": 670869819,
+        "stock": 10,
+        "subject": "Корзины сцепления для авто",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0AM325120A",
+        "nmID": 670869831,
+        "stock": 107,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025r",
+        "nmID": 670869838,
+        "stock": 129,
+        "subject": "Корзины сцепления для авто",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0AM325587E",
+        "nmID": 670911962,
+        "stock": 52,
+        "subject": "Гидроаккумуляторы автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "02e305045",
+        "nmID": 670914369,
+        "stock": 21,
+        "subject": "Корпусы топливных фильтров",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325066ae",
+        "nmID": 670925467,
+        "stock": 13,
+        "subject": "Фильтры АКПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325091f",
+        "nmID": 670925476,
+        "stock": 171,
+        "subject": "Сальники штока сцепления",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025z",
+        "nmID": 670925480,
+        "stock": 129,
+        "subject": "Втулки автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025hfe",
+        "nmID": 670925490,
+        "stock": 58,
+        "subject": "Сальники штока сцепления",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0AM325025B",
+        "nmID": 670925505,
+        "stock": 11,
+        "subject": "Регуляторы давления автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0BH325183B",
+        "nmID": 670925512,
+        "stock": 0,
+        "subject": "Корпусы топливных фильтров",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0AM325219C",
+        "nmID": 670925525,
+        "stock": 19,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "122390AK-AF",
+        "nmID": 670925538,
+        "stock": 116,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025ae",
+        "nmID": 670925563,
+        "stock": 19,
+        "subject": "Фильтры АКПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325091e",
+        "nmID": 670925587,
+        "stock": 223,
+        "subject": "Сальники штока сцепления",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "123014‑AF",
+        "nmID": 672031715,
+        "stock": 24,
+        "subject": "Фильтры АКПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0BH325183 B",
+        "nmID": 672031719,
+        "stock": 0,
+        "subject": "Корпусы топливных фильтров",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0BH325183",
+        "nmID": 672031724,
+        "stock": 0,
+        "subject": "Корпусы топливных фильтров",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "31705-X428B",
+        "nmID": 711385750,
+        "stock": 0,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "317053TX0C",
+        "nmID": 711424704,
+        "stock": 3,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "31705-1XF1A",
+        "nmID": 711439292,
+        "stock": 0,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "31705-1XF0C",
+        "nmID": 711450909,
+        "stock": 0,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0AM325091E / 0AM325091F",
+        "nmID": 711488868,
+        "stock": 25,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "122390AKAF",
+        "nmID": 711529108,
+        "stock": 100,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am3250066AE",
+        "nmID": 711549088,
+        "stock": 0,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025HC",
+        "nmID": 711552729,
+        "stock": 0,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325477",
+        "nmID": 711557492,
+        "stock": 11,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0BH325183BB",
+        "nmID": 711572626,
+        "stock": 50,
+        "subject": "Фильтры масляные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025ze",
+        "nmID": 716791826,
+        "stock": 0,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "02E305045E",
+        "nmID": 836194897,
+        "stock": 21,
+        "subject": "Фильтры масляные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "02E 305 045",
+        "nmID": 837943386,
+        "stock": 21,
+        "subject": "Корпусы топливных фильтров",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "DQ500",
+        "nmID": 837952965,
+        "stock": 61,
+        "subject": "Фильтры масляные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025HX",
+        "nmID": 1007465575,
+        "stock": 9,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "plita-filtr-orig",
+        "nmID": 1605380704,
+        "stock": 13,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "plita-filtr-pylniki-sal-orig",
+        "nmID": 1605380809,
+        "stock": 13,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "plita-pylniki-salniki",
+        "nmID": 1605381170,
+        "stock": 13,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "plastina-solenoid-dq200",
+        "nmID": 1722879911,
+        "stock": 74,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "plastiny-solenoid-dq200-2sht",
+        "nmID": 1722879954,
+        "stock": 37,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "filtr-dsg7-dq500",
+        "nmID": 1722879965,
+        "stock": 65,
+        "subject": "Фильтры АКПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "separatornaya-plastina-dq200",
+        "nmID": 1722879969,
+        "stock": 75,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "separatornaya-plastiny-solenoid-dq200",
+        "nmID": 1722879991,
+        "stock": 37,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "filtr-dsg7-dq200",
+        "nmID": 1722880585,
+        "stock": 8,
+        "subject": "Фильтры АКПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "kryshka-mehatronika-dq200",
+        "nmID": 1722880947,
+        "stock": 19,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "solenoid-02e-0b5-bolshoy",
+        "nmID": 1722881122,
+        "stock": 5,
+        "subject": "Корзины сцепления для авто",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "prokladka-kryshki-dq200",
+        "nmID": 1722881195,
+        "stock": 20,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "prokladka-vtulki-verh-dq200",
+        "nmID": 1722881268,
+        "stock": 49,
+        "subject": "Втулки автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "prokladka-vtulki-niz-dq200",
+        "nmID": 1722881454,
+        "stock": 49,
+        "subject": "Втулки автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "prokladka-vtulki-dq200",
+        "nmID": 1723142564,
+        "stock": 47,
+        "subject": "Втулки автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0AM927769D-plata",
+        "nmID": 1922846685,
+        "stock": 7,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0cw0am",
+        "nmID": 1949483512,
+        "stock": 0,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "plastiny-solenoid-orig",
+        "nmID": 1949665228,
+        "stock": 27,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "plita-pylniki-salniki-orig",
+        "nmID": 1949666878,
+        "stock": 13,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "remkomplekt-shtokov-orig",
+        "nmID": 1949668977,
+        "stock": 50,
+        "subject": "Сальники штока сцепления",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0AM927769N",
+        "nmID": 1949822182,
+        "stock": 172,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "02E927770AL",
+        "nmID": 1949822305,
+        "stock": 2,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325091e-set",
+        "nmID": 1949826486,
+        "stock": 64,
+        "subject": "Втулки автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325091f-set",
+        "nmID": 1949828986,
+        "stock": 64,
+        "subject": "Втулки автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325477ae",
+        "nmID": 1949830958,
+        "stock": 54,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0cw0am325025",
+        "nmID": 1949832316,
+        "stock": 0,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0cw0amdsgdq200",
+        "nmID": 1949833936,
+        "stock": 45,
+        "subject": "Гидроаккумуляторы автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0cw325025h",
+        "nmID": 1949835790,
+        "stock": 148,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0сц",
+        "nmID": 1949838891,
+        "stock": 103,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "Dq200dsg7",
+        "nmID": 1949839095,
+        "stock": 43,
+        "subject": "Гидроаккумуляторы автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "Dq200dsg70am0cw",
+        "nmID": 1949840379,
+        "stock": 100,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "filtr-setka-0b5-orig",
+        "nmID": 1949842440,
+        "stock": 47,
+        "subject": "Фильтры АКПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "gidroakkumulyator-orig",
+        "nmID": 1949842970,
+        "stock": 28,
+        "subject": "Гидроаккумуляторы автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "klipsy-shtokov-2sht",
+        "nmID": 1949844548,
+        "stock": 40,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "planka-solenoid-2sht",
+        "nmID": 1949846020,
+        "stock": 5,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "plita-filtr",
+        "nmID": 1949850135,
+        "stock": 8,
+        "subject": "Фильтры АКПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "plita-filtr-pylniki",
+        "nmID": 1949851228,
+        "stock": 8,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "plita-filtr-pylniki-sal",
+        "nmID": 1949853731,
+        "stock": 8,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "plita-filtr-pylniki-orig",
+        "nmID": 1949853941,
+        "stock": 8,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "porshni-usil-pylniki-kryshki",
+        "nmID": 1949858294,
+        "stock": 13,
+        "subject": "Сальники штока сцепления",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "pylniki-shtokov-orig",
+        "nmID": 1949859036,
+        "stock": 50,
+        "subject": "Сальники штока сцепления",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "salnik-shtoka-orig",
+        "nmID": 1949861401,
+        "stock": 103,
+        "subject": "Сальники штока сцепления",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "salnik-tolkatelya-alum",
+        "nmID": 1949862439,
+        "stock": 32,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "salniki-shtokov-2sht",
+        "nmID": 1949864852,
+        "stock": 129,
+        "subject": "Сальники штока сцепления",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "salniki-shtokov-orig",
+        "nmID": 1949865046,
+        "stock": 51,
+        "subject": "Сальники штока сцепления",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "salnikprivod-l",
+        "nmID": 1949868491,
+        "stock": 20,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "salnikprivod-r",
+        "nmID": 1949869404,
+        "stock": 20,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "salnikvhod",
+        "nmID": 1949870656,
+        "stock": 20,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "salnikvihod",
+        "nmID": 1949871894,
+        "stock": 20,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "stalnaya-vstavka-plity",
+        "nmID": 1949873376,
+        "stock": 30,
+        "subject": "Гидроаккумуляторы автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "tolkateli-4-salniki-4",
+        "nmID": 1949874540,
+        "stock": 19,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "tolkateli-salniki-alum-komplekt",
+        "nmID": 1949876400,
+        "stock": 19,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "vtulki-shtokov-2sht",
+        "nmID": 1949877502,
+        "stock": 64,
+        "subject": "Втулки автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "korpus-filtra-0bh325159",
+        "nmID": 1988502364,
+        "stock": 0,
+        "subject": "Корпусы топливных фильтров",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "0am325025HXF",
+        "nmID": 2007899207,
+        "stock": 3,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "chip-0am927769d",
+        "nmID": 2238877298,
+        "stock": 9,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "chip-02e927770",
+        "nmID": 2239283169,
+        "stock": 2,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "derzhatel-datchikov-dq200",
+        "nmID": 2239502050,
+        "stock": 5,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "osnovanie-platy-dq200",
+        "nmID": 2239502123,
+        "stock": 10,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "datchik-scepleniya-dq200",
+        "nmID": 2239502134,
+        "stock": 5,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "datchik-peredach-dq200",
+        "nmID": 2239502207,
+        "stock": 5,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "shleif-platy-dq200",
+        "nmID": 2239502468,
+        "stock": 5,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "kolodka-solenoidov-dq200",
+        "nmID": 2239544545,
+        "stock": 6,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "klipsa-datchika-peredach-dq200",
+        "nmID": 2239732435,
+        "stock": 20,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "kryshka-platy-dq200",
+        "nmID": 2239732586,
+        "stock": 19,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "fpc-shleif-dq200",
+        "nmID": 2239732711,
+        "stock": 5,
+        "subject": "Сальники КПП",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "6t30",
+        "nmID": 2254117475,
+        "stock": 19,
+        "subject": "Клапаны автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "dq500-korpus-gladkiy",
+        "nmID": 2338475459,
+        "stock": 61,
+        "subject": "Фильтры масляные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "6t30-solenoids-gen2",
+        "nmID": 2338952761,
+        "stock": 20,
+        "subject": "Клапаны автомобильные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "6t30-tcm-gen2",
+        "nmID": 2338953074,
+        "stock": 3,
+        "subject": "Коробки передач",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "EA888gen3-filter-kit",
+        "nmID": 2339234903,
+        "stock": 40,
+        "subject": "Фильтры масляные",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              1
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "tool-dq200-acc-restore",
+        "nmID": 2340040049,
+        "stock": 3,
+        "subject": "Другие автоинструменты",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              2
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      },
+      {
+        "sku": "tool-dsg-pressure-hp",
+        "nmID": 2340040122,
+        "stock": 3,
+        "subject": "Другие автоинструменты",
+        "issues": [
+          {
+            "code": "document_missing",
+            "documentTypes": [
+              2
+            ]
+          }
+        ],
+        "excludeDocuments": false,
+        "status": "BLOCKED_DOCUMENTS",
+        "note": "Document issue, not proof of sales block. Verify actual requirement per item; no exemption or guessed code."
+      }
+    ],
+    "design": [
+      {
+        "sku": "solenoid-02e-0b5-bolshoy",
+        "nmID": 1722881122,
+        "title": "Восстановленный соленоид 02E 0B5 DQ250 DQ500, большой",
+        "priority": "P0",
+        "existing_photos": 0,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 5,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025u",
+        "nmID": 670860803,
+        "title": "Усиленный шток DSG7 DQ200 101 мм 0AM325091E + втулка",
+        "priority": "P1",
+        "existing_photos": 1,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 129,
+        "sales_90d": 8,
+        "returns_90d": 0,
+        "net_forPay_90d": 17510.15,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "plita-pylniki-salniki",
+        "nmID": 1605381170,
+        "title": "Гидроплита DQ200 + 2 пыльника + 2 сальника",
+        "priority": "P1",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 13,
+        "sales_90d": 3,
+        "returns_90d": 0,
+        "net_forPay_90d": 9142.08,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM325219C",
+        "nmID": 670925525,
+        "title": "Оригинальная крышка мехатроника VAG DSG7 DQ200 0AM325219C",
+        "priority": "P1",
+        "existing_photos": 1,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 19,
+        "sales_90d": 5,
+        "returns_90d": 1,
+        "net_forPay_90d": 6731.98,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025ae",
+        "nmID": 670925563,
+        "title": "Крышка мехатроника с усиленной прокладкой DSG7 DQ200",
+        "priority": "P1",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 19,
+        "sales_90d": 2,
+        "returns_90d": 0,
+        "net_forPay_90d": 6031.7,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "02E 305 045",
+        "nmID": 837943386,
+        "title": "Корпус с масляным фильтром DSG6 DQ250 02E305045",
+        "priority": "P1",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 21,
+        "sales_90d": 4,
+        "returns_90d": 0,
+        "net_forPay_90d": 5046.45,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025D",
+        "nmID": 670854215,
+        "title": "Втулка (гильза) штока мехатроника DSG7 DQ200",
+        "priority": "P1",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 129,
+        "sales_90d": 2,
+        "returns_90d": 0,
+        "net_forPay_90d": 3365.5,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "02E305045E",
+        "nmID": 836194897,
+        "title": "Корпус фильтра DSG6 DQ250 02E305045",
+        "priority": "P1",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 21,
+        "sales_90d": 3,
+        "returns_90d": 0,
+        "net_forPay_90d": 2774.94,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025f",
+        "nmID": 670860368,
+        "title": "Комплект болтов мехатроника DSG7 DQ200, 7 шт",
+        "priority": "P1",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 30,
+        "sales_90d": 2,
+        "returns_90d": 1,
+        "net_forPay_90d": 2637.32,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "kryshka-mehatronika-dq200",
+        "nmID": 1722880947,
+        "title": "Крышка мехатроника DSG7 DQ200 0AM 0CW",
+        "priority": "P1",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 19,
+        "sales_90d": 2,
+        "returns_90d": 0,
+        "net_forPay_90d": 2421.81,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM325433E",
+        "nmID": 670855815,
+        "title": "Фильтр мехатроника DSG7 DQ200 0AM325433E",
+        "priority": "P1",
+        "existing_photos": 1,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 155,
+        "sales_90d": 2,
+        "returns_90d": 0,
+        "net_forPay_90d": 1842.8,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025С",
+        "nmID": 670860816,
+        "title": "Кольцо гидроаккумулятора мехатроника DSG7 DQ200",
+        "priority": "P1",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 107,
+        "sales_90d": 2,
+        "returns_90d": 0,
+        "net_forPay_90d": 1332.8,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "separatornaya-plastina-dq200",
+        "nmID": 1722879969,
+        "title": "Сепараторная пластина мехатроника DSG7 DQ200",
+        "priority": "P1",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 75,
+        "sales_90d": 5,
+        "returns_90d": 0,
+        "net_forPay_90d": 1282.5,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "filtr-dsg7-dq200",
+        "nmID": 1722880585,
+        "title": "Масляный фильтр мехатроника DSG7 DQ200 0AM 0CW",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 8,
+        "sales_90d": 1,
+        "returns_90d": 0,
+        "net_forPay_90d": 676.2,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM325120A",
+        "nmID": 670869831,
+        "title": "Транспортная заглушка мехатроника DSG7 DQ200 0AM325120A",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 107,
+        "sales_90d": 1,
+        "returns_90d": 0,
+        "net_forPay_90d": 455.62,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM325413A",
+        "nmID": 670862903,
+        "title": "Сальник толкателя вилки мехатроника DSG7 DQ200 0AM325413A",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 195,
+        "sales_90d": 1,
+        "returns_90d": 0,
+        "net_forPay_90d": 432,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025q",
+        "nmID": 670854223,
+        "title": "Крышка штока мехатроника DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 247,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325091e",
+        "nmID": 670925587,
+        "title": "Усиленный шток мехатроника DSG7 DQ200 101мм 0AM325091E",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 223,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "01X301127C",
+        "nmID": 670860387,
+        "title": "Болт мехатроника короткий DSG7 DQ200 0AM 0CW 01X301127C",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 194,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325091f",
+        "nmID": 670925476,
+        "title": "Усиленный шток мехатроника DSG7 DQ200 99мм 0AM325091F",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 171,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0cw325025h",
+        "nmID": 1949835790,
+        "title": "Прокладка электронной платы DSG7 DQ200 0AM927769N",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 148,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "salniki-shtokov-2sht",
+        "nmID": 1949864852,
+        "title": "Сальники штоков мехатроника DSG7 DQ200, комплект 2 шт",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 129,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM301212A",
+        "nmID": 670854126,
+        "title": "Заглушка корпуса КПП мехатроника DSG7 DQ200 0AM301212A",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 107,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "Dq200dsg70am0cw",
+        "nmID": 1949840379,
+        "title": "Ремкомплект прокладок DQ200 с сальниками и пыльниками VAG",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 100,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "122390AKAF",
+        "nmID": 711529108,
+        "title": "Оригинальный пыльник штока мехатроника DSG7 DQ200 122390AKAF",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 100,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025P",
+        "nmID": 670861565,
+        "title": "Клипса штока мехатроника DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 80,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "02E305051C",
+        "nmID": 670858041,
+        "title": "Фильтр мехатроника DSG6 DQ250 02E305051C",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 75,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "plastina-solenoid-dq200",
+        "nmID": 1722879911,
+        "title": "Пластина на соленоиды мехатроника DSG7 DQ200, 1 шт",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 74,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "filtr-dsg7-dq500",
+        "nmID": 1722879965,
+        "title": "Масляный фильтр мехатроника DSG7 DQ500 0BH325183B",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 65,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325091e-set",
+        "nmID": 1949826486,
+        "title": "2 усиленных штока 101 мм 0AM325091E + 2 втулки DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 64,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "vtulki-shtokov-2sht",
+        "nmID": 1949877502,
+        "title": "Втулки (гильзы) штоков мехатроника DSG7 DQ200, комплект 2 шт",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 64,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325091f-set",
+        "nmID": 1949828986,
+        "title": "2 усиленных штока 99 мм 0AM325091F + 2 втулки DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 64,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325477ae",
+        "nmID": 1949830958,
+        "title": "Пластина соленоидов мехатроника DSG7 DQ200 0AM325477AE VAG",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 54,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "salniki-shtokov-orig",
+        "nmID": 1949865046,
+        "title": "Оригинальные сальники штоков VAG, 2 шт, DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 51,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0BH325183BB",
+        "nmID": 711572626,
+        "title": "Корпус фильтра DQ500 DSG7 0BH325183B",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 50,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "pylniki-shtokov-orig",
+        "nmID": 1949859036,
+        "title": "Оригинальные пыльники штоков VAG, 2 шт, DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 50,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "remkomplekt-shtokov-orig",
+        "nmID": 1949668977,
+        "title": "Ремкомплект уплотнений двух штоков DSG7 DQ200 VAG, 6 деталей",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 50,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "prokladka-vtulki-verh-dq200",
+        "nmID": 1722881268,
+        "title": "Зеленое кольцо-прокладка втулки мехатроника DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 49,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "prokladka-vtulki-niz-dq200",
+        "nmID": 1722881454,
+        "title": "Черное кольцо-прокладка втулки мехатроника DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 49,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "prokladka-vtulki-dq200",
+        "nmID": 1723142564,
+        "title": "2 кольца-прокладки на 1 втулку мехатроника DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 47,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0cw0amdsgdq200",
+        "nmID": 1949833936,
+        "title": "Уплотнение электромотора гидроблока мехатроника DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 45,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "Dq200dsg7",
+        "nmID": 1949839095,
+        "title": "Уплотнение насоса гидроблока мехатроника DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 43,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "klipsy-shtokov-2sht",
+        "nmID": 1949844548,
+        "title": "Клипсы штоков мехатроника DSG7 DQ200, комплект 2 шт",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 40,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "plastiny-solenoid-dq200-2sht",
+        "nmID": 1722879954,
+        "title": "Пластины на соленоиды мехатроника DSG7 DQ200, комплект 2 шт",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 37,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "separatornaya-plastiny-solenoid-dq200",
+        "nmID": 1722879991,
+        "title": "Сепараторная пластина и 2 пластины соленоидов DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 37,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "gidroakkumulyator-orig",
+        "nmID": 1949842970,
+        "title": "Восстановленный гидроаккумулятор мехатроника DSG7 DQ200 VAG",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 28,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025j",
+        "nmID": 670862709,
+        "title": "пластины на соленоиды мехатроника DSG7 DQ200, оригинал VAG",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 27,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "plastiny-solenoid-orig",
+        "nmID": 1949665228,
+        "title": "Пластины на соленоиды VAG DSG7 DQ200, 2 шт",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 27,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM325091E / 0AM325091F",
+        "nmID": 711488868,
+        "title": "Сальник штока DSG7 DQ200 0AM 0CW оригинал Volkswagen",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 25,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025n",
+        "nmID": 670854144,
+        "title": "Соленоид переключения (Shift) мехатроника DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 25,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "123014‑AF",
+        "nmID": 672031715,
+        "title": "Фильтр-сетка соленоидов DSG7 0B5 DL501 123014AF 0B5325421",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 24,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "6t30-solenoids-gen2",
+        "nmID": 2338952761,
+        "title": "Соленоиды АКПП 6T30 6T40 6T45 6T50 Gen2, 7 шт",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 20,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "salnikvihod",
+        "nmID": 1949871894,
+        "title": "Сальник выходного вала DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 20,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "salnikprivod-r",
+        "nmID": 1949869404,
+        "title": "Сальник привода правый DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 20,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "salnikprivod-l",
+        "nmID": 1949868491,
+        "title": "Сальник привода левый DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 20,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "prokladka-kryshki-dq200",
+        "nmID": 1722881195,
+        "title": "Прокладка крышки мехатроника DSG7 DQ200 0AM 0CW",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 20,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "6t30",
+        "nmID": 2254117475,
+        "title": "Соленоиды АКПП 6T30 6T40 6T45 6T50, 1 поколение, 6 шт",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 19,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "tolkateli-salniki-alum-komplekt",
+        "nmID": 1949876400,
+        "title": "Комплект DQ200: 4 толкателя и 8 сальников",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 19,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "tolkateli-4-salniki-4",
+        "nmID": 1949874540,
+        "title": "Толкатели вилок DSG7 DQ200, 4 шт + 4 сальника",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 19,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "55565480",
+        "nmID": 670860836,
+        "title": "Импульсное кольцо распредвала GM для Opel и Chevrolet",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 13,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "plita-filtr-orig",
+        "nmID": 1605380704,
+        "title": "Гидроплита DSG7 DQ200 + улучшенный фильтр",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 13,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "plita-pylniki-salniki-orig",
+        "nmID": 1949666878,
+        "title": "Гидроплита DQ200 + 2 пыльника и 2 сальника VAG",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 13,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "porshni-usil-pylniki-kryshki",
+        "nmID": 1949858294,
+        "title": "Ремкомплект DQ200: 2 поршня, 2 пыльника, 2 крышки",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 13,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325477",
+        "nmID": 711557492,
+        "title": "Планка соленоидов мехатроника DSG7 DQ200, 1 шт",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 11,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM325473",
+        "nmID": 670869819,
+        "title": "Соленоиды мехатроника DSG7 DQ200 Hiltie 0AM325473, 4 шт.",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 10,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "plita-filtr-pylniki-orig",
+        "nmID": 1949853941,
+        "title": "Гидроплита DSG7 DQ200 + фильтр + 2 пыльника VAG",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 8,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "plita-filtr-pylniki",
+        "nmID": 1949851228,
+        "title": "Гидроплита DSG7 DQ200 + фильтр + 2 пыльника",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 8,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "plita-filtr",
+        "nmID": 1949850135,
+        "title": "Гидроплита мехатроника DSG7 DQ200 + фильтр",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 8,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "plita-filtr-salniki-orig",
+        "nmID": 1949856124,
+        "title": "Гидроплита DSG7 DQ200 + фильтр + 2 сальника VAG",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 8,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "plita-filtr-pylniki-sal",
+        "nmID": 1949853731,
+        "title": "Гидроплита DQ200 + фильтр + пыльники и сальники",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 8,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "planka-solenoid-2sht",
+        "nmID": 1949846020,
+        "title": "Планки соленоидов мехатроника DSG7 DQ200, комплект 2 шт",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 5,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "6t30-tcm-gen1",
+        "nmID": 2338952880,
+        "title": "Блок АКПП 6T30 6T40 6T45 6T50 с соленоидами Gen1",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 3,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "6t30-tcm-gen2",
+        "nmID": 2338953074,
+        "title": "Блок АКПП 6T30 6T40 6T45 6T50 с соленоидами Gen2",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 3,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "tool-dq200-acc-restore",
+        "nmID": 2340040049,
+        "title": "Набор восстановления гидроаккумулятора DSG7 DQ200",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 3,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "317053TX0C",
+        "nmID": 711424704,
+        "title": "Гидроблок вариатора JF015E 1.8л (RE0F11A) 317053TX0C",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 3,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "02E927770AL",
+        "nmID": 1949822305,
+        "title": "Мехатроник DSG6 DQ250 с электронной платой 02E927770AL",
+        "priority": "P2",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 2,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "chip-0am927769d",
+        "nmID": 2238877298,
+        "title": "Чип электронной платы мехатроника DSG7 DQ200 0AM927769D",
+        "priority": "P3",
+        "existing_photos": 4,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 9,
+        "sales_90d": 1,
+        "returns_90d": 0,
+        "net_forPay_90d": 13162.5,
+        "existing_designer_task_refs": [
+          {
+            "id": "C-95394623FF",
+            "platform": "общий",
+            "slide": 1,
+            "status": "assigned"
+          },
+          {
+            "id": "C-EBAE3D23CA",
+            "platform": "общий",
+            "slide": 2,
+            "status": "assigned"
+          },
+          {
+            "id": "C-F9194FE72D",
+            "platform": "Avito",
+            "slide": 1,
+            "status": "assigned"
+          }
+        ],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025z",
+        "nmID": 670925480,
+        "title": "Усиленный шток DSG7 DQ200 99 мм 0AM325091F + втулка",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 129,
+        "sales_90d": 4,
+        "returns_90d": 0,
+        "net_forPay_90d": 8797.95,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM325587E",
+        "nmID": 670911962,
+        "title": "Гидроаккумулятор мехатроника DSG7 DQ200 Оригинал 0AM325587E",
+        "priority": "P3",
+        "existing_photos": 5,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 52,
+        "sales_90d": 1,
+        "returns_90d": 0,
+        "net_forPay_90d": 6723.36,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "122390AK-AF",
+        "nmID": 670925538,
+        "title": "Пыльник штока мехатроника DSG7 DQ200 122390AK-AF",
+        "priority": "P3",
+        "existing_photos": 5,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 116,
+        "sales_90d": 6,
+        "returns_90d": 0,
+        "net_forPay_90d": 4008.14,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "DQ500",
+        "nmID": 837952965,
+        "title": "Корпус с масляным фильтром DSG7 DQ500, комплект",
+        "priority": "P3",
+        "existing_photos": 4,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 61,
+        "sales_90d": 2,
+        "returns_90d": 0,
+        "net_forPay_90d": 1804.46,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025l",
+        "nmID": 670860204,
+        "title": "Поршень (толкатель) вилки мехатроника DSG7 DQ200",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 79,
+        "sales_90d": 1,
+        "returns_90d": 0,
+        "net_forPay_90d": 848,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325066ad",
+        "nmID": 670855859,
+        "title": "Сальник-манжета штока сцепления DSG7 DQ200 0AM325066AD",
+        "priority": "P3",
+        "existing_photos": 2,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 259,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM927769N",
+        "nmID": 1949822182,
+        "title": "Прокладки электронной платы DSG7 DQ200 0AM927769N",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 172,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025r",
+        "nmID": 670869838,
+        "title": "Усиленное опорное кольцо толкателя мехатроника DSG7 DQ200",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 129,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "WHT001922",
+        "nmID": 670862930,
+        "title": "Болт мехатроника длинный DSG7 DQ200 0AM 0CW WHT001922",
+        "priority": "P3",
+        "existing_photos": 5,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 121,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "salnik-shtoka-orig",
+        "nmID": 1949861401,
+        "title": "Оригинальный сальник штока VAG, 1 шт, DSG7 DQ200",
+        "priority": "P3",
+        "existing_photos": 2,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 103,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0сц",
+        "nmID": 1949838891,
+        "title": "Оригинальный сальник штока мехатроника DSG7 DQ200 Volkswagen",
+        "priority": "P3",
+        "existing_photos": 4,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 103,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "dq500-korpus-gladkiy",
+        "nmID": 2338475459,
+        "title": "Корпус масляного фильтра DSG7 DQ500 гладкий",
+        "priority": "P3",
+        "existing_photos": 4,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 61,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025G",
+        "nmID": 670858166,
+        "title": "Ремкомплект 2 штоков DQ200: сальники, пыльники, крышки",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 58,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025hfe",
+        "nmID": 670925490,
+        "title": "Ремкомплект уплотнений 2 штоков DSG7 DQ200, 6 деталей",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 58,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "salniki-tolkatelya-4sht",
+        "nmID": 1949866403,
+        "title": "Полный комплект сальников толкателей вилок DSG7 DQ200 4 шт",
+        "priority": "P3",
+        "existing_photos": 2,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 48,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "filtr-setka-0b5-orig",
+        "nmID": 1949842440,
+        "title": "Оригинальная фильтр-сетка на соленоиды DSG7 0B5 DL501",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 47,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "EA888gen3-filter-kit",
+        "nmID": 2339234903,
+        "title": "EA888 Gen3 комплект масляного фильтра с корпусом и клапаном",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 40,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM325467J",
+        "nmID": 670854239,
+        "title": "Оригинальная сепараторная пластина VAG DSG7 DQ200 0AM325467J",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 32,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "salnik-tolkatelya-alum",
+        "nmID": 1949862439,
+        "title": "Алюминиевые сальники толкателей DSG7 DQ200, 4 шт",
+        "priority": "P3",
+        "existing_photos": 2,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 32,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "stalnaya-vstavka-plity",
+        "nmID": 1949873376,
+        "title": "Стальная вставка гидроплиты DSG7 DQ200 0AM 0CW, 1 шт",
+        "priority": "P3",
+        "existing_photos": 2,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 30,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325066AC",
+        "nmID": 670862819,
+        "title": "Усиленный поршень штока мехатроника DSG7 DQ200 0AM325066AC",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 26,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "02e305045",
+        "nmID": 670914369,
+        "title": "Корпус масляного фильтра мехатроника DSG6 DQ250 02E305045",
+        "priority": "P3",
+        "existing_photos": 2,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 21,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "salnikvhod",
+        "nmID": 1949870656,
+        "title": "Сальник входного вала DSG7 DQ200",
+        "priority": "P3",
+        "existing_photos": 2,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 20,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "klipsa-datchika-peredach-dq200",
+        "nmID": 2239732435,
+        "title": "Клипса датчика положения передач мехатроника DSG7 DQ200",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 20,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "kryshka-platy-dq200",
+        "nmID": 2239732586,
+        "title": "Металлическая крышка электронной платы DSG7 DQ200",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 19,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325066ae",
+        "nmID": 670925467,
+        "title": "Усиленная гидроплита мехатроника DSG7 DQ200 0AM325066AE",
+        "priority": "P3",
+        "existing_photos": 2,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 13,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "plita-filtr-pylniki-sal-orig",
+        "nmID": 1605380809,
+        "title": "Гидроплита DQ200 + фильтр + пыльники и сальники VAG",
+        "priority": "P3",
+        "existing_photos": 2,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 13,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM325025B",
+        "nmID": 670925505,
+        "title": "Соленоид регулятор давления DSG7 DQ200",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 11,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "osnovanie-platy-dq200",
+        "nmID": 2239502123,
+        "title": "Основание платы мехатроника DQ200 для 0AM927769D/G/K",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 10,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [
+          {
+            "id": "C-0E9E5F9B8F",
+            "platform": "Avito",
+            "slide": 1,
+            "status": "assigned"
+          },
+          {
+            "id": "C-931CA2EC53",
+            "platform": "общий",
+            "slide": 3,
+            "status": "assigned"
+          },
+          {
+            "id": "C-CEBCBA6985",
+            "platform": "общий",
+            "slide": 4,
+            "status": "assigned"
+          }
+        ],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025HX",
+        "nmID": 1007465575,
+        "title": "Мехатроник DSG7 DQ200 с электронной платой 0AM927769D",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 9,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM927769D-plata",
+        "nmID": 1922846685,
+        "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769D",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 7,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "kolodka-solenoidov-dq200",
+        "nmID": 2239544545,
+        "title": "Колодка разъёмов соленоидов DQ200 для плат 0AM927769D/G/K",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 6,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [
+          {
+            "id": "C-DDE8316272",
+            "platform": "Avito",
+            "slide": 1,
+            "status": "assigned"
+          }
+        ],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM927769G",
+        "nmID": 2253859290,
+        "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769G",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 5,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM927769K",
+        "nmID": 2253503880,
+        "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769K",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 5,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [
+          {
+            "id": "C-76EE9C7B3F",
+            "platform": "Ozon",
+            "slide": 1,
+            "status": "submitted"
+          }
+        ],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM927769E",
+        "nmID": 2253504487,
+        "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769E",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 5,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "shleif-platy-dq200",
+        "nmID": 2239502468,
+        "title": "Шлейф платы мехатроника DSG7 DQ200 для 0AM927769E/N/P",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 5,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "datchik-scepleniya-dq200",
+        "nmID": 2239502134,
+        "title": "Датчик сцепления DSG7 DQ200 для плат 0AM927769D/G/K",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 5,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [
+          {
+            "id": "C-A3FB63ACE9",
+            "platform": "общий",
+            "slide": 4,
+            "status": "assigned"
+          },
+          {
+            "id": "C-D042FB752F",
+            "platform": "Avito",
+            "slide": 1,
+            "status": "assigned"
+          }
+        ],
+        "publish_allowed": false
+      },
+      {
+        "sku": "datchik-peredach-dq200",
+        "nmID": 2239502207,
+        "title": "Датчик положения передач DQ200 для плат 0AM927769D/G/K",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 5,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [
+          {
+            "id": "C-8CBB13F6D6",
+            "platform": "общий",
+            "slide": 4,
+            "status": "assigned"
+          },
+          {
+            "id": "C-CD1CEE0937",
+            "platform": "Avito",
+            "slide": 1,
+            "status": "assigned"
+          }
+        ],
+        "publish_allowed": false
+      },
+      {
+        "sku": "derzhatel-datchikov-dq200",
+        "nmID": 2239502050,
+        "title": "Держатель датчиков DQ200 для плат 0AM927769D/G/K",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 5,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "fpc-shleif-dq200",
+        "nmID": 2239732711,
+        "title": "FPC-шлейф электронной платы DQ200 для 0AM927769D/G/K",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 5,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025HXK",
+        "nmID": 2253503994,
+        "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769K",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 5,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025HXG",
+        "nmID": 2253859375,
+        "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769G",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 5,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025HXE",
+        "nmID": 2253504623,
+        "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769E",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 5,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "tool-dsg-pressure-hp",
+        "nmID": 2340040122,
+        "title": "Набор проверки давления DSG",
+        "priority": "P3",
+        "existing_photos": 2,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 3,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM927769F",
+        "nmID": 2007897775,
+        "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769F",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 3,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025HXF",
+        "nmID": 2007899207,
+        "title": "Мехатроник DSG7 DQ200 с электронной платой 0AM927769F",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 3,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "chip-02e927770",
+        "nmID": 2239283169,
+        "title": "Чип электронной платы мехатроника 02E927770AL/AM/AT",
+        "priority": "P3",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 2,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [
+          {
+            "id": "C-4F0E167656",
+            "platform": "Avito",
+            "slide": 1,
+            "status": "assigned"
+          }
+        ],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am3250066AE",
+        "nmID": 711549088,
+        "title": "Ремкомплект мехатроник DQ200 DSG7+оригинал пыльник сальник W",
+        "priority": "P4",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 0,
+        "sales_90d": 2,
+        "returns_90d": 1,
+        "net_forPay_90d": 9770.8,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025HC",
+        "nmID": 711552729,
+        "title": "Ремкомплект мехатроник DSG7 DQ200+пыльник сальник Оригинал",
+        "priority": "P4",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 0,
+        "sales_90d": 1,
+        "returns_90d": 0,
+        "net_forPay_90d": 6333.6,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0AM927769D",
+        "nmID": 670860344,
+        "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769D",
+        "priority": "P4",
+        "existing_photos": 3,
+        "missing_video": false,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 0,
+        "sales_90d": 1,
+        "returns_90d": 0,
+        "net_forPay_90d": 1695.37,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0cw0am",
+        "nmID": 1949483512,
+        "title": "Прокладка электронной платы мехатроника DSG7 DQ200",
+        "priority": "P4",
+        "existing_photos": 2,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 0,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025ze",
+        "nmID": 716791826,
+        "title": "Мехатроник DQ200 DSG7 0AM Новые соленоиды Bosch",
+        "priority": "P4",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 0,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "31705-1XF1A",
+        "nmID": 711439292,
+        "title": "Гидроблок JF011E Старое поколение Nissan Mitsubishi Renault",
+        "priority": "P4",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 0,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "korpus-filtra-0bh325159",
+        "nmID": 1988502364,
+        "title": "Корпус масляного фильтра мехатроника DSG7 DQ500 0BH325159",
+        "priority": "P4",
+        "existing_photos": 2,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 0,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "jf011e",
+        "nmID": 670858043,
+        "title": "Комплект подшипников вариатора JF011E RE0F10A 4 шт оригинал",
+        "priority": "P4",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 0,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "31705-X428B",
+        "nmID": 711385750,
+        "title": "Гидроблок вариатора JF015E 1.6л (RE0F11A) новый, 31705-X428B",
+        "priority": "P4",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 0,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "31705-1XF0C",
+        "nmID": 711450909,
+        "title": "Гидроблок вариатора JF011E (RE0F10A), 2 датчика, 31705-1XF0C",
+        "priority": "P4",
+        "existing_photos": 1,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 0,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0cw0am325025",
+        "nmID": 1949832316,
+        "title": "Ремкомплект мехатроника DSG7 DQ200",
+        "priority": "P4",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 0,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0BH325183",
+        "nmID": 672031724,
+        "title": "Корпус фильтра ребристый мехатроника DSG7 DQ500 0BH325183B",
+        "priority": "P4",
+        "existing_photos": 2,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 0,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0BH325183B",
+        "nmID": 670925512,
+        "title": "Корпус фильтра DQ500 DSG7 0BH325183B",
+        "priority": "P4",
+        "existing_photos": 3,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 0,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0BH325183 B",
+        "nmID": 672031719,
+        "title": "Корпус фильтра ребристый мехатроника DSG7 DQ500 0BH325183B",
+        "priority": "P4",
+        "existing_photos": 2,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 0,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      },
+      {
+        "sku": "0am325025x",
+        "nmID": 1949823890,
+        "title": "Мехатроник DSG7 DQ200 без платы, с новыми соленоидами Bosch",
+        "priority": "P4",
+        "existing_photos": 2,
+        "missing_video": true,
+        "status": "DESIGN_REQUIRED",
+        "brief": "Подготовить недостающие реальные ракурсы, маркировку и комплектацию именно этого артикула; сохранить текущую обложку, состояние, количество и конструкцию. Видео при отсутствии: короткий ролик с реальной деталью. Проверить миниатюру; не публиковать без проверки.",
+        "stock": 0,
+        "sales_90d": 0,
+        "returns_90d": 0,
+        "net_forPay_90d": 0,
+        "existing_designer_task_refs": [],
+        "publish_allowed": false
+      }
+    ],
+    "master_unmatched": [
+      "0BH325",
+      "0ambset",
+      "Dq500",
+      "EA888",
+      "EA888gen3",
+      "Ea888gen3",
+      "plita-filtr-v2",
+      "plita-pylniki-salniki-orig-v2",
+      "podshipnik-vilki-6",
+      "porshni-usil-pylniki-kryshki-v2",
+      "pylniki-shtokov-orig-v2",
+      "remkomplekt-shtokov-orig-v2",
+      "salnik-shtoka-orig-v2",
+      "vint-kollektora-ea888",
+      "nakladki-pedali"
+    ],
+    "unmapped_wb": [
+      "dq500-korpus-gladkiy"
+    ],
+    "groups": {
+      "685713046": [
+        670860344,
+        2253859290,
+        2253503880,
+        2007897775,
+        2253504487
+      ],
+      "1878720491": [
+        2253503994,
+        2253859375,
+        2007899207,
+        2253504623,
+        1007465575
+      ]
+    }
+  },
+  "sales_90d": [
+    {
+      "sku": "0am325025Y",
+      "sales": 1,
+      "returns": 0,
+      "net_forPay": 38025
+    },
+    {
+      "sku": "0am325025u",
+      "sales": 8,
+      "returns": 0,
+      "net_forPay": 17510.15
+    },
+    {
+      "sku": "0am325025",
+      "sales": 2,
+      "returns": 0,
+      "net_forPay": 16939.09
+    },
+    {
+      "sku": "chip-0am927769d",
+      "sales": 1,
+      "returns": 0,
+      "net_forPay": 13162.5
+    },
+    {
+      "sku": "0am3250066AE",
+      "sales": 2,
+      "returns": 1,
+      "net_forPay": 9770.8
+    },
+    {
+      "sku": "plita-pylniki-salniki",
+      "sales": 3,
+      "returns": 0,
+      "net_forPay": 9142.08
+    },
+    {
+      "sku": "0am325025z",
+      "sales": 4,
+      "returns": 0,
+      "net_forPay": 8797.95
+    },
+    {
+      "sku": "0AM325219C",
+      "sales": 5,
+      "returns": 1,
+      "net_forPay": 6731.98
+    },
+    {
+      "sku": "0AM325587E",
+      "sales": 1,
+      "returns": 0,
+      "net_forPay": 6723.36
+    },
+    {
+      "sku": "0am325025HC",
+      "sales": 1,
+      "returns": 0,
+      "net_forPay": 6333.6
+    },
+    {
+      "sku": "0am325025ae",
+      "sales": 2,
+      "returns": 0,
+      "net_forPay": 6031.7
+    },
+    {
+      "sku": "0am325025m",
+      "sales": 1,
+      "returns": 0,
+      "net_forPay": 5826.36
+    },
+    {
+      "sku": "02E 305 045",
+      "sales": 4,
+      "returns": 0,
+      "net_forPay": 5046.45
+    },
+    {
+      "sku": "122390AK-AF",
+      "sales": 6,
+      "returns": 0,
+      "net_forPay": 4008.14
+    },
+    {
+      "sku": "0am325025D",
+      "sales": 2,
+      "returns": 0,
+      "net_forPay": 3365.5
+    },
+    {
+      "sku": "02E305045E",
+      "sales": 3,
+      "returns": 0,
+      "net_forPay": 2774.94
+    },
+    {
+      "sku": "0am325025f",
+      "sales": 2,
+      "returns": 1,
+      "net_forPay": 2637.32
+    },
+    {
+      "sku": "kryshka-mehatronika-dq200",
+      "sales": 2,
+      "returns": 0,
+      "net_forPay": 2421.81
+    },
+    {
+      "sku": "0AM325443D",
+      "sales": 3,
+      "returns": 1,
+      "net_forPay": 2013.9
+    },
+    {
+      "sku": "0AM325433E",
+      "sales": 2,
+      "returns": 0,
+      "net_forPay": 1842.8
+    },
+    {
+      "sku": "DQ500",
+      "sales": 2,
+      "returns": 0,
+      "net_forPay": 1804.46
+    },
+    {
+      "sku": "0AM927769D",
+      "sales": 1,
+      "returns": 0,
+      "net_forPay": 1695.37
+    },
+    {
+      "sku": "0am325025С",
+      "sales": 2,
+      "returns": 0,
+      "net_forPay": 1332.8
+    },
+    {
+      "sku": "separatornaya-plastina-dq200",
+      "sales": 5,
+      "returns": 0,
+      "net_forPay": 1282.5
+    },
+    {
+      "sku": "0am325025l",
+      "sales": 1,
+      "returns": 0,
+      "net_forPay": 848
+    },
+    {
+      "sku": "filtr-dsg7-dq200",
+      "sales": 1,
+      "returns": 0,
+      "net_forPay": 676.2
+    },
+    {
+      "sku": "0AM325120A",
+      "sales": 1,
+      "returns": 0,
+      "net_forPay": 455.62
+    },
+    {
+      "sku": "0AM325413A",
+      "sales": 1,
+      "returns": 0,
+      "net_forPay": 432
+    }
+  ],
+  "price_anomaly": {
+    "sku": "0AM927769D",
+    "nmID": 670860344,
+    "date": "2026-10-27",
+    "sale_price_before_marketplace_discount": 2475,
+    "forPay": 1695.37,
+    "current_cost": 17500,
+    "decision": "Review historical price and product identity; do not change current price. Current cost is not verified historical COGS."
+  },
+  "limitations": {
+    "analytics": "HTTP 403: no impressions/CTR/search funnel",
+    "finance": "HTTP 403: no reliable complete net profit",
+    "advertising": "HTTP 403",
+    "reviews": "HTTP 403",
+    "public_availability": "Content cards plus FBS inventory does not establish publication or actual storefront availability",
+    "design": "Photo count based queue, not complete visual evaluation",
+    "competitors": "No verified direct comparable WB offers retrieved; do not claim competitor prices"
+  },
+  "marketplace_writes": 0
+}
