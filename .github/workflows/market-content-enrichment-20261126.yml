@@ -7,12 +7,12 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: market-content-enrichment-20261126
+  group: marketplace-agent
   cancel-in-progress: false
 jobs:
   apply:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     env:
       YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
       YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
@@ -109,6 +109,25 @@ jobs:
                   assert all(set(x["offer"])<= {"offerId","name","description"} for x in payload["offerMappings"])
                   batch["payload"]=payload;batch["status"]="submission_started"
                   for k in send:report["rows"][k]["status"]="submission_started"
+                  # Register only this exact batch's Market descriptions before the guarded seller call.
+                  # The existing canonical-description guard is intentionally preserved.
+                  manifest=json.loads(MAN.read_text())
+                  changed=[]
+                  for k in send:
+                      if "description" not in ready[k]:continue
+                      dest=manifest["products"][k]["text"]["market"]
+                      t=p["rows"][k]
+                      if dest.get("description") not in (t["old_description"],t["new_description"]):raise ValueError("Canonical manifest changed since plan: "+k)
+                      if dest["description"]!=t["new_description"]:
+                          dest["description"]=t["new_description"];changed.append(k)
+                  if changed:
+                      MAN.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n")
+                  batch["canonical_registered"]=changed
+                  save()
+                  subprocess.run(["bash",".github/scripts/save_data.sh",str(OUT),str(MAN)],check=True)
+                  manifest_check=json.loads(MAN.read_text())
+                  for k in send:
+                      if "description" in ready[k] and manifest_check["products"][k]["text"]["market"]["description"]!=ready[k]["description"]:raise ValueError("Canonical registration was not retained: "+k)
                   report["external_writes"]+=1;save(True)
                   try:batch["response"]=s.post(f"/v2/businesses/{biz}/offer-mappings/update",payload,retries=1)
                   except Exception as exc:batch["request_error"]=str(exc)[:400]
