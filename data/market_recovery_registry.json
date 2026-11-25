@@ -2924,7 +2924,7 @@
           "unitId": 6145205
         }
       ],
-      "status": "ACCEPTED",
+      "status": "PENDING_MODERATION",
       "started_utc": "2026-11-25T18:17:37.038790+00:00",
       "allow_parameters": [
         14805583
@@ -3073,6 +3073,12 @@
       "source": "Exact matching approved and live kit descriptions; actual distinguishing count, not invented",
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "exact": true,
+        "group_member_drift": {},
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     },
     "attributes|separatornaya-plastiny-solenoid-dq200|6162fc4a64f5bfb09f0a": {
@@ -3085,7 +3091,7 @@
           "unitId": 6145205
         }
       ],
-      "status": "ACCEPTED",
+      "status": "PENDING_MODERATION",
       "started_utc": "2026-11-25T18:17:37.039318+00:00",
       "allow_parameters": [
         14805583
@@ -3234,6 +3240,12 @@
       "source": "Exact matching approved and live kit descriptions; actual distinguishing count, not invented",
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "exact": true,
+        "group_member_drift": {},
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     }
   },
@@ -3415,7 +3427,7 @@
     },
     "target_saved": true
   },
-  "updated_utc": "2026-11-25T18:17:39.120000+00:00",
+  "updated_utc": "2026-11-25T18:17:46.209232+00:00",
   "fresh_media_inventory": {
     "checked_utc": "2026-11-25T18:17:15.275692+00:00",
     "eligible_market_cards": 68,
