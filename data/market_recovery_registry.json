@@ -5486,7 +5486,7 @@
       "kind": "group",
       "sku": "0am325025HXE",
       "target": "LEOPARTS 0am325025HXE",
-      "status": "ACCEPTED",
+      "status": "PENDING_MODERATION",
       "started_utc": "2026-11-25T18:21:55.605535+00:00",
       "old_group": "dq200 mechatronic assemblies",
       "reviews": {
@@ -6539,6 +6539,23 @@
       },
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "exact": true,
+        "protected_diff": {},
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "DISABLED_AUTOMATICALLY",
+        "group_after": "LEOPARTS 0am325025HXE",
+        "warnings": [
+          {
+            "message": "Дубль варианта",
+            "comment": "Хотя бы один отличительный признак должен быть уникальным, иначе не опубликуем товар в этой группе"
+          },
+          {
+            "message": "Дубль варианта",
+            "comment": "Хотя бы один отличительный признак должен быть уникальным, иначе не опубликуем товар в этой группе"
+          }
+        ]
       }
     }
   },
@@ -6720,7 +6737,7 @@
     },
     "target_saved": true
   },
-  "updated_utc": "2026-11-25T18:22:01.487759+00:00",
+  "updated_utc": "2026-11-25T18:22:50.485305+00:00",
   "fresh_media_inventory": {
     "checked_utc": "2026-11-25T18:17:15.275692+00:00",
     "eligible_market_cards": 68,
