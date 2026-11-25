@@ -145,7 +145,7 @@
     },
     {
       "sku": "0AM325413A",
-      "status": "ACCEPTED",
+      "status": "PENDING_MODERATION",
       "target": [
         {
           "parameterId": 7351754,
@@ -154,11 +154,17 @@
       ],
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "protected_unchanged": true,
+        "exact": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     },
     {
       "sku": "0am325477ae",
-      "status": "ACCEPTED",
+      "status": "PENDING_MODERATION",
       "target": [
         {
           "parameterId": 14805583,
@@ -168,11 +174,17 @@
       ],
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "protected_unchanged": true,
+        "exact": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     },
     {
       "sku": "0AM325473",
-      "status": "ACCEPTED",
+      "status": "PROTECTED_DRIFT",
       "target": [
         {
           "parameterId": 7351754,
@@ -181,11 +193,17 @@
       ],
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "protected_unchanged": false,
+        "exact": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     },
     {
       "sku": "123014‑AF",
-      "status": "ACCEPTED",
+      "status": "PENDING_MODERATION",
       "target": [
         {
           "parameterId": 14805583,
@@ -195,11 +213,17 @@
       ],
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "protected_unchanged": true,
+        "exact": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     },
     {
       "sku": "filtr-setka-0b5-orig",
-      "status": "ACCEPTED",
+      "status": "PENDING_MODERATION",
       "target": [
         {
           "parameterId": 7351754,
@@ -213,11 +237,17 @@
       ],
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "protected_unchanged": true,
+        "exact": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     },
     {
       "sku": "plastiny-solenoid-orig",
-      "status": "ACCEPTED",
+      "status": "PENDING_MODERATION",
       "target": [
         {
           "parameterId": 7351754,
@@ -226,6 +256,12 @@
       ],
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "protected_unchanged": true,
+        "exact": true,
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "PUBLISHED"
       }
     }
   ],
@@ -300,7 +336,7 @@
       ]
     },
     "0AM325413A": {
-      "status": "READY",
+      "status": "PENDING_MODERATION",
       "target": [
         {
           "parameterId": 7351754,
@@ -309,7 +345,7 @@
       ]
     },
     "0am325477ae": {
-      "status": "READY",
+      "status": "PENDING_MODERATION",
       "target": [
         {
           "parameterId": 14805583,
@@ -319,7 +355,7 @@
       ]
     },
     "0AM325473": {
-      "status": "READY",
+      "status": "PROTECTED_DRIFT",
       "target": [
         {
           "parameterId": 7351754,
@@ -328,7 +364,7 @@
       ]
     },
     "123014‑AF": {
-      "status": "READY",
+      "status": "PENDING_MODERATION",
       "target": [
         {
           "parameterId": 14805583,
@@ -338,7 +374,7 @@
       ]
     },
     "filtr-setka-0b5-orig": {
-      "status": "READY",
+      "status": "PENDING_MODERATION",
       "target": [
         {
           "parameterId": 7351754,
@@ -352,7 +388,7 @@
       ]
     },
     "plastiny-solenoid-orig": {
-      "status": "READY",
+      "status": "PENDING_MODERATION",
       "target": [
         {
           "parameterId": 7351754,
@@ -411,5 +447,5 @@
     }
   },
   "requests": 3,
-  "updated_utc": "2026-11-25T18:01:30.297089+00:00"
+  "updated_utc": "2026-11-25T18:01:57.785478+00:00"
 }
