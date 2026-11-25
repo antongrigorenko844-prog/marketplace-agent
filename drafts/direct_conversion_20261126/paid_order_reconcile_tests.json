@@ -1,0 +1,30 @@
+{
+  "status": "PASSED_PURE_FUNCTION_SYNTHETIC_TESTS",
+  "count": 15,
+  "tests": [
+    "settled verified source",
+    "identical repeated payment",
+    "conflicting repeated payment",
+    "no payment evidence",
+    "not settled",
+    "fake checkout source",
+    "refund withheld",
+    "wrong amount",
+    "future payment",
+    "prior submission",
+    "no attribution",
+    "older than 21 days",
+    "multiple captures",
+    "cancelled",
+    "clientid fallback"
+  ],
+  "actual_payment_records_used": 0,
+  "external_mutations": 0,
+  "not_tested": [
+    "Provider export adapter",
+    "Live Tilda order join",
+    "Actual attribution linkage",
+    "Metrika goal creation or upload"
+  ],
+  "note": "Function consumes normalized, independently authenticated source data; it does not authenticate a raw webhook. Keep private identifiers and output outside Git."
+}
