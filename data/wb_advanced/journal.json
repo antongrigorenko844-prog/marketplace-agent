@@ -1327,7 +1327,7 @@
           "source": "Exact approved description explicitly names the four car makes for corresponding DQ200 variants; no model or year inference."
         }
       ],
-      "status": "ACCEPTED",
+      "status": "VERIFIED",
       "protected_hash": "87d0f4963d82f4f515bef7595da780dbafd3e82b8b8211531b657bba289c6be6",
       "before": {
         "nmID": 2239732586,
@@ -1445,6 +1445,18 @@
         "error": false,
         "errorText": "",
         "additionalErrors": {}
+      },
+      "readback": {
+        "values": {
+          "16532": [
+            "Volkswagen",
+            "Audi",
+            "Skoda",
+            "SEAT"
+          ]
+        },
+        "protected_same": true,
+        "checked": "2026-11-25T20:09:32.296642+00:00"
       }
     }
   },
