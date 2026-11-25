@@ -4,6 +4,12 @@ on:
     branches: [main]
     paths: ['.github/workflows/direct-performance-audit-20261126.yml']
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "Full commercial snapshot or targeted read-only supplement"
+        type: choice
+        options: [full, supplement]
+        default: full
 permissions:
   contents: write
 concurrency:
@@ -27,8 +33,11 @@ jobs:
           YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
           YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
         run: |
-          python -m py_compile .github/scripts/direct_traffic_quality_20261126.py
-          python -u .github/scripts/direct_traffic_quality_20261126.py
+          python -m py_compile .github/scripts/direct_traffic_quality_20261126.py .github/scripts/direct_targeted_readonly_20261126.py
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.mode }}" = "full" ]; then
+            python -u .github/scripts/direct_traffic_quality_20261126.py
+          fi
+          python -u .github/scripts/direct_targeted_readonly_20261126.py
       - name: Save only this run's analytic evidence
         if: always()
         run: |
