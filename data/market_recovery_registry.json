@@ -7464,7 +7464,7 @@
       "kind": "group",
       "sku": "0am325025HXG",
       "target": "LEOPARTS 0am325025HXG",
-      "status": "ACCEPTED",
+      "status": "UNCONFIRMED",
       "started_utc": "2026-11-25T18:24:26.090744+00:00",
       "old_group": "dq200 mechatronic assemblies",
       "reviews": {
@@ -8169,6 +8169,23 @@
       },
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "exact": false,
+        "protected_diff": {},
+        "card_status": "HAS_CARD_CAN_UPDATE_ERRORS",
+        "campaign_status": "DISABLED_AUTOMATICALLY",
+        "group_after": "DQ200 mechatronic assemblies",
+        "warnings": [
+          {
+            "message": "Дубль варианта",
+            "comment": "Хотя бы один отличительный признак должен быть уникальным, иначе не опубликуем товар в этой группе"
+          },
+          {
+            "message": "Дубль варианта",
+            "comment": "Хотя бы один отличительный признак должен быть уникальным, иначе не опубликуем товар в этой группе"
+          }
+        ]
       }
     }
   },
@@ -8350,7 +8367,7 @@
     },
     "target_saved": true
   },
-  "updated_utc": "2026-11-25T18:24:28.260007+00:00",
+  "updated_utc": "2026-11-25T18:25:15.665871+00:00",
   "fresh_media_inventory": {
     "checked_utc": "2026-11-25T18:17:15.275692+00:00",
     "eligible_market_cards": 68,
