@@ -3004,7 +3004,7 @@
           "source": "Current exact card OEM and approved description both identify 0AM325473; current 0am325025p is an unrelated internal legacy key."
         }
       ],
-      "status": "ACCEPTED",
+      "status": "VERIFIED",
       "protected_hash": "db30e9572f905f81c0922918777c07c3cbb84c5cf9d05da7698f1cce81a1300a",
       "before": {
         "nmID": 670869819,
@@ -3101,6 +3101,15 @@
         "error": false,
         "errorText": "",
         "additionalErrors": {}
+      },
+      "readback": {
+        "values": {
+          "5522881": [
+            "0AM325473"
+          ]
+        },
+        "protected_same": true,
+        "checked": "2026-11-25T20:11:48.137568+00:00"
       }
     }
   },
