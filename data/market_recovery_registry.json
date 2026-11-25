@@ -814,7 +814,7 @@
       "kind": "group",
       "sku": "0AM927769E",
       "target": "LEOPARTS 0AM927769E",
-      "status": "ACCEPTED",
+      "status": "PENDING_MODERATION",
       "started_utc": "2026-11-25T18:09:10.647128+00:00",
       "old_group": "dq200 electronic boards",
       "reviews": {
@@ -1898,6 +1898,23 @@
       },
       "response": {
         "status": "OK"
+      },
+      "checks": {
+        "exact": true,
+        "protected_diff": {},
+        "card_status": "HAS_CARD_CAN_UPDATE_PROCESSING",
+        "campaign_status": "DISABLED_AUTOMATICALLY",
+        "group_after": "LEOPARTS 0AM927769E",
+        "warnings": [
+          {
+            "message": "Дубль варианта",
+            "comment": "Хотя бы один отличительный признак должен быть уникальным, иначе не опубликуем товар в этой группе"
+          },
+          {
+            "message": "Дубль варианта",
+            "comment": "Хотя бы один отличительный признак должен быть уникальным, иначе не опубликуем товар в этой группе"
+          }
+        ]
       }
     }
   },
@@ -2079,6 +2096,6 @@
     },
     "target_saved": true
   },
-  "updated_utc": "2026-11-25T18:09:13.044107+00:00",
+  "updated_utc": "2026-11-25T18:10:00.601110+00:00",
   "group_checks": {}
 }
