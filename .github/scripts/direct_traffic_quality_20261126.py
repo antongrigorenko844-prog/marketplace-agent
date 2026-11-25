@@ -11,6 +11,8 @@ from pathlib import Path
 import direct_performance_deep_20261125 as deep
 import direct_preflight_20261120 as api
 import direct_metrika_read_20261120 as mt
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
+import direct_commercial_evidence as commercial
 
 BASE=Path("data/direct_audit_20261126")
 OLD=Path("data/direct_performance_20261125/semantic_review.json")
@@ -232,6 +234,12 @@ def run():
                 cleaned["truncated"]=isinstance(raw.get("total_rows"),int) and raw["total_rows"]>len(cleaned["rows"])
                 results[name]={"status":"ok","metrics":metrics.split(","),"dimensions":dimensions.split(","),"data":cleaned}
             except Exception as e:results[name]={"status":"error","error":api.scrub(e)}
+        try:
+            params=base|{"dimensions":commercial.DIMENSION,"metrics":",".join(commercial.METRICS),"filters":commercial.FILTER}
+            raw=mt.call("/stat/v1/data",params)
+            summary=commercial.commercial_summary(raw.get("data"),raw.get("total_rows"),raw.get("sampled"),deep.START,deep.TODAY)
+            results["exact_campaign_commercial"]={"status":"ok","data":summary}
+        except Exception as e:results["exact_campaign_commercial"]={"status":"error","error":api.scrub(e)}
         query("all_sources","ym:s:lastTrafficSource","ym:s:visits,ym:s:ecommercePurchases,ym:s:ecommerceRUBConvertedRevenue")
         query("paid_products","ym:s:productID,ym:s:productName","ym:s:productImpressions,ym:s:productBasketsQuantity,ym:s:productPurchasedQuantity",True)
         query("paid_products_name_fallback","ym:s:productName","ym:s:productImpressions,ym:s:productBasketsQuantity,ym:s:productPurchasedQuantity",True)
