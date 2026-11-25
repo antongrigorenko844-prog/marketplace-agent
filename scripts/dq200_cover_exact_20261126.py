@@ -235,9 +235,9 @@ def ozon(url):
             except Exception as e:task_status={'read_error':str(e)[:180]}
         diff=ozon_protection_diff(protected,ozon_protection(before))
         ok=ordered_matches(actual,desired)
-        journal('ozon',status='verified' if ok and not diff else 'gallery_verified_protection_diff' if ok else 'submitted_pending_readback',product_id=before.get('id') or before.get('product_id'),actual_gallery=actual,desired_gallery=desired,before_gallery=old,protected_unchanged=not diff,protection_differences=diff,attribute_order_only=(protected!=ozon_protection(before) and not diff),task_status=task_status,readback_only=True,error=None)
+        journal('ozon',status='verified' if ok and not diff else 'gallery_verified_protection_diff' if ok else 'submitted_pending_readback',product_id=before.get('id') or before.get('product_id'),actual_gallery=actual,desired_gallery=desired,before_gallery=old,protected_unchanged=not diff,protection_differences=diff,attribute_order_only=(protected!=ozon_protection(before) and not diff),model_attribute_before=[x for x in protected.get('attributes',[]) if x.get('id')==9048],model_attribute_after=[x for x in (before.get('attributes') or []) if x.get('id')==9048],task_status=task_status,readback_only=True,error=None)
         save()
-        if ok and not diff:persist_sources('ozon',desired)
+        if ok:persist_sources('ozon',desired)
         return
     old=actual;desired=prepend(old,url);protected=ozon_protection(before)
     if desired!=actual:
@@ -325,12 +325,32 @@ def wb(url):
     if previous:
         desired=previous
         refs=[digest_image(download(u)) for u in desired]
-        if len(old)==len(desired) and all(match(u,im) for u,im in zip(old,refs)):
-            require(bool(before.get('video'))==bool(entry.get('video_source')),'WB video missing on retry')
-            journal('wb',status='verified',actual_gallery=old,video_present=bool(before.get('video')),nmID=WB_ID)
-            save();persist_sources('wb',desired,entry.get('video_source'));return
-        require(old==entry.get('before_gallery'),'WB previous submission not resolved; do not repeat')
-        raise ValueError('Previous WB intent exists; readback not resolved; no blind resubmission')
+        ok=len(old)==len(desired) and all(match(u,im) for u,im in zip(old,refs))
+        original=entry.get('protected')
+        require(isinstance(original,dict),'WB original protected baseline absent')
+        current=protection(before)
+        bp,ap=copy.deepcopy(original),copy.deepcopy(current)
+        bv,av=bp.pop('video',None),ap.pop('video',None)
+        diff={}
+        for k,v in bp.items():
+            a=ap.get(k)
+            if k in ('characteristics','sizes'):
+                if canon_attrs(v)==canon_attrs(a):continue
+                if k=='characteristics' and isinstance(v,list) and isinstance(a,list):
+                    bm={str(x.get('id')):x for x in v}
+                    am={str(x.get('id')):x for x in a}
+                    diff[k]=[i for i in sorted(set(bm)|set(am)) if canon_attrs(bm.get(i))!=canon_attrs(am.get(i))]
+                else:diff[k]='values_differ'
+            elif v!=a:diff[k]='value_differs'
+        video_ok=bool(bv)==bool(av)
+        if video_ok and bv:
+            try:video_ok=video_source(av)==entry.get('video_source')
+            except Exception as e:video_ok=False;diff['video_verification']=str(e)[:250]
+        if not video_ok:diff['video']='missing_or_content_not_verified'
+        journal('wb',status='verified' if ok and not diff else 'gallery_verified_protection_diff' if ok else 'submitted_pending_readback',actual_gallery=old,desired_gallery=desired,video_present=bool(av),video_verified=video_ok,nmID=WB_ID,protected_unchanged=not diff,protection_differences=diff,attribute_order_only=(bp!=ap and not diff),readback_only=True,error=None)
+        save()
+        if ok and video_ok:persist_sources('wb',desired,entry.get('video_source'))
+        return
     require(len(old)<30,'WB photo limit would be exceeded')
     require(not any(match(u,reference) for u in old[1:]),'New photo already present in secondary gallery; review')
     if match(old[0],reference):
@@ -526,7 +546,10 @@ def main():
     else:url=host_cover()
     for name,fn in [('ozon',lambda:ozon(url)),('market',lambda:market(url)),('wb',lambda:wb(url)),('direct',lambda:direct(url)),('tilda',lambda:tilda(url)),('avito_media',host_avito),('avito',avito_preflight)]:
         # Do not replay any already verified seller writes or re-upload media.
-        if J['channels'].get(name,{}).get('status')=='verified':continue
+        status=J['channels'].get(name,{}).get('status')
+        if status=='verified':continue
+        if '--readback-only' in sys.argv and name not in ('ozon','wb'):continue
+        if '--readback-only' in sys.argv:require(J['channels'].get(name,{}).get('desired_gallery'),'Readback-only mode refuses a new seller request')
         guard(name,fn)
     J['finished_utc']=pipeline.stamp()
     J['completion_status']='verified' if all(J['channels'].get(k,{}).get('status')=='verified' for k in ('source','ozon','market','wb','direct','tilda','avito_media','avito')) else 'partial_or_blocked'
