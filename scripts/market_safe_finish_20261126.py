@@ -35,7 +35,7 @@ def valsmatch(c,vals):
 def groupkey(c):return str(c.get("groupId") or "").strip().casefold()
 biz,cam=s.account()
 if biz!=194752944 or int(cam)!=141377963:raise ValueError("Wrong account")
-if OUT.exists():raise ValueError("Existing operation journal: do not repeat")
+if OUT.exists() and json.loads(OUT.read_text()).get("external_writes",0):raise ValueError("Existing write journal: do not repeat")
 mm,cc,ss=r.read_all(biz,cam)
 arch=s.get_mappings(biz,True);ids=[v["offer"]["offerId"] for v in arch]
 ac=s.batched_read(biz,"offer-cards",ids) if ids else []
@@ -52,7 +52,7 @@ p=next(x for x in photo if x["id"]=="A015" and x["sku"]=="0AM325025B")
 sku=p["sku"]
 stop=False
 try:
- m,c,st=r.live(biz,cam,sku);o=m["offer"]
+ m,c,st=s.live(biz,cam,sku);o=m["offer"]
  if st.get("status")!="PUBLISHED" or c.get("cardStatus")!="HAS_CARD_CAN_UPDATE":raise ValueError("Not independently editable")
  if o.get("pictures")!=p["current_urls"]:raise ValueError("Gallery changed since visual review")
  if not p["same_bytes_as_local"] or p["near_duplicate"] or p["url_error"]:raise ValueError("Unverified asset")
@@ -65,7 +65,7 @@ try:
  rec["status"]="submitted";save()
  for i in range(7):
   if i:time.sleep(5)
-  a,b,z=r.live(biz,cam,sku)
+  a,b,z=s.live(biz,cam,sku)
   diff=pre!=protected(a,b,z,True) or params!=s.grouped_norm(b) or cat!=s.catid(a,b)
   rec["checks"]={"protected_unchanged":not diff,"gallery_exact":a["offer"].get("pictures")==goal,"campaign_status":z.get("status"),"card_status":b.get("cardStatus"),"pictures":a["offer"].get("pictures")}
   if diff or z.get("status")!="PUBLISHED":rec["status"]="protected_drift";stop=True;break
@@ -84,7 +84,7 @@ specs={"0am325025z":71391178,"0am325025u":71391178,"0AM927769N":17712007,"tolkat
 for sku,oldcat in specs.items():
  if stop:d["blocked"][sku]="Stopped after uncertain or protected write";continue
  try:
-  m,c,st=r.live(biz,cam,sku)
+  m,c,st=s.live(biz,cam,sku)
   if s.catid(m,c)==target:continue
   if s.catid(m,c)!=oldcat or st.get("status")!="PUBLISHED" or c.get("cardStatus")!="HAS_CARD_CAN_UPDATE":raise ValueError("Category/status changed; not editable")
   if groupkey(c) and groups.get(groupkey(c))!=[sku]:raise ValueError("Not verified singleton")
@@ -121,7 +121,7 @@ for sku,oldcat in specs.items():
    rec["response"]=s.post(f"/v2/businesses/{biz}/offer-cards/update",{"offersContent":[{"offerId":sku,"categoryId":target,"parameterValues":vals}]},retries=1);rec["status"]="submitted";save()
    for i in range(8):
     if i:time.sleep(6)
-    a,b,z=r.live(biz,cam,sku)
+    a,b,z=s.live(biz,cam,sku)
     if protected(a,b,z)!=pre or z.get("status")!="PUBLISHED":
      rec["status"]="protected_drift";rec["checks"]={"protected_unchanged":False,"campaign_status":z.get("status")};stop=True;break
     try:cat=s.catid(a,b)
