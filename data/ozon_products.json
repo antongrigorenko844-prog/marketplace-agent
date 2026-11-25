@@ -3,7 +3,7 @@
     {
       "product_id": 1502064768,
       "offer_id": "0am325025",
-      "has_fbo_stocks": false,
+      "has_fbo_stocks": true,
       "has_fbs_stocks": true,
       "archived": false,
       "is_discounted": false,
@@ -628,7 +628,7 @@
     {
       "product_id": 3243151010,
       "offer_id": "0сц",
-      "has_fbo_stocks": false,
+      "has_fbo_stocks": true,
       "has_fbs_stocks": true,
       "archived": false,
       "is_discounted": false,
@@ -658,7 +658,7 @@
     {
       "product_id": 4417330093,
       "offer_id": "0am325025HX",
-      "has_fbo_stocks": false,
+      "has_fbo_stocks": true,
       "has_fbs_stocks": true,
       "archived": false,
       "is_discounted": false,
@@ -838,7 +838,7 @@
     {
       "product_id": 6287286050,
       "offer_id": "tolkateli-4-salniki-4",
-      "has_fbo_stocks": false,
+      "has_fbo_stocks": true,
       "has_fbs_stocks": true,
       "archived": false,
       "is_discounted": false,
@@ -1823,18 +1823,18 @@
         "external_index_data": {
           "min_price": 5020,
           "min_price_currency": "RUB",
-          "price_index_value": 1.16,
+          "price_index_value": 1.11,
           "price_index_color": "RED",
           "min_price_in_seller": 5020,
           "min_price_in_seller_currency": "RUB"
         },
         "ozon_index_data": {
-          "min_price": 4479,
-          "min_price_currency": "RUB",
-          "price_index_value": 1.25,
-          "price_index_color": "RED",
-          "min_price_in_seller": 4479,
-          "min_price_in_seller_currency": "RUB"
+          "min_price": 0,
+          "min_price_currency": "",
+          "price_index_value": 0,
+          "price_index_color": "WITHOUT_INDEX",
+          "min_price_in_seller": 0,
+          "min_price_in_seller_currency": ""
         },
         "color_index": "RED",
         "self_marketplaces_index_data": {
@@ -2156,7 +2156,7 @@
         "external_index_data": {
           "min_price": 1363,
           "min_price_currency": "RUB",
-          "price_index_value": 0.82,
+          "price_index_value": 0.8,
           "price_index_color": "SUPER",
           "min_price_in_seller": 1363,
           "min_price_in_seller_currency": "RUB"
@@ -2173,7 +2173,7 @@
         "self_marketplaces_index_data": {
           "min_price": 1363,
           "min_price_currency": "RUB",
-          "price_index_value": 0.82,
+          "price_index_value": 0.8,
           "price_index_color": "SUPER",
           "min_price_in_seller": 1363,
           "min_price_in_seller_currency": "RUB"
@@ -2283,11 +2283,11 @@
           "min_price_in_seller_currency": "RUB"
         },
         "ozon_index_data": {
-          "min_price": 963,
+          "min_price": 957,
           "min_price_currency": "RUB",
-          "price_index_value": 0.88,
+          "price_index_value": 0.89,
           "price_index_color": "SUPER",
-          "min_price_in_seller": 963,
+          "min_price_in_seller": 957,
           "min_price_in_seller_currency": "RUB"
         },
         "color_index": "GREEN",
@@ -2531,14 +2531,14 @@
           "min_price_in_seller_currency": ""
         },
         "ozon_index_data": {
-          "min_price": 1434,
-          "min_price_currency": "RUB",
-          "price_index_value": 0.81,
-          "price_index_color": "SUPER",
-          "min_price_in_seller": 1434,
-          "min_price_in_seller_currency": "RUB"
+          "min_price": 0,
+          "min_price_currency": "",
+          "price_index_value": 0,
+          "price_index_color": "WITHOUT_INDEX",
+          "min_price_in_seller": 0,
+          "min_price_in_seller_currency": ""
         },
-        "color_index": "SUPER",
+        "color_index": "WITHOUT_INDEX",
         "self_marketplaces_index_data": {
           "min_price": 0,
           "min_price_currency": "",
@@ -2894,11 +2894,11 @@
           "min_price_in_seller_currency": "RUB"
         },
         "ozon_index_data": {
-          "min_price": 1606,
+          "min_price": 1539,
           "min_price_currency": "RUB",
-          "price_index_value": 0.73,
+          "price_index_value": 0.76,
           "price_index_color": "SUPER",
-          "min_price_in_seller": 1606,
+          "min_price_in_seller": 1539,
           "min_price_in_seller_currency": "RUB"
         },
         "color_index": "GREEN",
@@ -2939,6 +2939,18 @@
         "current_period_to": null,
         "actions": [
           {
+            "title": "РК. Рассрочка 0-0-4",
+            "value": 4,
+            "date_from": "2026-09-03T11:00:00Z",
+            "date_to": "2027-01-27T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-12 до 31.12.2026",
+            "value": 12,
+            "date_from": "2026-09-10T08:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
             "title": "РК. Рассрочка 0-0-6 до 20.01.2027",
             "value": 6,
             "date_from": "2026-09-10T21:00:00Z",
@@ -2949,6 +2961,12 @@
             "value": 15,
             "date_from": "2026-11-01T21:00:00Z",
             "date_to": "2026-12-31T20:59:00Z"
+          },
+          {
+            "title": "0024 рассрочка в РК 30.11-13.12.26",
+            "value": 24,
+            "date_from": "2026-11-29T15:00:00Z",
+            "date_to": "2026-12-14T07:01:00Z"
           }
         ],
         "ozon_actions_exist": false
@@ -3451,14 +3469,14 @@
           "min_price_in_seller_currency": ""
         },
         "ozon_index_data": {
-          "min_price": 1944,
-          "min_price_currency": "RUB",
-          "price_index_value": 0.87,
-          "price_index_color": "SUPER",
-          "min_price_in_seller": 1944,
-          "min_price_in_seller_currency": "RUB"
+          "min_price": 0,
+          "min_price_currency": "",
+          "price_index_value": 0,
+          "price_index_color": "WITHOUT_INDEX",
+          "min_price_in_seller": 0,
+          "min_price_in_seller_currency": ""
         },
-        "color_index": "SUPER",
+        "color_index": "WITHOUT_INDEX",
         "self_marketplaces_index_data": {
           "min_price": 0,
           "min_price_currency": "",
@@ -4038,7 +4056,7 @@
         "external_index_data": {
           "min_price": 1466,
           "min_price_currency": "RUB",
-          "price_index_value": 0.8,
+          "price_index_value": 0.81,
           "price_index_color": "SUPER",
           "min_price_in_seller": 1466,
           "min_price_in_seller_currency": "RUB"
@@ -4055,7 +4073,7 @@
         "self_marketplaces_index_data": {
           "min_price": 1466,
           "min_price_currency": "RUB",
-          "price_index_value": 0.8,
+          "price_index_value": 0.81,
           "price_index_color": "SUPER",
           "min_price_in_seller": 1466,
           "min_price_in_seller_currency": "RUB"
@@ -4256,11 +4274,11 @@
           "min_price_in_seller_currency": "RUB"
         },
         "ozon_index_data": {
-          "min_price": 680,
+          "min_price": 1307,
           "min_price_currency": "RUB",
-          "price_index_value": 0.9,
+          "price_index_value": 0.47,
           "price_index_color": "SUPER",
-          "min_price_in_seller": 680,
+          "min_price_in_seller": 1307,
           "min_price_in_seller_currency": "RUB"
         },
         "color_index": "GREEN",
@@ -4357,11 +4375,11 @@
       },
       "price_indexes": {
         "external_index_data": {
-          "min_price": 934,
+          "min_price": 919,
           "min_price_currency": "RUB",
-          "price_index_value": 0.66,
+          "price_index_value": 0.67,
           "price_index_color": "SUPER",
-          "min_price_in_seller": 934,
+          "min_price_in_seller": 919,
           "min_price_in_seller_currency": "RUB"
         },
         "ozon_index_data": {
@@ -4484,11 +4502,11 @@
       },
       "price_indexes": {
         "external_index_data": {
-          "min_price": 639,
+          "min_price": 633,
           "min_price_currency": "RUB",
-          "price_index_value": 1.13,
+          "price_index_value": 1.14,
           "price_index_color": "RED",
-          "min_price_in_seller": 639,
+          "min_price_in_seller": 633,
           "min_price_in_seller_currency": "RUB"
         },
         "ozon_index_data": {
@@ -15153,6 +15171,24 @@
             "value": 4,
             "date_from": "2026-09-03T11:00:00Z",
             "date_to": "2027-01-27T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-12 до 31.12.2026",
+            "value": 12,
+            "date_from": "2026-09-10T08:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-6 до 20.01.2027",
+            "value": 6,
+            "date_from": "2026-09-10T21:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
+            "title": "0024 рассрочка в РК 30.11-13.12.26",
+            "value": 24,
+            "date_from": "2026-11-29T15:00:00Z",
+            "date_to": "2026-12-14T07:01:00Z"
           }
         ],
         "ozon_actions_exist": false
@@ -15966,7 +16002,32 @@
       "marketing_actions": {
         "current_period_from": null,
         "current_period_to": null,
-        "actions": [],
+        "actions": [
+          {
+            "title": "РК. Рассрочка 0-0-4",
+            "value": 4,
+            "date_from": "2026-09-03T11:00:00Z",
+            "date_to": "2027-01-27T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-12 до 31.12.2026",
+            "value": 12,
+            "date_from": "2026-09-10T08:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-6 до 20.01.2027",
+            "value": 6,
+            "date_from": "2026-09-10T21:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
+            "title": "0024 рассрочка в РК 30.11-13.12.26",
+            "value": 24,
+            "date_from": "2026-11-29T15:00:00Z",
+            "date_to": "2026-12-14T07:01:00Z"
+          }
+        ],
         "ozon_actions_exist": false
       },
       "price": {
@@ -16038,7 +16099,26 @@
       "marketing_actions": {
         "current_period_from": null,
         "current_period_to": null,
-        "actions": [],
+        "actions": [
+          {
+            "title": "РК. Рассрочка 0-0-12 до 31.12.2026",
+            "value": 12,
+            "date_from": "2026-09-10T08:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-6 до 20.01.2027",
+            "value": 6,
+            "date_from": "2026-09-10T21:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
+            "title": "0024 рассрочка в РК 30.11-13.12.26",
+            "value": 24,
+            "date_from": "2026-11-29T15:00:00Z",
+            "date_to": "2026-12-14T07:01:00Z"
+          }
+        ],
         "ozon_actions_exist": false
       },
       "price": {
@@ -16110,7 +16190,26 @@
       "marketing_actions": {
         "current_period_from": null,
         "current_period_to": null,
-        "actions": [],
+        "actions": [
+          {
+            "title": "РК. Рассрочка 0-0-12 до 31.12.2026",
+            "value": 12,
+            "date_from": "2026-09-10T08:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-6 до 20.01.2027",
+            "value": 6,
+            "date_from": "2026-09-10T21:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
+            "title": "0024 рассрочка в РК 30.11-13.12.26",
+            "value": 24,
+            "date_from": "2026-11-29T15:00:00Z",
+            "date_to": "2026-12-14T07:01:00Z"
+          }
+        ],
         "ozon_actions_exist": false
       },
       "price": {
@@ -16182,7 +16281,26 @@
       "marketing_actions": {
         "current_period_from": null,
         "current_period_to": null,
-        "actions": [],
+        "actions": [
+          {
+            "title": "РК. Рассрочка 0-0-12 до 31.12.2026",
+            "value": 12,
+            "date_from": "2026-09-10T08:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
+            "title": "РК. Рассрочка 0-0-6 до 20.01.2027",
+            "value": 6,
+            "date_from": "2026-09-10T21:00:00Z",
+            "date_to": "2027-01-20T20:59:00Z"
+          },
+          {
+            "title": "0024 рассрочка в РК 30.11-13.12.26",
+            "value": 24,
+            "date_from": "2026-11-29T15:00:00Z",
+            "date_to": "2026-12-14T07:01:00Z"
+          }
+        ],
         "ozon_actions_exist": false
       },
       "price": {
@@ -17257,7 +17375,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "ремштока_0am325025h_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe_0am325025hfe"
+              "value": "Ремкомплект 2 штоков мехатроника DSG7 DQ200: 2 сальника, 2 пыльника, 2 крышки [0am325025hfe]_0am325025hfe"
             }
           ]
         },
@@ -17735,7 +17853,7 @@
       "weight": 350,
       "weight_unit": "g",
       "description_category_id": 17028756,
-      "type_id": 98840,
+      "type_id": 971100605,
       "primary_image": "https://ir-20.ozone.ru/s3/multimedia-1-v/14851642351.jpg",
       "model_info": {
         "model_id": 3651862623,
@@ -18700,22 +18818,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21837,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "Видео плитка товара от 17.10.2026 06:09"
-            }
-          ]
-        },
-        {
           "id": 21841,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "https://v-1.ozone.ru/vod/video-71/01M53XCB3WZVR969RQQ6C0G641/asset_1_h264.mp4"
+            }
+          ]
+        },
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "Видео плитка товара от 17.10.2026 06:09"
             }
           ]
         }
@@ -20146,22 +20264,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21841,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "https://v-1.ozone.ru/vod/video-73/01M53XDHFN5ZDT8QWQGM0H9BG2/asset_1_h264.mp4"
-            }
-          ]
-        },
-        {
           "id": 21837,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "Видео плитка товара от 17.10.2026 06:10"
+            }
+          ]
+        },
+        {
+          "id": 21841,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "https://v-1.ozone.ru/vod/video-73/01M53XDHFN5ZDT8QWQGM0H9BG2/asset_1_h264.mp4"
             }
           ]
         }
@@ -22173,22 +22291,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21841,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "https://v-1.ozone.ru/vod/video-71/01M53Y16BXFKV8CVWYXMQSR90W/asset_2_h264.mp4"
-            }
-          ]
-        },
-        {
           "id": 21837,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "0AM325443D"
+            }
+          ]
+        },
+        {
+          "id": 21841,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "https://v-1.ozone.ru/vod/video-71/01M53Y16BXFKV8CVWYXMQSR90W/asset_2_h264.mp4"
             }
           ]
         }
@@ -25890,22 +26008,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21841,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "https://v-1.ozone.ru/vod/video-73/01M5YTFJ8WWY6HXW4E0NW27ER8/asset_2_h264.mp4"
-            }
-          ]
-        },
-        {
           "id": 21837,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "0am325025z"
+            }
+          ]
+        },
+        {
+          "id": 21841,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "https://v-1.ozone.ru/vod/video-73/01M5YTFJ8WWY6HXW4E0NW27ER8/asset_2_h264.mp4"
             }
           ]
         }
@@ -26162,22 +26280,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21837,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "0am325025z"
-            }
-          ]
-        },
-        {
           "id": 21841,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "https://v-1.ozone.ru/vod/video-73/01M5YTFJ8WWY6HXW4E0NW27ER8/asset_2_h264.mp4"
+            }
+          ]
+        },
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325025z"
             }
           ]
         }
@@ -27808,7 +27926,7 @@
       "primary_image": "https://ir-20.ozone.ru/s3/multimedia-1-0/14848107048.jpg",
       "model_info": {
         "model_id": 4102654369,
-        "count": 1
+        "count": 3
       },
       "images": [],
       "pdf_list": [],
@@ -29118,6 +29236,16 @@
           ]
         },
         {
+          "id": 7324,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "31705-X428B"
+            }
+          ]
+        },
+        {
           "id": 7202,
           "complex_id": 0,
           "values": [
@@ -29341,6 +29469,16 @@
           ]
         },
         {
+          "id": 7324,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "317053TX0C"
+            }
+          ]
+        },
+        {
           "id": 7202,
           "complex_id": 0,
           "values": [
@@ -29555,6 +29693,16 @@
         },
         {
           "id": 7236,
+          "complex_id": 0,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "31705-1XF0C"
+            }
+          ]
+        },
+        {
+          "id": 7324,
           "complex_id": 0,
           "values": [
             {
@@ -30842,22 +30990,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21837,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "0am325025H"
-            }
-          ]
-        },
-        {
           "id": 21841,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "https://v-1.ozone.ru/vod/video-71/01M54NXGKTMXAD0Q7MSB330K7Z/asset_2_h264.mp4"
+            }
+          ]
+        },
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325025H"
             }
           ]
         }
@@ -30903,12 +31051,12 @@
       "dimension_unit": "mm",
       "weight": 600,
       "weight_unit": "g",
-      "description_category_id": 17028756,
-      "type_id": 971100605,
+      "description_category_id": 17028751,
+      "type_id": 971071830,
       "primary_image": "https://ir-20.ozone.ru/s3/multimedia-1-n/20548743719.jpg",
       "model_info": {
-        "model_id": 5273833881,
-        "count": 1
+        "model_id": 4102654369,
+        "count": 3
       },
       "images": [],
       "pdf_list": [],
@@ -31069,11 +31217,11 @@
       "sku": 4204089399,
       "barcodes": [],
       "attributes_with_defaults": [
-        23152,
         9905,
         10100,
         11794,
         12006,
+        21936,
         22074,
         22366,
         22806,
@@ -31320,22 +31468,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21841,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "https://v-1.ozone.ru/vod/video-73/01M60SXZSN6C0R9Z6AMCJW40BN/asset_3_h264.mp4"
-            }
-          ]
-        },
-        {
           "id": 21837,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "0AM927769D"
+            }
+          ]
+        },
+        {
+          "id": 21841,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "https://v-1.ozone.ru/vod/video-73/01M60SXZSN6C0R9Z6AMCJW40BN/asset_3_h264.mp4"
             }
           ]
         }
@@ -32391,22 +32539,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21841,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "https://v-1.ozone.ru/vod/video-71/01M53XCB3WZVR969RQQ6C0G641/asset_1_h264.mp4"
-            }
-          ]
-        },
-        {
           "id": 21837,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "Видео плитка товара от 17.10.2026 06:09"
+            }
+          ]
+        },
+        {
+          "id": 21841,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "https://v-1.ozone.ru/vod/video-71/01M53XCB3WZVR969RQQ6C0G641/asset_1_h264.mp4"
             }
           ]
         }
@@ -33360,22 +33508,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21841,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "https://v-1.ozone.ru/vod/video-72/01M5Z6Y1QFXRHEXJHM8JNYK9F3/asset_3_h264.mp4"
-            }
-          ]
-        },
-        {
           "id": 21837,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "stalnaya-vstavka-plity"
+            }
+          ]
+        },
+        {
+          "id": 21841,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "https://v-1.ozone.ru/vod/video-72/01M5Z6Y1QFXRHEXJHM8JNYK9F3/asset_3_h264.mp4"
             }
           ]
         }
@@ -33890,14 +34038,12 @@
       "weight_unit": "g",
       "description_category_id": 17028756,
       "type_id": 970984897,
-      "primary_image": "https://ir-20.ozone.ru/s3/multimedia-1-v/21683434351.jpg",
+      "primary_image": "https://ir-20.ozone.ru/s3/multimedia-1-d/21691694857.jpg",
       "model_info": {
         "model_id": 3651869562,
         "count": 4
       },
-      "images": [
-        "https://ir-20.ozone.ru/s3/multimedia-1-2/21377525330.jpg"
-      ],
+      "images": [],
       "pdf_list": [],
       "attributes": [
         {
@@ -33916,7 +34062,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "соленоиды дсг7_0am325025p_0AM325473_0AM325473_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30"
+              "value": "соленоиды дсг7_0am325025p_0AM325473_0AM325473_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30_6t30"
             }
           ]
         },
@@ -33936,7 +34082,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "Комплект 7 соленоидов гидроблока АКПП 6T30, 6T40, 6T45 и 6T50 первого поколения (Gen1).\n\nКомплектация: 7 соленоидов. Гидроблок и электронная плата не входят.\n\nСоленоиды управляют потоками и давлением рабочей жидкости в гидравлической системе АКПП. Комплект используется при ремонте после диагностики.\n\nСоленоиды проверены на стенде.\n\nПодбор: сверяйте поколение Gen1, маркировку исходных деталей и исполнение АКПП. Принадлежность к одному семейству коробок не гарантирует взаимозаменяемость Gen1 и Gen2."
+              "value": "Комплект 6 соленоидов гидроблока АКПП 6T30, 6T40, 6T45 и 6T50 первого поколения (Gen1).\n\nКомплектация: 6 соленоидов. Гидроблок и электронная плата не входят.\n\nСоленоиды управляют потоками и давлением рабочей жидкости в гидравлической системе АКПП. Комплект используется при ремонте после диагностики.\n\nСоленоиды проверены на стенде.\n\nПодбор: сверяйте поколение Gen1, маркировку исходных деталей и исполнение АКПП. Принадлежность к одному семейству коробок не гарантирует взаимозаменяемость Gen1 и Gen2."
             }
           ]
         },
@@ -33966,7 +34112,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "7"
+              "value": "6"
             }
           ]
         },
@@ -34010,7 +34156,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "Соленоиды АКПП 6T30/6T40/6T45/6T50 первого поколения — 7 шт."
+              "value": "Соленоиды АКПП 6T30/6T40/6T45/6T50 первого поколения — 6 шт."
             }
           ]
         },
@@ -38339,22 +38485,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21837,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "salnik-tolkatelya-alum"
-            }
-          ]
-        },
-        {
           "id": 21841,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "https://v-1.ozone.ru/vod/video-73/01M5Z8R9SKF1YKH5NXKA09BDPX/asset_2_h264.mp4"
+            }
+          ]
+        },
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "salnik-tolkatelya-alum"
             }
           ]
         }
@@ -44406,7 +44552,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "0AM927769D"
+              "value": "0AM927769F"
             }
           ]
         },
@@ -48019,22 +48165,22 @@
       ],
       "complex_attributes": [
         {
-          "id": 21837,
-          "complex_id": 100001,
-          "values": [
-            {
-              "dictionary_value_id": 0,
-              "value": "0am325025H"
-            }
-          ]
-        },
-        {
           "id": 21841,
           "complex_id": 100001,
           "values": [
             {
               "dictionary_value_id": 0,
               "value": "https://v-1.ozone.ru/vod/video-71/01M54NXGKTMXAD0Q7MSB330K7Z/asset_2_h264.mp4"
+            }
+          ]
+        },
+        {
+          "id": 21837,
+          "complex_id": 100001,
+          "values": [
+            {
+              "dictionary_value_id": 0,
+              "value": "0am325025H"
             }
           ]
         }
@@ -48424,7 +48570,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "0AM927769D"
+              "value": "0AM927769K"
             }
           ]
         },
@@ -48699,7 +48845,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "0AM927769D"
+              "value": "0AM927769E"
             }
           ]
         },
@@ -48974,7 +49120,7 @@
           "values": [
             {
               "dictionary_value_id": 0,
-              "value": "0AM927769D"
+              "value": "0AM927769G"
             }
           ]
         },
@@ -49435,12 +49581,12 @@
       "dimension_unit": "mm",
       "weight": 800,
       "weight_unit": "g",
-      "description_category_id": 17028756,
-      "type_id": 971100605,
+      "description_category_id": 17028751,
+      "type_id": 96176,
       "primary_image": "https://ir-20.ozone.ru/s3/multimedia-1-a/21620506042.jpg",
       "model_info": {
-        "model_id": 6861689151,
-        "count": 1
+        "model_id": 4102654369,
+        "count": 3
       },
       "images": [
         "https://ir-20.ozone.ru/s3/multimedia-1-k/21620506628.jpg",
@@ -49604,11 +49750,11 @@
       "sku": 6442706937,
       "barcodes": [],
       "attributes_with_defaults": [
-        23152,
         9905,
         10100,
         11794,
         12006,
+        21936,
         22074,
         22366,
         22806,
