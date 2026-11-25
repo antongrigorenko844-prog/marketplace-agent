@@ -26,7 +26,7 @@
     "source": "data/exchange_items.json"
   },
   "gallery": {
-    "status": "SEVEN_EXISTING_FILES_SELECTED_NOT_UPLOADED",
+    "status": "FINAL_SEVEN_OWNER_SELECTED_FILES_VERIFIED_NOT_UPLOADED",
     "cover_candidate": {
       "filename": "LEOPARTS_DQ200_Avito_original_4x3.png",
       "sha256": "f6878045d3ec3d9c67c9e158c3cb758ebb560983a401fb893eba512c8877f790",
@@ -123,12 +123,23 @@
         "filename": "Отзывы 5_5 о мехатронике.png",
         "reason": "Owner explicitly rejected this version with visible customer names and avatars.",
         "library_file_ref": "file_000000007fa88211bf9788348e18197c"
+      },
+      {
+        "filename": "чёрная_мехатронная_крышка_dsg7_dq200.png",
+        "reason": "Owner requested original close-up, not retouched version."
+      },
+      {
+        "filename": "photo_2026-11-26 06.33.43(1).jpeg",
+        "reason": "Owner explicitly excluded final rear-view photo."
+      },
+      {
+        "filename": "графитовые_соленоиды_на_серебристом_гидроблоке.png",
+        "reason": "Owner excluded rear-view photo and its edit."
       }
     ],
-    "optional_missing": [
-      "Separate confirmed photograph of hydraulic plate with steel insert",
-      "Distinct rear/side view of exact SKU"
-    ]
+    "optional_missing": [],
+    "owner_selection_final": true,
+    "original_bytes_verified": true
   },
   "existing_listing_protection": {
     "avito_id": 8312205273,
@@ -147,9 +158,16 @@
     "blockers": [
       "Same SKU already has an active listing; verify compliant distinct offer before publishing",
       "No verified direct Avito cabinet draft endpoint in connected API",
-      "Seven gallery files selected; no binary uploads to repository or Avito performed",
+      "All seven chosen original-file bytes and SHA256 checksums verified; no image bytes uploaded to repository or Avito",
       "Verify anonymized review infographic source, quotations and platform attribution; check delivery promise"
-    ]
+    ],
+    "owner_requested_create": true,
+    "latest_existing_listing_evidence": {
+      "avito_id": 8312205273,
+      "status": "active",
+      "source": "data/avito_autoload.json",
+      "report_message_date": "2026-11-24T09:35:47Z"
+    }
   },
   "external_mutations": 0,
   "protected_sources": [
