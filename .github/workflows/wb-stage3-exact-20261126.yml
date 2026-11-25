@@ -1,0 +1,45 @@
+name: LEOPARTS WB stage 3 exact execution
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/wb-stage3-exact-20261126.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  work:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+      WB_WAREHOUSE_ID: ${{ secrets.WB_WAREHOUSE_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - run: python -m unittest discover -s tests -p 'test_wb_identity_policy.py' -v
+      - run: python -m py_compile scripts/wb_stage3_exact_20261126.py
+      - run: PYTHONPATH=. python scripts/wb_stage3_exact_20261126.py
+      - name: Save exact journal
+        if: always()
+        run: |
+          if test -f data/wb_advanced/stage3_execution.json; then
+            bash .github/scripts/save_data.sh data/wb_advanced/stage3_execution.json
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wb-stage3-proof
+          path: |
+            /tmp/wb-stage3/
+            data/wb_advanced/stage3_execution.json
+          retention-days: 14
