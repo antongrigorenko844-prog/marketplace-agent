@@ -24,7 +24,7 @@ jobs:
           python-version: '3.11'
       - run: pip install -q -r requirements.txt
       - run: python -m py_compile scripts/avito_dq200_exchange_text_20261126.py
-      - name: Update one exact isolated description cell and verify
+      - name: Update one exact description cell using resolved workbook relationship and verify
         env:
           GH_TOKEN: ${{ github.token }}
           AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
