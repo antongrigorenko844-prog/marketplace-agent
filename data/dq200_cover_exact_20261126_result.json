@@ -459,8 +459,40 @@
       "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0am325025H-cover-20261126-1f0b5739a1.jpeg?v=1f0b5739a1"
     },
     "tilda": {
-      "error": "ValueError: Ambiguous duplicate existing gallery",
-      "status": "blocked_or_unverified"
+      "actual_gallery": [
+        "https://static.tildacdn.com/stor3365-3734-4637-b035-616337663735/8f40358d1dfdddc43400894090fbffa3.png",
+        "https://ir-20.ozone.ru/s3/multimedia-1-1/14848105789.jpg",
+        "https://ir-20.ozone.ru/s3/multimedia-1-0/14848100064.jpg",
+        "https://static.tildacdn.com/stor3365-3734-4637-b035-616337663735/8f40358d1dfdddc43400894090fbffa3.png",
+        "https://ir-20.ozone.ru/s3/multimedia-1-h/21314625029.jpg"
+      ],
+      "before_gallery": [
+        "https://static.tildacdn.com/stor3365-3734-4637-b035-616337663735/8f40358d1dfdddc43400894090fbffa3.png",
+        "https://ir-20.ozone.ru/s3/multimedia-1-1/14848105789.jpg",
+        "https://ir-20.ozone.ru/s3/multimedia-1-0/14848100064.jpg",
+        "https://static.tildacdn.com/stor3365-3734-4637-b035-616337663735/8f40358d1dfdddc43400894090fbffa3.png",
+        "https://ir-20.ozone.ru/s3/multimedia-1-h/21314625029.jpg"
+      ],
+      "csv_ready": false,
+      "desired_gallery": [
+        "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0am325025H-cover-20261126-1f0b5739a1.jpeg?v=1f0b5739a1",
+        "https://static.tildacdn.com/stor3365-3734-4637-b035-616337663735/8f40358d1dfdddc43400894090fbffa3.png",
+        "https://ir-20.ozone.ru/s3/multimedia-1-1/14848105789.jpg",
+        "https://ir-20.ozone.ru/s3/multimedia-1-0/14848100064.jpg",
+        "https://static.tildacdn.com/stor3365-3734-4637-b035-616337663735/8f40358d1dfdddc43400894090fbffa3.png",
+        "https://ir-20.ozone.ru/s3/multimedia-1-h/21314625029.jpg"
+      ],
+      "duplicate_slots": {
+        "https://static.tildacdn.com/stor3365-3734-4637-b035-616337663735/8f40358d1dfdddc43400894090fbffa3.png": [
+          1,
+          4
+        ]
+      },
+      "editor_patch": "data/dq200_cover_tilda_editor_patch_20261126.json",
+      "error": null,
+      "site_writes": 0,
+      "status": "blocked_editor_required",
+      "uid": "908157881413"
     },
     "wb": {
       "before_gallery": [
@@ -565,5 +597,5 @@
   "sku": "0am325025H",
   "started_utc": "2026-11-25T23:02:47.478592+00:00",
   "stock_writes": 0,
-  "updated_utc": "2026-11-25T23:09:02.938948+00:00"
+  "updated_utc": "2026-11-25T23:09:15.687712+00:00"
 }
