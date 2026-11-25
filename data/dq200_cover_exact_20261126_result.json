@@ -153,6 +153,15 @@
       "status": "verified"
     },
     "ozon": {
+      "actual_gallery": [
+        "https://ir-20.ozone.ru/s3/multimedia-1-l/21733090221.jpg",
+        "https://ir-20.ozone.ru/s3/multimedia-1-h/20386088333.jpg",
+        "https://ir-20.ozone.ru/s3/multimedia-1-1/14848105789.jpg",
+        "https://ir-20.ozone.ru/s3/multimedia-1-0/14848100064.jpg",
+        "https://ir-20.ozone.ru/s3/multimedia-1-h/21314625029.jpg",
+        "https://ir-20.ozone.ru/s3/multimedia-1-r/21568649895.jpg"
+      ],
+      "attribute_order_only": false,
       "before_gallery": [
         "https://ir-20.ozone.ru/s3/multimedia-1-h/20386088333.jpg",
         "https://ir-20.ozone.ru/s3/multimedia-1-1/14848105789.jpg",
@@ -168,7 +177,7 @@
         "https://ir-20.ozone.ru/s3/multimedia-1-h/21314625029.jpg",
         "https://ir-20.ozone.ru/s3/multimedia-1-r/21568649895.jpg"
       ],
-      "error": "ValueError: Ozon protected catalog fields changed",
+      "error": null,
       "product_id": 3171023605,
       "protected": {
         "attributes": [
@@ -405,8 +414,39 @@
         "weight": 9500,
         "width": 300
       },
-      "status": "blocked_or_unverified",
-      "task_id": 6128640663
+      "protected_unchanged": false,
+      "protection_differences": {
+        "attributes": [
+          "0:9048"
+        ]
+      },
+      "readback_only": true,
+      "status": "gallery_verified_protection_diff",
+      "task_id": 6128640663,
+      "task_status": {
+        "result": {
+          "items": [
+            {
+              "errors": [
+                {
+                  "attribute_id": 0,
+                  "attribute_name": "",
+                  "code": "double_without_merger_offer",
+                  "description": "Не удалось объединить с другими товарами. Есть товары, у которых вариативные характеристики заполнены также: 0am325025hfe. Измените хотя бы одну вариативную характеристику.",
+                  "field": "spu",
+                  "level": "warning",
+                  "message": "Не удалось объединить с другими товарами. Есть товары, у которых вариативные характеристики заполнены также: 0am325025hfe. Измените хотя бы одну вариативную характеристику.",
+                  "state": "moderated"
+                }
+              ],
+              "offer_id": "0am325025H",
+              "product_id": 3171023605,
+              "status": "imported"
+            }
+          ],
+          "total": 1
+        }
+      }
     },
     "source": {
       "bytes": 271055,
@@ -434,5 +474,5 @@
   "sku": "0am325025H",
   "started_utc": "2026-11-25T23:02:47.478592+00:00",
   "stock_writes": 0,
-  "updated_utc": "2026-11-25T23:06:06.248282+00:00"
+  "updated_utc": "2026-11-25T23:08:13.952085+00:00"
 }
