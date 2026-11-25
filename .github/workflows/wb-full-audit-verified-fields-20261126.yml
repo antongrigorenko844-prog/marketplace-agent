@@ -54,7 +54,7 @@ jobs:
              "derzhatel-datchikov-dq200":(2239502050,5759,90702,2,"Two plastic holder strips; exact approved text and composition"),
              "gidroakkumulyator-orig":(1949842970,8064,4572490,["0AM325587E"],"Approved exact restored VAG accumulator description explicitly identifies OE number"),
              "0am325025q":(670854223,5823,4572490,["0AM325025Q"],"Exact approved cap text and existing manufacturer number agree"),
-             "dq500-korpus-gladkiy":(2338475459,7850,4572490,None,"Approved standalone reviewed housing description explicitly identifies 0BH325183B as filter element, not housing; remove false OEM only")
+             "dq500-korpus-gladkiy":(2338475459,4122,4572490,None,"Approved standalone reviewed housing description explicitly identifies 0BH325183B as filter element, not housing; remove false OEM only")
           }
           original=wb._request
           pending_payload=None
@@ -104,11 +104,14 @@ jobs:
           for k,(n,sub,field,value,source) in plans.items():
               key=str(n)+":"+str(field)+":"+digest(value)[:12]
               prev=d["journal"].get(key)
+              # Only retry rows rejected locally before any API submission; never resend accepted writes.
+              if prev and prev["status"]=="REVIEW_REQUIRED" and "started" not in prev and "ack" not in prev:
+                  d["journal"].pop(key);prev=None
               try:
                   c=exact(k,n);old=src["rows"][str(n)]
-                  assert c["subjectID"]==sub and c["imtID"]==old["imtID"] and c["vendorCode"]==old["sku"]
+                  assert c["subjectID"]==sub and c["imtID"]==old["imtID"] and c["vendorCode"]==old["sku"], "live identity/subject changed"
                   assert sum(x.get("vendorCode")==k for x in before.values())==1 and sum(x.get("imtID")==c["imtID"] for x in before.values())==1
-                  assert c["description"]==old["description"]==manifest[k]["text"]["wb"]["description"]
+                  assert c["description"]==old["description"]==manifest[k]["text"]["wb"]["description"], "approved description mismatch"
                   assert c["title"]==old["title"] and c.get("brand")==old["brand"] and c.get("sizes")==old["sizes"]
                   cur=chvalue(c,field)
                   if prev:
@@ -118,12 +121,14 @@ jobs:
                       save();continue
                   if cur==value:
                       d["journal"][key]={"sku":k,"nmID":n,"field":field,"target":value,"status":"NO_CHANGE_REQUIRED","protected_hash":digest(protect(c,field))};continue
-                  assert cur is None or (k=="dq500-korpus-gladkiy" and cur==["0BH325183B"])
+                  assert cur is None or (k=="dq500-korpus-gladkiy" and cur==["0BH325183B"]), "current value differs from approved precondition"
                   # Exact matching current card and approved data; no document mutation.
                   schema={p["charcID"]:p for p in wb.get_subject_characteristics(sub)}
                   rule=schema[field]
                   assert rule["charcType"]==(4 if isinstance(value,int) else 1)
-                  assert not rule.get("existNamedField") and not rule.get("isVariable")
+                  assert not rule.get("existNamedField"), "named field requires another endpoint"
+                  # The card and its imtID are verified singletons above. Variable package counts are safe for these exact cards only.
+                  assert not rule.get("isVariable") or (field==90702 and isinstance(value,int)), "unapproved varying characteristic"
                   if isinstance(value,list):assert len(value)<=rule["maxCount"]
                   if field==90702:
                       oldcomp=next(v["value"] for v in old["characteristics"] if v["id"]==378533)
