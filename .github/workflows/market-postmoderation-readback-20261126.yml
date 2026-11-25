@@ -1,0 +1,131 @@
+name: LEOPARTS Market post-moderation verification (read only)
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/market-postmoderation-readback-20261126.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+      YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Read-only reconciliation with explicit endpoint allowlist
+        run: |
+          PYTHONPATH=.:scripts python - <<'PY'
+          import collections, copy, datetime, json, re
+          from pathlib import Path
+          import market_full_seo_20261125 as s
+          import market_growth_recovery_20261125 as r
+          import yandex_market_client as ym
+
+          B,C=194752944,141377963
+          old=json.loads(Path("data/market_recovery_registry.json").read_text())
+          assert old["business_id"]==B and old["campaign_id"]==C and old["finished_utc"]
+          # Only documented read operations, including POST-based read endpoints.
+          allowed_post={f"/v2/businesses/{B}/offer-mappings",f"/v2/businesses/{B}/offer-cards",f"/v2/campaigns/{C}/offers",f"/v2/campaigns/{C}/stats/skus",f"/v2/businesses/{B}/goods-feedback"}
+          original=ym._request
+          calls=collections.Counter()
+          def readonly(method,path,*args,**kwargs):
+              method=method.upper()
+              if not (method=="GET" or (method=="POST" and path in allowed_post)):
+                  raise RuntimeError("Read-only guard refused "+method+" "+path)
+              calls[method+" "+path]+=1
+              return original(method,path,*args,**kwargs)
+          ym._request=readonly
+          biz,cam=s.account()
+          assert biz==B and int(cam)==C
+          m,c,st=r.read_all(biz,cam)
+          ids=set(m)
+          assert ids==set(old["registry"]), "Active catalog changed; do not silently compare different sets"
+          stocks={}
+          seq=list(m)
+          for i in range(0,len(seq),50):
+              rr=s.post(f"/v2/campaigns/{cam}/stats/skus",{"shopSkus":seq[i:i+50]},retries=1)["result"]
+              for x in rr.get("shopSkus",[]):
+                  stocks[x["shopSku"]]=sum(t.get("count",0) for w in x.get("warehouses",[]) for t in w.get("stocks",[]) if t.get("type")=="AVAILABLE")
+          assert set(stocks)==ids
+          def diags(k):
+              return {"card_errors":c[k].get("errors") or [],"card_warnings":c[k].get("warnings") or [],"campaign_errors":st[k].get("errors") or [],"campaign_warnings":st[k].get("warnings") or []}
+          def normprice(v):
+              return {k:v.get(k) for k in ("value","currencyId","discountBase")} if isinstance(v,dict) else v
+          def snap(k):
+              o=m[k]["offer"];a=c[k];v=st[k]
+              return {"sku":k,"name":o.get("name"),"identity":s.identity(m[k],a),"model":r.model(m[k],a),"category":s.catid(m[k],a),"group":a.get("groupId"),"card_status":a.get("cardStatus"),"campaign_status":v.get("status"),"stock":stocks[k],"price":normprice(v.get("basicPrice")),"ugc":o.get("ugc"),"content_rating":a.get("contentRating"),"diagnostics":diags(k)}
+          def prot(k,omit=()):
+              p=copy.deepcopy(r.protected(m[k],c[k],st[k]))
+              for field in ("mediaFiles","cardStatus","contentRating","contentRatingStatus","updatedAt","createdAt",*omit):
+                  p["offer"].pop(field,None)
+              if isinstance(p["offer"].get("params"),list):
+                  p["offer"]["params"]=sorted(p["offer"]["params"],key=s.canon)
+              return p
+          def diff(a,b,p=""):
+              if a==b:return []
+              if isinstance(a,dict) and isinstance(b,dict):
+                  return [x for k in sorted(set(a)|set(b)) for x in diff(a.get(k),b.get(k),p+"."+k if p else k)]
+              # Do not expose full unrelated protected content in compact readback.
+              return [p]
+          def val(p):
+              return {"id":p.get("valueId"),"value":None if p.get("valueId") else str(p.get("value") or "").strip(),"unit":p.get("unitId")}
+          def typed(k):
+              return {str(i):sorted([val(v) for v in vs if v.get("valueId") is not None or str(v.get("value") or "").strip()],key=s.canon) for i,vs in s.groups(c[k]).items() if any(v.get("valueId") is not None or str(v.get("value") or "").strip() for v in vs)}
+          def exact(k,p):
+              return typed(k).get(str(p["parameterId"]))==[val(p)]
+          focus={}
+          for op in old["journal"].values():
+              if op["status"]!="PENDING_MODERATION":continue
+              k=op["sku"];kind=op["kind"];row=snap(k);o=m[k]["offer"]
+              row.update(kind=kind,previous_status=op["status"],protected_changed_paths=diff(op["before_protected"],prot(k,op.get("allow_offer",[]))) if op.get("before_protected") else None)
+              if kind=="category":
+                  row["target_category"]=op["target"]
+                  row["target_fields_match"]=[{"parameterId":p["parameterId"],"exact":exact(k,p)} for p in op.get("target_parameters",[])]
+                  row["exact"]=row["category"]==op["target"] and all(p["exact"] for p in row["target_fields_match"])
+              elif kind=="media":
+                  row["pictures"]=len(o.get("pictures") or [])
+                  row["target_pictures"]=len(op["target"])
+                  row["gallery_exact"]=o.get("pictures")==op["target"]
+                  row["upload_states"]=[p.get("uploadState") for p in (o.get("mediaFiles") or {}).get("pictures",[])]
+                  row["typed_changed_paths"]=diff(op.get("before_typed",{}),typed(k))
+                  row["exact"]=row["gallery_exact"] and len(row["upload_states"])==row["target_pictures"] and all(v=="UPLOADED" for v in row["upload_states"])
+              else:
+                  row["exact"]=False
+              guarded=(row["protected_changed_paths"]==[] and not row.get("typed_changed_paths"))
+              row["result"]="VERIFIED" if row["exact"] and guarded and row["campaign_status"]=="PUBLISHED" and row["card_status"]=="HAS_CARD_CAN_UPDATE" else "PROTECTED_DRIFT" if not guarded else "PENDING_MODERATION" if row["card_status"]=="HAS_CARD_CAN_UPDATE_PROCESSING" else "REVIEW_REQUIRED"
+              row["seller_feedback_count"]=r.review_count(biz,k)
+              focus[k]=row
+          plates={}
+          prior=old["remaining_group_preflight"]["сепараторка"]["members"]
+          for k,v in prior.items():
+              row=snap(k)
+              row.update(previous_model=v["model"],model_unchanged=row["model"]==v["model"],previous_market_sku=v["marketSku"],market_sku_unchanged=row["identity"]["marketSku"]==v["marketSku"],previous_rating=v.get("public_rating"),seller_feedback_count=r.review_count(biz,k))
+              row["pack_count_values"]=s.groups(c[k]).get(14805583,[])
+              plates[k]=row
+          disabled={k:snap(k) for k in sorted(ids) if st[k].get("status")=="DISABLED_AUTOMATICALLY"}
+          groups={}
+          for op in old["journal"].values():
+              if op["kind"]=="group" and op["status"]=="GROUP_VERIFIED_PUBLICATION_BLOCKED":
+                  k=op["sku"];v=snap(k)
+                  groups[k]={"group":v["group"],"card_status":v["card_status"],"campaign_status":v["campaign_status"],"target_group_saved":str(v["group"]).strip().casefold()==str(op["target"]).strip().casefold(),"duplicate_warning":any(z.get("message")=="Дубль варианта" for arr in v["diagnostics"].values() for z in arr)}
+          ratings=[c[k].get("contentRating") for k in ids if st[k].get("status")=="PUBLISHED" and isinstance(c[k].get("contentRating"),(float,int))]
+          recs=collections.Counter(x.get("type") for k in ids if st[k].get("status")=="PUBLISHED" for x in c[k].get("recommendations") or [])
+          summary={"checked_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),"previous_snapshot":old["finished_utc"],"business_id":B,"campaign_id":C,"market_mutations":0,"coverage":len(ids),"status_counts":dict(collections.Counter(v.get("status") for v in st.values())),"quality":{"rated":len(ratings),"mean":sum(ratings)/len(ratings) if ratings else None,"below_50":sum(v<50 for v in ratings),"above_80":sum(v>80 for v in ratings),"above_90":sum(v>90 for v in ratings)},"focus":focus,"groups":groups,"plate_group":plates,"disabled":disabled,"disabled_stock":sum(v["stock"] for v in disabled.values()),"disabled_without_diagnostics":sum(not any(v["diagnostics"].values()) for v in disabled.values()),"price_changes_since_snapshot":[k for k in sorted(ids) if normprice(st[k].get("basicPrice"))!=old["registry"][k]["price"]],"stock_changes_since_snapshot":[k for k in sorted(ids) if stocks[k]!=old["registry"][k]["stock"]],"publication_lost_since_snapshot":[k for k in sorted(ids) if old["registry"][k]["campaign_status"]=="PUBLISHED" and st[k].get("status")!="PUBLISHED"],"recommendations":dict(recs),"request_counts":dict(calls)}
+          out=Path("data/market_postmoderation_readback_20261126.json")
+          out.write_text(json.dumps(summary,ensure_ascii=False,indent=2)+"\n")
+          print(json.dumps({k:summary[k] for k in ("checked_utc","status_counts","quality","disabled_stock","disabled_without_diagnostics","price_changes_since_snapshot","stock_changes_since_snapshot","publication_lost_since_snapshot","request_counts")}|{"focus":{k:{x:v.get(x) for x in ("result","exact","category","pictures","upload_states","protected_changed_paths","typed_changed_paths","card_status","campaign_status")} for k,v in focus.items()}},ensure_ascii=False))
+          PY
+          bash .github/scripts/save_data.sh data/market_postmoderation_readback_20261126.json
