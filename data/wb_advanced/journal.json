@@ -2750,7 +2750,7 @@
           "source": "Exact approved description identifies DSG6 DQ250 (02E), not other transmission models."
         }
       ],
-      "status": "ACCEPTED",
+      "status": "VERIFIED",
       "protected_hash": "f50b27dd8523adcd582929dc22fa0c8c25923bd7acadd67699dc329e57fe131c",
       "before": {
         "nmID": 2239283169,
@@ -2842,6 +2842,15 @@
         "error": false,
         "errorText": "",
         "additionalErrors": {}
+      },
+      "readback": {
+        "values": {
+          "5023": [
+            "DQ250"
+          ]
+        },
+        "protected_same": true,
+        "checked": "2026-11-25T20:11:27.615692+00:00"
       }
     }
   },
