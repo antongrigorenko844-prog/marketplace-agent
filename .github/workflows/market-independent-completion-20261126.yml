@@ -1,0 +1,403 @@
+name: LEOPARTS Market independent completion 20261126
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/market-independent-completion-20261126.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  market-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+      YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Five independent queues with exact SKU and commercial guards
+        run: |
+          cat > /tmp/market_independent_completion.py <<'PY'
+          import collections, copy, datetime, hashlib, json, re, subprocess, time, unicodedata
+          from pathlib import Path
+          import market_full_seo_20261125 as s
+          import market_growth_recovery_20261125 as r
+          import yandex_market_client as ym
+          
+          ROOT=Path("data")
+          OUT=ROOT/"market_independent_completion_20261126.json"
+          def load(n):return json.loads((ROOT/n).read_text())
+          def now():return datetime.datetime.now(datetime.timezone.utc).isoformat()
+          def counter(items):return dict(collections.Counter(items))
+          def gkey(c):return unicodedata.normalize("NFKC",str(c.get("groupId") or "")).strip().casefold()
+          def present(v):return v.get("valueId") is not None or bool(str(v.get("value") or "").strip())
+          def has(c,pid):return any(present(x) for x in s.groups(c).get(pid,[]))
+          def canonical_values(vs):return sorted([{"id":x.get("valueId"),"value":str(x.get("value") or "").strip() if not x.get("valueId") else None,"unit":x.get("unitId")} for x in vs if present(x)],key=s.canon)
+          def matches(c,p):return canonical_values(s.groups(c).get(p["parameterId"],[]))==canonical_values([p])
+          def diagnostics(c,st):return (c.get("warnings") or [])+(c.get("errors") or [])+(st.get("warnings") or [])+(st.get("errors") or [])
+          def docs_block(c,st):
+           return bool(re.search(r"сертификат|деклараци|документ|подлинност|отказное письмо|код тн вэд|маркировк",json.dumps(diagnostics(c,st),ensure_ascii=False),re.I))
+          def protected(m,c,st,allow=(),group=False,category=False):
+           v=copy.deepcopy(r.protected(m,c,st))
+           o=v["offer"]
+           for k in ("mediaFiles","cardStatus","contentRating","contentRatingStatus","updatedAt","createdAt"):o.pop(k,None)
+           for k in allow:o.pop(k,None)
+           if group:
+            v["identity"].pop("groupId",None)
+            o.pop("groupId",None)
+            # Legacy params may echo the same intentionally modified group name.
+            if isinstance(o.get("params"),list):o["params"]=[p for p in o["params"] if not re.search(r"название (группы вариантов|модели.*объедин)",str(p.get("name") or ""),re.I)]
+           return v
+          def other_params(c,omit=()):
+           return {str(pid):canonical_values(vs) for pid,vs in s.groups(c).items() if pid not in omit and any(present(x) for x in vs)}
+          def stock(ids):
+           out={}
+           for i in range(0,len(ids),50):
+            code,b=ym._request("POST",f"/v2/campaigns/{cam}/stats/skus",json_body={"shopSkus":ids[i:i+50]},retries=1)
+            if code!=200 or b.get("status")!="OK":raise ValueError("Stock read incomplete")
+            for x in b.get("result",{}).get("shopSkus",[]):out[x["shopSku"]]=x.get("warehouses") or []
+           if set(out)!=set(ids):raise ValueError("Incomplete stock coverage")
+           return out
+          def qty(stocks):return sum(v.get("count",0) for w in stocks for v in w.get("stocks",[]) if v.get("type")=="AVAILABLE")
+          def read_subset(ids):
+           m=s.index(s.batched_read(biz,"offer-mappings",ids),lambda x:x["offer"]["offerId"])
+           c=s.index(s.batched_read(biz,"offer-cards",ids),lambda x:x["offerId"])
+           st=s.campaign_status(cam,ids)
+           if set(m)!=set(ids) or set(c)!=set(ids) or set(st)!=set(ids):raise ValueError("Incomplete exact readback")
+           return m,c,st
+          def save(commit=False):
+           d["updated_utc"]=now()
+           OUT.write_text(json.dumps(d,ensure_ascii=False,indent=2,default=str)+"\n")
+           if commit:subprocess.run(["bash",".github/scripts/save_data.sh",str(OUT)],check=True)
+          def clean_status(k,c,st):return st.get("status")=="PUBLISHED" and c.get("cardStatus")=="HAS_CARD_CAN_UPDATE" and not docs_block(c,st)
+          def read_reviews(k):
+           v=r.review_count(biz,k)
+           return v,bool(v.get("available") and v.get("complete") and v.get("count_at_least")==0)
+          def no_rating(m):return not (m["offer"].get("ugc") or {}).get("rating",0)
+          
+          biz,cam=s.account()
+          assert biz==194752944 and int(cam)==141377963
+          s.read_tree()
+          m0,c0,st0=r.read_all(biz,cam)
+          archive=s.get_mappings(biz,True)
+          aids=[x["offer"]["offerId"] for x in archive]
+          ac=s.batched_read(biz,"offer-cards",aids) if aids else []
+          assert set(x["offerId"] for x in ac)==set(aids)
+          members=collections.defaultdict(list)
+          for k,c in list(c0.items())+[(x["offerId"],x) for x in ac]:
+           if gkey(c):members[gkey(c)].append(k)
+          stock0=stock(list(m0))
+          manifest=load("content_manifest.json")["products"]
+          textplan=load("market_content_enrichment_plan_20261126.json")["rows"]
+          prior=load("market_final_execution_20261126.json")
+          old=load("market_full_seo_20261125.json")["registry"]
+          design=load("market_design_tasks_20261126.json")
+          preview=load("market_media_preview_20261126/review.json")
+          typeplan=load("market_search_type_plan_20261126.json")["rows"]
+          old_journal=load(OUT.name) if OUT.exists() else {}
+          # Retain all accepted or uncertain submissions across reruns; never resend them blindly.
+          journal=old_journal.get("operations",[])
+          touched={(x["sku"],x["kind"]) for x in journal if x.get("status") in ("SUBMISSION_STARTED","ACCEPTED","PENDING_MODERATION","UNCONFIRMED","VERIFIED","PROTECTED_DRIFT")}
+          d={"business_id":biz,"campaign_id":int(cam),"started_utc":now(),"coverage":{"active":len(m0),"archived":len(ac)},"before_counts":counter(x.get("status") for x in st0.values()),"operations":journal,"new_requests":0,"registry":{},"groups":{},"errors":{},"source":{"text":"market_content_enrichment_plan_20261126.json","attributes":"content_manifest.json + exact manually reviewed descriptions","media":"market_design_tasks_20261126.json + exact preview assets"},"policy":"No document, brand, price, stock, barcode, ad, deletion, other marketplace writes."}
+          # Reviewed exact SKU -> type term, evidence token must be present in the authoritative description.
+          types={
+           "02e305045":("корпус","корпус масляного фильтра"),
+           "31705-1XF1A":("гидроблок","гидроблок вариатора"),
+           "0am325025ae":("комплект","комплект крышки"),
+           "plita-filtr":("ремкомплект","ремкомплект гидравлической"),
+           "0am325025H":("мехатроник","мехатроник dsg7 dq200"),
+           "0am325025G":("ремкомплект","ремкомплект уплотнений"),
+           "0AM325219C":("крышка","крышка (поддон)"),
+           "DQ500":("комплект","комплект корпуса"),
+           "0am325025С":("кольцо","уплотнительное кольцо"),
+           "0am325066AC":("поршень","усиленный поршень"),
+           "0am325091f":("шток","усиленный шток"),
+           "0am325025l":("толкатель","поршень (толкатель)"),
+           "02E305051C":("масляный фильтр","масляный фильтр"),
+           "0am325091e":("шток","усиленный шток"),
+           "0AM325120A":("заглушка","транспортная заглушка"),
+           "plita-filtr-pylniki-sal":("ремкомплект","ремкомплект гидравлической"),
+           "0am325025P":("клипса","клипса фиксации"),
+           "plita-filtr-pylniki":("ремкомплект","ремкомплект гидравлической"),
+           "0am325025r":("кольцо","опорное кольцо"),
+           "123014‑AF":("фильтр-сетка","фильтр-сетка"),
+           "plita-pylniki-salniki-orig":("ремкомплект","ремкомплект гидравлической"),
+           "plita-pylniki-salniki-orig-v2":("ремкомплект","комплект ремонта"),
+           "0am325066ae":("гидроплита","усиленная алюминиевая гидроплита"),
+           "02E 305 045":("комплект","корпус масляного фильтра с фильтрующим элементом"),
+           "filtr-setka-0b5-orig":("фильтр-сетка","фильтр-сетка"),
+           "prokladka-vtulki-niz-dq200":("кольцо","кольцо-прокладка"),
+           "prokladka-vtulki-verh-dq200":("кольцо","кольцо-прокладка"),
+           "prokladka-vtulki-dq200":("комплект","комплект колец-прокладок")
+          }
+          # Exact additional fields, only where current missing and original quantity/part type is established.
+          for k,m in m0.items():
+           c,st=c0[k],st0[k];o=m["offer"];cat=s.catid(m,c);defs=s.definition_map(biz,cat)
+           eligible=clean_status(k,c,st)
+           singleton=not gkey(c) or members[gkey(c)]==[k]
+           row={"sku":k,"name":o.get("name"),"status_before":st.get("status"),"card_status":c.get("cardStatus"),"category":cat,"group":c.get("groupId"),"stock":qty(stock0[k]),"price":(st.get("basicPrice") or {}).get("value"),"rating":c.get("contentRating"),"documents_warning":docs_block(c,st),"diagnostics":diagnostics(c,st),"directions":{}}
+           d["registry"][k]=row; dr=row["directions"]
+           dr["groups"]={"status":"BLOCKED_DOCUMENTS" if row["documents_warning"] and not singleton else "REVIEW_REQUIRED" if not singleton else "ALREADY_OPTIMAL","members":members.get(gkey(c),[]) if gkey(c) else []}
+           desiredcat=prior.get("categories",{}).get(k,{}).get("target")
+           if not desiredcat:
+            p=old.get(k,{}).get("category_plan",{})
+            desiredcat=p.get("new")
+           dr["categories"]={"target":desiredcat,"status":"ALREADY_OPTIMAL" if not desiredcat or cat==desiredcat else "BLOCKED_DOCUMENTS" if row["documents_warning"] else "PENDING_MODERATION" if c.get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING" else "REVIEW_REQUIRED"}
+           if desiredcat and cat==desiredcat:dr["categories"]["verified_match"]=True
+           missing=[{"id":pid,"name":v.get("name"),"recommendationTypes":v.get("recommendationTypes",[]),"filtering":v.get("filtering",False),"distinctive":v.get("distinctive",False)} for pid,v in defs.items() if pid!=200 and pid!=40164890 and (v.get("required") or v.get("recommendationTypes") or v.get("filtering")) and not has(c,pid)]
+           cand={}
+           entry=manifest.get(k,{})
+           md=entry.get("text",{}).get("market",{}).get("description","")
+           if eligible and singleton:
+            params=entry.get("market_parameters",{})
+            if params.get("category")==cat:
+             for p in params.get("set",[]):
+              pid=p["parameterId"];definition=defs.get(pid)
+              if pid not in (200,40164890,53973426) and definition and not has(c,pid) and s.valid_value(p,definition):
+               # Distinctive values can be filled on singleton only; approved explicit data.
+               cand[pid]={"value":p,"source":"approved exact SKU manifest market_parameters.set"}
+            if cat==71380208 and not has(c,21194330) and k in types and types[k][1] in md.casefold():
+             label,evidence=types[k];p=r.type_value(defs,label)
+             if s.valid_value(p,defs[21194330]):cand[21194330]={"value":p,"source":"exact SKU description: "+evidence}
+            if cat==71380208 and not has(c,21194330) and k in typeplan:
+             t=typeplan[k];p=r.type_value(defs,t["label"])
+             if s.valid_value(p,defs[21194330]):cand[21194330]={"value":p,"source":"previous reviewed exact SKU type plan"}
+           dr["attributes"]={"status":"READY" if cand else "BLOCKED_DOCUMENTS" if row["documents_warning"] else "PENDING_MODERATION" if c.get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING" else "REVIEW_REQUIRED" if missing else "ALREADY_OPTIMAL","missing":missing,"candidates":list(cand.values())}
+           t=textplan.get(k,{})
+           fields={f:t["new_"+f] for f in ("name","description") if "new_"+f in t and o.get(f)!=t["new_"+f]}
+           dr["text"]={"status":"READY" if fields and eligible and singleton else "BLOCKED_DOCUMENTS" if fields and row["documents_warning"] else "PENDING_MODERATION" if fields and c.get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING" else "REVIEW_REQUIRED" if fields else "ALREADY_OPTIMAL","changes":fields,"description_present":bool(o.get("description")),"source":"previous approved enrichment plan; do not overwrite with older manifest"}
+           pics=o.get("pictures") or [];vids=o.get("videos") or []
+           recs={x.get("type"):x for x in c.get("recommendations") or []}
+           dr["media"]={"status":"DESIGN_REQUIRED" if "PICTURE_COUNT" in recs or "VIDEO_COUNT" in recs else "ALREADY_OPTIMAL","pictures":len(pics),"videos":len(vids),"recommendations":{z:v for z,v in recs.items() if "PICTURE" in str(z) or "VIDEO" in str(z)}}
+           if row["documents_warning"]:dr["media"]["status"]="BLOCKED_DOCUMENTS"
+          for key,ids in members.items():
+           if len(ids)>1:
+            d["groups"][key]={"members":ids,"categories":{k:s.catid(m0[k],c0[k]) for k in ids if k in m0},"status":"REVIEW_REQUIRED","reason":"Check exact category, actual distinguishing values and group-specific rules; no fabricated values"}
+          save(True)
+          
+          # Apply independent group pilot: officially supported removal from group (existing offer remains in catalog).
+          # Existing separate model IDs, no public ratings and zero seller reviews for every member are required.
+          # No document operations; no publication toggle; stop group writes if identity or non-group protected data drift.
+          pilot="0AM927769E"
+          group_candidates=["0AM927769E","0AM927769G","0AM927769K"]
+          group="dq200 electronic boards"
+          if pilot in m0 and ("0AM927769E","group") not in touched and set(members.get(group,[]))=={"0AM927769D","0AM927769E","0AM927769F","0AM927769G","0AM927769K"}:
+           ids=members[group];reviews={};verified=True
+           for k in ids:
+            v,ok=read_reviews(k);reviews[k]=v
+            verified=verified and ok and no_rating(m0[k])
+           distinct_models=len({r.model(m0[k],c0[k]) for k in ids})==len(ids)
+           distinct_skus=len({s.identity(m0[k],c0[k])["marketSku"] for k in ids})==len(ids)
+           d["groups"][group]["preflight"]={"review_counts":reviews,"distinct_models":distinct_models,"distinct_market_skus":distinct_skus}
+           if verified and distinct_models and distinct_skus:
+            m,c,st=s.live(biz,cam,pilot)
+            warnings=diagnostics(c,st);only_duplicate=bool(warnings) and all(x.get("message")=="Дубль варианта" for x in warnings if isinstance(x,dict))
+            if st.get("status")=="DISABLED_AUTOMATICALLY" and c.get("cardStatus")=="HAS_CARD_CAN_UPDATE_ERRORS" and only_duplicate and not docs_block(c,st) and gkey(c)==group and s.catid(m,c)==71380208:
+             defs=s.definition_map(biz,71380208)
+             if defs.get(200,{}).get("name")=="Название группы вариантов" and defs[200].get("type")=="TEXT":
+              before_m,before_c,before_st=read_subset(ids)
+              oldp=protected(m,c,st,group=True)
+              rec={"sku":pilot,"kind":"group","status":"SUBMISSION_STARTED","old_group":c.get("groupId"),"target_group":"","source":"official API text parameter 200 empty; support says removing variant leaves item in catalog; exact distinct models, zero seller reviews","identity_before":s.identity(m,c),"model_before":r.model(m,c)}
+              d["operations"].append(rec);d["new_requests"]+=1;save(True)
+              try:
+               vals=[p for pid,vs in s.groups(c).items() if pid!=200 for p in vs]+[{"parameterId":200,"value":""}]
+               rec["response"]=s.post(f"/v2/businesses/{biz}/offer-cards/update",{"offersContent":[{"offerId":pilot,"categoryId":71380208,"parameterValues":vals}]},retries=1)
+               rec["status"]="ACCEPTED";save(True)
+               for i in range(3):
+                if i:time.sleep(10)
+                am,cc,ss=read_subset(ids)
+                diffs=[]
+                for k in ids:
+                 if protected(before_m[k],before_c[k],before_st[k],group=k==pilot)!=protected(am[k],cc[k],ss[k],group=k==pilot) or other_params(before_c[k],(200,) if k==pilot else ())!=other_params(cc[k],(200,) if k==pilot else ()) or (k!=pilot and before_st[k].get("status")=="PUBLISHED" and ss[k].get("status")!="PUBLISHED"):
+                  diffs.append(k)
+                exact=not gkey(cc[pilot])
+                rec["checks"]={"protected_differences":diffs,"group_removed":exact,"card_status":cc[pilot].get("cardStatus"),"campaign_status":ss[pilot].get("status"),"group_after":cc[pilot].get("groupId"),"warnings":diagnostics(cc[pilot],ss[pilot])}
+                if diffs:rec["status"]="PROTECTED_DRIFT";break
+                if exact:rec["status"]="VERIFIED" if cc[pilot].get("cardStatus")=="HAS_CARD_CAN_UPDATE" and ss[pilot].get("status")=="PUBLISHED" else "PENDING_MODERATION";break
+               else:rec["status"]="PENDING_MODERATION" if cc[pilot].get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING" else "UNCONFIRMED"
+              except Exception as ex:rec["status"]="UNCONFIRMED";rec["error"]=str(ex)[:400]
+              d["registry"][pilot]["directions"]["groups"]["status"]=rec["status"]
+              save(True)
+            else:d["groups"][group]["reason"]="Pilot no longer has only explicit duplicate error or is not safely editable"
+           else:d["groups"][group]["reason"]="Could not establish zero public/seller reviews and independent models for entire group"
+          else:d["groups"].setdefault(group,{})["reason"]="Prior submission or group membership changed; no repeat"
+          
+          # Category work: independently resolve prior submitted migration and apply only singleton category
+          # without nonzero rating/feedback; keep all semantic values and exact identity.
+          k="0AM927769N"
+          cat_prev=load("market_resume_single_category_20261126.json")
+          for op in cat_prev.get("operations",[]):
+           kk=op["sku"]
+           if kk in m0 and s.catid(m0[kk],c0[kk])==op["target"]:
+            exact=all(matches(c0[kk],p) for p in op.get("target_params",[]))
+            d["registry"][kk]["directions"]["categories"].update(status="VERIFIED" if exact and c0[kk].get("cardStatus")=="HAS_CARD_CAN_UPDATE" else "REVIEW_REQUIRED",prior_submission=True,all_semantics_verified=exact)
+           elif kk in m0:
+            d["registry"][kk]["directions"]["categories"].update(status="PENDING_MODERATION" if c0[kk].get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING" else "REVIEW_REQUIRED",prior_submission=True,reason="Do not repeat already accepted category submission")
+          if k in m0 and ("0AM927769N","category") not in touched and not d["registry"][k]["documents_warning"]:
+           try:
+            m,c,st=s.live(biz,cam,k);cat=s.catid(m,c)
+            if cat==17712007 and clean_status(k,c,st) and (not gkey(c) or members[gkey(c)]==[k]) and no_rating(m):
+             reviews,ok=read_reviews(k);defs=s.definition_map(biz,71380208);priorvals=s.groups(c);vals=[]
+             if not ok:raise ValueError("Zero seller feedback not established")
+             for pid,vs in priorvals.items():
+              for p in vs:
+               if not present(p):continue
+               if pid==16382542:
+                if 7351754 in priorvals or not p.get("value"):raise ValueError("Exact kit text cannot be moved")
+                q={"parameterId":7351754,"value":p["value"]}
+               else:q=p
+               if q["parameterId"] not in defs or not s.valid_value(q,defs[q["parameterId"]]):raise ValueError("Destination lacks exact old parameter "+str(pid))
+               vals.append(q)
+             if not any(p["parameterId"]==21194330 for p in vals):vals.append(r.type_value(defs,"комплект"))
+             if any(v.get("required") and not any(p["parameterId"]==pid for p in vals) for pid,v in defs.items()):raise ValueError("Missing required destination characteristic")
+             rec={"sku":k,"kind":"category","status":"SUBMISSION_STARTED","before":cat,"target":71380208,"target_parameters":vals,"reviews":reviews,"identity":s.identity(m,c)}
+             d["operations"].append(rec);d["new_requests"]+=1;save(True)
+             rec["response"]=s.post(f"/v2/businesses/{biz}/offer-cards/update",{"offersContent":[{"offerId":k,"categoryId":71380208,"parameterValues":vals}]},retries=1)
+             rec["status"]="ACCEPTED";save(True)
+             for i in range(3):
+              if i:time.sleep(10)
+              a,b,z=s.live(biz,cam,k);diff=protected(m,c,st)!=protected(a,b,z) or z.get("status")!="PUBLISHED"
+              exact=s.catid(a,b)==71380208 and all(matches(b,p) for p in vals)
+              rec["checks"]={"protected_unchanged":not diff,"category":s.catid(a,b),"all_semantics_verified":exact,"card_status":b.get("cardStatus"),"campaign_status":z.get("status")}
+              if diff:rec["status"]="PROTECTED_DRIFT";break
+              if exact:rec["status"]="VERIFIED" if b.get("cardStatus")=="HAS_CARD_CAN_UPDATE" else "PENDING_MODERATION";break
+             else:rec["status"]="PENDING_MODERATION" if b.get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING" else "UNCONFIRMED"
+             d["registry"][k]["directions"]["categories"]["status"]=rec["status"];save(True)
+           except Exception as ex:
+            d["registry"][k]["directions"]["categories"]["reason"]=str(ex)[:400]
+            if "rec" in locals() and rec.get("sku")==k and rec.get("status") in ("SUBMISSION_STARTED","ACCEPTED"):rec.update(status="UNCONFIRMED",error=str(ex)[:400])
+            save(True)
+          
+          # Attributes queue, all candidates sourced from confirmed SKU data. Apply in bounded disjoint batches.
+          # No repeated call when previous accepted or pending. A protected failure isolates that batch.
+          ready=[k for k,v in d["registry"].items() if v["directions"]["attributes"]["status"]=="READY" and (k,"attribute") not in touched and not any(x["sku"]==k and x["kind"] in ("group","category") and x.get("status") in ("ACCEPTED","PENDING_MODERATION","UNCONFIRMED","PROTECTED_DRIFT","SUBMISSION_STARTED","VERIFIED") for x in d["operations"])]
+          ready.sort(key=lambda k:(-d["registry"][k]["stock"]*(d["registry"][k]["price"] or 0),k))
+          for block in ([ready[:1]]+[ready[i:i+8] for i in range(1,len(ready),8)] if ready else []):
+           if not block:continue
+           bm,bc,bs=read_subset(block);items=[];ops=[];pre={}
+           for k in block:
+            c=bc[k];m=bm[k];st=bs[k];row=d["registry"][k]["directions"]["attributes"]
+            if not clean_status(k,c,st) or gkey(c)!=gkey(c0[k]) or s.catid(m,c)!=s.catid(m0[k],c0[k]):
+             row.update(status="REVIEW_REQUIRED",reason="Live eligibility changed");continue
+            defs=s.definition_map(biz,s.catid(m,c));patch=[x["value"] for x in row["candidates"] if not has(c,x["value"]["parameterId"])]
+            if not patch:row["status"]="ALREADY_OPTIMAL";continue
+            ids={p["parameterId"] for p in patch}
+            vals=[p for pid,vs in s.groups(c).items() if pid not in ids for p in vs]+patch
+            if any(present(p) and (p["parameterId"] not in defs or not s.valid_value(p,defs[p["parameterId"]])) for p in vals):
+             row.update(status="REVIEW_REQUIRED",reason="Current existing value cannot be safely retained");continue
+            rec={"sku":k,"kind":"attribute","status":"SUBMISSION_STARTED","target_parameters":patch,"source":row["candidates"]}
+            pre[k]=(protected(m,c,st),other_params(c,ids),ids)
+            d["operations"].append(rec);ops.append(rec)
+            items.append({"offerId":k,"categoryId":s.catid(m,c),"parameterValues":vals})
+           if not items:continue
+           d["new_requests"]+=1;save(True)
+           try:
+            response=s.post(f"/v2/businesses/{biz}/offer-cards/update",{"offersContent":items},retries=1)
+            for rec in ops:rec.update(status="ACCEPTED",response=response)
+            save(True)
+            for i in range(3):
+             if i:time.sleep(8)
+             am,cc,ss=read_subset([x["sku"] for x in ops]);complete=True
+             for rec in ops:
+              k=rec["sku"];p,other,ids=pre[k]
+              diff=p!=protected(am[k],cc[k],ss[k]) or other!=other_params(cc[k],ids) or ss[k].get("status")!="PUBLISHED"
+              exact=all(matches(cc[k],x) for x in rec["target_parameters"])
+              rec["checks"]={"protected_unchanged":not diff,"fields_match":exact,"card_status":cc[k].get("cardStatus"),"campaign_status":ss[k].get("status")}
+              rec["status"]="PROTECTED_DRIFT" if diff else "VERIFIED" if exact and cc[k].get("cardStatus")=="HAS_CARD_CAN_UPDATE" else "PENDING_MODERATION" if exact or cc[k].get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING" else "UNCONFIRMED"
+              if not exact and not diff:complete=False
+             if complete or any(x["status"]=="PROTECTED_DRIFT" for x in ops):break
+           except Exception as ex:
+            for rec in ops:rec.update(status="UNCONFIRMED",error=str(ex)[:400])
+           for rec in ops:d["registry"][rec["sku"]]["directions"]["attributes"]["status"]=rec["status"]
+           save(True)
+           # Real protected drift indicates a systemic problem for this endpoint; avoid repeating it.
+           if any(x["status"]=="PROTECTED_DRIFT" for x in ops):break
+          
+          # Names/descriptions independent from attribute/category requests, only previously approved text.
+          # Do not update cards which are still processing another operation.
+          for k,row in d["registry"].items():
+           q=row["directions"]["text"]
+           if q["status"]!="READY" or (k,"text") in touched:continue
+           try:
+            m,c,st=s.live(biz,cam,k)
+            if not clean_status(k,c,st) or (gkey(c) and members.get(gkey(c))!=[k]):q.update(status="REVIEW_REQUIRED",reason="Not independently editable");continue
+            fields={f:v for f,v in q["changes"].items() if m["offer"].get(f)!=v}
+            if not fields:q["status"]="ALREADY_OPTIMAL";continue
+            rec={"sku":k,"kind":"text","status":"SUBMISSION_STARTED","target_fields":fields};d["operations"].append(rec);d["new_requests"]+=1;save(True)
+            rec["response"]=s.post(f"/v2/businesses/{biz}/offer-mappings/update",{"offerMappings":[{"offer":{"offerId":k,**fields}}]},retries=1)
+            rec["status"]="ACCEPTED";save(True)
+            a,b,z=s.live(biz,cam,k)
+            diff=protected(m,c,st,fields)!=protected(a,b,z,fields) or other_params(c)!=other_params(b) or z.get("status")!="PUBLISHED"
+            exact=all(a["offer"].get(f)==v for f,v in fields.items())
+            rec["checks"]={"protected_unchanged":not diff,"fields_match":exact,"card_status":b.get("cardStatus")}
+            rec["status"]="PROTECTED_DRIFT" if diff else "VERIFIED" if exact and b.get("cardStatus")=="HAS_CARD_CAN_UPDATE" else "PENDING_MODERATION" if exact or b.get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING" else "UNCONFIRMED"
+            q["status"]=rec["status"];save(True)
+           except Exception as ex:
+            q.update(status="UNCONFIRMED",reason=str(ex)[:300]);save(True)
+          
+          # Media: only prior visually approved exact append A015. It is already present.
+          # No new media accepted by filename; preserve current galleries and create exact design tasks for gaps.
+          designrows={x["sku"]:x for x in design.get("rows",[])}
+          for k,row in d["registry"].items():
+           q=row["directions"]["media"];source=designrows.get(k,{})
+           q["existing_reviewed_task"]=source.get("task")
+           q["candidates"]=source.get("candidates",[])
+           if q["status"]=="DESIGN_REQUIRED" and not q["existing_reviewed_task"]:
+            q["existing_reviewed_task"]="Exact SKU "+k+": new real overall and reverse-side photos, markings/connector and package contents; video showing the actual modification and verified fitment. Preserve current first photo."
+           if k=="0AM325025B":
+            approved=next(x for x in preview["records"] if x["id"]=="A015" and x["sku"]==k)
+            q["previous_approved_append_present"]=approved["url"] in (m0[k]["offer"].get("pictures") or [])
+            q["previous_approved_append_verified"]=q["previous_approved_append_present"] and any(x.get("url")==approved["url"] and x.get("uploadState")=="UPLOADED" for x in (m0[k]["offer"].get("mediaFiles") or {}).get("pictures",[]))
+          save(True)
+          
+          # One final full live read; classify actual persisted state and check commercial boundaries.
+          ma,ca,sa=r.read_all(biz,cam);stocka=stock(list(ma));d["after_counts"]=counter(v.get("status") for v in sa.values())
+          d["stock_differences"]=[k for k in m0 if stock0.get(k)!=stocka.get(k)]
+          d["price_differences"]=[k for k in m0 if (st0[k].get("basicPrice") or {}).get("value")!=(sa.get(k,{}).get("basicPrice") or {}).get("value")]
+          d["lost_publication"]=[k for k in m0 if st0[k].get("status")=="PUBLISHED" and sa.get(k,{}).get("status")!="PUBLISHED"]
+          d["identity_differences"]=[];d["commercial_differences"]=[]
+          for k in m0:
+           try:
+            if k not in ma:raise ValueError("Missing offer")
+            x,y=s.identity(m0[k],c0[k]),s.identity(ma[k],ca[k]);x.pop("groupId",None);y.pop("groupId",None)
+            if x!=y or r.model(m0[k],c0[k])!=r.model(ma[k],ca[k]):d["identity_differences"].append(k)
+            o=m0[k]["offer"];a=ma[k]["offer"]
+            dif=[z for z in ("basicPrice","purchasePrice","barcodes","vendor","certificates","commodityCodes","customsCommodityCode","weightDimensions","sellingPrograms") if o.get(z)!=a.get(z)]
+            if dif:d["commercial_differences"].append({"sku":k,"fields":dif})
+           except Exception as ex:d["identity_differences"].append({"sku":k,"reason":str(ex)[:180]})
+          for rec in d["operations"]:
+           k=rec["sku"]
+           if k not in ma or rec["status"] in ("PROTECTED_DRIFT","SUBMISSION_STARTED"):continue
+           c=ca[k];m=ma[k];st=sa[k]
+           kind=rec["kind"];exact=False
+           if kind=="attribute":exact=all(matches(c,p) for p in rec.get("target_parameters",[]))
+           elif kind=="category":exact=s.catid(m,c)==rec["target"] and all(matches(c,p) for p in rec.get("target_parameters",[]))
+           elif kind=="group":exact=not gkey(c)
+           elif kind=="text":exact=all(m["offer"].get(f)==v for f,v in rec.get("target_fields",{}).items())
+           if exact and k not in d["identity_differences"] and c.get("cardStatus")=="HAS_CARD_CAN_UPDATE" and st.get("status")=="PUBLISHED":rec["status"]="VERIFIED"
+           elif exact or c.get("cardStatus")=="HAS_CARD_CAN_UPDATE_PROCESSING":rec["status"]="PENDING_MODERATION"
+           else:rec["status"]="UNCONFIRMED"
+           rec["final_readback"]={"exact":exact,"card_status":c.get("cardStatus"),"campaign_status":st.get("status"),"category":s.catid(m,c),"group":c.get("groupId"),"warnings":diagnostics(c,st)}
+           d["registry"][k]["directions"][{"attribute":"attributes","group":"groups","category":"categories","text":"text"}[kind]]["status"]=rec["status"]
+          for k,row in d["registry"].items():
+           if k not in ma:continue
+           row["status_after"]=sa[k].get("status");row["card_status_after"]=ca[k].get("cardStatus");row["category_after"]=s.catid(ma[k],ca[k]);row["group_after"]=ca[k].get("groupId")
+           if row["directions"]["categories"].get("target")==row["category_after"] and row["directions"]["categories"]["status"]=="REVIEW_REQUIRED":row["directions"]["categories"]["status"]="VERIFIED"
+           row["rating_after"]=ca[k].get("contentRating")
+           row["diagnostics_after"]=diagnostics(ca[k],sa[k])
+          d["summary"]={"directions":{direction:counter(v["directions"][direction]["status"] for v in d["registry"].values()) for direction in ("groups","attributes","categories","text","media")},"operation_statuses":counter(x["kind"]+":"+x["status"] for x in d["operations"]),"new_requests":d["new_requests"],"disabled_available_units":sum(qty(stocka[k]) for k,v in sa.items() if v.get("status")=="DISABLED_AUTOMATICALLY"),"quality_before":sum(c0[k].get("contentRating") or 0 for k in m0 if st0[k].get("status")=="PUBLISHED")/max(1,d["before_counts"].get("PUBLISHED",0)),"quality_after":sum(ca[k].get("contentRating") or 0 for k in ma if sa[k].get("status")=="PUBLISHED")/max(1,d["after_counts"].get("PUBLISHED",0))}
+          d["finished_utc"]=now();d["status"]="completed_with_local_blockers";save(True)
+          print(json.dumps(d["summary"],ensure_ascii=False))
+          PY
+          python -m py_compile /tmp/market_independent_completion.py
+          PYTHONPATH=.:scripts python /tmp/market_independent_completion.py
