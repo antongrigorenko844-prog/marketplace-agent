@@ -1,0 +1,84 @@
+name: LEOPARTS Market current card and document audit (read only)
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/market-current-card-audit-20261125.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: market-current-card-audit
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+      YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Check current cards and document status without seller mutations
+        run: |
+          PYTHONPATH=.:scripts python - <<'PY'
+          import collections,datetime,json
+          from pathlib import Path
+          import market_full_seo_20261125 as s
+          import market_growth_recovery_20261125 as r
+          import market_growth_decision_report as g
+          biz,cam=s.account()
+          if biz!=194752944 or int(cam)!=141377963:raise ValueError("Unexpected account")
+          root=Path("data")
+          previous=json.loads((root/"market_publication_diagnosis_20261125.json").read_text())
+          prior=json.loads((root/"market_growth_decision_20261125.json").read_text())
+          plan=json.loads((root/"market_growth_next_plan_20261125.json").read_text())
+          m,c,st=r.read_all(biz,cam)
+          d={"platform":"Yandex Market","business_id":biz,"campaign_id":int(cam),"mode":"read_only","market_mutations":0,"checked_at":datetime.datetime.now(datetime.timezone.utc).isoformat(),"errors":{},"rows":{}}
+          d["counts"]=dict(collections.Counter(x.get("status") for x in st.values()))
+          d["coverage"]={"offers":len(m),"cards":len(c),"statuses":len(st)}
+          d["new_skus"]=sorted(set(m)-set(prior["rows"]))
+          d["missing_skus"]=sorted(set(prior["rows"])-set(m))
+          targets={x["sku"]:int(x["target"]) for x in plan["category_remaining"]}
+          stats={}
+          for start in range(0,len(m),80):
+              try:
+                  p=s.post(f"/v2/campaigns/{cam}/stats/skus",{"shopSkus":list(m)[start:start+80]})
+                  stats.update({x["shopSku"]:x for x in p["result"]["shopSkus"]})
+              except Exception as e:d["errors"]["stock_"+str(start)]=str(e)[:200]
+          try:
+              docs=g.get_pages("POST",f"/v1/businesses/{biz}/offers/documents","documents",{},limit=100)
+              bynum={str(x.get("number")):x for x in docs if x.get("number")}
+              d["documents"]={"count":len(docs),"statuses":dict(collections.Counter(str(x.get("status") or "unknown") for x in docs)),"types":dict(collections.Counter(str(x.get("type") or "unknown") for x in docs))}
+          except Exception as e:
+              bynum={};d["documents"]=None;d["errors"]["documents"]=str(e)[:200]
+          for k,x in m.items():
+              o=x["offer"];card=c[k];status=st[k]
+              old=prior["rows"].get(k,{})
+              cert=o.get("certificates") or []
+              warnings=(status.get("warnings") or [])+(card.get("warnings") or [])
+              errors=(status.get("errors") or [])+(card.get("errors") or [])
+              rating=card.get("contentRating")
+              row={"sku":k,"name":o.get("name"),"status":status.get("status"),"old_status":old.get("campaign_status"),"card_status":card.get("cardStatus"),"category":s.catid(x,card),"target_category":targets.get(k),"rating":rating,"old_rating":old.get("rating"),"stock":g.available(stats.get(k,{})),"price":(status.get("basicPrice") or {}).get("value"),"attached_certificates":len(cert),"attached_statuses":[bynum.get(str(z.get("number") if isinstance(z,dict) else z),{}).get("status","not_confirmed") for z in cert],"warnings":warnings,"errors":errors,"group":card.get("groupId"),"recommendations":card.get("recommendations") or [],"pictures":len(o.get("pictures") or []),"description_present":bool(o.get("description"))}
+              if row["status"]=="DISABLED_AUTOMATICALLY":
+                  row["blocker"]="duplicate_variant" if any("Дубль варианта" in str(v) for v in warnings+errors) else "explicit_API_error" if errors else "specific_reason_not_returned"
+              d["rows"][k]=row
+          d["recovered"]=[k for k,x in d["rows"].items() if x["old_status"]=="DISABLED_AUTOMATICALLY" and x["status"]=="PUBLISHED"]
+          d["still_disabled"]=[k for k,x in d["rows"].items() if x["status"]=="DISABLED_AUTOMATICALLY"]
+          d["blocked_available_units"]=sum(x["stock"] or 0 for x in d["rows"].values() if x["status"]=="DISABLED_AUTOMATICALLY")
+          d["blocked_stock_unknown"]=[k for k in d["still_disabled"] if d["rows"][k]["stock"] is None]
+          d["categories_confirmed"]=[k for k,v in targets.items() if k in d["rows"] and d["rows"][k]["category"]==v]
+          d["categories_remaining"]=[k for k in targets if k not in d["categories_confirmed"]]
+          d["low_content_rating"]=[{"sku":k,"rating":x["rating"],"stock":x["stock"],"status":x["status"]} for k,x in d["rows"].items() if isinstance(x["rating"],(int,float)) and x["rating"]<50]
+          d["lost_publication"]=[k for k,x in d["rows"].items() if x["old_status"]=="PUBLISHED" and x["status"]!="PUBLISHED"]
+          d["finished_at"]=datetime.datetime.now(datetime.timezone.utc).isoformat()
+          (root/"market_current_card_audit_20261125.json").write_text(json.dumps(d,ensure_ascii=False,indent=2,default=str)+"\n")
+          print(json.dumps({k:d[k] for k in ("coverage","counts","documents","recovered","still_disabled","blocked_available_units","categories_confirmed","categories_remaining","lost_publication","errors")},ensure_ascii=False))
+          PY
+          bash .github/scripts/save_data.sh data/market_current_card_audit_20261125.json
