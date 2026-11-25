@@ -1,0 +1,60 @@
+name: LEOPARTS Market exact description readback 20261126
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/market-description-readback-20261126.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: market-description-readback
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+      YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Exact readback, no seller mutations
+        run: |
+          PYTHONPATH=.:scripts python - <<'PY'
+          import collections, datetime, json, hashlib
+          from pathlib import Path
+          import market_full_seo_20261125 as s
+          import market_growth_recovery_20261125 as r
+          biz,cam=s.account()
+          if biz!=194752944 or int(cam)!=141377963: raise RuntimeError("Unexpected account")
+          m,c,st=r.read_all(biz,cam)
+          manifest=json.loads(Path("data/content_manifest.json").read_text())["products"]
+          state=json.loads(Path("reports/content-pipeline/state.json").read_text())
+          previous=json.loads(Path("data/market_current_card_audit_20261125.json").read_text())
+          result={"platform":"Yandex Market","business_id":biz,"campaign_id":int(cam),"checked_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),"market_mutations":0,"coverage":{"offers":len(m),"cards":len(c),"statuses":len(st)},"rows":{}}
+          def digest(x):return hashlib.sha256(json.dumps(x,ensure_ascii=False,sort_keys=True,default=str,separators=(',', ':')).encode()).hexdigest()
+          for k,x in m.items():
+              o=x["offer"];card=c[k];status=st[k]
+              target=manifest.get(k,{}).get("text",{}).get("market",{}).get("description")
+              actual=o.get("description")
+              row={"sku":k,"name":o.get("name"),"status":status.get("status"),"card_status":card.get("cardStatus"),"category":s.catid(x,card),"rating":card.get("contentRating"),"recommendations":card.get("recommendations") or [],"pictures":len(o.get("pictures") or []),"videos":len(o.get("videos") or []),"description_length":len(actual or ""),"target_length":len(target or ""),"match":actual==target if target is not None else None,"actual_hash":digest(actual),"target_hash":digest(target) if target is not None else None,"pipeline_status":state.get("rows",{}).get(k,{}).get("market",{}).get("status"),"stock_previous":previous.get("rows",{}).get(k,{}).get("stock"),"certificates_count":len(o.get("certificates") or []),"warnings":(status.get("warnings") or [])+(card.get("warnings") or []),"errors":(status.get("errors") or [])+(card.get("errors") or [])}
+              if target is not None and actual!=target:row.update(actual_description=actual,target_description=target)
+              result["rows"][k]=row
+          rows=list(result["rows"].values())
+          result["counts"]=dict(collections.Counter(x["status"] for x in rows))
+          result["descriptions"]={"with_target":sum(x["match"] is not None for x in rows),"matches":sum(x["match"] is True for x in rows),"mismatches":[x["sku"] for x in rows if x["match"] is False],"without_target":[x["sku"] for x in rows if x["match"] is None],"empty":[x["sku"] for x in rows if not x["description_length"]]}
+          active=[x for x in rows if x["status"]=="PUBLISHED"]
+          result["published_quality"]={"under_50":sum(isinstance(x["rating"],(int,float)) and x["rating"]<50 for x in active),"ratings":dict(collections.Counter(str(x["rating"]) for x in active)),"description_length_recommendation":sum(any(y.get("type")=="DESCRIPTION_LENGTH" for y in x["recommendations"]) for x in active),"picture_count_recommendation":sum(any(y.get("type")=="PICTURE_COUNT" for y in x["recommendations"]) for x in active),"title_length_recommendation":sum(any(y.get("type")=="TITLE_LENGTH" for y in x["recommendations"]) for x in active)}
+          result["recovered"]=[k for k in previous.get("still_disabled",[]) if result["rows"].get(k,{}).get("status")=="PUBLISHED"]
+          result["finished_utc"]=datetime.datetime.now(datetime.timezone.utc).isoformat()
+          Path("data/market_description_readback_20261126.json").write_text(json.dumps(result,ensure_ascii=False,indent=2,default=str)+"\n")
+          print(json.dumps({k:result[k] for k in ("coverage","counts","descriptions","published_quality","recovered")},ensure_ascii=False))
+          PY
+          bash .github/scripts/save_data.sh data/market_description_readback_20261126.json
