@@ -1,0 +1,3774 @@
+{
+  "stage": 3,
+  "mode": "evidence_only_no_marketplace_writes",
+  "sources": [
+    "data/wb_advanced_finance_20261126.json",
+    "data/wb_advanced/live_inventory.json",
+    "data/avito_price_audit_20261124.json",
+    "data/site_price_review_live_20261124.json"
+  ],
+  "scope": 140,
+  "reference_costs": {
+    "available": 109,
+    "older_matching_only": 1,
+    "missing": 31,
+    "conflicts": 0
+  },
+  "limitations": [
+    "WB historic forPay is not profit",
+    "Older cost snapshots are only reference, not independently verified current procurement costs",
+    "Actual fees, logistics, tax, return handling, advertising and packaging not confirmed",
+    "60-day prior comparator unavailable in 90-day history",
+    "No assumptions about causes of decline or live availability"
+  ],
+  "windows": [
+    {
+      "label": "7d",
+      "start": "2026-11-18",
+      "end": "2026-11-24",
+      "previous_start": "2026-11-11",
+      "previous_end": "2026-11-17",
+      "current_sales": 2,
+      "previous_sales": 12,
+      "sku_sales": [
+        {
+          "sku": "separatornaya-plastina-dq200",
+          "nmID": 1722879969,
+          "previous": 5,
+          "current": 0,
+          "stock": 75,
+          "delta": -5
+        },
+        {
+          "sku": "plita-pylniki-salniki",
+          "nmID": 1605381170,
+          "previous": 3,
+          "current": 0,
+          "stock": 13,
+          "delta": -3
+        },
+        {
+          "sku": "0AM325433E",
+          "nmID": 670855815,
+          "previous": 2,
+          "current": 0,
+          "stock": 155,
+          "delta": -2
+        },
+        {
+          "sku": "0am325025",
+          "nmID": 670860331,
+          "previous": 1,
+          "current": 0,
+          "stock": 13,
+          "delta": -1
+        },
+        {
+          "sku": "0am325025f",
+          "nmID": 670860368,
+          "previous": 1,
+          "current": 0,
+          "stock": 30,
+          "delta": -1
+        },
+        {
+          "sku": "chip-0am927769d",
+          "nmID": 2238877298,
+          "previous": 0,
+          "current": 1,
+          "stock": 9,
+          "delta": 1
+        },
+        {
+          "sku": "kryshka-mehatronika-dq200",
+          "nmID": 1722880947,
+          "previous": 0,
+          "current": 1,
+          "stock": 19,
+          "delta": 1
+        }
+      ]
+    },
+    {
+      "label": "14d",
+      "start": "2026-11-11",
+      "end": "2026-11-24",
+      "previous_start": "2026-10-28",
+      "previous_end": "2026-11-10",
+      "current_sales": 14,
+      "previous_sales": 4,
+      "sku_sales": [
+        {
+          "sku": "02E305045E",
+          "nmID": 836194897,
+          "previous": 2,
+          "current": 0,
+          "stock": 21,
+          "delta": -2
+        },
+        {
+          "sku": "0am325025ae",
+          "nmID": 670925563,
+          "previous": 1,
+          "current": 0,
+          "stock": 19,
+          "delta": -1
+        },
+        {
+          "sku": "0AM325443D",
+          "nmID": 670860106,
+          "previous": 1,
+          "current": 0,
+          "stock": 36,
+          "delta": -1
+        },
+        {
+          "sku": "0am325025",
+          "nmID": 670860331,
+          "previous": 0,
+          "current": 1,
+          "stock": 13,
+          "delta": 1
+        },
+        {
+          "sku": "chip-0am927769d",
+          "nmID": 2238877298,
+          "previous": 0,
+          "current": 1,
+          "stock": 9,
+          "delta": 1
+        },
+        {
+          "sku": "0am325025f",
+          "nmID": 670860368,
+          "previous": 0,
+          "current": 1,
+          "stock": 30,
+          "delta": 1
+        },
+        {
+          "sku": "kryshka-mehatronika-dq200",
+          "nmID": 1722880947,
+          "previous": 0,
+          "current": 1,
+          "stock": 19,
+          "delta": 1
+        },
+        {
+          "sku": "0AM325433E",
+          "nmID": 670855815,
+          "previous": 0,
+          "current": 2,
+          "stock": 155,
+          "delta": 2
+        },
+        {
+          "sku": "plita-pylniki-salniki",
+          "nmID": 1605381170,
+          "previous": 0,
+          "current": 3,
+          "stock": 13,
+          "delta": 3
+        },
+        {
+          "sku": "separatornaya-plastina-dq200",
+          "nmID": 1722879969,
+          "previous": 0,
+          "current": 5,
+          "stock": 75,
+          "delta": 5
+        }
+      ]
+    },
+    {
+      "label": "30d",
+      "start": "2026-10-26",
+      "end": "2026-11-24",
+      "previous_start": "2026-09-26",
+      "previous_end": "2026-10-25",
+      "current_sales": 20,
+      "previous_sales": 29,
+      "sku_sales": [
+        {
+          "sku": "0am325025u",
+          "nmID": 670860803,
+          "previous": 4,
+          "current": 0,
+          "stock": 129,
+          "delta": -4
+        },
+        {
+          "sku": "02E 305 045",
+          "nmID": 837943386,
+          "previous": 3,
+          "current": 0,
+          "stock": 21,
+          "delta": -3
+        },
+        {
+          "sku": "0am325025z",
+          "nmID": 670925480,
+          "previous": 2,
+          "current": 0,
+          "stock": 129,
+          "delta": -2
+        },
+        {
+          "sku": "0AM325219C",
+          "nmID": 670925525,
+          "previous": 2,
+          "current": 0,
+          "stock": 19,
+          "delta": -2
+        },
+        {
+          "sku": "122390AK-AF",
+          "nmID": 670925538,
+          "previous": 2,
+          "current": 0,
+          "stock": 116,
+          "delta": -2
+        },
+        {
+          "sku": "0am325025D",
+          "nmID": 670854215,
+          "previous": 2,
+          "current": 0,
+          "stock": 129,
+          "delta": -2
+        },
+        {
+          "sku": "DQ500",
+          "nmID": 837952965,
+          "previous": 2,
+          "current": 0,
+          "stock": 61,
+          "delta": -2
+        },
+        {
+          "sku": "0AM325587E",
+          "nmID": 670911962,
+          "previous": 1,
+          "current": 0,
+          "stock": 52,
+          "delta": -1
+        },
+        {
+          "sku": "0am325025m",
+          "nmID": 670862784,
+          "previous": 1,
+          "current": 0,
+          "stock": 149,
+          "delta": -1
+        },
+        {
+          "sku": "0AM325443D",
+          "nmID": 670860106,
+          "previous": 2,
+          "current": 1,
+          "stock": 36,
+          "delta": -1
+        },
+        {
+          "sku": "0am325025С",
+          "nmID": 670860816,
+          "previous": 1,
+          "current": 0,
+          "stock": 107,
+          "delta": -1
+        },
+        {
+          "sku": "0am325025l",
+          "nmID": 670860204,
+          "previous": 1,
+          "current": 0,
+          "stock": 79,
+          "delta": -1
+        },
+        {
+          "sku": "filtr-dsg7-dq200",
+          "nmID": 1722880585,
+          "previous": 1,
+          "current": 0,
+          "stock": 8,
+          "delta": -1
+        },
+        {
+          "sku": "0AM325120A",
+          "nmID": 670869831,
+          "previous": 1,
+          "current": 0,
+          "stock": 107,
+          "delta": -1
+        },
+        {
+          "sku": "0AM325413A",
+          "nmID": 670862903,
+          "previous": 1,
+          "current": 0,
+          "stock": 195,
+          "delta": -1
+        },
+        {
+          "sku": "0am325025f",
+          "nmID": 670860368,
+          "previous": 1,
+          "current": 1,
+          "stock": 30,
+          "delta": 0
+        },
+        {
+          "sku": "kryshka-mehatronika-dq200",
+          "nmID": 1722880947,
+          "previous": 1,
+          "current": 1,
+          "stock": 19,
+          "delta": 0
+        },
+        {
+          "sku": "0am325025",
+          "nmID": 670860331,
+          "previous": 0,
+          "current": 1,
+          "stock": 13,
+          "delta": 1
+        },
+        {
+          "sku": "chip-0am927769d",
+          "nmID": 2238877298,
+          "previous": 0,
+          "current": 1,
+          "stock": 9,
+          "delta": 1
+        },
+        {
+          "sku": "0am3250066AE",
+          "nmID": 711549088,
+          "previous": 0,
+          "current": 1,
+          "stock": 0,
+          "delta": 1
+        },
+        {
+          "sku": "0am325025ae",
+          "nmID": 670925563,
+          "previous": 0,
+          "current": 1,
+          "stock": 19,
+          "delta": 1
+        },
+        {
+          "sku": "02E305045E",
+          "nmID": 836194897,
+          "previous": 1,
+          "current": 2,
+          "stock": 21,
+          "delta": 1
+        },
+        {
+          "sku": "0AM927769D",
+          "nmID": 670860344,
+          "previous": 0,
+          "current": 1,
+          "stock": null,
+          "delta": 1
+        },
+        {
+          "sku": "0AM325433E",
+          "nmID": 670855815,
+          "previous": 0,
+          "current": 2,
+          "stock": 155,
+          "delta": 2
+        },
+        {
+          "sku": "plita-pylniki-salniki",
+          "nmID": 1605381170,
+          "previous": 0,
+          "current": 3,
+          "stock": 13,
+          "delta": 3
+        },
+        {
+          "sku": "separatornaya-plastina-dq200",
+          "nmID": 1722879969,
+          "previous": 0,
+          "current": 5,
+          "stock": 75,
+          "delta": 5
+        }
+      ]
+    },
+    {
+      "label": "60d",
+      "start": "2026-09-26",
+      "end": "2026-11-24",
+      "previous_start": null,
+      "previous_end": null,
+      "current_sales": 49,
+      "previous_sales": null,
+      "sku_sales": [
+        {
+          "sku": "0am325025u",
+          "nmID": 670860803,
+          "previous": null,
+          "current": 4,
+          "stock": 129,
+          "delta": null
+        },
+        {
+          "sku": "0am325025",
+          "nmID": 670860331,
+          "previous": null,
+          "current": 1,
+          "stock": 13,
+          "delta": null
+        },
+        {
+          "sku": "chip-0am927769d",
+          "nmID": 2238877298,
+          "previous": null,
+          "current": 1,
+          "stock": 9,
+          "delta": null
+        },
+        {
+          "sku": "0am3250066AE",
+          "nmID": 711549088,
+          "previous": null,
+          "current": 1,
+          "stock": 0,
+          "delta": null
+        },
+        {
+          "sku": "plita-pylniki-salniki",
+          "nmID": 1605381170,
+          "previous": null,
+          "current": 3,
+          "stock": 13,
+          "delta": null
+        },
+        {
+          "sku": "0am325025z",
+          "nmID": 670925480,
+          "previous": null,
+          "current": 2,
+          "stock": 129,
+          "delta": null
+        },
+        {
+          "sku": "0AM325219C",
+          "nmID": 670925525,
+          "previous": null,
+          "current": 2,
+          "stock": 19,
+          "delta": null
+        },
+        {
+          "sku": "0AM325587E",
+          "nmID": 670911962,
+          "previous": null,
+          "current": 1,
+          "stock": 52,
+          "delta": null
+        },
+        {
+          "sku": "0am325025ae",
+          "nmID": 670925563,
+          "previous": null,
+          "current": 1,
+          "stock": 19,
+          "delta": null
+        },
+        {
+          "sku": "0am325025m",
+          "nmID": 670862784,
+          "previous": null,
+          "current": 1,
+          "stock": 149,
+          "delta": null
+        },
+        {
+          "sku": "02E 305 045",
+          "nmID": 837943386,
+          "previous": null,
+          "current": 3,
+          "stock": 21,
+          "delta": null
+        },
+        {
+          "sku": "122390AK-AF",
+          "nmID": 670925538,
+          "previous": null,
+          "current": 2,
+          "stock": 116,
+          "delta": null
+        },
+        {
+          "sku": "0am325025D",
+          "nmID": 670854215,
+          "previous": null,
+          "current": 2,
+          "stock": 129,
+          "delta": null
+        },
+        {
+          "sku": "02E305045E",
+          "nmID": 836194897,
+          "previous": null,
+          "current": 3,
+          "stock": 21,
+          "delta": null
+        },
+        {
+          "sku": "0am325025f",
+          "nmID": 670860368,
+          "previous": null,
+          "current": 2,
+          "stock": 30,
+          "delta": null
+        },
+        {
+          "sku": "kryshka-mehatronika-dq200",
+          "nmID": 1722880947,
+          "previous": null,
+          "current": 2,
+          "stock": 19,
+          "delta": null
+        },
+        {
+          "sku": "0AM325443D",
+          "nmID": 670860106,
+          "previous": null,
+          "current": 3,
+          "stock": 36,
+          "delta": null
+        },
+        {
+          "sku": "0AM325433E",
+          "nmID": 670855815,
+          "previous": null,
+          "current": 2,
+          "stock": 155,
+          "delta": null
+        },
+        {
+          "sku": "DQ500",
+          "nmID": 837952965,
+          "previous": null,
+          "current": 2,
+          "stock": 61,
+          "delta": null
+        },
+        {
+          "sku": "0AM927769D",
+          "nmID": 670860344,
+          "previous": null,
+          "current": 1,
+          "stock": null,
+          "delta": null
+        },
+        {
+          "sku": "0am325025С",
+          "nmID": 670860816,
+          "previous": null,
+          "current": 1,
+          "stock": 107,
+          "delta": null
+        },
+        {
+          "sku": "separatornaya-plastina-dq200",
+          "nmID": 1722879969,
+          "previous": null,
+          "current": 5,
+          "stock": 75,
+          "delta": null
+        },
+        {
+          "sku": "0am325025l",
+          "nmID": 670860204,
+          "previous": null,
+          "current": 1,
+          "stock": 79,
+          "delta": null
+        },
+        {
+          "sku": "filtr-dsg7-dq200",
+          "nmID": 1722880585,
+          "previous": null,
+          "current": 1,
+          "stock": 8,
+          "delta": null
+        },
+        {
+          "sku": "0AM325120A",
+          "nmID": 670869831,
+          "previous": null,
+          "current": 1,
+          "stock": 107,
+          "delta": null
+        },
+        {
+          "sku": "0AM325413A",
+          "nmID": 670862903,
+          "previous": null,
+          "current": 1,
+          "stock": 195,
+          "delta": null
+        }
+      ]
+    }
+  ],
+  "unit_matrix": [
+    {
+      "sku": "0AM301212A",
+      "nmID": 670854126,
+      "master_sku": "0AM301212A",
+      "price_seller_discounted": 1350.18,
+      "current_reference_cost": 100,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 100
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 100
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 100,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1250.18,
+      "margin_before_other_expenses_percent": 92.59,
+      "profit_verified": false,
+      "stock": 107
+    },
+    {
+      "sku": "0am325025n",
+      "nmID": 670854144,
+      "master_sku": "0am325025n",
+      "price_seller_discounted": 8849.75,
+      "current_reference_cost": 1350,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 1350
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 1350
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 1350,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 7499.75,
+      "margin_before_other_expenses_percent": 84.75,
+      "profit_verified": false,
+      "stock": 25
+    },
+    {
+      "sku": "0am325025D",
+      "nmID": 670854215,
+      "master_sku": "0am325025D",
+      "price_seller_discounted": 1879.91,
+      "current_reference_cost": 200,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 200
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 200
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 200,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1679.91,
+      "margin_before_other_expenses_percent": 89.36,
+      "profit_verified": false,
+      "stock": 129
+    },
+    {
+      "sku": "0am325025q",
+      "nmID": 670854223,
+      "master_sku": "0am325025q",
+      "price_seller_discounted": 1349.95,
+      "current_reference_cost": 25,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 25
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 25
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 25,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1324.95,
+      "margin_before_other_expenses_percent": 98.15,
+      "profit_verified": false,
+      "stock": 247
+    },
+    {
+      "sku": "0AM325467J",
+      "nmID": 670854239,
+      "master_sku": "0AM325467J",
+      "price_seller_discounted": 1850,
+      "current_reference_cost": 180,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 180
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 180
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 180,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1670,
+      "margin_before_other_expenses_percent": 90.27,
+      "profit_verified": false,
+      "stock": 32
+    },
+    {
+      "sku": "0AM325433E",
+      "nmID": 670855815,
+      "master_sku": "0AM325433E",
+      "price_seller_discounted": 1350,
+      "current_reference_cost": 180,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 180
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 180
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 180,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1170,
+      "margin_before_other_expenses_percent": 86.67,
+      "profit_verified": false,
+      "stock": 155
+    },
+    {
+      "sku": "0am325066ad",
+      "nmID": 670855859,
+      "master_sku": "0am325066ad",
+      "price_seller_discounted": 1270.08,
+      "current_reference_cost": 30,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 30
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 30
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 30,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1240.08,
+      "margin_before_other_expenses_percent": 97.64,
+      "profit_verified": false,
+      "stock": 259
+    },
+    {
+      "sku": "02E305051C",
+      "nmID": 670858041,
+      "master_sku": "02E305051C",
+      "price_seller_discounted": 1450.22,
+      "current_reference_cost": 120,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 120
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 120
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 120,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1330.22,
+      "margin_before_other_expenses_percent": 91.73,
+      "profit_verified": false,
+      "stock": 75
+    },
+    {
+      "sku": "jf011e",
+      "nmID": 670858043,
+      "master_sku": "jf011e",
+      "price_seller_discounted": 12850,
+      "current_reference_cost": 1500,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 1500
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 1500
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 1500,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 11350,
+      "margin_before_other_expenses_percent": 88.33,
+      "profit_verified": false,
+      "stock": 0
+    },
+    {
+      "sku": "0am325025G",
+      "nmID": 670858166,
+      "master_sku": "0am325025G",
+      "price_seller_discounted": 3849.77,
+      "current_reference_cost": 200,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 200
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 200
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 200,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 3649.77,
+      "margin_before_other_expenses_percent": 94.8,
+      "profit_verified": false,
+      "stock": 58
+    },
+    {
+      "sku": "0AM325443D",
+      "nmID": 670860106,
+      "master_sku": "0AM325443D",
+      "price_seller_discounted": 2189.81,
+      "current_reference_cost": 190,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 190
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 190
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 190,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1999.81,
+      "margin_before_other_expenses_percent": 91.32,
+      "profit_verified": false,
+      "stock": 36
+    },
+    {
+      "sku": "0am325025l",
+      "nmID": 670860204,
+      "master_sku": "0am325025l",
+      "price_seller_discounted": 1850.23,
+      "current_reference_cost": 250,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 250
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 250
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 250,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1600.23,
+      "margin_before_other_expenses_percent": 86.49,
+      "profit_verified": false,
+      "stock": 79
+    },
+    {
+      "sku": "0am325025",
+      "nmID": 670860331,
+      "master_sku": "0am325025",
+      "price_seller_discounted": 13849.8,
+      "current_reference_cost": 3000,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 3000
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 3000
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 3000,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 10849.8,
+      "margin_before_other_expenses_percent": 78.34,
+      "profit_verified": false,
+      "stock": 13
+    },
+    {
+      "sku": "0am325025f",
+      "nmID": 670860368,
+      "master_sku": "0am325025f",
+      "price_seller_discounted": 3850.22,
+      "current_reference_cost": 400,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 400
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 400
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 400,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 3450.22,
+      "margin_before_other_expenses_percent": 89.61,
+      "profit_verified": false,
+      "stock": 30
+    },
+    {
+      "sku": "01X301127C",
+      "nmID": 670860387,
+      "master_sku": "01X301127C",
+      "price_seller_discounted": 1250.1,
+      "current_reference_cost": 50,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 50
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 50
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 50,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1200.1,
+      "margin_before_other_expenses_percent": 96,
+      "profit_verified": false,
+      "stock": 194
+    },
+    {
+      "sku": "0am325025u",
+      "nmID": 670860803,
+      "master_sku": "0am325025u",
+      "price_seller_discounted": 2880.22,
+      "current_reference_cost": 500,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 500
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 500
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 500,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 2380.22,
+      "margin_before_other_expenses_percent": 82.64,
+      "profit_verified": false,
+      "stock": 129
+    },
+    {
+      "sku": "0am325025С",
+      "nmID": 670860816,
+      "master_sku": "0am325025С",
+      "price_seller_discounted": 1349.95,
+      "current_reference_cost": 65,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 65
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 65
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 65,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1284.95,
+      "margin_before_other_expenses_percent": 95.19,
+      "profit_verified": false,
+      "stock": 107
+    },
+    {
+      "sku": "55565480",
+      "nmID": 670860836,
+      "master_sku": "55565480",
+      "price_seller_discounted": 950.11,
+      "current_reference_cost": 150,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 150
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 150
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 150,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 800.11,
+      "margin_before_other_expenses_percent": 84.21,
+      "profit_verified": false,
+      "stock": 13
+    },
+    {
+      "sku": "0am325025P",
+      "nmID": 670861565,
+      "master_sku": "0am325025P",
+      "price_seller_discounted": 980,
+      "current_reference_cost": 40,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 40
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 40
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 40,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 940,
+      "margin_before_other_expenses_percent": 95.92,
+      "profit_verified": false,
+      "stock": 80
+    },
+    {
+      "sku": "0am325025j",
+      "nmID": 670862709,
+      "master_sku": "0am325025j",
+      "price_seller_discounted": 2850.12,
+      "current_reference_cost": 250,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 250
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 250
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 250,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 2600.12,
+      "margin_before_other_expenses_percent": 91.23,
+      "profit_verified": false,
+      "stock": 27
+    },
+    {
+      "sku": "0am325025m",
+      "nmID": 670862784,
+      "master_sku": "0am325025m",
+      "price_seller_discounted": 8849.75,
+      "current_reference_cost": 700,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 700
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 700
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 700,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 8149.75,
+      "margin_before_other_expenses_percent": 92.09,
+      "profit_verified": false,
+      "stock": 149
+    },
+    {
+      "sku": "0am325066AC",
+      "nmID": 670862819,
+      "master_sku": "0am325066AC",
+      "price_seller_discounted": 1489.83,
+      "current_reference_cost": 150,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 150
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 150
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 150,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1339.83,
+      "margin_before_other_expenses_percent": 89.93,
+      "profit_verified": false,
+      "stock": 26
+    },
+    {
+      "sku": "0AM325413A",
+      "nmID": 670862903,
+      "master_sku": "0AM325413A",
+      "price_seller_discounted": 1350,
+      "current_reference_cost": 70,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 70
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 70
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 70,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1280,
+      "margin_before_other_expenses_percent": 94.81,
+      "profit_verified": false,
+      "stock": 195
+    },
+    {
+      "sku": "WHT001922",
+      "nmID": 670862930,
+      "master_sku": "WHT001922",
+      "price_seller_discounted": 949.9,
+      "current_reference_cost": 40,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 40
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 40
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 40,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 909.9,
+      "margin_before_other_expenses_percent": 95.79,
+      "profit_verified": false,
+      "stock": 121
+    },
+    {
+      "sku": "0AM325473",
+      "nmID": 670869819,
+      "master_sku": "0AM325473",
+      "price_seller_discounted": 12849.82,
+      "current_reference_cost": 3000,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 3000
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 3000
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 3000,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 9849.82,
+      "margin_before_other_expenses_percent": 76.65,
+      "profit_verified": false,
+      "stock": 10
+    },
+    {
+      "sku": "0AM325120A",
+      "nmID": 670869831,
+      "master_sku": "0AM325120A",
+      "price_seller_discounted": 1350,
+      "current_reference_cost": 60,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 60
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 60
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 60,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1290,
+      "margin_before_other_expenses_percent": 95.56,
+      "profit_verified": false,
+      "stock": 107
+    },
+    {
+      "sku": "0am325025r",
+      "nmID": 670869838,
+      "master_sku": "0am325025r",
+      "price_seller_discounted": 1489.75,
+      "current_reference_cost": 70,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 70
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 70
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 70,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1419.75,
+      "margin_before_other_expenses_percent": 95.3,
+      "profit_verified": false,
+      "stock": 129
+    },
+    {
+      "sku": "0AM325587E",
+      "nmID": 670911962,
+      "master_sku": "0AM325587E",
+      "price_seller_discounted": 9850.1,
+      "current_reference_cost": 1800,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 1800
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 1800
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 1800,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 8050.1,
+      "margin_before_other_expenses_percent": 81.73,
+      "profit_verified": false,
+      "stock": 52
+    },
+    {
+      "sku": "02e305045",
+      "nmID": 670914369,
+      "master_sku": "02e305045",
+      "price_seller_discounted": 1980,
+      "current_reference_cost": 280,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 280
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 280
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 280,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1700,
+      "margin_before_other_expenses_percent": 85.86,
+      "profit_verified": false,
+      "stock": 21
+    },
+    {
+      "sku": "0am325066ae",
+      "nmID": 670925467,
+      "master_sku": "0am325066ae",
+      "price_seller_discounted": 9850.17,
+      "current_reference_cost": 1900,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 1900
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 1900
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 1900,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 7950.17,
+      "margin_before_other_expenses_percent": 80.71,
+      "profit_verified": false,
+      "stock": 13
+    },
+    {
+      "sku": "0am325091f",
+      "nmID": 670925476,
+      "master_sku": "0am325091f",
+      "price_seller_discounted": 1990.07,
+      "current_reference_cost": 300,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 300
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 300
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 300,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1690.07,
+      "margin_before_other_expenses_percent": 84.93,
+      "profit_verified": false,
+      "stock": 171
+    },
+    {
+      "sku": "0am325025z",
+      "nmID": 670925480,
+      "master_sku": "0am325025z",
+      "price_seller_discounted": 2880.22,
+      "current_reference_cost": 500,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 500
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 500
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 500,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 2380.22,
+      "margin_before_other_expenses_percent": 82.64,
+      "profit_verified": false,
+      "stock": 129
+    },
+    {
+      "sku": "0am325025hfe",
+      "nmID": 670925490,
+      "master_sku": "0am325025hfe",
+      "price_seller_discounted": 3850.08,
+      "current_reference_cost": 100,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 100
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 100
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 100,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 3750.08,
+      "margin_before_other_expenses_percent": 97.4,
+      "profit_verified": false,
+      "stock": 58
+    },
+    {
+      "sku": "0AM325025B",
+      "nmID": 670925505,
+      "master_sku": "0AM325025B",
+      "price_seller_discounted": 9350,
+      "current_reference_cost": 1350,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 1350
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 1350
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 1350,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 8000,
+      "margin_before_other_expenses_percent": 85.56,
+      "profit_verified": false,
+      "stock": 11
+    },
+    {
+      "sku": "0BH325183B",
+      "nmID": 670925512,
+      "master_sku": "0BH325183B",
+      "price_seller_discounted": 5000,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 0
+    },
+    {
+      "sku": "0AM325219C",
+      "nmID": 670925525,
+      "master_sku": "0AM325219C",
+      "price_seller_discounted": 2989.8,
+      "current_reference_cost": 500,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 500
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 500
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 500,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 2489.8,
+      "margin_before_other_expenses_percent": 83.28,
+      "profit_verified": false,
+      "stock": 19
+    },
+    {
+      "sku": "122390AK-AF",
+      "nmID": 670925538,
+      "master_sku": "122390AK-AF",
+      "price_seller_discounted": 950.11,
+      "current_reference_cost": 30,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 30
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 30
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 30,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 920.11,
+      "margin_before_other_expenses_percent": 96.84,
+      "profit_verified": false,
+      "stock": 116
+    },
+    {
+      "sku": "0am325025ae",
+      "nmID": 670925563,
+      "master_sku": "0am325025ae",
+      "price_seller_discounted": 4489.87,
+      "current_reference_cost": 700,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 700
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 700
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 700,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 3789.87,
+      "margin_before_other_expenses_percent": 84.41,
+      "profit_verified": false,
+      "stock": 19
+    },
+    {
+      "sku": "0am325091e",
+      "nmID": 670925587,
+      "master_sku": "0am325091e",
+      "price_seller_discounted": 1989.87,
+      "current_reference_cost": 300,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 300
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 300
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 300,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1689.87,
+      "margin_before_other_expenses_percent": 84.92,
+      "profit_verified": false,
+      "stock": 223
+    },
+    {
+      "sku": "123014‑AF",
+      "nmID": 672031715,
+      "master_sku": "123014‑AF",
+      "price_seller_discounted": 1850.24,
+      "current_reference_cost": 100,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 100
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 100
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 100,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1750.24,
+      "margin_before_other_expenses_percent": 94.6,
+      "profit_verified": false,
+      "stock": 24
+    },
+    {
+      "sku": "0BH325183 B",
+      "nmID": 672031719,
+      "master_sku": "0BH325183 B",
+      "price_seller_discounted": 7850,
+      "current_reference_cost": 1000,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 1000
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 1000
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 1000,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 6850,
+      "margin_before_other_expenses_percent": 87.26,
+      "profit_verified": false,
+      "stock": 0
+    },
+    {
+      "sku": "0BH325183",
+      "nmID": 672031724,
+      "master_sku": "0BH325183",
+      "price_seller_discounted": 7850,
+      "current_reference_cost": 1000,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 1000
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 1000
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 1000,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 6850,
+      "margin_before_other_expenses_percent": 87.26,
+      "profit_verified": false,
+      "stock": 0
+    },
+    {
+      "sku": "0am325025H",
+      "nmID": 681503332,
+      "master_sku": "0am325025H",
+      "price_seller_discounted": 68850.3,
+      "current_reference_cost": 13800,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 13800
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 13800
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 13800,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 55050.3,
+      "margin_before_other_expenses_percent": 79.96,
+      "profit_verified": false,
+      "stock": 13
+    },
+    {
+      "sku": "31705-X428B",
+      "nmID": 711385750,
+      "master_sku": "31705-X428B",
+      "price_seller_discounted": 58849.92,
+      "current_reference_cost": 10000,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 10000
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 10000
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 10000,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 48849.92,
+      "margin_before_other_expenses_percent": 83.01,
+      "profit_verified": false,
+      "stock": 0
+    },
+    {
+      "sku": "317053TX0C",
+      "nmID": 711424704,
+      "master_sku": "317053TX0C",
+      "price_seller_discounted": 58849.92,
+      "current_reference_cost": 10000,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 10000
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 10000
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 10000,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 48849.92,
+      "margin_before_other_expenses_percent": 83.01,
+      "profit_verified": false,
+      "stock": 3
+    },
+    {
+      "sku": "31705-1XF1A",
+      "nmID": 711439292,
+      "master_sku": "31705-1XF1A",
+      "price_seller_discounted": 40052,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 0
+    },
+    {
+      "sku": "31705-1XF0C",
+      "nmID": 711450909,
+      "master_sku": "31705-1XF0C",
+      "price_seller_discounted": 58849.92,
+      "current_reference_cost": 10000,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 10000
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 10000
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 10000,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 48849.92,
+      "margin_before_other_expenses_percent": 83.01,
+      "profit_verified": false,
+      "stock": 0
+    },
+    {
+      "sku": "0AM325091E / 0AM325091F",
+      "nmID": 711488868,
+      "master_sku": "0AM325091E / 0AM325091F",
+      "price_seller_discounted": 1319.7,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 25
+    },
+    {
+      "sku": "122390AKAF",
+      "nmID": 711529108,
+      "master_sku": "122390AKAF",
+      "price_seller_discounted": 1850.23,
+      "current_reference_cost": 90,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 90
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 90
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 90,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1760.23,
+      "margin_before_other_expenses_percent": 95.14,
+      "profit_verified": false,
+      "stock": 100
+    },
+    {
+      "sku": "0am3250066AE",
+      "nmID": 711549088,
+      "master_sku": "0am3250066AE",
+      "price_seller_discounted": 15032.1,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 0
+    },
+    {
+      "sku": "0am325025HC",
+      "nmID": 711552729,
+      "master_sku": "0am325025HC",
+      "price_seller_discounted": 9743.5,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 0
+    },
+    {
+      "sku": "0am325477",
+      "nmID": 711557492,
+      "master_sku": "0am325477",
+      "price_seller_discounted": 2350.25,
+      "current_reference_cost": 5,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 5
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 5
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 5,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 2345.25,
+      "margin_before_other_expenses_percent": 99.79,
+      "profit_verified": false,
+      "stock": 11
+    },
+    {
+      "sku": "0BH325183BB",
+      "nmID": 711572626,
+      "master_sku": "0BH325183BB",
+      "price_seller_discounted": 2732.24,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 50
+    },
+    {
+      "sku": "0am325025ze",
+      "nmID": 716791826,
+      "master_sku": "0am325025ze",
+      "price_seller_discounted": 69302.22,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 0
+    },
+    {
+      "sku": "02E305045E",
+      "nmID": 836194897,
+      "master_sku": "02E305045E",
+      "price_seller_discounted": 1570.94,
+      "current_reference_cost": 350,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 350
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 350,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1220.94,
+      "margin_before_other_expenses_percent": 77.72,
+      "profit_verified": false,
+      "stock": 21
+    },
+    {
+      "sku": "02E 305 045",
+      "nmID": 837943386,
+      "master_sku": "02E 305 045",
+      "price_seller_discounted": 2880,
+      "current_reference_cost": 400,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 400
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 400
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 400,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 2480,
+      "margin_before_other_expenses_percent": 86.11,
+      "profit_verified": false,
+      "stock": 21
+    },
+    {
+      "sku": "DQ500",
+      "nmID": 837952965,
+      "master_sku": "DQ500",
+      "price_seller_discounted": 2880.01,
+      "current_reference_cost": 400,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 400
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 400
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 400,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 2480.01,
+      "margin_before_other_expenses_percent": 86.11,
+      "profit_verified": false,
+      "stock": 61
+    },
+    {
+      "sku": "0am325025HX",
+      "nmID": 1007465575,
+      "master_sku": "0am325025HX",
+      "price_seller_discounted": 118849.9,
+      "current_reference_cost": 31000,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 31000
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 31000
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 31000,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 87849.9,
+      "margin_before_other_expenses_percent": 73.92,
+      "profit_verified": false,
+      "stock": 9
+    },
+    {
+      "sku": "plita-filtr-orig",
+      "nmID": 1605380704,
+      "master_sku": "plita-filtr-orig",
+      "price_seller_discounted": 10850.14,
+      "current_reference_cost": 2100,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 2100
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 2100
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 2100,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 8750.14,
+      "margin_before_other_expenses_percent": 80.65,
+      "profit_verified": false,
+      "stock": 13
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal-orig",
+      "nmID": 1605380809,
+      "master_sku": "plita-filtr-pylniki-sal-orig",
+      "price_seller_discounted": 11850.24,
+      "current_reference_cost": 2200,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 2200
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 2200
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 2200,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 9650.24,
+      "margin_before_other_expenses_percent": 81.43,
+      "profit_verified": false,
+      "stock": 13
+    },
+    {
+      "sku": "plita-pylniki-salniki",
+      "nmID": 1605381170,
+      "master_sku": "plita-pylniki-salniki",
+      "price_seller_discounted": 10850.02,
+      "current_reference_cost": 1900,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 1900
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 1900
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 1900,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 8950.02,
+      "margin_before_other_expenses_percent": 82.49,
+      "profit_verified": false,
+      "stock": 13
+    },
+    {
+      "sku": "plastina-solenoid-dq200",
+      "nmID": 1722879911,
+      "master_sku": "plastina-solenoid-dq200",
+      "price_seller_discounted": 1350,
+      "current_reference_cost": 80,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 80
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 80
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 80,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1270,
+      "margin_before_other_expenses_percent": 94.07,
+      "profit_verified": false,
+      "stock": 74
+    },
+    {
+      "sku": "plastiny-solenoid-dq200-2sht",
+      "nmID": 1722879954,
+      "master_sku": "plastiny-solenoid-dq200-2sht",
+      "price_seller_discounted": 1350.1,
+      "current_reference_cost": 100,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 100
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 100
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 100,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1250.1,
+      "margin_before_other_expenses_percent": 92.59,
+      "profit_verified": false,
+      "stock": 37
+    },
+    {
+      "sku": "filtr-dsg7-dq500",
+      "nmID": 1722879965,
+      "master_sku": "filtr-dsg7-dq500",
+      "price_seller_discounted": 1450.02,
+      "current_reference_cost": 120,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 120
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 120
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 120,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1330.02,
+      "margin_before_other_expenses_percent": 91.72,
+      "profit_verified": false,
+      "stock": 65
+    },
+    {
+      "sku": "separatornaya-plastina-dq200",
+      "nmID": 1722879969,
+      "master_sku": "separatornaya-plastina-dq200",
+      "price_seller_discounted": 1250,
+      "current_reference_cost": 100,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 100
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 100
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 100,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1150,
+      "margin_before_other_expenses_percent": 92,
+      "profit_verified": false,
+      "stock": 75
+    },
+    {
+      "sku": "separatornaya-plastiny-solenoid-dq200",
+      "nmID": 1722879991,
+      "master_sku": "separatornaya-plastiny-solenoid-dq200",
+      "price_seller_discounted": 2350.04,
+      "current_reference_cost": 200,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 200
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 200
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 200,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 2150.04,
+      "margin_before_other_expenses_percent": 91.49,
+      "profit_verified": false,
+      "stock": 37
+    },
+    {
+      "sku": "filtr-dsg7-dq200",
+      "nmID": 1722880585,
+      "master_sku": "filtr-dsg7-dq200",
+      "price_seller_discounted": 1349.92,
+      "current_reference_cost": 150,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 150
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 150
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 150,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1199.92,
+      "margin_before_other_expenses_percent": 88.89,
+      "profit_verified": false,
+      "stock": 8
+    },
+    {
+      "sku": "kryshka-mehatronika-dq200",
+      "nmID": 1722880947,
+      "master_sku": "kryshka-mehatronika-dq200",
+      "price_seller_discounted": 2350.08,
+      "current_reference_cost": 350,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 350
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 350
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 350,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 2000.08,
+      "margin_before_other_expenses_percent": 85.11,
+      "profit_verified": false,
+      "stock": 19
+    },
+    {
+      "sku": "prokladka-kryshki-dq200",
+      "nmID": 1722881195,
+      "master_sku": "prokladka-kryshki-dq200",
+      "price_seller_discounted": 1849.92,
+      "current_reference_cost": 150,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 150
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 150
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 150,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1699.92,
+      "margin_before_other_expenses_percent": 91.89,
+      "profit_verified": false,
+      "stock": 20
+    },
+    {
+      "sku": "prokladka-vtulki-verh-dq200",
+      "nmID": 1722881268,
+      "master_sku": "prokladka-vtulki-verh-dq200",
+      "price_seller_discounted": 950.04,
+      "current_reference_cost": 25,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 25
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 25
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 25,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 925.04,
+      "margin_before_other_expenses_percent": 97.37,
+      "profit_verified": false,
+      "stock": 49
+    },
+    {
+      "sku": "prokladka-vtulki-niz-dq200",
+      "nmID": 1722881454,
+      "master_sku": "prokladka-vtulki-niz-dq200",
+      "price_seller_discounted": 950.04,
+      "current_reference_cost": 25,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 25
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 25
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 25,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 925.04,
+      "margin_before_other_expenses_percent": 97.37,
+      "profit_verified": false,
+      "stock": 49
+    },
+    {
+      "sku": "prokladka-vtulki-dq200",
+      "nmID": 1723142564,
+      "master_sku": "prokladka-vtulki-dq200",
+      "price_seller_discounted": 1349.95,
+      "current_reference_cost": 50,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 50
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 50
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 50,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1299.95,
+      "margin_before_other_expenses_percent": 96.3,
+      "profit_verified": false,
+      "stock": 47
+    },
+    {
+      "sku": "0AM927769D-plata",
+      "nmID": 1922846685,
+      "master_sku": "0AM927769D-plata",
+      "price_seller_discounted": 74850.44,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 7
+    },
+    {
+      "sku": "plastiny-solenoid-orig",
+      "nmID": 1949665228,
+      "master_sku": "plastiny-solenoid-orig",
+      "price_seller_discounted": 1849.77,
+      "current_reference_cost": 200,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 200
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 200
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 200,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1649.77,
+      "margin_before_other_expenses_percent": 89.19,
+      "profit_verified": false,
+      "stock": 27
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig",
+      "nmID": 1949666878,
+      "master_sku": "plita-pylniki-salniki-orig",
+      "price_seller_discounted": 11850.3,
+      "current_reference_cost": 2100,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 2100
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 2100
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 2100,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 9750.3,
+      "margin_before_other_expenses_percent": 82.28,
+      "profit_verified": false,
+      "stock": 13
+    },
+    {
+      "sku": "remkomplekt-shtokov-orig",
+      "nmID": 1949668977,
+      "master_sku": "remkomplekt-shtokov-orig",
+      "price_seller_discounted": 2849.86,
+      "current_reference_cost": 500,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 500
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 500
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 500,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 2349.86,
+      "margin_before_other_expenses_percent": 82.46,
+      "profit_verified": false,
+      "stock": 50
+    },
+    {
+      "sku": "0AM927769N",
+      "nmID": 1949822182,
+      "master_sku": "0AM927769N",
+      "price_seller_discounted": 3349.64,
+      "current_reference_cost": 250,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 250
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 250
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 250,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 3099.64,
+      "margin_before_other_expenses_percent": 92.54,
+      "profit_verified": false,
+      "stock": 172
+    },
+    {
+      "sku": "02E927770AL",
+      "nmID": 1949822305,
+      "master_sku": "02E927770AL",
+      "price_seller_discounted": 118849.92,
+      "current_reference_cost": 30500,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 30500
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 30500
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 30500,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 88349.92,
+      "margin_before_other_expenses_percent": 74.34,
+      "profit_verified": false,
+      "stock": 2
+    },
+    {
+      "sku": "0am325025x",
+      "nmID": 1949823890,
+      "master_sku": "0am325025x",
+      "price_seller_discounted": 78849.6,
+      "current_reference_cost": 15000,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 15000
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 15000
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 15000,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 63849.6,
+      "margin_before_other_expenses_percent": 80.98,
+      "profit_verified": false,
+      "stock": 0
+    },
+    {
+      "sku": "0am325091e-set",
+      "nmID": 1949826486,
+      "master_sku": "0am325091e-set",
+      "price_seller_discounted": 4989.68,
+      "current_reference_cost": 1000,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 1000
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 1000
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 1000,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 3989.68,
+      "margin_before_other_expenses_percent": 79.96,
+      "profit_verified": false,
+      "stock": 64
+    },
+    {
+      "sku": "0am325091f-set",
+      "nmID": 1949828986,
+      "master_sku": "0am325091f-set",
+      "price_seller_discounted": 4989.68,
+      "current_reference_cost": 1000,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 1000
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 1000
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 1000,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 3989.68,
+      "margin_before_other_expenses_percent": 79.96,
+      "profit_verified": false,
+      "stock": 64
+    },
+    {
+      "sku": "0am325477ae",
+      "nmID": 1949830958,
+      "master_sku": "0am325477ae",
+      "price_seller_discounted": 2479.32,
+      "current_reference_cost": 150,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 150
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 150
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 150,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 2329.32,
+      "margin_before_other_expenses_percent": 93.95,
+      "profit_verified": false,
+      "stock": 54
+    },
+    {
+      "sku": "0cw0am325025",
+      "nmID": 1949832316,
+      "master_sku": "0cw0am325025",
+      "price_seller_discounted": 17849.65,
+      "current_reference_cost": 2500,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 2500
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 2500
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 2500,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 15349.65,
+      "margin_before_other_expenses_percent": 85.99,
+      "profit_verified": false,
+      "stock": 0
+    },
+    {
+      "sku": "0cw0amdsgdq200",
+      "nmID": 1949833936,
+      "master_sku": "0cw0amdsgdq200",
+      "price_seller_discounted": 1349.93,
+      "current_reference_cost": 30,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 30
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 30
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 30,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1319.93,
+      "margin_before_other_expenses_percent": 97.78,
+      "profit_verified": false,
+      "stock": 45
+    },
+    {
+      "sku": "0cw325025h",
+      "nmID": 1949835790,
+      "master_sku": "0cw325025h",
+      "price_seller_discounted": 1849.68,
+      "current_reference_cost": 130,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 130
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 130
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 130,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1719.68,
+      "margin_before_other_expenses_percent": 92.97,
+      "profit_verified": false,
+      "stock": 148
+    },
+    {
+      "sku": "0сц",
+      "nmID": 1949838891,
+      "master_sku": "0сц",
+      "price_seller_discounted": 1850.16,
+      "current_reference_cost": 120,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 120
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 120
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 120,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1730.16,
+      "margin_before_other_expenses_percent": 93.51,
+      "profit_verified": false,
+      "stock": 103
+    },
+    {
+      "sku": "Dq200dsg7",
+      "nmID": 1949839095,
+      "master_sku": "Dq200dsg7",
+      "price_seller_discounted": 1350.3,
+      "current_reference_cost": 20,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 20
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 20
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 20,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1330.3,
+      "margin_before_other_expenses_percent": 98.52,
+      "profit_verified": false,
+      "stock": 43
+    },
+    {
+      "sku": "Dq200dsg70am0cw",
+      "nmID": 1949840379,
+      "master_sku": "Dq200dsg70am0cw",
+      "price_seller_discounted": 8850.28,
+      "current_reference_cost": 900,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 900
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 900
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 900,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 7950.28,
+      "margin_before_other_expenses_percent": 89.83,
+      "profit_verified": false,
+      "stock": 100
+    },
+    {
+      "sku": "filtr-setka-0b5-orig",
+      "nmID": 1949842440,
+      "master_sku": "filtr-setka-0b5-orig",
+      "price_seller_discounted": 1990.44,
+      "current_reference_cost": 200,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 200
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 200
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 200,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1790.44,
+      "margin_before_other_expenses_percent": 89.95,
+      "profit_verified": false,
+      "stock": 47
+    },
+    {
+      "sku": "gidroakkumulyator-orig",
+      "nmID": 1949842970,
+      "master_sku": "gidroakkumulyator-orig",
+      "price_seller_discounted": 8850.28,
+      "current_reference_cost": 1800,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 1800
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 1800
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 1800,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 7050.28,
+      "margin_before_other_expenses_percent": 79.66,
+      "profit_verified": false,
+      "stock": 28
+    },
+    {
+      "sku": "klipsy-shtokov-2sht",
+      "nmID": 1949844548,
+      "master_sku": "klipsy-shtokov-2sht",
+      "price_seller_discounted": 1349.8,
+      "current_reference_cost": 25,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 25
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 25
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 25,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1324.8,
+      "margin_before_other_expenses_percent": 98.15,
+      "profit_verified": false,
+      "stock": 40
+    },
+    {
+      "sku": "planka-solenoid-2sht",
+      "nmID": 1949846020,
+      "master_sku": "planka-solenoid-2sht",
+      "price_seller_discounted": 2849.84,
+      "current_reference_cost": 500,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 500
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 500
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 500,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 2349.84,
+      "margin_before_other_expenses_percent": 82.46,
+      "profit_verified": false,
+      "stock": 5
+    },
+    {
+      "sku": "plita-filtr",
+      "nmID": 1949850135,
+      "master_sku": "plita-filtr",
+      "price_seller_discounted": 9350.11,
+      "current_reference_cost": 2000,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 2000
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 2000
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 2000,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 7350.11,
+      "margin_before_other_expenses_percent": 78.61,
+      "profit_verified": false,
+      "stock": 8
+    },
+    {
+      "sku": "plita-filtr-pylniki",
+      "nmID": 1949851228,
+      "master_sku": "plita-filtr-pylniki",
+      "price_seller_discounted": 10850.25,
+      "current_reference_cost": 2000,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 2000
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 2000
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 2000,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 8850.25,
+      "margin_before_other_expenses_percent": 81.57,
+      "profit_verified": false,
+      "stock": 8
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal",
+      "nmID": 1949853731,
+      "master_sku": "plita-filtr-pylniki-sal",
+      "price_seller_discounted": 11850.3,
+      "current_reference_cost": 2100,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 2100
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 2100
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 2100,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 9750.3,
+      "margin_before_other_expenses_percent": 82.28,
+      "profit_verified": false,
+      "stock": 8
+    },
+    {
+      "sku": "plita-filtr-pylniki-orig",
+      "nmID": 1949853941,
+      "master_sku": "plita-filtr-pylniki-orig",
+      "price_seller_discounted": 10850.25,
+      "current_reference_cost": 2100,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 2100
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 2100
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 2100,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 8750.25,
+      "margin_before_other_expenses_percent": 80.65,
+      "profit_verified": false,
+      "stock": 8
+    },
+    {
+      "sku": "plita-filtr-salniki-orig",
+      "nmID": 1949856124,
+      "master_sku": "plita-filtr-salniki-orig",
+      "price_seller_discounted": 10850.25,
+      "current_reference_cost": 2100,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 2100
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 2100
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 2100,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 8750.25,
+      "margin_before_other_expenses_percent": 80.65,
+      "profit_verified": false,
+      "stock": 8
+    },
+    {
+      "sku": "porshni-usil-pylniki-kryshki",
+      "nmID": 1949858294,
+      "master_sku": "porshni-usil-pylniki-kryshki",
+      "price_seller_discounted": 3850.42,
+      "current_reference_cost": 400,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 400
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 400
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 400,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 3450.42,
+      "margin_before_other_expenses_percent": 89.61,
+      "profit_verified": false,
+      "stock": 13
+    },
+    {
+      "sku": "pylniki-shtokov-orig",
+      "nmID": 1949859036,
+      "master_sku": "pylniki-shtokov-orig",
+      "price_seller_discounted": 2850,
+      "current_reference_cost": 150,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 150
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 150
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 150,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 2700,
+      "margin_before_other_expenses_percent": 94.74,
+      "profit_verified": false,
+      "stock": 50
+    },
+    {
+      "sku": "salnik-shtoka-orig",
+      "nmID": 1949861401,
+      "master_sku": "salnik-shtoka-orig",
+      "price_seller_discounted": 1850.16,
+      "current_reference_cost": 120,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 120
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 120
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 120,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1730.16,
+      "margin_before_other_expenses_percent": 93.51,
+      "profit_verified": false,
+      "stock": 103
+    },
+    {
+      "sku": "salnik-tolkatelya-alum",
+      "nmID": 1949862439,
+      "master_sku": "salnik-tolkatelya-alum",
+      "price_seller_discounted": 2350.04,
+      "current_reference_cost": 100,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 100
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 100
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 100,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 2250.04,
+      "margin_before_other_expenses_percent": 95.74,
+      "profit_verified": false,
+      "stock": 32
+    },
+    {
+      "sku": "salniki-shtokov-2sht",
+      "nmID": 1949864852,
+      "master_sku": "salniki-shtokov-2sht",
+      "price_seller_discounted": 1849.76,
+      "current_reference_cost": 50,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 50
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 50
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 50,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1799.76,
+      "margin_before_other_expenses_percent": 97.3,
+      "profit_verified": false,
+      "stock": 129
+    },
+    {
+      "sku": "salniki-shtokov-orig",
+      "nmID": 1949865046,
+      "master_sku": "salniki-shtokov-orig",
+      "price_seller_discounted": 1850.24,
+      "current_reference_cost": 250,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 250
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 250
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 250,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1600.24,
+      "margin_before_other_expenses_percent": 86.49,
+      "profit_verified": false,
+      "stock": 51
+    },
+    {
+      "sku": "salniki-tolkatelya-4sht",
+      "nmID": 1949866403,
+      "master_sku": "salniki-tolkatelya-4sht",
+      "price_seller_discounted": 1850.24,
+      "current_reference_cost": 200,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 200
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 200
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 200,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1650.24,
+      "margin_before_other_expenses_percent": 89.19,
+      "profit_verified": false,
+      "stock": 48
+    },
+    {
+      "sku": "salnikprivod-l",
+      "nmID": 1949868491,
+      "master_sku": "salnikprivod-l",
+      "price_seller_discounted": 1850.16,
+      "current_reference_cost": 250,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 250
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 250
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 250,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1600.16,
+      "margin_before_other_expenses_percent": 86.49,
+      "profit_verified": false,
+      "stock": 20
+    },
+    {
+      "sku": "salnikprivod-r",
+      "nmID": 1949869404,
+      "master_sku": "salnikprivod-r",
+      "price_seller_discounted": 1850.16,
+      "current_reference_cost": 250,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 250
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 250
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 250,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1600.16,
+      "margin_before_other_expenses_percent": 86.49,
+      "profit_verified": false,
+      "stock": 20
+    },
+    {
+      "sku": "salnikvhod",
+      "nmID": 1949870656,
+      "master_sku": "salnikvhod",
+      "price_seller_discounted": 1850.16,
+      "current_reference_cost": 250,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 250
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 250
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 250,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1600.16,
+      "margin_before_other_expenses_percent": 86.49,
+      "profit_verified": false,
+      "stock": 20
+    },
+    {
+      "sku": "salnikvihod",
+      "nmID": 1949871894,
+      "master_sku": "salnikvihod",
+      "price_seller_discounted": 1850.16,
+      "current_reference_cost": 250,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 250
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 250
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 250,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 1600.16,
+      "margin_before_other_expenses_percent": 86.49,
+      "profit_verified": false,
+      "stock": 20
+    },
+    {
+      "sku": "stalnaya-vstavka-plity",
+      "nmID": 1949873376,
+      "master_sku": "stalnaya-vstavka-plity",
+      "price_seller_discounted": 2849.88,
+      "current_reference_cost": 600,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 600
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 600
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 600,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 2249.88,
+      "margin_before_other_expenses_percent": 78.95,
+      "profit_verified": false,
+      "stock": 30
+    },
+    {
+      "sku": "tolkateli-4-salniki-4",
+      "nmID": 1949874540,
+      "master_sku": "tolkateli-4-salniki-4",
+      "price_seller_discounted": 7349.69,
+      "current_reference_cost": 1300,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 1300
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 1300
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 1300,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 6049.69,
+      "margin_before_other_expenses_percent": 82.31,
+      "profit_verified": false,
+      "stock": 19
+    },
+    {
+      "sku": "tolkateli-salniki-alum-komplekt",
+      "nmID": 1949876400,
+      "master_sku": "tolkateli-salniki-alum-komplekt",
+      "price_seller_discounted": 8850.28,
+      "current_reference_cost": 1000,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 1000
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 1000
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 1000,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 7850.28,
+      "margin_before_other_expenses_percent": 88.7,
+      "profit_verified": false,
+      "stock": 19
+    },
+    {
+      "sku": "vtulki-shtokov-2sht",
+      "nmID": 1949877502,
+      "master_sku": "vtulki-shtokov-2sht",
+      "price_seller_discounted": 2880.22,
+      "current_reference_cost": 600,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 600
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 600
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 600,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 2280.22,
+      "margin_before_other_expenses_percent": 79.17,
+      "profit_verified": false,
+      "stock": 64
+    },
+    {
+      "sku": "korpus-filtra-0bh325159",
+      "nmID": 1988502364,
+      "master_sku": "korpus-filtra-0bh325159",
+      "price_seller_discounted": 3850.42,
+      "current_reference_cost": 350,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 350
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 350
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 350,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 3500.42,
+      "margin_before_other_expenses_percent": 90.91,
+      "profit_verified": false,
+      "stock": 0
+    },
+    {
+      "sku": "0AM927769F",
+      "nmID": 2007897775,
+      "master_sku": "0AM927769F",
+      "price_seller_discounted": 74850.44,
+      "current_reference_cost": 17500,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 17500
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 17500
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 17500,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 57350.44,
+      "margin_before_other_expenses_percent": 76.62,
+      "profit_verified": false,
+      "stock": 3
+    },
+    {
+      "sku": "0am325025HXF",
+      "nmID": 2007899207,
+      "master_sku": "0am325025HXF",
+      "price_seller_discounted": 118850.48,
+      "current_reference_cost": 31000,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 31000
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 31000
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 31000,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 87850.48,
+      "margin_before_other_expenses_percent": 73.92,
+      "profit_verified": false,
+      "stock": 3
+    },
+    {
+      "sku": "chip-0am927769d",
+      "nmID": 2238877298,
+      "master_sku": "chip-0am927769d",
+      "price_seller_discounted": 17550,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 9
+    },
+    {
+      "sku": "chip-02e927770",
+      "nmID": 2239283169,
+      "master_sku": "chip-02e927770",
+      "price_seller_discounted": 22320,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 2
+    },
+    {
+      "sku": "derzhatel-datchikov-dq200",
+      "nmID": 2239502050,
+      "master_sku": "derzhatel-datchikov-dq200",
+      "price_seller_discounted": 1215,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 5
+    },
+    {
+      "sku": "osnovanie-platy-dq200",
+      "nmID": 2239502123,
+      "master_sku": "osnovanie-platy-dq200",
+      "price_seller_discounted": 4365,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 10
+    },
+    {
+      "sku": "datchik-scepleniya-dq200",
+      "nmID": 2239502134,
+      "master_sku": "datchik-scepleniya-dq200",
+      "price_seller_discounted": 7965,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 5
+    },
+    {
+      "sku": "datchik-peredach-dq200",
+      "nmID": 2239502207,
+      "master_sku": "datchik-peredach-dq200",
+      "price_seller_discounted": 7965,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 5
+    },
+    {
+      "sku": "shleif-platy-dq200",
+      "nmID": 2239502468,
+      "master_sku": "shleif-platy-dq200",
+      "price_seller_discounted": 6165,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 5
+    },
+    {
+      "sku": "kolodka-solenoidov-dq200",
+      "nmID": 2239544545,
+      "master_sku": "kolodka-solenoidov-dq200",
+      "price_seller_discounted": 6165,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 6
+    },
+    {
+      "sku": "klipsa-datchika-peredach-dq200",
+      "nmID": 2239732435,
+      "master_sku": "klipsa-datchika-peredach-dq200",
+      "price_seller_discounted": 1350,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 20
+    },
+    {
+      "sku": "kryshka-platy-dq200",
+      "nmID": 2239732586,
+      "master_sku": "kryshka-platy-dq200",
+      "price_seller_discounted": 1850,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 19
+    },
+    {
+      "sku": "fpc-shleif-dq200",
+      "nmID": 2239732711,
+      "master_sku": "fpc-shleif-dq200",
+      "price_seller_discounted": 3350,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 5
+    },
+    {
+      "sku": "0AM927769K",
+      "nmID": 2253503880,
+      "master_sku": "0AM927769K",
+      "price_seller_discounted": 74850,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 5
+    },
+    {
+      "sku": "0am325025HXK",
+      "nmID": 2253503994,
+      "master_sku": "0am325025HXK",
+      "price_seller_discounted": 118850,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 5
+    },
+    {
+      "sku": "0AM927769E",
+      "nmID": 2253504487,
+      "master_sku": "0AM927769E",
+      "price_seller_discounted": 74850,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 5
+    },
+    {
+      "sku": "0am325025HXE",
+      "nmID": 2253504623,
+      "master_sku": "0am325025HXE",
+      "price_seller_discounted": 118850,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 5
+    },
+    {
+      "sku": "0AM927769G",
+      "nmID": 2253859290,
+      "master_sku": "0AM927769G",
+      "price_seller_discounted": 74850,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 5
+    },
+    {
+      "sku": "0am325025HXG",
+      "nmID": 2253859375,
+      "master_sku": "0am325025HXG",
+      "price_seller_discounted": 118850,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 5
+    },
+    {
+      "sku": "6t30",
+      "nmID": 2254117475,
+      "master_sku": "6t30",
+      "price_seller_discounted": 19850,
+      "current_reference_cost": 3500,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 3500
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 3500
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 3500,
+      "basis": "WB_MONITOR_20261126",
+      "price_less_cost": 16350,
+      "margin_before_other_expenses_percent": 82.37,
+      "profit_verified": false,
+      "stock": 19
+    },
+    {
+      "sku": "dq500-korpus-gladkiy",
+      "nmID": 2338475459,
+      "master_sku": "Dq500",
+      "price_seller_discounted": 1980,
+      "current_reference_cost": null,
+      "older_references": [
+        {
+          "source": "data/avito_price_audit_20261124.json",
+          "cost": 280
+        },
+        {
+          "source": "data/site_price_review_live_20261124.json",
+          "cost": 280
+        }
+      ],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": 280,
+      "basis": "MATCHING_20261124_SNAPSHOTS_ONLY",
+      "price_less_cost": 1700,
+      "margin_before_other_expenses_percent": 85.86,
+      "profit_verified": false,
+      "stock": 61
+    },
+    {
+      "sku": "6t30-solenoids-gen2",
+      "nmID": 2338952761,
+      "master_sku": "6t30-solenoids-gen2",
+      "price_seller_discounted": 19880,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 20
+    },
+    {
+      "sku": "6t30-tcm-gen1",
+      "nmID": 2338952880,
+      "master_sku": "6t30-tcm-gen1",
+      "price_seller_discounted": 58850,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 3
+    },
+    {
+      "sku": "6t30-tcm-gen2",
+      "nmID": 2338953074,
+      "master_sku": "6t30-tcm-gen2",
+      "price_seller_discounted": 58850,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 3
+    },
+    {
+      "sku": "EA888gen3-filter-kit",
+      "nmID": 2339234903,
+      "master_sku": "EA888gen3-filter-kit",
+      "price_seller_discounted": 7850,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 40
+    },
+    {
+      "sku": "tool-dq200-acc-restore",
+      "nmID": 2340040049,
+      "master_sku": "tool-dq200-acc-restore",
+      "price_seller_discounted": 38800,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 3
+    },
+    {
+      "sku": "tool-dsg-pressure-hp",
+      "nmID": 2340040122,
+      "master_sku": "tool-dsg-pressure-hp",
+      "price_seller_discounted": 28800,
+      "current_reference_cost": null,
+      "older_references": [],
+      "cost_conflict": false,
+      "cost_reference_for_analysis": null,
+      "basis": null,
+      "price_less_cost": null,
+      "margin_before_other_expenses_percent": null,
+      "profit_verified": false,
+      "stock": 3
+    }
+  ],
+  "lowest_reference_margin": [
+    {
+      "sku": "0am325025HX",
+      "price": 118849.9,
+      "cost": 31000,
+      "margin": 73.92,
+      "basis": "WB_MONITOR_20261126"
+    },
+    {
+      "sku": "0am325025HXF",
+      "price": 118850.48,
+      "cost": 31000,
+      "margin": 73.92,
+      "basis": "WB_MONITOR_20261126"
+    },
+    {
+      "sku": "02E927770AL",
+      "price": 118849.92,
+      "cost": 30500,
+      "margin": 74.34,
+      "basis": "WB_MONITOR_20261126"
+    },
+    {
+      "sku": "0AM927769F",
+      "price": 74850.44,
+      "cost": 17500,
+      "margin": 76.62,
+      "basis": "WB_MONITOR_20261126"
+    },
+    {
+      "sku": "0AM325473",
+      "price": 12849.82,
+      "cost": 3000,
+      "margin": 76.65,
+      "basis": "WB_MONITOR_20261126"
+    },
+    {
+      "sku": "02E305045E",
+      "price": 1570.94,
+      "cost": 350,
+      "margin": 77.72,
+      "basis": "WB_MONITOR_20261126"
+    },
+    {
+      "sku": "0am325025",
+      "price": 13849.8,
+      "cost": 3000,
+      "margin": 78.34,
+      "basis": "WB_MONITOR_20261126"
+    },
+    {
+      "sku": "plita-filtr",
+      "price": 9350.11,
+      "cost": 2000,
+      "margin": 78.61,
+      "basis": "WB_MONITOR_20261126"
+    },
+    {
+      "sku": "stalnaya-vstavka-plity",
+      "price": 2849.88,
+      "cost": 600,
+      "margin": 78.95,
+      "basis": "WB_MONITOR_20261126"
+    },
+    {
+      "sku": "vtulki-shtokov-2sht",
+      "price": 2880.22,
+      "cost": 600,
+      "margin": 79.17,
+      "basis": "WB_MONITOR_20261126"
+    }
+  ],
+  "marketplace_writes": 0
+}
