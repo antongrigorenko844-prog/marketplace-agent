@@ -10,6 +10,9 @@ import json,re,os,urllib.request,urllib.error,hashlib,copy
 import direct_performance_deep_20261125 as deep
 import direct_preflight_20261120 as api
 import direct_metrika_read_20261120 as mt
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
+import direct_commercial_evidence as commercial
 
 CID=716316525
 FID=4061297
@@ -95,7 +98,7 @@ def run():
         defs=[
             ("by_source_day","ym:s:date,ym:s:lastTrafficSource",None),
             ("advertising_engine","ym:s:lastAdvEngine,ym:s:date","ym:s:lastTrafficSource=='ad'"),
-            ("by_direct_campaign","ym:s:lastDirectClickOrder",None),
+            ("by_direct_campaign",commercial.DIMENSION,commercial.FILTER),
             ("exact_direct_campaign_by_day","ym:s:date","ym:s:lastDirectClickOrder==716316525"),
             ("exact_direct_campaign_by_group","ym:s:lastDirectBannerGroup","ym:s:lastDirectClickOrder==716316525"),
             ("utm_campaign_day","ym:s:date,ym:s:lastUTMCampaign","ym:s:lastTrafficSource=='ad'"),
@@ -112,6 +115,12 @@ def run():
             except Exception as e:ret[name]={"status":"error","error":api.scrub(e)}
         return ret
     go("purchase_attribution",ecommerce)
+    def exact_commercial():
+        x=result["sections"]["purchase_attribution"]["data"]["by_direct_campaign"]
+        if x["status"]!="ok":raise ValueError("Exact campaign report unavailable")
+        d=x["data"]
+        return commercial.commercial_summary(d["rows"],d["api_total_rows"],d["sampled"],commercial.LAUNCH_DATE,deep.TODAY)
+    go("commercial_evidence",exact_commercial)
     def categories():
         rows=[];errs=[];lo=deep.TODAY.fromisoformat("2026-11-16")
         while lo<=deep.TODAY:
