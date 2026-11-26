@@ -1,0 +1,44 @@
+name: LEOPARTS two Avito DQ200 original pixel watermark only
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/avito-dq200-watermarks-20261126.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  exact-watermark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Use the approved exact font
+        run: |
+          test -f /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf || (sudo apt-get update -qq && sudo apt-get install -y fonts-dejavu-core fonts-dejavu-extra)
+          test -f /usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf
+      - run: python -m py_compile scripts/avito_dq200_watermarks_20261126.py
+      - name: Lossless watermark only, pixel audit, publish two exact feeds, read back
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: python -u scripts/avito_dq200_watermarks_20261126.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: avito-dq200-watermark-originals-and-proof-${{ github.run_id }}
+          path: |
+            watermark_audit/
+            data/avito_dq200_watermarks_20261126_result.json
+          if-no-files-found: warn
+          retention-days: 30
