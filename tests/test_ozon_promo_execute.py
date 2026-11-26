@@ -270,6 +270,51 @@ class ExecutionAndJournalTests(unittest.TestCase):
         self.assertEqual(self.journal.data["items"][self.product["sku"]]["status"], "HOLD_PENDING_OPERATION")
         self.assertFalse(writer.published[-1]["verified"])
 
+    def test_rejection_details_are_bounded_and_do_not_relax_pending_hold(self):
+        response = {
+            "active_product_ids": [], "deactivated_product_ids": [],
+            "rejected": [
+                {"product_id": 1, "reason": "REJECTED\n\r\t\x00\x7f\u202e" + "x" * 600,
+                 "message": "PRIVATE_SERVER_TEXT", "context": {"token": "PRIVATE_RAW_CONTEXT"}},
+                {"product_id": True, "reason": "invalid boolean identity"},
+                {"product_id": "1", "reason": "invalid string identity"},
+                {"product_id": 1, "reason": {"message": "PRIVATE_NESTED_REASON"}},
+            ],
+            "warnings": [{"product_id": 1, "reason": "WARNING\t\u2066\nTEXT",
+                          "extra": "PRIVATE_RAW_CONTEXT"}],
+            "errors": [{"message": "PRIVATE_GENERIC_ERROR"}],
+            "debug": {"headers": "PRIVATE_RESPONSE_CONTEXT"},
+        }
+
+        class RejectedWriter(Writer):
+            def write(self, product, operation, path, payload, action_id=None):
+                super().write(product, operation, path, payload, action_id)
+                return copy.deepcopy(response)
+
+        self.initial = observation(self.product, protected=True)
+        self.initial["price"]["price"].update(price=90, min_price=90)
+        self.reader = Reader(self.initial)
+        writer = RejectedWriter(self.reader, self.journal, apply=False)
+        executor = self.executor(writer)
+        report = executor.run(execute=True)
+        self.assertEqual(report["items"][0]["status"], "HOLD_ACTION_READBACK")
+        self.assertEqual(report["marketplace_write_attempts"], 1)
+        operation = self.journal.data["operations"][0]
+        self.assertEqual(operation["state"], "HOLD_READBACK_NOT_CONFIRMED")
+        summary = operation["response_summary"]
+        self.assertEqual(summary["rejected_count"], 4)
+        self.assertEqual(summary["rejected"], [{"product_id": 1, "reason": "REJECTED" + "x" * 492}])
+        self.assertEqual(summary["warnings_count"], 1)
+        self.assertEqual(summary["warnings"], [{"product_id": 1, "reason": "WARNINGTEXT"}])
+        self.assertEqual(summary["errors_count"], 1)
+        self.assertNotIn("PRIVATE_", self.journal.path.read_text())
+        self.assertEqual(commercial_state(self.reader.state), commercial_state(self.initial))
+        resumed = executor.run(execute=True)
+        self.assertEqual(resumed["items"][0]["status"], "HOLD_PENDING_OPERATION")
+        self.assertEqual(resumed["marketplace_write_attempts"], 0)
+        self.assertEqual([call[0] for call in writer.calls], ["activate"])
+        self.assertEqual(len(self.journal.data["operations"]), 1)
+
     def test_changed_payload_does_not_create_new_write_over_unresolved_intent(self):
         writer = Writer(self.reader, self.journal, apply=False)
         executor = self.executor(writer)

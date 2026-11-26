@@ -1,0 +1,480 @@
+{
+  "source_files_sha256": {
+    "financial_fields_by_day.json": "d1dd9b3f03fc34d4485a693a7a64cc1661d61eae5ffa88fed32445a0851e0a98",
+    "identity_evidence.json": "b0a48c949e36144d3cde574eedb7f962935bbbf161343204ee8fe78718ee44cb",
+    "finance.json": "35352d229aa7b76f2419c1b6371659bf9faaa08b2c485c20f44147cd338aaf5f",
+    "manifest.json": "f015d80e1f2f21dc55831a9ca94050dd791c170acad6ad199d10743361449b8f"
+  },
+  "global_partial_reason": [
+    {
+      "code": "unmatched_finance_skus"
+    }
+  ],
+  "unmatched_marketplace_skus": [
+    "sku:5752781938"
+  ],
+  "focus_identity_exact": true,
+  "days_collected": 29,
+  "audit_created_at": "2026-11-26T21:29:06.922021+00:00",
+  "seller_writes": 0,
+  "source_files_modified": false,
+  "items": {
+    "Dq200dsg70am0cw": {
+      "raw_reconciliation_passed": true,
+      "historical": {
+        "sold": 1,
+        "returned": 0,
+        "gross_positive_sales_rub": "7556",
+        "commission_rub": "-3400.2",
+        "logistics_rub": "-116.86",
+        "fees": {
+          "Подписка Управление отзывами": "-98.23",
+          "Звёздные товары": "-113.34",
+          "Эквайринг": "-75.06"
+        },
+        "net_rub": "3752.31",
+        "programme_fee_rub": "211.57",
+        "historical_effective_programme_pct": "2.800026469031233456855479089",
+        "acquiring_excluded_rub": "75.06"
+      },
+      "days": {
+        "2026-10-09": {
+          "revenue": "7556",
+          "programmes": "-211.57",
+          "acquiring": "-75.06"
+        }
+      },
+      "proposed_model_rate_pct": 2.8000264690312333,
+      "fixed_other_item_fees_observed_rub": 0,
+      "comparison": {
+        "services_supported": true,
+        "service_basis": "observed_sku_fees",
+        "same_price_no_incremental_cost_supported": false,
+        "full_profit_verified": false,
+        "metric_kind": "partial_contribution_not_net_profit",
+        "unknown_costs": [
+          "actual_tax_base",
+          "advertising_outside_item_fees",
+          "business_overheads",
+          "fully_landed_procurement_cost",
+          "future_paid_service_terms",
+          "future_returns_and_cancellations",
+          "promotion_combination_effects",
+          "seller_packaging",
+          "unallocated_marketplace_fees",
+          "warranty"
+        ],
+        "by_scheme": {
+          "fbs": {
+            "baseline_partial_contribution_rub": 2606.2,
+            "target_partial_contribution_rub": 2567.75
+          }
+        },
+        "service_evidence_reference": "data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/finance.json sha256:35352d229aa7b76f2419c1b6371659bf9faaa08b2c485c20f44147cd338aaf5f; data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/financial_fields_by_day.json sha256:d1dd9b3f03fc34d4485a693a7a64cc1661d61eae5ffa88fed32445a0851e0a98; data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/identity_evidence.json sha256:b0a48c949e36144d3cde574eedb7f962935bbbf161343204ee8fe78718ee44cb",
+        "service_evidence_assumptions": [
+          "Selected observed exact-SKU programme rates are assumed to continue at the approved seller price; current programme settings and future terms are not verified by this history.",
+          "No other exact-SKU ITEM service type occurs in the complete historical window; zero fixed allocation is limited to this observed residual, not a claim that all present or future costs are zero.",
+          "Acquiring is excluded from the additional programme percentage because the fresh catalogue already deducts its own acquiring tariff.",
+          "Sales commission and all delivery/return-logistics lines stay in their separate components; no duplication in additional service rates.",
+          "No non-item fees, seller packaging, overheads, warranty or unverified landed procurement are allocated or assumed absent.",
+          "Promotion compatibility, extra discounts, freshness, available stock and all execution safeguards require their existing independent checks."
+        ],
+        "baseline_partial_contribution_rub": 2606.2,
+        "target_partial_contribution_rub": 2567.75,
+        "required_unit_growth_pct": 1.4974,
+        "profit_on_cost_pct": 285.3056,
+        "margin_on_revenue_pct": 29.3089,
+        "valid": true
+      },
+      "gate_status": "READY",
+      "gate_blockers": [],
+      "manual_fbs_formula_matches": true
+    },
+    "0AM927769D": {
+      "raw_reconciliation_passed": true,
+      "historical": {
+        "sold": 4,
+        "returned": 0,
+        "gross_positive_sales_rub": "193278",
+        "commission_rub": "-90840.66",
+        "logistics_rub": "-2320.41",
+        "fees": {
+          "Подписка Управление отзывами": "-2512.62",
+          "Звёздные товары": "-2899.18",
+          "Эквайринг": "-1842.69"
+        },
+        "net_rub": "92862.44",
+        "programme_fee_rub": "5411.80",
+        "historical_effective_programme_pct": "2.800008278231355870818199692",
+        "acquiring_excluded_rub": "1842.69"
+      },
+      "days": {
+        "2026-09-25": {
+          "revenue": "52280",
+          "programmes": "-1463.84",
+          "acquiring": "-545.24"
+        },
+        "2026-10-01": {
+          "revenue": "0",
+          "programmes": "0",
+          "acquiring": "-532.5"
+        },
+        "2026-10-02": {
+          "revenue": "44359",
+          "programmes": "-1242.06",
+          "acquiring": "-461.68"
+        },
+        "2026-10-04": {
+          "revenue": "52280",
+          "programmes": "-1463.84",
+          "acquiring": "0"
+        },
+        "2026-10-08": {
+          "revenue": "0",
+          "programmes": "0",
+          "acquiring": "0.00"
+        },
+        "2026-10-11": {
+          "revenue": "44359",
+          "programmes": "-1242.06",
+          "acquiring": "-303.27"
+        },
+        "2026-10-16": {
+          "revenue": "0",
+          "programmes": "0",
+          "acquiring": "0"
+        },
+        "2026-10-18": {
+          "revenue": "0",
+          "programmes": "0",
+          "acquiring": "0"
+        }
+      },
+      "proposed_model_rate_pct": 2.800008278231356,
+      "fixed_other_item_fees_observed_rub": 0,
+      "comparison": {
+        "services_supported": true,
+        "service_basis": "observed_sku_fees",
+        "same_price_no_incremental_cost_supported": false,
+        "full_profit_verified": false,
+        "metric_kind": "partial_contribution_not_net_profit",
+        "unknown_costs": [
+          "actual_tax_base",
+          "advertising_outside_item_fees",
+          "business_overheads",
+          "fully_landed_procurement_cost",
+          "future_paid_service_terms",
+          "future_returns_and_cancellations",
+          "promotion_combination_effects",
+          "seller_packaging",
+          "unallocated_marketplace_fees",
+          "warranty"
+        ],
+        "by_scheme": {
+          "fbs": {
+            "baseline_partial_contribution_rub": 13896.19,
+            "target_partial_contribution_rub": 13572.63
+          },
+          "fbo": {
+            "baseline_partial_contribution_rub": 13906.19,
+            "target_partial_contribution_rub": 13582.63
+          }
+        },
+        "service_evidence_reference": "data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/finance.json sha256:35352d229aa7b76f2419c1b6371659bf9faaa08b2c485c20f44147cd338aaf5f; data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/financial_fields_by_day.json sha256:d1dd9b3f03fc34d4485a693a7a64cc1661d61eae5ffa88fed32445a0851e0a98; data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/identity_evidence.json sha256:b0a48c949e36144d3cde574eedb7f962935bbbf161343204ee8fe78718ee44cb",
+        "service_evidence_assumptions": [
+          "Selected observed exact-SKU programme rates are assumed to continue at the approved seller price; current programme settings and future terms are not verified by this history.",
+          "No other exact-SKU ITEM service type occurs in the complete historical window; zero fixed allocation is limited to this observed residual, not a claim that all present or future costs are zero.",
+          "Acquiring is excluded from the additional programme percentage because the fresh catalogue already deducts its own acquiring tariff.",
+          "Sales commission and all delivery/return-logistics lines stay in their separate components; no duplication in additional service rates.",
+          "No non-item fees, seller packaging, overheads, warranty or unverified landed procurement are allocated or assumed absent.",
+          "Promotion compatibility, extra discounts, freshness, available stock and all execution safeguards require their existing independent checks."
+        ],
+        "baseline_partial_contribution_rub": 13896.19,
+        "target_partial_contribution_rub": 13572.63,
+        "required_unit_growth_pct": 2.3839,
+        "profit_on_cost_pct": 77.5579,
+        "margin_on_revenue_pct": 18.3164,
+        "valid": true
+      },
+      "gate_status": "READY",
+      "gate_blockers": [],
+      "manual_fbs_formula_matches": true
+    },
+    "planka-solenoid-2sht": {
+      "raw_reconciliation_passed": true,
+      "historical": {
+        "sold": 1,
+        "returned": 0,
+        "gross_positive_sales_rub": "2890",
+        "commission_rub": "-1300.5",
+        "logistics_rub": "-110.69",
+        "fees": {
+          "Подписка Управление отзывами": "-37.57",
+          "Звёздные товары": "-43.35",
+          "Эквайринг": "-20.95"
+        },
+        "net_rub": "1376.94",
+        "programme_fee_rub": "80.92",
+        "historical_effective_programme_pct": "2.800",
+        "acquiring_excluded_rub": "20.95"
+      },
+      "days": {
+        "2026-09-25": {
+          "revenue": "2890",
+          "programmes": "-80.92",
+          "acquiring": "-20.95"
+        }
+      },
+      "proposed_model_rate_pct": 2.8,
+      "fixed_other_item_fees_observed_rub": 0,
+      "comparison": {
+        "services_supported": true,
+        "service_basis": "observed_sku_fees",
+        "same_price_no_incremental_cost_supported": false,
+        "full_profit_verified": false,
+        "metric_kind": "partial_contribution_not_net_profit",
+        "unknown_costs": [
+          "actual_tax_base",
+          "advertising_outside_item_fees",
+          "business_overheads",
+          "fully_landed_procurement_cost",
+          "future_paid_service_terms",
+          "future_returns_and_cancellations",
+          "promotion_combination_effects",
+          "seller_packaging",
+          "unallocated_marketplace_fees",
+          "warranty"
+        ],
+        "by_scheme": {
+          "fbs": {
+            "baseline_partial_contribution_rub": 414.2,
+            "target_partial_contribution_rub": 401.67
+          }
+        },
+        "service_evidence_reference": "data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/finance.json sha256:35352d229aa7b76f2419c1b6371659bf9faaa08b2c485c20f44147cd338aaf5f; data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/financial_fields_by_day.json sha256:d1dd9b3f03fc34d4485a693a7a64cc1661d61eae5ffa88fed32445a0851e0a98; data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/identity_evidence.json sha256:b0a48c949e36144d3cde574eedb7f962935bbbf161343204ee8fe78718ee44cb",
+        "service_evidence_assumptions": [
+          "Selected observed exact-SKU programme rates are assumed to continue at the approved seller price; current programme settings and future terms are not verified by this history.",
+          "No other exact-SKU ITEM service type occurs in the complete historical window; zero fixed allocation is limited to this observed residual, not a claim that all present or future costs are zero.",
+          "Acquiring is excluded from the additional programme percentage because the fresh catalogue already deducts its own acquiring tariff.",
+          "Sales commission and all delivery/return-logistics lines stay in their separate components; no duplication in additional service rates.",
+          "No non-item fees, seller packaging, overheads, warranty or unverified landed procurement are allocated or assumed absent.",
+          "Promotion compatibility, extra discounts, freshness, available stock and all execution safeguards require their existing independent checks."
+        ],
+        "baseline_partial_contribution_rub": 414.2,
+        "target_partial_contribution_rub": 401.67,
+        "required_unit_growth_pct": 3.1195,
+        "profit_on_cost_pct": 80.334,
+        "margin_on_revenue_pct": 14.2386,
+        "valid": true
+      },
+      "gate_status": "READY",
+      "gate_blockers": [],
+      "manual_fbs_formula_matches": true
+    },
+    "6t30": {
+      "raw_reconciliation_passed": true,
+      "historical": {
+        "sold": 4,
+        "returned": 0,
+        "gross_positive_sales_rub": "79200",
+        "commission_rub": "-36432",
+        "logistics_rub": "-566.29",
+        "fees": {
+          "Звёздные товары": "-1188",
+          "Подписка Управление отзывами": "-1029.6",
+          "Эквайринг": "-812.27"
+        },
+        "net_rub": "39171.84",
+        "programme_fee_rub": "2217.6",
+        "historical_effective_programme_pct": "2.800",
+        "acquiring_excluded_rub": "812.27"
+      },
+      "days": {
+        "2026-09-28": {
+          "revenue": "19800",
+          "programmes": "-554.4",
+          "acquiring": "-204.5"
+        },
+        "2026-09-29": {
+          "revenue": "0",
+          "programmes": "0",
+          "acquiring": "-199.98"
+        },
+        "2026-10-06": {
+          "revenue": "0",
+          "programmes": "0",
+          "acquiring": "-204.36"
+        },
+        "2026-10-07": {
+          "revenue": "19800",
+          "programmes": "-554.4",
+          "acquiring": "0"
+        },
+        "2026-10-10": {
+          "revenue": "19800",
+          "programmes": "-554.4",
+          "acquiring": "0"
+        },
+        "2026-10-19": {
+          "revenue": "19800",
+          "programmes": "-554.4",
+          "acquiring": "-203.43"
+        }
+      },
+      "proposed_model_rate_pct": 2.8,
+      "fixed_other_item_fees_observed_rub": 0,
+      "comparison": {
+        "services_supported": true,
+        "service_basis": "observed_sku_fees",
+        "same_price_no_incremental_cost_supported": false,
+        "full_profit_verified": false,
+        "metric_kind": "partial_contribution_not_net_profit",
+        "unknown_costs": [
+          "actual_tax_base",
+          "advertising_outside_item_fees",
+          "business_overheads",
+          "fully_landed_procurement_cost",
+          "future_paid_service_terms",
+          "future_returns_and_cancellations",
+          "promotion_combination_effects",
+          "seller_packaging",
+          "unallocated_marketplace_fees",
+          "warranty"
+        ],
+        "by_scheme": {
+          "fbs": {
+            "baseline_partial_contribution_rub": 4758.2,
+            "target_partial_contribution_rub": 4457.96
+          }
+        },
+        "service_evidence_reference": "data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/finance.json sha256:35352d229aa7b76f2419c1b6371659bf9faaa08b2c485c20f44147cd338aaf5f; data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/financial_fields_by_day.json sha256:d1dd9b3f03fc34d4485a693a7a64cc1661d61eae5ffa88fed32445a0851e0a98; data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/identity_evidence.json sha256:b0a48c949e36144d3cde574eedb7f962935bbbf161343204ee8fe78718ee44cb",
+        "service_evidence_assumptions": [
+          "Selected observed exact-SKU programme rates are assumed to continue at the approved seller price; current programme settings and future terms are not verified by this history.",
+          "No other exact-SKU ITEM service type occurs in the complete historical window; zero fixed allocation is limited to this observed residual, not a claim that all present or future costs are zero.",
+          "Acquiring is excluded from the additional programme percentage because the fresh catalogue already deducts its own acquiring tariff.",
+          "Sales commission and all delivery/return-logistics lines stay in their separate components; no duplication in additional service rates.",
+          "No non-item fees, seller packaging, overheads, warranty or unverified landed procurement are allocated or assumed absent.",
+          "Promotion compatibility, extra discounts, freshness, available stock and all execution safeguards require their existing independent checks."
+        ],
+        "baseline_partial_contribution_rub": 4758.2,
+        "target_partial_contribution_rub": 4457.96,
+        "required_unit_growth_pct": 6.7349,
+        "profit_on_cost_pct": 127.3703,
+        "margin_on_revenue_pct": 23.2731,
+        "valid": true
+      },
+      "gate_status": "READY",
+      "gate_blockers": [],
+      "manual_fbs_formula_matches": true
+    },
+    "pylniki-shtokov-orig-v2": {
+      "raw_reconciliation_passed": true,
+      "historical": {
+        "sold": 4,
+        "returned": 0,
+        "gross_positive_sales_rub": "7400",
+        "commission_rub": "-3404.0",
+        "logistics_rub": "-399.33",
+        "fees": {
+          "Звёздные товары": "-111.00",
+          "Эквайринг": "-72.30",
+          "Подписка Управление отзывами": "-72.15"
+        },
+        "net_rub": "3341.22",
+        "programme_fee_rub": "183.15",
+        "historical_effective_programme_pct": "2.47500",
+        "acquiring_excluded_rub": "72.30"
+      },
+      "days": {
+        "2026-09-30": {
+          "revenue": "1850",
+          "programmes": "-27.75",
+          "acquiring": "-17.26"
+        },
+        "2026-10-07": {
+          "revenue": "0",
+          "programmes": "0",
+          "acquiring": "-19.68"
+        },
+        "2026-10-14": {
+          "revenue": "1850",
+          "programmes": "-51.80",
+          "acquiring": "0"
+        },
+        "2026-10-19": {
+          "revenue": "1850",
+          "programmes": "-51.80",
+          "acquiring": "-18.4"
+        },
+        "2026-10-21": {
+          "revenue": "1850",
+          "programmes": "-51.80",
+          "acquiring": "-16.96"
+        }
+      },
+      "proposed_model_rate_pct": 2.8,
+      "fixed_other_item_fees_observed_rub": 0,
+      "comparison": {
+        "services_supported": true,
+        "service_basis": "observed_sku_fees",
+        "same_price_no_incremental_cost_supported": false,
+        "full_profit_verified": false,
+        "metric_kind": "partial_contribution_not_net_profit",
+        "unknown_costs": [
+          "actual_tax_base",
+          "advertising_outside_item_fees",
+          "business_overheads",
+          "fully_landed_procurement_cost",
+          "future_paid_service_terms",
+          "future_returns_and_cancellations",
+          "promotion_combination_effects",
+          "seller_packaging",
+          "unallocated_marketplace_fees",
+          "warranty"
+        ],
+        "by_scheme": {
+          "fbs": {
+            "baseline_partial_contribution_rub": 844.2,
+            "target_partial_contribution_rub": 782.42
+          },
+          "fbo": {
+            "baseline_partial_contribution_rub": 854.2,
+            "target_partial_contribution_rub": 792.42
+          }
+        },
+        "service_evidence_reference": "data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/finance.json sha256:35352d229aa7b76f2419c1b6371659bf9faaa08b2c485c20f44147cd338aaf5f; data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/financial_fields_by_day.json sha256:d1dd9b3f03fc34d4485a693a7a64cc1661d61eae5ffa88fed32445a0851e0a98; data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/identity_evidence.json sha256:b0a48c949e36144d3cde574eedb7f962935bbbf161343204ee8fe78718ee44cb",
+        "service_evidence_assumptions": [
+          "Selected observed exact-SKU programme rates are assumed to continue at the approved seller price; current programme settings and future terms are not verified by this history.",
+          "No other exact-SKU ITEM service type occurs in the complete historical window; zero fixed allocation is limited to this observed residual, not a claim that all present or future costs are zero.",
+          "Acquiring is excluded from the additional programme percentage because the fresh catalogue already deducts its own acquiring tariff.",
+          "Sales commission and all delivery/return-logistics lines stay in their separate components; no duplication in additional service rates.",
+          "No non-item fees, seller packaging, overheads, warranty or unverified landed procurement are allocated or assumed absent.",
+          "Promotion compatibility, extra discounts, freshness, available stock and all execution safeguards require their existing independent checks.",
+          "Whole-window 2.475% is an observed blended rate. The 30 September sale has a Stars charge but no CustomerReviews charge in this window; that absence does not establish a current zero rate. The selected 2.8% scenario is directly observed on all three later sale dates, not a new tariff norm."
+        ],
+        "baseline_partial_contribution_rub": 844.2,
+        "target_partial_contribution_rub": 782.42,
+        "required_unit_growth_pct": 7.896,
+        "profit_on_cost_pct": 521.6133,
+        "margin_on_revenue_pct": 28.9036,
+        "valid": true
+      },
+      "gate_status": "HOLD",
+      "gate_blockers": [
+        "NO_POSITIVE_OBSERVED_STOCK"
+      ],
+      "manual_fbs_formula_matches": true
+    }
+  },
+  "candidate_evidence_file_sha256": "ca6e1f4a46583bcd77ef02b892afceccf9bb0e3874ea3e97bfca3baf9f7ebb84",
+  "candidate_evidence_comparison_exact_match": true,
+  "candidate_source_hashes_match": true,
+  "approved_prices_actions_unchanged": true,
+  "limitations": [
+    "Historical rates are used as explicit forward assumptions; current programme settings are not independently proved.",
+    "Global unmatched marketplace SKU 5752781938 is outside these five and no amounts are allocated to them.",
+    "Zero fixed residual concerns only observed exact-SKU item fee types, not absent overheads or future fees.",
+    "pylniki uses the separately documented latest-three-sale 2.8% rate; whole-window 2.475% remains a sensitivity.",
+    "0AM927769D has separate logistics-only records despite zero returned sales in this window; excluded from programme percentage, not dismissed as absent costs."
+  ]
+}

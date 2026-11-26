@@ -1,0 +1,309 @@
+{
+  "schema_version": 1,
+  "mode": "READ_ONLY_HISTORICAL_FINANCE",
+  "seller_writes": 0,
+  "started_at": "2026-11-26T21:19:18.290101+00:00",
+  "status": "partial",
+  "from": "2026-09-25",
+  "to": "2026-10-23",
+  "complete_calendar_dates": 29,
+  "includes_partial_current_day": false,
+  "interpretation": "Historical evidence for analysis. Service rates are not verified or activated.",
+  "finance": {
+    "status": "partial",
+    "started_at": "2026-11-26T21:19:20.406867+00:00",
+    "completed_at": "2026-11-26T21:19:33.034482+00:00",
+    "count": 68,
+    "coverage": {
+      "expected_dates": 29,
+      "collected_dates": 29,
+      "failed_dates": [],
+      "unmatched_marketplace_skus": [
+        "sku:5752781938"
+      ],
+      "mapping": {
+        "sku_count": 153,
+        "conflicting_marketplace_skus": [],
+        "unmapped_offer_ids": [
+          "0BH325",
+          "plita-filtr",
+          "plita-filtr-pylniki-sal-orig",
+          "remkomplekt-shtokov-orig",
+          "remkomplekt-shtokov-orig-v2",
+          "solenoid-02e-0b5-bolshoy"
+        ]
+      }
+    },
+    "errors": [
+      {
+        "code": "unmatched_finance_skus"
+      }
+    ]
+  },
+  "focus": {
+    "Dq200dsg70am0cw": {
+      "expected_product_id": "3225148531",
+      "observed_product_ids": [
+        "3225148531"
+      ],
+      "identity_exact": true,
+      "catalogue_conflict": false,
+      "expected_marketplace_skus": [
+        "3231757428"
+      ],
+      "marketplace_skus": [
+        "3231757428"
+      ],
+      "mapping_exact": true,
+      "all_29_dates_and_pages_collected": true,
+      "aggregate_present": true,
+      "reconciliation_status": "pending_review",
+      "service_rates_verified": false,
+      "status": "ready_for_reconciliation"
+    },
+    "0AM927769D": {
+      "expected_product_id": "5054769122",
+      "observed_product_ids": [
+        "5054769122"
+      ],
+      "identity_exact": true,
+      "catalogue_conflict": false,
+      "expected_marketplace_skus": [
+        "4701687690"
+      ],
+      "marketplace_skus": [
+        "4701687690"
+      ],
+      "mapping_exact": true,
+      "all_29_dates_and_pages_collected": true,
+      "aggregate_present": true,
+      "reconciliation_status": "pending_review",
+      "service_rates_verified": false,
+      "status": "ready_for_reconciliation"
+    },
+    "6t30": {
+      "expected_product_id": "6287285958",
+      "observed_product_ids": [
+        "6287285958"
+      ],
+      "identity_exact": true,
+      "catalogue_conflict": false,
+      "expected_marketplace_skus": [
+        "5753726628"
+      ],
+      "marketplace_skus": [
+        "5753726628"
+      ],
+      "mapping_exact": true,
+      "all_29_dates_and_pages_collected": true,
+      "aggregate_present": true,
+      "reconciliation_status": "pending_review",
+      "service_rates_verified": false,
+      "status": "ready_for_reconciliation"
+    },
+    "planka-solenoid-2sht": {
+      "expected_product_id": "6287286104",
+      "observed_product_ids": [
+        "6287286104"
+      ],
+      "identity_exact": true,
+      "catalogue_conflict": false,
+      "expected_marketplace_skus": [
+        "5753725921"
+      ],
+      "marketplace_skus": [
+        "5753725921"
+      ],
+      "mapping_exact": true,
+      "all_29_dates_and_pages_collected": true,
+      "aggregate_present": true,
+      "reconciliation_status": "pending_review",
+      "service_rates_verified": false,
+      "status": "ready_for_reconciliation"
+    },
+    "pylniki-shtokov-orig-v2": {
+      "expected_product_id": "6291485641",
+      "observed_product_ids": [
+        "6291485641"
+      ],
+      "identity_exact": true,
+      "catalogue_conflict": false,
+      "expected_marketplace_skus": [
+        "5776942621"
+      ],
+      "marketplace_skus": [
+        "5776942621"
+      ],
+      "mapping_exact": true,
+      "all_29_dates_and_pages_collected": true,
+      "aggregate_present": true,
+      "reconciliation_status": "pending_review",
+      "service_rates_verified": false,
+      "status": "ready_for_reconciliation"
+    }
+  },
+  "direct_lookup": {
+    "requested_marketplace_sku": "3237042002",
+    "payload_status": "read_only_probe_not_previously_verified",
+    "accepted_direct_response": true,
+    "resolved": {
+      "marketplace_sku": "3237042002",
+      "offer_id": "0cw0am",
+      "product_id": "3224994742"
+    },
+    "errors": [],
+    "returned_count": 1
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "endpoint": "/v3/product/list"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v3/product/list"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v3/product/info/list"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v3/product/info/list"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v3/product/info/list"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v3/product/info/list"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/types"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day"
+    }
+  ],
+  "files": [
+    "identity_evidence.json",
+    "finance.json",
+    "financial_fields_by_day.json"
+  ],
+  "completed_at": "2026-11-26T21:19:33.097454+00:00"
+}

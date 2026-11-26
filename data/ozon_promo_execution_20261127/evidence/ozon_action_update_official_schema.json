@@ -1,0 +1,2327 @@
+{
+  "metadata": {
+    "source_url": "https://docs.ozon.ru/api/seller/swagger.json",
+    "resolved_url": "https://docs.ozon.ru/api/seller/swagger.json?__rr=1",
+    "retrieval_http_status": 200,
+    "content_type": "application/json",
+    "bytes": 4399284,
+    "sha256": "d9889263701e7d8a2d3f66b7626963325af5ced58d5572005f387d5ad0846e31",
+    "saved_at_utc": "2026-11-26T21:15:21.580051+00:00",
+    "metadata_recorded_at_utc": "2026-11-26T21:18:03.419602+00:00",
+    "source_kind": "direct_official_openapi_download",
+    "seller_api_calls": 0,
+    "seller_api_writes": 0,
+    "local_path": "/workspace/scratch/0b5e90e37ec5/ozon_official_full_swagger.json",
+    "operation_ids": {
+      "/v1/actions/products/update": "ActionsProductsUpdate",
+      "/v2/actions/products": "ActionsProducts",
+      "/v2/actions/candidates": "ActionsCandidates",
+      "/v2/actions/auto-add/products/list": "ActionsAutoAddProductsListV2",
+      "/v2/actions/auto-add/products/candidates": "ActionsAutoAddProductsCandidatesV2",
+      "/v1/actions/discounts-task/list": "promos_task_list",
+      "/v2/actions/discounts-task/list": "GetDiscountTaskListV2"
+    },
+    "request_payload_assessment": "Existing product_id and Money action_price payload conforms to the official request schema; stock is only for promo-code actions. No alternate payload is indicated by the schema.",
+    "past_rejection_lookup": "No documented status/history endpoint for ActionsProductsUpdate found among the complete specification paths. discounts-task/list concerns buyer discount requests, not promotion update task status."
+  },
+  "info": {
+    "title": "Документация Ozon Seller API",
+    "version": 2.1,
+    "x-logo": {
+      "url": "https://st.ozone.ru/s3/redoc/ozon-seller-logo.svg",
+      "backgroundColor": null,
+      "altText": "Ozon logo"
+    },
+    "description": "По вопросам работы с Seller API обращайтесь в поддержку через личный кабинет.\n\n<aside class=\"warning\">Обновляем корневой TLS/SSL-сертификат GlobalSign — вместо него будем использовать <a href=\"https://app.harica.gr/\">HARICA</a>.<br><a href=\"https://dev.ozon.ru/news/775-Izmeneniia-v-Ozon-API-migratsiia-kornevogo-sertifikata-UTs-Ozon/\">Подробнее о переходе на HARICA на платформе разработчиков Ozon for dev</a></aside>\n\n> [Инструкции по работе с маркетплейсом](https://seller-edu.ozon.ru)\n\n> [Информационная платформа и сообщество разработчиков Ozon for dev](https://dev.ozon.ru/)\n\n<a class=\"seller-appstore-banner\" href=\"https://seller-edu.ozon.ru/webinars/5940/\" target=\"_blank\" rel=\"noopener noreferrer\"><img class=\"seller-appstore-banner-image\" src=\"https://cdn.ozone.ru/s3/ozon-disk-api/techdoc/seller-api/banner_event_1793360570.png\" alt=\"Вебинар Ozon Доставка для продавцов: интеграция через Seller API\"></a>\n"
+  },
+  "paths": {
+    "/v1/actions/products/update": {
+      "post": {
+        "description": "<aside class=\"warning\">\nДо 13 октября 2026 года метод работает аналогично <a href=\"#operation/PromosProductsActivate\">/v1/actions/products/activate</a>, изменить цену на карточке товара с помощью метода не получится.\n</aside>\n",
+        "tags": [
+          "Promos"
+        ],
+        "summary": "Добавить или обновить товар в акции",
+        "operationId": "ActionsProductsUpdate",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Client-Id"
+          },
+          {
+            "$ref": "#/components/parameters/Api-Key"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/actions.v1.ActionsProductsUpdateRequest"
+              },
+              "example": {
+                "action_id": 258568,
+                "products": [
+                  {
+                    "action_price": {
+                      "amount": "88",
+                      "currency": "RUB"
+                    },
+                    "product_id": 88888,
+                    "stock": "8"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Товары добавлены или обновлены",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/actions.v1.ActionsProductsUpdateResponse"
+                },
+                "example": {
+                  "active_product_ids": [
+                    88888
+                  ],
+                  "deactivated_product_ids": [],
+                  "rejected": [],
+                  "warnings": []
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Доступ запрещён",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ответ не найден",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт запроса",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/actions/products": {
+      "post": {
+        "description": "<aside class=\"warning\">\nДо 13 октября 2026 года метод работает аналогично <a href=\"#operation/PromosProducts\">/v1/actions/products</a>.\n</aside>\n",
+        "tags": [
+          "Promos"
+        ],
+        "summary": "Получить список товаров, которые участвуют в акции",
+        "operationId": "ActionsProducts",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Client-Id"
+          },
+          {
+            "$ref": "#/components/parameters/Api-Key"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/actions.v2.ActionsProductsRequest"
+              },
+              "example": {
+                "action_id": 213139,
+                "last_id": "3262247282",
+                "limit": 100
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Список товаров, которые участвуют в акции",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/actions.v2.ActionsProductsResponse"
+                },
+                "example": {
+                  "products": [
+                    {
+                      "id": 99999,
+                      "price": {
+                        "amount": "4000",
+                        "currency": "RUB"
+                      },
+                      "action_price": {
+                        "amount": "4000",
+                        "currency": "RUB"
+                      },
+                      "max_action_price": {
+                        "amount": "3560",
+                        "currency": "RUB"
+                      },
+                      "add_mode": "SELLER",
+                      "stock": 2,
+                      "min_stock": 1,
+                      "recommended_stock": 10,
+                      "marketplace_seller_price": {
+                        "amount": "500",
+                        "currency": "RUB"
+                      },
+                      "alert_max_action_price_failed": false,
+                      "alert_max_action_price": {
+                        "amount": "4000",
+                        "currency": "RUB"
+                      },
+                      "current_boost": 12,
+                      "price_min_elastic": {
+                        "amount": "3560",
+                        "currency": "RUB"
+                      },
+                      "price_max_elastic": {
+                        "amount": "3560",
+                        "currency": "RUB"
+                      },
+                      "min_boost": 1,
+                      "max_boost": 12,
+                      "website_prices": {
+                        "price": {
+                          "amount": "382",
+                          "currency": "RUB"
+                        },
+                        "prices_by_schema": {}
+                      },
+                      "min_seller_price": {
+                        "amount": "4000",
+                        "currency": "RUB"
+                      },
+                      "is_quarantined": true
+                    }
+                  ],
+                  "total": 44,
+                  "last_id": "28743"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Доступ запрещён",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ответ не найден",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт запроса",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/actions/candidates": {
+      "post": {
+        "description": "<aside class=\"warning\">\nДо 13 октября 2026 года метод работает аналогично <a href=\"#operation/PromosCandidates\">/v1/actions/candidates</a>.\n</aside>\n",
+        "tags": [
+          "Promos"
+        ],
+        "summary": "Получить список товаров, которые могут участвовать в акции",
+        "operationId": "ActionsCandidates",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Client-Id"
+          },
+          {
+            "$ref": "#/components/parameters/Api-Key"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/actions.v2.ActionsCandidatesRequest"
+              },
+              "example": {
+                "action_id": 258568,
+                "last_id": "80698",
+                "limit": 100
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Список товаров, которые могут участвовать в акции",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/actions.v2.ActionsCandidatesResponse"
+                },
+                "example": {
+                  "products": [
+                    {
+                      "id": 8888888,
+                      "price": {
+                        "amount": "1827",
+                        "currency": "RUB"
+                      },
+                      "action_price": {
+                        "amount": "1800",
+                        "currency": "RUB"
+                      },
+                      "max_action_price": {
+                        "amount": "62",
+                        "currency": "RUB"
+                      },
+                      "min_stock": 1,
+                      "recommended_stock": 2,
+                      "marketplace_seller_price": {
+                        "amount": "70",
+                        "currency": "RUB"
+                      },
+                      "alert_max_action_price_failed": false,
+                      "alert_max_action_price": {
+                        "amount": "30",
+                        "currency": "RUB"
+                      },
+                      "current_boost": 15,
+                      "price_min_elastic": {
+                        "amount": "62",
+                        "currency": "RUB"
+                      },
+                      "price_max_elastic": {
+                        "amount": "53",
+                        "currency": "RUB"
+                      },
+                      "min_boost": 15,
+                      "max_boost": 55,
+                      "website_prices": {
+                        "price": {
+                          "amount": "54",
+                          "currency": "RUB"
+                        },
+                        "prices_by_schema": {}
+                      },
+                      "min_seller_price": {
+                        "amount": "1",
+                        "currency": "RUB"
+                      },
+                      "is_quarantined": false
+                    }
+                  ],
+                  "total": 219176,
+                  "last_id": "81881"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Доступ запрещён",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ответ не найден",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт запроса",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/actions/auto-add/products/list": {
+      "post": {
+        "description": "<aside class=\"warning\">\nДо 13 октября 2026 года метод работает аналогично <a href=\"#operation/ActionsAutoAddProductsList\">/v1/actions/auto-add/products/list</a>.\n</aside>\n",
+        "tags": [
+          "Promos"
+        ],
+        "summary": "Получить список товаров из автодобавления в акцию",
+        "operationId": "ActionsAutoAddProductsListV2",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Client-Id"
+          },
+          {
+            "$ref": "#/components/parameters/Api-Key"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/actions.v2.ActionsAutoAddProductsListRequest"
+              },
+              "example": {
+                "action_id": 0,
+                "auto_add_date": "2025-01-01T00:00:00Z",
+                "offset": 0,
+                "limit": 0
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Список товаров с автодобавлением",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/actions.v2.ActionsAutoAddProductsListResponse"
+                },
+                "example": {
+                  "products": [
+                    {
+                      "action_price_to_auto_add": {
+                        "amount": "1800",
+                        "currency": "RUB"
+                      },
+                      "add_mode": true,
+                      "base_price": {
+                        "amount": "1827",
+                        "currency": "RUB"
+                      },
+                      "currency": "RUB",
+                      "has_expired_min_seller_price": true,
+                      "marketplace_seller_price": {
+                        "amount": "70",
+                        "currency": "RUB"
+                      },
+                      "max_discount_price": {
+                        "amount": "62",
+                        "currency": "RUB"
+                      },
+                      "min_action_quantity": 1,
+                      "min_seller_price": {
+                        "amount": "1",
+                        "currency": "RUB"
+                      },
+                      "name": "Ароматизатор / Масло для бани / Эфирное масло \"Пихта\", 250 мл",
+                      "offer_id": "SR0000",
+                      "price": {
+                        "amount": "1827",
+                        "currency": "RUB"
+                      },
+                      "product_id": 8888888,
+                      "quantity_to_auto_add": 2,
+                      "sku": 8888888,
+                      "website_prices": {
+                        "price": {
+                          "amount": "54",
+                          "currency": "RUB"
+                        },
+                        "prices_by_schema": {
+                          "additionalProp1": {
+                            "black_price": {
+                              "amount": "111",
+                              "currency": "RUB"
+                            },
+                            "green_price": {
+                              "amount": "222",
+                              "currency": "RUB"
+                            }
+                          },
+                          "additionalProp2": {
+                            "black_price": {
+                              "amount": "333",
+                              "currency": "RUB"
+                            },
+                            "green_price": {
+                              "amount": "444",
+                              "currency": "RUB"
+                            }
+                          },
+                          "additionalProp3": {
+                            "black_price": {
+                              "amount": "555",
+                              "currency": "RUB"
+                            },
+                            "green_price": {
+                              "amount": "666",
+                              "currency": "RUB"
+                            }
+                          }
+                        }
+                      },
+                      "will_be_quarantined": false
+                    }
+                  ],
+                  "total": 219176
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Доступ запрещён",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ответ не найден",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт запроса",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/actions/auto-add/products/candidates": {
+      "post": {
+        "description": "<aside class=\"warning\">\nДо 13 октября 2026 года метод работает аналогично <a href=\"#operation/ActionsAutoAddProductsCandidates\">/v1/actions/auto-add/products/candidates</a>.\n</aside>\n",
+        "tags": [
+          "Promos"
+        ],
+        "summary": "Получить список доступных товаров для автодобавления в акцию",
+        "operationId": "ActionsAutoAddProductsCandidatesV2",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Client-Id"
+          },
+          {
+            "$ref": "#/components/parameters/Api-Key"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/actions.v2.ActionsAutoAddProductsCandidatesRequest"
+              },
+              "example": {
+                "action_id": 250204,
+                "auto_add_date": "2025-01-01T00:00:00Z",
+                "offset": 5,
+                "limit": 100
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Список доступных товаров для автодобавления в акцию",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/actions.v2.ActionsAutoAddProductsCandidatesResponse"
+                },
+                "example": {
+                  "products": [
+                    {
+                      "action_price_to_auto_add": {
+                        "amount": "1800",
+                        "currency": "RUB"
+                      },
+                      "base_price": {
+                        "amount": "1827",
+                        "currency": "RUB"
+                      },
+                      "currency": "RUB",
+                      "has_expired_min_seller_price": true,
+                      "id": 8888888,
+                      "is_manually_added": true,
+                      "marketplace_seller_price": {
+                        "amount": "70",
+                        "currency": "RUB"
+                      },
+                      "max_discount_price": {
+                        "amount": "62",
+                        "currency": "RUB"
+                      },
+                      "min_action_quantity": 1,
+                      "min_seller_price": {
+                        "amount": "1",
+                        "currency": "RUB"
+                      },
+                      "name": "Ароматизатор / Масло для бани / Эфирное масло \"Пихта\", 250 мл",
+                      "offer_id": "PS0000",
+                      "price": {
+                        "amount": "1827",
+                        "currency": "RUB"
+                      },
+                      "quantity_to_auto_add": 2,
+                      "sku": 8888888,
+                      "website_prices": {
+                        "price": {
+                          "amount": "54",
+                          "currency": "RUB"
+                        },
+                        "prices_by_schema": {
+                          "additionalProp1": {
+                            "black_price": {
+                              "amount": "1400",
+                              "currency": "RUB"
+                            },
+                            "green_price": {
+                              "amount": "18888",
+                              "currency": "RUB"
+                            }
+                          },
+                          "additionalProp2": {
+                            "black_price": {
+                              "amount": "1500",
+                              "currency": "RUB"
+                            },
+                            "green_price": {
+                              "amount": "1600",
+                              "currency": "RUB"
+                            }
+                          },
+                          "additionalProp3": {
+                            "black_price": {
+                              "amount": "1700",
+                              "currency": "RUB"
+                            },
+                            "green_price": {
+                              "amount": "1800",
+                              "currency": "RUB"
+                            }
+                          }
+                        }
+                      },
+                      "will_be_quarantined": false
+                    }
+                  ],
+                  "total": 219176
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Неверный параметр",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Доступ запрещён",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ответ не найден",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт запроса",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/actions/discounts-task/list": {
+      "post": {
+        "tags": [
+          "Promos"
+        ],
+        "summary": "Список заявок на скидку",
+        "description": "<aside class=\"warning\">\n Метод устаревает и будет отключён в будущем. Переключитесь на <a href=\"#operation/GetDiscountTaskListV2\">/v2/actions/discounts-task/list</a>.\n</aside> \n\n Метод для получения списка товаров, которые покупатели хотят купить со скидкой.\n",
+        "operationId": "promos_task_list",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v1GetDiscountTaskListRequest"
+              },
+              "example": {
+                "status": "UNKNOWN",
+                "page": 1,
+                "limit": 50
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Список заявок",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v1GetDiscountTaskListResponse"
+                },
+                "example": {
+                  "result": [
+                    {
+                      "id": 12345,
+                      "created_at": "2023-10-15T09:30:00Z",
+                      "end_at": "2023-10-20T18:45:00Z",
+                      "edited_till": "2023-10-18T12:00:00Z",
+                      "status": "approved",
+                      "customer_name": "Иван Иванов",
+                      "sku": 100500,
+                      "user_comment": "Товар необходим срочно, прошу ускорить обработку",
+                      "seller_comment": "Согласовано с менеджером, скидка предоставлена",
+                      "requested_price": 15000,
+                      "approved_price": 14500,
+                      "original_price": 16000,
+                      "discount": 1000,
+                      "discount_percent": 6.25,
+                      "base_price": 15500,
+                      "min_auto_price": 14000,
+                      "prev_task_id": 12344,
+                      "is_damaged": false,
+                      "moderated_at": "2023-10-16T10:15:00Z",
+                      "approved_discount": 500,
+                      "approved_discount_percent": 3.125,
+                      "is_purchased": true,
+                      "is_auto_moderated": false,
+                      "offer_id": "OFFER-2023-1001",
+                      "email": "ivan.ivanov@example.com",
+                      "last_name": "Иванов",
+                      "first_name": "Иван",
+                      "patronymic": "Петрович",
+                      "approved_quantity_min": 1,
+                      "approved_quantity_max": 5,
+                      "requested_quantity_min": 2,
+                      "requested_quantity_max": 10,
+                      "requested_price_with_fee": 15500,
+                      "approved_price_with_fee": 15000,
+                      "approved_price_fee_percent": 3.2
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/actions/discounts-task/list": {
+      "post": {
+        "summary": "Получить список заявок на скидку",
+        "description": "Возвращает список товаров, которые покупатели хотят купить со скидкой.\n\nВы можете оставить обратную связь о работе метода в [комментариях](https://dev.ozon.ru/community/1856-Novye-metody-dlia-raboty-s-polucheniem-Spiska-zaiavok-na-skidku/) в сообществе разработчиков Ozon for dev.\n",
+        "operationId": "GetDiscountTaskListV2",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Client-Id"
+          },
+          {
+            "$ref": "#/components/parameters/Api-Key"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/v2GetDiscountTaskListV2Request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Список заявок",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/v2GetDiscountTaskListV2Response"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Ошибка",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rpcStatus"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "BetaMethod"
+        ]
+      }
+    }
+  },
+  "refs": {
+    "#/components/parameters/Client-Id": {
+      "description": "Идентификатор клиента.",
+      "in": "header",
+      "name": "Client-Id",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    "#/components/parameters/Api-Key": {
+      "description": "API-ключ.",
+      "in": "header",
+      "name": "Api-Key",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    "#/components/schemas/actions.v1.ActionsProductsUpdateRequest": {
+      "type": "object",
+      "required": [
+        "action_id",
+        "products"
+      ],
+      "properties": {
+        "action_id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор акции. Получите методом [/v1/actions](#operation/Promos)."
+        },
+        "products": {
+          "type": "array",
+          "description": "Список товаров.",
+          "maxItems": 1000,
+          "items": {
+            "$ref": "#/components/schemas/actions.v1.ActionsProductsUpdateRequest.Product"
+          }
+        }
+      }
+    },
+    "#/components/schemas/actions.v1.ActionsProductsUpdateRequest.Product": {
+      "type": "object",
+      "required": [
+        "product_id",
+        "action_price"
+      ],
+      "properties": {
+        "action_price": {
+          "$ref": "#/components/schemas/money.MoneyAction_price"
+        },
+        "product_id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор товара в системе Ozon — `product_id`."
+        },
+        "stock": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Количество единиц товара в акции «Промокоды». Не передавайте параметр для акций «Эластичный бустинг» и «Максимальный бустинг»."
+        }
+      }
+    },
+    "#/components/schemas/money.MoneyAction_price": {
+      "description": "Предельная цена товара.\n\nЕсли изменяете предельную цену через методы [/v1/product/import/prices](#operation/ProductAPI_ImportProductsPrices) или [/v1/actions/products/update](#operation/ActionsProductsUpdate), значение обновляется в карточке товара.<br>\n[Подробнее о единой цене в Базе знаний продавца](https://seller-edu.ozon.ru/libra/ceny-i-akcii/akcii-skidki-i-kupony/akcii-ozon/upravlenie-tovrami-v-akciyah)\n\nЕсли добавляете товар вне акции «Промокоды», изменим предельную цену в карточке товара, даже если она была установлена ранее.\n\nЕсли значение меньше или равно лимиту акции «Эластичный бустинг» или «Максимальный бустинг» — добавим товар в акцию, если больше — удалим товар из акции.\n",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "description": "Сумма.",
+          "type": "string"
+        },
+        "currency": {
+          "description": "Валюта.",
+          "type": "string"
+        }
+      }
+    },
+    "#/components/schemas/actions.v1.ActionsProductsUpdateResponse": {
+      "type": "object",
+      "properties": {
+        "active_product_ids": {
+          "type": "array",
+          "description": "Список идентификаторов товаров, которые добавлены в акцию.",
+          "items": {
+            "type": "string",
+            "format": "uint64"
+          }
+        },
+        "deactivated_product_ids": {
+          "type": "array",
+          "description": "Список идентификаторов товаров, которые удалены из акции.",
+          "items": {
+            "type": "string",
+            "format": "uint64"
+          }
+        },
+        "rejected": {
+          "description": "Список товаров, которые не удалось добавить в акцию.",
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/actions.v1.ActionsProductsUpdateResponse.Rejected"
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "description": "Информация о причинах, из-за которых товары удалены из акции.",
+          "items": {
+            "$ref": "#/components/schemas/actions.v1.ActionsProductsUpdateResponse.Warning"
+          }
+        }
+      }
+    },
+    "#/components/schemas/actions.v1.ActionsProductsUpdateResponse.Rejected": {
+      "type": "object",
+      "properties": {
+        "product_id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор товара в системе Ozon — `product_id`."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Причина, по которой товар не добавлен в акцию."
+        }
+      }
+    },
+    "#/components/schemas/actions.v1.ActionsProductsUpdateResponse.Warning": {
+      "type": "object",
+      "properties": {
+        "product_id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор товара в системе Ozon — `product_id`."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Причина, по которой товар удалён из акции."
+        }
+      }
+    },
+    "#/components/schemas/rpcStatus": {
+      "type": "object",
+      "title": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Код ошибки."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/protobufAny"
+          },
+          "description": "Дополнительная информация об ошибке."
+        },
+        "message": {
+          "type": "string",
+          "description": "Описание ошибки."
+        }
+      }
+    },
+    "#/components/schemas/protobufAny": {
+      "type": "object",
+      "title": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string",
+          "description": "Тип протокола передачи данных."
+        },
+        "value": {
+          "type": "string",
+          "format": "byte",
+          "description": "Значение ошибки."
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsProductsRequest": {
+      "type": "object",
+      "required": [
+        "action_id",
+        "limit"
+      ],
+      "properties": {
+        "action_id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор акции. Получите методом [/v1/actions](#operation/Promos)."
+        },
+        "last_id": {
+          "type": "string",
+          "description": "Идентификатор последнего значения на странице. При первом запросе оставьте пустым."
+        },
+        "limit": {
+          "type": "integer",
+          "format": "uint64",
+          "maximum": 100,
+          "description": "Количество значений на странице."
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsProductsResponse": {
+      "type": "object",
+      "properties": {
+        "last_id": {
+          "type": "string",
+          "description": "Идентификатор последнего значения на странице. Чтобы получить следующие значения, передайте полученное значение в следующем запросе в параметре `last_id`."
+        },
+        "products": {
+          "type": "array",
+          "description": "Список товаров.",
+          "items": {
+            "$ref": "#/components/schemas/actions.v2.ActionsProductsResponse.Product"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Количество товаров в акции."
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsProductsResponse.Product": {
+      "type": "object",
+      "properties": {
+        "action_price": {
+          "$ref": "#/components/schemas/money.MoneyAction_price_to_auto_add"
+        },
+        "action_price_before_auto_add": {
+          "$ref": "#/components/schemas/money.MoneyAction_price_before_auto_add"
+        },
+        "add_mode": {
+          "$ref": "#/components/schemas/actions.v2.ActionsProductsResponse.Product.AddMode.Enum"
+        },
+        "alert_max_action_price": {
+          "$ref": "#/components/schemas/money.MoneyAlert_max_action_price"
+        },
+        "alert_max_action_price_failed": {
+          "type": "boolean",
+          "description": "`true`, если цена товара выше рекомендуемой. Товар может быть исключён из акции.\n"
+        },
+        "current_boost": {
+          "type": "number",
+          "format": "double",
+          "description": "Размер бустинга товара."
+        },
+        "id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор товара в системе Ozon — `product_id`."
+        },
+        "is_quarantined": {
+          "type": "boolean",
+          "description": "`true`, если товар в карантине.\n"
+        },
+        "marketplace_seller_price": {
+          "$ref": "#/components/schemas/money.MoneyFBPget"
+        },
+        "max_action_price": {
+          "$ref": "#/components/schemas/money.MoneyMax_action_price"
+        },
+        "max_boost": {
+          "type": "number",
+          "format": "double",
+          "description": "Максимальный размер бустинга в процентах."
+        },
+        "min_boost": {
+          "type": "number",
+          "format": "double",
+          "description": "Минимальный размер бустинга в процентах."
+        },
+        "min_seller_price": {
+          "$ref": "#/components/schemas/money.MoneyMin_seller_price"
+        },
+        "min_stock": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Минимальное число единиц товара в акции типа «Скидка на сток»."
+        },
+        "price": {
+          "$ref": "#/components/schemas/money.MoneyPrice"
+        },
+        "price_max_elastic": {
+          "$ref": "#/components/schemas/money.MoneyPrice_max_elastic"
+        },
+        "price_min_elastic": {
+          "$ref": "#/components/schemas/money.MoneyPrice_min_elastic"
+        },
+        "recommended_stock": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Рекомендуемое количество товара для участия в акции."
+        },
+        "stock": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Число единиц товара в акции типа «Скидка на сток»."
+        },
+        "website_prices": {
+          "$ref": "#/components/schemas/actions.v2.ActionsProductsResponse.Product.ProductWebsitePrices"
+        }
+      }
+    },
+    "#/components/schemas/money.MoneyAction_price_to_auto_add": {
+      "description": "Цена товара по акции.",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "description": "Сумма.",
+          "type": "string"
+        },
+        "currency": {
+          "description": "Валюта.",
+          "type": "string"
+        }
+      }
+    },
+    "#/components/schemas/money.MoneyAction_price_before_auto_add": {
+      "description": "Предельная цена товара до автодобавления в акцию.",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "description": "Сумма.",
+          "type": "string"
+        },
+        "currency": {
+          "description": "Валюта.",
+          "type": "string"
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsProductsResponse.Product.AddMode.Enum": {
+      "type": "string",
+      "description": "Тип добавления товара в акцию: \n- `AUTO` — автоматически; \n- `SELLER` — вручную продавцом.\n",
+      "enum": [
+        "SELLER",
+        "AUTO"
+      ]
+    },
+    "#/components/schemas/money.MoneyAlert_max_action_price": {
+      "description": "Рекомендуемая цена товара по акции.",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "description": "Сумма.",
+          "type": "string"
+        },
+        "currency": {
+          "description": "Валюта.",
+          "type": "string"
+        }
+      }
+    },
+    "#/components/schemas/money.MoneyFBPget": {
+      "description": "Цена товара с учётом акций, кроме акций за счёт Ozon.",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "description": "Сумма.",
+          "type": "string"
+        },
+        "currency": {
+          "description": "Валюта.",
+          "type": "string"
+        }
+      }
+    },
+    "#/components/schemas/money.MoneyMax_action_price": {
+      "description": "Максимальная цена товара по акции.",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "description": "Сумма.",
+          "type": "string"
+        },
+        "currency": {
+          "description": "Валюта.",
+          "type": "string"
+        }
+      }
+    },
+    "#/components/schemas/money.MoneyMin_seller_price": {
+      "description": "Минимальная цена товара после применения акций.",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "description": "Сумма.",
+          "type": "string"
+        },
+        "currency": {
+          "description": "Валюта.",
+          "type": "string"
+        }
+      }
+    },
+    "#/components/schemas/money.MoneyPrice": {
+      "description": "Цена товара без скидки.",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "description": "Сумма.",
+          "type": "string"
+        },
+        "currency": {
+          "description": "Валюта.",
+          "type": "string"
+        }
+      }
+    },
+    "#/components/schemas/money.MoneyPrice_max_elastic": {
+      "description": "Цена товара для максимального размера бустинга.",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "description": "Сумма.",
+          "type": "string"
+        },
+        "currency": {
+          "description": "Валюта.",
+          "type": "string"
+        }
+      }
+    },
+    "#/components/schemas/money.MoneyPrice_min_elastic": {
+      "description": "Цена товара для минимального размера бустинга.",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "description": "Сумма.",
+          "type": "string"
+        },
+        "currency": {
+          "description": "Валюта.",
+          "type": "string"
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsProductsResponse.Product.ProductWebsitePrices": {
+      "type": "object",
+      "description": "Цены товара на сайте.",
+      "properties": {
+        "price": {
+          "$ref": "#/components/schemas/money.MoneyWebsitePrices"
+        },
+        "prices_by_schema": {
+          "type": "object",
+          "description": "Цены товара по схемам доставки.",
+          "additionalProperties": {
+            "$ref": "#/components/schemas/actions.v2.ActionsProductsResponse.Product.ProductWebsitePrices.WebsitePrices"
+          }
+        }
+      }
+    },
+    "#/components/schemas/money.MoneyWebsitePrices": {
+      "description": "Минимальная средняя цена по схемам доставки на сайте.",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "description": "Сумма.",
+          "type": "string"
+        },
+        "currency": {
+          "description": "Валюта.",
+          "type": "string"
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsProductsResponse.Product.ProductWebsitePrices.WebsitePrices": {
+      "type": "object",
+      "description": "Цены товара по схеме доставки.",
+      "properties": {
+        "black_price": {
+          "$ref": "#/components/schemas/money.MoneyPrice"
+        },
+        "green_price": {
+          "$ref": "#/components/schemas/money.MoneyGreen_price"
+        }
+      }
+    },
+    "#/components/schemas/money.MoneyGreen_price": {
+      "description": "Зелёная цена.",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "description": "Сумма.",
+          "type": "string"
+        },
+        "currency": {
+          "description": "Валюта.",
+          "type": "string"
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsCandidatesRequest": {
+      "type": "object",
+      "properties": {
+        "action_id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор акции. Получите методом [/v1/actions](#operation/Promos)."
+        },
+        "last_id": {
+          "type": "string",
+          "description": "Идентификатор последнего значения на странице. При первом запросе оставьте пустым."
+        },
+        "limit": {
+          "type": "integer",
+          "format": "uint64",
+          "maximum": 100,
+          "description": "Количество значений на странице."
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsCandidatesResponse": {
+      "type": "object",
+      "properties": {
+        "last_id": {
+          "type": "string",
+          "description": "Идентификатор последнего значения на странице. Чтобы получить следующие значения, передайте полученное значение в следующем запросе в параметре `last_id`."
+        },
+        "products": {
+          "type": "array",
+          "description": "Список товаров.",
+          "items": {
+            "$ref": "#/components/schemas/actions.v2.ActionsCandidatesResponse.Product"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Общее количество товаров, которое доступно для акции."
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsCandidatesResponse.Product": {
+      "type": "object",
+      "properties": {
+        "action_price": {
+          "$ref": "#/components/schemas/money.MoneyAction_price_to_auto_add"
+        },
+        "alert_max_action_price": {
+          "$ref": "#/components/schemas/money.MoneyAlert_max_action_price"
+        },
+        "alert_max_action_price_failed": {
+          "type": "boolean",
+          "description": "`true`, если цена товара выше рекомендуемой. Товар может быть исключён из акции.\n"
+        },
+        "current_boost": {
+          "type": "number",
+          "format": "double",
+          "description": "Размер бустинга товара."
+        },
+        "id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор товара в системе Ozon — `product_id`."
+        },
+        "is_quarantined": {
+          "type": "boolean",
+          "description": "`true`, если товар в карантине.\n"
+        },
+        "marketplace_seller_price": {
+          "$ref": "#/components/schemas/money.MoneyFBPget"
+        },
+        "max_action_price": {
+          "$ref": "#/components/schemas/money.MoneyMax_action_price"
+        },
+        "max_boost": {
+          "type": "number",
+          "format": "double",
+          "description": "Максимальный размер бустинга в процентах."
+        },
+        "min_boost": {
+          "type": "number",
+          "format": "double",
+          "description": "Минимальный размер бустинга в процентах."
+        },
+        "min_seller_price": {
+          "$ref": "#/components/schemas/money.MoneyMin_seller_price"
+        },
+        "min_stock": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Минимальное число единиц товара в акции типа «Скидка на сток»."
+        },
+        "price": {
+          "$ref": "#/components/schemas/money.MoneyPrice"
+        },
+        "price_max_elastic": {
+          "$ref": "#/components/schemas/money.MoneyPrice_max_elastic"
+        },
+        "price_min_elastic": {
+          "$ref": "#/components/schemas/money.MoneyPrice_min_elastic"
+        },
+        "recommended_stock": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Рекомендуемое количество товара для участия в акции."
+        },
+        "website_prices": {
+          "$ref": "#/components/schemas/actions.v2.ActionsCandidatesResponse.Product.ProductWebsitePrices"
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsCandidatesResponse.Product.ProductWebsitePrices": {
+      "type": "object",
+      "description": "Цены товара на сайте.",
+      "properties": {
+        "price": {
+          "$ref": "#/components/schemas/money.MoneyWebsitePrices"
+        },
+        "prices_by_schema": {
+          "type": "object",
+          "description": "Цены товара по схемам доставки.",
+          "additionalProperties": {
+            "$ref": "#/components/schemas/actions.v2.ActionsCandidatesResponse.Product.ProductWebsitePrices.WebsitePrices"
+          }
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsCandidatesResponse.Product.ProductWebsitePrices.WebsitePrices": {
+      "type": "object",
+      "description": "Цены товара по схеме доставки.",
+      "properties": {
+        "black_price": {
+          "$ref": "#/components/schemas/money.MoneyPrice"
+        },
+        "green_price": {
+          "$ref": "#/components/schemas/money.MoneyGreen_price"
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsAutoAddProductsListRequest": {
+      "type": "object",
+      "required": [
+        "action_id",
+        "auto_add_date",
+        "limit"
+      ],
+      "properties": {
+        "action_id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор акции."
+        },
+        "auto_add_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Дата и время автодобавления товаров в акцию из параметра `result.auto_add_dates` в ответе метода [/v1/actions](#operation/Promos)."
+        },
+        "limit": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Количество значений в ответе.",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "offset": {
+          "type": "integer",
+          "format": "uint64",
+          "default": 0,
+          "description": "Количество элементов, которое будет пропущено в ответе. Например, если `offset = 10`, ответ начнётся с 11-го найденного элемента."
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsAutoAddProductsListResponse": {
+      "type": "object",
+      "properties": {
+        "products": {
+          "type": "array",
+          "description": "Список товаров с автодобавлением.",
+          "items": {
+            "$ref": "#/components/schemas/actions.v2.ActionsAutoAddProductsListResponse.Product"
+          }
+        },
+        "total": {
+          "description": "Количество товаров.",
+          "type": "integer",
+          "format": "uint64"
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsAutoAddProductsListResponse.Product": {
+      "type": "object",
+      "properties": {
+        "action_price_to_auto_add": {
+          "$ref": "#/components/schemas/money.MoneyAction_price_to_auto_add"
+        },
+        "add_mode": {
+          "type": "boolean",
+          "description": "`true`, если продавец добавил товар вручную.\n"
+        },
+        "base_price": {
+          "$ref": "#/components/schemas/money.MoneyBase_price"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Валюта цен."
+        },
+        "has_expired_min_seller_price": {
+          "type": "boolean",
+          "description": "`true`, если истёк срок действия ограничения для акции.\n"
+        },
+        "marketplace_seller_price": {
+          "$ref": "#/components/schemas/money.MoneyFBPget"
+        },
+        "max_discount_price": {
+          "$ref": "#/components/schemas/money.MoneyMax_discount_price"
+        },
+        "min_action_quantity": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Минимальное число единиц товара в акции типа «Скидка на сток»."
+        },
+        "min_seller_price": {
+          "$ref": "#/components/schemas/money.MoneyMin_seller_price"
+        },
+        "name": {
+          "type": "string",
+          "description": "Название товара."
+        },
+        "offer_id": {
+          "type": "string",
+          "description": "Идентификатор товара в системе продавца — артикул."
+        },
+        "price": {
+          "$ref": "#/components/schemas/money.MoneyPrice"
+        },
+        "product_id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор товара в системе Ozon — `product_id`."
+        },
+        "quantity_to_auto_add": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Количество товара в акции."
+        },
+        "sku": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор товара в системе Ozon — SKU."
+        },
+        "website_prices": {
+          "$ref": "#/components/schemas/actions.v2.ActionsAutoAddProductsListResponse.Product.ProductWebsitePrices"
+        },
+        "will_be_quarantined": {
+          "type": "boolean",
+          "description": "`true`, если товар попадает в карантин после автодобавления.\n"
+        }
+      }
+    },
+    "#/components/schemas/money.MoneyBase_price": {
+      "description": "Цена товара до скидки.",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "description": "Сумма.",
+          "type": "string"
+        },
+        "currency": {
+          "description": "Валюта.",
+          "type": "string"
+        }
+      }
+    },
+    "#/components/schemas/money.MoneyMax_discount_price": {
+      "description": "Максимальная цена товара для автодобавления в акцию.",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "description": "Сумма.",
+          "type": "string"
+        },
+        "currency": {
+          "description": "Валюта.",
+          "type": "string"
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsAutoAddProductsListResponse.Product.ProductWebsitePrices": {
+      "type": "object",
+      "description": "Цены товара на сайте.",
+      "properties": {
+        "price": {
+          "$ref": "#/components/schemas/money.MoneyWebsitePrices"
+        },
+        "prices_by_schema": {
+          "type": "object",
+          "description": "Цены товара по схемам доставки.",
+          "additionalProperties": {
+            "$ref": "#/components/schemas/actions.v2.ActionsAutoAddProductsListResponse.Product.ProductWebsitePrices.WebsitePrices"
+          }
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsAutoAddProductsListResponse.Product.ProductWebsitePrices.WebsitePrices": {
+      "type": "object",
+      "description": "Цены товара по схеме доставки.",
+      "properties": {
+        "black_price": {
+          "$ref": "#/components/schemas/money.MoneyPrice"
+        },
+        "green_price": {
+          "$ref": "#/components/schemas/money.MoneyGreen_price"
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsAutoAddProductsCandidatesRequest": {
+      "type": "object",
+      "required": [
+        "action_id",
+        "auto_add_date",
+        "limit"
+      ],
+      "properties": {
+        "action_id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор акции."
+        },
+        "auto_add_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Дата и время автодобавления товаров в акцию из параметра `result.auto_add_dates` в ответе метода [/v1/actions](#operation/Promos)."
+        },
+        "limit": {
+          "description": "Количество значений в ответе.",
+          "minimum": 1,
+          "maximum": 100,
+          "type": "integer",
+          "format": "uint64"
+        },
+        "offset": {
+          "description": "Количество элементов, которое будет пропущено в ответе. Например, если `offset = 10`, ответ начнётся с 11-го найденного элемента.",
+          "type": "integer",
+          "format": "uint64",
+          "default": 0
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsAutoAddProductsCandidatesResponse": {
+      "type": "object",
+      "properties": {
+        "products": {
+          "type": "array",
+          "description": "Список доступных товаров для автодобавления.",
+          "items": {
+            "$ref": "#/components/schemas/actions.v2.ActionsAutoAddProductsCandidatesResponse.Products"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Количество товаров."
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsAutoAddProductsCandidatesResponse.Products": {
+      "type": "object",
+      "properties": {
+        "action_price_to_auto_add": {
+          "$ref": "#/components/schemas/money.MoneyAction_price_to_auto_add"
+        },
+        "base_price": {
+          "$ref": "#/components/schemas/money.MoneyBase_price"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Валюта цен."
+        },
+        "has_expired_min_seller_price": {
+          "type": "boolean",
+          "description": "`true`, если истёк срок действия ограничения для акции.\n"
+        },
+        "id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор товара в системе Ozon — `product_id`."
+        },
+        "is_manually_added": {
+          "type": "boolean",
+          "description": "`true`, если товар добавлен вручную.\n"
+        },
+        "marketplace_seller_price": {
+          "$ref": "#/components/schemas/money.MoneyFBPget"
+        },
+        "max_discount_price": {
+          "$ref": "#/components/schemas/money.MoneyMax_discount_price"
+        },
+        "min_action_quantity": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Минимальное число единиц товара в акции типа «Скидка на сток»."
+        },
+        "min_seller_price": {
+          "$ref": "#/components/schemas/money.MoneyMin_seller_price"
+        },
+        "name": {
+          "type": "string",
+          "description": "Название товара."
+        },
+        "offer_id": {
+          "type": "string",
+          "description": "Идентификатор товара в системе продавца — артикул."
+        },
+        "price": {
+          "$ref": "#/components/schemas/money.MoneyPrice"
+        },
+        "quantity_to_auto_add": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Количество товара в акции."
+        },
+        "sku": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор товара в системе Ozon — SKU."
+        },
+        "website_prices": {
+          "$ref": "#/components/schemas/actions.v2.ActionsAutoAddProductsCandidatesResponse.ProductWebsitePrices"
+        },
+        "will_be_quarantined": {
+          "type": "boolean",
+          "description": "`true`, если товар попадает в карантин после автодобавления.\n"
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsAutoAddProductsCandidatesResponse.ProductWebsitePrices": {
+      "type": "object",
+      "description": "Цены товара на сайте.",
+      "properties": {
+        "price": {
+          "$ref": "#/components/schemas/money.MoneyWebsitePrices"
+        },
+        "prices_by_schema": {
+          "type": "object",
+          "description": "Цены товара по схемам доставки.",
+          "additionalProperties": {
+            "$ref": "#/components/schemas/actions.v2.ActionsAutoAddProductsCandidatesResponse.ProductWebsitePrices.WebsitePrices"
+          }
+        }
+      }
+    },
+    "#/components/schemas/actions.v2.ActionsAutoAddProductsCandidatesResponse.ProductWebsitePrices.WebsitePrices": {
+      "type": "object",
+      "description": "Цены товара по схеме доставки.",
+      "properties": {
+        "black_price": {
+          "$ref": "#/components/schemas/money.MoneyPrice"
+        },
+        "green_price": {
+          "$ref": "#/components/schemas/money.MoneyGreen_price"
+        }
+      }
+    },
+    "#/components/schemas/v1GetDiscountTaskListRequest": {
+      "required": [
+        "status",
+        "limit",
+        "page"
+      ],
+      "type": "object",
+      "title": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/components/schemas/v1DiscountTaskStatus"
+        },
+        "page": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Страница, с которой нужно выгрузить список заявок на скидку."
+        },
+        "limit": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Максимальное количество заявок на странице."
+        }
+      }
+    },
+    "#/components/schemas/v1DiscountTaskStatus": {
+      "type": "string",
+      "default": "UNKNOWN",
+      "enum": [
+        "NEW",
+        "SEEN",
+        "APPROVED",
+        "PARTLY_APPROVED",
+        "DECLINED",
+        "AUTO_DECLINED",
+        "DECLINED_BY_USER",
+        "COUPON",
+        "PURCHASED"
+      ],
+      "description": "Статус заявки на скидку:\n- `NEW` — новая,\n- `SEEN` — просмотренная,\n- `APPROVED` — одобренная,\n- `PARTLY_APPROVED` — одобренная частично,\n- `DECLINED` — отклонённая,\n- `AUTO_DECLINED` — отклонена автоматически,\n- `DECLINED_BY_USER` — отклонена покупателем,\n- `COUPON` — скидка по купону,\n- `PURCHASED` — купленная.\n"
+    },
+    "#/components/schemas/v1GetDiscountTaskListResponse": {
+      "type": "object",
+      "title": "object",
+      "properties": {
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/v1GetDiscountTaskListResponseTask"
+          },
+          "description": "Список заявок."
+        }
+      }
+    },
+    "#/components/schemas/v1GetDiscountTaskListResponseTask": {
+      "type": "object",
+      "title": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор заявки."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Дата создания заявки."
+        },
+        "end_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Время окончания действия заявки."
+        },
+        "edited_till": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Время для изменения решения."
+        },
+        "status": {
+          "type": "string",
+          "description": "Статус заявки."
+        },
+        "customer_name": {
+          "type": "string",
+          "description": "Имя покупателя."
+        },
+        "sku": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор товара в системе Ozon — SKU."
+        },
+        "user_comment": {
+          "type": "string",
+          "description": "Комментарий покупателя к заявке."
+        },
+        "seller_comment": {
+          "type": "string",
+          "description": "Комментарий продавца к заявке."
+        },
+        "requested_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Цена по заявке."
+        },
+        "approved_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Одобренная цена."
+        },
+        "original_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Цена товара до всех скидок."
+        },
+        "discount": {
+          "type": "number",
+          "format": "double",
+          "description": "Скидка в рублях."
+        },
+        "discount_percent": {
+          "type": "number",
+          "format": "double",
+          "description": "Скидка в процентах."
+        },
+        "base_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Базовая цена, по которой товар продаётся на Ozon, если не участвует в акции."
+        },
+        "min_auto_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Минимальное значение цены после автоприменения скидок и акций."
+        },
+        "prev_task_id": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Идентификатор предыдущей заявки от покупателя по этому товару."
+        },
+        "is_damaged": {
+          "type": "boolean",
+          "description": "Является ли товар уценённым. `true`, если уценённый."
+        },
+        "moderated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Дата модерации: просмотра, одобрения или отклонения заявки.\n"
+        },
+        "approved_discount": {
+          "type": "number",
+          "format": "double",
+          "description": "Скидка в рублях, которую одобрил продавец. Передайте значение `0`, если продавец не одобрял заявку."
+        },
+        "approved_discount_percent": {
+          "type": "number",
+          "format": "double",
+          "description": "Скидка в процентах, которую одобрил продавец. Передайте значение `0`, если продавец не одобрял заявку."
+        },
+        "is_purchased": {
+          "type": "boolean",
+          "description": "Покупал ли пользователь товар. `true`, если покупал."
+        },
+        "is_auto_moderated": {
+          "type": "boolean",
+          "description": "Была ли заявка промодерирована автоматически. `true`, если модерация была автоматической."
+        },
+        "offer_id": {
+          "type": "string",
+          "description": "Идентификатор товара в системе продавца — артикул."
+        },
+        "email": {
+          "type": "string",
+          "description": "Электронный адрес сотрудника продавца, который обработал заявку."
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Фамилия сотрудника продавца, который обработал заявку."
+        },
+        "first_name": {
+          "type": "string",
+          "description": "Имя сотрудника продавца, который обработал заявку."
+        },
+        "patronymic": {
+          "type": "string",
+          "description": "Отчество сотрудника продавца, который обработал заявку."
+        },
+        "approved_quantity_min": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Минимальное одобренное количество товаров."
+        },
+        "approved_quantity_max": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Максимальное одобренное количество товаров."
+        },
+        "requested_quantity_min": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Запрошенное минимальное количество товаров."
+        },
+        "requested_quantity_max": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Запрошенное максимальное количество товаров."
+        },
+        "requested_price_with_fee": {
+          "type": "number",
+          "format": "double",
+          "description": "Цена по заявке c региональной наценкой."
+        },
+        "approved_price_with_fee": {
+          "type": "number",
+          "format": "double",
+          "description": "Одобренная цена с региональной наценкой."
+        },
+        "approved_price_fee_percent": {
+          "type": "number",
+          "format": "double",
+          "description": "Региональная наценка в процентах."
+        }
+      }
+    },
+    "#/components/schemas/v2GetDiscountTaskListV2Request": {
+      "type": "object",
+      "properties": {
+        "last_id": {
+          "description": "Идентификатор последнего значения на странице. При первом запросе оставьте это поле пустым.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "limit": {
+          "description": "Максимальное количество заявок на странице.",
+          "default": 50,
+          "enum": [
+            5,
+            10,
+            15,
+            20,
+            30,
+            50
+          ],
+          "maximum": 50,
+          "type": "integer",
+          "format": "int64"
+        },
+        "status": {
+          "$ref": "#/components/schemas/v2GetDiscountTaskListV2RequestDiscountTaskStatusEnum"
+        }
+      }
+    },
+    "#/components/schemas/v2GetDiscountTaskListV2RequestDiscountTaskStatusEnum": {
+      "description": "Статус заявки на скидку:\n  - `ALL` — все статусы,\n  - `NEW` — новая,\n  - `APPROVED` — одобренная,\n  - `DECLINED` — отклонённая.\n",
+      "type": "string",
+      "default": "ALL",
+      "enum": [
+        "ALL",
+        "NEW",
+        "APPROVED",
+        "DECLINED"
+      ]
+    },
+    "#/components/schemas/v2GetDiscountTaskListV2Response": {
+      "type": "object",
+      "properties": {
+        "tasks": {
+          "description": "Список заявок.",
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/GetDiscountTaskListV2ResponseTask"
+          }
+        }
+      }
+    },
+    "#/components/schemas/GetDiscountTaskListV2ResponseTask": {
+      "type": "object",
+      "properties": {
+        "approved_discount": {
+          "type": "number",
+          "format": "double",
+          "description": "Скидка в рублях, которую одобрил продавец. Передайте значение `0`, если продавец не одобрил заявку."
+        },
+        "approved_price": {
+          "description": "Одобренная цена.",
+          "type": "number",
+          "format": "double"
+        },
+        "approved_quantity_max": {
+          "description": "Максимальное одобренное количество товаров.",
+          "type": "integer",
+          "format": "uint64"
+        },
+        "auto_moderated_info": {
+          "$ref": "#/components/schemas/TaskAutoModeratedInfo"
+        },
+        "created_at": {
+          "description": "Дата создания заявки.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "edited_till": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": " YYYY-MM-DD",
+          "description": "Время для изменения решения."
+        },
+        "edited_till_duration": {
+          "type": "integer",
+          "format": "uint64",
+          "description": "Время для изменения решения в секундах."
+        },
+        "email": {
+          "description": "Электронный адрес сотрудника продавца, который обработал заявку.",
+          "type": "string"
+        },
+        "end_at": {
+          "description": "Время окончания действия заявки.",
+          "type": "string",
+          "format": "date-time"
+        },
+        "end_at_duration": {
+          "description": "Время окончания действия заявки в секундах.",
+          "type": "integer",
+          "format": "uint64"
+        },
+        "first_name": {
+          "description": "Имя сотрудника продавца, который обработал заявку.",
+          "type": "string"
+        },
+        "id": {
+          "description": "Идентификатор заявки.",
+          "type": "integer",
+          "format": "uint64"
+        },
+        "is_auto_moderated": {
+          "description": "`true`, если модерация была автоматической.\n",
+          "type": "boolean"
+        },
+        "last_name": {
+          "description": "Фамилия сотрудника продавца, который обработал заявку.",
+          "type": "string"
+        },
+        "min_auto_price": {
+          "description": "Минимальное значение цены после автоприменения скидок и акций.",
+          "type": "number",
+          "format": "double"
+        },
+        "moderated_at": {
+          "description": "Дата модерации: просмотра, одобрения или отклонения заявки.\n",
+          "type": "string",
+          "format": "date-time"
+        },
+        "name": {
+          "description": "Название товара.",
+          "type": "string"
+        },
+        "original_price": {
+          "description": "Цена товара до всех скидок.",
+          "type": "number",
+          "format": "double"
+        },
+        "patronymic": {
+          "description": "Отчество сотрудника продавца, который обработал заявку.",
+          "type": "string"
+        },
+        "reduction_factor": {
+          "description": "Разница между ценой пользователя и продавца в момент создания заявки.",
+          "type": "number",
+          "format": "double"
+        },
+        "requested_discount": {
+          "type": "number",
+          "format": "double",
+          "description": "Скидка в процентах."
+        },
+        "requested_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Цена по заявке."
+        },
+        "requested_quantity_max": {
+          "description": "Запрошенное максимальное количество товаров.",
+          "type": "integer",
+          "format": "uint64"
+        },
+        "sku": {
+          "description": "Идентификатор товара в системе Ozon — SKU.",
+          "type": "integer",
+          "format": "uint64"
+        },
+        "status": {
+          "$ref": "#/components/schemas/GetDiscountTaskListV2ResponseTaskDiscountTaskStatusEnum"
+        }
+      }
+    },
+    "#/components/schemas/TaskAutoModeratedInfo": {
+      "description": "Информация об автоматической модерации заявки.",
+      "type": "object",
+      "properties": {
+        "max_percent": {
+          "description": "Максимальная скидка для одобрения.",
+          "type": "number",
+          "format": "double"
+        },
+        "max_price": {
+          "description": "Цена в заявке.",
+          "type": "number",
+          "format": "double"
+        },
+        "min_percent": {
+          "description": "Минимальная скидка для одобрения.",
+          "type": "number",
+          "format": "double"
+        },
+        "min_price": {
+          "description": "Минимальная цена для одобрения.",
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "#/components/schemas/GetDiscountTaskListV2ResponseTaskDiscountTaskStatusEnum": {
+      "description": "Статус заявки на скидку:\n  - `ALL` — все статусы,\n  - `NEW` — новая,\n  - `APPROVED` — одобренная,\n  - `DECLINED` — отклонённая.\n",
+      "type": "string",
+      "default": "ALL",
+      "enum": [
+        "ALL",
+        "NEW",
+        "APPROVED",
+        "DECLINED"
+      ]
+    }
+  }
+}

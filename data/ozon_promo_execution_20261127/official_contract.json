@@ -2,8 +2,19 @@
   "schema_version": 1,
   "source": "official_evidence_bundle",
   "prepared_at": "2026-11-26T19:25:07.804758+00:00",
-  "full_openapi_retrieved": false,
-  "interpretation": "Minimal locally encoded request constraints from primary sources and existing working seller requests. This is not a downloaded or independently complete OpenAPI schema. Mutations are one-shot and require actual per-SKU readback; unknown future enrollment is not sent.",
+  "full_openapi_retrieved": true,
+  "official_openapi_verification": {
+    "source_url": "https://docs.ozon.ru/api/seller/swagger.json",
+    "resolved_url": "https://docs.ozon.ru/api/seller/swagger.json?__rr=1",
+    "retrieval_http_status": 200,
+    "content_type": "application/json",
+    "bytes": 4399284,
+    "sha256": "d9889263701e7d8a2d3f66b7626963325af5ced58d5572005f387d5ad0846e31",
+    "saved_at_utc": "2026-11-26T21:15:21.580051+00:00",
+    "verified_endpoint": "/v1/actions/products/update",
+    "operation_id": "ActionsProductsUpdate"
+  },
+  "interpretation": "Minimal locally encoded request constraints from primary sources and existing working seller requests. Full OpenAPI was unavailable at initial preparation; the complete official schema was subsequently downloaded and confirms the existing /v1/actions/products/update request. This file remains a restricted evidence bundle, not the complete OpenAPI document. Mutations remain one-shot and require actual per-SKU readback; unresolved operations are not resent and unknown future enrollment is not sent.",
   "operations": {
     "/v1/product/import/prices": {
       "request_schema": {
@@ -124,6 +135,16 @@
       },
       "evidence": [
         {
+          "url": "https://docs.ozon.ru/api/seller/swagger.json",
+          "resolved_url": "https://docs.ozon.ru/api/seller/swagger.json?__rr=1",
+          "sha256": "d9889263701e7d8a2d3f66b7626963325af5ced58d5572005f387d5ad0846e31",
+          "saved_at_utc": "2026-11-26T21:15:21.580051+00:00",
+          "operation_id": "ActionsProductsUpdate",
+          "request_schema_ref": "#/components/schemas/actions.v1.ActionsProductsUpdateRequest",
+          "response_schema_ref": "#/components/schemas/actions.v1.ActionsProductsUpdateResponse",
+          "basis": "Exact official request requires action_id and products with product_id and Money action_price. The existing one-product RUB payload conforms. stock is optional and must not be sent for elastic or maximum boosting. Rejected and Warning response items each document only integer uint64 product_id and string reason; rejection and removal-warning reasons remain separate."
+        },
+        {
           "url": "https://dev.ozon.ru/start/563-Obnovlenie-metodov-raboty-s-aktsiiami-v-Seller-API-v2/",
           "basis": "Official update endpoint replaces activate; action_id, list of products and Money action_price; price affects unified seller cap."
         },
@@ -136,7 +157,7 @@
           "basis": "Current seller API v2 Money observations contain amount string and RUB currency."
         }
       ],
-      "qualification": "Composite primary evidence for the minimal payload; exact complete new request OpenAPI could not be downloaded. Do not guess alternate payload after rejection. Record actual readback; response array naming alone is not success."
+      "qualification": "The initial composite evidence was used before the full official OpenAPI was available. The existing minimal request is now confirmed against that exact official schema; local one-product and RUB restrictions are unchanged. Retain only bounded, control-character-free product_id/reason details from rejected and warnings; all other raw response context remains excluded. This does not recover historical rejection reasons or authorize retries. Mutations remain one-shot; pending-operation reconciliation and actual per-SKU readback remain required. Do not guess alternate payload after rejection; response array naming alone is not success."
     },
     "/v1/product/action/timer/update": {
       "request_schema": {

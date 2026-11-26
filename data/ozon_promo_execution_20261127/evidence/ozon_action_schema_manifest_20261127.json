@@ -1,0 +1,25 @@
+{
+  "source_url": "https://docs.ozon.ru/api/seller/swagger.json",
+  "resolved_url": "https://docs.ozon.ru/api/seller/swagger.json?__rr=1",
+  "retrieval_http_status": 200,
+  "content_type": "application/json",
+  "bytes": 4399284,
+  "sha256": "d9889263701e7d8a2d3f66b7626963325af5ced58d5572005f387d5ad0846e31",
+  "saved_at_utc": "2026-11-26T21:15:21.580051+00:00",
+  "metadata_recorded_at_utc": "2026-11-26T21:18:03.419602+00:00",
+  "source_kind": "direct_official_openapi_download",
+  "seller_api_calls": 0,
+  "seller_api_writes": 0,
+  "local_path": "/workspace/scratch/0b5e90e37ec5/ozon_official_full_swagger.json",
+  "operation_ids": {
+    "/v1/actions/products/update": "ActionsProductsUpdate",
+    "/v2/actions/products": "ActionsProducts",
+    "/v2/actions/candidates": "ActionsCandidates",
+    "/v2/actions/auto-add/products/list": "ActionsAutoAddProductsListV2",
+    "/v2/actions/auto-add/products/candidates": "ActionsAutoAddProductsCandidatesV2",
+    "/v1/actions/discounts-task/list": "promos_task_list",
+    "/v2/actions/discounts-task/list": "GetDiscountTaskListV2"
+  },
+  "request_payload_assessment": "Existing product_id and Money action_price payload conforms to the official request schema; stock is only for promo-code actions. No alternate payload is indicated by the schema.",
+  "past_rejection_lookup": "No documented status/history endpoint for ActionsProductsUpdate found among the complete specification paths. discounts-task/list concerns buyer discount requests, not promotion update task status."
+}

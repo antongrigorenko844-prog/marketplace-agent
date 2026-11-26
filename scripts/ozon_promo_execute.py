@@ -562,7 +562,20 @@ def response_summary(response):
         for key in ("rejected", "warnings", "errors"):
             if isinstance(result.get(key), list):
                 summary[key + "_count"] = len(result[key])
-    # Error messages and arbitrary response values are deliberately excluded.
+                if key in ("rejected", "warnings"):
+                    summary[key] = []
+                    for row in result[key]:
+                        if not isinstance(row, dict):
+                            continue
+                        pid, reason = row.get("product_id"), row.get("reason")
+                        # Official ActionsProductsUpdate Rejected/Warning fields
+                        # are uint64 product_id and string reason. Keep no raw
+                        # context; malformed entries still count above.
+                        if type(pid) is int and 0 <= pid < 2 ** 64 and isinstance(reason, str):
+                            summary[key].append({"product_id": pid, "reason":
+                                "".join(char for char in reason if char.isprintable())[:500]})
+    # Only bounded documented promotion reasons are retained; generic error
+    # messages and arbitrary response values remain excluded.
     return summary
 
 

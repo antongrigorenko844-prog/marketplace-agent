@@ -1,0 +1,639 @@
+{
+  "schema_version": 1,
+  "mode": "READ_ONLY_RECONCILIATION",
+  "observed_at": "2026-11-26T21:19:27.608218+00:00",
+  "seller_writes": 0,
+  "action_id": 4535879,
+  "source_execution": {
+    "run_id": 45884464189,
+    "run_attempt": 2,
+    "report_blob": "aeea5cf88c1e2dc2fe145314607398566b865bd8",
+    "journal_blob": "74f28ea093168752f73ae2fd1229b19df1afe0cf"
+  },
+  "source_readback": {
+    "run_id": 45876355650,
+    "run_attempt": 2,
+    "manifest_blob": "e9ad7646034c35d461014189b600385254b9a322",
+    "promotions_blob": "a1f6c90c3435988a41b0facc2a66f4023b3b5774",
+    "prices_blob": "2aeb2a5f8f283ebd2c1a1a991a7570169e0942ae",
+    "protection_blob": "c4a533894f231600643b087ccbcbdfa52bdec453"
+  },
+  "findings": {
+    "update_requests": 18,
+    "update_responses_with_rejected_count_1": 18,
+    "subsequently_observed_participants": 6,
+    "not_participating": 12,
+    "previous_35_prices_and_min_preserved": true,
+    "request_schema_confirmed_against_full_official_openapi": true,
+    "exact_rejection_reasons_available": false,
+    "causal_attribution": "Six products are observed participants, but their membership is not attributed to rejected update requests. Each had preceding approved timer or price activity; causation has not been established.",
+    "retry_authorized_by_this_report": false,
+    "pending_operations_modified": false
+  },
+  "participant_skus": [
+    "0AM301212A",
+    "Ea888gen3",
+    "0am325025HX",
+    "DQ500",
+    "salniki-tolkatelya-4sht",
+    "separatornaya-plastina-dq200"
+  ],
+  "holds": [
+    {
+      "sku": "0am325091f",
+      "product_id": 1508677255,
+      "target": 1990,
+      "seller_price": 1990,
+      "min_price": 1990,
+      "old_price": 5000,
+      "participant": false,
+      "candidate": true,
+      "cap": {
+        "amount": "2706",
+        "currency": "RUB"
+      },
+      "quarantined": false,
+      "limit_failed": false,
+      "alert_cap": {
+        "amount": "0",
+        "currency": "RUB"
+      },
+      "protection": {
+        "product_id": "1508677255",
+        "mapped_offer_id": "0am325091f",
+        "enabled": true,
+        "expired_at": "2026-12-22T16:37:07.011532Z",
+        "active": true,
+        "raw": {
+          "product_id": 1508677255,
+          "min_price_for_auto_actions_enabled": true,
+          "expired_at": "2026-12-22T16:37:07.011532Z"
+        }
+      }
+    },
+    {
+      "sku": "0am325025D",
+      "product_id": 1508682963,
+      "target": 2490,
+      "seller_price": 2490,
+      "min_price": 2490,
+      "old_price": 5000,
+      "participant": false,
+      "candidate": true,
+      "cap": {
+        "amount": "2803",
+        "currency": "RUB"
+      },
+      "quarantined": false,
+      "limit_failed": false,
+      "alert_cap": {
+        "amount": "0",
+        "currency": "RUB"
+      },
+      "protection": {
+        "product_id": "1508682963",
+        "mapped_offer_id": "0am325025D",
+        "enabled": true,
+        "expired_at": "2026-12-26T20:35:19.254431Z",
+        "active": true,
+        "raw": {
+          "product_id": 1508682963,
+          "min_price_for_auto_actions_enabled": true,
+          "expired_at": "2026-12-26T20:35:19.254431Z"
+        }
+      }
+    },
+    {
+      "sku": "Dq500",
+      "product_id": 1508687105,
+      "target": 1980,
+      "seller_price": 1980,
+      "min_price": 1980,
+      "old_price": 6000,
+      "participant": false,
+      "candidate": true,
+      "cap": {
+        "amount": "2350",
+        "currency": "RUB"
+      },
+      "quarantined": false,
+      "limit_failed": false,
+      "alert_cap": {
+        "amount": "0",
+        "currency": "RUB"
+      },
+      "protection": {
+        "product_id": "1508687105",
+        "mapped_offer_id": "Dq500",
+        "enabled": true,
+        "expired_at": "2026-12-22T16:54:58.452847Z",
+        "active": true,
+        "raw": {
+          "product_id": 1508687105,
+          "min_price_for_auto_actions_enabled": true,
+          "expired_at": "2026-12-22T16:54:58.452847Z"
+        }
+      }
+    },
+    {
+      "sku": "02e305045",
+      "product_id": 1508687968,
+      "target": 2350,
+      "seller_price": 2350,
+      "min_price": 2350,
+      "old_price": 5000,
+      "participant": false,
+      "candidate": true,
+      "cap": {
+        "amount": "2350",
+        "currency": "RUB"
+      },
+      "quarantined": false,
+      "limit_failed": false,
+      "alert_cap": {
+        "amount": "0",
+        "currency": "RUB"
+      },
+      "protection": {
+        "product_id": "1508687968",
+        "mapped_offer_id": "02e305045",
+        "enabled": true,
+        "expired_at": "2026-12-26T20:35:30.625850Z",
+        "active": true,
+        "raw": {
+          "product_id": 1508687968,
+          "min_price_for_auto_actions_enabled": true,
+          "expired_at": "2026-12-26T20:35:30.625850Z"
+        }
+      }
+    },
+    {
+      "sku": "0AM325433E",
+      "product_id": 1508693768,
+      "target": 1350,
+      "seller_price": 1350,
+      "min_price": 1350,
+      "old_price": 2000,
+      "participant": false,
+      "candidate": true,
+      "cap": {
+        "amount": "1390",
+        "currency": "RUB"
+      },
+      "quarantined": false,
+      "limit_failed": false,
+      "alert_cap": {
+        "amount": "0",
+        "currency": "RUB"
+      },
+      "protection": {
+        "product_id": "1508693768",
+        "mapped_offer_id": "0AM325433E",
+        "enabled": true,
+        "expired_at": "2026-11-27T20:31:24.647280Z",
+        "active": true,
+        "raw": {
+          "product_id": 1508693768,
+          "min_price_for_auto_actions_enabled": true,
+          "expired_at": "2026-11-27T20:31:24.647280Z"
+        }
+      }
+    },
+    {
+      "sku": "0am325091e",
+      "product_id": 1571501650,
+      "target": 1990,
+      "seller_price": 1990,
+      "min_price": 1990,
+      "old_price": 5000,
+      "participant": false,
+      "candidate": true,
+      "cap": {
+        "amount": "2146",
+        "currency": "RUB"
+      },
+      "quarantined": false,
+      "limit_failed": false,
+      "alert_cap": {
+        "amount": "0",
+        "currency": "RUB"
+      },
+      "protection": {
+        "product_id": "1571501650",
+        "mapped_offer_id": "0am325091e",
+        "enabled": true,
+        "expired_at": "2026-12-22T16:37:07.011535Z",
+        "active": true,
+        "raw": {
+          "product_id": 1571501650,
+          "min_price_for_auto_actions_enabled": true,
+          "expired_at": "2026-12-22T16:37:07.011535Z"
+        }
+      }
+    },
+    {
+      "sku": "02E 305 045",
+      "product_id": 1820208940,
+      "target": 3350,
+      "seller_price": 3350,
+      "min_price": 3350,
+      "old_price": 10000,
+      "participant": false,
+      "candidate": true,
+      "cap": {
+        "amount": "3350",
+        "currency": "RUB"
+      },
+      "quarantined": false,
+      "limit_failed": false,
+      "alert_cap": {
+        "amount": "0",
+        "currency": "RUB"
+      },
+      "protection": {
+        "product_id": "1820208940",
+        "mapped_offer_id": "02E 305 045",
+        "enabled": true,
+        "expired_at": "2026-12-26T20:37:18.946715Z",
+        "active": true,
+        "raw": {
+          "product_id": 1820208940,
+          "min_price_for_auto_actions_enabled": true,
+          "expired_at": "2026-12-26T20:37:18.946715Z"
+        }
+      }
+    },
+    {
+      "sku": "0am325025z",
+      "product_id": 2075148750,
+      "target": 3290,
+      "seller_price": 3290,
+      "min_price": 3290,
+      "old_price": 6000,
+      "participant": false,
+      "candidate": true,
+      "cap": {
+        "amount": "4219",
+        "currency": "RUB"
+      },
+      "quarantined": false,
+      "limit_failed": false,
+      "alert_cap": {
+        "amount": "0",
+        "currency": "RUB"
+      },
+      "protection": {
+        "product_id": "2075148750",
+        "mapped_offer_id": "0am325025z",
+        "enabled": true,
+        "expired_at": "2026-12-26T20:37:47.605073Z",
+        "active": true,
+        "raw": {
+          "product_id": 2075148750,
+          "min_price_for_auto_actions_enabled": true,
+          "expired_at": "2026-12-26T20:37:47.605073Z"
+        }
+      }
+    },
+    {
+      "sku": "0am325025u",
+      "product_id": 2099149069,
+      "target": 3290,
+      "seller_price": 3290,
+      "min_price": 3290,
+      "old_price": 6000,
+      "participant": false,
+      "candidate": true,
+      "cap": {
+        "amount": "4220",
+        "currency": "RUB"
+      },
+      "quarantined": false,
+      "limit_failed": false,
+      "alert_cap": {
+        "amount": "0",
+        "currency": "RUB"
+      },
+      "protection": {
+        "product_id": "2099149069",
+        "mapped_offer_id": "0am325025u",
+        "enabled": true,
+        "expired_at": "2026-12-26T20:37:57.663120Z",
+        "active": true,
+        "raw": {
+          "product_id": 2099149069,
+          "min_price_for_auto_actions_enabled": true,
+          "expired_at": "2026-12-26T20:37:57.663120Z"
+        }
+      }
+    },
+    {
+      "sku": "0am325091e-set",
+      "product_id": 6287285741,
+      "target": 6190,
+      "seller_price": 6190,
+      "min_price": 6190,
+      "old_price": 12000,
+      "participant": false,
+      "candidate": true,
+      "cap": {
+        "amount": "8319",
+        "currency": "RUB"
+      },
+      "quarantined": false,
+      "limit_failed": false,
+      "alert_cap": {
+        "amount": "0",
+        "currency": "RUB"
+      },
+      "protection": {
+        "product_id": "6287285741",
+        "mapped_offer_id": "0am325091e-set",
+        "enabled": true,
+        "expired_at": "2026-12-26T20:39:40.325664Z",
+        "active": true,
+        "raw": {
+          "product_id": 6287285741,
+          "min_price_for_auto_actions_enabled": true,
+          "expired_at": "2026-12-26T20:39:40.325664Z"
+        }
+      }
+    },
+    {
+      "sku": "0am325091f-set",
+      "product_id": 6287285900,
+      "target": 6190,
+      "seller_price": 6190,
+      "min_price": 6190,
+      "old_price": 12000,
+      "participant": false,
+      "candidate": true,
+      "cap": {
+        "amount": "8319",
+        "currency": "RUB"
+      },
+      "quarantined": false,
+      "limit_failed": false,
+      "alert_cap": {
+        "amount": "0",
+        "currency": "RUB"
+      },
+      "protection": {
+        "product_id": "6287285900",
+        "mapped_offer_id": "0am325091f-set",
+        "enabled": true,
+        "expired_at": "2026-12-26T20:39:50.421979Z",
+        "active": true,
+        "raw": {
+          "product_id": 6287285900,
+          "min_price_for_auto_actions_enabled": true,
+          "expired_at": "2026-12-26T20:39:50.421979Z"
+        }
+      }
+    },
+    {
+      "sku": "vtulki-shtokov-2sht",
+      "product_id": 6287286102,
+      "target": 3790,
+      "seller_price": 3790,
+      "min_price": 3790,
+      "old_price": 7000,
+      "participant": false,
+      "candidate": true,
+      "cap": {
+        "amount": "4704",
+        "currency": "RUB"
+      },
+      "quarantined": false,
+      "limit_failed": false,
+      "alert_cap": {
+        "amount": "0",
+        "currency": "RUB"
+      },
+      "protection": {
+        "product_id": "6287286102",
+        "mapped_offer_id": "vtulki-shtokov-2sht",
+        "enabled": true,
+        "expired_at": "2026-12-26T20:41:14.502720Z",
+        "active": true,
+        "raw": {
+          "product_id": 6287286102,
+          "min_price_for_auto_actions_enabled": true,
+          "expired_at": "2026-12-26T20:41:14.502720Z"
+        }
+      }
+    }
+  ],
+  "previous_35": [
+    {
+      "sku": "0AM325025B",
+      "target_price": 9022,
+      "price": 9022,
+      "min_price": 9022
+    },
+    {
+      "sku": "0am325066ae",
+      "target_price": 9747,
+      "price": 9747,
+      "min_price": 9747
+    },
+    {
+      "sku": "0am325025hfe",
+      "target_price": 3809,
+      "price": 3809,
+      "min_price": 3809
+    },
+    {
+      "sku": "0am325025m",
+      "target_price": 8761,
+      "price": 8761,
+      "min_price": 8761
+    },
+    {
+      "sku": "0am325025D",
+      "target_price": 2490,
+      "price": 2490,
+      "min_price": 2490
+    },
+    {
+      "sku": "02e305045",
+      "target_price": 2350,
+      "price": 2350,
+      "min_price": 2350
+    },
+    {
+      "sku": "0AM325587E",
+      "target_price": 9529,
+      "price": 9529,
+      "min_price": 9529
+    },
+    {
+      "sku": "0am325025С",
+      "target_price": 1316,
+      "price": 1316,
+      "min_price": 1316
+    },
+    {
+      "sku": "0am325025j",
+      "target_price": 2784,
+      "price": 2784,
+      "min_price": 2784
+    },
+    {
+      "sku": "0am325025G",
+      "target_price": 3724,
+      "price": 3724,
+      "min_price": 3724
+    },
+    {
+      "sku": "0am325066AC",
+      "target_price": 1850,
+      "price": 1850,
+      "min_price": 1850
+    },
+    {
+      "sku": "02E 305 045",
+      "target_price": 3350,
+      "price": 3350,
+      "min_price": 3350
+    },
+    {
+      "sku": "123014‑AF",
+      "target_price": 1830,
+      "price": 1830,
+      "min_price": 1830
+    },
+    {
+      "sku": "0am325025z",
+      "target_price": 3290,
+      "price": 3290,
+      "min_price": 3290
+    },
+    {
+      "sku": "0am325025u",
+      "target_price": 3290,
+      "price": 3290,
+      "min_price": 3290
+    },
+    {
+      "sku": "0cw325025h",
+      "target_price": 1785,
+      "price": 1785,
+      "min_price": 1785
+    },
+    {
+      "sku": "0cw0amdsgdq200",
+      "target_price": 1302,
+      "price": 1302,
+      "min_price": 1302
+    },
+    {
+      "sku": "0сц",
+      "target_price": 1830,
+      "price": 1830,
+      "min_price": 1830
+    },
+    {
+      "sku": "0am325091e-set",
+      "target_price": 6190,
+      "price": 6190,
+      "min_price": 6190
+    },
+    {
+      "sku": "0am325091f-set",
+      "target_price": 6190,
+      "price": 6190,
+      "min_price": 6190
+    },
+    {
+      "sku": "02E927770AL",
+      "target_price": 117661,
+      "price": 117661,
+      "min_price": 117661
+    },
+    {
+      "sku": "salnikprivod-l",
+      "target_price": 1785,
+      "price": 1785,
+      "min_price": 1785
+    },
+    {
+      "sku": "tolkateli-4-salniki-4",
+      "target_price": 7158,
+      "price": 7158,
+      "min_price": 7158
+    },
+    {
+      "sku": "plita-filtr-salniki-orig",
+      "target_price": 10741,
+      "price": 10741,
+      "min_price": 10741
+    },
+    {
+      "sku": "salniki-shtokov-2sht",
+      "target_price": 1785,
+      "price": 1785,
+      "min_price": 1785
+    },
+    {
+      "sku": "vtulki-shtokov-2sht",
+      "target_price": 3790,
+      "price": 3790,
+      "min_price": 3790
+    },
+    {
+      "sku": "tolkateli-salniki-alum-komplekt",
+      "target_price": 8610,
+      "price": 8610,
+      "min_price": 8610
+    },
+    {
+      "sku": "salnikvihod",
+      "target_price": 1785,
+      "price": 1785,
+      "min_price": 1785
+    },
+    {
+      "sku": "salnikprivod-r",
+      "target_price": 1785,
+      "price": 1785,
+      "min_price": 1785
+    },
+    {
+      "sku": "porshni-usil-pylniki-kryshki-v2",
+      "target_price": 3715,
+      "price": 3715,
+      "min_price": 3715
+    },
+    {
+      "sku": "plita-filtr-v2",
+      "target_price": 9505,
+      "price": 9505,
+      "min_price": 9505
+    },
+    {
+      "sku": "prokladka-kryshki-dq200",
+      "target_price": 1785,
+      "price": 1785,
+      "min_price": 1785
+    },
+    {
+      "sku": "filtr-dsg7-dq200",
+      "target_price": 1316,
+      "price": 1316,
+      "min_price": 1316
+    },
+    {
+      "sku": "kryshka-mehatronika-dq200",
+      "target_price": 2325,
+      "price": 2325,
+      "min_price": 2325
+    },
+    {
+      "sku": "prokladka-vtulki-dq200",
+      "target_price": 1302,
+      "price": 1302,
+      "min_price": 1302
+    }
+  ]
+}
