@@ -45,10 +45,22 @@ def asset(rel,name):
 
 def stable(rel,name):
     a=asset(rel,name);require(a is not None,'Stable feed missing '+name)
-    raw=base.get(base.BASE+name)
+    # Stable release names can return stale CDN bytes immediately after a
+    # rename. Require the authoritative asset digest AND fresh public bytes.
+    # A cache-busting query changes no registered feed URL or seller settings.
     digest=a.get('digest')
-    require(not digest or digest=='sha256:'+sha(raw),'Stable feed digest differs '+name)
-    return a,raw
+    require(isinstance(digest,str) and digest.startswith('sha256:'),'Stable asset digest unavailable '+name)
+    import time
+    for i in range(8):
+        try:
+            response=requests.get(base.BASE+name,params={'wm_readback':str(a['id'])+'-'+str(time.time_ns())},headers={'Cache-Control':'no-cache'},timeout=30)
+            response.raise_for_status()
+            raw=response.content
+            if digest=='sha256:'+sha(raw):
+                return a,raw
+        except requests.RequestException:pass
+        time.sleep(2)
+    raise ValueError('Stable feed digest differs after fresh reads '+name)
 
 def row(raw,name):
     feedid,avid,price=TARGETS[name]
