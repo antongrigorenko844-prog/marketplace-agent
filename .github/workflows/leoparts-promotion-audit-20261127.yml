@@ -1,0 +1,39 @@
+name: LEOPARTS promotion audit read only 20261127
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/leoparts-promotion-audit-20261127.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent-promotion-audit-readonly
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Read current promotion conditions and historical SKU snapshots
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+        run: python -u scripts/leoparts_promotion_audit_20261127.py
+      - name: Save only new audit reports
+        if: always()
+        run: |
+          if [ -f data/promotion_audit_20261127/registry.json ]; then
+            bash .github/scripts/save_data.sh data/promotion_audit_20261127/
+          else
+            echo 'No complete audit registry; refusing to publish incomplete run'
+            exit 1
+          fi
