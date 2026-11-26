@@ -312,21 +312,43 @@ def campaign_urls(paths: Optional[List[str]] = None) -> Dict[str, List[str]]:
     return {k: sorted(v) for k, v in out.items()}
 
 
-def check_page(url: str, anchors: List[str]) -> List[str]:
+def _page_auth_required(response) -> bool:
+    """Tilda may send its access-password page with HTTP 200."""
+    if response.status_code == 401 or response.headers.get("WWW-Authenticate"):
+        return True
+    html = response.text
+    title = re.search(r"<title\b[^>]*>(.*?)</title\s*>", html, re.I | re.S)
+    text = re.sub(r"<[^>]*>", " ", title.group(1)).strip() if title else ""
+    if re.search(r"authentication required|authorization required|password protected|access restricted|введите пароль|требуется авторизация|страница защищена паролем", text, re.I):
+        return True
+    # Only treat a password input as an access gate when the normal Tilda
+    # page content is absent; account login forms can exist on public stores.
+    if not re.search(r'\bid\s*=\s*["\']allrecords["\']', html, re.I):
+        for tag in re.findall(r"<input\b[^>]*>", html, re.I):
+            if re.search(r'\btype\s*=\s*(?:["\']password["\']|password\b)', tag, re.I):
+                return True
+        if re.search(r"auth\.tilda|authentication required|страница защищена паролем", html[:12000], re.I):
+            return True
+    return False
+
+
+def _check_page_client(url: str, anchors: List[str], headers: dict) -> List[str]:
     probs = []
-    # Тильда иногда отдаёт роботам (запросы с серверов GitHub) разовый 402/5xx, хотя подписка оплачена
-    # и в браузере страница открывается. Поэтому повторяем 3 раза с паузой и ругаемся, только если не прошло.
     r = None
     for i in range(3):
         try:
-            r = requests.get(url, headers=UA, timeout=30, allow_redirects=True)
+            # New HTTP request with no stored browser cookies or credentials.
+            r = requests.get(url, headers=headers, timeout=30, allow_redirects=True)
         except requests.RequestException as exc:
             if i == 2:
                 return [f"не открывается: {exc.__class__.__name__}"]
             time.sleep(20)
             continue
-        if r.status_code == 200 or r.status_code == 404:
+        if _page_auth_required(r):
+            return ["запрашивается авторизация/пароль"]
+        if r.status_code in (200, 404):
             break
+        # A transient 402/5xx must not alone be treated as an outage.
         time.sleep(20)
     if r.status_code != 200:
         return [f"ответ {r.status_code}" + (" (Тильда 3 раза подряд не отдала страницу — проверьте её в браузере)" if r.status_code == 402 else "")]
@@ -344,6 +366,25 @@ def check_page(url: str, anchors: List[str]) -> List[str]:
     return probs
 
 
+def check_page(url: str, anchors: List[str]) -> List[str]:
+    return _check_page_client(url, anchors, UA)
+
+
+def check_core_mobile_pages() -> Dict[str, List[str]]:
+    """Check public social/advertising destinations as an anonymous smartphone."""
+    from concurrent.futures import ThreadPoolExecutor
+    mobile = {
+        "iPhone": {"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1"},
+        "Android": {"User-Agent": "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36"},
+    }
+    urls = ["https://leoparts-akpp.ru/", "https://leoparts-akpp.ru/catalog", "https://leoparts-akpp.ru/mehatronik-dq200"]
+    def check(item):
+        url, client = item
+        return url + " [" + client + "]", _check_page_client(url, [], mobile[client])
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        return dict(pool.map(check, [(url, client) for url in urls for client in mobile]))
+
+
 def cmd_direct_check_links(paths: Optional[List[str]] = None, notify: bool = True) -> int:
     urls = campaign_urls(paths)
     if not urls:
@@ -352,6 +393,10 @@ def cmd_direct_check_links(paths: Optional[List[str]] = None, notify: bool = Tru
     lines = []
     for page, anchors in sorted(urls.items()):
         probs = check_page(page, anchors)
+        print(("OK  " if not probs else "ПЛОХО ") + page + ("" if not probs else ": " + "; ".join(probs)))
+        if probs:
+            lines.append(f"• {page.replace('https://', '')}: " + "; ".join(probs))
+    for page, probs in check_core_mobile_pages().items():
         print(("OK  " if not probs else "ПЛОХО ") + page + ("" if not probs else ": " + "; ".join(probs)))
         if probs:
             lines.append(f"• {page.replace('https://', '')}: " + "; ".join(probs))
