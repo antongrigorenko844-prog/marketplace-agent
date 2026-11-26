@@ -1,0 +1,111 @@
+name: LEOPARTS anonymous mobile site access and password audit
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/site-mobile-access-audit-20261126.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: leoparts-password-scope-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q requests beautifulsoup4
+      - name: Read-only fresh public and mobile URL probes
+        run: |
+          python -u - <<'PY'
+          import requests,json,re,hashlib,time,socket,urllib.parse as u
+          from bs4 import BeautifulSoup
+          from pathlib import Path
+          from datetime import datetime,timezone
+          from concurrent.futures import ThreadPoolExecutor
+          base='https://leoparts-akpp.ru'
+          test='/page405397609.html'
+          ua={
+            'desktop':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+            'iphone':'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1',
+            'android':'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36',
+            'telegram_webview':'Mozilla/5.0 (Linux; Android 14; Pixel 8; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/131.0.0.0 Mobile Safari/537.36 Telegram-Android'
+          }
+          urls=[base+p for p in ('/','/catalog','/catalog/','/mehatronik-dq200','/remontdsg7dq200','/sitemap.xml',test)]
+          urls+=['http://leoparts-akpp.ru/catalog','https://www.leoparts-akpp.ru/catalog','http://www.leoparts-akpp.ru/catalog']
+          # Discover only URLs on the owner's own public domain; no private access.
+          try:
+              sm=requests.get(base+'/sitemap.xml',timeout=15)
+              for x in BeautifulSoup(sm.content,'xml').find_all('loc'):
+                  a=x.get_text(strip=True)
+                  if u.urlsplit(a).hostname=='leoparts-akpp.ru' and a not in urls and len(urls)<40:urls.append(a)
+          except Exception:pass
+          # The bot's exact link is /catalog. Include the advertising landing links and
+          # a representative previously recorded product page.
+          try:
+              for f in ('data/direct_recovery_20261124/product_sitelinks_20261125.json','data/direct_recovery_20261124/product_sitelinks_completion_20261125.json','data/dq200_cover_tilda_editor_patch_20261126.json'):
+                  if Path(f).is_file():
+                      for a in re.findall(r'https://leoparts-akpp\.ru/[^\s"<>\\]+',Path(f).read_text()):
+                          a=a.split('#')[0]
+                          if a not in urls and len(urls)<55:urls.append(a)
+          except Exception:pass
+          def probe(item):
+              url,client,variant=item
+              p=u.urlsplit(url)
+              query=url
+              headers={'User-Agent':ua[client],'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
+              if variant=='fresh':
+                  query=url+('&' if '?' in url else '?')+'_lp_access_check='+str(time.time_ns())
+                  headers.update({'Cache-Control':'no-cache','Pragma':'no-cache'})
+              if client=='telegram_webview':headers['Referer']='https://t.me/'
+              result={'url':url,'client':client,'variant':variant,'expected_private':p.path==test}
+              try:
+                  with requests.Session() as session:
+                      r=session.get(query,headers=headers,timeout=15,allow_redirects=True)
+                  soup=BeautifulSoup(r.content,'html.parser')
+                  title=soup.title.get_text(strip=True) if soup.title else ''
+                  text=soup.get_text(' ',strip=True)
+                  node=soup.find(id='allrecords')
+                  auth=bool(r.status_code==401 or r.headers.get('WWW-Authenticate') or soup.select('input[type=password]') or re.search(r'authentication required|authorization required|access restricted|password protected|введите пароль|требуется авторизация|страница защищена паролем',title+' '+text[:1200],re.I) or re.search(r'auth\.tilda|tilda[^"\s]*auth[^"\s]*\.js|tilda[^"\s]*password[^"\s]*\.js',r.text[:10000],re.I))
+                  links=[]
+                  for a in soup.find_all('a',href=True):
+                      target=u.urljoin(r.url,a['href'])
+                      if u.urlsplit(target).hostname in ('leoparts-akpp.ru','www.leoparts-akpp.ru') and u.urlsplit(target).path==test:links.append({'href':test,'label':a.get_text(' ',strip=True)[:100]})
+                  result.update(http=r.status_code,final_url=r.url.split('?')[0],redirects=[{'status':x.status_code,'host':u.urlsplit(x.url).hostname,'path':u.urlsplit(x.url).path} for x in r.history],
+                    title=title,bytes=len(r.content),authentication_detected=auth,protected_test_links=links,
+                    page_id=node.get('data-tilda-page-id') if node else None,project_id=node.get('data-tilda-project-id') if node else None,
+                    cache_headers={k:r.headers.get(k) for k in ('Age','Cache-Control','Server','X-Cache','Vary','Via','CF-Cache-Status') if r.headers.get(k)},
+                    password_input_count=len(soup.select('input[type=password]')),catalog_marker=bool(re.search(r'запчасти|мехатроник|leoparts',text,re.I)),
+                    html_hash=hashlib.sha256(r.content).hexdigest())
+                  result['ok']=r.status_code==200 and not auth and u.urlsplit(r.url).path!=test
+              except Exception as e:result.update(error=type(e).__name__,ok=False)
+              return result
+          checks=[(url,client,'plain') for url in urls for client in ('desktop','iphone','android','telegram_webview')]
+          core=[base+'/',base+'/catalog',base+'/mehatronik-dq200',base+test]
+          checks += [(url,client,'fresh') for url in core for client in ua]
+          with ThreadPoolExecutor(max_workers=6) as pool: rows=list(pool.map(probe,checks))
+          # Recheck the core pages independently. A successful status alone is not
+          # sufficient: Tilda can return a 200 password challenge.
+          time.sleep(3)
+          with ThreadPoolExecutor(max_workers=4) as pool: repeat=list(pool.map(probe,[(url,client,'repeat') for url in core for client in ('desktop','iphone','telegram_webview')]))
+          rows+=repeat
+          dns={}
+          for host in ('leoparts-akpp.ru','www.leoparts-akpp.ru'):
+              try:dns[host]=sorted(set(x[4][0] for x in socket.getaddrinfo(host,443,type=socket.SOCK_STREAM)))
+              except Exception as e:dns[host]={'error':type(e).__name__}
+          pub=[r for r in rows if not r['expected_private']]
+          report={'checked_utc':datetime.now(timezone.utc).isoformat(),'site_writes':0,'scope':'GitHub Actions network; desktop/mobile user agents, anonymous HTTP, not real mobile carrier or full browser','dns':dns,'urls':urls,
+             'summary':{'public_checks':len(pub),'public_ok':sum(r.get('ok',False) for r in pub),'public_auth':sum(bool(r.get('authentication_detected')) for r in pub),'public_http_403':sum(r.get('http')==403 for r in pub),'public_other_failures':sum(not r.get('ok') and not r.get('authentication_detected') and r.get('http')!=403 for r in pub),'private_checks':sum(r['expected_private'] for r in rows),'private_auth':sum(r['expected_private'] and r.get('authentication_detected',False) for r in rows),'public_links_to_test':sum(bool(r.get('protected_test_links')) for r in pub)},'checks':rows}
+          path=Path('data/site_mobile_access_audit_20261126.json')
+          path.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+          print(json.dumps(report['summary'],ensure_ascii=False),flush=True)
+          PY
+      - name: Save only access diagnosis
+        run: bash .github/scripts/save_data.sh data/site_mobile_access_audit_20261126.json
