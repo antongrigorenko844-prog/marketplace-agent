@@ -1,0 +1,3261 @@
+{
+  "schema_version": 1,
+  "mode": "READ_ONLY_COST_RECOVERY_EVIDENCE",
+  "scope_count": 147,
+  "summary": {
+    "missing_rub_cost_rows_reviewed": 26,
+    "recovered_full_rub_procurement_costs": 0,
+    "foreign_currency_candidates": 2,
+    "partial_component_cost_rows": 1,
+    "cost_conflicts_reviewed": 22,
+    "recorded_confirmed_recipe_conflicts": 18,
+    "recipe_confirmation_needed": 4
+  },
+  "missing_cost_rows": [
+    {
+      "sku": "0AM927769E",
+      "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769E",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost. Costs of D/F board or mechatronic variants cannot establish the cost of E/G/K variants.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "0AM927769G",
+      "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769G",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost. Costs of D/F board or mechatronic variants cannot establish the cost of E/G/K variants.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "0AM927769K",
+      "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769K",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost. Costs of D/F board or mechatronic variants cannot establish the cost of E/G/K variants.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "0am325025HXE",
+      "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769E",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost. Costs of D/F board or mechatronic variants cannot establish the cost of E/G/K variants.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "0am325025HXG",
+      "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769G",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost. Costs of D/F board or mechatronic variants cannot establish the cost of E/G/K variants.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "0am325025HXK",
+      "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769K",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost. Costs of D/F board or mechatronic variants cannot establish the cost of E/G/K variants.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "6t30-solenoids-gen2",
+      "title": "Комплект соленоидов АКПП 6T30/6T40/6T45/6T50, второе поколение (Gen2)",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Supplier-derived draft explicitly has purchase_cost_rub=null; owner approved selling prices and stocks, not a procurement cost. Gen1 cost cannot be copied to Gen2 or a complete TCM.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": "23.11.2026: WB nmID 2338952761; фото утверждено владельцем в библиотеке ChatGPT, но ещё не загружено на площадку. Остальные каналы — ожидание."
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        },
+        {
+          "source": {
+            "path": "data/supplier_batch_20261123_card_drafts.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/supplier_batch_20261123_card_drafts.json",
+            "date": "2026-11-23",
+            "blob_sha": "4d908a8604729c88e1814b1995e334fc0bd152e3",
+            "locator": null
+          },
+          "purchase_cost_rub": null,
+          "source_row": 5,
+          "selling_prices_are_not_cost": {
+            "ozon": 19880,
+            "wildberries": 19880,
+            "yandex_market": 19880,
+            "avito": 11880,
+            "tilda": 11880
+          }
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "6t30-tcm-gen1",
+      "title": "Блок управления АКПП 6T30/6T40/6T45/6T50 с соленоидами, Gen1",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Supplier-derived draft explicitly has purchase_cost_rub=null; owner approved selling prices and stocks, not a procurement cost. Gen1 cost cannot be copied to Gen2 or a complete TCM.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": "23.11.2026: WB nmID 2338952880; фото утверждено владельцем в библиотеке ChatGPT, но ещё не загружено на площадку. Остальные каналы — ожидание."
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        },
+        {
+          "source": {
+            "path": "data/supplier_batch_20261123_card_drafts.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/supplier_batch_20261123_card_drafts.json",
+            "date": "2026-11-23",
+            "blob_sha": "4d908a8604729c88e1814b1995e334fc0bd152e3",
+            "locator": null
+          },
+          "purchase_cost_rub": null,
+          "source_row": 6,
+          "selling_prices_are_not_cost": {
+            "ozon": 58850,
+            "wildberries": 58850,
+            "yandex_market": 58850,
+            "avito": 35350,
+            "tilda": 35350
+          }
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "6t30-tcm-gen2",
+      "title": "Блок управления АКПП 6T30/6T40/6T45/6T50 с соленоидами, Gen2",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Supplier-derived draft explicitly has purchase_cost_rub=null; owner approved selling prices and stocks, not a procurement cost. Gen1 cost cannot be copied to Gen2 or a complete TCM.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": "23.11.2026: WB nmID 2338953074; фото утверждено владельцем в библиотеке ChatGPT, но ещё не загружено на площадку. Остальные каналы — ожидание."
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        },
+        {
+          "source": {
+            "path": "data/supplier_batch_20261123_card_drafts.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/supplier_batch_20261123_card_drafts.json",
+            "date": "2026-11-23",
+            "blob_sha": "4d908a8604729c88e1814b1995e334fc0bd152e3",
+            "locator": null
+          },
+          "purchase_cost_rub": null,
+          "source_row": 6,
+          "selling_prices_are_not_cost": {
+            "ozon": 58850,
+            "wildberries": 58850,
+            "yandex_market": 58850,
+            "avito": 35350,
+            "tilda": 35350
+          }
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "EA888gen3-filter-kit",
+      "title": "Комплект EA888 Gen3: алюминиевый корпус масляного фильтра + обратный клапан + масляный фильтр с уплотнительным кольцом",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": 750,
+      "status": "PARTIAL_COMPONENT_COST_ONLY",
+      "confidence": "approved_composition_but_missing_filter_cost",
+      "reason": "Approved composition has housing, valve and filter with ring; only housing and valve have registry costs. Their subtotal is not the cost of the complete kit.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": "Комплект корпус + клапан + сменный фильтр + кольцо. 40 наборов подтверждено владельцем. Себестоимость фильтра уточняется."
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        },
+        {
+          "source": {
+            "path": "data/ea888_gen3_filter_kit_approved_20261123.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ea888_gen3_filter_kit_approved_20261123.json",
+            "date": "2026-11-23",
+            "blob_sha": "f668f6d64d1f6a8d6e9e801c15418ca738159ed4",
+            "locator": null
+          },
+          "composition": [
+            {
+              "part": "EA888",
+              "qty": 1,
+              "description": "Алюминиевый корпус фильтра, исполнение 06L115401S"
+            },
+            {
+              "part": "Ea888gen3",
+              "qty": 1,
+              "description": "Обратный клапан, исполнение 06L115678AD"
+            },
+            {
+              "part": "filter-with-ring",
+              "qty": 1,
+              "description": "Сменный масляный фильтрующий элемент и уплотнительное кольцо с присланного фото; OEM пока не указан"
+            }
+          ],
+          "purchase_cost_status": "unknown"
+        }
+      ],
+      "needed_to_complete": [
+        "Purchase cost of filter with ring for this exact kit",
+        "Confirm whether kit is purchased complete or assembled",
+        "Landed-cost additions"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false,
+      "known_components": [
+        {
+          "sku": "EA888",
+          "quantity": 1,
+          "current_purchase_rub": 600
+        },
+        {
+          "sku": "Ea888gen3",
+          "quantity": 1,
+          "current_purchase_rub": 150
+        }
+      ],
+      "unknown_components": [
+        {
+          "id_in_approval": "filter-with-ring",
+          "quantity": 1,
+          "cost_rub": null
+        }
+      ]
+    },
+    {
+      "sku": "TEST001",
+      "title": "Тестовый товар не публикуется",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NONCOMMERCIAL_TEST_ITEM",
+      "confidence": "missing",
+      "reason": "Named test item, not to publish. No commercial profit estimate required.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-09-24",
+            "2026-10-07",
+            "2026-10-19",
+            "2026-10-20",
+            "2026-10-26",
+            "2026-10-27",
+            "2026-10-28",
+            "2026-11-12",
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "chip-02e927770",
+      "title": "Чип электронной платы мехатроника 02E927770AL/AM/AT",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-12",
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "chip-0am927769d",
+      "title": "Чип электронной платы мехатроника DSG7 DQ200 0AM927769D",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-12",
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "datchik-peredach-dq200",
+      "title": "Датчик положения передач DQ200 для плат 0AM927769D/G/K",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-12",
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "datchik-scepleniya-dq200",
+      "title": "Датчик сцепления DSG7 DQ200 для плат 0AM927769D/G/K",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-12",
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "derzhatel-datchikov-dq200",
+      "title": "Держатель датчиков DQ200 для плат 0AM927769D/G/K",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-12",
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "fpc-shleif-dq200",
+      "title": "FPC-шлейф электронной платы DQ200 для 0AM927769D/G/K",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-12",
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "klipsa-datchika-peredach-dq200",
+      "title": "Клипса датчика положения передач мехатроника DSG7 DQ200",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-12",
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "kolodka-solenoidov-dq200",
+      "title": "Колодка разъёмов соленоидов DQ200 для плат 0AM927769D/G/K",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-12",
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "kryshka-platy-dq200",
+      "title": "Металлическая крышка электронной платы DSG7 DQ200",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-12",
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "osnovanie-platy-dq200",
+      "title": "Основание платы мехатроника DQ200 для 0AM927769D/G/K",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-12",
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "shleif-platy-dq200",
+      "title": "Шлейф платы мехатроника DSG7 DQ200 для 0AM927769E/N/P",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-12",
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "solenoid-02e-0b5-bolshoy",
+      "title": "Восстановленный соленоид 02E 0B5 DQ250 DQ500, большой",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "SALE_INTENT_SOURCE_CONFLICT_AND_MISSING_COST",
+      "confidence": "missing",
+      "reason": "Current master note says 'Пока не продаём' but channel flag says 'да'; cost is absent. Resolve sale intent before any economic action.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": "Пока не продаём"
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-09-24",
+            "2026-10-07",
+            "2026-10-19",
+            "2026-10-20",
+            "2026-10-26",
+            "2026-10-27",
+            "2026-10-28",
+            "2026-11-12",
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "tool-dq200-acc-restore",
+      "title": "Набор для восстановления гидроаккумулятора DSG7 DQ200",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": {
+        "amount": 650,
+        "currency": "CNY",
+        "basis": "per set",
+        "documented_quantity": 3,
+        "conversion_rate": null,
+        "converted_rub": null
+      },
+      "known_component_subtotal_rub": null,
+      "status": "FOREIGN_CURRENCY_PURCHASE_NOTE_FOUND_RUB_AND_LANDED_COST_UNKNOWN",
+      "confidence": "purchase_amount_recorded_in_master_note_screenshot_not_reinspected",
+      "reason": "Master note dated 2026-11-20 records purchase amount in CNY from a screenshot. No actual RUB payment rate, fees, freight or customs evidence was found.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": "2026-11-20: владелец разрешил публикацию на всех площадках. Подтвержденные цены: Ozon/WB/Маркет 38800 ₽; Авито/сайт 24800 ₽. Черновик: продаваемый остаток, поступление, вес и габариты упаковки не подтверждены. Закупка 650 CNY × 3 по скриншоту; 3 не является подтвержденным остатком. Перед созданием проверить категорию инструмента, обязательные характеристики, ТН ВЭД, комплектацию и фото."
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "RUB amount actually paid including FX/payment charges",
+        "Shipping/import allocation",
+        "Original purchase document or screenshot verification"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "tool-dsg-pressure-hp",
+      "title": "Набор для проверки давления DSG, исполнение высокого давления",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": {
+        "amount": 200,
+        "currency": "CNY",
+        "basis": "per set",
+        "documented_quantity": 3,
+        "conversion_rate": null,
+        "converted_rub": null
+      },
+      "known_component_subtotal_rub": null,
+      "status": "FOREIGN_CURRENCY_PURCHASE_NOTE_FOUND_RUB_AND_LANDED_COST_UNKNOWN",
+      "confidence": "purchase_amount_recorded_in_master_note_screenshot_not_reinspected",
+      "reason": "Master note dated 2026-11-20 records purchase amount in CNY from a screenshot. No actual RUB payment rate, fees, freight or customs evidence was found.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": "2026-11-20: владелец разрешил публикацию на всех площадках. Подтвержденные цены: Ozon/WB/Маркет 28800 ₽; Авито/сайт 18800 ₽. Черновик: продаваемый остаток, поступление, вес и габариты упаковки не подтверждены. Закупка 200 CNY × 3 по скриншоту; 3 не является подтвержденным остатком. Перед созданием проверить категорию инструмента, обязательные характеристики, ТН ВЭД, комплектацию и фото."
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "RUB amount actually paid including FX/payment charges",
+        "Shipping/import allocation",
+        "Original purchase document or screenshot verification"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "vint-kollektora-ea888",
+      "title": "Винт впускного коллектора EA888 M6 65, цена за 1 шт.",
+      "candidate_cost_rub": null,
+      "procurement_cost_rub": null,
+      "fully_landed_cost_rub": null,
+      "foreign_currency_candidate": null,
+      "known_component_subtotal_rub": null,
+      "status": "NOT_RECOVERED_FROM_AVAILABLE_RUB_SOURCES",
+      "confidence": "missing",
+      "reason": "Current master, saved master history and seller-entered Ozon net_price contain no positive RUB procurement cost.",
+      "evidence": [
+        {
+          "source": {
+            "path": "data/master_control.xlsx",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+            "date": "2026-11-24T16:06:31Z",
+            "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+            "locator": "Товары / exact offer_id / Закупка, ₽"
+          },
+          "value": null,
+          "note": null
+        },
+        {
+          "source": {
+            "path": "data/ozon_products.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/ozon_products.json",
+            "date": "2026-11-26T10:01:09Z",
+            "blob_sha": "716382f0cf28e6ac2361ab39e33145ea3723d327",
+            "locator": "details / exact offer_id / price.net_price"
+          },
+          "value": 0,
+          "interpretation": "Zero is absent seller-entered procurement data, not free goods."
+        },
+        {
+          "source": {
+            "path": "data/price_recovery_20261127/master_price_history.json",
+            "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/price_recovery_20261127/master_price_history.json",
+            "date": null,
+            "blob_sha": null,
+            "locator": null
+          },
+          "snapshots_searched": 12,
+          "sku_seen_in_snapshots": [
+            "2026-11-12",
+            "2026-11-19",
+            "2026-11-20",
+            "2026-11-23",
+            "2026-11-24"
+          ],
+          "positive_cost_candidates": []
+        }
+      ],
+      "needed_to_complete": [
+        "Exact SKU purchase invoice or owner's actual purchase cost",
+        "Landed-cost additions and their allocation"
+      ],
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    }
+  ],
+  "cost_conflict_decisions": [
+    {
+      "sku": "0am325025hfe",
+      "title": "Ремкомплект 2 штоков мехатроника DSG7 DQ200: 2 сальника, 2 пыльника, 2 крышки",
+      "master_purchase_cost_rub": 100.0,
+      "previous_conservative_reference_rub": 170.0,
+      "current_component_sum_rub": 170.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 70.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 14,
+          "component": "0am325066ad",
+          "qty": 2,
+          "note": "сальник штока x2 -> 0am325066ad (подтверждено)",
+          "unit_purchase_rub": 30,
+          "line_subtotal_rub": 60.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 15,
+          "component": "122390AK-AF",
+          "qty": 2,
+          "note": "пыльник x2 -> 122390AK-AF (подтверждено)",
+          "unit_purchase_rub": 30,
+          "line_subtotal_rub": 60.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 16,
+          "component": "0am325025q",
+          "qty": 2,
+          "note": "крышка штока x2 -> 0am325025q (подтверждено)",
+          "unit_purchase_rub": 25,
+          "line_subtotal_rub": 50.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 170.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "0am325025j",
+      "title": "Сепараторная пластина + пластины на соленоиды мехатроника DSG7 DQ200, оригинал VAG",
+      "master_purchase_cost_rub": 250.0,
+      "previous_conservative_reference_rub": 480.0,
+      "current_component_sum_rub": 480.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 230.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 42,
+          "component": "0AM325467J",
+          "qty": 1,
+          "note": "сепараторная пластина x1 -> 0AM325467J (подтверждено)",
+          "unit_purchase_rub": 180,
+          "line_subtotal_rub": 180.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 43,
+          "component": "0am325477ae",
+          "qty": 2,
+          "note": "пластины соленоидов x2 -> 0am325477ae напрямую (подтверждено пользователем, без вложенности)",
+          "unit_purchase_rub": 150,
+          "line_subtotal_rub": 300.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 480.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "EA888gen3",
+      "title": "Комплект: алюминиевый корпус (крышка) масляного фильтра + обратный клапан EA888 Gen3 06L115401S 06L115678AD",
+      "master_purchase_cost_rub": 700.0,
+      "previous_conservative_reference_rub": 750.0,
+      "current_component_sum_rub": 750.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 50.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 38,
+          "component": "Ea888gen3",
+          "qty": 1,
+          "note": "магнит x1 -> Ea888gen3 (подтверждено пользователем)",
+          "unit_purchase_rub": 150,
+          "line_subtotal_rub": 150.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 39,
+          "component": "EA888",
+          "qty": 1,
+          "note": "корпус фильтра x1 -> EA888 (подтверждено пользователем)",
+          "unit_purchase_rub": 600,
+          "line_subtotal_rub": 600.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 750.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "klipsy-shtokov-2sht",
+      "title": "Клипсы штоков мехатроника DSG7 DQ200, комплект 2 шт",
+      "master_purchase_cost_rub": 25.0,
+      "previous_conservative_reference_rub": 80.0,
+      "current_component_sum_rub": 80.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 55.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 49,
+          "component": "0am325025P",
+          "qty": 2,
+          "note": "клипса штока x2 -> 0am325025P (подтверждено)",
+          "unit_purchase_rub": 40,
+          "line_subtotal_rub": 80.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 80.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "plastiny-solenoid-dq200-2sht",
+      "title": "Пластины на соленоиды мехатроника DSG7 DQ200, комплект 2 шт",
+      "master_purchase_cost_rub": 100.0,
+      "previous_conservative_reference_rub": 160.0,
+      "current_component_sum_rub": 160.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 60.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 70,
+          "component": "plastina-solenoid-dq200",
+          "qty": 2,
+          "note": "пластина x2 -> plastina-solenoid-dq200 (подтверждено пользователем)",
+          "unit_purchase_rub": 80,
+          "line_subtotal_rub": 160.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 160.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "plastiny-solenoid-orig",
+      "title": "Оригинальные пластины на соленоиды VAG мехатроника DSG7 DQ200 (без сепараторной пластины)",
+      "master_purchase_cost_rub": 200.0,
+      "previous_conservative_reference_rub": 300.0,
+      "current_component_sum_rub": 300.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 100.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 69,
+          "component": "0am325477ae",
+          "qty": 2,
+          "note": "пластина соленоида x2 -> 0am325477ae (подтверждено пользователем)",
+          "unit_purchase_rub": 150,
+          "line_subtotal_rub": 300.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 300.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "plita-filtr",
+      "title": "Усиленная гидроплита + фильтр мехатроника DSG7 DQ200, комплект",
+      "master_purchase_cost_rub": 2000.0,
+      "previous_conservative_reference_rub": 2050.0,
+      "current_component_sum_rub": 2050.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 50.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 2,
+          "component": "0am325066ae",
+          "qty": 1,
+          "note": "плита x1 -> 0am325066ae (подтверждено пользователем)",
+          "unit_purchase_rub": 1900,
+          "line_subtotal_rub": 1900.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 3,
+          "component": "filtr-dsg7-dq200",
+          "qty": 1,
+          "note": "фильтр стандартный x1 -> filtr-dsg7-dq200 (подтверждено пользователем)",
+          "unit_purchase_rub": 150,
+          "line_subtotal_rub": 150.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 2050.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "plita-filtr-pylniki",
+      "title": "Усиленная гидроплита + фильтр + 2 пыльника штоков DSG7 DQ200, комплект",
+      "master_purchase_cost_rub": 2000.0,
+      "previous_conservative_reference_rub": 2110.0,
+      "current_component_sum_rub": 2110.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 110.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": false,
+      "confidence": "arithmetic_verified_recipe_identity_not_fully_confirmed",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 73,
+          "component": "0am325066ae",
+          "qty": 1,
+          "note": "плита x1 -> 0am325066ae (по аналогии с plita-filtr-pylniki-sal)",
+          "unit_purchase_rub": 1900,
+          "line_subtotal_rub": 1900.0,
+          "recipe_recorded_as_confirmed": false
+        },
+        {
+          "row": 74,
+          "component": "filtr-dsg7-dq200",
+          "qty": 1,
+          "note": "фильтр стандартный x1 -> filtr-dsg7-dq200",
+          "unit_purchase_rub": 150,
+          "line_subtotal_rub": 150.0,
+          "recipe_recorded_as_confirmed": false
+        },
+        {
+          "row": 75,
+          "component": "122390AK-AF",
+          "qty": 2,
+          "note": "пыльник x2 -> 122390AK-AF",
+          "unit_purchase_rub": 30,
+          "line_subtotal_rub": 60.0,
+          "recipe_recorded_as_confirmed": false
+        }
+      ],
+      "decision": "REVIEW_RECIPE_BEFORE_FINANCIAL_APPROVAL_RETAIN_BOTH_COST_SOURCES",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 2110.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "plita-filtr-pylniki-orig",
+      "title": "Усиленная плита + фильтр + 2 оригинальных пыльника VAG DSG7 DQ200, комплект",
+      "master_purchase_cost_rub": 2100.0,
+      "previous_conservative_reference_rub": 2230.0,
+      "current_component_sum_rub": 2230.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 130.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": false,
+      "confidence": "arithmetic_verified_recipe_identity_not_fully_confirmed",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 76,
+          "component": "0am325066ae",
+          "qty": 1,
+          "note": "плита x1 -> 0am325066ae",
+          "unit_purchase_rub": 1900,
+          "line_subtotal_rub": 1900.0,
+          "recipe_recorded_as_confirmed": false
+        },
+        {
+          "row": 77,
+          "component": "filtr-dsg7-dq200",
+          "qty": 1,
+          "note": "фильтр стандартный x1 -> filtr-dsg7-dq200",
+          "unit_purchase_rub": 150,
+          "line_subtotal_rub": 150.0,
+          "recipe_recorded_as_confirmed": false
+        },
+        {
+          "row": 78,
+          "component": "122390AKAF",
+          "qty": 2,
+          "note": "пыльник оригинал x2 -> 122390AKAF",
+          "unit_purchase_rub": 90,
+          "line_subtotal_rub": 180.0,
+          "recipe_recorded_as_confirmed": false
+        }
+      ],
+      "decision": "REVIEW_RECIPE_BEFORE_FINANCIAL_APPROVAL_RETAIN_BOTH_COST_SOURCES",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 2230.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal",
+      "title": "Усиленная гидроплита + фильтр + 2 пыльника + 2 сальника DSG7 DQ200, полный комплект",
+      "master_purchase_cost_rub": 2100.0,
+      "previous_conservative_reference_rub": 2170.0,
+      "current_component_sum_rub": 2170.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 70.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 4,
+          "component": "0am325066ae",
+          "qty": 1,
+          "note": "плита x1 -> 0am325066ae (подтверждено)",
+          "unit_purchase_rub": 1900,
+          "line_subtotal_rub": 1900.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 5,
+          "component": "filtr-dsg7-dq200",
+          "qty": 1,
+          "note": "фильтр стандартный x1 -> filtr-dsg7-dq200 (подтверждено)",
+          "unit_purchase_rub": 150,
+          "line_subtotal_rub": 150.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 6,
+          "component": "122390AK-AF",
+          "qty": 2,
+          "note": "пыльник x2 -> 122390AK-AF (подтверждено)",
+          "unit_purchase_rub": 30,
+          "line_subtotal_rub": 60.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 7,
+          "component": "0am325066ad",
+          "qty": 2,
+          "note": "сальник штока x2 -> 0am325066ad (подтверждено)",
+          "unit_purchase_rub": 30,
+          "line_subtotal_rub": 60.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 2170.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal-orig",
+      "title": "Плита + фильтр + 2 пыльника + 2 сальника ориг VAG DSG7 DQ200, полный комплект",
+      "master_purchase_cost_rub": 2200.0,
+      "previous_conservative_reference_rub": 2500.0,
+      "current_component_sum_rub": 2500.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 300.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 62,
+          "component": "0am325066ae",
+          "qty": 1,
+          "note": "плита x1 -> 0am325066ae (подтверждено)",
+          "unit_purchase_rub": 1900,
+          "line_subtotal_rub": 1900.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 63,
+          "component": "0AM325433E",
+          "qty": 1,
+          "note": "фильтр улучшенный x1 -> 0AM325433E (подтверждено)",
+          "unit_purchase_rub": 180,
+          "line_subtotal_rub": 180.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 64,
+          "component": "122390AKAF",
+          "qty": 2,
+          "note": "пыльник оригинал x2 -> 122390AKAF (подтверждено)",
+          "unit_purchase_rub": 90,
+          "line_subtotal_rub": 180.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 65,
+          "component": "0сц",
+          "qty": 2,
+          "note": "сальник штока оригинал x2 -> 0сц (исправлено: старая ссылка salnik-shtoka-orig была мёртвым дублем без остатка, реальный артикул с остатком — 0сц)",
+          "unit_purchase_rub": 120,
+          "line_subtotal_rub": 240.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 2500.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "plita-filtr-salniki-orig",
+      "title": "Усиленная плита + фильтр + 2 оригинальных сальника VAG DSG7 DQ200, комплект",
+      "master_purchase_cost_rub": 2100.0,
+      "previous_conservative_reference_rub": 2290.0,
+      "current_component_sum_rub": 2290.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 190.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": false,
+      "confidence": "arithmetic_verified_recipe_identity_not_fully_confirmed",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 79,
+          "component": "0am325066ae",
+          "qty": 1,
+          "note": "плита x1 -> 0am325066ae",
+          "unit_purchase_rub": 1900,
+          "line_subtotal_rub": 1900.0,
+          "recipe_recorded_as_confirmed": false
+        },
+        {
+          "row": 80,
+          "component": "filtr-dsg7-dq200",
+          "qty": 1,
+          "note": "фильтр стандартный x1 -> filtr-dsg7-dq200",
+          "unit_purchase_rub": 150,
+          "line_subtotal_rub": 150.0,
+          "recipe_recorded_as_confirmed": false
+        },
+        {
+          "row": 81,
+          "component": "0сц",
+          "qty": 2,
+          "note": "сальник штока оригинал x2 -> 0сц",
+          "unit_purchase_rub": 120,
+          "line_subtotal_rub": 240.0,
+          "recipe_recorded_as_confirmed": false
+        }
+      ],
+      "decision": "REVIEW_RECIPE_BEFORE_FINANCIAL_APPROVAL_RETAIN_BOTH_COST_SOURCES",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 2290.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "plita-pylniki-salniki",
+      "title": "Усиленная гидроплита + 2 пыльника + 2 сальника DSG7 DQ200, комплект без фильтра",
+      "master_purchase_cost_rub": 1900.0,
+      "previous_conservative_reference_rub": 2020.0,
+      "current_component_sum_rub": 2020.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 120.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 66,
+          "component": "0am325066ae",
+          "qty": 1,
+          "note": "плита x1 -> 0am325066ae (подтверждено)",
+          "unit_purchase_rub": 1900,
+          "line_subtotal_rub": 1900.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 67,
+          "component": "122390AK-AF",
+          "qty": 2,
+          "note": "пыльник x2 -> 122390AK-AF (подтверждено)",
+          "unit_purchase_rub": 30,
+          "line_subtotal_rub": 60.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 68,
+          "component": "0am325066ad",
+          "qty": 2,
+          "note": "сальник штока x2 -> 0am325066ad (подтверждено)",
+          "unit_purchase_rub": 30,
+          "line_subtotal_rub": 60.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 2020.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig",
+      "title": "Усиленная гидроплита + 2 оригинальных пыльника + 2 оригинальных сальника DSG7 DQ200",
+      "master_purchase_cost_rub": 2100.0,
+      "previous_conservative_reference_rub": 2320.0,
+      "current_component_sum_rub": 2320.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 220.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 8,
+          "component": "0am325066ae",
+          "qty": 1,
+          "note": "плита x1 -> 0am325066ae (подтверждено)",
+          "unit_purchase_rub": 1900,
+          "line_subtotal_rub": 1900.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 9,
+          "component": "122390AKAF",
+          "qty": 2,
+          "note": "пыльник оригинал x2 -> 122390AKAF (подтверждено)",
+          "unit_purchase_rub": 90,
+          "line_subtotal_rub": 180.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 10,
+          "component": "0сц",
+          "qty": 2,
+          "note": "сальник штока оригинал x2 -> 0сц (исправлено: старая ссылка salnik-shtoka-orig была мёртвым дублем без остатка, реальный артикул с остатком — 0сц)",
+          "unit_purchase_rub": 120,
+          "line_subtotal_rub": 240.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 2320.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig-v2",
+      "title": "Усиленная гидроплита + 2 оригинальных пыльника + 2 оригинальных сальника DQ200 DSG7",
+      "master_purchase_cost_rub": 2100.0,
+      "previous_conservative_reference_rub": 2320.0,
+      "current_component_sum_rub": 2320.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 220.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 89,
+          "component": "0am325066ae",
+          "qty": 1,
+          "note": "плита x1 -> 0am325066ae (подтверждено)",
+          "unit_purchase_rub": 1900,
+          "line_subtotal_rub": 1900.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 90,
+          "component": "122390AKAF",
+          "qty": 2,
+          "note": "пыльник оригинал x2 -> 122390AKAF (подтверждено)",
+          "unit_purchase_rub": 90,
+          "line_subtotal_rub": 180.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 91,
+          "component": "0сц",
+          "qty": 2,
+          "note": "сальник штока оригинал x2 -> 0сц (исправлено: старая ссылка salnik-shtoka-orig была мёртвым дублем без остатка, реальный артикул с остатком — 0сц)",
+          "unit_purchase_rub": 120,
+          "line_subtotal_rub": 240.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 2320.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "porshni-usil-pylniki-kryshki",
+      "title": "Ремкомплект штоков DSG7 DQ200: 2 усиленных поршня + 2 пыльника + 2 крышки",
+      "master_purchase_cost_rub": 400.0,
+      "previous_conservative_reference_rub": 410.0,
+      "current_component_sum_rub": 410.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 10.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 23,
+          "component": "0am325066AC",
+          "qty": 2,
+          "note": "поршень усиленный x2 -> 0am325066AC (подтверждено)",
+          "unit_purchase_rub": 150,
+          "line_subtotal_rub": 300.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 24,
+          "component": "122390AK-AF",
+          "qty": 2,
+          "note": "пыльник x2 -> 122390AK-AF (подтверждено)",
+          "unit_purchase_rub": 30,
+          "line_subtotal_rub": 60.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 25,
+          "component": "0am325025q",
+          "qty": 2,
+          "note": "крышка штока x2 -> 0am325025q (подтверждено)",
+          "unit_purchase_rub": 25,
+          "line_subtotal_rub": 50.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 410.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "pylniki-shtokov-orig",
+      "title": "Оригинальные пыльники штоков VAG, 2 шт, DSG7 DQ200",
+      "master_purchase_cost_rub": 150.0,
+      "previous_conservative_reference_rub": 180.0,
+      "current_component_sum_rub": 180.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 30.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": false,
+      "confidence": "arithmetic_verified_recipe_identity_not_fully_confirmed",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 82,
+          "component": "122390AKAF",
+          "qty": 2,
+          "note": "пыльник оригинал x2 -> 122390AKAF (по аналогии с klipsy-shtokov-2sht/vtulki-shtokov-2sht)",
+          "unit_purchase_rub": 90,
+          "line_subtotal_rub": 180.0,
+          "recipe_recorded_as_confirmed": false
+        }
+      ],
+      "decision": "REVIEW_RECIPE_BEFORE_FINANCIAL_APPROVAL_RETAIN_BOTH_COST_SOURCES",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 180.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "salnik-tolkatelya-alum",
+      "title": "Усиленные алюминиевые сальники толкателя с гальваническим покрытием, комплект 4 шт, DSG7 DQ200",
+      "master_purchase_cost_rub": 100.0,
+      "previous_conservative_reference_rub": 280.0,
+      "current_component_sum_rub": 280.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 180.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 51,
+          "component": "0am325025r",
+          "qty": 4,
+          "note": "опорное кольцо толкателя усиленное (алюм.) x4 -> 0am325025r (подтверждено пользователем)",
+          "unit_purchase_rub": 70,
+          "line_subtotal_rub": 280.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 280.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "salniki-shtokov-2sht",
+      "title": "Сальники штоков мехатроника DSG7 DQ200, комплект 2 шт",
+      "master_purchase_cost_rub": 50.0,
+      "previous_conservative_reference_rub": 60.0,
+      "current_component_sum_rub": 60.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 10.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 52,
+          "component": "0am325066ad",
+          "qty": 2,
+          "note": "сальник штока x2 -> 0am325066ad (подтверждено)",
+          "unit_purchase_rub": 30,
+          "line_subtotal_rub": 60.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 60.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "salniki-tolkatelya-4sht",
+      "title": "Полный комплект сальников толкателей вилок мехатроника DSG7 DQ200, 4 шт",
+      "master_purchase_cost_rub": 200.0,
+      "previous_conservative_reference_rub": 280.0,
+      "current_component_sum_rub": 280.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 80.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 53,
+          "component": "0AM325413A",
+          "qty": 4,
+          "note": "сальник толкателя (НЕ сальник штока!) x4 -> 0AM325413A (подтверждено)",
+          "unit_purchase_rub": 70,
+          "line_subtotal_rub": 280.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 280.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "separatornaya-plastiny-solenoid-dq200",
+      "title": "Сепараторная пластина + пластины на соленоиды мехатроника DSG7 DQ200",
+      "master_purchase_cost_rub": 200.0,
+      "previous_conservative_reference_rub": 260.0,
+      "current_component_sum_rub": 260.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 60.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 71,
+          "component": "separatornaya-plastina-dq200",
+          "qty": 1,
+          "note": "сепараторная пластина x1 -> separatornaya-plastina-dq200 (подтверждено пользователем)",
+          "unit_purchase_rub": 100,
+          "line_subtotal_rub": 100.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 72,
+          "component": "plastina-solenoid-dq200",
+          "qty": 2,
+          "note": "пластины на соленоиды x2 -> plastina-solenoid-dq200 (подтверждено пользователем)",
+          "unit_purchase_rub": 80,
+          "line_subtotal_rub": 160.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 260.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    },
+    {
+      "sku": "tolkateli-salniki-alum-komplekt",
+      "title": "Толкатели вилок + сальники + усиленные алюминиевые сальники DSG7 DQ200, комплект 4+4+4",
+      "master_purchase_cost_rub": 1000.0,
+      "previous_conservative_reference_rub": 1560.0,
+      "current_component_sum_rub": 1560.0,
+      "fully_landed_cost_rub": null,
+      "difference_components_minus_master_rub": 560.0,
+      "component_costs_complete": true,
+      "recipe_recorded_as_confirmed": true,
+      "confidence": "arithmetic_verified_from_recorded_recipe_and_registry_costs",
+      "sources": [
+        {
+          "path": "data/master_control.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+          "date": "2026-11-24T16:06:31Z",
+          "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+          "locator": null
+        },
+        {
+          "path": "data/kits.xlsx",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/kits.xlsx",
+          "date": "2026-11-20T17:46:45Z",
+          "blob_sha": "113ce1381f35a55e080533d5de01e6c7f641fb8a",
+          "locator": "Комплекты / exact kit SKU and component SKU"
+        },
+        {
+          "path": "data/leoparts_pricing_decision_20261124/decision.json",
+          "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/leoparts_pricing_decision_20261124/decision.json",
+          "date": "2026-11-23T17:43:01.499340+00:00",
+          "blob_sha": "589ce0b5a3af21141a40afa24e28d69edc4c3d81",
+          "locator": null
+        }
+      ],
+      "components": [
+        {
+          "row": 56,
+          "component": "0am325025l",
+          "qty": 4,
+          "note": "толкатель вилки x4 -> 0am325025l (подтверждено)",
+          "unit_purchase_rub": 250,
+          "line_subtotal_rub": 1000.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 57,
+          "component": "0AM325413A",
+          "qty": 4,
+          "note": "сальник толкателя (НЕ сальник штока!) x4 -> 0AM325413A (подтверждено)",
+          "unit_purchase_rub": 70,
+          "line_subtotal_rub": 280.0,
+          "recipe_recorded_as_confirmed": true
+        },
+        {
+          "row": 58,
+          "component": "0am325025r",
+          "qty": 4,
+          "note": "опорное кольцо толкателя усиленное (алюм.) x4 -> 0am325025r (подтверждено)",
+          "unit_purchase_rub": 70,
+          "line_subtotal_rub": 280.0,
+          "recipe_recorded_as_confirmed": true
+        }
+      ],
+      "decision": "RETAIN_BOTH_SOURCES_USE_COMPONENT_SUM_ONLY_AS_CONSERVATIVE_ANALYTICAL_REFERENCE",
+      "reason": "A component sum establishes the current registry cost of assembling this recipe, not the invoiced purchase cost of a separately procured finished kit. No invoice or assembly/import cost evidence resolves that distinction.",
+      "analytical_reference_rub": 1560.0,
+      "master_write_allowed": false,
+      "pricing_write_allowed": false
+    }
+  ],
+  "sale_intent_evidence": [
+    {
+      "sku": "0BH325",
+      "channel_flag": "нет",
+      "note": "Ozon: нет (остаток 0)",
+      "source": {
+        "path": "data/master_control.xlsx",
+        "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+        "date": "2026-11-24T16:06:31Z",
+        "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+        "locator": null
+      },
+      "status": "CHANNEL_FLAG_DISABLED",
+      "instruction": "Do not use older notes to automatically override a later active channel flag; preserve existing live state while reviewing evidence."
+    },
+    {
+      "sku": "TEST001",
+      "channel_flag": null,
+      "note": "",
+      "source": {
+        "path": "data/master_control.xlsx",
+        "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+        "date": "2026-11-24T16:06:31Z",
+        "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+        "locator": null
+      },
+      "status": "NONCOMMERCIAL_TEST",
+      "instruction": "Do not use older notes to automatically override a later active channel flag; preserve existing live state while reviewing evidence."
+    },
+    {
+      "sku": "plita-filtr",
+      "channel_flag": "нет",
+      "note": "Ozon: нет (дубль SPU / не создаём); 27.10.2026: Ozon «нет» — дубль существующей карточки (SPU)",
+      "source": {
+        "path": "data/master_control.xlsx",
+        "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+        "date": "2026-11-24T16:06:31Z",
+        "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+        "locator": null
+      },
+      "status": "CHANNEL_FLAG_DISABLED",
+      "instruction": "Do not use older notes to automatically override a later active channel flag; preserve existing live state while reviewing evidence."
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal-orig",
+      "channel_flag": "нет",
+      "note": "Ozon: нет (дубль SPU / не создаём); 27.10.2026: Ozon «нет» — дубль существующей карточки (SPU)",
+      "source": {
+        "path": "data/master_control.xlsx",
+        "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+        "date": "2026-11-24T16:06:31Z",
+        "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+        "locator": null
+      },
+      "status": "CHANNEL_FLAG_DISABLED",
+      "instruction": "Do not use older notes to automatically override a later active channel flag; preserve existing live state while reviewing evidence."
+    },
+    {
+      "sku": "plita-filtr-v2",
+      "channel_flag": "да",
+      "note": "Ozon: нет (дубль SPU / не создаём); 27.10.2026: цена 7850 → 8350 (прибыль Ozon ≥ ~80% закупки; через 1–2 недели проверить продажи)",
+      "source": {
+        "path": "data/master_control.xlsx",
+        "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+        "date": "2026-11-24T16:06:31Z",
+        "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+        "locator": null
+      },
+      "status": "NOTE_CHANNEL_FLAG_CONFLICT_REVIEW",
+      "instruction": "Do not use older notes to automatically override a later active channel flag; preserve existing live state while reviewing evidence."
+    },
+    {
+      "sku": "plita-pylniki-salniki",
+      "channel_flag": "да",
+      "note": "Ozon: нет (дубль SPU / не создаём)",
+      "source": {
+        "path": "data/master_control.xlsx",
+        "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+        "date": "2026-11-24T16:06:31Z",
+        "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+        "locator": null
+      },
+      "status": "NOTE_CHANNEL_FLAG_CONFLICT_REVIEW",
+      "instruction": "Do not use older notes to automatically override a later active channel flag; preserve existing live state while reviewing evidence."
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig",
+      "channel_flag": "да",
+      "note": "Ozon: нет (дубль SPU / не создаём)",
+      "source": {
+        "path": "data/master_control.xlsx",
+        "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+        "date": "2026-11-24T16:06:31Z",
+        "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+        "locator": null
+      },
+      "status": "NOTE_CHANNEL_FLAG_CONFLICT_REVIEW",
+      "instruction": "Do not use older notes to automatically override a later active channel flag; preserve existing live state while reviewing evidence."
+    },
+    {
+      "sku": "porshni-usil-pylniki-kryshki",
+      "channel_flag": "да",
+      "note": "Ozon: нет (дубль SPU / не создаём)",
+      "source": {
+        "path": "data/master_control.xlsx",
+        "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+        "date": "2026-11-24T16:06:31Z",
+        "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+        "locator": null
+      },
+      "status": "NOTE_CHANNEL_FLAG_CONFLICT_REVIEW",
+      "instruction": "Do not use older notes to automatically override a later active channel flag; preserve existing live state while reviewing evidence."
+    },
+    {
+      "sku": "porshni-usil-pylniki-kryshki-v2",
+      "channel_flag": "да",
+      "note": "Ozon: нет (дубль SPU)",
+      "source": {
+        "path": "data/master_control.xlsx",
+        "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+        "date": "2026-11-24T16:06:31Z",
+        "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+        "locator": null
+      },
+      "status": "NOTE_CHANNEL_FLAG_CONFLICT_REVIEW",
+      "instruction": "Do not use older notes to automatically override a later active channel flag; preserve existing live state while reviewing evidence."
+    },
+    {
+      "sku": "remkomplekt-shtokov-orig",
+      "channel_flag": "нет",
+      "note": "Ozon: нет (дубль SPU / не создаём); 27.10.2026: Ozon «нет» — дубль существующей карточки (SPU)",
+      "source": {
+        "path": "data/master_control.xlsx",
+        "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+        "date": "2026-11-24T16:06:31Z",
+        "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+        "locator": null
+      },
+      "status": "CHANNEL_FLAG_DISABLED",
+      "instruction": "Do not use older notes to automatically override a later active channel flag; preserve existing live state while reviewing evidence."
+    },
+    {
+      "sku": "remkomplekt-shtokov-orig-v2",
+      "channel_flag": "нет",
+      "note": "27.10.2026: Ozon «нет» — дубль существующей карточки (SPU)",
+      "source": {
+        "path": "data/master_control.xlsx",
+        "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+        "date": "2026-11-24T16:06:31Z",
+        "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+        "locator": null
+      },
+      "status": "CHANNEL_FLAG_DISABLED",
+      "instruction": "Do not use older notes to automatically override a later active channel flag; preserve existing live state while reviewing evidence."
+    },
+    {
+      "sku": "salnik-shtoka-orig",
+      "channel_flag": "да",
+      "note": "Ozon: нет (дубль SPU / не создаём); 27.10.2026: цена 1350 → 1850 (мин. 400 ₽ чистыми на Ozon)",
+      "source": {
+        "path": "data/master_control.xlsx",
+        "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+        "date": "2026-11-24T16:06:31Z",
+        "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+        "locator": null
+      },
+      "status": "NOTE_CHANNEL_FLAG_CONFLICT_REVIEW",
+      "instruction": "Do not use older notes to automatically override a later active channel flag; preserve existing live state while reviewing evidence."
+    },
+    {
+      "sku": "salnik-shtoka-orig-v2",
+      "channel_flag": "да",
+      "note": "Ozon: нет (дубль SPU / не создаём); 27.10.2026: цена 1350 → 1850 (мин. 400 ₽ чистыми на Ozon)",
+      "source": {
+        "path": "data/master_control.xlsx",
+        "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+        "date": "2026-11-24T16:06:31Z",
+        "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+        "locator": null
+      },
+      "status": "NOTE_CHANNEL_FLAG_CONFLICT_REVIEW",
+      "instruction": "Do not use older notes to automatically override a later active channel flag; preserve existing live state while reviewing evidence."
+    },
+    {
+      "sku": "solenoid-02e-0b5-bolshoy",
+      "channel_flag": "да",
+      "note": "Пока не продаём",
+      "source": {
+        "path": "data/master_control.xlsx",
+        "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/data/master_control.xlsx",
+        "date": "2026-11-24T16:06:31Z",
+        "blob_sha": "94feb588d808f616019ecde604441ebb68724b57",
+        "locator": null
+      },
+      "status": "NOTE_CHANNEL_FLAG_CONFLICT_REVIEW",
+      "instruction": "Do not use older notes to automatically override a later active channel flag; preserve existing live state while reviewing evidence."
+    }
+  ],
+  "no_substitutions": [
+    "No selling price, markup or sibling variant cost was substituted for procurement.",
+    "No guessed CNY/RUB exchange rate or shipping cost was used.",
+    "Missing financial sales do not set a known 31000 RUB mechatronic procurement cost to zero."
+  ]
+}
