@@ -1,0 +1,37 @@
+name: Direct seven-day control read only
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-seven-day-readonly-20261126.yml']
+permissions:
+  contents: write
+concurrency:
+  group: direct-seven-day-readonly-20261126
+  cancel-in-progress: false
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Fresh read-only Direct and Metrica reports
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: |
+          python -u .github/scripts/direct_traffic_quality_20261126.py
+          python -u .github/scripts/direct_targeted_readonly_20261126.py
+      - name: Preserve only new audit evidence
+        if: always()
+        run: |
+          shopt -s nullglob
+          dirs=(data/direct_traffic_quality/*-${GITHUB_RUN_ID})
+          if [ "${#dirs[@]}" -eq 1 ]; then
+            bash .github/scripts/save_data.sh "${dirs[0]}"
+          fi
