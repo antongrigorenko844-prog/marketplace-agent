@@ -1,0 +1,26 @@
+name: Ozon Profit First read-only tests
+on:
+  pull_request:
+    paths:
+      - 'ozon_profit_*.py'
+      - 'main.py'
+      - 'ozon_client.py'
+      - 'data/ozon_profit_policy.json'
+      - 'tests/test_ozon_profit_first.py'
+      - '.github/workflows/ozon-profit-first-ci.yml'
+  push:
+    branches: ['feat/ozon-profit-first-20261127']
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile main.py ozon_client.py ozon_profit_guard.py ozon_profit_plan.py
+      - run: python -m unittest discover -s tests -p test_ozon_profit_first.py -v
+      - run: python ozon_profit_plan.py --output /tmp/ozon-profit-review.json
+      - run: python -c "import json; p=json.load(open('/tmp/ozon-profit-review.json')); assert p['count']==147 and all(not r['write_allowed'] for r in p['rows'])"

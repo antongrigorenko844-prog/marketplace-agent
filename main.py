@@ -3525,12 +3525,16 @@ def cmd_sync_ozon_prices(dry_run: bool, article: str = "") -> int:
         return 1
     # Товары с "no_price_sync": true в data/ozon_overrides.json не трогаем никогда
     overrides = catalog_editor._load_overrides()
-    skipped = [o for o in ids if (overrides.get(o) or {}).get("no_price_sync")]
+    from ozon_profit_guard import unmanaged_ids
+    unmanaged = set(unmanaged_ids(ids))
+    skipped = [o for o in ids if o not in unmanaged or (overrides.get(o) or {}).get("no_price_sync")]
     if skipped:
         print("Пропускаю (no_price_sync в ozon_overrides.json): " + ", ".join(skipped))
     ids = [o for o in ids if o not in skipped]
     if article and skipped:
         return 1
+    if not ids:
+        return 0
 
     def _num(v):
         try:
@@ -3627,7 +3631,14 @@ def _ozon_set_price_floor(offer_ids) -> None:
             return 0
 
     items = []
-    for it in ozon_client.get_prices_and_stocks(list(offer_ids)):
+    from ozon_profit_guard import unmanaged_ids
+    ids = unmanaged_ids(offer_ids)
+    if not ids:
+        return
+    requested = set(ids)
+    for it in ozon_client.get_prices_and_stocks(ids):
+        if it.get("offer_id") not in requested:
+            continue
         pr = it.get("price") or {}
         price = _n(pr.get("price"))
         if price <= 0:
@@ -3768,10 +3779,19 @@ def cmd_disable_ozon_auto_actions(dry_run: bool, article: str = "") -> int:
         except (TypeError, ValueError):
             return 0
 
+    from ozon_profit_guard import unmanaged_ids
+    allowed = unmanaged_ids(ids)
+    if article and len(allowed) != len(ids):
+        return 1
+    if not allowed:
+        return 0
+    requested = set(allowed)
     items = []
-    for it in ozon_client.get_prices_and_stocks(ids):
+    for it in ozon_client.get_prices_and_stocks(allowed):
+        if it.get("offer_id") not in requested:
+            continue
         pr = it.get("price") or {}
-        if not pr.get("auto_add_to_ozon_actions_list_enabled"):
+        if pr.get("auto_add_to_ozon_actions_list_enabled") not in (True, "ENABLED"):
             continue
         price = _num(pr.get("price"))
         if price <= 0:
