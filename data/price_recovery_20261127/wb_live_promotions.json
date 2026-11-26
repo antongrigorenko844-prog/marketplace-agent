@@ -1,0 +1,779 @@
+[
+ {
+  "action": {
+   "id": 3296,
+   "name": "Отмечательная распродажа: выгодные предложения (автоматические скидки)",
+   "startDateTime": "2026-12-03T21:00:00Z",
+   "endDateTime": "2026-12-20T20:59:59Z",
+   "type": "auto"
+  },
+  "sections": {
+   "participants": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   },
+   "candidates": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   }
+  },
+  "details": {
+   "promotions": [
+    {
+     "id": 3296,
+     "name": "Отмечательная распродажа: выгодные предложения (автоматические скидки)",
+     "description": "Автоакция поможет привлечь интерес покупателей к вашим товарам в рамках большой сезонной распродажи. Расскажем о ваших предложениях в пуш-уведомлениях и подборках с акционными товарами.\nВсе товары-участники получат гарантированный бустинг 25% в поиске и каталоге. Если в автоакции будет участвовать больше 50% рассчитанного для неё ассортимента, бустинг вырастет до 30%. А если будет участвовать больше 70% — до 35%. \nДругие преимущества:\nбаннер на главной странице сайта и приложения;\nяркая цветная плашка для выделения карточек товаров;\nзаметные красные ценники;\nсчётчик остатков товара, чтобы покупатели поспешили с заказом.\nПеред началом автоакции вы можете установить минимальные цены и указать товары, которые не будут участвовать в ней. Скидки в рамках распродажи применятся автоматически, и товары станут участниками автоакции. При желании перед её стартом вы сможете исключить свои товары, а после старта в любое время снять скидку или изменить цену.",
+     "advantages": [
+      "Плашка на карточке товара",
+      "Баннер на сайте",
+      "Поднятие в поиске",
+      "Красная цена",
+      "Градусник"
+     ],
+     "startDateTime": "2026-12-03T21:00:00Z",
+     "endDateTime": "2026-12-20T20:59:59Z",
+     "inPromoActionLeftovers": 0,
+     "inPromoActionTotal": 0,
+     "notInPromoActionLeftovers": 123,
+     "notInPromoActionTotal": 124,
+     "participationPercentage": 0,
+     "type": "auto",
+     "exceptionProductsCount": 0,
+     "ranging": [
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 1,
+       "boost": 25
+      },
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 50,
+       "boost": 30
+      },
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 70,
+       "boost": 35
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "action": {
+   "id": 3282,
+   "name": "Отмечательная распродажа (автоматические скидки)",
+   "startDateTime": "2026-11-30T21:00:00Z",
+   "endDateTime": "2027-01-10T20:59:59Z",
+   "type": "auto"
+  },
+  "sections": {
+   "participants": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   },
+   "candidates": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   }
+  },
+  "details": {
+   "promotions": [
+    {
+     "id": 3282,
+     "name": "Отмечательная распродажа (автоматические скидки)",
+     "description": "Автоакция поможет привлечь внимание покупателей к вашим товарам и повысить продажи в предпраздничные и праздничные дни.\nВсе товары-участники получат гарантированный бустинг 25% в каталоге и поиске. Если в автоакции будет участвовать больше 50% рассчитанного для неё ассортимента, бустинг вырастет до 30%. А если будет участвовать больше 80% — до 35%.\nДополнительные преимущества:\nбаннер на главной странице сайта и приложения;\nяркая цветная плашка для выделения карточек товаров;\nзаметные красные ценники;\nсчётчик остатков товара, чтобы покупатели поспешили с заказом.\nПеред началом автоакции вы можете установить минимальные цены и указать товары, которые не будут участвовать в ней. Скидки в рамках распродажи применятся автоматически, и товары станут участниками автоакции. При желании перед её стартом вы сможете исключить свои товары, а после старта в любое время снять скидку или изменить цену.",
+     "advantages": [
+      "Плашка на карточке товара",
+      "Баннер на сайте",
+      "Поднятие в поиске",
+      "Красная цена",
+      "Градусник"
+     ],
+     "startDateTime": "2026-11-30T21:00:00Z",
+     "endDateTime": "2027-01-10T20:59:59Z",
+     "inPromoActionLeftovers": 31,
+     "inPromoActionTotal": 31,
+     "notInPromoActionLeftovers": 91,
+     "notInPromoActionTotal": 94,
+     "participationPercentage": 25,
+     "type": "auto",
+     "exceptionProductsCount": 0,
+     "ranging": [
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 1,
+       "boost": 25
+      },
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 50,
+       "boost": 30
+      },
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 80,
+       "boost": 35
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "action": {
+   "id": 3280,
+   "name": "Чёрная пятница: финал (автоматические скидки)",
+   "startDateTime": "2026-11-27T21:00:00Z",
+   "endDateTime": "2026-11-30T20:59:59Z",
+   "type": "auto"
+  },
+  "sections": {
+   "participants": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   },
+   "candidates": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   }
+  },
+  "details": {
+   "promotions": [
+    {
+     "id": 3280,
+     "name": "Чёрная пятница: финал (автоматические скидки)",
+     "description": "Осенняя распродажа «Чёрная пятница» выходит на финишную прямую. Приглашаем поучаствовать в её заключительном этапе — короткой автоакции «Чёрная пятница: финал».\nПеред завершением распродажи покупатели активно ищут выгодные предложения. Надеемся, автоакция поможет вам привлечь больше внимания и собрать максимум заказов в этот период.\nВсе товары-участники получат бустинг до 35% в каталоге и поиске, а значит, станут заметнее. Чтобы никто не пропустил финал, мы отправим покупателям дополнительные пуш-уведомления с напоминанием о скидках.\nДругие преимущества:\n• баннер на главной странице сайта и приложения;\n• яркая цветная плашка для выделения карточек товаров;\n• заметные красные ценники;\n• счётчик остатков товара, чтобы покупатели поспешили с заказом.",
+     "advantages": [
+      "Плашка на карточке товара",
+      "Баннер на сайте",
+      "Поднятие в поиске",
+      "Красная цена",
+      "Градусник"
+     ],
+     "startDateTime": "2026-11-27T21:00:00Z",
+     "endDateTime": "2026-11-30T20:59:59Z",
+     "inPromoActionLeftovers": 23,
+     "inPromoActionTotal": 23,
+     "notInPromoActionLeftovers": 95,
+     "notInPromoActionTotal": 98,
+     "participationPercentage": 19,
+     "type": "auto",
+     "exceptionProductsCount": 0,
+     "ranging": [
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 1,
+       "boost": 30
+      },
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 30,
+       "boost": 35
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "action": {
+   "id": 3277,
+   "name": "Скидки на товары с низкой оборачиваемостью (автоматические скидки)",
+   "startDateTime": "2026-11-26T21:00:00Z",
+   "endDateTime": "2026-12-10T20:59:59Z",
+   "type": "auto"
+  },
+  "sections": {
+   "participants": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   },
+   "candidates": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   }
+  },
+  "details": {
+   "promotions": [
+    {
+     "id": 3277,
+     "name": "Скидки на товары с низкой оборачиваемостью (автоматические скидки)",
+     "description": "Запустили эту автоакцию специально для товаров с низкой оборачиваемостью, чтобы помочь вам распродать их. Товары-участники получат в ней бустинг до 35% в каталоге и поиске.\nДругие преимущества:\nтовары войдут под баннер акции \"Чёрная пятница\" на главной странице сайта и приложения;\nзаметные красные ценники;\nтаймер обратного отсчёта до конца распродажи;\nяркая цветная плашка для выделения карточек товаров.\nПеред началом автоакции вы можете установить минимальные цены и указать товары, которые не будут участвовать в ней. Скидки в рамках распродажи применятся автоматически, и товары станут участниками автоакции. При желании перед её стартом вы сможете исключить свои товары, а после старта в любое время снять скидку или изменить цену.",
+     "advantages": [
+      "Плашка на карточке товара",
+      "Баннер на сайте",
+      "Поднятие в поиске",
+      "Красная цена",
+      "Градусник"
+     ],
+     "startDateTime": "2026-11-26T21:00:00Z",
+     "endDateTime": "2026-12-10T20:59:59Z",
+     "inPromoActionLeftovers": 0,
+     "inPromoActionTotal": 0,
+     "notInPromoActionLeftovers": 3,
+     "notInPromoActionTotal": 3,
+     "participationPercentage": 0,
+     "type": "auto",
+     "exceptionProductsCount": 0,
+     "ranging": [
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 1,
+       "boost": 35
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "action": {
+   "id": 3276,
+   "name": "Скидки на товары с низкой оборачиваемостью",
+   "startDateTime": "2026-11-19T16:00:00Z",
+   "endDateTime": "2026-12-10T20:59:59Z",
+   "type": "regular"
+  },
+  "sections": {
+   "participants": {
+    "status": "ok",
+    "rows": [],
+    "data_keys": [
+     "nomenclatures"
+    ]
+   },
+   "candidates": {
+    "status": "ok",
+    "rows": [
+     {
+      "id": 670854223,
+      "inAction": false,
+      "price": 2755,
+      "currencyCode": "RUB",
+      "planPrice": 1147,
+      "discount": 51,
+      "planDiscount": 59,
+      "mapped_offer_id": "0am325025q"
+     },
+     {
+      "id": 670869838,
+      "inAction": false,
+      "price": 2525,
+      "currencyCode": "RUB",
+      "planPrice": 1480,
+      "discount": 41,
+      "planDiscount": 42,
+      "mapped_offer_id": "0am325025r"
+     },
+     {
+      "id": 670925505,
+      "inAction": false,
+      "price": 17000,
+      "currencyCode": "RUB",
+      "planPrice": 7480,
+      "discount": 45,
+      "planDiscount": 56,
+      "mapped_offer_id": "0AM325025B"
+     }
+    ],
+    "data_keys": [
+     "nomenclatures"
+    ]
+   }
+  },
+  "details": {
+   "promotions": [
+    {
+     "id": 3276,
+     "name": "Скидки на товары с низкой оборачиваемостью",
+     "description": "Запустили эту акцию специально для товаров с низкой оборачиваемостью, чтобы помочь вам распродать их. Товары-участники получат в ней бустинг до 35% в каталоге и поиске.\nДругие преимущества:\nтовары войдут под баннер акции \"Чёрная пятница\" на главной странице сайта и приложения;\nзаметные красные ценники;\nтаймер обратного отсчёта до конца распродажи;\nяркая цветная плашка для выделения карточек товаров.\nАкция не подключается автоматически — товары нужно добавить вручную. При желании вы сможете отказаться от участия в любой момент.",
+     "advantages": [
+      "Плашка на карточке товара",
+      "Баннер на сайте",
+      "Поднятие в поиске",
+      "Красная цена",
+      "Градусник"
+     ],
+     "startDateTime": "2026-11-19T16:00:00Z",
+     "endDateTime": "2026-12-10T20:59:59Z",
+     "inPromoActionLeftovers": 0,
+     "inPromoActionTotal": 0,
+     "notInPromoActionLeftovers": 3,
+     "notInPromoActionTotal": 3,
+     "participationPercentage": 0,
+     "type": "regular",
+     "ranging": [
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 1,
+       "boost": 35
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "action": {
+   "id": 3225,
+   "name": "Чёрная пятница: максимум заказов (автоматические скидки)",
+   "startDateTime": "2026-11-23T21:00:00Z",
+   "endDateTime": "2026-11-30T20:59:59Z",
+   "type": "auto"
+  },
+  "sections": {
+   "participants": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   },
+   "candidates": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   }
+  },
+  "details": {
+   "promotions": [
+    {
+     "id": 3225,
+     "name": "Чёрная пятница: максимум заказов (автоматические скидки)",
+     "description": "Эта автоакция пройдёт в рамках большой распродажи «Чёрная пятница». Предложите покупателям ещё более привлекательные цены, чтобы привлечь больше внимания к своему ассортименту.\nВсе товары-участники получат гарантированный бустинг 30% в поиске и каталоге. Если в автоакции будет участвовать больше 40% рассчитанного для неё ассортимента, бустинг вырастет до 35%.\nДругие преимущества:\nпуш-уведомления с подборками акционных товаров;\nбаннер на главной странице сайта и приложения;\nяркая цветная плашка для выделения карточек товаров;\nзаметные красные ценники;\nсчётчик остатков товара, чтобы покупатели поспешили с заказом.\nПеред началом автоакции вы можете установить минимальные цены и указать товары, которые не будут участвовать в ней. Скидки в рамках распродажи применятся автоматически, и товары станут участниками автоакции. При желании перед её стартом вы сможете исключить свои товары, а после старта в любое время снять скидку или изменить цену.",
+     "advantages": [
+      "Плашка на карточке товара",
+      "Баннер на сайте",
+      "Поднятие в поиске",
+      "Красная цена",
+      "Градусник"
+     ],
+     "startDateTime": "2026-11-23T21:00:00Z",
+     "endDateTime": "2026-11-30T20:59:59Z",
+     "inPromoActionLeftovers": 30,
+     "inPromoActionTotal": 30,
+     "notInPromoActionLeftovers": 71,
+     "notInPromoActionTotal": 77,
+     "participationPercentage": 30,
+     "type": "auto",
+     "exceptionProductsCount": 0,
+     "ranging": [
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 1,
+       "boost": 30
+      },
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 40,
+       "boost": 35
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "action": {
+   "id": 3188,
+   "name": "Повышаем заказы (автоматические скидки)",
+   "startDateTime": "2026-11-20T21:00:00Z",
+   "endDateTime": "2026-12-15T20:59:59Z",
+   "type": "auto"
+  },
+  "sections": {
+   "participants": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   },
+   "candidates": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   }
+  },
+  "details": {
+   "promotions": [
+    {
+     "id": 3188,
+     "name": "Повышаем заказы (автоматические скидки)",
+     "description": "Запустили эту автоакцию на стыке двух больших распродаж, чтобы вы могли привлечь больше покупателей в предновогодний период. Товары-участники получат бустинг до 35% в поиске и каталоге.\nДругие преимущества:\nпуш-уведомления с подборками акционных товаров;\nотдельный баннер на главной странице с товарами из автоакции;\nяркая цветная плашка для выделения карточек товаров;\nзаметные красные ценники;\nсчётчик остатков товара, чтобы покупатели поспешили с заказом.\nПеред началом автоакции вы можете установить минимальные цены и указать товары, которые не будут участвовать в ней. Скидки в рамках распродажи применятся автоматически, и товары станут участниками автоакции. При желании перед её стартом вы сможете исключить свои товары, а после старта в любое время снять скидку или изменить цену.\n",
+     "advantages": [
+      "Плашка на карточке товара",
+      "Баннер на сайте",
+      "Поднятие в поиске",
+      "Красная цена",
+      "Градусник"
+     ],
+     "startDateTime": "2026-11-20T21:00:00Z",
+     "endDateTime": "2026-12-15T20:59:59Z",
+     "inPromoActionLeftovers": 23,
+     "inPromoActionTotal": 23,
+     "notInPromoActionLeftovers": 78,
+     "notInPromoActionTotal": 84,
+     "participationPercentage": 23,
+     "type": "auto",
+     "exceptionProductsCount": 0,
+     "ranging": [
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 1,
+       "boost": 30
+      },
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 50,
+       "boost": 35
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "action": {
+   "id": 3178,
+   "name": "Чёрная пятница: хиты (автоматические скидки)",
+   "startDateTime": "2026-11-18T21:00:00Z",
+   "endDateTime": "2026-11-30T20:59:59Z",
+   "type": "auto"
+  },
+  "sections": {
+   "participants": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   },
+   "candidates": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   }
+  },
+  "details": {
+   "promotions": [
+    {
+     "id": 3178,
+     "name": "Чёрная пятница: хиты (автоматические скидки)",
+     "description": "Подготовили специальный вариант распродажи «Чёрная пятница», чтобы привлечь больше внимания к вашему ассортименту в период активного спроса. Для автоакции мы отобрали товары, у которых был как минимум 1 заказ за последний месяц. \nВсе товары-участники получат гарантированный бустинг 30%. Если в автоакции участвует больше 60% рассчитанного для неё ассортимента, бустинг вырастет до 35%. А мы напомним покупателям о скидках в пуш-уведомлениях со ссылкой на подборку хитов.\nДругие преимущества:\nотдельный баннер на главной странице,\nзаметные красные ценники,\nяркая цветная плашка для выделения карточек товаров,\nсчётчик остатков товара.\nПеред началом автоакции вы можете установить минимальные цены и указать товары, которые не будут участвовать в ней. Скидки в рамках распродажи применятся автоматически, и товары станут участниками автоакции. При желании перед её стартом вы сможете исключить свои товары, а после старта в любое время снять скидку или изменить цену.",
+     "advantages": [
+      "Плашка на карточке товара",
+      "Баннер на сайте",
+      "Поднятие в поиске",
+      "Красная цена",
+      "Градусник"
+     ],
+     "startDateTime": "2026-11-18T21:00:00Z",
+     "endDateTime": "2026-11-30T20:59:59Z",
+     "inPromoActionLeftovers": 15,
+     "inPromoActionTotal": 15,
+     "notInPromoActionLeftovers": 78,
+     "notInPromoActionTotal": 84,
+     "participationPercentage": 16,
+     "type": "auto",
+     "exceptionProductsCount": 0,
+     "ranging": [
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 1,
+       "boost": 30
+      },
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 60,
+       "boost": 35
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "action": {
+   "id": 3172,
+   "name": "Чёрная пятница: распродажа товаров с низкой оборачиваемостью (автоматические скидки)",
+   "startDateTime": "2026-11-18T21:00:00Z",
+   "endDateTime": "2026-11-30T20:59:59Z",
+   "type": "auto"
+  },
+  "sections": {
+   "participants": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   },
+   "candidates": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   }
+  },
+  "details": {
+   "promotions": [
+    {
+     "id": 3172,
+     "name": "Чёрная пятница: распродажа товаров с низкой оборачиваемостью (автоматические скидки)",
+     "description": "Подготовили специальную автоакцию, чтобы помочь вашим товарам лучше продаваться в преддверии зимнего сезона.\nДля участия мы выбрали товары с оборачиваемостью больше 180 дней, которые:\nбыли у вас в остатках не меньше 30 дней в течение последних 60 дней перед 1 ноября,\n\nне относятся к сезонным в период с ноября по январь.\nВсе товары-участники получат бустинг до 35% в каталоге и поиске. Также добавим на карточки таймер обратного отсчёта до конца автоакции.\nДругие преимущества:\nотдельный баннер на главной странице сайта и приложения;\n\nзаметные красные ценники;\n\nяркая цветная плашка для выделения карточек товаров;\n\nсчётчик остатков товара.\nПеред началом автоакции вы можете установить минимальные цены и указать товары, которые не будут участвовать в ней. Скидки в рамках распродажи применятся автоматически, и товары станут участниками автоакции. При желании перед её стартом вы сможете исключить свои товары, а после старта в любое время снять скидку или изменить цену.",
+     "advantages": [
+      "Плашка на карточке товара",
+      "Баннер на сайте",
+      "Поднятие в поиске",
+      "Красная цена",
+      "Градусник"
+     ],
+     "startDateTime": "2026-11-18T21:00:00Z",
+     "endDateTime": "2026-11-30T20:59:59Z",
+     "inPromoActionLeftovers": 2,
+     "inPromoActionTotal": 2,
+     "notInPromoActionLeftovers": 1,
+     "notInPromoActionTotal": 1,
+     "participationPercentage": 67,
+     "type": "auto",
+     "exceptionProductsCount": 0,
+     "ranging": [
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 1,
+       "boost": 30
+      },
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 60,
+       "boost": 35
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "action": {
+   "id": 3158,
+   "name": "Чёрная пятница: выгодные предложения (автоматические скидки)",
+   "startDateTime": "2026-11-15T21:00:00Z",
+   "endDateTime": "2026-11-22T20:59:59Z",
+   "type": "auto"
+  },
+  "sections": {
+   "participants": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   },
+   "candidates": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   }
+  },
+  "details": {
+   "promotions": []
+  }
+ },
+ {
+  "action": {
+   "id": 3148,
+   "name": "Чёрная пятница (автоакция)",
+   "startDateTime": "2026-11-12T21:00:00Z",
+   "endDateTime": "2026-11-30T20:59:59Z",
+   "type": "auto"
+  },
+  "sections": {
+   "participants": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   },
+   "candidates": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   }
+  },
+  "details": {
+   "promotions": [
+    {
+     "id": 3148,
+     "name": "Чёрная пятница (автоакция)",
+     "description": "Спешите поучаствовать в нашей традиционной большой автоакции «Чёрная пятница». Это время наибольшего покупательского спроса.\nПродавцы, товары которых участвуют в «Чёрной пятнице», обычно получают гораздо больше заказов в сравнении с конкурентами.\nВсе товары-участники получат гарантированный бустинг 25% в каталоге и поиске. Если в автоакции будет участвовать больше 50% рассчитанного для неё ассортимента, бустинг вырастет до 30%, а если больше 80% — до 35%. Это позволит увеличить охват и повысить интерес к вашим предложениям. Мы также отправим покупателям пуш-уведомления с подборкой акционных товаров.\nДополнительные преимущества: · баннер на главной странице сайта и приложения; \n· яркая цветная плашка для выделения карточек товаров; \n· заметные красные ценники; \n· счётчик остатков товара, чтобы покупатели поспешили с заказом.",
+     "advantages": [
+      "Плашка на карточке товара",
+      "Баннер на сайте",
+      "Поднятие в поиске",
+      "Красная цена",
+      "Градусник"
+     ],
+     "startDateTime": "2026-11-12T21:00:00Z",
+     "endDateTime": "2026-11-30T20:59:59Z",
+     "inPromoActionLeftovers": 22,
+     "inPromoActionTotal": 24,
+     "notInPromoActionLeftovers": 74,
+     "notInPromoActionTotal": 78,
+     "participationPercentage": 23,
+     "type": "auto",
+     "exceptionProductsCount": 102,
+     "ranging": [
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 1,
+       "boost": 25
+      },
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 50,
+       "boost": 30
+      },
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 80,
+       "boost": 35
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "action": {
+   "id": 3053,
+   "name": "Осенние скидки (автоматические скидки)",
+   "startDateTime": "2026-10-26T21:00:00Z",
+   "endDateTime": "2026-11-20T20:59:59Z",
+   "type": "auto"
+  },
+  "sections": {
+   "participants": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   },
+   "candidates": {
+    "status": "error",
+    "error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+   }
+  },
+  "details": {
+   "promotions": []
+  }
+ },
+ {
+  "action": {
+   "id": 2766,
+   "name": "Новинки",
+   "startDateTime": "2026-08-01T07:00:00Z",
+   "endDateTime": "2026-12-31T20:59:59Z",
+   "type": "regular"
+  },
+  "sections": {
+   "participants": {
+    "status": "ok",
+    "rows": [],
+    "data_keys": [
+     "nomenclatures"
+    ]
+   },
+   "candidates": {
+    "status": "ok",
+    "rows": [
+     {
+      "id": 2338475459,
+      "inAction": false,
+      "price": 1980,
+      "currencyCode": "RUB",
+      "planPrice": 1940,
+      "discount": 0,
+      "planDiscount": 2,
+      "mapped_offer_id": "dq500-korpus-gladkiy"
+     },
+     {
+      "id": 2338952761,
+      "inAction": false,
+      "price": 19880,
+      "currencyCode": "RUB",
+      "planPrice": 19482,
+      "discount": 0,
+      "planDiscount": 2,
+      "mapped_offer_id": "6t30-solenoids-gen2"
+     },
+     {
+      "id": 2338952880,
+      "inAction": false,
+      "price": 58850,
+      "currencyCode": "RUB",
+      "planPrice": 57673,
+      "discount": 0,
+      "planDiscount": 2,
+      "mapped_offer_id": "6t30-tcm-gen1"
+     },
+     {
+      "id": 2338953074,
+      "inAction": false,
+      "price": 58850,
+      "currencyCode": "RUB",
+      "planPrice": 57673,
+      "discount": 0,
+      "planDiscount": 2,
+      "mapped_offer_id": "6t30-tcm-gen2"
+     },
+     {
+      "id": 2339234903,
+      "inAction": false,
+      "price": 7850,
+      "currencyCode": "RUB",
+      "planPrice": 7693,
+      "discount": 0,
+      "planDiscount": 2,
+      "mapped_offer_id": "EA888gen3-filter-kit"
+     },
+     {
+      "id": 2340040049,
+      "inAction": false,
+      "price": 38800,
+      "currencyCode": "RUB",
+      "planPrice": 38024,
+      "discount": 0,
+      "planDiscount": 2,
+      "mapped_offer_id": "tool-dq200-acc-restore"
+     },
+     {
+      "id": 2340040122,
+      "inAction": false,
+      "price": 28800,
+      "currencyCode": "RUB",
+      "planPrice": 28224,
+      "discount": 0,
+      "planDiscount": 2,
+      "mapped_offer_id": "tool-dsg-pressure-hp"
+     }
+    ],
+    "data_keys": [
+     "nomenclatures"
+    ]
+   }
+  },
+  "details": {
+   "promotions": [
+    {
+     "id": 2766,
+     "name": "Новинки",
+     "description": "Подготовили эту акцию для новинок — участвовать могут товары, которые вы добавили на Wildberries в последние 10 дней. В распродаже всегда остаются только самые свежие позиции: как только карточка превышает 10-дневный лимит, она автоматически исключается из акции.\nТовары-участники получат бустинг до 35% и поднимутся выше в поиске и каталоге. Также дополнительно поддержим ваши товары: подсветим в подборке под баннером распродажи, выделим красными ценниками и специальной плашкой. Кроме того, расскажем покупателям о выгодных предложениях в пуш-уведомлениях.\nАкция не подключается автоматически — товары нужно добавить вручную. При желании вы сможете отказаться от участия в любой момент.",
+     "advantages": [
+      "Плашка на карточке товара",
+      "Баннер на сайте",
+      "Поднятие в поиске",
+      "Красная цена",
+      "Градусник"
+     ],
+     "startDateTime": "2026-08-01T07:00:00Z",
+     "endDateTime": "2026-12-31T20:59:59Z",
+     "inPromoActionLeftovers": 0,
+     "inPromoActionTotal": 0,
+     "notInPromoActionLeftovers": 7,
+     "notInPromoActionTotal": 7,
+     "participationPercentage": 0,
+     "type": "regular",
+     "ranging": [
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 1,
+       "boost": 30
+      },
+      {
+       "condition": "productsInPromotion",
+       "participationRate": 45,
+       "boost": 35
+      }
+     ]
+    }
+   ]
+  }
+ }
+]
