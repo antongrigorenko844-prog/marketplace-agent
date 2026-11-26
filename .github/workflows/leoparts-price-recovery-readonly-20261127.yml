@@ -1,0 +1,67 @@
+name: LEOPARTS price recovery read only 20261127
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/leoparts-price-recovery-readonly-20261127.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: leoparts-price-recovery-readonly
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Refresh read-only audit into isolated folder, preserve baseline
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          PYTHONPATH: .
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          s=Path("scripts/leoparts_promotion_audit_20261127.py").read_text()
+          s=s.replace('OUT=Path("data/promotion_audit_20261127")','OUT=Path("data/price_recovery_20261127")')
+          s=s.replace('"current","min","max_boost","price_min_elastic"','"current","min","current_boost","min_boost","max_boost","price_min_elastic"')
+          exec(compile(s,"isolated_readonly_audit","exec"),{"__name__":"__main__"})
+          PY
+      - name: Collect actual saved seller-price history for both platforms
+        run: |
+          python - <<'PY'
+          import subprocess,json
+          from pathlib import Path
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          out=Path("data/price_recovery_20261127")
+          records={}
+          for channel,path in [("ozon","data/ozon_products.json"),("wb","data/wb_cards.json")]:
+              history=[]
+              lines=subprocess.check_output(["git","log","--format=%H %aI","--since=2026-11-15T00:00:00Z","--",path],text=True).splitlines()
+              for line in reversed(lines):
+                  sha,t=line.split(" ",1)
+                  j=json.loads(subprocess.check_output(["git","show",sha+":"+path]))
+                  if channel=="ozon":
+                      rows=[{"sku":p.get("offer_id"),"product_id":p.get("product_id"),"price":(p.get("price") or {}).get("price"),"min_price":(p.get("price") or {}).get("min_price")} for p in j.get("details",[])]
+                  else:
+                      rows=[{"sku":p.get("vendorCode"),"nmID":p.get("nmID"),"prices":[{"sizeID":q.get("sizeID"),"price":q.get("price"),"discountedPrice":q.get("discountedPrice")} for q in p.get("sizes",[])]} for p in j.get("prices",[])]
+                  history.append({"commit":sha,"time":t,"rows":rows})
+              records[channel]=history
+          (out/"seller_price_history.json").write_text(json.dumps(records,ensure_ascii=False,separators=(",",":")))
+          print({k:len(v) for k,v in records.items()})
+          PY
+      - name: Save only isolated reports
+        if: always()
+        run: |
+          test -f data/price_recovery_20261127/registry.json
+          bash .github/scripts/save_data.sh data/price_recovery_20261127/
