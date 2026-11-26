@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 import sqlite3
 from tempfile import TemporaryDirectory
@@ -44,7 +45,7 @@ class FakeAvito:
 
 class StockPolicyTest(unittest.TestCase):
     def setUp(self):
-        tmp = TemporaryDirectory()
+        tmp = TemporaryDirectory(dir=os.environ.get('RUNNER_TEMP') or None)
         self.addCleanup(tmp.cleanup)
         root = Path(tmp.name)
         self.data = root/"data"
