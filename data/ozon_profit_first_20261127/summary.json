@@ -1,0 +1,358 @@
+{
+  "schema_version": 1,
+  "mode": "READ_ONLY",
+  "generated_at": "2026-11-26T18:25:44.682372+00:00",
+  "source_mode": "LIVE_READ_ONLY",
+  "snapshot_at": "2026-11-26T18:25:23.698696+00:00",
+  "count": 147,
+  "groups": {
+    "A": 9,
+    "B": 29,
+    "C": 77,
+    "D": 1,
+    "E": 0,
+    "F": 7,
+    "G": 24
+  },
+  "labels": {
+    "A": "Повышение цены с сохранением или подключением акции — проверить",
+    "B": "Новая акция при текущей цене — проверить условия",
+    "C": "Ближайший акционный порог со скидкой — отдельный тест",
+    "D": "Альтернатива невыгодному максимальному бустингу",
+    "E": "Восстановление экономики: известные расходы поглощают выручку",
+    "F": "Сохранить текущую стратегию",
+    "G": "Недостаточно данных для расчёта цены"
+  },
+  "marketplace_writes": 0,
+  "approved_prices": 0,
+  "metric_legend": {
+    "required_unit_growth_pct": "(current partial contribution / candidate partial contribution - 1) * 100, only if both positive. A negative value is tolerable unit decline; it is not forecast demand.",
+    "contribution_rub": "Partial contribution under supplied procurement, tariffs, observed-service and tax assumptions; unknown costs remain explicitly unverified."
+  },
+  "financial": {
+    "known_procurement": 121,
+    "current_subtotals_available": 116,
+    "historical_unit_contribution_available": 53,
+    "current_services_estimated": 53,
+    "verified_full_profit": 0
+  },
+  "opportunities": {
+    "preservation_raise": 9,
+    "same_price_new_action_skus": 38,
+    "active_same_price_new_action_skus": 1,
+    "future_same_price_new_action_skus": 37,
+    "closest_discount_positive_partial": 108,
+    "max_boost_nonpositive_partial": 2
+  },
+  "flags": {
+    "BOM_COST_DIFFERS_FROM_MASTER": 32,
+    "COMPETITOR_INDEX_IS_NOT_INDEPENDENT_MARKET_REVIEW": 147,
+    "CONSERVATIVE_REFERENCE_ABOVE_MASTER": 22,
+    "CURRENT_REGISTRY_COST_NOT_HISTORICAL_LANDED_COST": 67,
+    "ELASTIC_STRENGTH_DOES_NOT_SUPPORT_PRICE_RAISE": 21,
+    "FULL_PROFIT_NOT_VERIFIED": 147,
+    "HISTORICAL_ACQUIRING_CREDIT_NOT_PROJECTED": 1,
+    "HISTORICAL_COST_USES_CONSERVATIVE_REFERENCE": 22,
+    "HISTORICAL_SERVICE_TERMS_ASSUMED_UNCHANGED": 53,
+    "LIVE_COLLECTION_PARTIAL_OR_CATALOG_CHANGED": 147,
+    "LOW_OBSERVATION_COUNT": 25,
+    "MISSING_OR_INCOMPLETE_FINANCE": 79,
+    "MISSING_PROCUREMENT_COST": 26,
+    "NON_POSITIVE_REVENUE": 6,
+    "NO_CONFIRMED_STOCK_SCHEME": 9,
+    "NO_SALES": 6,
+    "NO_STOCK_IN_SNAPSHOT_FLAGS": 16,
+    "OLDER_NOTE_CONFLICTS_WITH_CURRENT_CHANNEL_FLAG": 7,
+    "OWNER_FINANCIAL_RULES_NOT_APPROVED": 147,
+    "OWNER_OZON_DISABLED": 5,
+    "OWNER_SALES_HOLD_NOTE_REQUIRES_REVIEW": 1,
+    "PARTIAL_FINANCE_PERIOD": 147,
+    "PROCUREMENT_REFERENCE_DIFFERS_FROM_MASTER": 22,
+    "PROTECTION_ACTIVE_STATE_NOT_CONFIRMED": 92,
+    "RETURNS_FROM_PRIOR_COHORT_OR_PERIOD": 1,
+    "RETURNS_REQUIRE_POSTING_AND_INVENTORY_RECONCILIATION": 9,
+    "SERVICE_COSTS_UNESTIMATED": 51,
+    "SERVICE_COSTS_UNESTIMATED_RETURN_OR_NO_SALE_HISTORY": 12,
+    "SOURCE_SECTION_FINANCE_INCOMPLETE": 147,
+    "SUSPECT_ALL_ZERO_TARIFFS_UNVERIFIED": 5,
+    "TEST_ITEM_NOT_COMMERCIAL": 1
+  },
+  "owner_hold_count": 7,
+  "promotion_coverage_complete": true,
+  "source_warnings": [],
+  "metadata_skus_outside_price_scope": [
+    "02E305045E",
+    "0AM325091E / 0AM325091F",
+    "0AM927769D-plata",
+    "0BH325183B",
+    "0BH325183BB",
+    "0am3250066AE",
+    "0am325025HC",
+    "0am325025ze",
+    "0cw0am",
+    "31705-1XF1A",
+    "TESTWB001",
+    "nakladki-pedali"
+  ],
+  "finance_period": {
+    "collection_complete": false,
+    "from": "2026-10-27",
+    "to": "2026-11-25",
+    "window": {
+      "timezone": "UTC",
+      "complete_calendar_dates": 30,
+      "from": "2026-10-27",
+      "to": "2026-11-25",
+      "includes_partial_current_day": false
+    },
+    "coverage": {
+      "expected_dates": 30,
+      "collected_dates": 30,
+      "failed_dates": [],
+      "unmatched_marketplace_skus": [
+        "sku:3237042002"
+      ],
+      "mapping": {
+        "sku_count": 152,
+        "conflicting_marketplace_skus": [],
+        "unmapped_offer_ids": [
+          "0BH325",
+          "plita-filtr",
+          "plita-filtr-pylniki-sal-orig",
+          "remkomplekt-shtokov-orig",
+          "remkomplekt-shtokov-orig-v2",
+          "solenoid-02e-0b5-bolshoy"
+        ]
+      }
+    },
+    "daily_coverage": [
+      {
+        "date": "2026-10-27",
+        "status": "ok",
+        "count": 54,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-10-28",
+        "status": "ok",
+        "count": 30,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-10-29",
+        "status": "ok",
+        "count": 52,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-10-30",
+        "status": "ok",
+        "count": 56,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-10-31",
+        "status": "ok",
+        "count": 46,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-01",
+        "status": "ok",
+        "count": 58,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-02",
+        "status": "ok",
+        "count": 92,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-03",
+        "status": "ok",
+        "count": 40,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-04",
+        "status": "ok",
+        "count": 36,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-05",
+        "status": "ok",
+        "count": 53,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-06",
+        "status": "ok",
+        "count": 43,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-07",
+        "status": "ok",
+        "count": 43,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-08",
+        "status": "ok",
+        "count": 48,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-09",
+        "status": "ok",
+        "count": 75,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-10",
+        "status": "ok",
+        "count": 57,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-11",
+        "status": "ok",
+        "count": 58,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-12",
+        "status": "ok",
+        "count": 22,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-13",
+        "status": "ok",
+        "count": 63,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-14",
+        "status": "ok",
+        "count": 71,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-15",
+        "status": "ok",
+        "count": 56,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-16",
+        "status": "ok",
+        "count": 42,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-17",
+        "status": "ok",
+        "count": 28,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-18",
+        "status": "ok",
+        "count": 77,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-19",
+        "status": "ok",
+        "count": 18,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-20",
+        "status": "ok",
+        "count": 45,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-21",
+        "status": "ok",
+        "count": 38,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-22",
+        "status": "ok",
+        "count": 43,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-23",
+        "status": "ok",
+        "count": 29,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-24",
+        "status": "ok",
+        "count": 74,
+        "pages": 1,
+        "errors": []
+      },
+      {
+        "date": "2026-11-25",
+        "status": "ok",
+        "count": 63,
+        "pages": 1,
+        "errors": []
+      }
+    ],
+    "source_status": "partial",
+    "interpretation": "Observed accruals only; unavailable dates are not zero-sales dates."
+  },
+  "unassigned_marketplace_fees": {
+    "Превышение индекса ошибок": -17260.78,
+    "Гибкий график выплат": -39608.02,
+    "Размещение товаров на складах Ozon": -85.28,
+    "Дополнительная упаковка на складе Ozon": -45.0,
+    "Ускоренный сбор отзывов": -2440.0,
+    "Отгрузка в нерекомендованный слот": -181.58
+  },
+  "limitations": [
+    "Every amount is partial contribution, not verified net profit.",
+    "No universal percentage reserve, packaging charge or minimum profit is invented.",
+    "Action-specific fees and simultaneous promotion effects require verification.",
+    "Price indexes are observations, not independent competitor research.",
+    "No sales-volume uplift is forecast and no price is approved."
+  ]
+}

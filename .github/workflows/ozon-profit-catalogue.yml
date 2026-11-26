@@ -1,0 +1,130 @@
+name: Ozon all-catalogue profit review (read only)
+on:
+  push:
+    branches: [main, feat/ozon-catalogue-20261127]
+    paths:
+      - 'ozon_profit_economics.py'
+      - 'ozon_profit_catalog.py'
+      - 'scripts/ozon_profit_snapshot.py'
+      - 'tests/test_ozon_profit_economics.py'
+      - 'tests/test_ozon_profit_catalog.py'
+      - 'tests/test_ozon_profit_snapshot.py'
+      - '.github/workflows/ozon-profit-catalogue.yml'
+  pull_request:
+    paths:
+      - 'ozon_profit_economics.py'
+      - 'ozon_profit_catalog.py'
+      - 'scripts/ozon_profit_snapshot.py'
+      - 'tests/test_ozon_profit_*.py'
+      - '.github/workflows/ozon-profit-catalogue.yml'
+  schedule:
+    - cron: '17 */4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: ozon-profit-review-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Verify financial arithmetic, exact identities and read-only transport
+        run: |
+          python -m py_compile ozon_profit_economics.py ozon_profit_catalog.py scripts/ozon_profit_snapshot.py
+          python -m unittest discover -s tests -p 'test_ozon_profit_economics.py' -v
+          python -m unittest discover -s tests -p 'test_ozon_profit_catalog.py' -v
+          python -m unittest discover -s tests -p 'test_ozon_profit_snapshot.py' -v
+  snapshot:
+    needs: tests
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Prepare isolated paths for this run
+        run: |
+          snapshot_run="$RUNNER_TEMP/ozon-profit-review-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          test ! -e "$snapshot_run"
+          mkdir -p "$snapshot_run"
+          echo "OZON_PROFIT_RUN=$snapshot_run" >> "$GITHUB_ENV"
+          echo "OZON_PROFIT_LIVE=$snapshot_run/live" >> "$GITHUB_ENV"
+          echo "OZON_PROFIT_REPORT=$snapshot_run/report" >> "$GITHUB_ENV"
+      - name: Read Ozon catalogue, tariffs, promotions, protection and complete-day finance
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          PYTHONPATH: .
+        run: |
+          collector_status=0
+          python -u scripts/ozon_profit_snapshot.py --output "$OZON_PROFIT_LIVE" || collector_status=$?
+          case "$collector_status" in
+            0|2) ;;
+            *) echo "::error::Ozon collector failed before a completed diagnostic snapshot"; exit 1 ;;
+          esac
+          COLLECTOR_STATUS="$collector_status" python - <<'PY'
+          import json
+          import os
+          from datetime import datetime
+          from pathlib import Path
+
+          path = Path(os.environ["OZON_PROFIT_LIVE"]) / "manifest.json"
+          try:
+              manifest = json.loads(path.read_text(encoding="utf-8"))
+              code = int(os.environ["COLLECTOR_STATUS"])
+              allowed = {0: {"complete_read_only"},
+                         2: {"partial", "catalog_changed_review_required"}}
+              assert manifest.get("mode") == "READ_ONLY"
+              assert manifest.get("seller_writes") == 0
+              assert manifest.get("status") in allowed[code]
+              started = datetime.fromisoformat(manifest["started_at"])
+              completed = datetime.fromisoformat(manifest["completed_at"])
+              assert started.tzinfo is not None and completed.tzinfo is not None
+              assert completed >= started
+              sections = manifest["sections"]
+              assert isinstance(sections, dict) and {"products", "prices"}.issubset(sections)
+          except (OSError, ValueError, TypeError, KeyError, AssertionError):
+              raise SystemExit("Collector exit code has no matching completed read-only manifest")
+          print("Collector diagnostic status:", manifest["status"])
+          # The planner independently fails closed on incomplete products/prices.
+          # Missing finance or an unknown timer schema remain explicit report flags.
+          PY
+      - name: Classify every active SKU and compare three price scenarios
+        env:
+          PYTHONPATH: .
+        run: |
+          python ozon_profit_catalog.py --baseline data/price_recovery_20261127 --live-source "$OZON_PROFIT_LIVE" --finance-support data/ozon_profit_first_20261127/finance_support.json --output "$OZON_PROFIT_REPORT"
+      - name: Preserve read-only evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ozon-profit-review-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/ozon-profit-review-${{ github.run_id }}-${{ github.run_attempt }}/
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Save only the isolated catalogue reports
+        run: |
+          test -s "$OZON_PROFIT_REPORT/catalogue.json"
+          test -s "$OZON_PROFIT_LIVE/manifest.json"
+          mkdir -p data/ozon_profit_first_20261127/live
+          cp -a "$OZON_PROFIT_REPORT/." data/ozon_profit_first_20261127/
+          cp -a "$OZON_PROFIT_LIVE/." data/ozon_profit_first_20261127/live/
+          bash .github/scripts/save_data.sh data/ozon_profit_first_20261127/
