@@ -1,0 +1,78 @@
+name: LEOPARTS send exact video 06 to designer now
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/designer-video-send-06-20261126.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent-designer-video
+  cancel-in-progress: false
+jobs:
+  send-exact:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Confirm next video is exactly 06 and reserve once
+        id: reserve
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          from designer_video import QUEUE, STATE, confirmed, deliver
+          expected = 'photos/0AM325219C/0AM325219C_video.mp4'
+          q = json.loads(QUEUE.read_text())
+          state = json.loads(STATE.read_text())
+          assert len(q) == 9 and q[5]['file'] == expected
+          if confirmed(state.get(expected)):
+              print('Exact video 06 already sent; no other video will be sent.')
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as f: f.write('send=false\n')
+          else:
+              assert expected not in state, 'Existing uncertain delivery requires reconciliation; no repeat.'
+              assert next(x['file'] for x in q if not confirmed(state.get(x['file']))) == expected
+              result = deliver('prepare', os.environ['GITHUB_RUN_ID']+':'+os.environ['GITHUB_RUN_ATTEMPT'], Path('.'))
+              assert result == 'reserved', result
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as f: f.write('send=true\n')
+          PY
+          if grep -qx 'send=true' "$GITHUB_OUTPUT"; then
+            bash .github/scripts/save_data.sh data/designer_video_sent.json
+          fi
+      - name: Check persisted reservation and send exact video with original publication text
+        id: delivery
+        if: steps.reserve.outputs.send == 'true'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: |
+          git fetch -q origin main
+          git show FETCH_HEAD:data/designer_video_sent.json > "$RUNNER_TEMP/video-ledger.json"
+          cmp data/designer_video_sent.json "$RUNNER_TEMP/video-ledger.json"
+          git diff --quiet HEAD FETCH_HEAD -- data/designer_chat.json data/designer_video_queue.json data/designer_video_copy.json designer_video.py video_copy.py
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          from designer_video import QUEUE, STATE, confirmed, deliver
+          key = 'photos/0AM325219C/0AM325219C_video.mp4'
+          state = json.loads(STATE.read_text())
+          queue = json.loads(QUEUE.read_text())
+          operation = os.environ['GITHUB_RUN_ID']+':'+os.environ['GITHUB_RUN_ATTEMPT']
+          assert state[key]['status'] == 'reserved' and state[key]['operation'] == operation
+          assert next(x['file'] for x in queue if not confirmed(state.get(x['file']))) == key
+          result = deliver('send', operation, Path('.'))
+          assert result == 'sent', result
+          print('Telegram confirmed video, publication.txt and visible publication text.')
+          PY
+      - name: Preserve Telegram receipt
+        if: always() && steps.delivery.outcome != 'skipped'
+        run: bash .github/scripts/save_data.sh data/designer_video_sent.json
