@@ -1,0 +1,54 @@
+name: Ozon approved promotion evidence (read only)
+on:
+  push:
+    branches: [feat/ozon-promo-execution-20261127]
+    paths:
+      - 'scripts/ozon_promo_api_evidence.py'
+      - '.github/workflows/ozon-promo-evidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: ozon-promo-evidence-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Read public official API contracts
+        run: python scripts/ozon_promo_api_evidence.py --output data/ozon_promo_execution_20261127/evidence
+      - name: Read fresh catalogue, prices, promotion eligibility and protection
+        if: always()
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          PYTHONPATH: .
+        run: |
+          collector_status=0
+          python -u scripts/ozon_profit_snapshot.py --output data/ozon_promo_execution_20261127/evidence/live || collector_status=$?
+          case "$collector_status" in
+            0|2) ;;
+            *) exit "$collector_status" ;;
+          esac
+      - name: Save isolated read-only evidence
+        if: always()
+        run: bash .github/scripts/save_data.sh data/ozon_promo_execution_20261127/evidence/
+      - name: Preserve evidence artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ozon-promo-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: data/ozon_promo_execution_20261127/evidence/
+          retention-days: 30

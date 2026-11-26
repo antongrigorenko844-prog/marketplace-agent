@@ -42,18 +42,39 @@ def _headers() -> Dict[str, str]:
 def _post(path: str, payload: dict, retries: int = 3) -> dict:
     from content_manifest import check_ozon_description_write
     check_ozon_description_write(path,payload)
+    from ozon_control_guard import prepare_request
+    controlled = prepare_request(path, payload, read_prices=get_prices_and_stocks)
+    if controlled.payload is None:
+        return controlled.finish({})
+    payload = controlled.payload
+    if controlled.permitted:
+        # A recorded intent permits one transport attempt. An uncertain result
+        # must be reconciled by a fresh read before a new intent/permit is made.
+        if config.ozon_api_base.rstrip("/") != "https://api-seller.ozon.ru":
+            raise OzonApiError("Ozon controlled write: unapproved API host")
+        retries = 1
     url = f"{config.ozon_api_base}{path}"
     last_error: Optional[Exception] = None
     for attempt in range(1, retries + 1):
         try:
             resp = requests.post(
-                url, json=payload, headers=_headers(), timeout=config.request_timeout_seconds
+                url, json=payload, headers=_headers(), timeout=config.request_timeout_seconds,
+                **({"allow_redirects": False} if controlled.permitted else {}),
             )
         except requests.RequestException as exc:
+            if controlled.permitted:
+                raise OzonApiError(
+                    f"Ozon controlled write {path}: transport failure; readback required"
+                ) from None
             last_error = exc
             logger.warning("Ozon %s: сетевая ошибка (попытка %d/%d): %s", path, attempt, retries, exc)
             time.sleep(2 * attempt)
             continue
+
+        if controlled.permitted and not 200 <= resp.status_code < 300:
+            raise OzonApiError(
+                f"Ozon controlled write {path}: HTTP {resp.status_code}; readback required"
+            )
 
         if resp.status_code == 429:
             # Ожидание растёт (по умолчанию 6/12/24/48 с, но не меньше Retry-After от Ozon) —
@@ -71,8 +92,12 @@ def _post(path: str, payload: dict, retries: int = 3) -> dict:
             raise OzonApiError(f"Ozon {path} вернул {resp.status_code}: {resp.text[:500]}")
 
         try:
-            return resp.json()
+            return controlled.finish(resp.json())
         except ValueError:
+            if controlled.permitted:
+                raise OzonApiError(
+                    f"Ozon controlled write {path}: invalid response JSON; readback required"
+                ) from None
             return {}
 
     raise OzonApiError(f"Ozon {path}: не удалось получить ответ после {retries} попыток: {last_error}")
@@ -641,3 +666,4 @@ def test_connection() -> bool:
     except OzonApiError as exc:
         logger.error("Ozon: проверка соединения не удалась: %s", exc)
         return False
+
