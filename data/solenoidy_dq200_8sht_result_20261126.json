@@ -1,6 +1,34 @@
 {
   "ad_spend_writes": 0,
   "channels": {
+    "ozon": {
+      "description_category_id": 17028756,
+      "price": 23800,
+      "required_fields": [
+        {
+          "id": 7236,
+          "name": "Партномер (артикул производителя)"
+        },
+        {
+          "id": 23536,
+          "name": "Нужен код маркировки"
+        },
+        {
+          "id": 22232,
+          "name": "ТН ВЭД коды ЕАЭС"
+        },
+        {
+          "id": 8229,
+          "name": "Тип"
+        },
+        {
+          "id": 85,
+          "name": "Бренд"
+        }
+      ],
+      "status": "draft_ready_required_dimensions_and_attributes_missing",
+      "type_id": 970984897
+    },
     "tilda": {
       "availability_disabled": true,
       "exact_photo_verified": true,
@@ -43,5 +71,5 @@
   },
   "started_utc": "2026-11-26T01:06:34.381580+00:00",
   "stock_confirmed": null,
-  "updated_utc": "2026-11-26T01:07:16.613746+00:00"
+  "updated_utc": "2026-11-26T01:07:20.931924+00:00"
 }
