@@ -1,6 +1,5 @@
 import json
 from pathlib import Path
-import shutil
 import sqlite3
 from tempfile import TemporaryDirectory
 import unittest
@@ -52,9 +51,15 @@ class StockPolicyTest(unittest.TestCase):
         self.data.mkdir()
         self.plan = root/"plan.json"
         sqlite3.connect(self.data/policy.DB).close()
-        shutil.copyfile(Path(policy.__file__).parent/"data"/policy.STATE, self.data/policy.STATE)
         self.api = FakeAvito()
         self.qty = dict(self.api.remote)
+        # The production watermark is mutable operational data. Unit tests
+        # must start with the exact deterministic baseline used by FakeAvito.
+        policy.write_json(self.data/policy.STATE, {
+            "version": 1, "baseline_run": "44795205325", "generation": 0,
+            "source_targets": dict(self.qty), "unsent_growth": {},
+            "transition": policy.digest({"fixture": self.qty}),
+        })
         self.write_stock()
         w = Workbook()
         w.active.append(["Kit",None,"Part","Per kit"])
