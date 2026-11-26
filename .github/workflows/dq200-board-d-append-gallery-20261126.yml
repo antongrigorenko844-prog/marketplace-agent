@@ -1,0 +1,50 @@
+name: LEOPARTS append five original separate DQ200 board D gallery photos
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/dq200-board-d-append-gallery-20261126.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  append-gallery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt pillow imageio-ffmpeg
+      - run: python -m py_compile scripts/dq200_board_d_append_gallery_20261126.py
+      - name: Append exact owner-approved photos without replacing cover or commercial fields
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          WB_API_TOKEN: ${{ secrets.WB_API_TOKEN }}
+          YANDEX_MARKET_API_KEY: ${{ secrets.YANDEX_MARKET_API_KEY }}
+          YANDEX_MARKET_BUSINESS_ID: ${{ secrets.YANDEX_MARKET_BUSINESS_ID }}
+          YANDEX_MARKET_CAMPAIGN_ID: ${{ secrets.YANDEX_MARKET_CAMPAIGN_ID }}
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+          TILDA_COMMERCEML_URL: ${{ secrets.TILDA_COMMERCEML_URL }}
+          TILDA_COMMERCEML_USER: ${{ secrets.TILDA_COMMERCEML_USER }}
+          TILDA_COMMERCEML_PASSWORD: ${{ secrets.TILDA_COMMERCEML_PASSWORD }}
+        run: python -u scripts/dq200_board_d_append_gallery_20261126.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dq200-board-d-append-gallery-${{ github.run_id }}
+          path: data/dq200_board_d_append_gallery_20261126_result.json
+          if-no-files-found: warn
+          retention-days: 14
