@@ -6,6 +6,80 @@
   "started_utc": "2026-11-26T13:32:36.106913+00:00",
   "stock_writes": 0,
   "tasks": {
+    "avito": {
+      "active_listings": 157,
+      "listings": {
+        "avito_dq200_new_20261126.xlsx": {
+          "active": true,
+          "feed_id": "leoparts-avito-dq200-cover-20261126-01",
+          "id": 8477970233,
+          "photos": 7,
+          "price": 29500,
+          "public_description_available": false,
+          "public_description_matches": false,
+          "public_gallery_exact": false,
+          "published_gallery_matches": true,
+          "video_present": true
+        },
+        "avito_feed.xlsx": {
+          "active": true,
+          "feed_id": "0am325025H",
+          "id": 8312205273,
+          "photos": 7,
+          "price": 33500,
+          "public_description_available": false,
+          "public_description_matches": false,
+          "public_gallery_exact": false,
+          "published_gallery_matches": true,
+          "video_present": true
+        }
+      },
+      "published_feed_rows": 128,
+      "reports": {
+        "current": {
+          "different_descriptions": [],
+          "different_galleries": [],
+          "exact_description_count": 128,
+          "exact_gallery_count": 128,
+          "files": 2,
+          "received_rows": 128,
+          "status": "processing",
+          "two_listings": {
+            "avito_dq200_new_20261126.xlsx": {
+              "received_description_matches": true,
+              "received_gallery_matches": true
+            },
+            "avito_feed.xlsx": {
+              "received_description_matches": true,
+              "received_gallery_matches": true
+            }
+          },
+          "upload_id": 641402154
+        },
+        "last_successful": {
+          "different_descriptions": [],
+          "different_galleries": [],
+          "exact_description_count": 128,
+          "exact_gallery_count": 128,
+          "files": 2,
+          "received_rows": 128,
+          "status": "success_warning",
+          "two_listings": {
+            "avito_dq200_new_20261126.xlsx": {
+              "received_description_matches": true,
+              "received_gallery_matches": true
+            },
+            "avito_feed.xlsx": {
+              "received_description_matches": true,
+              "received_gallery_matches": true
+            }
+          },
+          "upload_id": 641374737
+        }
+      },
+      "seller_writes": 0,
+      "status": "fresh_readback"
+    },
     "ozon_groups": {
       "canary": {
         "current_model_count": 2,
@@ -687,5 +761,5 @@
       "stock_mutations": 0
     }
   },
-  "updated_utc": "2026-11-26T13:33:05.689448+00:00"
+  "updated_utc": "2026-11-26T13:33:20.172007+00:00"
 }
