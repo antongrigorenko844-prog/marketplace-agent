@@ -21,6 +21,8 @@
     "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito-dq200-20261126-02-968326b7ac.jpeg?v=968326b7ac",
     "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito-dq200-20261126-06-578322477d.png?v=578322477d"
   ],
+  "listing_fields_unchanged": true,
+  "live_gallery_verified": false,
   "main_photo_preserved": true,
   "new_sha256": "e26933762e157c04ae798aa2d07f70da30412629cef1d3eccaa14cf8de663153",
   "old_asset_id": 793671572,
@@ -28,6 +30,7 @@
   "only_image_cell_changed": true,
   "original_files_only": true,
   "originals_verified": 5,
+  "other_feeds_unchanged": true,
   "other_listing_writes": 0,
   "photos_before": 2,
   "photos_in_feed": 7,
@@ -35,10 +38,76 @@
   "price_writes": 0,
   "protected_other_id": 8477970233,
   "public_feed_verified": true,
+  "reports": [
+    {
+      "kind": "current",
+      "listing_matches": [
+        {
+          "avito_id": 8312205273,
+          "avito_status": "active",
+          "messages": [
+            {
+              "code": 3002,
+              "description": "Объявление активировалось",
+              "title": "",
+              "type": "info",
+              "updated_at": "2026-11-12T16:03:21Z"
+            },
+            {
+              "code": 2303,
+              "description": "",
+              "title": "Произведена автоподстановка номера телефона",
+              "type": "warning",
+              "updated_at": "2026-11-24T09:35:47Z"
+            }
+          ],
+          "section": {
+            "slug": "success_published",
+            "title": "Успешно"
+          }
+        }
+      ],
+      "received_gallery_matches": false,
+      "status": "processing",
+      "upload_id": 641293437
+    },
+    {
+      "kind": "last_successful",
+      "listing_matches": [
+        {
+          "avito_id": 8312205273,
+          "avito_status": "active",
+          "messages": [
+            {
+              "code": 2303,
+              "description": "",
+              "title": "Произведена автоподстановка номера телефона",
+              "type": "warning",
+              "updated_at": "2026-11-24T09:35:47Z"
+            },
+            {
+              "code": 3002,
+              "description": "Объявление активировалось",
+              "title": "",
+              "type": "info",
+              "updated_at": "2026-11-12T16:03:21Z"
+            }
+          ],
+          "section": {
+            "slug": "success_published",
+            "title": "Успешно"
+          }
+        }
+      ],
+      "received_gallery_matches": false,
+      "status": "success_warning",
+      "upload_id": 641266578
+    }
+  ],
   "sku": "0am325025H",
   "staged_asset_id": 795078781,
   "status": "feed_updated_pending_avito_processing",
-  "updated_utc": "2026-11-26T09:05:13.113400+00:00",
+  "updated_utc": "2026-11-26T09:05:24.634916+00:00",
   "video_preserved": true,
   "watermarks": false
 }
