@@ -392,6 +392,8 @@ def update_prices(items: List[dict]) -> dict:
     Обновление цен — тоже быстрый метод, отдельный от карточки.
     """
     # ENDPOINT: POST /v1/product/import/prices
+    from ozon_profit_guard import reject_legacy_write
+    reject_legacy_write(items)
     return _post("/v1/product/import/prices", {"prices": items})
 
 

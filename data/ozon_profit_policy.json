@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "approved": false,
+  "approval_reference": null,
+  "managed_skus": [],
+  "mode": "READ_ONLY",
+  "bands": {
+    "small": {
+      "min_rub": 200,
+      "min_pct": 0.1
+    },
+    "medium": {
+      "min_rub": 300,
+      "min_pct": 0.1
+    },
+    "kits": {
+      "min_rub": 500,
+      "min_pct": 0.1
+    },
+    "assemblies": {
+      "min_rub": 1500,
+      "min_pct": 0.12
+    },
+    "mechatronics": {
+      "min_rub": 4000,
+      "min_pct": 0.12
+    }
+  },
+  "note": "Illustrative draft only, not approved. Classify by actual product family and verified cost, not price alone. No writes."
+}
