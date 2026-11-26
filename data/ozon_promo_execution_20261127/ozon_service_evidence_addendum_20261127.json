@@ -1,0 +1,1409 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-11-26T20:58:11.732001+00:00",
+  "mode": "READ_ONLY_ANALYTICAL_ADDENDUM",
+  "marketplace_writes": 0,
+  "scope": {
+    "approved_count": 96,
+    "approved_scope_sha256": "69534872e209b814efe3de0d8c0008555f38d74ba86de286afd1b68743e0db80",
+    "approved_core_sha256": "edd64a145c674fbfa4b28b5a890f6b12a6a8fc09e3fcc34ca824f139bb01d3f3",
+    "unchanged": true,
+    "candidate_in_approved_scope": false,
+    "approval_or_action_ids_changed": false
+  },
+  "sources": {
+    "historical_finance": {
+      "local_path": "/workspace/scratch/326f04d4e18e/marketplace-agent/data/ozon_finance.json",
+      "sha256": "df9fde23a9c04469dff193fd2b80608b68c521d881360fddfe4dd392e4ea8230",
+      "git_blob_sha1_of_local_bytes": "2a8ba9abf4a16de1e551222490adee4d9c15178c",
+      "size_bytes": 82333,
+      "repository_path": "data/ozon_finance.json",
+      "previously_recorded_source_blob": "59403a6684876c71b25c3f519af4d14628eefe56",
+      "recorded_blob_matches_local_bytes": false,
+      "remote_verified_blob_sha": "59403a6684876c71b25c3f519af4d14628eefe56",
+      "remote_repository_ref": "main",
+      "remote_parsed_json_equals_local": true,
+      "verification": "Repository JSON independently fetched and compared structurally against the local historical file. The parsed data are identical; only the byte representation differs.",
+      "verified_at": "2026-11-26T21:01:00Z"
+    },
+    "crisis_daily_finance": {
+      "local_path": "/workspace/scratch/326f04d4e18e/crisis_finance_cached.json",
+      "sha256": "341eee1b1c6a4b61635059ef8a8864fe34cd178ae857052feb160c99bbc88af5",
+      "git_blob_sha1_of_local_bytes": "35bc8207c8971a839829d3cb578048b1a3a7752d",
+      "size_bytes": 279227,
+      "repository_path": "data/crisis_audit_20261124/ozon_finance.json",
+      "previously_recorded_source_blob": "35bc8207c8971a839829d3cb578048b1a3a7752d",
+      "recorded_blob_matches_local_bytes": true
+    },
+    "catalogue": {
+      "local_path": "/workspace/scratch/326f04d4e18e/marketplace-agent/data/ozon_profit_first_20261127/catalogue.json",
+      "sha256": "01cbaf6ad468ce3faeba022f4d069b0f4ca3f642a97ae6814e77cb04eb91f4b3",
+      "git_blob_sha1_of_local_bytes": "0eb00e1428fdb35c87fb4c23ea37edad93504ce1",
+      "size_bytes": 10603083
+    },
+    "current_finance_snapshot": {
+      "local_path": "/workspace/scratch/326f04d4e18e/marketplace-agent/data/ozon_promo_execution_20261127/evidence/live/finance.json",
+      "sha256": "4bfdd34a46c4ff379f780f34d84f93514c4795a8cce23d911104cb32a9d53620",
+      "git_blob_sha1_of_local_bytes": "8079027bde9b231381b71ee1b2028664c94da3f2",
+      "size_bytes": 35065
+    },
+    "service_evidence": {
+      "local_path": "/workspace/scratch/326f04d4e18e/marketplace-agent/data/ozon_promo_execution_20261127/service_evidence.json",
+      "sha256": "540f3f16741a4bbe60f5d061d345cbaee6f2baa954cef0907ffb9b4651b1275e",
+      "git_blob_sha1_of_local_bytes": "00b31a6df06c8f7183e897966e08c95ede6f213f",
+      "size_bytes": 53815
+    },
+    "financial_preflight": {
+      "local_path": "/workspace/scratch/326f04d4e18e/marketplace-agent/data/ozon_promo_execution_20261127/financial_preflight.json",
+      "sha256": "33af82b939d756c2f2789e6a227e6ccc444fad1a3152b1241ec34d7df7306997",
+      "git_blob_sha1_of_local_bytes": "2e5fad488ed50783d6f1fa895f7baf7eddadfcb2",
+      "size_bytes": 163517
+    },
+    "approved_plan": {
+      "local_path": "/workspace/scratch/326f04d4e18e/ozon_execution_verified/marketplace-agent/marketplace-agent/data/ozon_promo_execution_20261127/approved_plan.json",
+      "sha256": "bbf69b0b3b78ee7115b0928cd6353429848661045c78808538ba79203b76d8de",
+      "git_blob_sha1_of_local_bytes": "b509d54c5aa3abb804f87492173c94502259c099",
+      "size_bytes": 1315411
+    },
+    "execution_report": {
+      "local_path": "/workspace/scratch/326f04d4e18e/ozon_execution_verified/marketplace-agent/marketplace-agent/data/ozon_promo_execution_20261127/execution_report.json",
+      "sha256": "feec483364d17c3986d222c791d9bec55b76f16e2dc362d14df8685c41e23dac",
+      "git_blob_sha1_of_local_bytes": "8fa136f14568cb8df64d1deea93cdce8bcc77023",
+      "size_bytes": 4701611
+    },
+    "financial_comparison_code": {
+      "local_path": "/workspace/scratch/326f04d4e18e/marketplace-agent/ozon_promo_batch.py",
+      "sha256": "27e6a91ac37c3245f125fffbee5a2ead347af2530aa85291337cfdfbe2690ee9",
+      "git_blob_sha1_of_local_bytes": "8d9d790f13ff93db6f69d7de21dd049695e1ff71",
+      "size_bytes": 23201
+    },
+    "economics_code": {
+      "local_path": "/workspace/scratch/326f04d4e18e/marketplace-agent/ozon_profit_economics.py",
+      "sha256": "c8f39d77ca33824f4cd402a77f6c1cafe0834421ce22eb0e365c91e783ac9878",
+      "git_blob_sha1_of_local_bytes": "8384e4b39393544ede250b35fb9b7c7bfa7e5da5",
+      "size_bytes": 16462
+    },
+    "crisis_parser_code": {
+      "local_path": "/workspace/scratch/326f04d4e18e/repo-main-code/scripts/leoparts_crisis_audit_20261124.py",
+      "sha256": "40aa4406afa0e319e4df903a7f6a9331bb66b50fde72b7f513cc3b62e59bb602",
+      "git_blob_sha1_of_local_bytes": "8c2493ef79cc9b5aefc25bb092304a1b7a120297",
+      "size_bytes": 20273
+    },
+    "finance_parser_code": {
+      "local_path": "/workspace/scratch/326f04d4e18e/repo-main-code/price_audit.py",
+      "sha256": "a6099e6c54804e08d99156e72668df0459c02966aaeee700e5d97ad164ad4966",
+      "git_blob_sha1_of_local_bytes": "43a206f9ace26c6006572af6463475f9853bbc11",
+      "size_bytes": 35652
+    }
+  },
+  "recovered_candidate": {
+    "sku": "podshipnik-vilki-6",
+    "product_id": 6287286078,
+    "service_evidence_candidate_not_installed": {
+      "sku": "podshipnik-vilki-6",
+      "kind": "observed_sku_fees",
+      "verified": true,
+      "source_reference": "Historical finance data/ozon_finance.json, verified repository blob 59403a6684876c71b25c3f519af4d14628eefe56, was independently fetched and its parsed JSON exactly equals the local source whose SHA256 is df9fde23a9c04469dff193fd2b80608b68c521d881360fddfe4dd392e4ea8230. The byte representations differ. Crisis daily finance matches repository blob 35bc8207c8971a839829d3cb578048b1a3a7752d.",
+      "percentage_rate_pct": 3.8,
+      "fixed_per_sold_unit_rub": 8.181818181818182,
+      "assumptions": [
+        "Exact-SKU historical programme effective rates are assumed unchanged in the projection.",
+        "Fixed 90 RUB is allocated across 11 sold units only as a historical proxy, not a new tariff.",
+        "Acquiring is excluded from the service rate and charged once using the existing current-price snapshot.",
+        "Returns are separated only to recover positive sale revenue; no returned-inventory credit is assumed.",
+        "Historical paid-service accrual timing can differ from sale cohorts; this is not verification of current programme membership or future charges.",
+        "Current procurement, tariffs and tax proxy are retained from the catalogue; complete net profit is not established.",
+        "This SKU is outside the approved 96; no action or price change is authorised by this analysis."
+      ]
+    },
+    "historical_period": {
+      "from": "2026-10-24",
+      "to": "2026-11-23"
+    },
+    "finance_aggregate": {
+      "sold": 11,
+      "returned": 6,
+      "revenue": 8030,
+      "commission": -3650.5,
+      "logistics": -1603.39,
+      "services": -765.9,
+      "net": 2010.21
+    },
+    "exact_sku_daily_records_in_period": {
+      "2026-10-31": {
+        "payout": 4172.08,
+        "revenue": 9920,
+        "sold": 8,
+        "returned": 0,
+        "known_cost_sold": 2240,
+        "known_cost_return": 0,
+        "unknown_cost_units": 0,
+        "fees": 0,
+        "unallocated": 0
+      },
+      "2026-11-01": {
+        "payout": -4039.1600000000003,
+        "revenue": -7440,
+        "sold": 0,
+        "returned": 6,
+        "known_cost_sold": 0,
+        "known_cost_return": 1680,
+        "unknown_cost_units": 0,
+        "fees": 0,
+        "unallocated": 0
+      },
+      "2026-11-02": {
+        "payout": -90,
+        "revenue": 0,
+        "sold": 0,
+        "returned": 0,
+        "known_cost_sold": 0,
+        "known_cost_return": 0,
+        "unknown_cost_units": 0,
+        "fees": 0,
+        "unallocated": 0
+      },
+      "2026-11-04": {
+        "payout": 779.1400000000001,
+        "revenue": 1850,
+        "sold": 1,
+        "returned": 0,
+        "known_cost_sold": 280,
+        "known_cost_return": 0,
+        "unknown_cost_units": 0,
+        "fees": 0,
+        "unallocated": 0
+      },
+      "2026-11-05": {
+        "payout": 340.08000000000004,
+        "revenue": 1850,
+        "sold": 1,
+        "returned": 0,
+        "known_cost_sold": 280,
+        "known_cost_return": 0,
+        "unknown_cost_units": 0,
+        "fees": 0,
+        "unallocated": 0
+      },
+      "2026-11-07": {
+        "payout": 848.07,
+        "revenue": 1850,
+        "sold": 1,
+        "returned": 0,
+        "known_cost_sold": 280,
+        "known_cost_return": 0,
+        "unknown_cost_units": 0,
+        "fees": 0,
+        "unallocated": 0
+      }
+    },
+    "gross_sale_revenue_rub": 15470,
+    "returned_revenue_rub": 7440,
+    "net_sale_revenue_rub": 8030,
+    "sold_quantity": 11,
+    "returned_quantity": 6,
+    "actual_service_fees_signed_rub": {
+      "Продвижение бренда": -154.7,
+      "Подписка Управление отзывами": -201.11,
+      "Звёздные товары": -232.05,
+      "Эквайринг": -88.04,
+      "Обеспечение материалами для упаковки товара": -30,
+      "Упаковка товара партнёрами": -60
+    },
+    "programme_charge_rub": 587.86,
+    "programme_effective_rates_pct": {
+      "Продвижение бренда": 1,
+      "Подписка Управление отзывами": 1.3,
+      "Звёздные товары": 1.5
+    },
+    "fixed_services_charge_rub": 90,
+    "fixed_per_sold_unit_rub_exact": "8.181818181818181818181818182",
+    "formula": "partial = seller_price * (1 - commission_rate - acquiring_rate - tax_proxy_rate - observed_programme_rate) - current_procurement - logistics_snapshot_max - fixed_service_proxy",
+    "inputs": {
+      "before_price": 1850,
+      "target_price": 1785,
+      "current_procurement_rub": 280,
+      "commission_rate_pct": 47,
+      "acquiring_rate_pct": 1,
+      "tax_proxy_rate_pct": 6,
+      "logistics_snapshot_max_by_scheme_rub": {
+        "fbs": 317,
+        "fbo": 307
+      },
+      "programme_rate_pct": 3.8,
+      "fixed_service_proxy_rub": 8.181818181818182
+    },
+    "old_catalogue_metrics": {
+      "before_partial_contribution_rub": 254,
+      "target_partial_contribution_rub": 224.1,
+      "required_growth_pct": 13.3423
+    },
+    "existing_model_function": "ozon_promo_batch.financial_comparison",
+    "existing_model_result": {
+      "services_supported": true,
+      "service_basis": "observed_sku_fees",
+      "same_price_no_incremental_cost_supported": false,
+      "full_profit_verified": false,
+      "metric_kind": "partial_contribution_not_net_profit",
+      "unknown_costs": [
+        "actual_tax_base",
+        "advertising_outside_item_fees",
+        "business_overheads",
+        "fully_landed_procurement_cost",
+        "future_paid_service_terms",
+        "future_returns_and_cancellations",
+        "promotion_combination_effects",
+        "seller_packaging",
+        "unallocated_marketplace_fees",
+        "warranty"
+      ],
+      "by_scheme": {
+        "fbs": {
+          "baseline_partial_contribution_rub": 175.52,
+          "target_partial_contribution_rub": 148.09
+        },
+        "fbo": {
+          "baseline_partial_contribution_rub": 185.52,
+          "target_partial_contribution_rub": 158.09
+        }
+      },
+      "service_evidence_reference": "Historical finance data/ozon_finance.json, verified repository blob 59403a6684876c71b25c3f519af4d14628eefe56, was independently fetched and its parsed JSON exactly equals the local source whose SHA256 is df9fde23a9c04469dff193fd2b80608b68c521d881360fddfe4dd392e4ea8230. The byte representations differ. Crisis daily finance matches repository blob 35bc8207c8971a839829d3cb578048b1a3a7752d.",
+      "service_evidence_assumptions": [
+        "Exact-SKU historical programme effective rates are assumed unchanged in the projection.",
+        "Fixed 90 RUB is allocated across 11 sold units only as a historical proxy, not a new tariff.",
+        "Acquiring is excluded from the service rate and charged once using the existing current-price snapshot.",
+        "Returns are separated only to recover positive sale revenue; no returned-inventory credit is assumed.",
+        "Historical paid-service accrual timing can differ from sale cohorts; this is not verification of current programme membership or future charges.",
+        "Current procurement, tariffs and tax proxy are retained from the catalogue; complete net profit is not established.",
+        "This SKU is outside the approved 96; no action or price change is authorised by this analysis."
+      ],
+      "baseline_partial_contribution_rub": 175.52,
+      "target_partial_contribution_rub": 148.09,
+      "required_unit_growth_pct": 18.5225,
+      "profit_on_cost_pct": 52.8893,
+      "margin_on_revenue_pct": 8.2964,
+      "valid": true
+    },
+    "full_precision_diagnostic": {
+      "fbs": {
+        "retention_fraction": "0.422",
+        "fixed_total_rub": "605.1818181818181818181818182",
+        "before_partial_contribution_rub": "175.5181818181818181818181818",
+        "target_partial_contribution_rub": "148.0881818181818181818181818",
+        "growth_using_unrounded_contributions_pct": "18.52274750302338287384052500"
+      },
+      "fbo": {
+        "retention_fraction": "0.422",
+        "fixed_total_rub": "595.1818181818181818181818182",
+        "before_partial_contribution_rub": "185.5181818181818181818181818",
+        "target_partial_contribution_rub": "158.0881818181818181818181818",
+        "growth_using_unrounded_contributions_pct": "17.35107563672748811077821930"
+      }
+    },
+    "display_growth_pct": 18.52,
+    "rounding_note": "The existing model rounds the two contributions to kopecks before calculating its 4-decimal growth metric. The unrounded diagnostic is separately retained."
+  },
+  "hold_analysis": {
+    "count": 29,
+    "additional_service_rates_recovered": 0,
+    "items": [
+      {
+        "sku": "0AM325413A",
+        "product_id": 1790189202,
+        "before_price": 1350,
+        "approved_target_price": 1330,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "0ambset",
+        "product_id": 1990528878,
+        "before_price": 11850,
+        "approved_target_price": 11257,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_AVAILABLE_STOCK",
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "NO_POSITIVE_OBSERVED_STOCK",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": true
+      },
+      {
+        "sku": "jf011e",
+        "product_id": 1990555711,
+        "before_price": 12850,
+        "approved_target_price": 12207,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_AVAILABLE_STOCK",
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "NO_POSITIVE_OBSERVED_STOCK",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": true
+      },
+      {
+        "sku": "0AM325473",
+        "product_id": 2399759344,
+        "before_price": 12850,
+        "approved_target_price": 12400,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "Dq200dsg70am0cw",
+        "product_id": 3225148531,
+        "before_price": 8850,
+        "approved_target_price": 8761,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 4400847,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          4400847
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "0AM927769D",
+        "product_id": 5054769122,
+        "before_price": 74850,
+        "approved_target_price": 74101,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 4400847,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          4400847
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "plita-filtr-pylniki",
+        "product_id": 6287285684,
+        "before_price": 10850,
+        "approved_target_price": 10470,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "plita-filtr-pylniki-orig",
+        "product_id": 6287285952,
+        "before_price": 10850,
+        "approved_target_price": 10470,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "6t30",
+        "product_id": 6287285958,
+        "before_price": 19850,
+        "approved_target_price": 19155,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "plita-filtr-pylniki-sal",
+        "product_id": 6287286020,
+        "before_price": 11850,
+        "approved_target_price": 11435,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "salnik-shtoka-orig",
+        "product_id": 6287286087,
+        "before_price": 1850,
+        "approved_target_price": 1785,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "planka-solenoid-2sht",
+        "product_id": 6287286104,
+        "before_price": 2850,
+        "approved_target_price": 2821,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 4400847,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          4400847
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "klipsy-shtokov-2sht",
+        "product_id": 6287286144,
+        "before_price": 1350,
+        "approved_target_price": 1302,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "pylniki-shtokov-orig",
+        "product_id": 6287286183,
+        "before_price": 2850,
+        "approved_target_price": 2750,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "salnikvhod",
+        "product_id": 6287286228,
+        "before_price": 1850,
+        "approved_target_price": 1785,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "gidroakkumulyator-orig",
+        "product_id": 6287286253,
+        "before_price": 8850,
+        "approved_target_price": 8540,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "korpus-filtra-0bh325159",
+        "product_id": 6288287763,
+        "before_price": 3850,
+        "approved_target_price": 3715,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_AVAILABLE_STOCK",
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "NO_POSITIVE_OBSERVED_STOCK",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": true
+      },
+      {
+        "sku": "porshni-usil-pylniki-kryshki",
+        "product_id": 6290562487,
+        "before_price": 3850,
+        "approved_target_price": 3715,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "plita-pylniki-salniki-orig",
+        "product_id": 6290562676,
+        "before_price": 11850,
+        "approved_target_price": 11435,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "salnik-shtoka-orig-v2",
+        "product_id": 6291485636,
+        "before_price": 1850,
+        "approved_target_price": 1785,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "pylniki-shtokov-orig-v2",
+        "product_id": 6291485641,
+        "before_price": 2850,
+        "approved_target_price": 2707,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_AVAILABLE_STOCK",
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "NO_POSITIVE_OBSERVED_STOCK",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": true
+      },
+      {
+        "sku": "plita-pylniki-salniki-orig-v2",
+        "product_id": 6291485654,
+        "before_price": 11850,
+        "approved_target_price": 11435,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "plita-pylniki-salniki",
+        "product_id": 6366559611,
+        "before_price": 10850,
+        "approved_target_price": 10470,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "0am325477",
+        "product_id": 6369611839,
+        "before_price": 2350,
+        "approved_target_price": 2267,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "separatornaya-plastiny-solenoid-dq200",
+        "product_id": 6447289387,
+        "before_price": 2350,
+        "approved_target_price": 2267,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "prokladka-vtulki-niz-dq200",
+        "product_id": 6447289499,
+        "before_price": 950,
+        "approved_target_price": 940,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "prokladka-vtulki-verh-dq200",
+        "product_id": 6447289548,
+        "before_price": 950,
+        "approved_target_price": 940,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "0AM927769F",
+        "product_id": 6764572099,
+        "before_price": 74850,
+        "approved_target_price": 72230,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      },
+      {
+        "sku": "0am325025HXF",
+        "product_id": 6764572446,
+        "before_price": 118850,
+        "approved_target_price": 114690,
+        "service_reason": "No exact-SKU fee detail with positive sales in available historical ledger",
+        "execution_blockers": [
+          "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION",
+          "PRICE_FINANCIAL_CHECK_NOT_READY",
+          "SERVICE_OR_FINANCIAL_EVIDENCE_REQUIRED"
+        ],
+        "skipped_actions": [
+          {
+            "action_id": 1977747,
+            "reason": "ACTION_FINANCIAL_CHECK_NOT_READY"
+          }
+        ],
+        "approved_action_ids": [
+          1977747
+        ],
+        "no_stock": false
+      }
+    ],
+    "earlier_sales_only": [
+      {
+        "sku": "Dq200dsg70am0cw",
+        "first_observed_day": "2026-10-09",
+        "last_observed_day": "2026-10-09",
+        "observed_totals": {
+          "sold": 1,
+          "returned": 0,
+          "revenue": 7556,
+          "payout": 3752.31
+        },
+        "combined_ozon_deductions_rub": 3803.69,
+        "fee_detail_available": false,
+        "reason": "SKU-day parser stores revenue and payout but never fills per-SKU fees; day-level fee_types combines all SKUs. Commission/logistics/acquiring/programmes cannot be separated."
+      },
+      {
+        "sku": "0AM927769D",
+        "first_observed_day": "2026-09-25",
+        "last_observed_day": "2026-10-18",
+        "observed_totals": {
+          "sold": 4,
+          "returned": 0,
+          "revenue": 193278,
+          "payout": 92862.44
+        },
+        "combined_ozon_deductions_rub": 100415.56,
+        "fee_detail_available": false,
+        "reason": "SKU-day parser stores revenue and payout but never fills per-SKU fees; day-level fee_types combines all SKUs. Commission/logistics/acquiring/programmes cannot be separated."
+      },
+      {
+        "sku": "6t30",
+        "first_observed_day": "2026-09-28",
+        "last_observed_day": "2026-10-19",
+        "observed_totals": {
+          "sold": 4,
+          "returned": 0,
+          "revenue": 79200,
+          "payout": 39171.84
+        },
+        "combined_ozon_deductions_rub": 40028.16,
+        "fee_detail_available": false,
+        "reason": "SKU-day parser stores revenue and payout but never fills per-SKU fees; day-level fee_types combines all SKUs. Commission/logistics/acquiring/programmes cannot be separated."
+      },
+      {
+        "sku": "planka-solenoid-2sht",
+        "first_observed_day": "2026-09-25",
+        "last_observed_day": "2026-09-25",
+        "observed_totals": {
+          "sold": 1,
+          "returned": 0,
+          "revenue": 2890,
+          "payout": 1376.94
+        },
+        "combined_ozon_deductions_rub": 1513.06,
+        "fee_detail_available": false,
+        "reason": "SKU-day parser stores revenue and payout but never fills per-SKU fees; day-level fee_types combines all SKUs. Commission/logistics/acquiring/programmes cannot be separated."
+      },
+      {
+        "sku": "pylniki-shtokov-orig-v2",
+        "first_observed_day": "2026-09-30",
+        "last_observed_day": "2026-10-21",
+        "observed_totals": {
+          "sold": 4,
+          "returned": 0,
+          "revenue": 7400,
+          "payout": 3341.22
+        },
+        "combined_ozon_deductions_rub": 4058.78,
+        "fee_detail_available": false,
+        "reason": "SKU-day parser stores revenue and payout but never fills per-SKU fees; day-level fee_types combines all SKUs. Commission/logistics/acquiring/programmes cannot be separated."
+      }
+    ],
+    "earlier_sales_only_count": 5,
+    "zero_fee_field_not_evidence": true,
+    "no_stock_count": 4,
+    "action_gate_interpretation": "NO_CURRENTLY_ELIGIBLE_APPROVED_ACTION in these rows follows ACTION_FINANCIAL_CHECK_NOT_READY, not independent proof that the promotion is unavailable."
+  },
+  "unmatched_marketplace_sku": {
+    "sku": "3237042002",
+    "finance_key": "sku:3237042002",
+    "finance": {
+      "sold": 10,
+      "returned": 0,
+      "revenue": 9310,
+      "commission": -4301.22,
+      "logistics": -1162.35,
+      "services": -367.55,
+      "net": 3478.88
+    },
+    "service_fees": {
+      "Подписка Управление отзывами": -121,
+      "Звёздные товары": -139.7,
+      "Эквайринг": -106.85
+    },
+    "coverage": {
+      "expected_dates": 30,
+      "collected_dates": 30,
+      "failed_dates": [],
+      "unmatched_marketplace_skus": [
+        "sku:3237042002"
+      ],
+      "mapping": {
+        "sku_count": 152,
+        "conflicting_marketplace_skus": [],
+        "unmapped_offer_ids": [
+          "0BH325",
+          "plita-filtr",
+          "plita-filtr-pylniki-sal-orig",
+          "remkomplekt-shtokov-orig",
+          "remkomplekt-shtokov-orig-v2",
+          "solenoid-02e-0b5-bolshoy"
+        ]
+      }
+    },
+    "unassigned_to_hold_sku": true,
+    "next_step": "Resolve exact historical/current offer_id with product info; do not infer identity from similar price or names."
+  },
+  "additional_20_review": {
+    "count": 20,
+    "catalogue_strategy_counts": {
+      "C": 19,
+      "D": 1
+    },
+    "historical_service_support_before_count": 4,
+    "historical_service_support_after_count": 5,
+    "support_before_skus": [
+      "0am325025ae",
+      "55565480",
+      "0am325025q",
+      "0BH325183"
+    ],
+    "support_after_skus": [
+      "0am325025ae",
+      "55565480",
+      "0am325025q",
+      "0BH325183",
+      "podshipnik-vilki-6"
+    ],
+    "observed_stock_count": 17,
+    "items": [
+      {
+        "sku": "02E305051C",
+        "product_id": 1504179111,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 1450,
+        "review_target_price": 1336,
+        "old_partial_contribution_before": 310,
+        "old_partial_contribution_target": 257.56,
+        "old_required_unit_growth_pct": 20.3603,
+        "historical_service_support_in_catalogue": false,
+        "historical_service_support_after_this_analysis": false,
+        "has_observed_stock": true
+      },
+      {
+        "sku": "0am325025ae",
+        "product_id": 1570312812,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 4490,
+        "review_target_price": 4265,
+        "old_partial_contribution_before": 839.56,
+        "old_partial_contribution_target": 743.36,
+        "old_required_unit_growth_pct": 12.9412,
+        "historical_service_support_in_catalogue": true,
+        "historical_service_support_after_this_analysis": true,
+        "has_observed_stock": true
+      },
+      {
+        "sku": "55565480",
+        "product_id": 1710353948,
+        "strategy_code_in_catalogue": "D",
+        "before_price": 950,
+        "review_target_price": 937,
+        "old_partial_contribution_before": 23.4,
+        "old_partial_contribution_target": 17.78,
+        "old_required_unit_growth_pct": 31.6085,
+        "historical_service_support_in_catalogue": true,
+        "historical_service_support_after_this_analysis": true,
+        "has_observed_stock": true
+      },
+      {
+        "sku": "0AM325120A",
+        "product_id": 1790152179,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 1350,
+        "review_target_price": 1263,
+        "old_partial_contribution_before": 324,
+        "old_partial_contribution_target": 283.98,
+        "old_required_unit_growth_pct": 14.0925,
+        "historical_service_support_in_catalogue": false,
+        "historical_service_support_after_this_analysis": false,
+        "has_observed_stock": true
+      },
+      {
+        "sku": "0am325025q",
+        "product_id": 1804134868,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 1350,
+        "review_target_price": 1302,
+        "old_partial_contribution_before": 211.2,
+        "old_partial_contribution_target": 190.46,
+        "old_required_unit_growth_pct": 10.8894,
+        "historical_service_support_in_catalogue": true,
+        "historical_service_support_after_this_analysis": true,
+        "has_observed_stock": true
+      },
+      {
+        "sku": "0am325025P",
+        "product_id": 1817507275,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 980,
+        "review_target_price": 946,
+        "old_partial_contribution_before": 93.8,
+        "old_partial_contribution_target": 78.16,
+        "old_required_unit_growth_pct": 20.0102,
+        "historical_service_support_in_catalogue": false,
+        "historical_service_support_after_this_analysis": false,
+        "has_observed_stock": true
+      },
+      {
+        "sku": "0am325025n",
+        "product_id": 2397703853,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 8850,
+        "review_target_price": 8283,
+        "old_partial_contribution_before": 2484,
+        "old_partial_contribution_target": 2223.18,
+        "old_required_unit_growth_pct": 11.7318,
+        "historical_service_support_in_catalogue": false,
+        "historical_service_support_after_this_analysis": false,
+        "has_observed_stock": true
+      },
+      {
+        "sku": "0BH325183",
+        "product_id": 2462105163,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 4350,
+        "review_target_price": 3105,
+        "old_partial_contribution_before": 599.2,
+        "old_partial_contribution_target": 61.36,
+        "old_required_unit_growth_pct": 876.5319,
+        "historical_service_support_in_catalogue": true,
+        "historical_service_support_after_this_analysis": true,
+        "has_observed_stock": false
+      },
+      {
+        "sku": "0cw0am325025",
+        "product_id": 3225109174,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 17850,
+        "review_target_price": 16707,
+        "old_partial_contribution_before": 5404,
+        "old_partial_contribution_target": 4878.22,
+        "old_required_unit_growth_pct": 10.7781,
+        "historical_service_support_in_catalogue": false,
+        "historical_service_support_after_this_analysis": false,
+        "has_observed_stock": true
+      },
+      {
+        "sku": "31705-X428B",
+        "product_id": 3242811564,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 58850,
+        "review_target_price": 55907,
+        "old_partial_contribution_before": 14339,
+        "old_partial_contribution_target": 12985.22,
+        "old_required_unit_growth_pct": 10.4255,
+        "historical_service_support_in_catalogue": false,
+        "historical_service_support_after_this_analysis": false,
+        "has_observed_stock": false
+      },
+      {
+        "sku": "317053TX0C",
+        "product_id": 3242894829,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 58850,
+        "review_target_price": 55083,
+        "old_partial_contribution_before": 14339,
+        "old_partial_contribution_target": 12606.18,
+        "old_required_unit_growth_pct": 13.7458,
+        "historical_service_support_in_catalogue": false,
+        "historical_service_support_after_this_analysis": false,
+        "has_observed_stock": true
+      },
+      {
+        "sku": "31705-1XF0C",
+        "product_id": 3242944304,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 58850,
+        "review_target_price": 55907,
+        "old_partial_contribution_before": 14339,
+        "old_partial_contribution_target": 12985.22,
+        "old_required_unit_growth_pct": 10.4255,
+        "historical_service_support_in_catalogue": false,
+        "historical_service_support_after_this_analysis": false,
+        "has_observed_stock": false
+      },
+      {
+        "sku": "EA888gen3",
+        "product_id": 4463402130,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 6850,
+        "review_target_price": 6411,
+        "old_partial_contribution_before": 2121,
+        "old_partial_contribution_target": 1919.06,
+        "old_required_unit_growth_pct": 10.5229,
+        "historical_service_support_in_catalogue": false,
+        "historical_service_support_after_this_analysis": false,
+        "has_observed_stock": true
+      },
+      {
+        "sku": "stalnaya-vstavka-plity",
+        "product_id": 6287285922,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 2850,
+        "review_target_price": 2750,
+        "old_partial_contribution_before": 331,
+        "old_partial_contribution_target": 285,
+        "old_required_unit_growth_pct": 16.1404,
+        "historical_service_support_in_catalogue": false,
+        "historical_service_support_after_this_analysis": false,
+        "has_observed_stock": true
+      },
+      {
+        "sku": "plastiny-solenoid-orig",
+        "product_id": 6287285927,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 1850,
+        "review_target_price": 1785,
+        "old_partial_contribution_before": 271,
+        "old_partial_contribution_target": 241.1,
+        "old_required_unit_growth_pct": 12.4015,
+        "historical_service_support_in_catalogue": false,
+        "historical_service_support_after_this_analysis": false,
+        "has_observed_stock": true
+      },
+      {
+        "sku": "podshipnik-vilki-6",
+        "product_id": 6287286078,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 1850,
+        "review_target_price": 1785,
+        "old_partial_contribution_before": 254,
+        "old_partial_contribution_target": 224.1,
+        "old_required_unit_growth_pct": 13.3423,
+        "historical_service_support_in_catalogue": false,
+        "historical_service_support_after_this_analysis": true,
+        "has_observed_stock": true
+      },
+      {
+        "sku": "filtr-setka-0b5-orig",
+        "product_id": 6288287961,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 1990,
+        "review_target_price": 1339,
+        "old_partial_contribution_before": 478.4,
+        "old_partial_contribution_target": 178.94,
+        "old_required_unit_growth_pct": 167.3522,
+        "historical_service_support_in_catalogue": false,
+        "historical_service_support_after_this_analysis": false,
+        "has_observed_stock": true
+      },
+      {
+        "sku": "plita-filtr-orig",
+        "product_id": 6366559663,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 10850,
+        "review_target_price": 10155,
+        "old_partial_contribution_before": 2511,
+        "old_partial_contribution_target": 2191.3,
+        "old_required_unit_growth_pct": 14.5895,
+        "historical_service_support_in_catalogue": false,
+        "historical_service_support_after_this_analysis": false,
+        "has_observed_stock": true
+      },
+      {
+        "sku": "plastiny-solenoid-dq200-2sht",
+        "product_id": 6447289290,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 1350,
+        "review_target_price": 1302,
+        "old_partial_contribution_before": 224,
+        "old_partial_contribution_target": 201.92,
+        "old_required_unit_growth_pct": 10.935,
+        "historical_service_support_in_catalogue": false,
+        "historical_service_support_after_this_analysis": false,
+        "has_observed_stock": true
+      },
+      {
+        "sku": "plastina-solenoid-dq200",
+        "product_id": 6447289529,
+        "strategy_code_in_catalogue": "C",
+        "before_price": 1350,
+        "review_target_price": 1282,
+        "old_partial_contribution_before": 304,
+        "old_partial_contribution_target": 272.72,
+        "old_required_unit_growth_pct": 11.4696,
+        "historical_service_support_in_catalogue": false,
+        "historical_service_support_after_this_analysis": false,
+        "has_observed_stock": true
+      }
+    ],
+    "no_authorisation_added": true
+  },
+  "needed_read_only_sources": {
+    "finance_type_dictionary": {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/types",
+      "body": {}
+    },
+    "daily_accruals": {
+      "method": "POST",
+      "endpoint": "/v1/finance/accrual/by-day",
+      "date_range_to_recover_earlier_five": {
+        "from": "2026-09-25",
+        "to": "2026-10-23"
+      },
+      "body_example": {
+        "date": "2026-10-09"
+      },
+      "pagination": "last_id returned by API; collect all pages",
+      "retain": "Exact marketplace SKU mapping, separate sale and return revenue, item fee type IDs and signed amounts, posting commission and delivery, full day coverage; keep buyer/posting identifiers private."
+    },
+    "product_identity": {
+      "method": "POST",
+      "endpoint": "/v3/product/info/list",
+      "purpose": "Exact product_id/offer_id/marketplace SKU mapping including archived or historical source IDs where available."
+    },
+    "programmes_to_verify_for_no_history_skus": [
+      "Звёздные товары",
+      "Подписка Управление отзывами",
+      "Продвижение бренда",
+      "Ускоренный сбор отзывов / Сбор первых отзывов if active",
+      "Страхование товара от массовых повреждений if active",
+      "Applicable packaging, storage, handling and other item-specific service charges"
+    ],
+    "programme_evidence_required": "Current per-SKU/account eligibility, enabled status, charge base, effective dates and actual applicable tariff. No uniform rate inferred from another SKU. No documented programme-settings endpoint was found in inspected code; use current cabinet programme terms/export."
+  },
+  "checks": {
+    "historical_source_hashes_match_existing_service_evidence": true,
+    "historical_quantity_reconciled": true,
+    "sale_return_revenue_reconciled": true,
+    "payout_reconciled_within_0_01_rub": true,
+    "service_breakdown_reconciled": true,
+    "finance_row_reconciled": true,
+    "no_mixed_sale_return_daily_records_in_selected_period": true,
+    "computed_with_existing_financial_comparison": true,
+    "outside_96_scope": true,
+    "verified_repository_finance_semantically_equals_local": true,
+    "unchanged_financial_inputs_and_approved_configuration": true
+  },
+  "repository_changes_during_analysis": 0,
+  "persistence_scope": "Analytical documentation only; no change to commercial configuration, service activation evidence, approved plan or journal."
+}
