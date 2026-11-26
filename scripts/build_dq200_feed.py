@@ -97,6 +97,9 @@ def build():
         offer = ET.SubElement(offers, "offer", id=sku, available="false")
         for key, val in (("url", url), ("price", str(price)), ("currencyId", "RUR"), ("categoryId", category), ("picture", photo_url), ("name", MECH_AD_TITLE if category in {"1", "2"} else title), ("vendorCode", sku.upper())):
             ET.SubElement(offer, key).text = val
+            if key == "picture" and sku == "0am325025hx":  # Owner-approved HX D supplementary gallery 20261126
+                for extra_picture in ['https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0am325025HX-add-1-c6e85c9b74.jpeg?v=c6e85c9b74', 'https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0am325025HX-add-2-d2510a2fdf.jpeg?v=d2510a2fdf', 'https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/0am325025HX-add-3-89164b8adb.jpeg?v=89164b8adb']:
+                    ET.SubElement(offer, "picture").text = extra_picture
             if key == "name" and category in {"1", "2"}:
                 ET.SubElement(offer, "description").text = MECH_AD_TEXT
     if len(offers) != 12:
