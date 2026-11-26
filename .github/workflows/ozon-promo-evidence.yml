@@ -1,11 +1,21 @@
 name: Ozon approved promotion evidence (read only)
 on:
   push:
-    branches: [feat/ozon-promo-execution-20261127]
+    branches: [feat/ozon-promo-execution-20261127, feat/ozon-finance-history-20261127]
     paths:
       - 'scripts/ozon_promo_api_evidence.py'
+      - 'scripts/ozon_historical_finance.py'
       - '.github/workflows/ozon-promo-evidence.yml'
   workflow_dispatch:
+    inputs:
+      mode:
+        description: Evidence collection mode
+        required: true
+        default: current_snapshot
+        type: choice
+        options:
+          - current_snapshot
+          - historical_finance
 
 permissions:
   contents: read
@@ -15,6 +25,7 @@ concurrency:
 
 jobs:
   evidence:
+    if: ${{ github.ref != 'refs/heads/feat/ozon-finance-history-20261127' && (github.event_name != 'workflow_dispatch' || inputs.mode == 'current_snapshot') }}
     runs-on: ubuntu-latest
     timeout-minutes: 12
     permissions:
@@ -51,4 +62,42 @@ jobs:
         with:
           name: ozon-promo-evidence-${{ github.run_id }}-${{ github.run_attempt }}
           path: data/ozon_promo_execution_20261127/evidence/
+          retention-days: 30
+
+  historical_finance:
+    if: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/feat/ozon-finance-history-20261127') || (github.event_name == 'workflow_dispatch' && inputs.mode == 'historical_finance') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Test historical finance isolation
+        run: PYTHONDONTWRITEBYTECODE=1 python -m unittest tests.test_ozon_historical_finance -v
+      - name: Read fixed historical accrual window
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+          PYTHONPATH: .
+          HISTORY_OUTPUT: ${{ runner.temp }}/ozon-historical-finance-${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          collector_status=0
+          python -u scripts/ozon_historical_finance.py --output "$HISTORY_OUTPUT" || collector_status=$?
+          case "$collector_status" in
+            0|2) ;;
+            *) exit "$collector_status" ;;
+          esac
+      - name: Preserve historical evidence artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ozon-historical-finance-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/ozon-historical-finance-${{ github.run_id }}-${{ github.run_attempt }}/
+          if-no-files-found: error
           retention-days: 30
