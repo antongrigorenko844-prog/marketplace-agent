@@ -1,0 +1,1356 @@
+{
+  "schema_version": 1,
+  "evidence_by_sku": {
+    "0AM325025B": {
+      "sku": "0AM325025B",
+      "kind": "observed_sku_fees",
+      "verified": true,
+      "verification_scope": "Exact SKU historical source arithmetic and reconciled gross sale base; future conditions assumed unchanged, full profit not verified",
+      "source_reference": "data/ozon_finance.json blob59403a6684876c71b25c3f519af4d14628eefe56; data/crisis_audit_20261124/ozon_finance.json blob35bc8207c8971a839829d3cb578048b1a3a7752d",
+      "source_period": {
+        "from": "2026-10-24",
+        "to": "2026-11-23"
+      },
+      "percentage_rate_pct": 3.800021316848304,
+      "fixed_per_sold_unit_rub": 0.0,
+      "historical_sold": 4,
+      "historical_returned": 1,
+      "gross_sale_revenue_rub": 37529.0,
+      "historical_net_revenue_rub": 28050.0,
+      "programme_effective_rates_pct": {
+        "Звёздные товары": 1.50001332303019,
+        "Продвижение бренда": 1.0,
+        "Подписка Управление отзывами": 1.300007993818114
+      },
+      "actual_service_fees": {
+        "Звёздные товары": -562.94,
+        "Продвижение бренда": -375.29,
+        "Подписка Управление отзывами": -487.88,
+        "Эквайринг": -271.9
+      },
+      "finance_row": {
+        "sold": 4,
+        "returned": 1,
+        "revenue": 28050.0,
+        "commission": -12996.5,
+        "logistics": -1182.23,
+        "services": -1698.01,
+        "net": 12173.26
+      },
+      "reconciled_sku_daily": {
+        "2026-10-29": {
+          "payout": 4425.110000000001,
+          "revenue": 9479.0,
+          "sold": 1,
+          "returned": 0,
+          "known_cost_sold": 1350.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-10-30": {
+          "payout": -4933.32,
+          "revenue": -9479.0,
+          "sold": 0,
+          "returned": 1,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 1350.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-03": {
+          "payout": -174.54,
+          "revenue": 0.0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-06": {
+          "payout": -108.0,
+          "revenue": 0.0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-08": {
+          "payout": 9038.400000000001,
+          "revenue": 18700.0,
+          "sold": 2,
+          "returned": 0,
+          "known_cost_sold": 2700.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-09": {
+          "payout": -171.12,
+          "revenue": 0.0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-12": {
+          "payout": -136.0,
+          "revenue": 0.0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-18": {
+          "payout": 4232.7300000000005,
+          "revenue": 9350.0,
+          "sold": 1,
+          "returned": 0,
+          "known_cost_sold": 1350.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        }
+      },
+      "assumptions": [
+        "Observed exact-SKU effective programme rates remain unchanged.",
+        "Other service charges are historical per-sold-unit allocations.",
+        "Returns are separated only to obtain the sale revenue denominator; no inventory credit is assumed.",
+        "New promotion cost treatment must be checked separately."
+      ],
+      "fully_landed_profit_verified": false
+    },
+    "0AM325587E": {
+      "sku": "0AM325587E",
+      "kind": "observed_sku_fees",
+      "verified": true,
+      "verification_scope": "Exact SKU historical source arithmetic and reconciled gross sale base; future conditions assumed unchanged, full profit not verified",
+      "source_reference": "data/ozon_finance.json blob59403a6684876c71b25c3f519af4d14628eefe56; data/crisis_audit_20261124/ozon_finance.json blob35bc8207c8971a839829d3cb578048b1a3a7752d",
+      "source_period": {
+        "from": "2026-10-24",
+        "to": "2026-11-23"
+      },
+      "percentage_rate_pct": 2.8167322048869146,
+      "fixed_per_sold_unit_rub": 1.125,
+      "historical_sold": 24,
+      "historical_returned": 1,
+      "gross_sale_revenue_rub": 235486.0,
+      "historical_net_revenue_rub": 225636.0,
+      "programme_effective_rates_pct": {
+        "Подписка Управление отзывами": 1.191247038040478,
+        "Звёздные товары": 1.6254851668464367
+      },
+      "actual_service_fees": {
+        "Подписка Управление отзывами": -2805.22,
+        "Звёздные товары": -3827.79,
+        "Эквайринг": -2408.54,
+        "Временное размещение товара партнерами": -12.0,
+        "Обеспечение материалами для упаковки товара": -5.0,
+        "Упаковка товара партнёрами": -10.0
+      },
+      "finance_row": {
+        "sold": 24,
+        "returned": 1,
+        "revenue": 225636.0,
+        "commission": -105270.68,
+        "logistics": -4154.27,
+        "services": -9068.55,
+        "net": 107142.5
+      },
+      "reconciled_sku_daily": {
+        "2026-10-24": {
+          "payout": -236.0,
+          "revenue": 0.0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-10-25": {
+          "payout": 4533.69,
+          "revenue": 9850.0,
+          "sold": 1,
+          "returned": 0,
+          "known_cost_sold": 1800.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-10-26": {
+          "payout": -93.28,
+          "revenue": 0.0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-10-27": {
+          "payout": 0.0,
+          "revenue": 0.0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-10-28": {
+          "payout": -111.26,
+          "revenue": 0.0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-10-29": {
+          "payout": 9483.15,
+          "revenue": 19700.0,
+          "sold": 2,
+          "returned": 0,
+          "known_cost_sold": 3600.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-10-30": {
+          "payout": 14046.399999999998,
+          "revenue": 29062.0,
+          "sold": 3,
+          "returned": 0,
+          "known_cost_sold": 5400.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-01": {
+          "payout": 4115.69,
+          "revenue": 9850.0,
+          "sold": 1,
+          "returned": 0,
+          "known_cost_sold": 1800.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-02": {
+          "payout": 9555.06,
+          "revenue": 19274.0,
+          "sold": 2,
+          "returned": 0,
+          "known_cost_sold": 3600.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-03": {
+          "payout": 4736.15,
+          "revenue": 9850.0,
+          "sold": 1,
+          "returned": 0,
+          "known_cost_sold": 1800.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-05": {
+          "payout": -109.13,
+          "revenue": 0.0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-06": {
+          "payout": 4695.25,
+          "revenue": 9850.0,
+          "sold": 1,
+          "returned": 0,
+          "known_cost_sold": 1800.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-07": {
+          "payout": 4617.23,
+          "revenue": 9850.0,
+          "sold": 1,
+          "returned": 0,
+          "known_cost_sold": 1800.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-09": {
+          "payout": 14371.250000000002,
+          "revenue": 29550.0,
+          "sold": 3,
+          "returned": 0,
+          "known_cost_sold": 5400.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-10": {
+          "payout": 14106.800000000001,
+          "revenue": 29550.0,
+          "sold": 3,
+          "returned": 0,
+          "known_cost_sold": 5400.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-11": {
+          "payout": 5172.47,
+          "revenue": 9850.0,
+          "sold": 1,
+          "returned": 0,
+          "known_cost_sold": 1800.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-14": {
+          "payout": -164.32,
+          "revenue": 0.0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-15": {
+          "payout": 9440.53,
+          "revenue": 19700.0,
+          "sold": 2,
+          "returned": 0,
+          "known_cost_sold": 3600.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-16": {
+          "payout": -403.8,
+          "revenue": 0.0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-17": {
+          "payout": -29.07,
+          "revenue": 0.0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-21": {
+          "payout": 14785.940000000002,
+          "revenue": 29550.0,
+          "sold": 3,
+          "returned": 0,
+          "known_cost_sold": 5400.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-22": {
+          "payout": -5370.25,
+          "revenue": -9850.0,
+          "sold": 0,
+          "returned": 1,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 1800.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        }
+      },
+      "assumptions": [
+        "Observed exact-SKU effective programme rates remain unchanged.",
+        "Other service charges are historical per-sold-unit allocations.",
+        "Returns are separated only to obtain the sale revenue denominator; no inventory credit is assumed.",
+        "New promotion cost treatment must be checked separately."
+      ],
+      "fully_landed_profit_verified": false
+    },
+    "0am325025j": {
+      "sku": "0am325025j",
+      "kind": "observed_sku_fees",
+      "verified": true,
+      "verification_scope": "Exact SKU historical source arithmetic and reconciled gross sale base; future conditions assumed unchanged, full profit not verified",
+      "source_reference": "data/ozon_finance.json blob59403a6684876c71b25c3f519af4d14628eefe56; data/crisis_audit_20261124/ozon_finance.json blob35bc8207c8971a839829d3cb578048b1a3a7752d",
+      "source_period": {
+        "from": "2026-10-24",
+        "to": "2026-11-23"
+      },
+      "percentage_rate_pct": 2.8000951361636344,
+      "fixed_per_sold_unit_rub": 5.0,
+      "historical_sold": 3,
+      "historical_returned": 1,
+      "gross_sale_revenue_rub": 8409.0,
+      "historical_net_revenue_rub": 5530.0,
+      "programme_effective_rates_pct": {
+        "Звёздные товары": 1.5000594601022714,
+        "Подписка Управление отзывами": 1.3000356760613627
+      },
+      "actual_service_fees": {
+        "Эквайринг": -85.12,
+        "Звёздные товары": -126.14,
+        "Подписка Управление отзывами": -109.32,
+        "Обеспечение материалами для упаковки товара": -5.0,
+        "Упаковка товара партнёрами": -10.0
+      },
+      "finance_row": {
+        "sold": 3,
+        "returned": 1,
+        "revenue": 5530.0,
+        "commission": -2599.68,
+        "logistics": -468.52,
+        "services": -335.58,
+        "net": 2126.22
+      },
+      "reconciled_sku_daily": {
+        "2026-11-02": {
+          "payout": -33.35,
+          "revenue": 0.0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-04": {
+          "payout": 1299.75,
+          "revenue": 2850.0,
+          "sold": 1,
+          "returned": 0,
+          "known_cost_sold": 250.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-05": {
+          "payout": -1590.49,
+          "revenue": -2879.0,
+          "sold": 0,
+          "returned": 1,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 250.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-08": {
+          "payout": -66.0,
+          "revenue": 0.0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        },
+        "2026-11-18": {
+          "payout": 2516.31,
+          "revenue": 5559.0,
+          "sold": 2,
+          "returned": 0,
+          "known_cost_sold": 500.0,
+          "known_cost_return": 0.0,
+          "unknown_cost_units": 0,
+          "fees": 0.0,
+          "unallocated": 0.0
+        }
+      },
+      "assumptions": [
+        "Observed exact-SKU effective programme rates remain unchanged.",
+        "Other service charges are historical per-sold-unit allocations.",
+        "Returns are separated only to obtain the sale revenue denominator; no inventory credit is assumed.",
+        "New promotion cost treatment must be checked separately."
+      ],
+      "fully_landed_profit_verified": false
+    },
+    "122390AKAF": {
+      "sku": "122390AKAF",
+      "kind": "observed_sku_fees",
+      "verified": true,
+      "verification_scope": "Exact SKU historical source arithmetic and reconciled gross sale base; future conditions assumed unchanged, full profit not verified",
+      "source_reference": "data/ozon_finance.json blob59403a6684876c71b25c3f519af4d14628eefe56; data/crisis_audit_20261124/ozon_finance.json blob35bc8207c8971a839829d3cb578048b1a3a7752d",
+      "source_period": {
+        "from": "2026-10-24",
+        "to": "2026-11-23"
+      },
+      "percentage_rate_pct": 3.8,
+      "fixed_per_sold_unit_rub": 0.0,
+      "historical_sold": 6,
+      "historical_returned": 0,
+      "gross_sale_revenue_rub": 8940.0,
+      "historical_net_revenue_rub": 8940.0,
+      "programme_effective_rates_pct": {
+        "Продвижение бренда": 1.0,
+        "Подписка Управление отзывами": 1.3,
+        "Звёздные товары": 1.5
+      },
+      "actual_service_fees": {
+        "Продвижение бренда": -89.4,
+        "Подписка Управление отзывами": -116.22,
+        "Звёздные товары": -134.1,
+        "Эквайринг": -77.58
+      },
+      "finance_row": {
+        "sold": 6,
+        "returned": 0,
+        "revenue": 8940.0,
+        "commission": -4201.8,
+        "logistics": -737.08,
+        "services": -417.3,
+        "net": 3583.82
+      },
+      "reconciled_sku_daily": null,
+      "assumptions": [
+        "Observed exact-SKU effective programme rates remain unchanged.",
+        "Other service charges are historical per-sold-unit allocations.",
+        "Returns are separated only to obtain the sale revenue denominator; no inventory credit is assumed.",
+        "New promotion cost treatment must be checked separately."
+      ],
+      "fully_landed_profit_verified": false
+    },
+    "0am325025": {
+      "sku": "0am325025",
+      "kind": "official_no_incremental_cost",
+      "verified": true,
+      "verification_scope": "Same seller price and compatible standard action terms; no claim that total item profit or all existing expenses are known",
+      "source_reference": "https://seller.ozon.ru/media/boost/kak-prodavcu-uchastvovat-v-akciyah-na-ozon/ plus exact fresh seller API action terms",
+      "official_source_published": "2025-01-14",
+      "official_source_checked": "2026-11-26",
+      "official_source_claim": "Joining marketplace promotions has no participation charge; any seller discount is seller funded. Only that fee claim is used, not old 2025 programme mechanics.",
+      "no_incremental_seller_cost": true,
+      "seller_price_unchanged": true,
+      "action_ids": [
+        4550621
+      ],
+      "target_price": 13850.0,
+      "source_snapshot_at": "2026-11-26T19:11:41.325488+00:00",
+      "checked_action_terms": [
+        {
+          "action_id": 4550621,
+          "title": "Новогодний максимальный бустинг",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 13850.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-12-02T21:00:00Z",
+          "date_end": "2027-01-12T20:59:59Z"
+        }
+      ],
+      "existing_action_compatibility_checked": true,
+      "raw_promotions_sha256": "65eb9446e5cd839e4dce2a12f444d64611748e7b189d07a5adf569ed5c3d9196",
+      "fresh_terms_recheck_required_before_execution": true,
+      "fully_landed_profit_verified": false,
+      "assumptions": [
+        "Other existing tariffs and paid programme conditions remain unchanged.",
+        "Executor sends only the approved exact action price and verifies readback.",
+        "No additional discount, voucher or unlisted promotion is authorised."
+      ]
+    },
+    "0am325025l": {
+      "sku": "0am325025l",
+      "kind": "official_no_incremental_cost",
+      "verified": true,
+      "verification_scope": "Same seller price and compatible standard action terms; no claim that total item profit or all existing expenses are known",
+      "source_reference": "https://seller.ozon.ru/media/boost/kak-prodavcu-uchastvovat-v-akciyah-na-ozon/ plus exact fresh seller API action terms",
+      "official_source_published": "2025-01-14",
+      "official_source_checked": "2026-11-26",
+      "official_source_claim": "Joining marketplace promotions has no participation charge; any seller discount is seller funded. Only that fee claim is used, not old 2025 programme mechanics.",
+      "no_incremental_seller_cost": true,
+      "seller_price_unchanged": true,
+      "action_ids": [
+        4550621
+      ],
+      "target_price": 1850.0,
+      "source_snapshot_at": "2026-11-26T19:11:41.325488+00:00",
+      "checked_action_terms": [
+        {
+          "action_id": 4550621,
+          "title": "Новогодний максимальный бустинг",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 1850.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-12-02T21:00:00Z",
+          "date_end": "2027-01-12T20:59:59Z"
+        }
+      ],
+      "existing_action_compatibility_checked": true,
+      "raw_promotions_sha256": "65eb9446e5cd839e4dce2a12f444d64611748e7b189d07a5adf569ed5c3d9196",
+      "fresh_terms_recheck_required_before_execution": true,
+      "fully_landed_profit_verified": false,
+      "assumptions": [
+        "Other existing tariffs and paid programme conditions remain unchanged.",
+        "Executor sends only the approved exact action price and verifies readback.",
+        "No additional discount, voucher or unlisted promotion is authorised."
+      ]
+    },
+    "0am325025r": {
+      "sku": "0am325025r",
+      "kind": "official_no_incremental_cost",
+      "verified": true,
+      "verification_scope": "Same seller price and compatible standard action terms; no claim that total item profit or all existing expenses are known",
+      "source_reference": "https://seller.ozon.ru/media/boost/kak-prodavcu-uchastvovat-v-akciyah-na-ozon/ plus exact fresh seller API action terms",
+      "official_source_published": "2025-01-14",
+      "official_source_checked": "2026-11-26",
+      "official_source_claim": "Joining marketplace promotions has no participation charge; any seller discount is seller funded. Only that fee claim is used, not old 2025 programme mechanics.",
+      "no_incremental_seller_cost": true,
+      "seller_price_unchanged": true,
+      "action_ids": [
+        4550621
+      ],
+      "target_price": 1490.0,
+      "source_snapshot_at": "2026-11-26T19:11:41.325488+00:00",
+      "checked_action_terms": [
+        {
+          "action_id": 4550621,
+          "title": "Новогодний максимальный бустинг",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 1887.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-12-02T21:00:00Z",
+          "date_end": "2027-01-12T20:59:59Z"
+        }
+      ],
+      "existing_action_compatibility_checked": true,
+      "raw_promotions_sha256": "65eb9446e5cd839e4dce2a12f444d64611748e7b189d07a5adf569ed5c3d9196",
+      "fresh_terms_recheck_required_before_execution": true,
+      "fully_landed_profit_verified": false,
+      "assumptions": [
+        "Other existing tariffs and paid programme conditions remain unchanged.",
+        "Executor sends only the approved exact action price and verifies readback.",
+        "No additional discount, voucher or unlisted promotion is authorised."
+      ]
+    },
+    "0am325091e": {
+      "sku": "0am325091e",
+      "kind": "official_no_incremental_cost",
+      "verified": true,
+      "verification_scope": "Same seller price and compatible standard action terms; no claim that total item profit or all existing expenses are known",
+      "source_reference": "https://seller.ozon.ru/media/boost/kak-prodavcu-uchastvovat-v-akciyah-na-ozon/ plus exact fresh seller API action terms",
+      "official_source_published": "2025-01-14",
+      "official_source_checked": "2026-11-26",
+      "official_source_claim": "Joining marketplace promotions has no participation charge; any seller discount is seller funded. Only that fee claim is used, not old 2025 programme mechanics.",
+      "no_incremental_seller_cost": true,
+      "seller_price_unchanged": true,
+      "action_ids": [
+        4532787,
+        4535879,
+        4550621
+      ],
+      "target_price": 1990.0,
+      "source_snapshot_at": "2026-11-26T19:11:41.325488+00:00",
+      "checked_action_terms": [
+        {
+          "action_id": 4532787,
+          "title": "Супербустинг Чёрная пятница",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 3811.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-11-26T23:00:00Z",
+          "date_end": "2026-12-02T20:59:59Z"
+        },
+        {
+          "action_id": 4535879,
+          "title": "Супербустинг с дополнительными баллами за скидки",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 2146.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-11-26T21:00:00Z",
+          "date_end": "2026-11-30T20:59:59Z"
+        },
+        {
+          "action_id": 4550621,
+          "title": "Новогодний максимальный бустинг",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 1990.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-12-02T21:00:00Z",
+          "date_end": "2027-01-12T20:59:59Z"
+        }
+      ],
+      "existing_action_compatibility_checked": true,
+      "raw_promotions_sha256": "65eb9446e5cd839e4dce2a12f444d64611748e7b189d07a5adf569ed5c3d9196",
+      "fresh_terms_recheck_required_before_execution": true,
+      "fully_landed_profit_verified": false,
+      "assumptions": [
+        "Other existing tariffs and paid programme conditions remain unchanged.",
+        "Executor sends only the approved exact action price and verifies readback.",
+        "No additional discount, voucher or unlisted promotion is authorised."
+      ]
+    },
+    "01X301127C": {
+      "sku": "01X301127C",
+      "kind": "official_no_incremental_cost",
+      "verified": true,
+      "verification_scope": "Same seller price and compatible standard action terms; no claim that total item profit or all existing expenses are known",
+      "source_reference": "https://seller.ozon.ru/media/boost/kak-prodavcu-uchastvovat-v-akciyah-na-ozon/ plus exact fresh seller API action terms",
+      "official_source_published": "2025-01-14",
+      "official_source_checked": "2026-11-26",
+      "official_source_claim": "Joining marketplace promotions has no participation charge; any seller discount is seller funded. Only that fee claim is used, not old 2025 programme mechanics.",
+      "no_incremental_seller_cost": true,
+      "seller_price_unchanged": true,
+      "action_ids": [
+        4550621
+      ],
+      "target_price": 1250.0,
+      "source_snapshot_at": "2026-11-26T19:11:41.325488+00:00",
+      "checked_action_terms": [
+        {
+          "action_id": 4550621,
+          "title": "Новогодний максимальный бустинг",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 1250.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-12-02T21:00:00Z",
+          "date_end": "2027-01-12T20:59:59Z"
+        }
+      ],
+      "existing_action_compatibility_checked": true,
+      "raw_promotions_sha256": "65eb9446e5cd839e4dce2a12f444d64611748e7b189d07a5adf569ed5c3d9196",
+      "fresh_terms_recheck_required_before_execution": true,
+      "fully_landed_profit_verified": false,
+      "assumptions": [
+        "Other existing tariffs and paid programme conditions remain unchanged.",
+        "Executor sends only the approved exact action price and verifies readback.",
+        "No additional discount, voucher or unlisted promotion is authorised."
+      ]
+    },
+    "0am325066ad": {
+      "sku": "0am325066ad",
+      "kind": "official_no_incremental_cost",
+      "verified": true,
+      "verification_scope": "Same seller price and compatible standard action terms; no claim that total item profit or all existing expenses are known",
+      "source_reference": "https://seller.ozon.ru/media/boost/kak-prodavcu-uchastvovat-v-akciyah-na-ozon/ plus exact fresh seller API action terms",
+      "official_source_published": "2025-01-14",
+      "official_source_checked": "2026-11-26",
+      "official_source_claim": "Joining marketplace promotions has no participation charge; any seller discount is seller funded. Only that fee claim is used, not old 2025 programme mechanics.",
+      "no_incremental_seller_cost": true,
+      "seller_price_unchanged": true,
+      "action_ids": [
+        4532787,
+        4550621
+      ],
+      "target_price": 1270.0,
+      "source_snapshot_at": "2026-11-26T19:11:41.325488+00:00",
+      "checked_action_terms": [
+        {
+          "action_id": 4532787,
+          "title": "Супербустинг Чёрная пятница",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 1336.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-11-26T23:00:00Z",
+          "date_end": "2026-12-02T20:59:59Z"
+        },
+        {
+          "action_id": 4550621,
+          "title": "Новогодний максимальный бустинг",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 1270.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-12-02T21:00:00Z",
+          "date_end": "2027-01-12T20:59:59Z"
+        }
+      ],
+      "existing_action_compatibility_checked": true,
+      "raw_promotions_sha256": "65eb9446e5cd839e4dce2a12f444d64611748e7b189d07a5adf569ed5c3d9196",
+      "fresh_terms_recheck_required_before_execution": true,
+      "fully_landed_profit_verified": false,
+      "assumptions": [
+        "Other existing tariffs and paid programme conditions remain unchanged.",
+        "Executor sends only the approved exact action price and verifies readback.",
+        "No additional discount, voucher or unlisted promotion is authorised."
+      ]
+    },
+    "0BH325183 B": {
+      "sku": "0BH325183 B",
+      "kind": "official_no_incremental_cost",
+      "verified": true,
+      "verification_scope": "Same seller price and compatible standard action terms; no claim that total item profit or all existing expenses are known",
+      "source_reference": "https://seller.ozon.ru/media/boost/kak-prodavcu-uchastvovat-v-akciyah-na-ozon/ plus exact fresh seller API action terms",
+      "official_source_published": "2025-01-14",
+      "official_source_checked": "2026-11-26",
+      "official_source_claim": "Joining marketplace promotions has no participation charge; any seller discount is seller funded. Only that fee claim is used, not old 2025 programme mechanics.",
+      "no_incremental_seller_cost": true,
+      "seller_price_unchanged": true,
+      "action_ids": [
+        4535879
+      ],
+      "target_price": 4350.0,
+      "source_snapshot_at": "2026-11-26T19:11:41.325488+00:00",
+      "checked_action_terms": [
+        {
+          "action_id": 4535879,
+          "title": "Супербустинг с дополнительными баллами за скидки",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 4350.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-11-26T21:00:00Z",
+          "date_end": "2026-11-30T20:59:59Z"
+        }
+      ],
+      "existing_action_compatibility_checked": true,
+      "raw_promotions_sha256": "65eb9446e5cd839e4dce2a12f444d64611748e7b189d07a5adf569ed5c3d9196",
+      "fresh_terms_recheck_required_before_execution": true,
+      "fully_landed_profit_verified": false,
+      "assumptions": [
+        "Other existing tariffs and paid programme conditions remain unchanged.",
+        "Executor sends only the approved exact action price and verifies readback.",
+        "No additional discount, voucher or unlisted promotion is authorised."
+      ]
+    },
+    "0am325025H": {
+      "sku": "0am325025H",
+      "kind": "official_no_incremental_cost",
+      "verified": true,
+      "verification_scope": "Same seller price and compatible standard action terms; no claim that total item profit or all existing expenses are known",
+      "source_reference": "https://seller.ozon.ru/media/boost/kak-prodavcu-uchastvovat-v-akciyah-na-ozon/ plus exact fresh seller API action terms",
+      "official_source_published": "2025-01-14",
+      "official_source_checked": "2026-11-26",
+      "official_source_claim": "Joining marketplace promotions has no participation charge; any seller discount is seller funded. Only that fee claim is used, not old 2025 programme mechanics.",
+      "no_incremental_seller_cost": true,
+      "seller_price_unchanged": true,
+      "action_ids": [
+        4550621
+      ],
+      "target_price": 68850.0,
+      "source_snapshot_at": "2026-11-26T19:11:41.325488+00:00",
+      "checked_action_terms": [
+        {
+          "action_id": 4550621,
+          "title": "Новогодний максимальный бустинг",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 68850.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-12-02T21:00:00Z",
+          "date_end": "2027-01-12T20:59:59Z"
+        }
+      ],
+      "existing_action_compatibility_checked": true,
+      "raw_promotions_sha256": "65eb9446e5cd839e4dce2a12f444d64611748e7b189d07a5adf569ed5c3d9196",
+      "fresh_terms_recheck_required_before_execution": true,
+      "fully_landed_profit_verified": false,
+      "assumptions": [
+        "Other existing tariffs and paid programme conditions remain unchanged.",
+        "Executor sends only the approved exact action price and verifies readback.",
+        "No additional discount, voucher or unlisted promotion is authorised."
+      ]
+    },
+    "EA888": {
+      "sku": "EA888",
+      "kind": "official_no_incremental_cost",
+      "verified": true,
+      "verification_scope": "Same seller price and compatible standard action terms; no claim that total item profit or all existing expenses are known",
+      "source_reference": "https://seller.ozon.ru/media/boost/kak-prodavcu-uchastvovat-v-akciyah-na-ozon/ plus exact fresh seller API action terms",
+      "official_source_published": "2025-01-14",
+      "official_source_checked": "2026-11-26",
+      "official_source_claim": "Joining marketplace promotions has no participation charge; any seller discount is seller funded. Only that fee claim is used, not old 2025 programme mechanics.",
+      "no_incremental_seller_cost": true,
+      "seller_price_unchanged": true,
+      "action_ids": [
+        4550621
+      ],
+      "target_price": 4741.0,
+      "source_snapshot_at": "2026-11-26T19:11:41.325488+00:00",
+      "checked_action_terms": [
+        {
+          "action_id": 4550621,
+          "title": "Новогодний максимальный бустинг",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 4741.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-12-02T21:00:00Z",
+          "date_end": "2027-01-12T20:59:59Z"
+        }
+      ],
+      "existing_action_compatibility_checked": true,
+      "raw_promotions_sha256": "65eb9446e5cd839e4dce2a12f444d64611748e7b189d07a5adf569ed5c3d9196",
+      "fresh_terms_recheck_required_before_execution": true,
+      "fully_landed_profit_verified": false,
+      "assumptions": [
+        "Other existing tariffs and paid programme conditions remain unchanged.",
+        "Executor sends only the approved exact action price and verifies readback.",
+        "No additional discount, voucher or unlisted promotion is authorised."
+      ]
+    },
+    "Ea888gen3": {
+      "sku": "Ea888gen3",
+      "kind": "official_no_incremental_cost",
+      "verified": true,
+      "verification_scope": "Same seller price and compatible standard action terms; no claim that total item profit or all existing expenses are known",
+      "source_reference": "https://seller.ozon.ru/media/boost/kak-prodavcu-uchastvovat-v-akciyah-na-ozon/ plus exact fresh seller API action terms",
+      "official_source_published": "2025-01-14",
+      "official_source_checked": "2026-11-26",
+      "official_source_claim": "Joining marketplace promotions has no participation charge; any seller discount is seller funded. Only that fee claim is used, not old 2025 programme mechanics.",
+      "no_incremental_seller_cost": true,
+      "seller_price_unchanged": true,
+      "action_ids": [
+        4532787,
+        4535879,
+        4550621
+      ],
+      "target_price": 2350.0,
+      "source_snapshot_at": "2026-11-26T19:11:41.325488+00:00",
+      "checked_action_terms": [
+        {
+          "action_id": 4532787,
+          "title": "Супербустинг Чёрная пятница",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 4455.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-11-26T23:00:00Z",
+          "date_end": "2026-12-02T20:59:59Z"
+        },
+        {
+          "action_id": 4535879,
+          "title": "Супербустинг с дополнительными баллами за скидки",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 5170.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-11-26T21:00:00Z",
+          "date_end": "2026-11-30T20:59:59Z"
+        },
+        {
+          "action_id": 4550621,
+          "title": "Новогодний максимальный бустинг",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 2350.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-12-02T21:00:00Z",
+          "date_end": "2027-01-12T20:59:59Z"
+        }
+      ],
+      "existing_action_compatibility_checked": true,
+      "raw_promotions_sha256": "65eb9446e5cd839e4dce2a12f444d64611748e7b189d07a5adf569ed5c3d9196",
+      "fresh_terms_recheck_required_before_execution": true,
+      "fully_landed_profit_verified": false,
+      "assumptions": [
+        "Other existing tariffs and paid programme conditions remain unchanged.",
+        "Executor sends only the approved exact action price and verifies readback.",
+        "No additional discount, voucher or unlisted promotion is authorised."
+      ]
+    },
+    "Dq200dsg7": {
+      "sku": "Dq200dsg7",
+      "kind": "official_no_incremental_cost",
+      "verified": true,
+      "verification_scope": "Same seller price and compatible standard action terms; no claim that total item profit or all existing expenses are known",
+      "source_reference": "https://seller.ozon.ru/media/boost/kak-prodavcu-uchastvovat-v-akciyah-na-ozon/ plus exact fresh seller API action terms",
+      "official_source_published": "2025-01-14",
+      "official_source_checked": "2026-11-26",
+      "official_source_claim": "Joining marketplace promotions has no participation charge; any seller discount is seller funded. Only that fee claim is used, not old 2025 programme mechanics.",
+      "no_incremental_seller_cost": true,
+      "seller_price_unchanged": true,
+      "action_ids": [
+        4550621
+      ],
+      "target_price": 1350.0,
+      "source_snapshot_at": "2026-11-26T19:11:41.325488+00:00",
+      "checked_action_terms": [
+        {
+          "action_id": 4550621,
+          "title": "Новогодний максимальный бустинг",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 1350.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-12-02T21:00:00Z",
+          "date_end": "2027-01-12T20:59:59Z"
+        }
+      ],
+      "existing_action_compatibility_checked": true,
+      "raw_promotions_sha256": "65eb9446e5cd839e4dce2a12f444d64611748e7b189d07a5adf569ed5c3d9196",
+      "fresh_terms_recheck_required_before_execution": true,
+      "fully_landed_profit_verified": false,
+      "assumptions": [
+        "Other existing tariffs and paid programme conditions remain unchanged.",
+        "Executor sends only the approved exact action price and verifies readback.",
+        "No additional discount, voucher or unlisted promotion is authorised."
+      ]
+    },
+    "0am325477ae": {
+      "sku": "0am325477ae",
+      "kind": "official_no_incremental_cost",
+      "verified": true,
+      "verification_scope": "Same seller price and compatible standard action terms; no claim that total item profit or all existing expenses are known",
+      "source_reference": "https://seller.ozon.ru/media/boost/kak-prodavcu-uchastvovat-v-akciyah-na-ozon/ plus exact fresh seller API action terms",
+      "official_source_published": "2025-01-14",
+      "official_source_checked": "2026-11-26",
+      "official_source_claim": "Joining marketplace promotions has no participation charge; any seller discount is seller funded. Only that fee claim is used, not old 2025 programme mechanics.",
+      "no_incremental_seller_cost": true,
+      "seller_price_unchanged": true,
+      "action_ids": [
+        4550621
+      ],
+      "target_price": 2479.0,
+      "source_snapshot_at": "2026-11-26T19:11:41.325488+00:00",
+      "checked_action_terms": [
+        {
+          "action_id": 4550621,
+          "title": "Новогодний максимальный бустинг",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 2479.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-12-02T21:00:00Z",
+          "date_end": "2027-01-12T20:59:59Z"
+        }
+      ],
+      "existing_action_compatibility_checked": true,
+      "raw_promotions_sha256": "65eb9446e5cd839e4dce2a12f444d64611748e7b189d07a5adf569ed5c3d9196",
+      "fresh_terms_recheck_required_before_execution": true,
+      "fully_landed_profit_verified": false,
+      "assumptions": [
+        "Other existing tariffs and paid programme conditions remain unchanged.",
+        "Executor sends only the approved exact action price and verifies readback.",
+        "No additional discount, voucher or unlisted promotion is authorised."
+      ]
+    },
+    "separatornaya-plastina-dq200": {
+      "sku": "separatornaya-plastina-dq200",
+      "kind": "official_no_incremental_cost",
+      "verified": true,
+      "verification_scope": "Same seller price and compatible standard action terms; no claim that total item profit or all existing expenses are known",
+      "source_reference": "https://seller.ozon.ru/media/boost/kak-prodavcu-uchastvovat-v-akciyah-na-ozon/ plus exact fresh seller API action terms",
+      "official_source_published": "2025-01-14",
+      "official_source_checked": "2026-11-26",
+      "official_source_claim": "Joining marketplace promotions has no participation charge; any seller discount is seller funded. Only that fee claim is used, not old 2025 programme mechanics.",
+      "no_incremental_seller_cost": true,
+      "seller_price_unchanged": true,
+      "action_ids": [
+        4535879
+      ],
+      "target_price": 1250.0,
+      "source_snapshot_at": "2026-11-26T19:11:41.325488+00:00",
+      "checked_action_terms": [
+        {
+          "action_id": 4535879,
+          "title": "Супербустинг с дополнительными баллами за скидки",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 1269.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-11-26T21:00:00Z",
+          "date_end": "2026-11-30T20:59:59Z"
+        }
+      ],
+      "existing_action_compatibility_checked": true,
+      "raw_promotions_sha256": "65eb9446e5cd839e4dce2a12f444d64611748e7b189d07a5adf569ed5c3d9196",
+      "fresh_terms_recheck_required_before_execution": true,
+      "fully_landed_profit_verified": false,
+      "assumptions": [
+        "Other existing tariffs and paid programme conditions remain unchanged.",
+        "Executor sends only the approved exact action price and verifies readback.",
+        "No additional discount, voucher or unlisted promotion is authorised."
+      ]
+    },
+    "filtr-dsg7-dq500": {
+      "sku": "filtr-dsg7-dq500",
+      "kind": "official_no_incremental_cost",
+      "verified": true,
+      "verification_scope": "Same seller price and compatible standard action terms; no claim that total item profit or all existing expenses are known",
+      "source_reference": "https://seller.ozon.ru/media/boost/kak-prodavcu-uchastvovat-v-akciyah-na-ozon/ plus exact fresh seller API action terms",
+      "official_source_published": "2025-01-14",
+      "official_source_checked": "2026-11-26",
+      "official_source_claim": "Joining marketplace promotions has no participation charge; any seller discount is seller funded. Only that fee claim is used, not old 2025 programme mechanics.",
+      "no_incremental_seller_cost": true,
+      "seller_price_unchanged": true,
+      "action_ids": [
+        4532787,
+        4550621
+      ],
+      "target_price": 1450.0,
+      "source_snapshot_at": "2026-11-26T19:11:41.325488+00:00",
+      "checked_action_terms": [
+        {
+          "action_id": 4532787,
+          "title": "Супербустинг Чёрная пятница",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 1831.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-11-26T23:00:00Z",
+          "date_end": "2026-12-02T20:59:59Z"
+        },
+        {
+          "action_id": 4550621,
+          "title": "Новогодний максимальный бустинг",
+          "action_type": "STOCK_DISCOUNT",
+          "discount_type": "CURRENCY",
+          "discount_value": 0,
+          "is_voucher_action": false,
+          "cap_rub": 1450.0,
+          "exact_same_price_eligible": true,
+          "date_start": "2026-12-02T21:00:00Z",
+          "date_end": "2027-01-12T20:59:59Z"
+        }
+      ],
+      "existing_action_compatibility_checked": true,
+      "raw_promotions_sha256": "65eb9446e5cd839e4dce2a12f444d64611748e7b189d07a5adf569ed5c3d9196",
+      "fresh_terms_recheck_required_before_execution": true,
+      "fully_landed_profit_verified": false,
+      "assumptions": [
+        "Other existing tariffs and paid programme conditions remain unchanged.",
+        "Executor sends only the approved exact action price and verifies readback.",
+        "No additional discount, voucher or unlisted promotion is authorised."
+      ]
+    }
+  },
+  "unresolved": [
+    {
+      "sku": "0AM325413A",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "0ambset",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "jf011e",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "0AM325473",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "Dq200dsg70am0cw",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "0AM927769D",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "plita-filtr-pylniki",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "plita-filtr-pylniki-orig",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "6t30",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "plita-filtr-pylniki-sal",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "salnik-shtoka-orig",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "planka-solenoid-2sht",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "klipsy-shtokov-2sht",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "pylniki-shtokov-orig",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "salnikvhod",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "gidroakkumulyator-orig",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "korpus-filtra-0bh325159",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "porshni-usil-pylniki-kryshki",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "salnik-shtoka-orig-v2",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "pylniki-shtokov-orig-v2",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "plita-pylniki-salniki-orig-v2",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "plita-pylniki-salniki",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "0am325477",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "separatornaya-plastiny-solenoid-dq200",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "prokladka-vtulki-niz-dq200",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "prokladka-vtulki-verh-dq200",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "0AM927769F",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    },
+    {
+      "sku": "0am325025HXF",
+      "reason": "No exact-SKU fee detail with positive sales in available historical ledger"
+    }
+  ],
+  "scope_count": 33,
+  "recovered_count": 4,
+  "unresolved_count": 29,
+  "source_hashes": {
+    "old_finance_sha256": "df9fde23a9c04469dff193fd2b80608b68c521d881360fddfe4dd392e4ea8230",
+    "crisis_finance_sha256": "341eee1b1c6a4b61635059ef8a8864fe34cd178ae857052feb160c99bbc88af5"
+  },
+  "writes": 0,
+  "same_price_no_incremental_count": 14,
+  "same_price_no_incremental_skus": [
+    "0am325025",
+    "0am325025l",
+    "0am325025r",
+    "0am325091e",
+    "01X301127C",
+    "0am325066ad",
+    "0BH325183 B",
+    "0am325025H",
+    "EA888",
+    "Ea888gen3",
+    "Dq200dsg7",
+    "0am325477ae",
+    "separatornaya-plastina-dq200",
+    "filtr-dsg7-dq500"
+  ],
+  "same_price_rejected": []
+}

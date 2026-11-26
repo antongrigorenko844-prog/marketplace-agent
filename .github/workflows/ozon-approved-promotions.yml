@@ -1,0 +1,172 @@
+name: Ozon approved 96-product promotion package
+on:
+  push:
+    branches: [main, feat/ozon-promo-execution-20261127]
+    paths:
+      - 'ozon_control_guard.py'
+      - 'ozon_promo_batch.py'
+      - 'ozon_client.py'
+      - 'scripts/ozon_promo_execute.py'
+      - 'data/ozon_promo_execution_20261127/approved_plan.json'
+      - 'data/ozon_promo_execution_20261127/official_contract.json'
+      - 'data/ozon_promo_execution_20261127/service_evidence.json'
+      - 'tests/test_ozon_control_guard.py'
+      - 'tests/test_ozon_promo_*.py'
+      - 'tests/test_ozon_sync_guard_reporting.py'
+      - '.github/workflows/ozon-approved-promotions.yml'
+  pull_request:
+    paths:
+      - 'ozon_control_guard.py'
+      - 'ozon_promo_batch.py'
+      - 'ozon_client.py'
+      - 'scripts/ozon_promo_execute.py'
+      - 'tests/test_ozon_control_guard.py'
+      - 'tests/test_ozon_promo_*.py'
+      - 'tests/test_ozon_sync_guard_reporting.py'
+      - 'data/ozon_promo_execution_20261127/approved_plan.json'
+      - 'data/ozon_promo_execution_20261127/official_contract.json'
+      - 'data/ozon_promo_execution_20261127/service_evidence.json'
+      - '.github/workflows/ozon-approved-promotions.yml'
+  schedule:
+    # Approved future actions start at 21:00 / 23:00 UTC. The execution window
+    # below expires after the last approved action starts; no indefinite repricer.
+    - cron: '7 21,23 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Verify immutable approval, exact transport permits and reconciliation
+        run: |
+          python -m py_compile main.py ozon_client.py ozon_control_guard.py ozon_promo_batch.py scripts/ozon_promo_execute.py
+          python -m unittest discover -s tests -p 'test_ozon_control_guard.py' -v
+          python -m unittest discover -s tests -p 'test_ozon_promo_*.py' -v
+          python -m unittest discover -s tests -p 'test_ozon_sync_guard_reporting.py' -v
+          python -m unittest discover -s tests -p 'test_ozon_profit_economics.py' -v
+          python -m unittest discover -s tests -p 'test_ozon_profit_catalog.py' -v
+          python -m unittest discover -s tests -p 'test_ozon_profit_snapshot.py' -v
+  apply:
+    needs: tests
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    concurrency:
+      group: marketplace-agent
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Confirm latest checkout retains the tested code and approved scope
+        run: |
+          git diff --exit-code "$GITHUB_SHA" HEAD -- main.py ozon_client.py ozon_control_guard.py ozon_promo_batch.py ozon_profit_economics.py ozon_profit_catalog.py scripts/ozon_promo_execute.py scripts/ozon_profit_snapshot.py data/ozon_promo_execution_20261127/official_contract.json data/ozon_promo_execution_20261127/service_evidence.json
+          python - <<'PY'
+          import json, os, subprocess
+          from ozon_promo_batch import load_approved_plan
+          tested = json.loads(subprocess.check_output(['git', 'show', os.environ['GITHUB_SHA'] + ':data/ozon_promo_execution_20261127/approved_plan.json']))
+          current = load_approved_plan()
+          assert current['scope_sha256'] == tested['scope_sha256'], 'Approval scope changed after tests'
+          print('Tested code and exact approval retained; latest runtime journal available.')
+          PY
+      - name: Limit execution to this approved campaign window
+        id: window
+        run: |
+          python - <<'PY'
+          import os
+          from datetime import datetime, timezone
+          active = datetime.now(timezone.utc) < datetime(2026, 12, 4, tzinfo=timezone.utc)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              print('active=' + str(active).lower(), file=output)
+          print('Approved campaign window active:', active)
+          PY
+      - name: Prepare isolated evidence directory
+        if: steps.window.outputs.active == 'true'
+        run: |
+          promo_run="$RUNNER_TEMP/ozon-approved-promotions-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          test ! -e "$promo_run"
+          mkdir -p "$promo_run"
+          echo "OZON_PROMO_RUN=$promo_run" >> "$GITHUB_ENV"
+      - name: Read exact current catalogue and promotion terms
+        if: steps.window.outputs.active == 'true'
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          collector_status=0
+          python -u scripts/ozon_profit_snapshot.py --output "$OZON_PROMO_RUN/live" || collector_status=$?
+          case "$collector_status" in
+            0|2) ;;
+            *) exit "$collector_status" ;;
+          esac
+          python ozon_profit_catalog.py --baseline data/price_recovery_20261127 --live-source "$OZON_PROMO_RUN/live" --finance-support data/ozon_profit_first_20261127/finance_support.json --output "$OZON_PROMO_RUN/catalogue"
+      - name: Prepare on feature branch; execute exact approved operations on main
+        if: steps.window.outputs.active == 'true'
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          args=()
+          journal="$OZON_PROMO_RUN/preparation_journal.json"
+          report="$OZON_PROMO_RUN/preparation_report.json"
+          if [ "$GITHUB_REF_NAME" = 'main' ]; then
+            args+=(--execute)
+            journal='data/ozon_promo_execution_20261127/execution_journal.json'
+            report='data/ozon_promo_execution_20261127/execution_report.json'
+          fi
+          status=0
+          python -u scripts/ozon_promo_execute.py --snapshot "$OZON_PROMO_RUN/live" --catalogue "$OZON_PROMO_RUN/catalogue/catalogue.json" --journal "$journal" --report "$report" "${args[@]}" || status=$?
+          case "$status" in
+            0|2) ;;
+            *) exit "$status" ;;
+          esac
+          test -s "$report"
+          cp "$report" "$OZON_PROMO_RUN/result.json"
+      - name: Persist operation journal and verified commercial state
+        if: always() && steps.window.outputs.active == 'true'
+        run: |
+          mkdir -p data/ozon_promo_execution_20261127/runs
+          if [ -f "$OZON_PROMO_RUN/result.json" ]; then
+            cp "$OZON_PROMO_RUN/result.json" "data/ozon_promo_execution_20261127/runs/${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.json"
+          fi
+          saved_paths=()
+          for path in data/ozon_promo_execution_20261127/approved_plan.json data/ozon_promo_execution_20261127/execution_journal.json data/ozon_promo_execution_20261127/execution_report.json; do
+            if [ -f "$path" ]; then saved_paths+=("$path"); fi
+          done
+          if [ -f "data/ozon_promo_execution_20261127/runs/${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.json" ]; then
+            saved_paths+=("data/ozon_promo_execution_20261127/runs/${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.json")
+          fi
+          if [ "${#saved_paths[@]}" -gt 0 ]; then
+            bash .github/scripts/save_data.sh "${saved_paths[@]}"
+          fi
+      - name: Preserve complete preflight and operation evidence
+        if: always() && steps.window.outputs.active == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ozon-approved-promotions-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/ozon-approved-promotions-${{ github.run_id }}-${{ github.run_attempt }}/
+            data/ozon_promo_execution_20261127/approved_plan.json
+            data/ozon_promo_execution_20261127/execution_journal.json
+            data/ozon_promo_execution_20261127/execution_report.json
+          retention-days: 30

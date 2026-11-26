@@ -3587,6 +3587,7 @@ def cmd_sync_ozon_prices(dry_run: bool, article: str = "") -> int:
         print("ПРОБНЫЙ ПРОГОН — в Ozon ничего не отправлено.")
         return int(bool(missing))
     confirmed = 0
+    protected_skipped = 0
     unexpected = False
     for i in range(0, len(to_push), 100):
         batch = to_push[i : i + 100]
@@ -3605,14 +3606,32 @@ def cmd_sync_ozon_prices(dry_run: bool, article: str = "") -> int:
                 by_offer[oid] = row
         for oid in sorted(expected):
             row = by_offer.get(oid, {})
-            if oid not in duplicates and row.get("updated") is True and not row.get("errors"):
+            guard_errors = row.get("errors")
+            guard_meta = resp.get("ozon_control_guard", {}) if isinstance(resp, dict) else {}
+            local_guard_skip = (
+                row.get("guard_skipped") is True and row.get("updated") is False
+                and isinstance(guard_errors, list) and len(guard_errors) == 1
+                and isinstance(guard_errors[0], dict)
+                and guard_errors[0].get("code") == "OZON_CONTROL_GUARD_SKIP"
+                and isinstance(guard_meta, dict)
+                and guard_meta.get("marketplace_writes_for_skipped") == 0
+                and isinstance(guard_meta.get("skipped"), list)
+                and any(isinstance(x, dict) and x.get("sku") == oid
+                        for x in guard_meta["skipped"])
+            )
+            if oid not in duplicates and local_guard_skip:
+                protected_skipped += 1
+                print(f"{oid}: сохранена согласованная цена Ozon; старая синхронизация пропущена.")
+            elif oid not in duplicates and row.get("updated") is True and not row.get("errors"):
                 confirmed += 1
             else:
                 print(f"Ozon не подтвердил изменение цены для {oid}.")
     if unexpected:
         print("В ответе Ozon есть неожиданные позиции.")
     print(f"Подтверждено Ozon: {confirmed} из {len(to_push)}.")
-    return int(bool(missing or unexpected or confirmed != len(to_push)))
+    if protected_skipped:
+        print(f"Защищённых позиций без отправки в Ozon: {protected_skipped}.")
+    return int(bool(missing or unexpected or confirmed + protected_skipped != len(to_push)))
 
 
 def _ozon_set_price_floor(offer_ids) -> None:

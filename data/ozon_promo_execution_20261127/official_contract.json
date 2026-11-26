@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "source": "official_evidence_bundle",
+  "prepared_at": "2026-11-26T19:25:07.804758+00:00",
+  "full_openapi_retrieved": false,
+  "interpretation": "Minimal locally encoded request constraints from primary sources and existing working seller requests. This is not a downloaded or independently complete OpenAPI schema. Mutations are one-shot and require actual per-SKU readback; unknown future enrollment is not sent.",
+  "operations": {
+    "/v1/product/import/prices": {
+      "request_schema": {
+        "type": "object",
+        "required": [
+          "prices"
+        ],
+        "properties": {
+          "prices": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "offer_id",
+                "product_id",
+                "price",
+                "min_price",
+                "currency_code",
+                "old_price"
+              ],
+              "properties": {
+                "offer_id": {
+                  "type": "string"
+                },
+                "product_id": {
+                  "type": "integer"
+                },
+                "price": {
+                  "type": "string"
+                },
+                "min_price": {
+                  "type": "string"
+                },
+                "currency_code": {
+                  "type": "string",
+                  "enum": [
+                    "RUB"
+                  ]
+                },
+                "old_price": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "evidence": [
+        {
+          "url": "https://dev.ozon.ru/start/257-FAQ-spravochnik-oshibok-i-sposoby-ikh-resheniia",
+          "basis": "Official price request example contains prices array with offer_id, product_id, price, min_price, old_price and currency_code."
+        },
+        {
+          "url": "https://dev.ozon.ru/start/371-Minimalnye-tseny-pri-avtodobavlenii-v-aktsii-cherez-Seller-API/",
+          "basis": "Official minimum-price setting and separate timer lifecycle; absent protection flag leaves that setting unchanged."
+        },
+        {
+          "local": "ozon_client.py:update_prices",
+          "basis": "Existing working project request envelope; parent confirmed prior successful use."
+        }
+      ],
+      "omitted_fields": [
+        "auto_action_enabled",
+        "auto_add_to_ozon_actions_list_enabled",
+        "min_price_for_auto_actions_enabled"
+      ],
+      "protection_order": "timer update and active-expiry readback before price request"
+    },
+    "/v1/actions/products/update": {
+      "request_schema": {
+        "type": "object",
+        "required": [
+          "action_id",
+          "products"
+        ],
+        "properties": {
+          "action_id": {
+            "type": "integer"
+          },
+          "products": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "product_id",
+                "action_price"
+              ],
+              "properties": {
+                "product_id": {
+                  "type": "integer"
+                },
+                "action_price": {
+                  "type": "object",
+                  "required": [
+                    "amount",
+                    "currency"
+                  ],
+                  "properties": {
+                    "amount": {
+                      "type": "string"
+                    },
+                    "currency": {
+                      "type": "string",
+                      "enum": [
+                        "RUB"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "evidence": [
+        {
+          "url": "https://dev.ozon.ru/start/563-Obnovlenie-metodov-raboty-s-aktsiiami-v-Seller-API-v2/",
+          "basis": "Official update endpoint replaces activate; action_id, list of products and Money action_price; price affects unified seller cap."
+        },
+        {
+          "url": "https://dev.ozon.ru/community/700-Koriavaia-dokumentatsiia/",
+          "basis": "Published request schema paths show the predecessor products[]/product_id structure; new announcement does not state a rename of these fields."
+        },
+        {
+          "local": "data/ozon_promo_execution_20261127/evidence/live/promotions.json",
+          "basis": "Current seller API v2 Money observations contain amount string and RUB currency."
+        }
+      ],
+      "qualification": "Composite primary evidence for the minimal payload; exact complete new request OpenAPI could not be downloaded. Do not guess alternate payload after rejection. Record actual readback; response array naming alone is not success."
+    },
+    "/v1/product/action/timer/update": {
+      "request_schema": {
+        "type": "object",
+        "required": [
+          "product_ids"
+        ],
+        "properties": {
+          "product_ids": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "evidence": [
+        {
+          "url": "https://dev.ozon.ru/community/2463-Kak-v-v1-product-action-timer-update-peredat-neskolko-identifikatorov/",
+          "basis": "Ozon moderator explicitly supplies root object with product_ids array of string int64 values and acknowledges the old documentation example error."
+        },
+        {
+          "url": "https://dev.ozon.ru/start/371-Minimalnye-tseny-pri-avtodobavlenii-v-aktsii-cherez-Seller-API/",
+          "basis": "Timer update extends consideration of the minimum price; status endpoint reports expiration."
+        }
+      ],
+      "response_policy": "Confirm enabled=true, active=true, timestamp at least 29 days ahead. If disabled is not activated by renewal, hold SKU before changing its price."
+    }
+  },
+  "future_enrollment": {
+    "status": "DEFERRED_UNTIL_ACTION_ACTIVE",
+    "write_schema_verified": false,
+    "endpoint": "/v2/actions/auto-add/products/update",
+    "reason": "Endpoint and scheduling semantics are documented; exact wire schema not established sufficiently. The current executor never sends this endpoint."
+  }
+}
