@@ -1,0 +1,38 @@
+name: LEOPARTS Avito 33500 append original gallery only
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/avito-dq200-33500-append-originals-20261126.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  append-originals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - run: python -m py_compile scripts/avito_dq200_33500_append_originals_20261126.py
+      - name: Append approved unchanged source images only and verify exact listing
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: python -u scripts/avito_dq200_33500_append_originals_20261126.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: avito-dq200-33500-originals-${{ github.run_id }}
+          path: data/avito_dq200_33500_append_originals_20261126_result.json
+          if-no-files-found: warn
+          retention-days: 14
