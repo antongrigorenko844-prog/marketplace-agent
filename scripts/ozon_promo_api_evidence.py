@@ -27,10 +27,14 @@ def main():
     meta = {"source": URL, "fetched_at": datetime.now(timezone.utc).isoformat(),
             "status": "failed", "seller_writes": 0}
     try:
-        response = requests.get(URL, timeout=(15, 60), allow_redirects=False)
+        response = requests.get(URL, timeout=(15, 60), allow_redirects=True)
+        meta.update(http_status=response.status_code, final_url=response.url,
+                    content_type=response.headers.get("content-type", ""))
         response.raise_for_status()
         if len(response.content) > 32 * 1024 * 1024:
             raise ValueError("public schema exceeds size bound")
+        if "json" not in response.headers.get("content-type", ""):
+            meta["public_response_prefix"] = response.text[:600]
         full = response.json()
         meta["sha256"] = hashlib.sha256(response.content).hexdigest()
         meta["bytes"] = len(response.content)

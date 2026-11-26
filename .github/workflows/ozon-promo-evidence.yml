@@ -30,6 +30,7 @@ jobs:
       - name: Read public official API contracts
         run: python scripts/ozon_promo_api_evidence.py --output data/ozon_promo_execution_20261127/evidence
       - name: Read fresh catalogue, prices, promotion eligibility and protection
+        if: always()
         env:
           OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
           OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
