@@ -1,25 +1,31 @@
 {
   "mode": "strict_read_only",
   "campaign_id": 716316525,
-  "started_utc": "2026-11-27T08:08:09.016997+00:00",
+  "started_utc": "2026-11-27T10:01:50.687536+00:00",
   "external_mutations": 0,
   "test_count": 10,
   "sections": {
     "config": {
       "status": "ok",
       "data": {
-        "negatives_count": 683,
+        "negatives_count": 688,
         "five_present": true,
-        "same_set_as_change": true,
+        "same_set_as_change": false,
         "missing": [],
-        "added": [],
+        "added": [
+          "\"авито запчасти +для авто\"",
+          "\"клонирование платы мехатроника dsg 7\"",
+          "\"контрактные коробки дсг\"",
+          "\"мехатроник +на дсг 09g\"",
+          "\"разборка запчастей б у\""
+        ],
         "manual_keywords": 266,
         "settings": {
           "name": "Leoparts | DQ200 | Товарная ЕПК | Поиск | Тест",
           "state": "ON",
           "status": "ACCEPTED",
           "type": "UNIFIED_CAMPAIGN",
-          "negative_count": 683,
+          "negative_count": 688,
           "critical_negatives": {
             "сцепление": true,
             "замена масла": true,
@@ -27,7 +33,7 @@
             "автозапчасти": false,
             "ремонт дсг": false
           },
-          "negatives_hash": "ee80c21a9e45901884193cba62337f51813eaccc0bcc88223ccf5ba7ccac18e9",
+          "negatives_hash": "6e9596577f2f7b65786853f825381652ca4824996d1d6a1606fa40fb39e964b3",
           "search_strategy": "HIGHEST_POSITION",
           "weekly_limit_rub": 4000.0,
           "network_strategy": "SERVING_OFF",
@@ -87,8 +93,10 @@
               "id": 5828476541,
               "name": "DQ200 | Мехатроники общий запрос | Поиск",
               "status": "ACCEPTED",
-              "group_negative_count": 0,
-              "group_negative_samples": []
+              "group_negative_count": 1,
+              "group_negative_samples": [
+                "+какое масло заливать +в мехатроник"
+              ]
             },
             {
               "id": 5828501772,
@@ -363,7 +371,7 @@
     "query_goal_detail": {
       "status": "ok",
       "data": {
-        "rows": 281,
+        "rows": 285,
         "chunks": [
           {
             "from": "2026-10-28",
@@ -392,8 +400,8 @@
           {
             "from": "2026-11-25",
             "to": "2026-11-27",
-            "rows": 5942,
-            "paid_rows": 41
+            "rows": 6136,
+            "paid_rows": 45
           }
         ],
         "errors": [],
@@ -404,8 +412,8 @@
     "traffic": {
       "status": "ok",
       "data": {
-        "row_count": 281,
-        "distinct_queries": 240,
+        "row_count": 285,
+        "distinct_queries": 244,
         "windows": {
           "3": {
             "from": "2026-11-24",
@@ -7726,32 +7734,32 @@
             "from": "2026-11-27",
             "to": "2026-11-27",
             "campaign": {
-              "Impressions": 1287.0,
-              "Clicks": 5.0,
-              "Cost": 122.58,
+              "Impressions": 1681.0,
+              "Clicks": 9.0,
+              "Cost": 215.19,
               "Conversions": 0.0,
               "rows": 1,
-              "CPC": 24.516,
-              "CTR_pct": 0.3885
+              "CPC": 23.91,
+              "CTR_pct": 0.5354
             },
             "detail": {
-              "Impressions": 14.0,
-              "Clicks": 5.0,
-              "Cost": 122.58,
+              "Impressions": 24.0,
+              "Clicks": 9.0,
+              "Cost": 215.2,
               "Conversions": 0.0,
-              "rows": 5,
-              "CPC": 24.516,
-              "CTR_pct": 35.7143,
+              "rows": 9,
+              "CPC": 23.9111,
+              "CTR_pct": 37.5,
               "commercial_or_potential": {
-                "Impressions": 4.0,
-                "Clicks": 1.0,
-                "Cost": 34.88,
+                "Impressions": 11.0,
+                "Clicks": 2.0,
+                "Cost": 53.04,
                 "Conversions": 0.0,
-                "rows": 1,
-                "CPC": 34.88,
-                "CTR_pct": 25.0,
-                "share_of_detailed_spend_pct": 28.4549,
-                "cost_per_commercial_click": 34.88
+                "rows": 2,
+                "CPC": 26.52,
+                "CTR_pct": 18.1818,
+                "share_of_detailed_spend_pct": 24.6468,
+                "cost_per_commercial_click": 26.52
               },
               "clear_mismatch_or_explicit_service": {
                 "Impressions": null,
@@ -7766,57 +7774,57 @@
               "categories": [
                 {
                   "intent": "ambiguous",
-                  "Impressions": 10.0,
-                  "Clicks": 4.0,
-                  "Cost": 87.7,
+                  "Impressions": 13.0,
+                  "Clicks": 7.0,
+                  "Cost": 162.16,
                   "Conversions": 0.0,
-                  "rows": 4,
-                  "CPC": 21.925,
-                  "CTR_pct": 40.0
+                  "rows": 7,
+                  "CPC": 23.1657,
+                  "CTR_pct": 53.8462
                 },
                 {
                   "intent": "hot_commercial",
-                  "Impressions": 4.0,
-                  "Clicks": 1.0,
-                  "Cost": 34.88,
+                  "Impressions": 11.0,
+                  "Clicks": 2.0,
+                  "Cost": 53.04,
                   "Conversions": 0.0,
-                  "rows": 1,
-                  "CPC": 34.88,
-                  "CTR_pct": 25.0
+                  "rows": 2,
+                  "CPC": 26.52,
+                  "CTR_pct": 18.1818
                 }
               ],
               "diagnostic_or_ambiguous": {
-                "Impressions": 10.0,
-                "Clicks": 4.0,
-                "Cost": 87.7,
+                "Impressions": 13.0,
+                "Clicks": 7.0,
+                "Cost": 162.16,
                 "Conversions": 0.0,
-                "rows": 4,
-                "CPC": 21.925,
-                "CTR_pct": 40.0,
-                "share_of_detailed_spend_pct": 71.5451
+                "rows": 7,
+                "CPC": 23.1657,
+                "CTR_pct": 53.8462,
+                "share_of_detailed_spend_pct": 75.3532
               },
               "CTR_note": "paid-row CTR is not campaign CTR; use full targeting or campaign report"
             },
             "by_targeting": [
               {
                 "CriterionType": "AUTOTARGETING",
-                "Impressions": 10.0,
-                "Clicks": 2.0,
-                "Cost": 52.18,
+                "Impressions": 17.0,
+                "Clicks": 3.0,
+                "Cost": 70.34,
                 "Conversions": 0.0,
-                "rows": 2,
-                "CPC": 26.09,
-                "CTR_pct": 20.0,
+                "rows": 3,
+                "CPC": 23.4467,
+                "CTR_pct": 17.6471,
                 "commercial_or_potential": {
-                  "Impressions": 4.0,
-                  "Clicks": 1.0,
-                  "Cost": 34.88,
+                  "Impressions": 11.0,
+                  "Clicks": 2.0,
+                  "Cost": 53.04,
                   "Conversions": 0.0,
-                  "rows": 1,
-                  "CPC": 34.88,
-                  "CTR_pct": 25.0,
-                  "share_of_detailed_spend_pct": 66.8455,
-                  "cost_per_commercial_click": 34.88
+                  "rows": 2,
+                  "CPC": 26.52,
+                  "CTR_pct": 18.1818,
+                  "share_of_detailed_spend_pct": 75.4052,
+                  "cost_per_commercial_click": 26.52
                 },
                 "clear_mismatch_or_explicit_service": {
                   "Impressions": null,
@@ -7841,13 +7849,13 @@
                   },
                   {
                     "intent": "hot_commercial",
-                    "Impressions": 4.0,
-                    "Clicks": 1.0,
-                    "Cost": 34.88,
+                    "Impressions": 11.0,
+                    "Clicks": 2.0,
+                    "Cost": 53.04,
                     "Conversions": 0.0,
-                    "rows": 1,
-                    "CPC": 34.88,
-                    "CTR_pct": 25.0
+                    "rows": 2,
+                    "CPC": 26.52,
+                    "CTR_pct": 18.1818
                   }
                 ],
                 "diagnostic_or_ambiguous": {
@@ -7858,19 +7866,19 @@
                   "rows": 1,
                   "CPC": 17.3,
                   "CTR_pct": 16.6667,
-                  "share_of_detailed_spend_pct": 33.1545
+                  "share_of_detailed_spend_pct": 24.5948
                 },
                 "CTR_note": "paid-row CTR is not campaign CTR; use full targeting or campaign report"
               },
               {
                 "CriterionType": "KEYWORD",
-                "Impressions": 4.0,
-                "Clicks": 3.0,
-                "Cost": 70.4,
+                "Impressions": 7.0,
+                "Clicks": 6.0,
+                "Cost": 144.86,
                 "Conversions": 0.0,
-                "rows": 3,
-                "CPC": 23.4667,
-                "CTR_pct": 75.0,
+                "rows": 6,
+                "CPC": 24.1433,
+                "CTR_pct": 85.7143,
                 "commercial_or_potential": {
                   "Impressions": null,
                   "Clicks": null,
@@ -7895,23 +7903,23 @@
                 "categories": [
                   {
                     "intent": "ambiguous",
-                    "Impressions": 4.0,
-                    "Clicks": 3.0,
-                    "Cost": 70.4,
+                    "Impressions": 7.0,
+                    "Clicks": 6.0,
+                    "Cost": 144.86,
                     "Conversions": 0.0,
-                    "rows": 3,
-                    "CPC": 23.4667,
-                    "CTR_pct": 75.0
+                    "rows": 6,
+                    "CPC": 24.1433,
+                    "CTR_pct": 85.7143
                   }
                 ],
                 "diagnostic_or_ambiguous": {
-                  "Impressions": 4.0,
-                  "Clicks": 3.0,
-                  "Cost": 70.4,
+                  "Impressions": 7.0,
+                  "Clicks": 6.0,
+                  "Cost": 144.86,
                   "Conversions": 0.0,
-                  "rows": 3,
-                  "CPC": 23.4667,
-                  "CTR_pct": 75.0,
+                  "rows": 6,
+                  "CPC": 24.1433,
+                  "CTR_pct": 85.7143,
                   "share_of_detailed_spend_pct": 100.0
                 },
                 "CTR_note": "paid-row CTR is not campaign CTR; use full targeting or campaign report"
@@ -7974,23 +7982,23 @@
               },
               {
                 "AdGroupId": "5826320196",
-                "Impressions": 6.0,
-                "Clicks": 1.0,
-                "Cost": 17.3,
+                "Impressions": 13.0,
+                "Clicks": 2.0,
+                "Cost": 35.46,
                 "Conversions": 0.0,
-                "rows": 1,
-                "CPC": 17.3,
-                "CTR_pct": 16.6667,
+                "rows": 2,
+                "CPC": 17.73,
+                "CTR_pct": 15.3846,
                 "commercial_or_potential": {
-                  "Impressions": null,
-                  "Clicks": null,
-                  "Cost": null,
-                  "Conversions": null,
-                  "rows": 0,
-                  "CPC": null,
-                  "CTR_pct": null,
-                  "share_of_detailed_spend_pct": 0.0,
-                  "cost_per_commercial_click": null
+                  "Impressions": 7.0,
+                  "Clicks": 1.0,
+                  "Cost": 18.16,
+                  "Conversions": 0.0,
+                  "rows": 1,
+                  "CPC": 18.16,
+                  "CTR_pct": 14.2857,
+                  "share_of_detailed_spend_pct": 51.2126,
+                  "cost_per_commercial_click": 18.16
                 },
                 "clear_mismatch_or_explicit_service": {
                   "Impressions": null,
@@ -8012,6 +8020,16 @@
                     "rows": 1,
                     "CPC": 17.3,
                     "CTR_pct": 16.6667
+                  },
+                  {
+                    "intent": "hot_commercial",
+                    "Impressions": 7.0,
+                    "Clicks": 1.0,
+                    "Cost": 18.16,
+                    "Conversions": 0.0,
+                    "rows": 1,
+                    "CPC": 18.16,
+                    "CTR_pct": 14.2857
                   }
                 ],
                 "diagnostic_or_ambiguous": {
@@ -8022,19 +8040,19 @@
                   "rows": 1,
                   "CPC": 17.3,
                   "CTR_pct": 16.6667,
-                  "share_of_detailed_spend_pct": 100.0
+                  "share_of_detailed_spend_pct": 48.7874
                 },
                 "CTR_note": "paid-row CTR is not campaign CTR; use full targeting or campaign report"
               },
               {
                 "AdGroupId": "5828476541",
-                "Impressions": 4.0,
-                "Clicks": 3.0,
-                "Cost": 70.4,
+                "Impressions": 7.0,
+                "Clicks": 6.0,
+                "Cost": 144.86,
                 "Conversions": 0.0,
-                "rows": 3,
-                "CPC": 23.4667,
-                "CTR_pct": 75.0,
+                "rows": 6,
+                "CPC": 24.1433,
+                "CTR_pct": 85.7143,
                 "commercial_or_potential": {
                   "Impressions": null,
                   "Clicks": null,
@@ -8059,23 +8077,23 @@
                 "categories": [
                   {
                     "intent": "ambiguous",
-                    "Impressions": 4.0,
-                    "Clicks": 3.0,
-                    "Cost": 70.4,
+                    "Impressions": 7.0,
+                    "Clicks": 6.0,
+                    "Cost": 144.86,
                     "Conversions": 0.0,
-                    "rows": 3,
-                    "CPC": 23.4667,
-                    "CTR_pct": 75.0
+                    "rows": 6,
+                    "CPC": 24.1433,
+                    "CTR_pct": 85.7143
                   }
                 ],
                 "diagnostic_or_ambiguous": {
-                  "Impressions": 4.0,
-                  "Clicks": 3.0,
-                  "Cost": 70.4,
+                  "Impressions": 7.0,
+                  "Clicks": 6.0,
+                  "Cost": 144.86,
                   "Conversions": 0.0,
-                  "rows": 3,
-                  "CPC": 23.4667,
-                  "CTR_pct": 75.0,
+                  "rows": 6,
+                  "CPC": 24.1433,
+                  "CTR_pct": 85.7143,
                   "share_of_detailed_spend_pct": 100.0
                 },
                 "CTR_note": "paid-row CTR is not campaign CTR; use full targeting or campaign report"
@@ -8140,23 +8158,23 @@
               {
                 "AdGroupId": "5826320196",
                 "CriterionType": "AUTOTARGETING",
-                "Impressions": 6.0,
-                "Clicks": 1.0,
-                "Cost": 17.3,
+                "Impressions": 13.0,
+                "Clicks": 2.0,
+                "Cost": 35.46,
                 "Conversions": 0.0,
-                "rows": 1,
-                "CPC": 17.3,
-                "CTR_pct": 16.6667,
+                "rows": 2,
+                "CPC": 17.73,
+                "CTR_pct": 15.3846,
                 "commercial_or_potential": {
-                  "Impressions": null,
-                  "Clicks": null,
-                  "Cost": null,
-                  "Conversions": null,
-                  "rows": 0,
-                  "CPC": null,
-                  "CTR_pct": null,
-                  "share_of_detailed_spend_pct": 0.0,
-                  "cost_per_commercial_click": null
+                  "Impressions": 7.0,
+                  "Clicks": 1.0,
+                  "Cost": 18.16,
+                  "Conversions": 0.0,
+                  "rows": 1,
+                  "CPC": 18.16,
+                  "CTR_pct": 14.2857,
+                  "share_of_detailed_spend_pct": 51.2126,
+                  "cost_per_commercial_click": 18.16
                 },
                 "clear_mismatch_or_explicit_service": {
                   "Impressions": null,
@@ -8178,6 +8196,16 @@
                     "rows": 1,
                     "CPC": 17.3,
                     "CTR_pct": 16.6667
+                  },
+                  {
+                    "intent": "hot_commercial",
+                    "Impressions": 7.0,
+                    "Clicks": 1.0,
+                    "Cost": 18.16,
+                    "Conversions": 0.0,
+                    "rows": 1,
+                    "CPC": 18.16,
+                    "CTR_pct": 14.2857
                   }
                 ],
                 "diagnostic_or_ambiguous": {
@@ -8188,20 +8216,20 @@
                   "rows": 1,
                   "CPC": 17.3,
                   "CTR_pct": 16.6667,
-                  "share_of_detailed_spend_pct": 100.0
+                  "share_of_detailed_spend_pct": 48.7874
                 },
                 "CTR_note": "paid-row CTR is not campaign CTR; use full targeting or campaign report"
               },
               {
                 "AdGroupId": "5828476541",
                 "CriterionType": "KEYWORD",
-                "Impressions": 4.0,
-                "Clicks": 3.0,
-                "Cost": 70.4,
+                "Impressions": 7.0,
+                "Clicks": 6.0,
+                "Cost": 144.86,
                 "Conversions": 0.0,
-                "rows": 3,
-                "CPC": 23.4667,
-                "CTR_pct": 75.0,
+                "rows": 6,
+                "CPC": 24.1433,
+                "CTR_pct": 85.7143,
                 "commercial_or_potential": {
                   "Impressions": null,
                   "Clicks": null,
@@ -8226,30 +8254,30 @@
                 "categories": [
                   {
                     "intent": "ambiguous",
-                    "Impressions": 4.0,
-                    "Clicks": 3.0,
-                    "Cost": 70.4,
+                    "Impressions": 7.0,
+                    "Clicks": 6.0,
+                    "Cost": 144.86,
                     "Conversions": 0.0,
-                    "rows": 3,
-                    "CPC": 23.4667,
-                    "CTR_pct": 75.0
+                    "rows": 6,
+                    "CPC": 24.1433,
+                    "CTR_pct": 85.7143
                   }
                 ],
                 "diagnostic_or_ambiguous": {
-                  "Impressions": 4.0,
-                  "Clicks": 3.0,
-                  "Cost": 70.4,
+                  "Impressions": 7.0,
+                  "Clicks": 6.0,
+                  "Cost": 144.86,
                   "Conversions": 0.0,
-                  "rows": 3,
-                  "CPC": 23.4667,
-                  "CTR_pct": 75.0,
+                  "rows": 6,
+                  "CPC": 24.1433,
+                  "CTR_pct": 85.7143,
                   "share_of_detailed_spend_pct": 100.0
                 },
                 "CTR_note": "paid-row CTR is not campaign CTR; use full targeting or campaign report"
               }
             ],
-            "unmatched_cost": 0.0,
-            "detail_coverage_pct": 100.0
+            "unmatched_cost": -0.01,
+            "detail_coverage_pct": 100.0046
           },
           "post_change": {
             "full_days": 1,
@@ -10182,30 +10210,30 @@
           "by_targeting": [
             {
               "CriterionType": "AUTOTARGETING",
-              "Impressions": 1221.0,
-              "Clicks": 2.0,
-              "Cost": 52.18,
+              "Impressions": 1577.0,
+              "Clicks": 3.0,
+              "Cost": 70.34,
               "Conversions": 0.0,
-              "rows": 3,
-              "CPC": 26.09,
-              "CTR_pct": 0.1638
+              "rows": 4,
+              "CPC": 23.4467,
+              "CTR_pct": 0.1902
             },
             {
               "CriterionType": "KEYWORD",
-              "Impressions": 74.0,
-              "Clicks": 3.0,
-              "Cost": 70.39,
+              "Impressions": 113.0,
+              "Clicks": 6.0,
+              "Cost": 144.84,
               "Conversions": 0.0,
               "rows": 3,
-              "CPC": 23.4633,
-              "CTR_pct": 4.0541
+              "CPC": 24.14,
+              "CTR_pct": 5.3097
             }
           ],
           "by_group_targeting": [
             {
               "AdGroupId": "5826171512",
               "CriterionType": "AUTOTARGETING",
-              "Impressions": 595.0,
+              "Impressions": 722.0,
               "Clicks": 0.0,
               "Cost": 0.0,
               "Conversions": 0.0,
@@ -10227,29 +10255,40 @@
             {
               "AdGroupId": "5826183946",
               "CriterionType": "AUTOTARGETING",
-              "Impressions": 539.0,
+              "Impressions": 727.0,
               "Clicks": 1.0,
               "Cost": 34.88,
               "Conversions": 0.0,
               "rows": 1,
               "CPC": 34.88,
-              "CTR_pct": 0.1855
+              "CTR_pct": 0.1376
             },
             {
               "AdGroupId": "5826320196",
               "CriterionType": "AUTOTARGETING",
-              "Impressions": 87.0,
-              "Clicks": 1.0,
-              "Cost": 17.3,
+              "Impressions": 127.0,
+              "Clicks": 2.0,
+              "Cost": 35.46,
               "Conversions": 0.0,
               "rows": 1,
-              "CPC": 17.3,
-              "CTR_pct": 1.1494
+              "CPC": 17.73,
+              "CTR_pct": 1.5748
             },
             {
               "AdGroupId": "5826320196",
               "CriterionType": "KEYWORD",
-              "Impressions": 6.0,
+              "Impressions": 11.0,
+              "Clicks": 0.0,
+              "Cost": 0.0,
+              "Conversions": 0.0,
+              "rows": 1,
+              "CPC": null,
+              "CTR_pct": 0.0
+            },
+            {
+              "AdGroupId": "5828476541",
+              "CriterionType": "AUTOTARGETING",
+              "Impressions": 1.0,
               "Clicks": 0.0,
               "Cost": 0.0,
               "Conversions": 0.0,
@@ -10260,13 +10299,13 @@
             {
               "AdGroupId": "5828476541",
               "CriterionType": "KEYWORD",
-              "Impressions": 67.0,
-              "Clicks": 3.0,
-              "Cost": 70.39,
+              "Impressions": 101.0,
+              "Clicks": 6.0,
+              "Cost": 144.84,
               "Conversions": 0.0,
               "rows": 1,
-              "CPC": 23.4633,
-              "CTR_pct": 4.4776
+              "CPC": 24.14,
+              "CTR_pct": 5.9406
             }
           ]
         }
@@ -10279,13 +10318,13 @@
           {
             "AdGroupId": "5826171512",
             "AdId": "1927186476439690942",
-            "Impressions": 17910.0,
+            "Impressions": 18037.0,
             "Clicks": 49.0,
             "Cost": 1794.46,
             "Conversions": 1.0,
             "rows": 12,
             "CPC": 36.6216,
-            "CTR_pct": 0.2736
+            "CTR_pct": 0.2717
           },
           {
             "AdGroupId": "5826171512",
@@ -10301,46 +10340,46 @@
           {
             "AdGroupId": "5826183946",
             "AdId": "1927189770678081700",
-            "Impressions": 14231.0,
+            "Impressions": 14418.0,
             "Clicks": 127.0,
             "Cost": 3308.08,
             "Conversions": 5.0,
             "rows": 12,
             "CPC": 26.0479,
-            "CTR_pct": 0.8924
+            "CTR_pct": 0.8808
           },
           {
             "AdGroupId": "5826183946",
             "AdId": "1927466206584354174",
-            "Impressions": 215.0,
+            "Impressions": 216.0,
             "Clicks": 16.0,
             "Cost": 451.18,
             "Conversions": 1.0,
             "rows": 9,
             "CPC": 28.1988,
-            "CTR_pct": 7.4419
+            "CTR_pct": 7.4074
           },
           {
             "AdGroupId": "5826320196",
             "AdId": "1927190920657966611",
-            "Impressions": 3373.0,
-            "Clicks": 65.0,
-            "Cost": 1874.23,
+            "Impressions": 3418.0,
+            "Clicks": 66.0,
+            "Cost": 1892.39,
             "Conversions": 2.0,
             "rows": 12,
-            "CPC": 28.8343,
-            "CTR_pct": 1.9271
+            "CPC": 28.6726,
+            "CTR_pct": 1.931
           },
           {
             "AdGroupId": "5828476541",
             "AdId": "1927488453443618167",
-            "Impressions": 1398.0,
-            "Clicks": 47.0,
-            "Cost": 1599.28,
+            "Impressions": 1433.0,
+            "Clicks": 50.0,
+            "Cost": 1673.73,
             "Conversions": 2.0,
             "rows": 8,
-            "CPC": 34.0272,
-            "CTR_pct": 3.3619
+            "CPC": 33.4746,
+            "CTR_pct": 3.4892
           }
         ],
         "note": "ad ID not offer ID. No arbitrary per-SKU allocation."
@@ -10354,7 +10393,7 @@
           "data": {
             "campaign_id": 716316525,
             "attribution": "last_direct_click_campaign_id",
-            "visits": 262,
+            "visits": 266,
             "ecommerce_purchase_events": 1,
             "ecommerce_event_amount_rub": 40416.25,
             "purchase_goal_visits": 0,
@@ -10409,7 +10448,7 @@
                   }
                 ],
                 "metrics": [
-                  286.0,
+                  290.0,
                   1.0,
                   40416.25
                 ]
@@ -10422,7 +10461,7 @@
                   }
                 ],
                 "metrics": [
-                  143.0,
+                  144.0,
                   1.0,
                   4284.22
                 ]
@@ -10481,7 +10520,7 @@
               }
             ],
             "totals": [
-              516.0,
+              521.0,
               2.0,
               44700.47
             ],
@@ -10928,7 +10967,7 @@
                   }
                 ],
                 "metrics": [
-                  229.0,
+                  232.0,
                   173.0,
                   11.0,
                   0.0,
@@ -10952,7 +10991,7 @@
               }
             ],
             "totals": [
-              229.0,
+              232.0,
               176.0,
               12.0,
               0.0,
@@ -11631,6 +11670,6 @@
     }
   },
   "errors": {},
-  "finished_utc": "2026-11-27T08:10:05.822519+00:00",
-  "status": "complete"
+  "finished_utc": "2026-11-27T10:04:30.579308+00:00",
+  "status": "partial"
 }
