@@ -1,0 +1,1024 @@
+{
+  "checked_utc": "2026-11-27T14:13:00.566842+00:00",
+  "checked_client_time": "2026-11-27 22:13 UTC+8",
+  "scope": "Wildberries sales diagnosis; marketplace reads only. Existing report saving fixed; no changes to marketplace commercial settings.",
+  "marketplace_writes": 0,
+  "sources": {
+    "current_snapshot": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/30b1b854fdcf8bfc891b99c9e85f31200259ba7b/data/wb_monitor/2026-11-27-46013576941.json",
+    "current_monitoring_run": "https://github.com/antongrigorenko844-prog/marketplace-agent/actions/runs/46013576941",
+    "current_monitor_blob_sha": "fd63ddd064fc0eb58f2c4740aeef5fcae318a5ca",
+    "price_write_run": "https://github.com/antongrigorenko844-prog/marketplace-agent/actions/runs/43047902904",
+    "price_source_commit": "https://github.com/antongrigorenko844-prog/marketplace-agent/commit/e56c87715a1f78ef027ffc5b53bb33101a9ac520",
+    "price_before": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/4f893df411daffc749d3088d03bc2fde3fa84939/data/wb_cards.json",
+    "price_after": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/964ed9821f7a5c9e8f5f15713f1d0212493b68d2/data/wb_cards.json",
+    "promotion_snapshot": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/9d283b860472a33789361256a81ff612fd519e1b/data/promotion_audit_20261127/wb_live_promotions.json"
+  },
+  "current_catalog": {
+    "cards": 145,
+    "positive_fbs": 127,
+    "zero_fbs": 16,
+    "unknown_fbs": [
+      {
+        "sku": "TESTWB001",
+        "nmID": 1527409863
+      },
+      {
+        "sku": "solenoidy-dq200-8sht",
+        "nmID": 2367699163
+      }
+    ],
+    "trash": 0,
+    "stock_unknown_is_not_zero": true,
+    "buyer_checkout_not_verified": true
+  },
+  "statistics": {
+    "orders": {
+      "available": true,
+      "complete": true,
+      "returned": 109,
+      "latest": [
+        {
+          "date": "2026-11-26T20:42:13",
+          "lastChangeDate": "2026-11-26T23:26:17",
+          "supplierArticle": "0am325025q",
+          "nmId": 670854223,
+          "isCancel": false,
+          "cancelDate": "0001-01-01T00:00:00",
+          "totalPrice": 2755,
+          "discountPercent": 51,
+          "finishedPrice": 1032,
+          "priceWithDisc": 1350
+        },
+        {
+          "date": "2026-11-26T20:42:13",
+          "lastChangeDate": "2026-11-26T23:26:17",
+          "supplierArticle": "0am325025q",
+          "nmId": 670854223,
+          "isCancel": false,
+          "cancelDate": "0001-01-01T00:00:00",
+          "totalPrice": 2755,
+          "discountPercent": 51,
+          "finishedPrice": 1032,
+          "priceWithDisc": 1350
+        },
+        {
+          "date": "2026-11-25T15:26:48",
+          "lastChangeDate": "2026-11-25T15:32:53",
+          "supplierArticle": "0am325025D",
+          "nmId": 670854215,
+          "isCancel": false,
+          "cancelDate": "0001-01-01T00:00:00",
+          "totalPrice": 3547,
+          "discountPercent": 47,
+          "finishedPrice": 1428,
+          "priceWithDisc": 1880
+        },
+        {
+          "date": "2026-11-25T11:25:35",
+          "lastChangeDate": "2026-11-25T16:09:31",
+          "supplierArticle": "0am325025hfe",
+          "nmId": 670925490,
+          "isCancel": false,
+          "cancelDate": "0001-01-01T00:00:00",
+          "totalPrice": 7404,
+          "discountPercent": 48,
+          "finishedPrice": 2926,
+          "priceWithDisc": 3850
+        },
+        {
+          "date": "2026-11-24T05:51:35",
+          "lastChangeDate": "2026-11-24T18:13:06",
+          "supplierArticle": "gidroakkumulyator-orig",
+          "nmId": 1949842970,
+          "isCancel": false,
+          "cancelDate": "0001-01-01T00:00:00",
+          "totalPrice": 9124,
+          "discountPercent": 3,
+          "finishedPrice": 6744.6,
+          "priceWithDisc": 8850.23
+        },
+        {
+          "date": "2026-11-19T06:43:35",
+          "lastChangeDate": "2026-11-25T11:51:12",
+          "supplierArticle": "0am325025D",
+          "nmId": 670854215,
+          "isCancel": false,
+          "cancelDate": "0001-01-01T00:00:00",
+          "totalPrice": 6321,
+          "discountPercent": 47,
+          "finishedPrice": 2512,
+          "priceWithDisc": 3350
+        },
+        {
+          "date": "2026-11-19T06:43:35",
+          "lastChangeDate": "2026-11-25T11:51:12",
+          "supplierArticle": "0am325025D",
+          "nmId": 670854215,
+          "isCancel": false,
+          "cancelDate": "0001-01-01T00:00:00",
+          "totalPrice": 6321,
+          "discountPercent": 47,
+          "finishedPrice": 2512,
+          "priceWithDisc": 3350
+        },
+        {
+          "date": "2026-11-16T19:51:20",
+          "lastChangeDate": "2026-11-17T02:07:24",
+          "supplierArticle": "0am325025x",
+          "nmId": 1949823890,
+          "isCancel": false,
+          "cancelDate": "0001-01-01T00:00:00",
+          "totalPrice": 82135,
+          "discountPercent": 4,
+          "finishedPrice": 57560,
+          "priceWithDisc": 78850
+        },
+        {
+          "date": "2026-11-14T08:31:13",
+          "lastChangeDate": "2026-11-14T17:39:25",
+          "supplierArticle": "chip-0am927769d",
+          "nmId": 2238877298,
+          "isCancel": false,
+          "cancelDate": "0001-01-01T00:00:00",
+          "totalPrice": 19500,
+          "discountPercent": 0,
+          "finishedPrice": 14527,
+          "priceWithDisc": 19500
+        },
+        {
+          "date": "2026-11-11T17:34:29",
+          "lastChangeDate": "2026-11-16T10:37:17",
+          "supplierArticle": "0am325025",
+          "nmId": 670860331,
+          "isCancel": false,
+          "cancelDate": "0001-01-01T00:00:00",
+          "totalPrice": 23083,
+          "discountPercent": 40,
+          "finishedPrice": 10665.14,
+          "priceWithDisc": 13849.77
+        }
+      ],
+      "daily": {
+        "2026-11-17": {
+          "rows": 0,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        },
+        "2026-11-18": {
+          "rows": 0,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        },
+        "2026-11-19": {
+          "rows": 2,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        },
+        "2026-11-20": {
+          "rows": 0,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        },
+        "2026-11-21": {
+          "rows": 0,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        },
+        "2026-11-22": {
+          "rows": 0,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        },
+        "2026-11-23": {
+          "rows": 0,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        },
+        "2026-11-24": {
+          "rows": 1,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        },
+        "2026-11-25": {
+          "rows": 2,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        },
+        "2026-11-26": {
+          "rows": 2,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        },
+        "2026-11-27": {
+          "rows": 0,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        }
+      }
+    },
+    "sales": {
+      "available": true,
+      "complete": true,
+      "returned": 75,
+      "latest": [
+        {
+          "date": "2026-11-26T13:11:24",
+          "lastChangeDate": "2026-11-26T13:29:06",
+          "supplierArticle": "0am325025x",
+          "nmId": 1949823890,
+          "totalPrice": 82135,
+          "discountPercent": 4,
+          "finishedPrice": 57560,
+          "priceWithDisc": 78850,
+          "forPay": 51252.5,
+          "paymentSaleAmount": 0
+        },
+        {
+          "date": "2026-11-25T11:01:21",
+          "lastChangeDate": "2026-11-25T11:20:13",
+          "supplierArticle": "0am325025D",
+          "nmId": 670854215,
+          "totalPrice": 6321,
+          "discountPercent": 47,
+          "finishedPrice": 2512,
+          "priceWithDisc": 3350,
+          "forPay": 2177.5,
+          "paymentSaleAmount": 0
+        },
+        {
+          "date": "2026-11-25T11:01:21",
+          "lastChangeDate": "2026-11-25T11:20:13",
+          "supplierArticle": "0am325025D",
+          "nmId": 670854215,
+          "totalPrice": 6321,
+          "discountPercent": 47,
+          "finishedPrice": 2512,
+          "priceWithDisc": 3350,
+          "forPay": 2177.5,
+          "paymentSaleAmount": 0
+        },
+        {
+          "date": "2026-11-19T11:02:53",
+          "lastChangeDate": "2026-11-19T11:20:22",
+          "supplierArticle": "chip-0am927769d",
+          "nmId": 2238877298,
+          "totalPrice": 19500,
+          "discountPercent": 0,
+          "finishedPrice": 14091,
+          "priceWithDisc": 19500,
+          "forPay": 13162.5,
+          "paymentSaleAmount": 436
+        },
+        {
+          "date": "2026-11-18T09:55:51",
+          "lastChangeDate": "2026-11-18T10:10:38",
+          "supplierArticle": "kryshka-mehatronika-dq200",
+          "nmId": 1722880947,
+          "totalPrice": 3310,
+          "discountPercent": 47,
+          "finishedPrice": 1306,
+          "priceWithDisc": 1754,
+          "forPay": 1183.95,
+          "paymentSaleAmount": 0
+        },
+        {
+          "date": "2026-11-16T09:42:40",
+          "lastChangeDate": "2026-11-16T09:55:37",
+          "supplierArticle": "0am325025",
+          "nmId": 670860331,
+          "totalPrice": 23083,
+          "discountPercent": 40,
+          "finishedPrice": 10665.14,
+          "priceWithDisc": 13849.77,
+          "forPay": 9487.09,
+          "paymentSaleAmount": 0
+        },
+        {
+          "date": "2026-11-15T10:29:36",
+          "lastChangeDate": "2026-11-15T10:50:36",
+          "supplierArticle": "separatornaya-plastina-dq200",
+          "nmId": 1722879969,
+          "totalPrice": 1901,
+          "discountPercent": 80,
+          "finishedPrice": 266,
+          "priceWithDisc": 380,
+          "forPay": 256.5,
+          "paymentSaleAmount": 17
+        },
+        {
+          "date": "2026-11-15T10:29:36",
+          "lastChangeDate": "2026-11-15T10:50:36",
+          "supplierArticle": "separatornaya-plastina-dq200",
+          "nmId": 1722879969,
+          "totalPrice": 1901,
+          "discountPercent": 80,
+          "finishedPrice": 266,
+          "priceWithDisc": 380,
+          "forPay": 256.5,
+          "paymentSaleAmount": 17
+        },
+        {
+          "date": "2026-11-15T10:29:36",
+          "lastChangeDate": "2026-11-15T10:50:36",
+          "supplierArticle": "separatornaya-plastina-dq200",
+          "nmId": 1722879969,
+          "totalPrice": 1901,
+          "discountPercent": 80,
+          "finishedPrice": 266,
+          "priceWithDisc": 380,
+          "forPay": 256.5,
+          "paymentSaleAmount": 17
+        },
+        {
+          "date": "2026-11-15T10:29:36",
+          "lastChangeDate": "2026-11-15T10:50:36",
+          "supplierArticle": "separatornaya-plastina-dq200",
+          "nmId": 1722879969,
+          "totalPrice": 1901,
+          "discountPercent": 80,
+          "finishedPrice": 266,
+          "priceWithDisc": 380,
+          "forPay": 256.5,
+          "paymentSaleAmount": 17
+        }
+      ],
+      "daily": {
+        "2026-11-17": {
+          "rows": 0,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        },
+        "2026-11-18": {
+          "rows": 1,
+          "cancelled": 0,
+          "sales": 1,
+          "returns": 0
+        },
+        "2026-11-19": {
+          "rows": 1,
+          "cancelled": 0,
+          "sales": 1,
+          "returns": 0
+        },
+        "2026-11-20": {
+          "rows": 0,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        },
+        "2026-11-21": {
+          "rows": 0,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        },
+        "2026-11-22": {
+          "rows": 0,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        },
+        "2026-11-23": {
+          "rows": 0,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        },
+        "2026-11-24": {
+          "rows": 0,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        },
+        "2026-11-25": {
+          "rows": 2,
+          "cancelled": 0,
+          "sales": 2,
+          "returns": 0
+        },
+        "2026-11-26": {
+          "rows": 1,
+          "cancelled": 0,
+          "sales": 1,
+          "returns": 0
+        },
+        "2026-11-27": {
+          "rows": 0,
+          "cancelled": 0,
+          "sales": 0,
+          "returns": 0
+        }
+      }
+    }
+  },
+  "funnel_aggregates": {
+    "7": {
+      "past": {
+        "period": {
+          "start": "2026-11-13",
+          "end": "2026-11-19"
+        },
+        "openCount": 269,
+        "cartCount": 28,
+        "orderCount": 5,
+        "orderSum": 223930,
+        "buyoutCount": 4,
+        "buyoutSum": 105050,
+        "cancelCount": 0,
+        "cancelSum": 0
+      },
+      "selected": {
+        "period": {
+          "start": "2026-11-20",
+          "end": "2026-11-26"
+        },
+        "openCount": 282,
+        "cartCount": 11,
+        "orderCount": 5,
+        "orderSum": 17280,
+        "buyoutCount": 0,
+        "buyoutSum": 0,
+        "cancelCount": 0,
+        "cancelSum": 0
+      }
+    },
+    "14": {
+      "past": {
+        "period": {
+          "start": "2026-10-30",
+          "end": "2026-11-12"
+        },
+        "openCount": 544,
+        "cartCount": 71,
+        "orderCount": 21,
+        "orderSum": 52560,
+        "buyoutCount": 14,
+        "buyoutSum": 43301,
+        "cancelCount": 6,
+        "cancelSum": 8189
+      },
+      "selected": {
+        "period": {
+          "start": "2026-11-13",
+          "end": "2026-11-26"
+        },
+        "openCount": 551,
+        "cartCount": 39,
+        "orderCount": 10,
+        "orderSum": 241210,
+        "buyoutCount": 4,
+        "buyoutSum": 105050,
+        "cancelCount": 0,
+        "cancelSum": 0
+      }
+    },
+    "30": {
+      "past": {
+        "period": {
+          "start": "2026-09-28",
+          "end": "2026-10-27"
+        },
+        "openCount": 818,
+        "cartCount": 113,
+        "orderCount": 37,
+        "orderSum": 133003,
+        "buyoutCount": 24,
+        "buyoutSum": 57171,
+        "cancelCount": 13,
+        "cancelSum": 75832
+      },
+      "selected": {
+        "period": {
+          "start": "2026-10-28",
+          "end": "2026-11-26"
+        },
+        "openCount": 1153,
+        "cartCount": 114,
+        "orderCount": 31,
+        "orderSum": 293770,
+        "buyoutCount": 18,
+        "buyoutSum": 148351,
+        "cancelCount": 6,
+        "cancelSum": 8189
+      }
+    },
+    "90": {
+      "past": {
+        "period": {
+          "start": "2026-05-31",
+          "end": "2026-08-28"
+        },
+        "openCount": 4078,
+        "cartCount": 550,
+        "orderCount": 197,
+        "orderSum": 1380542,
+        "buyoutCount": 138,
+        "buyoutSum": 1144703,
+        "cancelCount": 55,
+        "cancelSum": 221080
+      },
+      "selected": {
+        "period": {
+          "start": "2026-08-29",
+          "end": "2026-11-26"
+        },
+        "openCount": 2789,
+        "cartCount": 311,
+        "orderCount": 106,
+        "orderSum": 553461,
+        "buyoutCount": 67,
+        "buyoutSum": 296156,
+        "cancelCount": 32,
+        "cancelSum": 120075
+      }
+    }
+  },
+  "price_increase_cohort_14_days": {
+    "raised": {
+      "products": 59,
+      "past": {
+        "openCount": 250,
+        "cartCount": 44,
+        "orderCount": 13,
+        "cancelCount": 3,
+        "orderSum": 21260
+      },
+      "selected": {
+        "openCount": 212,
+        "cartCount": 19,
+        "orderCount": 3,
+        "cancelCount": 0,
+        "orderSum": 206580
+      }
+    },
+    "other": {
+      "products": 75,
+      "past": {
+        "openCount": 294,
+        "cartCount": 27,
+        "orderCount": 8,
+        "cancelCount": 3,
+        "orderSum": 31300
+      },
+      "selected": {
+        "openCount": 339,
+        "cartCount": 20,
+        "orderCount": 7,
+        "cancelCount": 0,
+        "orderSum": 34630
+      }
+    }
+  },
+  "price_change_history": {
+    "operation": {
+      "command": "push-wb-price",
+      "started_utc": "2026-11-11T15:23:35Z",
+      "logged_submission_completed_utc": "2026-11-11T15:24:03.7185266Z",
+      "workflow_run_id": 43047902904,
+      "job_id": 130616721349,
+      "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/actions/runs/43047902904",
+      "workflow_head": "e56c87715a1f78ef027ffc5b53bb33101a9ac520",
+      "acceptance_log": "WB принял все цены без ошибок.",
+      "confirmed_changed_nmids": 61,
+      "increases": 61,
+      "decreases": 0,
+      "log_masking_limit": "GitHub masks every occurrence of numeral1 as*** in this job's output. Numeric outcomes recovered independently from unmasked sellerAPI before/after snapshots, not guessed from masked log."
+    },
+    "recorded_intent": "Commit describes restoring 61 WB prices after automatic promotions; original approval dialogue not independently verified.",
+    "verified_same_nmids": 119,
+    "increased_nmids": 61,
+    "decreased_nmids": 0,
+    "still_above_before_by_more_than_1_rub": 55,
+    "key_skus": [
+      {
+        "sku": "plita-pylniki-salniki",
+        "nmID": 1605381170,
+        "old": 4798.95,
+        "now": 10850.02,
+        "base_before": 20865,
+        "base_after": 47174,
+        "discount_before": 77,
+        "discount_after": 77,
+        "increase_pct": 126.09154085789602,
+        "ratio": 2.2609154085789602,
+        "unchanged_discount": true,
+        "interpretation": "Comparable seller price API snapshots prove actual base-price increase with unchanged discount; no order-price/SPP ambiguity is needed for this conclusion."
+      },
+      {
+        "sku": "separatornaya-plastina-dq200",
+        "nmID": 1722879969,
+        "old": 380.2,
+        "now": 1350,
+        "base_before": 1901,
+        "base_after": 6750,
+        "discount_before": 80,
+        "discount_after": 80,
+        "increase_pct": 255.0762756443977,
+        "ratio": 3.550762756443977,
+        "unchanged_discount": true,
+        "interpretation": "Comparable seller price API snapshots prove actual base-price increase with unchanged discount; no order-price/SPP ambiguity is needed for this conclusion."
+      }
+    ]
+  },
+  "promotion_snapshot": {
+    "snapshot_utc_approx": "2026-11-26T16:32:00Z",
+    "source": "data/promotion_audit_20261127/wb_live_promotions.json",
+    "promotions": [
+      {
+        "id": 3296,
+        "name": "Отмечательная распродажа: выгодные предложения (автоматические скидки)",
+        "type": "auto",
+        "start_utc": "2026-12-03T21:00:00Z",
+        "end_utc": "2026-12-20T20:59:59Z",
+        "active_at_snapshot": false,
+        "details": [
+          {
+            "inPromoActionTotal": 0,
+            "inPromoActionLeftovers": 0,
+            "notInPromoActionTotal": 124,
+            "participationPercentage": 0,
+            "exceptionProductsCount": 0,
+            "ranging": [
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 1,
+                "boost": 25
+              },
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 50,
+                "boost": 30
+              },
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 70,
+                "boost": 35
+              }
+            ]
+          }
+        ],
+        "participant_list_status": "error",
+        "participant_list_error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+      },
+      {
+        "id": 3282,
+        "name": "Отмечательная распродажа (автоматические скидки)",
+        "type": "auto",
+        "start_utc": "2026-11-30T21:00:00Z",
+        "end_utc": "2027-01-10T20:59:59Z",
+        "active_at_snapshot": false,
+        "details": [
+          {
+            "inPromoActionTotal": 31,
+            "inPromoActionLeftovers": 31,
+            "notInPromoActionTotal": 94,
+            "participationPercentage": 25,
+            "exceptionProductsCount": 0,
+            "ranging": [
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 1,
+                "boost": 25
+              },
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 50,
+                "boost": 30
+              },
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 80,
+                "boost": 35
+              }
+            ]
+          }
+        ],
+        "participant_list_status": "error",
+        "participant_list_error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+      },
+      {
+        "id": 3280,
+        "name": "Чёрная пятница: финал (автоматические скидки)",
+        "type": "auto",
+        "start_utc": "2026-11-27T21:00:00Z",
+        "end_utc": "2026-11-30T20:59:59Z",
+        "active_at_snapshot": false,
+        "details": [
+          {
+            "inPromoActionTotal": 23,
+            "inPromoActionLeftovers": 23,
+            "notInPromoActionTotal": 98,
+            "participationPercentage": 19,
+            "exceptionProductsCount": 0,
+            "ranging": [
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 1,
+                "boost": 30
+              },
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 30,
+                "boost": 35
+              }
+            ]
+          }
+        ],
+        "participant_list_status": "error",
+        "participant_list_error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+      },
+      {
+        "id": 3277,
+        "name": "Скидки на товары с низкой оборачиваемостью (автоматические скидки)",
+        "type": "auto",
+        "start_utc": "2026-11-26T21:00:00Z",
+        "end_utc": "2026-12-10T20:59:59Z",
+        "active_at_snapshot": false,
+        "details": [
+          {
+            "inPromoActionTotal": 0,
+            "inPromoActionLeftovers": 0,
+            "notInPromoActionTotal": 3,
+            "participationPercentage": 0,
+            "exceptionProductsCount": 0,
+            "ranging": [
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 1,
+                "boost": 35
+              }
+            ]
+          }
+        ],
+        "participant_list_status": "error",
+        "participant_list_error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+      },
+      {
+        "id": 3276,
+        "name": "Скидки на товары с низкой оборачиваемостью",
+        "type": "regular",
+        "start_utc": "2026-11-19T16:00:00Z",
+        "end_utc": "2026-12-10T20:59:59Z",
+        "active_at_snapshot": true,
+        "details": [
+          {
+            "inPromoActionTotal": 0,
+            "inPromoActionLeftovers": 0,
+            "notInPromoActionTotal": 3,
+            "participationPercentage": 0,
+            "ranging": [
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 1,
+                "boost": 35
+              }
+            ]
+          }
+        ],
+        "participant_list_status": "ok"
+      },
+      {
+        "id": 3225,
+        "name": "Чёрная пятница: максимум заказов (автоматические скидки)",
+        "type": "auto",
+        "start_utc": "2026-11-23T21:00:00Z",
+        "end_utc": "2026-11-30T20:59:59Z",
+        "active_at_snapshot": true,
+        "details": [
+          {
+            "inPromoActionTotal": 30,
+            "inPromoActionLeftovers": 30,
+            "notInPromoActionTotal": 77,
+            "participationPercentage": 30,
+            "exceptionProductsCount": 0,
+            "ranging": [
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 1,
+                "boost": 30
+              },
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 40,
+                "boost": 35
+              }
+            ]
+          }
+        ],
+        "participant_list_status": "error",
+        "participant_list_error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+      },
+      {
+        "id": 3188,
+        "name": "Повышаем заказы (автоматические скидки)",
+        "type": "auto",
+        "start_utc": "2026-11-20T21:00:00Z",
+        "end_utc": "2026-12-15T20:59:59Z",
+        "active_at_snapshot": true,
+        "details": [
+          {
+            "inPromoActionTotal": 23,
+            "inPromoActionLeftovers": 23,
+            "notInPromoActionTotal": 84,
+            "participationPercentage": 23,
+            "exceptionProductsCount": 0,
+            "ranging": [
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 1,
+                "boost": 30
+              },
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 50,
+                "boost": 35
+              }
+            ]
+          }
+        ],
+        "participant_list_status": "error",
+        "participant_list_error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+      },
+      {
+        "id": 3178,
+        "name": "Чёрная пятница: хиты (автоматические скидки)",
+        "type": "auto",
+        "start_utc": "2026-11-18T21:00:00Z",
+        "end_utc": "2026-11-30T20:59:59Z",
+        "active_at_snapshot": true,
+        "details": [
+          {
+            "inPromoActionTotal": 15,
+            "inPromoActionLeftovers": 15,
+            "notInPromoActionTotal": 84,
+            "participationPercentage": 16,
+            "exceptionProductsCount": 0,
+            "ranging": [
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 1,
+                "boost": 30
+              },
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 60,
+                "boost": 35
+              }
+            ]
+          }
+        ],
+        "participant_list_status": "error",
+        "participant_list_error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+      },
+      {
+        "id": 3172,
+        "name": "Чёрная пятница: распродажа товаров с низкой оборачиваемостью (автоматические скидки)",
+        "type": "auto",
+        "start_utc": "2026-11-18T21:00:00Z",
+        "end_utc": "2026-11-30T20:59:59Z",
+        "active_at_snapshot": true,
+        "details": [
+          {
+            "inPromoActionTotal": 2,
+            "inPromoActionLeftovers": 2,
+            "notInPromoActionTotal": 1,
+            "participationPercentage": 67,
+            "exceptionProductsCount": 0,
+            "ranging": [
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 1,
+                "boost": 30
+              },
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 60,
+                "boost": 35
+              }
+            ]
+          }
+        ],
+        "participant_list_status": "error",
+        "participant_list_error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+      },
+      {
+        "id": 3158,
+        "name": "Чёрная пятница: выгодные предложения (автоматические скидки)",
+        "type": "auto",
+        "start_utc": "2026-11-15T21:00:00Z",
+        "end_utc": "2026-11-22T20:59:59Z",
+        "active_at_snapshot": false,
+        "details": [],
+        "participant_list_status": "error",
+        "participant_list_error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+      },
+      {
+        "id": 3148,
+        "name": "Чёрная пятница (автоакция)",
+        "type": "auto",
+        "start_utc": "2026-11-12T21:00:00Z",
+        "end_utc": "2026-11-30T20:59:59Z",
+        "active_at_snapshot": true,
+        "details": [
+          {
+            "inPromoActionTotal": 24,
+            "inPromoActionLeftovers": 22,
+            "notInPromoActionTotal": 78,
+            "participationPercentage": 23,
+            "exceptionProductsCount": 102,
+            "ranging": [
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 1,
+                "boost": 25
+              },
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 50,
+                "boost": 30
+              },
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 80,
+                "boost": 35
+              }
+            ]
+          }
+        ],
+        "participant_list_status": "error",
+        "participant_list_error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+      },
+      {
+        "id": 3053,
+        "name": "Осенние скидки (автоматические скидки)",
+        "type": "auto",
+        "start_utc": "2026-10-26T21:00:00Z",
+        "end_utc": "2026-11-20T20:59:59Z",
+        "active_at_snapshot": false,
+        "details": [],
+        "participant_list_status": "error",
+        "participant_list_error": "RuntimeError: wb /api/v1/calendar/promotions/nomenclatures: HTTP 422 {\"errorText\":\"Unprocessable entity\"}"
+      },
+      {
+        "id": 2766,
+        "name": "Новинки",
+        "type": "regular",
+        "start_utc": "2026-08-01T07:00:00Z",
+        "end_utc": "2026-12-31T20:59:59Z",
+        "active_at_snapshot": true,
+        "details": [
+          {
+            "inPromoActionTotal": 0,
+            "inPromoActionLeftovers": 0,
+            "notInPromoActionTotal": 7,
+            "participationPercentage": 0,
+            "ranging": [
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 1,
+                "boost": 30
+              },
+              {
+                "condition": "productsInPromotion",
+                "participationRate": 45,
+                "boost": 35
+              }
+            ]
+          }
+        ],
+        "participant_list_status": "ok"
+      }
+    ]
+  },
+  "technical_fix": {
+    "commit": "655b753720c608dc79d14139e3754a93d4af927f",
+    "reason": "Rerun reused run ID. Shell find selected an older dated report and saved no fresh data.",
+    "change": "Save exact Path OUT using existing save_data.sh.",
+    "verified_run": 46013576941
+  },
+  "limitations": [
+    "Orders counted in item units, not unique customer checkouts. Large same-time batches affect comparisons.",
+    "WB raw statistics dates preserved as returned; no conversion of timezone-free timestamps. Funnel windows follow WB report dates.",
+    "The compared 14-day window 30 Oct–12 Nov includes the 11 Nov price operation; it is not a clean experimental pre-period.",
+    "Funnel purchases/cancellations are attributed to original order dates; sums are not calendar cash revenue or net profit.",
+    "Current-day data may arrive later. Technical completeness is not equivalence across WB reporting endpoints.",
+    "Price snapshots use same seller API discountedPrice; buyer price also depends on WB-funded and other buyer discounts.",
+    "Current FBS stock does not prove historical daily stock or buyer checkout availability in every region.",
+    "Per-SKU auto-promotion membership unavailable in stored snapshot due HTTP 422; aggregate memberships overlap.",
+    "Search-position report unavailable: subscription-specific HTTP 403. Do not infer current positions or visibility collapse.",
+    "Detailed finance response was accessible, but monitor projection omits required payout/logistics/storage fields; no complete unit-profit conclusion.",
+    "61-product price increase is established. Causal share of sales change is not identified from these observations."
+  ]
+}
