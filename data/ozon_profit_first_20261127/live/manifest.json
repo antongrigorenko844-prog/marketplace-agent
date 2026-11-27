@@ -2,13 +2,13 @@
   "schema_version": 1,
   "mode": "READ_ONLY",
   "seller_writes": 0,
-  "started_at": "2026-11-27T02:51:57.429656+00:00",
+  "started_at": "2026-11-27T13:53:03.777344+00:00",
   "status": "partial",
   "sections": {
     "products": {
       "status": "ok",
-      "started_at": "2026-11-27T02:51:57.429808+00:00",
-      "completed_at": "2026-11-27T02:51:58.592478+00:00",
+      "started_at": "2026-11-27T13:53:03.777446+00:00",
+      "completed_at": "2026-11-27T13:53:05.021656+00:00",
       "count": 147,
       "coverage": {
         "pages": 2,
@@ -28,8 +28,8 @@
     },
     "master": {
       "status": "ok",
-      "started_at": "2026-11-27T02:51:58.670335+00:00",
-      "completed_at": "2026-11-27T02:51:58.693648+00:00",
+      "started_at": "2026-11-27T13:53:05.180496+00:00",
+      "completed_at": "2026-11-27T13:53:05.202235+00:00",
       "count": 159,
       "coverage": {
         "duplicate_offer_ids": [],
@@ -40,8 +40,8 @@
     },
     "prices": {
       "status": "ok",
-      "started_at": "2026-11-27T02:51:58.694521+00:00",
-      "completed_at": "2026-11-27T02:51:59.178720+00:00",
+      "started_at": "2026-11-27T13:53:05.202982+00:00",
+      "completed_at": "2026-11-27T13:53:05.794767+00:00",
       "count": 147,
       "coverage": {
         "expected_count": 147,
@@ -54,8 +54,8 @@
     },
     "product_info": {
       "status": "ok",
-      "started_at": "2026-11-27T02:51:59.190325+00:00",
-      "completed_at": "2026-11-27T02:51:59.751325+00:00",
+      "started_at": "2026-11-27T13:53:05.805170+00:00",
+      "completed_at": "2026-11-27T13:53:06.389193+00:00",
       "count": 147,
       "coverage": {
         "expected_count": 147,
@@ -68,8 +68,8 @@
     },
     "stocks": {
       "status": "ok",
-      "started_at": "2026-11-27T02:51:59.767626+00:00",
-      "completed_at": "2026-11-27T02:52:00.112974+00:00",
+      "started_at": "2026-11-27T13:53:06.402983+00:00",
+      "completed_at": "2026-11-27T13:53:06.863673+00:00",
       "count": 147,
       "coverage": {
         "expected_count": 147,
@@ -82,20 +82,20 @@
     },
     "promotions": {
       "status": "ok",
-      "started_at": "2026-11-27T02:52:00.114909+00:00",
-      "completed_at": "2026-11-27T02:52:05.125215+00:00",
-      "count": 8,
+      "started_at": "2026-11-27T13:53:06.865287+00:00",
+      "completed_at": "2026-11-27T13:53:13.518714+00:00",
+      "count": 9,
       "coverage": {
-        "action_count": 8,
-        "collected_action_count": 8,
+        "action_count": 9,
+        "collected_action_count": 9,
         "active_catalogue_count": 147
       },
       "errors": []
     },
     "protection": {
       "status": "ok",
-      "started_at": "2026-11-27T02:52:05.170554+00:00",
-      "completed_at": "2026-11-27T02:52:05.468715+00:00",
+      "started_at": "2026-11-27T13:53:13.562047+00:00",
+      "completed_at": "2026-11-27T13:53:13.960536+00:00",
       "count": 147,
       "coverage": {
         "expected_count": 147,
@@ -108,8 +108,8 @@
     },
     "finance": {
       "status": "partial",
-      "started_at": "2026-11-27T02:52:05.481206+00:00",
-      "completed_at": "2026-11-27T02:52:18.112410+00:00",
+      "started_at": "2026-11-27T13:53:13.970996+00:00",
+      "completed_at": "2026-11-27T13:53:28.199123+00:00",
       "count": 69,
       "coverage": {
         "expected_dates": 30,
@@ -443,470 +443,486 @@
       "7089641146"
     ]
   },
-  "completed_at": "2026-11-27T02:52:18.113589+00:00",
+  "completed_at": "2026-11-27T13:53:28.200153+00:00",
   "requests": [
     {
       "method": "POST",
       "endpoint": "/v3/product/list",
       "attempt": 1,
-      "started_at": "2026-11-27T02:51:57.429831+00:00",
-      "completed_at": "2026-11-27T02:51:58.420789+00:00",
+      "started_at": "2026-11-27T13:53:03.777463+00:00",
+      "completed_at": "2026-11-27T13:53:04.790080+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v3/product/list",
       "attempt": 1,
-      "started_at": "2026-11-27T02:51:58.421333+00:00",
-      "completed_at": "2026-11-27T02:51:58.592299+00:00",
+      "started_at": "2026-11-27T13:53:04.790485+00:00",
+      "completed_at": "2026-11-27T13:53:05.021493+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v5/product/info/prices",
       "attempt": 1,
-      "started_at": "2026-11-27T02:51:58.694590+00:00",
-      "completed_at": "2026-11-27T02:51:58.958535+00:00",
+      "started_at": "2026-11-27T13:53:05.203039+00:00",
+      "completed_at": "2026-11-27T13:53:05.498158+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v5/product/info/prices",
       "attempt": 1,
-      "started_at": "2026-11-27T02:51:58.960673+00:00",
-      "completed_at": "2026-11-27T02:51:59.177237+00:00",
+      "started_at": "2026-11-27T13:53:05.500083+00:00",
+      "completed_at": "2026-11-27T13:53:05.793425+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v3/product/info/list",
       "attempt": 1,
-      "started_at": "2026-11-27T02:51:59.190405+00:00",
-      "completed_at": "2026-11-27T02:51:59.539604+00:00",
+      "started_at": "2026-11-27T13:53:05.805237+00:00",
+      "completed_at": "2026-11-27T13:53:06.109309+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v3/product/info/list",
       "attempt": 1,
-      "started_at": "2026-11-27T02:51:59.541800+00:00",
-      "completed_at": "2026-11-27T02:51:59.749937+00:00",
+      "started_at": "2026-11-27T13:53:06.111276+00:00",
+      "completed_at": "2026-11-27T13:53:06.388032+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v4/product/info/stocks",
       "attempt": 1,
-      "started_at": "2026-11-27T02:51:59.767718+00:00",
-      "completed_at": "2026-11-27T02:51:59.942004+00:00",
+      "started_at": "2026-11-27T13:53:06.403051+00:00",
+      "completed_at": "2026-11-27T13:53:06.646186+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v4/product/info/stocks",
       "attempt": 1,
-      "started_at": "2026-11-27T02:51:59.942542+00:00",
-      "completed_at": "2026-11-27T02:52:00.112417+00:00",
+      "started_at": "2026-11-27T13:53:06.646642+00:00",
+      "completed_at": "2026-11-27T13:53:06.863207+00:00",
       "http_status": 200
     },
     {
       "method": "GET",
       "endpoint": "/v1/actions",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:00.114929+00:00",
-      "completed_at": "2026-11-27T02:52:00.267157+00:00",
+      "started_at": "2026-11-27T13:53:06.865309+00:00",
+      "completed_at": "2026-11-27T13:53:07.069744+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v2/actions/products",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:00.267324+00:00",
-      "completed_at": "2026-11-27T02:52:00.587257+00:00",
+      "started_at": "2026-11-27T13:53:07.069911+00:00",
+      "completed_at": "2026-11-27T13:53:07.530738+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v2/actions/candidates",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:00.587963+00:00",
-      "completed_at": "2026-11-27T02:52:00.917951+00:00",
+      "started_at": "2026-11-27T13:53:07.531411+00:00",
+      "completed_at": "2026-11-27T13:53:07.927559+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v2/actions/products",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:00.919173+00:00",
-      "completed_at": "2026-11-27T02:52:01.138999+00:00",
+      "started_at": "2026-11-27T13:53:07.928727+00:00",
+      "completed_at": "2026-11-27T13:53:08.346573+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v2/actions/candidates",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:01.139211+00:00",
-      "completed_at": "2026-11-27T02:52:01.462406+00:00",
+      "started_at": "2026-11-27T13:53:08.346919+00:00",
+      "completed_at": "2026-11-27T13:53:08.724898+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v2/actions/products",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:01.463120+00:00",
-      "completed_at": "2026-11-27T02:52:01.616951+00:00",
+      "started_at": "2026-11-27T13:53:08.725431+00:00",
+      "completed_at": "2026-11-27T13:53:09.038712+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v2/actions/candidates",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:01.617084+00:00",
-      "completed_at": "2026-11-27T02:52:01.952539+00:00",
+      "started_at": "2026-11-27T13:53:09.039303+00:00",
+      "completed_at": "2026-11-27T13:53:09.445212+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v2/actions/products",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:01.953362+00:00",
-      "completed_at": "2026-11-27T02:52:02.112962+00:00",
+      "started_at": "2026-11-27T13:53:09.445824+00:00",
+      "completed_at": "2026-11-27T13:53:09.653554+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v2/actions/candidates",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:02.113095+00:00",
-      "completed_at": "2026-11-27T02:52:02.440381+00:00",
+      "started_at": "2026-11-27T13:53:09.653645+00:00",
+      "completed_at": "2026-11-27T13:53:10.043076+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v2/actions/products",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:02.441262+00:00",
-      "completed_at": "2026-11-27T02:52:02.709769+00:00",
+      "started_at": "2026-11-27T13:53:10.043805+00:00",
+      "completed_at": "2026-11-27T13:53:10.246658+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v2/actions/candidates",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:02.710323+00:00",
-      "completed_at": "2026-11-27T02:52:03.009820+00:00",
+      "started_at": "2026-11-27T13:53:10.246762+00:00",
+      "completed_at": "2026-11-27T13:53:10.637794+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v2/actions/products",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:03.010473+00:00",
-      "completed_at": "2026-11-27T02:52:03.294401+00:00",
+      "started_at": "2026-11-27T13:53:10.638591+00:00",
+      "completed_at": "2026-11-27T13:53:10.984421+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v2/actions/candidates",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:03.294884+00:00",
-      "completed_at": "2026-11-27T02:52:03.585520+00:00",
+      "started_at": "2026-11-27T13:53:10.984880+00:00",
+      "completed_at": "2026-11-27T13:53:11.393530+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v2/actions/products",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:03.586205+00:00",
-      "completed_at": "2026-11-27T02:52:04.288415+00:00",
+      "started_at": "2026-11-27T13:53:11.394073+00:00",
+      "completed_at": "2026-11-27T13:53:11.746676+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v2/actions/candidates",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:04.288907+00:00",
-      "completed_at": "2026-11-27T02:52:04.588431+00:00",
+      "started_at": "2026-11-27T13:53:11.747167+00:00",
+      "completed_at": "2026-11-27T13:53:12.118542+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v2/actions/products",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:04.589647+00:00",
-      "completed_at": "2026-11-27T02:52:04.858263+00:00",
+      "started_at": "2026-11-27T13:53:12.119653+00:00",
+      "completed_at": "2026-11-27T13:53:12.474761+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v2/actions/candidates",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:04.858709+00:00",
-      "completed_at": "2026-11-27T02:52:05.124794+00:00",
+      "started_at": "2026-11-27T13:53:12.475272+00:00",
+      "completed_at": "2026-11-27T13:53:12.847534+00:00",
+      "http_status": 200
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v2/actions/products",
+      "attempt": 1,
+      "started_at": "2026-11-27T13:53:12.848118+00:00",
+      "completed_at": "2026-11-27T13:53:13.194683+00:00",
+      "http_status": 200
+    },
+    {
+      "method": "POST",
+      "endpoint": "/v2/actions/candidates",
+      "attempt": 1,
+      "started_at": "2026-11-27T13:53:13.195136+00:00",
+      "completed_at": "2026-11-27T13:53:13.518404+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/product/action/timer/status",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:05.170633+00:00",
-      "completed_at": "2026-11-27T02:52:05.321781+00:00",
+      "started_at": "2026-11-27T13:53:13.562113+00:00",
+      "completed_at": "2026-11-27T13:53:13.759773+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/product/action/timer/status",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:05.322233+00:00",
-      "completed_at": "2026-11-27T02:52:05.468412+00:00",
+      "started_at": "2026-11-27T13:53:13.760177+00:00",
+      "completed_at": "2026-11-27T13:53:13.960274+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/types",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:05.481675+00:00",
-      "completed_at": "2026-11-27T02:52:05.620619+00:00",
+      "started_at": "2026-11-27T13:53:13.971409+00:00",
+      "completed_at": "2026-11-27T13:53:14.158491+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:05.620820+00:00",
-      "completed_at": "2026-11-27T02:52:05.776640+00:00",
+      "started_at": "2026-11-27T13:53:14.158679+00:00",
+      "completed_at": "2026-11-27T13:53:14.370731+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:06.027829+00:00",
-      "completed_at": "2026-11-27T02:52:06.196043+00:00",
+      "started_at": "2026-11-27T13:53:14.621883+00:00",
+      "completed_at": "2026-11-27T13:53:14.837700+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:06.447848+00:00",
-      "completed_at": "2026-11-27T02:52:06.617138+00:00",
+      "started_at": "2026-11-27T13:53:15.089511+00:00",
+      "completed_at": "2026-11-27T13:53:15.306629+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:06.868904+00:00",
-      "completed_at": "2026-11-27T02:52:07.038703+00:00",
+      "started_at": "2026-11-27T13:53:15.558338+00:00",
+      "completed_at": "2026-11-27T13:53:15.779066+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:07.290336+00:00",
-      "completed_at": "2026-11-27T02:52:07.463958+00:00",
+      "started_at": "2026-11-27T13:53:16.030649+00:00",
+      "completed_at": "2026-11-27T13:53:16.251691+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:07.715853+00:00",
-      "completed_at": "2026-11-27T02:52:07.898132+00:00",
+      "started_at": "2026-11-27T13:53:16.503518+00:00",
+      "completed_at": "2026-11-27T13:53:16.739206+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:08.150653+00:00",
-      "completed_at": "2026-11-27T02:52:08.315324+00:00",
+      "started_at": "2026-11-27T13:53:16.991504+00:00",
+      "completed_at": "2026-11-27T13:53:17.204362+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:08.566804+00:00",
-      "completed_at": "2026-11-27T02:52:08.736204+00:00",
+      "started_at": "2026-11-27T13:53:17.455741+00:00",
+      "completed_at": "2026-11-27T13:53:17.665573+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:08.987492+00:00",
-      "completed_at": "2026-11-27T02:52:09.164452+00:00",
+      "started_at": "2026-11-27T13:53:17.916915+00:00",
+      "completed_at": "2026-11-27T13:53:18.142603+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:09.416161+00:00",
-      "completed_at": "2026-11-27T02:52:09.576337+00:00",
+      "started_at": "2026-11-27T13:53:18.395028+00:00",
+      "completed_at": "2026-11-27T13:53:18.607735+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:09.827586+00:00",
-      "completed_at": "2026-11-27T02:52:09.990253+00:00",
+      "started_at": "2026-11-27T13:53:18.870749+00:00",
+      "completed_at": "2026-11-27T13:53:19.089295+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:10.241760+00:00",
-      "completed_at": "2026-11-27T02:52:10.405326+00:00",
+      "started_at": "2026-11-27T13:53:19.340818+00:00",
+      "completed_at": "2026-11-27T13:53:19.566397+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:10.657682+00:00",
-      "completed_at": "2026-11-27T02:52:10.836896+00:00",
+      "started_at": "2026-11-27T13:53:19.817998+00:00",
+      "completed_at": "2026-11-27T13:53:20.051212+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:11.101967+00:00",
-      "completed_at": "2026-11-27T02:52:11.275613+00:00",
+      "started_at": "2026-11-27T13:53:20.303584+00:00",
+      "completed_at": "2026-11-27T13:53:20.522735+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:11.527414+00:00",
-      "completed_at": "2026-11-27T02:52:11.692603+00:00",
+      "started_at": "2026-11-27T13:53:20.774495+00:00",
+      "completed_at": "2026-11-27T13:53:21.003867+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:11.944514+00:00",
-      "completed_at": "2026-11-27T02:52:12.095382+00:00",
+      "started_at": "2026-11-27T13:53:21.255795+00:00",
+      "completed_at": "2026-11-27T13:53:21.461522+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:12.346272+00:00",
-      "completed_at": "2026-11-27T02:52:12.514171+00:00",
+      "started_at": "2026-11-27T13:53:21.712423+00:00",
+      "completed_at": "2026-11-27T13:53:21.932968+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:12.766158+00:00",
-      "completed_at": "2026-11-27T02:52:12.927085+00:00",
+      "started_at": "2026-11-27T13:53:22.185003+00:00",
+      "completed_at": "2026-11-27T13:53:22.399041+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:13.179289+00:00",
-      "completed_at": "2026-11-27T02:52:13.346628+00:00",
+      "started_at": "2026-11-27T13:53:22.651140+00:00",
+      "completed_at": "2026-11-27T13:53:22.873509+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:13.598443+00:00",
-      "completed_at": "2026-11-27T02:52:13.758667+00:00",
+      "started_at": "2026-11-27T13:53:23.125234+00:00",
+      "completed_at": "2026-11-27T13:53:23.340460+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:14.010233+00:00",
-      "completed_at": "2026-11-27T02:52:14.160986+00:00",
+      "started_at": "2026-11-27T13:53:23.592025+00:00",
+      "completed_at": "2026-11-27T13:53:23.797716+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:14.412130+00:00",
-      "completed_at": "2026-11-27T02:52:14.585114+00:00",
+      "started_at": "2026-11-27T13:53:24.049001+00:00",
+      "completed_at": "2026-11-27T13:53:24.271287+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:14.837478+00:00",
-      "completed_at": "2026-11-27T02:52:14.984606+00:00",
+      "started_at": "2026-11-27T13:53:24.523553+00:00",
+      "completed_at": "2026-11-27T13:53:24.719698+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:15.235409+00:00",
-      "completed_at": "2026-11-27T02:52:15.389533+00:00",
+      "started_at": "2026-11-27T13:53:24.970626+00:00",
+      "completed_at": "2026-11-27T13:53:25.176989+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:15.641090+00:00",
-      "completed_at": "2026-11-27T02:52:15.793861+00:00",
+      "started_at": "2026-11-27T13:53:25.428479+00:00",
+      "completed_at": "2026-11-27T13:53:25.630742+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:16.045322+00:00",
-      "completed_at": "2026-11-27T02:52:16.199200+00:00",
+      "started_at": "2026-11-27T13:53:25.882094+00:00",
+      "completed_at": "2026-11-27T13:53:26.084999+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:16.450640+00:00",
-      "completed_at": "2026-11-27T02:52:16.603570+00:00",
+      "started_at": "2026-11-27T13:53:26.336384+00:00",
+      "completed_at": "2026-11-27T13:53:26.540689+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:16.854656+00:00",
-      "completed_at": "2026-11-27T02:52:17.022225+00:00",
+      "started_at": "2026-11-27T13:53:26.791720+00:00",
+      "completed_at": "2026-11-27T13:53:27.008435+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:17.274697+00:00",
-      "completed_at": "2026-11-27T02:52:17.442158+00:00",
+      "started_at": "2026-11-27T13:53:27.260885+00:00",
+      "completed_at": "2026-11-27T13:53:27.480985+00:00",
       "http_status": 200
     },
     {
       "method": "POST",
       "endpoint": "/v1/finance/accrual/by-day",
       "attempt": 1,
-      "started_at": "2026-11-27T02:52:17.694950+00:00",
-      "completed_at": "2026-11-27T02:52:17.846629+00:00",
+      "started_at": "2026-11-27T13:53:27.732917+00:00",
+      "completed_at": "2026-11-27T13:53:27.936533+00:00",
       "http_status": 200
     }
   ]
