@@ -80,15 +80,43 @@ keywords = section("keywords", lambda: batched_get("keywords", ids, {
     "AutotargetingSettingsCategoriesFieldNames": ["Exact", "Narrow", "Alternative", "Accessory", "Broader"],
     "AutotargetingSettingsBrandOptionsFieldNames": ["WithoutBrands", "WithAdvertiserBrand", "WithCompetitorsBrand"]},
     "Keywords"))
-shared = section("negative_shared_sets", lambda: api.get("negativekeywordsharedsets", {
-    "FieldNames": ["Id", "Name", "NegativeKeywords", "Associated"], "Page": {"Limit": 1000}},
-    "NegativeKeywordSharedSets"))
+def shared_sets():
+    params = {"FieldNames": ["Id", "Name", "NegativeKeywords", "Associated"],
+              "Page": {"Limit": 1000}}
+    rows, responses = [], []
+    for _ in range(15):
+        status, raw, _ = api.request("negativekeywordsharedsets", "get", params)
+        data = json.loads(raw)
+        if status != 200 or data.get("error"):
+            raise ValueError("Shared set read failed: " + api.scrub(data.get("error")))
+        result = data.get("result")
+        responses.append(result)
+        write(OUTDIR / "shared_sets_raw_response.json", {"responses": responses})
+        if not isinstance(result, dict):
+            raise ValueError("Shared set response is not an object")
+        batch = result.get("NegativeKeywordSharedSets")
+        if batch is None and not result:
+            attached = [g for g in groups or [] if (g.get("NegativeKeywordSharedSetIds") or {}).get("Items")]
+            attached += [c for c in campaigns for v in (c.get("UnifiedCampaign"), c.get("TextCampaign"))
+                         if v and (v.get("NegativeKeywordSharedSetIds") or {}).get("Items")]
+            if attached:
+                raise ValueError("Empty shared-set response conflicts with attached sets")
+            J["shared_sets_empty_response_and_no_attached_ids"] = True
+            return rows
+        if not isinstance(batch, list):
+            raise ValueError("Unexpected shared-set collection; raw shape preserved")
+        rows.extend(batch)
+        if "LimitedBy" not in result:
+            return rows
+        params["Page"]["Offset"] = result["LimitedBy"]
+    raise ValueError("Shared set page limit")
+shared = section("negative_shared_sets", shared_sets)
 ads = section("ads", lambda: batched_get("ads", ids, {
     "FieldNames": ["Id", "CampaignId", "AdGroupId", "Type", "State", "Status", "StatusClarification"],
     "ResponsiveAdFieldNames": ["Titles", "Texts", "Href", "SitelinkSetId"],
     "ShoppingAdFieldNames": ["FeedId", "SitelinkSetId", "FeedFilterConditions"],
     "TextAdFieldNames": ["Title", "Title2", "Text", "Href", "SitelinkSetId"]}, "Ads"))
-feeds = section("feeds", lambda: api.get("feeds", {"SelectionCriteria": {},
+feeds = section("feeds", lambda: api.get("feeds", {
     "FieldNames": ["Id", "Name", "SourceType", "Status", "UpdatedAt", "NumberOfItems", "TitleAndTextSources"],
     "UrlFeedFieldNames": ["Url"], "Page": {"Limit": 1000}}, "Feeds"))
 sitelink_ids = sorted({v["SitelinkSetId"] for ad in ads or [] for k, v in ad.items()
@@ -121,6 +149,16 @@ def full_queries(campaign_id):
               "coverage_complete": not errors, "chunks": chunks, "errors": errors, "rows": rows}
     filename = "queries_" + str(campaign_id) + ".json"
     write(OUTDIR / filename, result)
+    parts = []
+    for offset in range(0, len(rows), 1000):
+        part_name = "queries_" + str(campaign_id) + "_part_" + str(offset // 1000 + 1).zfill(3) + ".json"
+        part_rows = rows[offset:offset + 1000]
+        write(OUTDIR / part_name, {"campaign_id": campaign_id, "row_offset": offset, "rows": part_rows})
+        parts.append({"file": part_name, "row_offset": offset, "rows": len(part_rows),
+                      "sha256": hashlib.sha256((OUTDIR / part_name).read_bytes()).hexdigest()})
+    write(OUTDIR / ("query_index_" + str(campaign_id) + ".json"),
+          {"campaign_id": campaign_id, "full_days": result["full_days"], "today": result["today"],
+           "rows": len(rows), "coverage_complete": not errors, "parts": parts})
     if errors:
         J["errors"]["query_chunks_" + str(campaign_id)] = errors
     return {"file": filename, "rows": len(rows), "coverage_complete": not errors, "chunks": chunks}
