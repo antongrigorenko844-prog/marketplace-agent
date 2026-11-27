@@ -111,7 +111,8 @@ def safe_profile(value):
             'registered_feed_count': len(value['feeds_data']),
             'target_tools_feed_registered': URL in [f['feed_url'] for f in value['feeds_data']],
             'feeds_sha256': sha(canonical(value['feeds_data'])),
-            'schedule_sha256': sha(canonical(schedule_key(value['schedule'])))}
+            'schedule_sha256': sha(canonical(schedule_key(value['schedule']))),
+            'schedule': value['schedule']}
 
 
 def listing_snapshot():
@@ -266,12 +267,56 @@ def read_draft(normalize_encoding=False):
     return d
 
 
-def report_items(kind):
+class AutoloadReadError(RuntimeError):
+    def __init__(self, path, status, code=None, retry_after=None, message=None):
+        super().__init__('Autoload read failed')
+        self.safe_details = {'read_error_type': type(self).__name__,
+                             'endpoint': path, 'http_status': status,
+                             'api_code': code, 'retry_after': retry_after,
+                             'api_message': message}
+
+
+def autoload_read(path, params=None):
+    require(path.startswith('/autoload/'), 'Unexpected read-only endpoint')
+    for attempt in range(2):
+        response = requests.get(av.config.avito_api_base + path,
+                                headers=av._headers(), params=params, timeout=30)
+        if response.status_code == 401 and attempt == 0:
+            av._get_token(force_refresh=True)
+            continue
+        if not response.ok:
+            code = None
+            message = None
+            try:
+                body = response.json()
+                error = body.get('error', {}) if isinstance(body, dict) else {}
+                code = error.get('code') if isinstance(error, dict) else None
+                code = code or (body.get('code') if isinstance(body, dict) else None)
+                message = error.get('message') if isinstance(error, dict) else None
+                message = message or (body.get('message') if isinstance(body, dict) else None)
+                if isinstance(message, str):
+                    message = re.sub(r'Bearer\s+\S+', 'Bearer [redacted]', message, flags=re.I)
+                    message = re.sub(r'\S+@\S+', '[email redacted]', message)[:240]
+                else:
+                    message = None
+            except ValueError:
+                pass
+            raise AutoloadReadError(path, response.status_code, code,
+                                    response.headers.get('Retry-After'), message)
+        return response.json() if response.content else {}
+    raise ValueError('Read-only authentication refresh failed')
+
+
+def read_error_details(exc):
+    return getattr(exc, 'safe_details', {'read_error_type': type(exc).__name__})
+
+
+def report_items(kind, first=None):
     base = '/autoload/v4/uploads/' + kind
-    first = api('GET', base)
+    first = first or autoload_read(base)
     result = []
     for page in range(1, 51):
-        response = api('GET', base+'/items', params={'page': page, 'perPage': 50})
+        response = autoload_read(base+'/items', params={'page': page, 'perPage': 50})
         rows = response.get('items')
         require(isinstance(rows, list), 'Report rows unavailable')
         result.extend(rows)
@@ -280,7 +325,8 @@ def report_items(kind):
             break
     else:
         raise ValueError('Report pagination incomplete')
-    require(api('GET', base).get('upload_id') == first.get('upload_id'), 'Report changed while reading')
+    # Exact binding and core item fields independently establish identity.
+    # Avoid a second immediate metadata request to this rate-limited endpoint.
     return first, result
 
 
@@ -410,11 +456,16 @@ def readback():
     evidence = []
     draft = json.loads(DRAFT.read_text()) if DRAFT.exists() else None
     for kind in ('current', 'last_successful'):
+        item = {'kind': kind}
         try:
-            report, rows = report_items(kind)
-            matches = [r for r in rows if str(r.get('ad_id')) == FEED_ID]
-            item = {'kind': kind, 'upload_id': report.get('upload_id'), 'status': report.get('status'),
-                    'matches': [{k: r.get(k) for k in ('ad_id', 'avito_id', 'avito_status', 'status', 'section', 'messages', 'url')} for r in matches]}
+            report = autoload_read('/autoload/v4/uploads/' + kind)
+            item.update({k: report.get(k) for k in ('upload_id', 'status', 'started_at')})
+            try:
+                report, rows = report_items(kind, first=report)
+                matches = [r for r in rows if str(r.get('ad_id')) == FEED_ID]
+                item['matches'] = [{k: r.get(k) for k in ('ad_id', 'avito_id', 'avito_status', 'status', 'section', 'messages', 'url')} for r in matches]
+            except Exception as exc:
+                item.update(read_error_details(exc))
             if draft and J.get('gallery_urls'):
                 for feed in report.get('feed_urls', []):
                     u = feed.get('url', '')
@@ -426,12 +477,23 @@ def readback():
                                 item['received_exact_new_feed'] = verify_received(response.content, draft, J['gallery_urls'])
                             except Exception:
                                 pass
-            evidence.append(item)
         except Exception as exc:
-            evidence.append({'kind': kind, 'read_error_type': type(exc).__name__})
+            item.update(read_error_details(exc))
+        evidence.append(item)
+        if item.get('http_status') == 429:
+            break
     J['reports'] = evidence
+    binding = {'matches': []}
+    try:
+        response = autoload_read('/autoload/v2/items/avito_ids', params={'query': FEED_ID})
+        binding['matches'] = [{k: row.get(k) for k in ('ad_id', 'avito_id')}
+                              for row in response.get('items', [])
+                              if str(row.get('ad_id')) == FEED_ID]
+    except Exception as exc:
+        binding.update(read_error_details(exc))
+    J['exact_feed_binding'] = binding
     hits = [r for e in evidence for r in e.get('matches', [])]
-    ids = {int(r['avito_id']) for r in hits if str(r.get('avito_id') or '').isdigit()}
+    ids = {int(r['avito_id']) for r in hits + binding['matches'] if str(r.get('avito_id') or '').isdigit()}
     require(len(ids) <= 1, 'Multiple Avito IDs for stable new feed; do not retry')
     protected = set(J.get('protected_existing_ids', []))
     require(not ids.intersection(protected), 'New feed linked an existing listing; stop')
@@ -449,6 +511,8 @@ def readback():
             J['live_gallery_verified'] = False
     elif hits:
         J['status'] = 'autoload_report_received_no_assigned_id'
+    elif all(e.get('read_error_type') for e in evidence) and binding.get('read_error_type'):
+        J['status'] = 'submitted_status_unverified'
     else:
         J['status'] = 'registered_pending_scheduled_processing'
     if draft:

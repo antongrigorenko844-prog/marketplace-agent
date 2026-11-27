@@ -22,45 +22,13 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -q -r requirements.txt
-      - name: Install the reviewed rendering version and fonts
-        run: |
-          pip install -q Pillow==13.0.0
-          test -f assets/fonts/avito-boards-20261127/DejaVuSansCondensed-Bold.ttf
-          test -f assets/fonts/avito-boards-20261127/DejaVuSans.ttf
       - run: python -m py_compile scripts/avito_boards_listing_20261127.py scripts/build_avito_boards_media_20261127.py
-      - name: Reproduce the reviewed photos without external writes
-        run: python scripts/build_avito_boards_media_20261127.py --repo-root . --source-map data/avito_boards_media_sources_20261127.json --output data/avito_boards_media_20261127
-      - name: Append one new Ad to the registered XML with all old Ad bytes preserved
+      - name: Verify already-published feed and exact new listing binding
         env:
           GH_TOKEN: ${{ github.token }}
           AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
           AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
-        run: python -u scripts/avito_boards_listing_20261127.py --apply
-      - name: Read ordinary scheduled autoload processing without resubmitting
-        env:
-          GH_TOKEN: ${{ github.token }}
-          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
-          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
-        shell: bash
-        run: |
-          for attempt in 1 2 3 4 5 6 7 8; do
-            python -u scripts/avito_boards_listing_20261127.py --readback
-            if python - <<'PY'
-          import json, sys
-          from pathlib import Path
-          result = json.loads(Path('data/avito_boards_listing_20261127_result.json').read_text())
-          rows = [row for report in result.get('reports', []) for row in report.get('matches', [])]
-          terminal = str(result.get('status', '')).startswith('active_') or any(
-              row.get('avito_status') in ('blocked', 'rejected') or any(
-                  message.get('type') == 'error' for message in row.get('messages', []))
-              for row in rows)
-          sys.exit(0 if terminal else 1)
-          PY
-            then
-              break
-            fi
-            sleep 30
-          done
+        run: python -u scripts/avito_boards_listing_20261127.py --readback
       - uses: actions/upload-artifact@v4
         if: always()
         with:
