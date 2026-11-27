@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "leoparts-commercial-query-20261127-v1",
+  "title": "Raw Direct query with conservative eight-intent commercial annotation",
+  "type": "object",
+  "required": [
+    "source",
+    "period_kind",
+    "raw",
+    "semantic_review"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "source": {
+      "type": "object",
+      "required": [
+        "part",
+        "row_index_in_part",
+        "global_row_index"
+      ],
+      "properties": {
+        "part": {
+          "type": "string"
+        },
+        "row_index_in_part": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "global_row_index": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "period_kind": {
+      "enum": [
+        "completed_days",
+        "today_partial"
+      ]
+    },
+    "raw": {
+      "type": "object",
+      "required": [
+        "Date",
+        "CampaignId",
+        "AdGroupId",
+        "AdId",
+        "Query",
+        "CriterionType",
+        "CriterionId",
+        "Criterion",
+        "MatchedKeyword",
+        "TargetingCategory",
+        "MatchType",
+        "Impressions",
+        "Clicks",
+        "Cost",
+        "Conversions"
+      ],
+      "properties": {
+        "Date": {
+          "type": "string"
+        },
+        "CampaignId": {
+          "type": "string"
+        },
+        "AdGroupId": {
+          "type": "string"
+        },
+        "AdId": {
+          "type": "string"
+        },
+        "Query": {
+          "type": "string"
+        },
+        "CriterionType": {
+          "type": "string"
+        },
+        "CriterionId": {
+          "type": "string"
+        },
+        "Criterion": {
+          "type": "string"
+        },
+        "MatchedKeyword": {
+          "type": "string"
+        },
+        "TargetingCategory": {
+          "type": "string"
+        },
+        "MatchType": {
+          "type": "string"
+        },
+        "Impressions": {
+          "type": "string"
+        },
+        "Clicks": {
+          "type": "string"
+        },
+        "Cost": {
+          "type": "string"
+        },
+        "Conversions": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "semantic_review": {
+      "type": "object",
+      "required": [
+        "intent_category",
+        "intent_label",
+        "classification_method",
+        "classification_uncertain",
+        "reason",
+        "family_ids",
+        "primary_family_id",
+        "literal_catalog_sku_matches_normalized",
+        "campaign_relevance",
+        "proposed_active_group_id",
+        "exact_sku_compatibility_confirmed",
+        "automatic_negative_recommendation",
+        "confirmed_paid_sale",
+        "verified_net_profit_rub",
+        "source_goal_conversions_are_not_paid_sales"
+      ],
+      "properties": {
+        "intent_category": {
+          "type": "integer",
+          "enum": [
+            3,
+            7,
+            8,
+            2,
+            4,
+            6,
+            1,
+            5
+          ]
+        },
+        "intent_label": {
+          "enum": [
+            "Сравнение цены, состояния, производителя",
+            "Другой товар/коробка/общая навигация",
+            "Смешанный или неоднозначный запрос",
+            "Подбор детали и применимости",
+            "Диагностика с возможной покупкой",
+            "Информация и самостоятельное обслуживание",
+            "Покупка конкретной детали/семейства",
+            "Явный поиск услуги/исполнителя/стоимости работы"
+          ]
+        },
+        "classification_method": {
+          "enum": [
+            "prior_exact_query_expert_review",
+            "conservative_lexical_candidate",
+            "uncertain_unresolved"
+          ]
+        },
+        "classification_uncertain": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "family_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "primary_family_id": {
+          "type": "string"
+        },
+        "literal_catalog_sku_matches_normalized": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "campaign_relevance": {
+          "type": "string"
+        },
+        "proposed_active_group_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "exact_sku_compatibility_confirmed": {
+          "const": false
+        },
+        "automatic_negative_recommendation": {
+          "const": false
+        },
+        "confirmed_paid_sale": {
+          "type": "null"
+        },
+        "verified_net_profit_rub": {
+          "type": "null"
+        },
+        "source_goal_conversions_are_not_paid_sales": {
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "intent_taxonomy": {
+    "3": "Сравнение цены, состояния, производителя",
+    "7": "Другой товар/коробка/общая навигация",
+    "8": "Смешанный или неоднозначный запрос",
+    "2": "Подбор детали и применимости",
+    "4": "Диагностика с возможной покупкой",
+    "6": "Информация и самостоятельное обслуживание",
+    "1": "Покупка конкретной детали/семейства",
+    "5": "Явный поиск услуги/исполнителя/стоимости работы"
+  },
+  "usage_boundary": "Annotations are a review queue, not API-ready negatives, actual conversion attribution, or proof of compatibility."
+}

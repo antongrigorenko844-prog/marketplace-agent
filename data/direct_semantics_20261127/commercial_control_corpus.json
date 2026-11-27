@@ -1,0 +1,1640 @@
+{
+  "approved_exclusions": [
+    {
+      "expression": "\"авито запчасти +для авто\"",
+      "level": "campaign",
+      "id": 716316525
+    },
+    {
+      "expression": "\"контрактные коробки дсг\"",
+      "level": "campaign",
+      "id": 716316525
+    },
+    {
+      "expression": "\"разборка запчастей б у\"",
+      "level": "campaign",
+      "id": 716316525
+    },
+    {
+      "expression": "\"мехатроник +на дсг 09g\"",
+      "level": "campaign",
+      "id": 716316525
+    },
+    {
+      "expression": "\"клонирование платы мехатроника dsg 7\"",
+      "level": "campaign",
+      "id": 716316525
+    },
+    {
+      "expression": "+какое масло заливать +в мехатроник",
+      "level": "group",
+      "id": 5828476541
+    }
+  ],
+  "pairs": [
+    {
+      "family": "repair",
+      "a": {
+        "query": "ремонт мехатроника dq200",
+        "source": "observed",
+        "dates": [
+          "2026-11-18"
+        ],
+        "groups": [
+          "5826183946"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 1,
+        "cost_rub": 31.82,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "ambiguous"
+      },
+      "b": {
+        "query": "запчасти для ремонта мехатроника dq200",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "changed_dimension": "уточнение объекта покупки",
+      "principle": "Не исключать ремонт как одиночное слово.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "repair",
+      "a": {
+        "query": "ремонт мехатроника сервисы",
+        "source": "observed",
+        "dates": [
+          "2026-11-19"
+        ],
+        "groups": [
+          "5826183946"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 1,
+        "cost_rub": 27.24,
+        "aggregate_conversions_not_sales": 1.0,
+        "expected_semantic_class": "service"
+      },
+      "b": {
+        "query": "ремкомплект мехатроника dq200",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "changed_dimension": "услуга → товар",
+      "principle": "Сервис не продаётся; ремкомплект существует, но отдельного активного маршрута нет.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "repair",
+      "a": {
+        "query": "ремонт мехатроника dq200",
+        "source": "observed",
+        "dates": [
+          "2026-11-18"
+        ],
+        "groups": [
+          "5826183946"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 1,
+        "cost_rub": 31.82,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "ambiguous"
+      },
+      "b": {
+        "query": "ремонт мехатроника dq200 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "ambiguous"
+      },
+      "changed_dimension": "добавлено купить",
+      "principle": "Купить не всегда делает неполный запрос однозначным.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "replacement",
+      "a": {
+        "query": "замена платы мехатроника dq200",
+        "source": "observed",
+        "dates": [
+          "2026-11-24"
+        ],
+        "groups": [
+          "5826320196"
+        ],
+        "criterion_types": [
+          "KEYWORD"
+        ],
+        "clicks": 1,
+        "cost_rub": 28.92,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "ambiguous"
+      },
+      "b": {
+        "query": "плата для замены мехатроника dq200 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "changed_dimension": "добавлен предмет покупки",
+      "principle": "Замена может описывать назначение товара.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "replacement",
+      "a": {
+        "query": "стоимость работы по установке мехатроника",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "service"
+      },
+      "b": {
+        "query": "стоимость мехатроника для установки",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "changed_dimension": "стоимость работы → детали",
+      "principle": "Не обещать установку.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "clone",
+      "a": {
+        "query": "клонирование платы мехатроника dsg 7",
+        "source": "observed",
+        "dates": [
+          "2026-11-26"
+        ],
+        "groups": [
+          "5826320196"
+        ],
+        "criterion_types": [
+          "KEYWORD"
+        ],
+        "clicks": 1,
+        "cost_rub": 30.87,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "owner_approved_exclude"
+      },
+      "b": {
+        "query": "купить плату для клонирования мехатроника dsg 7",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "changed_dimension": "добавлена покупка платы",
+      "principle": "Сохранить действующее точное исключение, не расширять на все сочетания клонирование.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "clone",
+      "a": {
+        "query": "клонирование платы мехатроника dsg 7",
+        "source": "observed",
+        "dates": [
+          "2026-11-26"
+        ],
+        "groups": [
+          "5826320196"
+        ],
+        "criterion_types": [
+          "KEYWORD"
+        ],
+        "clicks": 1,
+        "cost_rub": 30.87,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "owner_approved_exclude"
+      },
+      "b": {
+        "query": "купить плату мехатроника с клонированием",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "mixed_unsupported_bundle"
+      },
+      "changed_dimension": "услуга → покупка с услугой",
+      "principle": "Покупательский интерес есть, включённая услуга не подтверждена; оставить для решения, не обещать её.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "clone",
+      "a": {
+        "query": "клонирование платы мехатроника dsg 7",
+        "source": "observed",
+        "dates": [
+          "2026-11-26"
+        ],
+        "groups": [
+          "5826320196"
+        ],
+        "criterion_types": [
+          "KEYWORD"
+        ],
+        "clicks": 1,
+        "cost_rub": 30.87,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "owner_approved_exclude"
+      },
+      "b": {
+        "query": "клонирование платы мехатроника dsg7",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "service"
+      },
+      "changed_dimension": "dsg 7 → dsg7",
+      "principle": "Отдельная граничная проверка; эквивалентность Яндекса не предполагается.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "firmware",
+      "a": {
+        "query": "прошивка платы мехатроника dq200 цена",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "service_or_mixed"
+      },
+      "b": {
+        "query": "плата мехатроника с прошивкой купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "mixed_unsupported_preparation"
+      },
+      "changed_dimension": "уточнение покупаемого товара",
+      "principle": "Наличие заранее подготовленной платы не подтверждено.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "adaptation",
+      "a": {
+        "query": "адаптация мехатроника dq200 стоимость работы",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "service"
+      },
+      "b": {
+        "query": "мехатроник dq200 купить для адаптации",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "changed_dimension": "услуга → назначение товара",
+      "principle": "Нужность последующей адаптации не означает продажу услуги.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "city",
+      "a": {
+        "query": "плата мехатроника dsg7 dq200 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "b": {
+        "query": "плата мехатроника dsg7 dq200 купить в спб",
+        "source": "observed",
+        "dates": [
+          "2026-11-25"
+        ],
+        "groups": [
+          "5826320196"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 1,
+        "cost_rub": 64.89,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "buyer"
+      },
+      "changed_dimension": "добавлен город",
+      "principle": "Доставка по РФ заявлена; СПБ не самостоятельный признак нецелевого спроса.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "city",
+      "a": {
+        "query": "мехатроник купить спб",
+        "source": "observed",
+        "dates": [
+          "2026-11-17"
+        ],
+        "groups": [
+          "5826183946"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 1,
+        "cost_rub": 26.64,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "buyer_fitment_needed"
+      },
+      "b": {
+        "query": "ремонт мехатроника спб адрес сервиса",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "service"
+      },
+      "changed_dimension": "покупка → адрес сервиса",
+      "principle": "Отсекать услугу/навигацию, не город.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "china",
+      "a": {
+        "query": "плата мехатроник дсг 7 dq200 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "b": {
+        "query": "плата мехатроник дсг 7 dq200 купить китай",
+        "source": "observed",
+        "dates": [
+          "2026-11-25"
+        ],
+        "groups": [
+          "5826320196"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 1,
+        "cost_rub": 16.69,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "buyer_origin_check"
+      },
+      "changed_dimension": "добавлен Китай",
+      "principle": "Не обещать страну происхождения; не терять покупателя по происхождению без проверки.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "china",
+      "a": {
+        "query": "мехатроник dq200 цена",
+        "source": "observed",
+        "dates": [
+          "2026-11-17",
+          "2026-11-18"
+        ],
+        "groups": [
+          "5826183946"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 2,
+        "cost_rub": 27.73,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "buyer_comparison"
+      },
+      "b": {
+        "query": "мехатроник dq200 китай цена",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_origin_check"
+      },
+      "changed_dimension": "добавлен Китай",
+      "principle": "Сравнение альтернатив коммерческое; происхождение конкретного SKU требуется подтвердить.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "used",
+      "a": {
+        "query": "купить мехатроник dq200",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "b": {
+        "query": "купить бу мехатроник dq200",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_condition_check"
+      },
+      "changed_dimension": "добавлено бу",
+      "principle": "В feed явно восстановленные мехатроники; различить восстановленный и непроверенный б/у.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "used",
+      "a": {
+        "query": "контрактные коробки дсг",
+        "source": "observed",
+        "dates": [
+          "2026-11-26"
+        ],
+        "groups": [
+          "5826183946"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 1,
+        "cost_rub": 31.17,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "owner_approved_exclude"
+      },
+      "b": {
+        "query": "контрактный мехатроник цена саратов",
+        "source": "observed",
+        "dates": [
+          "2026-11-17"
+        ],
+        "groups": [
+          "5826183946"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 1,
+        "cost_rub": 11.66,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "buyer_condition_check"
+      },
+      "changed_dimension": "коробка → мехатроник",
+      "principle": "Коробка целиком не подтверждена в каталоге; мехатроник есть, происхождение контрактного не обещать.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "used",
+      "a": {
+        "query": "разборка запчастей б у",
+        "source": "observed",
+        "dates": [
+          "2026-11-26"
+        ],
+        "groups": [
+          "5826183946"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 1,
+        "cost_rub": 28.92,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "owner_approved_exclude"
+      },
+      "b": {
+        "query": "купить бу мехатроник цена на ауди а3 спортбайк 2012 года 2 поколение",
+        "source": "observed",
+        "dates": [
+          "2026-11-21"
+        ],
+        "groups": [
+          "5828476541"
+        ],
+        "criterion_types": [
+          "KEYWORD"
+        ],
+        "clicks": 1,
+        "cost_rub": 27.8,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "buyer_fitment_condition_check"
+      },
+      "changed_dimension": "общая разборка → конкретный узел",
+      "principle": "Не превращать точное исключение разборки в broad б/у.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "gearbox",
+      "a": {
+        "query": "мехатроник dq200 купить",
+        "source": "observed",
+        "dates": [
+          "2026-11-17",
+          "2026-11-27"
+        ],
+        "groups": [
+          "5826183946"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 2,
+        "cost_rub": 41.18,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "buyer"
+      },
+      "b": {
+        "query": "мехатроник dq250 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "other_business_campaign"
+      },
+      "changed_dimension": "DQ200 → DQ250",
+      "principle": "DQ250 есть в магазине, но вне DQ200 feed.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "gearbox",
+      "a": {
+        "query": "мехатроник на дсг 09g",
+        "source": "observed",
+        "dates": [
+          "2026-11-26"
+        ],
+        "groups": [
+          "5828476541"
+        ],
+        "criterion_types": [
+          "KEYWORD"
+        ],
+        "clicks": 1,
+        "cost_rub": 28.05,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "owner_approved_exclude"
+      },
+      "b": {
+        "query": "мехатроник на дсг 7 dq200 купить",
+        "source": "observed",
+        "dates": [
+          "2026-11-17",
+          "2026-11-23"
+        ],
+        "groups": [
+          "5826171512",
+          "5826183946"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 2,
+        "cost_rub": 53.48,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "buyer"
+      },
+      "changed_dimension": "другая коробка → DQ200",
+      "principle": "Не объединять 09G и DQ200 по слову мехатроник.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "gearbox",
+      "a": {
+        "query": "купить коробку дсг 7 dq200",
+        "source": "observed",
+        "dates": [
+          "2026-11-17"
+        ],
+        "groups": [
+          "5826183946"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 2,
+        "cost_rub": 42.06,
+        "aggregate_conversions_not_sales": 1.0,
+        "expected_semantic_class": "unsupported_whole_gearbox"
+      },
+      "b": {
+        "query": "купить мехатроник дсг 7 dq200",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "changed_dimension": "коробка → мехатроник",
+      "principle": "Минус коробка широким словом заблокирует детали коробки.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "board_suffix",
+      "a": {
+        "query": "плата 0am927769d купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_exact_d"
+      },
+      "b": {
+        "query": "плата 0am927769e купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_exact_e"
+      },
+      "changed_dimension": "D → E",
+      "principle": "Обе карточки есть; не переносить совместимость или цену D на E.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "board_suffix",
+      "a": {
+        "query": "плата 0am927769g купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_exact_g"
+      },
+      "b": {
+        "query": "плата 0am927769k купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_exact_k"
+      },
+      "changed_dimension": "G → K",
+      "principle": "Выбирать точную ревизию, не универсальную плату.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "board_n",
+      "a": {
+        "query": "прокладки электронной платы 0am927769n купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_gasket"
+      },
+      "b": {
+        "query": "электронная плата 0am927769n купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "unconfirmed_board_offer"
+      },
+      "changed_dimension": "прокладки → плата",
+      "principle": "Локальный SKU N — прокладки; не продавать их как электронную плату.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "board_comparison",
+      "a": {
+        "query": "0am927769d плата мехатроника",
+        "source": "observed",
+        "dates": [
+          "2026-11-17",
+          "2026-11-19",
+          "2026-11-26"
+        ],
+        "groups": [
+          "5826320196"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING",
+          "KEYWORD"
+        ],
+        "clicks": 3,
+        "cost_rub": 134.64,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "buyer"
+      },
+      "b": {
+        "query": "отличия платы мехатроника 0am927769d от 0am927769g",
+        "source": "observed",
+        "dates": [
+          "2026-11-18"
+        ],
+        "groups": [
+          "5826320196"
+        ],
+        "criterion_types": [
+          "KEYWORD"
+        ],
+        "clicks": 1,
+        "cost_rub": 24.37,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "buyer_comparison"
+      },
+      "changed_dimension": "добавлено сравнение",
+      "principle": "Не исключать сравнение маркировок; оно предшествует подбору.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "clutch",
+      "a": {
+        "query": "сцепление dq200 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "unsupported_clutch_assembly"
+      },
+      "b": {
+        "query": "датчик сцепления dq200 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "catalog_component_no_active_route"
+      },
+      "changed_dimension": "уточнение детали датчик",
+      "principle": "Не снимать broad сцепление до устройства отдельного защищённого маршрута компонентов.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "clutch",
+      "a": {
+        "query": "комплект сцепления dq200 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "unsupported_clutch_assembly"
+      },
+      "b": {
+        "query": "манжета штока сцепления dq200 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "catalog_component_no_active_route"
+      },
+      "changed_dimension": "уточнение манжеты",
+      "principle": "Общий whitelist отсутствует, но официальное правило полного пересечения может игнорировать минус, все слова которого входят в положительный ключ. Проверять конкретный manual key/прочие минусы; не распространять автоматически на автотаргетинг.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "rod",
+      "a": {
+        "query": "шток 0am325091f 99мм купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_short_rod"
+      },
+      "b": {
+        "query": "шток 0am325091e 101мм купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_long_rod"
+      },
+      "changed_dimension": "артикул и длина",
+      "principle": "Не смешивать разные длины и наборы.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "rod",
+      "a": {
+        "query": "втулка штока dq200 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_one_bushing"
+      },
+      "b": {
+        "query": "комплект 2 штока 99мм и 2 втулки dq200 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_set"
+      },
+      "changed_dimension": "комплектность",
+      "principle": "Посадочная должна соответствовать составу.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "tools",
+      "a": {
+        "query": "восстановление гидроаккумулятора dq200",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "ambiguous"
+      },
+      "b": {
+        "query": "набор для восстановления гидроаккумулятора dq200 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_tool_no_active_route"
+      },
+      "changed_dimension": "добавлен набор",
+      "principle": "Инструмент существует; не путать с услугой.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "tools",
+      "a": {
+        "query": "диагностика мехатроника dq200",
+        "source": "observed",
+        "dates": [
+          "2026-11-17"
+        ],
+        "groups": [
+          "5826183946"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 1,
+        "cost_rub": 19.89,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "ambiguous"
+      },
+      "b": {
+        "query": "набор для проверки давления dsg купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_tool_no_active_route"
+      },
+      "changed_dimension": "диагностика → инструмент",
+      "principle": "Пульт и набор давления не объявляются одним товаром.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "errors",
+      "a": {
+        "query": "p0841 dq200",
+        "source": "observed",
+        "dates": [
+          "2026-11-26"
+        ],
+        "groups": [
+          "5828476541"
+        ],
+        "criterion_types": [
+          "KEYWORD"
+        ],
+        "clicks": 1,
+        "cost_rub": 34.68,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "diagnostic"
+      },
+      "b": {
+        "query": "ремкомплект dq200 при p0841 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_diagnostic_fitment"
+      },
+      "changed_dimension": "добавлена покупка детали",
+      "principle": "Код ошибки не является диагнозом или гарантией устранения.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "errors",
+      "a": {
+        "query": "p17bf ошибка dsg 7 dq200",
+        "source": "observed",
+        "dates": [
+          "2026-11-23"
+        ],
+        "groups": [
+          "5828476541"
+        ],
+        "criterion_types": [
+          "KEYWORD"
+        ],
+        "clicks": 1,
+        "cost_rub": 31.85,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "diagnostic"
+      },
+      "b": {
+        "query": "гидроаккумулятор dq200 p17bf купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_diagnostic_fitment"
+      },
+      "changed_dimension": "добавлена деталь",
+      "principle": "Сохранить возможность покупки после диагностики; не обещать причинность.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "oil",
+      "a": {
+        "query": "какое масло заливать в мехатроник дсг 7 dq200",
+        "source": "observed",
+        "dates": [
+          "2026-11-27"
+        ],
+        "groups": [
+          "5828476541"
+        ],
+        "criterion_types": [
+          "KEYWORD"
+        ],
+        "clicks": 1,
+        "cost_rub": 10.96,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "owner_approved_exclude_general_group"
+      },
+      "b": {
+        "query": "фильтр масла мехатроника dq200 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_filter_no_active_route"
+      },
+      "changed_dimension": "вопрос про масло → покупка фильтра",
+      "principle": "Действующий oil-минус только в общей группе; не переносить на слово масло всей кампании.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "navigation",
+      "a": {
+        "query": "авито запчасти для авто",
+        "source": "observed",
+        "dates": [
+          "2026-11-21",
+          "2026-11-26"
+        ],
+        "groups": [
+          "5826171512"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 2,
+        "cost_rub": 67.91,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "owner_approved_exclude"
+      },
+      "b": {
+        "query": "авито плата 0am927769d купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_marketplace_navigation_mixed"
+      },
+      "changed_dimension": "общий каталог → конкретный артикул",
+      "principle": "Не расширять на все упоминания Авито без решения о канальном спросе.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "irrelevant",
+      "a": {
+        "query": "материнская плата ноутбука",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "irrelevant"
+      },
+      "b": {
+        "query": "электронная плата мехатроника dq200",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "changed_dimension": "объект платы",
+      "principle": "Минус только чужой объект, не плата.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "irrelevant",
+      "a": {
+        "query": "колледж мехатроника",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "irrelevant"
+      },
+      "b": {
+        "query": "мехатроник dq200 купить",
+        "source": "observed",
+        "dates": [
+          "2026-11-17",
+          "2026-11-27"
+        ],
+        "groups": [
+          "5826183946"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 2,
+        "cost_rub": 41.18,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "buyer"
+      },
+      "changed_dimension": "учебная дисциплина → деталь",
+      "principle": "Не минусовать общий корень мехатроник.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "notation",
+      "a": {
+        "query": "плата мехатроника dsg7 dq200 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "b": {
+        "query": "плата мехатроника dsg 7 dq200 купить",
+        "source": "observed",
+        "dates": [
+          "2026-11-18"
+        ],
+        "groups": [
+          "5826320196"
+        ],
+        "criterion_types": [
+          "AUTOTARGETING"
+        ],
+        "clicks": 1,
+        "cost_rub": 73.91,
+        "aggregate_conversions_not_sales": 0.0,
+        "expected_semantic_class": "buyer"
+      },
+      "changed_dimension": "dsg7 → dsg 7",
+      "principle": "Смысл близок, сопоставление Яндекса проверять отдельно.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "notation",
+      "a": {
+        "query": "купить мехатроник dq200",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "b": {
+        "query": "купить мехатроник dq 200",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "changed_dimension": "dq200 → dq 200",
+      "principle": "Не считать автоматической токенной эквивалентностью.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "notation",
+      "a": {
+        "query": "плата мехатроника dsg7 dq200 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "b": {
+        "query": "плата мехатроника дсг7 дк200 купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer_typo_fitment"
+      },
+      "changed_dimension": "латиница → кириллица",
+      "principle": "Защищённый тест, не доказанная эквивалентность операторов.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "word_order",
+      "a": {
+        "query": "плата 0am927769d купить",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "b": {
+        "query": "купить плату 0am927769d",
+        "source": "synthetic",
+        "dates": [],
+        "groups": [],
+        "criterion_types": [],
+        "clicks": null,
+        "cost_rub": null,
+        "aggregate_conversions_not_sales": null,
+        "expected_semantic_class": "buyer"
+      },
+      "changed_dimension": "порядок и словоформа",
+      "principle": "Не обещать совпадение собственного офлайн-тестера с Яндексом.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "fresh_query_boundary",
+      "a": {
+        "query": "мехатроника пассат сс dq250",
+        "source": "observed",
+        "expected_semantic_class": "other_business_campaign",
+        "rows": 1,
+        "clicks": 1,
+        "cost_rub": 25.48,
+        "aggregate_goal_conversions": 0.0
+      },
+      "b": {
+        "query": "мехатроника пассат сс dq200",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_fitment_or_tool_route_required"
+      },
+      "changed_dimension": "gearbox/model or product qualification",
+      "principle": "The specified gearbox changes; do not minus Passat or CC as a whole.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "fresh_query_boundary",
+      "a": {
+        "query": "мехатроник audi a7",
+        "source": "observed",
+        "expected_semantic_class": "outside_verified_dq200_offer",
+        "rows": 1,
+        "clicks": 1,
+        "cost_rub": 35.22,
+        "aggregate_goal_conversions": 0.0
+      },
+      "b": {
+        "query": "мехатроник audi a3 dq200",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_fitment_or_tool_route_required"
+      },
+      "changed_dimension": "gearbox/model or product qualification",
+      "principle": "A7 does not establish DQ200; Audi A3 with verified 0CW can be relevant. No blanket Audi exclusion.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "fresh_query_boundary",
+      "a": {
+        "query": "мехатроник dq200 проверка в гараже",
+        "source": "observed",
+        "expected_semantic_class": "informational_diagnostic",
+        "rows": 1,
+        "clicks": 1,
+        "cost_rub": 13.76,
+        "aggregate_goal_conversions": 0.0
+      },
+      "b": {
+        "query": "набор для проверки давления dq200 купить",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_fitment_or_tool_route_required"
+      },
+      "changed_dimension": "gearbox/model or product qualification",
+      "principle": "Garage checking does not prove a service lead; a related tool is a separate retail route.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "completeness",
+      "a": {
+        "query": "купить мехатроник dq200 без платы",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_without_board"
+      },
+      "b": {
+        "query": "купить мехатроник dq200 с платой",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_with_board"
+      },
+      "changed_dimension": "без → с",
+      "principle": "Две разные активные группы и комплектации.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "repair_kit",
+      "a": {
+        "query": "ремкомплект мехатроника dq200 гидроплита сальники прокладки",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_base_kit"
+      },
+      "b": {
+        "query": "ремкомплект прокладок мехатроника dq200",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_gasket_kit"
+      },
+      "changed_dimension": "состав комплекта",
+      "principle": "0am325025 и 0am325025m не равны по составу.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "hydraulic",
+      "a": {
+        "query": "гидроблок dq200 купить",
+        "source": "synthetic",
+        "expected_semantic_class": "fitment_and_completeness_needed"
+      },
+      "b": {
+        "query": "гидроплита dq200 купить",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_plate"
+      },
+      "changed_dimension": "гидроблок → гидроплита",
+      "principle": "Не подставлять целый узел вместо одной плиты и наоборот.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "accumulator",
+      "a": {
+        "query": "гидроаккумулятор dq200 купить",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_accumulator"
+      },
+      "b": {
+        "query": "кольцо гидроаккумулятора dq200 купить",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_seal"
+      },
+      "changed_dimension": "добавлено кольцо",
+      "principle": "Сам аккумулятор и его уплотнение — разные карточки.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "solenoids",
+      "a": {
+        "query": "соленоид давления dq200 купить",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_available_catalog_item"
+      },
+      "b": {
+        "query": "8 соленоидов dq200 купить",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_temporarily_unavailable_set"
+      },
+      "changed_dimension": "количество и комплектность",
+      "principle": "Нулевой остаток набора не делает семейство соленоидов постоянно нерелевантным.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "pump",
+      "a": {
+        "query": "насос гидроблока dq200 купить",
+        "source": "synthetic",
+        "expected_semantic_class": "complete_pump_not_confirmed"
+      },
+      "b": {
+        "query": "уплотнение насоса гидроблока dq200 купить",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_catalog_seal"
+      },
+      "changed_dimension": "добавлено уплотнение",
+      "principle": "Наличие уплотнения не доказывает продажу насоса в сборе.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "dq250_dq500",
+      "a": {
+        "query": "фильтр dq250 купить",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_other_campaign"
+      },
+      "b": {
+        "query": "фильтр dq500 купить",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_other_campaign"
+      },
+      "changed_dimension": "DQ250 → DQ500",
+      "principle": "Обе семьи вне текущего DQ200 feed; подбор по реальной коробке.",
+      "yandex_match_equivalence_asserted": false
+    },
+    {
+      "family": "6t_generation",
+      "a": {
+        "query": "соленоиды 6t30 gen1 купить",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_other_campaign_gen1"
+      },
+      "b": {
+        "query": "соленоиды 6t30 gen2 купить",
+        "source": "synthetic",
+        "expected_semantic_class": "buyer_other_campaign_gen2"
+      },
+      "changed_dimension": "Gen1 → Gen2",
+      "principle": "Не считать поколения взаимозаменяемыми.",
+      "yandex_match_equivalence_asserted": false
+    }
+  ],
+  "real_query_source": "/workspace/scratch/339b8ef741a5/direct_exclusions_20261127/_fixtures/live_30d.json",
+  "pairs_count": 51,
+  "offline_model_limit": "Semantic expectations only; not a Yandex negative matching simulator.",
+  "current_real_query_source": "/workspace/scratch/339b8ef741a5/direct_semantics_20261127/reference/live_30d_100339.json",
+  "protected_buyer_examples": [
+    {
+      "query": "купить мехатроник dq200 без платы",
+      "source": "synthetic_user_control",
+      "expected_semantic_class": "preserve_buyer_intent",
+      "not_a_technical_whitelist": true
+    },
+    {
+      "query": "мехатроник dq200 с платой цена",
+      "source": "synthetic_user_control",
+      "expected_semantic_class": "preserve_buyer_intent",
+      "not_a_technical_whitelist": true
+    },
+    {
+      "query": "плата 0am927769d купить",
+      "source": "synthetic_user_control",
+      "expected_semantic_class": "preserve_buyer_intent",
+      "not_a_technical_whitelist": true
+    },
+    {
+      "query": "плата мехатроника dq200 купить спб",
+      "source": "synthetic_user_control",
+      "expected_semantic_class": "preserve_buyer_intent",
+      "not_a_technical_whitelist": true
+    },
+    {
+      "query": "ремкомплект мехатроника dq200",
+      "source": "synthetic_user_control",
+      "expected_semantic_class": "preserve_buyer_intent",
+      "not_a_technical_whitelist": true
+    },
+    {
+      "query": "запчасти для ремонта мехатроника dq200",
+      "source": "synthetic_user_control",
+      "expected_semantic_class": "preserve_buyer_intent",
+      "not_a_technical_whitelist": true
+    },
+    {
+      "query": "мехатроник dq200 китай цена",
+      "source": "synthetic_user_control",
+      "expected_semantic_class": "preserve_buyer_intent",
+      "not_a_technical_whitelist": true
+    }
+  ],
+  "irrelevant_or_service_examples": [
+    {
+      "query": "материнская плата ноутбука",
+      "source": "synthetic_user_control",
+      "expected_semantic_class": "exclude_unsupported_intent",
+      "not_a_technical_whitelist": true
+    },
+    {
+      "query": "колледж мехатроника",
+      "source": "synthetic_user_control",
+      "expected_semantic_class": "exclude_unsupported_intent",
+      "not_a_technical_whitelist": true
+    },
+    {
+      "query": "адрес сервиса ремонт мехатроника",
+      "source": "synthetic_user_control",
+      "expected_semantic_class": "exclude_unsupported_intent",
+      "not_a_technical_whitelist": true
+    },
+    {
+      "query": "стоимость работы по установке мехатроника",
+      "source": "synthetic_user_control",
+      "expected_semantic_class": "exclude_unsupported_intent",
+      "not_a_technical_whitelist": true
+    }
+  ],
+  "explicitly_ambiguous_examples": [
+    {
+      "query": "ремонт мехатроника dq200",
+      "source": "observed",
+      "expected_semantic_class": "retain_for_product_and_intent_review",
+      "not_a_technical_whitelist": true
+    },
+    {
+      "query": "замена платы dq200",
+      "source": "synthetic_user_control",
+      "expected_semantic_class": "retain_for_product_and_intent_review",
+      "not_a_technical_whitelist": true
+    },
+    {
+      "query": "мехатроник dq200 контрактный",
+      "source": "synthetic_user_control",
+      "expected_semantic_class": "retain_for_product_and_intent_review",
+      "not_a_technical_whitelist": true
+    },
+    {
+      "query": "p0841 dq200",
+      "source": "observed",
+      "expected_semantic_class": "retain_for_product_and_intent_review",
+      "not_a_technical_whitelist": true
+    },
+    {
+      "query": "мехатроник на гольф 6",
+      "source": "observed",
+      "expected_semantic_class": "retain_for_product_and_intent_review",
+      "not_a_technical_whitelist": true
+    },
+    {
+      "query": "плата мехатроника с прошивкой купить",
+      "source": "synthetic_user_control",
+      "expected_semantic_class": "retain_for_product_and_intent_review",
+      "not_a_technical_whitelist": true
+    },
+    {
+      "query": "купить плату мехатроника с клонированием",
+      "source": "synthetic_user_control",
+      "expected_semantic_class": "retain_for_product_and_intent_review",
+      "not_a_technical_whitelist": true
+    }
+  ],
+  "official_overlap_exception": "https://yandex.ru/support/direct/ru/keywords/negative-keywords"
+}

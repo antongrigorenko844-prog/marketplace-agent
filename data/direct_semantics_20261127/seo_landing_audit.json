@@ -1,0 +1,2335 @@
+{
+  "source": "data/direct_semantics_20261127/landing_seo_snapshot_1011.json",
+  "runtime_run_id": 45979776426,
+  "started_utc": "2026-11-27T10:11:12.807429+00:00",
+  "finished_utc": "2026-11-27T10:11:25.839232+00:00",
+  "external_mutations": 0,
+  "summary": {
+    "checked_request_urls": 33,
+    "http_200": 31,
+    "normal_content_responses": 22,
+    "authentication_documents_http200": 9,
+    "http404": 2,
+    "feed_offers": 12,
+    "feed_destinations_healthy": 12,
+    "feed_prices_all_match": true,
+    "feed_availability_all_match": true,
+    "active_anchor_targets_missing": 0
+  },
+  "scope_limitations": [
+    "HTTP from existing runtime; no real Googlebot IP, no browser JS execution, no private GSC access",
+    "Authentication documents classified from title/visible_text and noindex; raw authentication_detected in initial probe missed title-only challenge. Raw evidence remains unchanged.",
+    "An HTTP200 alone is not proof of a public product page.",
+    "GSC aggregate contains no affected URLs; found errors are not assigned to its 1 other4xx/68 404 counts.",
+    "The26.11 mobile audit did not include any of these nine component URLs. Its no-auth outcome cannot prove recovery or regression for these URLs."
+  ],
+  "sitemaps": {
+    "files": [
+      {
+        "url": "https://leoparts-akpp.ru/sitemap.xml",
+        "redirects": [],
+        "http": 200,
+        "final_url": "https://leoparts-akpp.ru/sitemap.xml",
+        "xml_type": "urlset",
+        "loc_count": 9
+      },
+      {
+        "url": "https://leoparts-akpp.ru/sitemap-store.xml",
+        "redirects": [],
+        "http": 200,
+        "final_url": "https://leoparts-akpp.ru/sitemap-store.xml",
+        "xml_type": "urlset",
+        "loc_count": 151
+      },
+      {
+        "url": "https://leoparts-akpp.ru/sitemap-feeds.xml",
+        "redirects": [],
+        "http": 200,
+        "final_url": "https://leoparts-akpp.ru/sitemap-feeds.xml",
+        "xml_type": "sitemapindex",
+        "loc_count": 1
+      },
+      {
+        "url": "https://leoparts-akpp.ru/sitemap-feed-477256274741.xml",
+        "redirects": [],
+        "http": 200,
+        "final_url": "https://leoparts-akpp.ru/sitemap-feed-477256274741.xml",
+        "xml_type": "urlset",
+        "loc_count": 2
+      }
+    ],
+    "url_count": 162
+  },
+  "robots": {
+    "http": 200,
+    "important_routes_allowed": true,
+    "text": "User-Agent: *\nDisallow: /page119567426.html\nDisallow: /header\nDisallow: /page223865203.html\nDisallow: /footer\nDisallow: /page253174309.html\nDisallow: /tilda/form*\nDisallow: /tilda/rec*\nDisallow: /tilda/click*\nDisallow: /tilda/scroll*\nDisallow: /tilda/popup*\nDisallow: /tilda/cart*\nDisallow: /tilda/product*\nDisallow: /tilda/event*\nDisallow:\n\n\nSitemap: https://leoparts-akpp.ru/sitemap.xml\nSitemap: https://leoparts-akpp.ru/sitemap-store.xml\nSitemap: https://leoparts-akpp.ru/sitemap-feeds.xml\n"
+  },
+  "url_checks": [
+    {
+      "url": "https://leoparts-akpp.ru/",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/",
+      "redirects": [],
+      "title": "Запчасти DSG7 DQ200 купить в России | Мехатроник, ремкомплекты, гидроаккумулятор | Leoparts",
+      "canonical": [
+        "https://leoparts-akpp.ru"
+      ],
+      "meta_robots": [],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 560222,
+      "html_sha256": "cc9dd31a086a66f1ec8edcf9b7ac1bc7629d669c12f008318694a9c79f84941d",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/",
+          "source": "core_commercial_or_known_repair_slug"
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": null,
+      "catalog_title": null
+    },
+    {
+      "url": "https://leoparts-akpp.ru/catalog",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/catalog",
+      "redirects": [],
+      "title": "Каталог запчастей DSG7 DQ200 | Цены и наличие | Leoparts",
+      "canonical": [
+        "https://leoparts-akpp.ru/catalog"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "ПОЧЕМУ НАМ ДОВЕРЯЮТ DSG7 DQ200"
+      ],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 116663,
+      "html_sha256": "211838e0422b1a1aa6b525b2d79b6fbbddd8f41e88e9cda8fbbb2d9ff53ddd46",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/catalog",
+          "source": "core_commercial_or_known_repair_slug"
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": null,
+      "catalog_title": null
+    },
+    {
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200",
+      "redirects": [],
+      "title": "Мехатроник DSG7 DQ200 — с платой и без, по обмену | Leoparts",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Мехатроник DSG7 DQ200 (0AM/0CW) — без платы, с платой и платы отдельно"
+      ],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [
+        {
+          "href": "https://leoparts-akpp.ru/mehatronik-dq200#bez-platy",
+          "fragment": "bez-platy",
+          "exists": true
+        },
+        {
+          "href": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi",
+          "fragment": "s-platoi",
+          "exists": true
+        },
+        {
+          "href": "https://leoparts-akpp.ru/mehatronik-dq200#bez-platy",
+          "fragment": "bez-platy",
+          "exists": true
+        },
+        {
+          "href": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi",
+          "fragment": "s-platoi",
+          "exists": true
+        },
+        {
+          "href": "https://leoparts-akpp.ru/mehatronik-dq200#platy",
+          "fragment": "platy",
+          "exists": true
+        },
+        {
+          "href": "https://leoparts-akpp.ru/mehatronik-dq200#bez-platy",
+          "fragment": "bez-platy",
+          "exists": true
+        },
+        {
+          "href": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi",
+          "fragment": "s-platoi",
+          "exists": true
+        },
+        {
+          "href": "https://leoparts-akpp.ru/mehatronik-dq200#platy",
+          "fragment": "platy",
+          "exists": true
+        },
+        {
+          "href": "https://leoparts-akpp.ru/mehatronik-dq200#bez-platy",
+          "fragment": "bez-platy",
+          "exists": true
+        },
+        {
+          "href": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi",
+          "fragment": "s-platoi",
+          "exists": true
+        },
+        {
+          "href": "https://leoparts-akpp.ru/mehatronik-dq200#platy",
+          "fragment": "platy",
+          "exists": true
+        }
+      ],
+      "html_bytes": 632942,
+      "html_sha256": "96492fd70755b519a8405dd2cbc38010adb62aec7c159f14c4b981f8abb1336e",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200",
+          "source": "core_commercial_or_known_repair_slug"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200#bez-platy",
+          "source": "direct_ad",
+          "ad_id": "1927466195846975291",
+          "group_id": 5826171512,
+          "state": "ON"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi",
+          "source": "direct_ad",
+          "ad_id": "1927466206584354174",
+          "group_id": 5826183946,
+          "state": "ON"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200",
+          "source": "direct_ad",
+          "ad_id": "1927488453443618167",
+          "group_id": 5828476541,
+          "state": "ON"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200#bez-platy",
+          "source": "direct_sitelink",
+          "set_id": 1528204770,
+          "title": "Мехатроник DSG7 DQ200"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi",
+          "source": "direct_sitelink",
+          "set_id": 1528204770,
+          "title": "Мехатроники с платой"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200#platy",
+          "source": "direct_sitelink",
+          "set_id": 1528204770,
+          "title": "Электронные платы DQ200"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200#bez-platy",
+          "source": "direct_sitelink",
+          "set_id": 1528204771,
+          "title": "Мехатроник DSG7 DQ200"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi",
+          "source": "direct_sitelink",
+          "set_id": 1528204771,
+          "title": "Мехатроники с платой"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200#platy",
+          "source": "direct_sitelink",
+          "set_id": 1528204771,
+          "title": "Электронные платы DQ200"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200#bez-platy",
+          "source": "direct_sitelink",
+          "set_id": 1528204772,
+          "title": "Мехатроник DSG7 DQ200"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200#s-platoi",
+          "source": "direct_sitelink",
+          "set_id": 1528204772,
+          "title": "Мехатроники с платой"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200#platy",
+          "source": "direct_sitelink",
+          "set_id": 1528204772,
+          "title": "Электронные платы DQ200"
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": null,
+      "catalog_title": null
+    },
+    {
+      "url": "https://leoparts-akpp.ru/remontdsg7dq200",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/remontdsg7dq200",
+      "redirects": [],
+      "title": "Ремонт мехатроника DSG7 DQ200 (0AM) — ошибки, давление, P17BF",
+      "canonical": [
+        "https://leoparts-akpp.ru/remont-mehatronika-dsg7-dq200-0am"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "ПОЧЕМУ НАМ ДОВЕРЯЮТ DSG7 DQ200"
+      ],
+      "h2": [
+        "Что такое мехатроник DSG7 DQ200 и почему он выходит из строя",
+        "Типичные признаки неисправности мехатроника",
+        "Как диагностировать DSG7 DQ200",
+        "Когда требуется ремонт мехатроника DSG7 DQ200",
+        "Какие запчасти DSG7 DQ200 чаще всего выходят из строя",
+        "Как выбрать запчасти DSG7 DQ200",
+        "Часто задаваемые вопросы"
+      ],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 234618,
+      "html_sha256": "0d5f56bef64fff568ac1a2e4d62828f6da1b2ff0ca5d6283c2f82f734a4d3924",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/remontdsg7dq200",
+          "source": "core_commercial_or_known_repair_slug"
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": false,
+      "sku": null,
+      "catalog_title": null
+    },
+    {
+      "url": "https://leoparts-akpp.ru/catalog/tproduct/976046353374-usilennaya-gidroplita-dsg7-dq200-0am3250",
+      "http": 404,
+      "final_url": "https://leoparts-akpp.ru/catalog/tproduct/976046353374-usilennaya-gidroplita-dsg7-dq200-0am3250",
+      "redirects": [],
+      "title": "Page Not Found",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": false,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 353,
+      "html_sha256": "c90094c86e56075db70ee47f228dba8ec1f53e3aff3f6b2b5f8a52d69834aa1b",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/catalog/tproduct/976046353374-usilennaya-gidroplita-dsg7-dq200-0am3250",
+          "source": "historical_public_search_result_not_GSC"
+        }
+      ],
+      "classification": "not_found",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": null,
+      "catalog_title": null
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/131718968624-remkomplekt-mehatronika-dsg-7-dq200-plit",
+      "http": 404,
+      "final_url": "https://leoparts-akpp.ru/tproduct/131718968624-remkomplekt-mehatronika-dsg-7-dq200-plit",
+      "redirects": [],
+      "title": "Page Not Found",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": false,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 353,
+      "html_sha256": "c90094c86e56075db70ee47f228dba8ec1f53e3aff3f6b2b5f8a52d69834aa1b",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/131718968624-remkomplekt-mehatronika-dsg-7-dq200-plit",
+          "source": "historical_public_search_result_not_GSC"
+        }
+      ],
+      "classification": "not_found",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": null,
+      "catalog_title": null
+    },
+    {
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/908157881413-mehatronik-dsg7-dq200-0am0cw-proveren-na",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/908157881413-mehatronik-dsg7-dq200-0am0cw-proveren-na",
+      "redirects": [],
+      "title": "Мехатроник DSG7 DQ200 0AM/0CW ПРОВЕРЕН НА АВТО",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/908157881413-mehatronik-dsg7-dq200-0am0cw-proveren-na"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Мехатроник DSG7 DQ200 0AM/0CW ПРОВЕРЕН НА АВТО"
+      ],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 61178,
+      "html_sha256": "4c7e4b0d5fae6d4f7e2155416f91251a1c718003a556b8a884929ecaaa3c2afa",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/908157881413-mehatronik-dsg7-dq200-0am0cw-proveren-na",
+          "source": "feed_4061297",
+          "offer_id": "0am325025h",
+          "name": "Мехатроник DSG7 DQ200"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/908157881413-mehatronik-dsg7-dq200-0am0cw-proveren-na",
+          "source": "direct_sitelink",
+          "set_id": 1528204770,
+          "title": "Мехатроник без платы 0AM"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/908157881413-mehatronik-dsg7-dq200-0am0cw-proveren-na",
+          "source": "fresh_public_catalog",
+          "sku": "0am325025H",
+          "uid": 908157881413
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0am325025H",
+      "catalog_title": "Мехатроник DSG7 DQ200 0AM/0CW ПРОВЕРЕН НА АВТО"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/353312992873-mehatronik-dsg7-dq200-0am-s-novimi-solen",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/353312992873-mehatronik-dsg7-dq200-0am-s-novimi-solen",
+      "redirects": [],
+      "title": "Мехатроник DSG7 DQ200 0AM с новыми соленоидами Bosch",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/353312992873-mehatronik-dsg7-dq200-0am-s-novimi-solen"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Мехатроник DSG7 DQ200 0AM с новыми соленоидами Bosch"
+      ],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 50683,
+      "html_sha256": "b0f4ddeecfc90097781dd7eb4cfc556ddf6839263aab5f9b171c178841e27be8",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/353312992873-mehatronik-dsg7-dq200-0am-s-novimi-solen",
+          "source": "feed_4061297",
+          "offer_id": "0am325025x",
+          "name": "Мехатроник DSG7 DQ200"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/353312992873-mehatronik-dsg7-dq200-0am-s-novimi-solen",
+          "source": "fresh_public_catalog",
+          "sku": "0am325025x",
+          "uid": 353312992873
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0am325025x",
+      "catalog_title": "Мехатроник DSG7 DQ200 0AM с новыми соленоидами Bosch"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/517217914653-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/517217914653-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+      "redirects": [],
+      "title": "Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769D",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/517217914653-mehatronik-dsg7-dq200-v-sbore-s-elektron"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769D"
+      ],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 59447,
+      "html_sha256": "bbe86f8a5638fc84a1bf603408a1f8f3c2814cec19298fe4c4c3179de5bfb35d",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/517217914653-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+          "source": "feed_4061297",
+          "offer_id": "0am325025hx",
+          "name": "Мехатроник DSG7 DQ200"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/517217914653-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+          "source": "direct_sitelink",
+          "set_id": 1528204770,
+          "title": "Мехатроник с платой D"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/517217914653-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+          "source": "direct_sitelink",
+          "set_id": 1528204771,
+          "title": "Мехатроник с платой D"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/517217914653-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+          "source": "fresh_public_catalog",
+          "sku": "0am325025HX",
+          "uid": 517217914653
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0am325025HX",
+      "catalog_title": "Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769D"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/915950884033-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/915950884033-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+      "redirects": [],
+      "title": "Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769F",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/915950884033-mehatronik-dsg7-dq200-v-sbore-s-elektron"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769F"
+      ],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 57187,
+      "html_sha256": "fba1b1ca80a8f9e6bdc35bbd8715bb81a37cb9bde79e3c4dfe4606c75f9af7e2",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/915950884033-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+          "source": "feed_4061297",
+          "offer_id": "0am325025hxf",
+          "name": "Мехатроник DSG7 DQ200"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/915950884033-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+          "source": "direct_sitelink",
+          "set_id": 1528204771,
+          "title": "Мехатроник с платой F"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/915950884033-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+          "source": "fresh_public_catalog",
+          "sku": "0am325025HXF",
+          "uid": 915950884033
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0am325025HXF",
+      "catalog_title": "Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769F"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "redirects": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "http": 301,
+          "location": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0"
+        }
+      ],
+      "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769E",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769E"
+      ],
+      "h2": [],
+      "in_sitemap": false,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 57095,
+      "html_sha256": "86e08681290a71aced1784b3be595f1b53d89450dc0f856e19e7b71cae4e862a",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "source": "feed_4061297",
+          "offer_id": "0am325025hxe",
+          "name": "Мехатроник DSG7 DQ200"
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0am325025HXE",
+      "catalog_title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769E"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "redirects": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "http": 301,
+          "location": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0"
+        }
+      ],
+      "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769G",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769G"
+      ],
+      "h2": [],
+      "in_sitemap": false,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 57095,
+      "html_sha256": "5af31b516923913c1425bd68d672427e2555c74ce8016390bbb3242eb700f9e7",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "source": "feed_4061297",
+          "offer_id": "0am325025hxg",
+          "name": "Мехатроник DSG7 DQ200"
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0am325025HXG",
+      "catalog_title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769G"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "redirects": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "http": 301,
+          "location": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0"
+        }
+      ],
+      "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769K",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769K"
+      ],
+      "h2": [],
+      "in_sitemap": false,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 57095,
+      "html_sha256": "f3c3c7df35af9209b404ea93c2e4e14d0be5399a10dd132567e094761dba9246",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "source": "feed_4061297",
+          "offer_id": "0am325025hxk",
+          "name": "Мехатроник DSG7 DQ200"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "source": "direct_sitelink",
+          "set_id": 1528204771,
+          "title": "Мехатроник с платой K"
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0am325025HXK",
+      "catalog_title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769K"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/787466152673-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/787466152673-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "redirects": [],
+      "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769D",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/787466152673-elektronnaya-plata-mehatronika-dsg7-dq20"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Электронная плата мехатроника DSG7 DQ200 0AM927769D"
+      ],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 55428,
+      "html_sha256": "8a337888132196cc9e2acecb587432cf512982432b76d53df47dedf30ef0559a",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/787466152673-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "feed_4061297",
+          "offer_id": "0am927769d",
+          "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769D"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/787466152673-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "direct_sitelink",
+          "set_id": 1528204770,
+          "title": "Плата 0AM927769D"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/787466152673-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "direct_sitelink",
+          "set_id": 1528204772,
+          "title": "Плата 0AM927769D"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/787466152673-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "fresh_public_catalog",
+          "sku": "0AM927769D",
+          "uid": 787466152673
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0AM927769D",
+      "catalog_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769D"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/801039414923-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/801039414923-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "redirects": [],
+      "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769F",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/801039414923-elektronnaya-plata-mehatronika-dsg7-dq20"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Электронная плата мехатроника DSG7 DQ200 0AM927769F"
+      ],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 52709,
+      "html_sha256": "7c1fec5af02660bc5d076ae8176cb86077c3c4a99a0a6264db138bfdd5bb83cc",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/801039414923-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "feed_4061297",
+          "offer_id": "0am927769f",
+          "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769F"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/801039414923-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "direct_sitelink",
+          "set_id": 1528204770,
+          "title": "Плата 0AM927769F"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/801039414923-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "direct_sitelink",
+          "set_id": 1528204772,
+          "title": "Плата 0AM927769F"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/801039414923-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "fresh_public_catalog",
+          "sku": "0AM927769F",
+          "uid": 801039414923
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0AM927769F",
+      "catalog_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769F"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "redirects": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "http": 301,
+          "location": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20"
+        }
+      ],
+      "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769E",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Электронная плата мехатроника DSG7 DQ200 0AM927769E"
+      ],
+      "h2": [],
+      "in_sitemap": false,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 51799,
+      "html_sha256": "2c6425d3546ba38c12018c802b56a8f1f44b42a99ca04170bfdcd292ada620b9",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "feed_4061297",
+          "offer_id": "0am927769e",
+          "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769E"
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0AM927769E",
+      "catalog_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769E"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "redirects": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "http": 301,
+          "location": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20"
+        }
+      ],
+      "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769G",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Электронная плата мехатроника DSG7 DQ200 0AM927769G"
+      ],
+      "h2": [],
+      "in_sitemap": false,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 51799,
+      "html_sha256": "2bad9aa24657888dbf3232f9d710b3a48b6780967c8dcd4567c2d96b583911a7",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "feed_4061297",
+          "offer_id": "0am927769g",
+          "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769G"
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0AM927769G",
+      "catalog_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769G"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "redirects": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "http": 301,
+          "location": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20"
+        }
+      ],
+      "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769K",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Электронная плата мехатроника DSG7 DQ200 0AM927769K"
+      ],
+      "h2": [],
+      "in_sitemap": false,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 51799,
+      "html_sha256": "4ef9604590546354a046788107f14ac2afe5bf64f1e08defebf48c26e242df76",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "feed_4061297",
+          "offer_id": "0am927769k",
+          "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769K"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "direct_sitelink",
+          "set_id": 1528204772,
+          "title": "Плата 0AM927769K"
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0AM927769K",
+      "catalog_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769K"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/838583326453-usilennaya-gidroplita-mehatronika-dsg7-d",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/838583326453-usilennaya-gidroplita-mehatronika-dsg7-d",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "1e5ef952933d70d8430d88c2874be61a855d5c368de805c28062afee448e7385",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/838583326453-usilennaya-gidroplita-mehatronika-dsg7-d",
+          "source": "direct_ad",
+          "ad_id": "1927493554789861877",
+          "group_id": 5828501772,
+          "state": "SUSPENDED"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/838583326453-usilennaya-gidroplita-mehatronika-dsg7-d",
+          "source": "fresh_public_catalog",
+          "sku": "0am325066ae",
+          "uid": 838583326453
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0am325066ae",
+      "catalog_title": "Усиленная гидроплита мехатроника DSG7 DQ200 0AM325066AE"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/731536345633-vtulka-gilza-shtoka-mehatronika-dsg7-dq2",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/731536345633-vtulka-gilza-shtoka-mehatronika-dsg7-dq2",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "f1f051f615b898f44a721b65375c89a7a918635f55e6bcc10615d20f15a1231f",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/731536345633-vtulka-gilza-shtoka-mehatronika-dsg7-dq2",
+          "source": "direct_ad",
+          "ad_id": "1927493554789861878",
+          "group_id": 5828501773,
+          "state": "SUSPENDED",
+          "sku": "0am325025D",
+          "sku_source": "Public catalog snapshot2026-11-27T09:22:16.438892+00:00, matched exactUID731536345633",
+          "catalog_title": "Втулка (гильза) штока мехатроника DSG7 DQ200 0AM325025D"
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0am325025D",
+      "catalog_title": "Втулка (гильза) штока мехатроника DSG7 DQ200 0AM325025D",
+      "sku_source": "Public catalog snapshot2026-11-27T09:22:16.438892+00:00, matched exactUID731536345633"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "redirects": [],
+      "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769E",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Электронная плата мехатроника DSG7 DQ200 0AM927769E"
+      ],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 51799,
+      "html_sha256": "2c6425d3546ba38c12018c802b56a8f1f44b42a99ca04170bfdcd292ada620b9",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "direct_sitelink",
+          "set_id": 1528204770,
+          "title": "Плата 0AM927769E"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "direct_sitelink",
+          "set_id": 1528204772,
+          "title": "Плата 0AM927769E"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "fresh_public_catalog",
+          "sku": "0AM927769E",
+          "uid": 137877342943
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0AM927769E",
+      "catalog_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769E"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "redirects": [],
+      "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769E",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769E"
+      ],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 57095,
+      "html_sha256": "86e08681290a71aced1784b3be595f1b53d89450dc0f856e19e7b71cae4e862a",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "source": "direct_sitelink",
+          "set_id": 1528204771,
+          "title": "Мехатроник с платой E"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "source": "fresh_public_catalog",
+          "sku": "0am325025HXE",
+          "uid": 937513129983
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0am325025HXE",
+      "catalog_title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769E"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "redirects": [],
+      "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769G",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769G"
+      ],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 57095,
+      "html_sha256": "5af31b516923913c1425bd68d672427e2555c74ce8016390bbb3242eb700f9e7",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "source": "direct_sitelink",
+          "set_id": 1528204771,
+          "title": "Мехатроник с платой G"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "source": "fresh_public_catalog",
+          "sku": "0am325025HXG",
+          "uid": 772831134323
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0am325025HXG",
+      "catalog_title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769G"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "redirects": [],
+      "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769G",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Электронная плата мехатроника DSG7 DQ200 0AM927769G"
+      ],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 51799,
+      "html_sha256": "2bad9aa24657888dbf3232f9d710b3a48b6780967c8dcd4567c2d96b583911a7",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "direct_sitelink",
+          "set_id": 1528204772,
+          "title": "Плата 0AM927769G"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "fresh_public_catalog",
+          "sku": "0AM927769G",
+          "uid": 933254300083
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0AM927769G",
+      "catalog_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769G"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/596243744223-usilennaya-prokladka-krishki-mehatronika",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/596243744223-usilennaya-prokladka-krishki-mehatronika",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "ad2981a84c7a0440a598eb96ec91319055e51ad4dc17a166679e0a20855e1567",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/596243744223-usilennaya-prokladka-krishki-mehatronika",
+          "source": "fresh_public_catalog",
+          "sku": "0AM325443D",
+          "uid": 596243744223
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0AM325443D",
+      "catalog_title": "Усиленная прокладка крышки мехатроника DSG7 DQ200 0AM325443D"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/920284757613-gidroakkumulyator-mehatronika-dsg7-dq200",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/920284757613-gidroakkumulyator-mehatronika-dsg7-dq200",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "3d2edd22954f57c7785964cc739c10d348c73633e45c5bb11d736db45390d08f",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/920284757613-gidroakkumulyator-mehatronika-dsg7-dq200",
+          "source": "fresh_public_catalog",
+          "sku": "0AM325587E",
+          "uid": 920284757613
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0AM325587E",
+      "catalog_title": "Гидроаккумулятор мехатроника DSG7 DQ200 Оригинал VAG 0AM325587E"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/768054411623-prokladki-elektronnoi-plati-mehatronika",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/768054411623-prokladki-elektronnoi-plati-mehatronika",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "6e55a3b4e1b78e226888607fcf3f7c9ecfb2a6e9e2e15c289078bbcff1ea879a",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/768054411623-prokladki-elektronnoi-plati-mehatronika",
+          "source": "fresh_public_catalog",
+          "sku": "0AM927769N",
+          "uid": 768054411623
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0AM927769N",
+      "catalog_title": "Прокладки электронной платы мехатроника DSG7 DQ200 0AM927769N"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/515162705633-remkomplekt-mehatronika-dsg7-dq200-gidro",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/515162705633-remkomplekt-mehatronika-dsg7-dq200-gidro",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "5a71a14baabd964413d8ba9b54a1d5d8f5a04aac5835d56a2fb7339083270554",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/515162705633-remkomplekt-mehatronika-dsg7-dq200-gidro",
+          "source": "fresh_public_catalog",
+          "sku": "0am325025",
+          "uid": 515162705633
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0am325025",
+      "catalog_title": "Ремкомплект мехатроника DSG7 DQ200 (гидроплита, сальники, прокладки) 0AM325025"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/950546401053-remkomplekt-prokladok-mehatronika-dsg7-d",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/950546401053-remkomplekt-prokladok-mehatronika-dsg7-d",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "d4f7d7d80b7cbb39603a19d9e206dde1d8b5a76f18e6352aadd726f6bde86086",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/950546401053-remkomplekt-prokladok-mehatronika-dsg7-d",
+          "source": "fresh_public_catalog",
+          "sku": "0am325025m",
+          "uid": 950546401053
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0am325025m",
+      "catalog_title": "Ремкомплект прокладок мехатроника DSG7 DQ200 0AM325025M"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/326440620133-remkomplekt-usilennii-korotkii-shtok-0am",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/326440620133-remkomplekt-usilennii-korotkii-shtok-0am",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "59818f7702d6b17920946811596dd93ef455202144b47dd468a79e5fa035b1db",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/326440620133-remkomplekt-usilennii-korotkii-shtok-0am",
+          "source": "fresh_public_catalog",
+          "sku": "0am325025z",
+          "uid": 326440620133
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0am325025z",
+      "catalog_title": "Ремкомплект: Усиленный короткий шток 0AM325091F 99мм + втулка мехатроника DSG7 DQ200"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/563938649593-komplekt-2-usilennih-shtoka-99mm-0am3250",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/563938649593-komplekt-2-usilennih-shtoka-99mm-0am3250",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "da10a80b66d4219375b70e0164838c0cf4e02063b6587eb0435c48e5d5aadcc7",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/563938649593-komplekt-2-usilennih-shtoka-99mm-0am3250",
+          "source": "fresh_public_catalog",
+          "sku": "0am325091f-set",
+          "uid": 563938649593
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0am325091f-set",
+      "catalog_title": "Комплект 2 усиленных штока 99мм 0AM325091F + 2 втулки DSG7 DQ200"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "redirects": [],
+      "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769K",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Электронная плата мехатроника DSG7 DQ200 0AM927769K"
+      ],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 51799,
+      "html_sha256": "4ef9604590546354a046788107f14ac2afe5bf64f1e08defebf48c26e242df76",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "source": "fresh_public_catalog",
+          "sku": "0AM927769K",
+          "uid": 234667588903
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0AM927769K",
+      "catalog_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769K"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "redirects": [],
+      "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769K",
+      "canonical": [
+        "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0"
+      ],
+      "meta_robots": [],
+      "h1": [
+        "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769K"
+      ],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 57095,
+      "html_sha256": "f3c3c7df35af9209b404ea93c2e4e14d0be5399a10dd132567e094761dba9246",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "source": "fresh_public_catalog",
+          "sku": "0am325025HXK",
+          "uid": 684991663463
+        }
+      ],
+      "classification": "content",
+      "noindex": false,
+      "canonical_matches_final": true,
+      "sku": "0am325025HXK",
+      "catalog_title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769K"
+    }
+  ],
+  "authentication_product_urls": [
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/838583326453-usilennaya-gidroplita-mehatronika-dsg7-d",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/838583326453-usilennaya-gidroplita-mehatronika-dsg7-d",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "1e5ef952933d70d8430d88c2874be61a855d5c368de805c28062afee448e7385",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/838583326453-usilennaya-gidroplita-mehatronika-dsg7-d",
+          "source": "direct_ad",
+          "ad_id": "1927493554789861877",
+          "group_id": 5828501772,
+          "state": "SUSPENDED"
+        },
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/838583326453-usilennaya-gidroplita-mehatronika-dsg7-d",
+          "source": "fresh_public_catalog",
+          "sku": "0am325066ae",
+          "uid": 838583326453
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0am325066ae",
+      "catalog_title": "Усиленная гидроплита мехатроника DSG7 DQ200 0AM325066AE",
+      "interpretation": "Observed anonymous runtime response only; not proof that all buyers or genuine Googlebot see the same document."
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/731536345633-vtulka-gilza-shtoka-mehatronika-dsg7-dq2",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/731536345633-vtulka-gilza-shtoka-mehatronika-dsg7-dq2",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "f1f051f615b898f44a721b65375c89a7a918635f55e6bcc10615d20f15a1231f",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/731536345633-vtulka-gilza-shtoka-mehatronika-dsg7-dq2",
+          "source": "direct_ad",
+          "ad_id": "1927493554789861878",
+          "group_id": 5828501773,
+          "state": "SUSPENDED",
+          "sku": "0am325025D",
+          "sku_source": "Public catalog snapshot2026-11-27T09:22:16.438892+00:00, matched exactUID731536345633",
+          "catalog_title": "Втулка (гильза) штока мехатроника DSG7 DQ200 0AM325025D"
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0am325025D",
+      "catalog_title": "Втулка (гильза) штока мехатроника DSG7 DQ200 0AM325025D",
+      "interpretation": "Observed anonymous runtime response only; not proof that all buyers or genuine Googlebot see the same document.",
+      "sku_source": "Public catalog snapshot2026-11-27T09:22:16.438892+00:00, matched exactUID731536345633"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/596243744223-usilennaya-prokladka-krishki-mehatronika",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/596243744223-usilennaya-prokladka-krishki-mehatronika",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "ad2981a84c7a0440a598eb96ec91319055e51ad4dc17a166679e0a20855e1567",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/596243744223-usilennaya-prokladka-krishki-mehatronika",
+          "source": "fresh_public_catalog",
+          "sku": "0AM325443D",
+          "uid": 596243744223
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0AM325443D",
+      "catalog_title": "Усиленная прокладка крышки мехатроника DSG7 DQ200 0AM325443D",
+      "interpretation": "Observed anonymous runtime response only; not proof that all buyers or genuine Googlebot see the same document."
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/920284757613-gidroakkumulyator-mehatronika-dsg7-dq200",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/920284757613-gidroakkumulyator-mehatronika-dsg7-dq200",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "3d2edd22954f57c7785964cc739c10d348c73633e45c5bb11d736db45390d08f",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/920284757613-gidroakkumulyator-mehatronika-dsg7-dq200",
+          "source": "fresh_public_catalog",
+          "sku": "0AM325587E",
+          "uid": 920284757613
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0AM325587E",
+      "catalog_title": "Гидроаккумулятор мехатроника DSG7 DQ200 Оригинал VAG 0AM325587E",
+      "interpretation": "Observed anonymous runtime response only; not proof that all buyers or genuine Googlebot see the same document."
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/768054411623-prokladki-elektronnoi-plati-mehatronika",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/768054411623-prokladki-elektronnoi-plati-mehatronika",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "6e55a3b4e1b78e226888607fcf3f7c9ecfb2a6e9e2e15c289078bbcff1ea879a",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/768054411623-prokladki-elektronnoi-plati-mehatronika",
+          "source": "fresh_public_catalog",
+          "sku": "0AM927769N",
+          "uid": 768054411623
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0AM927769N",
+      "catalog_title": "Прокладки электронной платы мехатроника DSG7 DQ200 0AM927769N",
+      "interpretation": "Observed anonymous runtime response only; not proof that all buyers or genuine Googlebot see the same document."
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/515162705633-remkomplekt-mehatronika-dsg7-dq200-gidro",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/515162705633-remkomplekt-mehatronika-dsg7-dq200-gidro",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "5a71a14baabd964413d8ba9b54a1d5d8f5a04aac5835d56a2fb7339083270554",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/515162705633-remkomplekt-mehatronika-dsg7-dq200-gidro",
+          "source": "fresh_public_catalog",
+          "sku": "0am325025",
+          "uid": 515162705633
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0am325025",
+      "catalog_title": "Ремкомплект мехатроника DSG7 DQ200 (гидроплита, сальники, прокладки) 0AM325025",
+      "interpretation": "Observed anonymous runtime response only; not proof that all buyers or genuine Googlebot see the same document."
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/950546401053-remkomplekt-prokladok-mehatronika-dsg7-d",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/950546401053-remkomplekt-prokladok-mehatronika-dsg7-d",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "d4f7d7d80b7cbb39603a19d9e206dde1d8b5a76f18e6352aadd726f6bde86086",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/950546401053-remkomplekt-prokladok-mehatronika-dsg7-d",
+          "source": "fresh_public_catalog",
+          "sku": "0am325025m",
+          "uid": 950546401053
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0am325025m",
+      "catalog_title": "Ремкомплект прокладок мехатроника DSG7 DQ200 0AM325025M",
+      "interpretation": "Observed anonymous runtime response only; not proof that all buyers or genuine Googlebot see the same document."
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/326440620133-remkomplekt-usilennii-korotkii-shtok-0am",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/326440620133-remkomplekt-usilennii-korotkii-shtok-0am",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "59818f7702d6b17920946811596dd93ef455202144b47dd468a79e5fa035b1db",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/326440620133-remkomplekt-usilennii-korotkii-shtok-0am",
+          "source": "fresh_public_catalog",
+          "sku": "0am325025z",
+          "uid": 326440620133
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0am325025z",
+      "catalog_title": "Ремкомплект: Усиленный короткий шток 0AM325091F 99мм + втулка мехатроника DSG7 DQ200",
+      "interpretation": "Observed anonymous runtime response only; not proof that all buyers or genuine Googlebot see the same document."
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/563938649593-komplekt-2-usilennih-shtoka-99mm-0am3250",
+      "http": 200,
+      "final_url": "https://leoparts-akpp.ru/tproduct/563938649593-komplekt-2-usilennih-shtoka-99mm-0am3250",
+      "redirects": [],
+      "title": "Authentication required",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": true,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 603,
+      "html_sha256": "da10a80b66d4219375b70e0164838c0cf4e02063b6587eb0435c48e5d5aadcc7",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/563938649593-komplekt-2-usilennih-shtoka-99mm-0am3250",
+          "source": "fresh_public_catalog",
+          "sku": "0am325091f-set",
+          "uid": 563938649593
+        }
+      ],
+      "classification": "authentication_document",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": "0am325091f-set",
+      "catalog_title": "Комплект 2 усиленных штока 99мм 0AM325091F + 2 втулки DSG7 DQ200",
+      "interpretation": "Observed anonymous runtime response only; not proof that all buyers or genuine Googlebot see the same document."
+    }
+  ],
+  "historical_404_urls": [
+    {
+      "url": "https://leoparts-akpp.ru/catalog/tproduct/976046353374-usilennaya-gidroplita-dsg7-dq200-0am3250",
+      "http": 404,
+      "final_url": "https://leoparts-akpp.ru/catalog/tproduct/976046353374-usilennaya-gidroplita-dsg7-dq200-0am3250",
+      "redirects": [],
+      "title": "Page Not Found",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": false,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 353,
+      "html_sha256": "c90094c86e56075db70ee47f228dba8ec1f53e3aff3f6b2b5f8a52d69834aa1b",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/catalog/tproduct/976046353374-usilennaya-gidroplita-dsg7-dq200-0am3250",
+          "source": "historical_public_search_result_not_GSC"
+        }
+      ],
+      "classification": "not_found",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": null,
+      "catalog_title": null
+    },
+    {
+      "url": "https://leoparts-akpp.ru/tproduct/131718968624-remkomplekt-mehatronika-dsg-7-dq200-plit",
+      "http": 404,
+      "final_url": "https://leoparts-akpp.ru/tproduct/131718968624-remkomplekt-mehatronika-dsg-7-dq200-plit",
+      "redirects": [],
+      "title": "Page Not Found",
+      "canonical": [],
+      "meta_robots": [
+        {
+          "name": "robots",
+          "content": "noindex"
+        }
+      ],
+      "h1": [],
+      "h2": [],
+      "in_sitemap": false,
+      "robots_txt_allowed": {
+        "Googlebot": true,
+        "YandexBot": true,
+        "*": true
+      },
+      "anchor_checks": [],
+      "html_bytes": 353,
+      "html_sha256": "c90094c86e56075db70ee47f228dba8ec1f53e3aff3f6b2b5f8a52d69834aa1b",
+      "references": [
+        {
+          "url": "https://leoparts-akpp.ru/tproduct/131718968624-remkomplekt-mehatronika-dsg-7-dq200-plit",
+          "source": "historical_public_search_result_not_GSC"
+        }
+      ],
+      "classification": "not_found",
+      "noindex": true,
+      "canonical_matches_final": false,
+      "sku": null,
+      "catalog_title": null
+    }
+  ],
+  "additional_canonical_target_probe": {
+    "source_url": "https://leoparts-akpp.ru/remontdsg7dq200",
+    "canonical": "https://leoparts-akpp.ru/remont-mehatronika-dsg7-dq200-0am",
+    "target_http": 404,
+    "verification_source": "public web open returned (404) Not Found after runtime probe",
+    "web_source_ref": "turn615239629view0",
+    "is_GSC_example": false
+  },
+  "feed_catalog_consistency": [
+    {
+      "offer_id": "0am325025h",
+      "sku": "0am325025H",
+      "uid": 908157881413,
+      "name": "Мехатроник DSG7 DQ200",
+      "catalog_title": "Мехатроник DSG7 DQ200 0AM/0CW ПРОВЕРЕН НА АВТО",
+      "feed_price": "33500.0",
+      "catalog_price": "33500.0000",
+      "price_matches": true,
+      "feed_available": "true",
+      "quantity_raw": "13",
+      "availability_matches": true,
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/908157881413-mehatronik-dsg7-dq200-0am0cw-proveren-na",
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/908157881413-mehatronik-dsg7-dq200-0am0cw-proveren-na",
+      "http": 200,
+      "classification": "content"
+    },
+    {
+      "offer_id": "0am325025x",
+      "sku": "0am325025x",
+      "uid": 353312992873,
+      "name": "Мехатроник DSG7 DQ200",
+      "catalog_title": "Мехатроник DSG7 DQ200 0AM с новыми соленоидами Bosch",
+      "feed_price": "38500.0",
+      "catalog_price": "38500.0000",
+      "price_matches": true,
+      "feed_available": "false",
+      "quantity_raw": "0",
+      "availability_matches": true,
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/353312992873-mehatronik-dsg7-dq200-0am-s-novimi-solen",
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/353312992873-mehatronik-dsg7-dq200-0am-s-novimi-solen",
+      "http": 200,
+      "classification": "content"
+    },
+    {
+      "offer_id": "0am325025hx",
+      "sku": "0am325025HX",
+      "uid": 517217914653,
+      "name": "Мехатроник DSG7 DQ200",
+      "catalog_title": "Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769D",
+      "feed_price": "64500.0",
+      "catalog_price": "64500.0000",
+      "price_matches": true,
+      "feed_available": "true",
+      "quantity_raw": "9",
+      "availability_matches": true,
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/517217914653-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/517217914653-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+      "http": 200,
+      "classification": "content"
+    },
+    {
+      "offer_id": "0am325025hxf",
+      "sku": "0am325025HXF",
+      "uid": 915950884033,
+      "name": "Мехатроник DSG7 DQ200",
+      "catalog_title": "Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769F",
+      "feed_price": "68500.0",
+      "catalog_price": "68500.0000",
+      "price_matches": true,
+      "feed_available": "true",
+      "quantity_raw": "3",
+      "availability_matches": true,
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/915950884033-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/915950884033-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+      "http": 200,
+      "classification": "content"
+    },
+    {
+      "offer_id": "0am325025hxe",
+      "sku": "0am325025HXE",
+      "uid": 937513129983,
+      "name": "Мехатроник DSG7 DQ200",
+      "catalog_title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769E",
+      "feed_price": "68500.0",
+      "catalog_price": "68500.0000",
+      "price_matches": true,
+      "feed_available": "true",
+      "quantity_raw": "5",
+      "availability_matches": true,
+      "url": "https://leoparts-akpp.ru/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "http": 200,
+      "classification": "content"
+    },
+    {
+      "offer_id": "0am325025hxg",
+      "sku": "0am325025HXG",
+      "uid": 772831134323,
+      "name": "Мехатроник DSG7 DQ200",
+      "catalog_title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769G",
+      "feed_price": "68500.0",
+      "catalog_price": "68500.0000",
+      "price_matches": true,
+      "feed_available": "true",
+      "quantity_raw": "5",
+      "availability_matches": true,
+      "url": "https://leoparts-akpp.ru/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "http": 200,
+      "classification": "content"
+    },
+    {
+      "offer_id": "0am325025hxk",
+      "sku": "0am325025HXK",
+      "uid": 684991663463,
+      "name": "Мехатроник DSG7 DQ200",
+      "catalog_title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769K",
+      "feed_price": "68500.0",
+      "catalog_price": "68500.0000",
+      "price_matches": true,
+      "feed_available": "true",
+      "quantity_raw": "5",
+      "availability_matches": true,
+      "url": "https://leoparts-akpp.ru/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "http": 200,
+      "classification": "content"
+    },
+    {
+      "offer_id": "0am927769d",
+      "sku": "0AM927769D",
+      "uid": 787466152673,
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769D",
+      "catalog_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769D",
+      "feed_price": "37500.00",
+      "catalog_price": "37500.0000",
+      "price_matches": true,
+      "feed_available": "true",
+      "quantity_raw": "7",
+      "availability_matches": true,
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/787466152673-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/787466152673-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "http": 200,
+      "classification": "content"
+    },
+    {
+      "offer_id": "0am927769f",
+      "sku": "0AM927769F",
+      "uid": 801039414923,
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769F",
+      "catalog_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769F",
+      "feed_price": "39500.0",
+      "catalog_price": "39500.0000",
+      "price_matches": true,
+      "feed_available": "true",
+      "quantity_raw": "3",
+      "availability_matches": true,
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/801039414923-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/801039414923-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "http": 200,
+      "classification": "content"
+    },
+    {
+      "offer_id": "0am927769e",
+      "sku": "0AM927769E",
+      "uid": 137877342943,
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769E",
+      "catalog_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769E",
+      "feed_price": "39500.00",
+      "catalog_price": "39500.0000",
+      "price_matches": true,
+      "feed_available": "true",
+      "quantity_raw": "5",
+      "availability_matches": true,
+      "url": "https://leoparts-akpp.ru/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "http": 200,
+      "classification": "content"
+    },
+    {
+      "offer_id": "0am927769g",
+      "sku": "0AM927769G",
+      "uid": 933254300083,
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769G",
+      "catalog_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769G",
+      "feed_price": "39500.00",
+      "catalog_price": "39500.0000",
+      "price_matches": true,
+      "feed_available": "true",
+      "quantity_raw": "5",
+      "availability_matches": true,
+      "url": "https://leoparts-akpp.ru/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "http": 200,
+      "classification": "content"
+    },
+    {
+      "offer_id": "0am927769k",
+      "sku": "0AM927769K",
+      "uid": 234667588903,
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769K",
+      "catalog_title": "Электронная плата мехатроника DSG7 DQ200 0AM927769K",
+      "feed_price": "39500.00",
+      "catalog_price": "39500.0000",
+      "price_matches": true,
+      "feed_available": "true",
+      "quantity_raw": "5",
+      "availability_matches": true,
+      "url": "https://leoparts-akpp.ru/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "final_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "http": 200,
+      "classification": "content"
+    }
+  ],
+  "expected_behaviors": [
+    {
+      "fact": "Six /tproduct/ aliases from feed redirect once by301 to /mehatronik-dq200/tproduct/... with self-canonical and sitemap entry.",
+      "action": "Keep redirects; optional point feed/sitelinks directly to canonical URL separately after current-state check."
+    },
+    {
+      "fact": "Homepage canonical https://leoparts-akpp.ru versus sitemap https://leoparts-akpp.ru/ are equivalent root paths.",
+      "action": "Do not flag or rewrite as a canonical conflict."
+    },
+    {
+      "fact": "Unavailable0am325025x has quantity0 and feed available=false, while product page remains200.",
+      "action": "Preserve availability and page; do not enable ads/change stock."
+    }
+  ],
+  "offer_claim_findings": [
+    {
+      "url": "https://leoparts-akpp.ru/remontdsg7dq200",
+      "finding": "Fresh article CTA offers detailed diagnostics/professional repair to catalog visitors; standalone service not confirmed by business brief.",
+      "proposed_change_plan": "landing_change_plan_draft.json"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/catalog",
+      "finding": "Claim that all parts fitDQ200 is false for a catalog also containing DQ250,DQ500,DL501,6T30.",
+      "proposed_change_plan": "landing_change_plan_draft.json"
+    },
+    {
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/908157881413-mehatronik-dsg7-dq200-0am0cw-proveren-na",
+      "finding": "No-board hydraulic assembly explicitly states no electronic board, but guarantees whole gearbox works like new after installation/adaptation; replace sweeping outcome claim with configuration and specialist installation requirements."
+    },
+    {
+      "scope": "Five electronic boardsD/E/F/G/K",
+      "finding": "Public descriptions require exact same OEM suffix. No included cloning/flashing/data-transfer service or interchangeable revisions established."
+    },
+    {
+      "scope": "Responsive ads and current feed",
+      "finding": "No explicit sale of complete gearbox or standalone installation/removal/cloning service found. Restored product condition is not itself an offer of repair service.",
+      "owner_neutral_title_preference": {
+        "date": "2026-11-26",
+        "mode": "cancelled_by_owner_preserve_neutral_titles",
+        "path": "drafts/direct_conversion_20261126/feed_title_plan.json",
+        "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/drafts/direct_conversion_20261126/feed_title_plan.json",
+        "meaning": "Owner explicitly retained neutral name Мехатроник DSG7 DQ200 for seven offers. New general audit does not automatically reverse this specific preference.",
+        "action": "HOLD names; present seven concrete alternative names only for one final decision if recommendation remains warranted."
+      }
+    }
+  ],
+  "owner_decision_conflict": {
+    "date": "2026-11-26",
+    "mode": "cancelled_by_owner_preserve_neutral_titles",
+    "path": "drafts/direct_conversion_20261126/feed_title_plan.json",
+    "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/drafts/direct_conversion_20261126/feed_title_plan.json",
+    "meaning": "Owner explicitly retained neutral name Мехатроник DSG7 DQ200 for seven offers. New general audit does not automatically reverse this specific preference.",
+    "action": "HOLD names; present seven concrete alternative names only for one final decision if recommendation remains warranted."
+  },
+  "article_code_mismatches": [
+    {
+      "uid": "937513129983",
+      "sku": "0am325025HXE",
+      "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769E",
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "tail_actual": "Артикул: 0am325025HXF.",
+      "tail_expected": "Артикул: 0am325025HXE."
+    },
+    {
+      "uid": "772831134323",
+      "sku": "0am325025HXG",
+      "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769G",
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "tail_actual": "Артикул: 0am325025HXF.",
+      "tail_expected": "Артикул: 0am325025HXG."
+    },
+    {
+      "uid": "684991663463",
+      "sku": "0am325025HXK",
+      "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769K",
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "tail_actual": "Артикул: 0am325025HXF.",
+      "tail_expected": "Артикул: 0am325025HXK."
+    }
+  ],
+  "source_sha256": "2f9c3c8558c3d5207e49ef45fb2a24037a5bcf4d147e6f982b06442ad38f3bb6"
+}

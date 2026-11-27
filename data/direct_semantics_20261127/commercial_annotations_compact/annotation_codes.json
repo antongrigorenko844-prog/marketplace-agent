@@ -1,0 +1,626 @@
+{
+  "schema_version": 1,
+  "semantic_field_order": [
+    "intent_category",
+    "intent_label",
+    "classification_method",
+    "classification_uncertain",
+    "reason",
+    "family_ids",
+    "primary_family_id",
+    "literal_catalog_sku_matches_normalized",
+    "campaign_relevance",
+    "proposed_active_group_id",
+    "exact_sku_compatibility_confirmed",
+    "automatic_negative_recommendation",
+    "confirmed_paid_sale",
+    "verified_net_profit_rub",
+    "source_goal_conversions_are_not_paid_sales"
+  ],
+  "intent_codes": {
+    "2": {
+      "intent_category": 2,
+      "intent_label": "Подбор детали и применимости"
+    },
+    "8": {
+      "intent_category": 8,
+      "intent_label": "Смешанный или неоднозначный запрос"
+    },
+    "7": {
+      "intent_category": 7,
+      "intent_label": "Другой товар/коробка/общая навигация"
+    },
+    "3": {
+      "intent_category": 3,
+      "intent_label": "Сравнение цены, состояния, производителя"
+    },
+    "1": {
+      "intent_category": 1,
+      "intent_label": "Покупка конкретной детали/семейства"
+    },
+    "4": {
+      "intent_category": 4,
+      "intent_label": "Диагностика с возможной покупкой"
+    },
+    "6": {
+      "intent_category": 6,
+      "intent_label": "Информация и самостоятельное обслуживание"
+    },
+    "5": {
+      "intent_category": 5,
+      "intent_label": "Явный поиск услуги/исполнителя/стоимости работы"
+    }
+  },
+  "field_allocation": {
+    "review": [
+      "classification_method"
+    ],
+    "confidence": [
+      "classification_uncertain"
+    ],
+    "evidence": [
+      "reason",
+      "literal_catalog_sku_matches_normalized"
+    ],
+    "routing": [
+      "family_ids",
+      "primary_family_id",
+      "campaign_relevance",
+      "proposed_active_group_id"
+    ],
+    "decision": [
+      "exact_sku_compatibility_confirmed",
+      "automatic_negative_recommendation",
+      "confirmed_paid_sale",
+      "verified_net_profit_rub",
+      "source_goal_conversions_are_not_paid_sales"
+    ]
+  },
+  "definitions": {
+    "review": "Classification method; earlier exact-query expert assessment or uncertain lexical candidate.",
+    "confidence": "Boolean uncertainty is preserved; no invented numerical confidence.",
+    "evidence": "Exact reason text and any literal normalized catalog SKU matches.",
+    "routing": "All semantic families, primary family, campaign relevance and proposed active group; no fitment guarantee.",
+    "decision": "Unchanged decision/outcome flags; no automatic negative or confirmed sale.",
+    "source_and_raw": "Recover exactly from pinned query_index and parts using global row_index.",
+    "period_kind": "today_partial iff raw.Date equals source index.today; otherwise completed_days."
+  },
+  "review_codes": {
+    "1": {
+      "classification_method": "conservative_lexical_candidate"
+    },
+    "2": {
+      "classification_method": "uncertain_unresolved"
+    },
+    "3": {
+      "classification_method": "prior_exact_query_expert_review"
+    }
+  },
+  "confidence_codes": {
+    "1": {
+      "classification_uncertain": true
+    },
+    "2": {
+      "classification_uncertain": false
+    }
+  },
+  "evidence_codes": {
+    "1": {
+      "reason": "Technical product/model wording suggests part selection but purchase is not established.",
+      "literal_catalog_sku_matches_normalized": []
+    },
+    "2": {
+      "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+      "literal_catalog_sku_matches_normalized": []
+    },
+    "3": {
+      "reason": "Explicit other device/model/transmission context; store relevance and campaign relevance differ.",
+      "literal_catalog_sku_matches_normalized": []
+    },
+    "4": {
+      "reason": "Exact text occurred in the disclosed paid-query review at 10:03; source IDs here come only from raw 10:16.",
+      "literal_catalog_sku_matches_normalized": []
+    },
+    "5": {
+      "reason": "Condition/price comparison concerning a likely part; new/used/China are not automatic negatives.",
+      "literal_catalog_sku_matches_normalized": []
+    },
+    "6": {
+      "reason": "Marketplace/navigation context without confirmed DQ200 part intent; not proof of wasted spend.",
+      "literal_catalog_sku_matches_normalized": []
+    },
+    "7": {
+      "reason": "Both DQ200 and another transmission family occur; comparative/selection intent needs review.",
+      "literal_catalog_sku_matches_normalized": []
+    },
+    "8": {
+      "reason": "Explicit purchase term and a product-family cue; exact offer/fitment still require review.",
+      "literal_catalog_sku_matches_normalized": []
+    },
+    "9": {
+      "reason": "Diagnostic wording can precede a component purchase; do not automatically exclude.",
+      "literal_catalog_sku_matches_normalized": []
+    },
+    "10": {
+      "reason": "Part-number or fitment selection; no universal interchangeability inferred.",
+      "literal_catalog_sku_matches_normalized": []
+    },
+    "11": {
+      "reason": "Instruction/information wording; possible later buyer intent remains unmeasured.",
+      "literal_catalog_sku_matches_normalized": []
+    },
+    "12": {
+      "reason": "Exact text occurred in the disclosed paid-query review at 10:03; source IDs here come only from raw 10:16.",
+      "literal_catalog_sku_matches_normalized": [
+        "0am927769d"
+      ]
+    },
+    "13": {
+      "reason": "Exact text occurred in the disclosed paid-query review at 10:03; source IDs here come only from raw 10:16.",
+      "literal_catalog_sku_matches_normalized": [
+        "0am927769g"
+      ]
+    },
+    "14": {
+      "reason": "Exact text occurred in the disclosed paid-query review at 10:03; source IDs here come only from raw 10:16.",
+      "literal_catalog_sku_matches_normalized": [
+        "0am927769d",
+        "0am927769g"
+      ]
+    },
+    "15": {
+      "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+      "literal_catalog_sku_matches_normalized": [
+        "0am927769d"
+      ]
+    },
+    "16": {
+      "reason": "Technical product/model wording suggests part selection but purchase is not established.",
+      "literal_catalog_sku_matches_normalized": [
+        "0am927769g"
+      ]
+    },
+    "17": {
+      "reason": "Technical product/model wording suggests part selection but purchase is not established.",
+      "literal_catalog_sku_matches_normalized": [
+        "0am325025h"
+      ]
+    },
+    "18": {
+      "reason": "Wording points to a provider or work rather than a stocked component; service offer is unconfirmed.",
+      "literal_catalog_sku_matches_normalized": []
+    },
+    "19": {
+      "reason": "Exact text occurred in the disclosed paid-query review at 10:03; source IDs here come only from raw 10:16.",
+      "literal_catalog_sku_matches_normalized": [
+        "0am325025h"
+      ]
+    },
+    "20": {
+      "reason": "Technical product/model wording suggests part selection but purchase is not established.",
+      "literal_catalog_sku_matches_normalized": [
+        "0am325025d"
+      ]
+    },
+    "21": {
+      "reason": "Technical product/model wording suggests part selection but purchase is not established.",
+      "literal_catalog_sku_matches_normalized": [
+        "0am927769d"
+      ]
+    },
+    "22": {
+      "reason": "Technical product/model wording suggests part selection but purchase is not established.",
+      "literal_catalog_sku_matches_normalized": [
+        "0am927769k"
+      ]
+    }
+  },
+  "routing_codes": {
+    "1": {
+      "family_ids": [
+        "mechatronic_general"
+      ],
+      "primary_family_id": "mechatronic_general",
+      "campaign_relevance": "potential_current_feed_family_fitment_unverified",
+      "proposed_active_group_id": "5828476541"
+    },
+    "2": {
+      "family_ids": [],
+      "primary_family_id": "unresolved",
+      "campaign_relevance": "unconfirmed_product_scope",
+      "proposed_active_group_id": null
+    },
+    "3": {
+      "family_ids": [
+        "dq250"
+      ],
+      "primary_family_id": "dq250",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "4": {
+      "family_ids": [
+        "dq500"
+      ],
+      "primary_family_id": "dq500",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "5": {
+      "family_ids": [
+        "dq250"
+      ],
+      "primary_family_id": "dq250",
+      "campaign_relevance": "mixed_requires_review",
+      "proposed_active_group_id": null
+    },
+    "6": {
+      "family_ids": [
+        "repair_kits"
+      ],
+      "primary_family_id": "repair_kits",
+      "campaign_relevance": "catalog_component_or_tool_needs_verified_ad_route",
+      "proposed_active_group_id": null
+    },
+    "7": {
+      "family_ids": [
+        "boards"
+      ],
+      "primary_family_id": "boards",
+      "campaign_relevance": "unrelated_device",
+      "proposed_active_group_id": null
+    },
+    "8": {
+      "family_ids": [
+        "boards"
+      ],
+      "primary_family_id": "boards",
+      "campaign_relevance": "unconfirmed_product_scope",
+      "proposed_active_group_id": null
+    },
+    "9": {
+      "family_ids": [
+        "with_board"
+      ],
+      "primary_family_id": "with_board",
+      "campaign_relevance": "potential_current_feed_family_fitment_unverified",
+      "proposed_active_group_id": "5826183946"
+    },
+    "10": {
+      "family_ids": [
+        "boards"
+      ],
+      "primary_family_id": "boards",
+      "campaign_relevance": "potential_current_feed_family_fitment_unverified",
+      "proposed_active_group_id": "5826320196"
+    },
+    "11": {
+      "family_ids": [
+        "dq500",
+        "boards"
+      ],
+      "primary_family_id": "dq500",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "12": {
+      "family_ids": [
+        "other_transmission"
+      ],
+      "primary_family_id": "other_transmission",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "13": {
+      "family_ids": [
+        "board_components"
+      ],
+      "primary_family_id": "board_components",
+      "campaign_relevance": "catalog_component_or_tool_needs_verified_ad_route",
+      "proposed_active_group_id": null
+    },
+    "14": {
+      "family_ids": [
+        "gaskets"
+      ],
+      "primary_family_id": "gaskets",
+      "campaign_relevance": "catalog_component_or_tool_needs_verified_ad_route",
+      "proposed_active_group_id": null
+    },
+    "15": {
+      "family_ids": [
+        "solenoids"
+      ],
+      "primary_family_id": "solenoids",
+      "campaign_relevance": "catalog_component_or_tool_needs_verified_ad_route",
+      "proposed_active_group_id": null
+    },
+    "16": {
+      "family_ids": [
+        "dq250",
+        "dq500"
+      ],
+      "primary_family_id": "dq250",
+      "campaign_relevance": "mixed_requires_review",
+      "proposed_active_group_id": null
+    },
+    "17": {
+      "family_ids": [
+        "hydraulic_plate"
+      ],
+      "primary_family_id": "hydraulic_plate",
+      "campaign_relevance": "catalog_component_or_tool_needs_verified_ad_route",
+      "proposed_active_group_id": null
+    },
+    "18": {
+      "family_ids": [
+        "dq250",
+        "with_board"
+      ],
+      "primary_family_id": "dq250",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "19": {
+      "family_ids": [
+        "tools"
+      ],
+      "primary_family_id": "tools",
+      "campaign_relevance": "catalog_component_or_tool_needs_verified_ad_route",
+      "proposed_active_group_id": null
+    },
+    "20": {
+      "family_ids": [
+        "mechatronic_general",
+        "without_board"
+      ],
+      "primary_family_id": "mechatronic_general",
+      "campaign_relevance": "potential_current_feed_family_fitment_unverified",
+      "proposed_active_group_id": "5828476541"
+    },
+    "21": {
+      "family_ids": [
+        "rods_bushings"
+      ],
+      "primary_family_id": "rods_bushings",
+      "campaign_relevance": "catalog_component_or_tool_needs_verified_ad_route",
+      "proposed_active_group_id": null
+    },
+    "22": {
+      "family_ids": [
+        "mechatronic_general"
+      ],
+      "primary_family_id": "mechatronic_general",
+      "campaign_relevance": "unrelated_device",
+      "proposed_active_group_id": null
+    },
+    "23": {
+      "family_ids": [
+        "solenoids",
+        "boards"
+      ],
+      "primary_family_id": "solenoids",
+      "campaign_relevance": "unconfirmed_product_scope",
+      "proposed_active_group_id": null
+    },
+    "24": {
+      "family_ids": [
+        "dq500"
+      ],
+      "primary_family_id": "dq500",
+      "campaign_relevance": "mixed_requires_review",
+      "proposed_active_group_id": null
+    },
+    "25": {
+      "family_ids": [
+        "dq500",
+        "solenoids"
+      ],
+      "primary_family_id": "dq500",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "26": {
+      "family_ids": [
+        "accumulator"
+      ],
+      "primary_family_id": "accumulator",
+      "campaign_relevance": "catalog_component_or_tool_needs_verified_ad_route",
+      "proposed_active_group_id": null
+    },
+    "27": {
+      "family_ids": [
+        "hydraulic_plate",
+        "boards"
+      ],
+      "primary_family_id": "hydraulic_plate",
+      "campaign_relevance": "potential_current_feed_family_fitment_unverified",
+      "proposed_active_group_id": null
+    },
+    "28": {
+      "family_ids": [
+        "dq250",
+        "dq500"
+      ],
+      "primary_family_id": "dq250",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "29": {
+      "family_ids": [
+        "dq250",
+        "solenoids"
+      ],
+      "primary_family_id": "dq250",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "30": {
+      "family_ids": [
+        "other_transmission"
+      ],
+      "primary_family_id": "other_transmission",
+      "campaign_relevance": "mixed_requires_review",
+      "proposed_active_group_id": null
+    },
+    "31": {
+      "family_ids": [
+        "6t"
+      ],
+      "primary_family_id": "6t",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "32": {
+      "family_ids": [
+        "mechatronic_general",
+        "rods_bushings"
+      ],
+      "primary_family_id": "mechatronic_general",
+      "campaign_relevance": "potential_current_feed_family_fitment_unverified",
+      "proposed_active_group_id": "5828476541"
+    },
+    "33": {
+      "family_ids": [
+        "without_board"
+      ],
+      "primary_family_id": "without_board",
+      "campaign_relevance": "potential_current_feed_family_fitment_unverified",
+      "proposed_active_group_id": "5826171512"
+    },
+    "34": {
+      "family_ids": [
+        "other_transmission",
+        "audi_a7"
+      ],
+      "primary_family_id": "other_transmission",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "35": {
+      "family_ids": [
+        "dq500",
+        "board_components"
+      ],
+      "primary_family_id": "dq500",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "36": {
+      "family_ids": [
+        "dq250",
+        "repair_kits"
+      ],
+      "primary_family_id": "dq250",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "37": {
+      "family_ids": [
+        "dq250",
+        "gaskets"
+      ],
+      "primary_family_id": "dq250",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "38": {
+      "family_ids": [
+        "solenoids",
+        "boards"
+      ],
+      "primary_family_id": "solenoids",
+      "campaign_relevance": "potential_current_feed_family_fitment_unverified",
+      "proposed_active_group_id": null
+    },
+    "39": {
+      "family_ids": [
+        "dq250",
+        "board_components"
+      ],
+      "primary_family_id": "dq250",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "40": {
+      "family_ids": [
+        "dq500",
+        "other_transmission"
+      ],
+      "primary_family_id": "dq500",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "41": {
+      "family_ids": [
+        "other_transmission",
+        "repair_kits"
+      ],
+      "primary_family_id": "other_transmission",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "42": {
+      "family_ids": [
+        "dq250",
+        "boards"
+      ],
+      "primary_family_id": "dq250",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    },
+    "43": {
+      "family_ids": [
+        "boards",
+        "without_board"
+      ],
+      "primary_family_id": "boards",
+      "campaign_relevance": "potential_current_feed_family_fitment_unverified",
+      "proposed_active_group_id": "5826320196"
+    },
+    "44": {
+      "family_ids": [
+        "accumulator",
+        "solenoids"
+      ],
+      "primary_family_id": "accumulator",
+      "campaign_relevance": "catalog_component_or_tool_needs_verified_ad_route",
+      "proposed_active_group_id": null
+    },
+    "45": {
+      "family_ids": [
+        "repair_kits",
+        "rods_bushings"
+      ],
+      "primary_family_id": "repair_kits",
+      "campaign_relevance": "catalog_component_or_tool_needs_verified_ad_route",
+      "proposed_active_group_id": null
+    },
+    "46": {
+      "family_ids": [
+        "dq500",
+        "board_components"
+      ],
+      "primary_family_id": "dq500",
+      "campaign_relevance": "mixed_requires_review",
+      "proposed_active_group_id": null
+    },
+    "47": {
+      "family_ids": [
+        "audi_a7"
+      ],
+      "primary_family_id": "audi_a7",
+      "campaign_relevance": "outside_current_dq200_campaign",
+      "proposed_active_group_id": null
+    }
+  },
+  "decision_codes": {
+    "1": {
+      "exact_sku_compatibility_confirmed": false,
+      "automatic_negative_recommendation": false,
+      "confirmed_paid_sale": null,
+      "verified_net_profit_rub": null,
+      "source_goal_conversions_are_not_paid_sales": true
+    }
+  }
+}

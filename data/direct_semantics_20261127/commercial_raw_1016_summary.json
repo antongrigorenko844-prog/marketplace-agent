@@ -1,0 +1,3207 @@
+{
+  "status": "ALL_RAW_ROWS_CLASSIFIED_WITH_EXPLICIT_UNCERTAINTY_NOT_ALL_MANUALLY_REVIEWED",
+  "external_mutations": 0,
+  "source_finished_utc": "2026-11-27T10:16:49.550210+00:00",
+  "source_index": "/workspace/scratch/339b8ef741a5/direct_semantics_20261127/raw_1016/query_index_716316525.json",
+  "report_timezone": "Europe/Moscow",
+  "dataset": "/workspace/scratch/339b8ef741a5/direct_semantics_20261127/commercial_raw_1016.jsonl",
+  "row_schema": "/workspace/scratch/339b8ef741a5/direct_semantics_20261127/commercial_raw_schema.json",
+  "all_rows": {
+    "rows": 18684,
+    "unique_queries": 12705,
+    "impressions": 37564,
+    "clicks": 310,
+    "cost_rub": "9208.58"
+  },
+  "clicked_rows": 287,
+  "all_raw_ids_and_metrics_preserved": true,
+  "missing_source_ids": {
+    "CampaignId": 0,
+    "AdGroupId": 0,
+    "AdId": 0,
+    "CriterionId": 0
+  },
+  "periods": {
+    "completed_days": {
+      "rows": 17691,
+      "unique_queries": 12214,
+      "impressions": 35881,
+      "clicks": 301,
+      "cost_rub": "8993.38"
+    },
+    "today_partial": {
+      "rows": 993,
+      "unique_queries": 903,
+      "impressions": 1683,
+      "clicks": 9,
+      "cost_rub": "215.20"
+    }
+  },
+  "intent_totals": {
+    "1": {
+      "completed_days": {
+        "rows": 309,
+        "unique_queries": 162,
+        "impressions": 694,
+        "clicks": 32,
+        "cost_rub": "986.26"
+      },
+      "today_partial": {
+        "rows": 15,
+        "unique_queries": 10,
+        "impressions": 43,
+        "clicks": 2,
+        "cost_rub": "53.04"
+      }
+    },
+    "2": {
+      "completed_days": {
+        "rows": 1675,
+        "unique_queries": 1100,
+        "impressions": 3240,
+        "clicks": 96,
+        "cost_rub": "2697.02"
+      },
+      "today_partial": {
+        "rows": 75,
+        "unique_queries": 58,
+        "impressions": 164,
+        "clicks": 3,
+        "cost_rub": "76.74"
+      }
+    },
+    "3": {
+      "completed_days": {
+        "rows": 242,
+        "unique_queries": 156,
+        "impressions": 434,
+        "clicks": 30,
+        "cost_rub": "720.41"
+      },
+      "today_partial": {
+        "rows": 8,
+        "unique_queries": 7,
+        "impressions": 12,
+        "clicks": 0,
+        "cost_rub": "0.00"
+      }
+    },
+    "4": {
+      "completed_days": {
+        "rows": 263,
+        "unique_queries": 229,
+        "impressions": 326,
+        "clicks": 10,
+        "cost_rub": "316.64"
+      },
+      "today_partial": {
+        "rows": 8,
+        "unique_queries": 8,
+        "impressions": 9,
+        "clicks": 0,
+        "cost_rub": "0.00"
+      }
+    },
+    "5": {
+      "completed_days": {
+        "rows": 41,
+        "unique_queries": 35,
+        "impressions": 63,
+        "clicks": 20,
+        "cost_rub": "554.23"
+      },
+      "today_partial": {
+        "rows": 0,
+        "unique_queries": 0,
+        "impressions": 0,
+        "clicks": 0,
+        "cost_rub": "0.00"
+      }
+    },
+    "6": {
+      "completed_days": {
+        "rows": 341,
+        "unique_queries": 267,
+        "impressions": 622,
+        "clicks": 12,
+        "cost_rub": "309.66"
+      },
+      "today_partial": {
+        "rows": 8,
+        "unique_queries": 8,
+        "impressions": 12,
+        "clicks": 2,
+        "cost_rub": "24.72"
+      }
+    },
+    "7": {
+      "completed_days": {
+        "rows": 1393,
+        "unique_queries": 906,
+        "impressions": 4391,
+        "clicks": 49,
+        "cost_rub": "1883.09"
+      },
+      "today_partial": {
+        "rows": 50,
+        "unique_queries": 45,
+        "impressions": 79,
+        "clicks": 2,
+        "cost_rub": "60.70"
+      }
+    },
+    "8": {
+      "completed_days": {
+        "rows": 13427,
+        "unique_queries": 9359,
+        "impressions": 26111,
+        "clicks": 52,
+        "cost_rub": "1526.07"
+      },
+      "today_partial": {
+        "rows": 829,
+        "unique_queries": 767,
+        "impressions": 1364,
+        "clicks": 0,
+        "cost_rub": "0.00"
+      }
+    }
+  },
+  "classification_methods": {
+    "conservative_lexical_candidate": {
+      "completed_days": {
+        "rows": 3672,
+        "unique_queries": 2664,
+        "impressions": 6980,
+        "clicks": 0,
+        "cost_rub": "0.00"
+      },
+      "today_partial": {
+        "rows": 144,
+        "unique_queries": 122,
+        "impressions": 252,
+        "clicks": 0,
+        "cost_rub": "0.00"
+      }
+    },
+    "prior_exact_query_expert_review": {
+      "completed_days": {
+        "rows": 734,
+        "unique_queries": 237,
+        "impressions": 3237,
+        "clicks": 301,
+        "cost_rub": "8993.38"
+      },
+      "today_partial": {
+        "rows": 25,
+        "unique_queries": 19,
+        "impressions": 72,
+        "clicks": 9,
+        "cost_rub": "215.20"
+      }
+    },
+    "uncertain_unresolved": {
+      "completed_days": {
+        "rows": 13285,
+        "unique_queries": 9313,
+        "impressions": 25664,
+        "clicks": 0,
+        "cost_rub": "0.00"
+      },
+      "today_partial": {
+        "rows": 824,
+        "unique_queries": 762,
+        "impressions": 1359,
+        "clicks": 0,
+        "cost_rub": "0.00"
+      }
+    }
+  },
+  "campaign_relevance": {
+    "catalog_component_or_tool_needs_verified_ad_route": {
+      "completed_days": {
+        "rows": 281,
+        "unique_queries": 217,
+        "impressions": 609,
+        "clicks": 2,
+        "cost_rub": "29.05"
+      },
+      "today_partial": {
+        "rows": 11,
+        "unique_queries": 10,
+        "impressions": 15,
+        "clicks": 0,
+        "cost_rub": "0.00"
+      }
+    },
+    "mixed_requires_review": {
+      "completed_days": {
+        "rows": 11,
+        "unique_queries": 11,
+        "impressions": 11,
+        "clicks": 0,
+        "cost_rub": "0.00"
+      },
+      "today_partial": {
+        "rows": 5,
+        "unique_queries": 5,
+        "impressions": 5,
+        "clicks": 0,
+        "cost_rub": "0.00"
+      }
+    },
+    "outside_current_dq200_campaign": {
+      "completed_days": {
+        "rows": 261,
+        "unique_queries": 210,
+        "impressions": 319,
+        "clicks": 3,
+        "cost_rub": "65.81"
+      },
+      "today_partial": {
+        "rows": 12,
+        "unique_queries": 11,
+        "impressions": 13,
+        "clicks": 2,
+        "cost_rub": "60.70"
+      }
+    },
+    "potential_current_feed_family_fitment_unverified": {
+      "completed_days": {
+        "rows": 2760,
+        "unique_queries": 1808,
+        "impressions": 5111,
+        "clicks": 234,
+        "cost_rub": "6492.42"
+      },
+      "today_partial": {
+        "rows": 103,
+        "unique_queries": 80,
+        "impressions": 215,
+        "clicks": 6,
+        "cost_rub": "137.20"
+      }
+    },
+    "unconfirmed_product_scope": {
+      "completed_days": {
+        "rows": 14369,
+        "unique_queries": 9960,
+        "impressions": 29803,
+        "clicks": 61,
+        "cost_rub": "2367.34"
+      },
+      "today_partial": {
+        "rows": 862,
+        "unique_queries": 797,
+        "impressions": 1435,
+        "clicks": 1,
+        "cost_rub": "17.30"
+      }
+    },
+    "unrelated_device": {
+      "completed_days": {
+        "rows": 9,
+        "unique_queries": 8,
+        "impressions": 28,
+        "clicks": 1,
+        "cost_rub": "38.76"
+      },
+      "today_partial": {
+        "rows": 0,
+        "unique_queries": 0,
+        "impressions": 0,
+        "clicks": 0,
+        "cost_rub": "0.00"
+      }
+    }
+  },
+  "family_totals_non_additive": {
+    "6t": {
+      "rows": 1,
+      "unique_queries": 1,
+      "impressions": 2,
+      "clicks": 0,
+      "cost_rub": "0.00"
+    },
+    "accumulator": {
+      "rows": 17,
+      "unique_queries": 14,
+      "impressions": 21,
+      "clicks": 0,
+      "cost_rub": "0.00"
+    },
+    "audi_a7": {
+      "rows": 2,
+      "unique_queries": 2,
+      "impressions": 2,
+      "clicks": 1,
+      "cost_rub": "35.22"
+    },
+    "board_components": {
+      "rows": 71,
+      "unique_queries": 57,
+      "impressions": 281,
+      "clicks": 1,
+      "cost_rub": "17.18"
+    },
+    "boards": {
+      "rows": 633,
+      "unique_queries": 356,
+      "impressions": 2649,
+      "clicks": 50,
+      "cost_rub": "1412.04"
+    },
+    "dq250": {
+      "rows": 168,
+      "unique_queries": 133,
+      "impressions": 202,
+      "clicks": 1,
+      "cost_rub": "25.48"
+    },
+    "dq500": {
+      "rows": 103,
+      "unique_queries": 85,
+      "impressions": 124,
+      "clicks": 1,
+      "cost_rub": "20.62"
+    },
+    "gaskets": {
+      "rows": 36,
+      "unique_queries": 31,
+      "impressions": 55,
+      "clicks": 0,
+      "cost_rub": "0.00"
+    },
+    "hydraulic_plate": {
+      "rows": 22,
+      "unique_queries": 14,
+      "impressions": 41,
+      "clicks": 0,
+      "cost_rub": "0.00"
+    },
+    "mechatronic_general": {
+      "rows": 2448,
+      "unique_queries": 1633,
+      "impressions": 4205,
+      "clicks": 198,
+      "cost_rub": "5478.86"
+    },
+    "other_transmission": {
+      "rows": 19,
+      "unique_queries": 17,
+      "impressions": 22,
+      "clicks": 2,
+      "cost_rub": "45.19"
+    },
+    "repair_kits": {
+      "rows": 53,
+      "unique_queries": 35,
+      "impressions": 87,
+      "clicks": 1,
+      "cost_rub": "11.87"
+    },
+    "rods_bushings": {
+      "rows": 35,
+      "unique_queries": 31,
+      "impressions": 52,
+      "clicks": 0,
+      "cost_rub": "0.00"
+    },
+    "solenoids": {
+      "rows": 81,
+      "unique_queries": 61,
+      "impressions": 111,
+      "clicks": 0,
+      "cost_rub": "0.00"
+    },
+    "tools": {
+      "rows": 6,
+      "unique_queries": 4,
+      "impressions": 10,
+      "clicks": 0,
+      "cost_rub": "0.00"
+    },
+    "with_board": {
+      "rows": 22,
+      "unique_queries": 13,
+      "impressions": 60,
+      "clicks": 3,
+      "cost_rub": "68.77"
+    },
+    "without_board": {
+      "rows": 7,
+      "unique_queries": 5,
+      "impressions": 9,
+      "clicks": 1,
+      "cost_rub": "27.78"
+    }
+  },
+  "top_zero_click_queries": [
+    {
+      "query": "автозапчасти",
+      "rows": 7,
+      "unique_queries": 1,
+      "impressions": 577,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "плата управления",
+      "rows": 11,
+      "unique_queries": 1,
+      "impressions": 411,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826320196"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [
+          "boards"
+        ],
+        "primary_family_id": "boards",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти по вин коду автомобиля",
+      "rows": 10,
+      "unique_queries": 1,
+      "impressions": 352,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти по вин",
+      "rows": 9,
+      "unique_queries": 1,
+      "impressions": 209,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти для иномарок",
+      "rows": 15,
+      "unique_queries": 1,
+      "impressions": 192,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "плата электронная",
+      "rows": 9,
+      "unique_queries": 1,
+      "impressions": 144,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826320196"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [
+          "boards"
+        ],
+        "primary_family_id": "boards",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "электронная плата",
+      "rows": 11,
+      "unique_queries": 1,
+      "impressions": 143,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826320196"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [
+          "boards"
+        ],
+        "primary_family_id": "boards",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "магазин автозапчастей",
+      "rows": 5,
+      "unique_queries": 1,
+      "impressions": 143,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти по вин коду",
+      "rows": 10,
+      "unique_queries": 1,
+      "impressions": 133,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "детали машины",
+      "rows": 17,
+      "unique_queries": 1,
+      "impressions": 121,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "дром автозапчасти",
+      "rows": 13,
+      "unique_queries": 1,
+      "impressions": 121,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 7,
+        "intent_label": "Другой товар/коробка/общая навигация",
+        "classification_method": "conservative_lexical_candidate",
+        "classification_uncertain": true,
+        "reason": "Marketplace/navigation context without confirmed DQ200 part intent; not proof of wasted spend.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти по vin",
+      "rows": 11,
+      "unique_queries": 1,
+      "impressions": 116,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "электронный каталог запчастей",
+      "rows": 14,
+      "unique_queries": 1,
+      "impressions": 101,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946",
+        "5826320196"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти для авто",
+      "rows": 15,
+      "unique_queries": 1,
+      "impressions": 97,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "детали машин",
+      "rows": 15,
+      "unique_queries": 1,
+      "impressions": 95,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "плата мехатроника dq200",
+      "rows": 16,
+      "unique_queries": 1,
+      "impressions": 94,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826183946",
+        "5826320196"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING",
+        "KEYWORD"
+      ],
+      "semantic_review": {
+        "intent_category": 2,
+        "intent_label": "Подбор детали и применимости",
+        "classification_method": "conservative_lexical_candidate",
+        "classification_uncertain": true,
+        "reason": "Technical product/model wording suggests part selection but purchase is not established.",
+        "family_ids": [
+          "boards"
+        ],
+        "primary_family_id": "boards",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "potential_current_feed_family_fitment_unverified",
+        "proposed_active_group_id": "5826320196",
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти авто",
+      "rows": 10,
+      "unique_queries": 1,
+      "impressions": 94,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти для трансмиссии автомобиля",
+      "rows": 15,
+      "unique_queries": 1,
+      "impressions": 93,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946",
+        "5826320196"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "плату на мехатроник дсг 7 в перми",
+      "rows": 13,
+      "unique_queries": 1,
+      "impressions": 85,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946",
+        "5826320196",
+        "5828476541"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING",
+        "KEYWORD"
+      ],
+      "semantic_review": {
+        "intent_category": 2,
+        "intent_label": "Подбор детали и применимости",
+        "classification_method": "conservative_lexical_candidate",
+        "classification_uncertain": true,
+        "reason": "Technical product/model wording suggests part selection but purchase is not established.",
+        "family_ids": [
+          "boards"
+        ],
+        "primary_family_id": "boards",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "potential_current_feed_family_fitment_unverified",
+        "proposed_active_group_id": "5826320196",
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "авито запчасти",
+      "rows": 11,
+      "unique_queries": 1,
+      "impressions": 81,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946",
+        "5826320196"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 7,
+        "intent_label": "Другой товар/коробка/общая навигация",
+        "classification_method": "conservative_lexical_candidate",
+        "classification_uncertain": true,
+        "reason": "Marketplace/navigation context without confirmed DQ200 part intent; not proof of wasted spend.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти акпп",
+      "rows": 13,
+      "unique_queries": 1,
+      "impressions": 78,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти машины",
+      "rows": 12,
+      "unique_queries": 1,
+      "impressions": 78,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти на авто",
+      "rows": 13,
+      "unique_queries": 1,
+      "impressions": 71,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "каталог запчастей",
+      "rows": 8,
+      "unique_queries": 1,
+      "impressions": 71,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "автозапчасти рядом",
+      "rows": 7,
+      "unique_queries": 1,
+      "impressions": 71,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "микросхема плата",
+      "rows": 8,
+      "unique_queries": 1,
+      "impressions": 59,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826320196"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 6,
+        "intent_label": "Информация и самостоятельное обслуживание",
+        "classification_method": "conservative_lexical_candidate",
+        "classification_uncertain": true,
+        "reason": "Instruction/information wording; possible later buyer intent remains unmeasured.",
+        "family_ids": [
+          "board_components"
+        ],
+        "primary_family_id": "board_components",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "catalog_component_or_tool_needs_verified_ad_route",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "база дром запчасти",
+      "rows": 10,
+      "unique_queries": 1,
+      "impressions": 58,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946",
+        "5826320196"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 7,
+        "intent_label": "Другой товар/коробка/общая навигация",
+        "classification_method": "conservative_lexical_candidate",
+        "classification_uncertain": true,
+        "reason": "Marketplace/navigation context without confirmed DQ200 part intent; not proof of wasted spend.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти по вину",
+      "rows": 10,
+      "unique_queries": 1,
+      "impressions": 58,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "магазин запчастей",
+      "rows": 11,
+      "unique_queries": 1,
+      "impressions": 58,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "авито запчасти для иномарок",
+      "rows": 8,
+      "unique_queries": 1,
+      "impressions": 57,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 7,
+        "intent_label": "Другой товар/коробка/общая навигация",
+        "classification_method": "conservative_lexical_candidate",
+        "classification_uncertain": true,
+        "reason": "Marketplace/navigation context without confirmed DQ200 part intent; not proof of wasted spend.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "купить запчасти",
+      "rows": 10,
+      "unique_queries": 1,
+      "impressions": 56,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946",
+        "5826320196"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "электронные платы",
+      "rows": 8,
+      "unique_queries": 1,
+      "impressions": 56,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826320196"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [
+          "boards"
+        ],
+        "primary_family_id": "boards",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "магазин запчастей для иномарок в саратове",
+      "rows": 3,
+      "unique_queries": 1,
+      "impressions": 56,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "подбор запчастей по vin",
+      "rows": 7,
+      "unique_queries": 1,
+      "impressions": 54,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "плата электрическая",
+      "rows": 9,
+      "unique_queries": 1,
+      "impressions": 53,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826320196"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [
+          "boards"
+        ],
+        "primary_family_id": "boards",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти на иномарки",
+      "rows": 11,
+      "unique_queries": 1,
+      "impressions": 53,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти автомата",
+      "rows": 7,
+      "unique_queries": 1,
+      "impressions": 52,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти по вин номеру автомобиля",
+      "rows": 7,
+      "unique_queries": 1,
+      "impressions": 50,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "купить запчасти по вин коду автомобиля",
+      "rows": 10,
+      "unique_queries": 1,
+      "impressions": 47,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "автозапчасти для иномарок",
+      "rows": 7,
+      "unique_queries": 1,
+      "impressions": 47,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти для автомобилей",
+      "rows": 11,
+      "unique_queries": 1,
+      "impressions": 46,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "детали автомобиля",
+      "rows": 10,
+      "unique_queries": 1,
+      "impressions": 45,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти по vin коду автомобиля",
+      "rows": 10,
+      "unique_queries": 1,
+      "impressions": 45,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "электрическая плата",
+      "rows": 5,
+      "unique_queries": 1,
+      "impressions": 43,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826320196"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [
+          "boards"
+        ],
+        "primary_family_id": "boards",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "подобрать запчасти по вин коду автомобиля",
+      "rows": 9,
+      "unique_queries": 1,
+      "impressions": 42,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "дром чита запчасти",
+      "rows": 3,
+      "unique_queries": 1,
+      "impressions": 42,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 7,
+        "intent_label": "Другой товар/коробка/общая навигация",
+        "classification_method": "conservative_lexical_candidate",
+        "classification_uncertain": true,
+        "reason": "Marketplace/navigation context without confirmed DQ200 part intent; not proof of wasted spend.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "мехатроник дсг 7",
+      "rows": 9,
+      "unique_queries": 1,
+      "impressions": 42,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946",
+        "5828476541"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING",
+        "KEYWORD"
+      ],
+      "semantic_review": {
+        "intent_category": 2,
+        "intent_label": "Подбор детали и применимости",
+        "classification_method": "conservative_lexical_candidate",
+        "classification_uncertain": true,
+        "reason": "Technical product/model wording suggests part selection but purchase is not established.",
+        "family_ids": [
+          "mechatronic_general"
+        ],
+        "primary_family_id": "mechatronic_general",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "potential_current_feed_family_fitment_unverified",
+        "proposed_active_group_id": "5828476541",
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "авто магазин",
+      "rows": 15,
+      "unique_queries": 1,
+      "impressions": 41,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "электронный каталог автозапчастей",
+      "rows": 12,
+      "unique_queries": 1,
+      "impressions": 41,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946",
+        "5826320196"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "плата dq200",
+      "rows": 5,
+      "unique_queries": 1,
+      "impressions": 41,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826183946",
+        "5826320196"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 2,
+        "intent_label": "Подбор детали и применимости",
+        "classification_method": "conservative_lexical_candidate",
+        "classification_uncertain": true,
+        "reason": "Technical product/model wording suggests part selection but purchase is not established.",
+        "family_ids": [
+          "boards"
+        ],
+        "primary_family_id": "boards",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "potential_current_feed_family_fitment_unverified",
+        "proposed_active_group_id": "5826320196",
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "поиск запчастей по вин коду автомобиля",
+      "rows": 9,
+      "unique_queries": 1,
+      "impressions": 41,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "дром запчасти хабаровск",
+      "rows": 3,
+      "unique_queries": 1,
+      "impressions": 41,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 7,
+        "intent_label": "Другой товар/коробка/общая навигация",
+        "classification_method": "conservative_lexical_candidate",
+        "classification_uncertain": true,
+        "reason": "Marketplace/navigation context without confirmed DQ200 part intent; not proof of wasted spend.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "автозапчасти курск",
+      "rows": 5,
+      "unique_queries": 1,
+      "impressions": 39,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "детали от машины",
+      "rows": 12,
+      "unique_queries": 1,
+      "impressions": 38,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "подбор запчастей по вин коду",
+      "rows": 8,
+      "unique_queries": 1,
+      "impressions": 37,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "купить плату управления",
+      "rows": 8,
+      "unique_queries": 1,
+      "impressions": 36,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826320196"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 1,
+        "intent_label": "Покупка конкретной детали/семейства",
+        "classification_method": "conservative_lexical_candidate",
+        "classification_uncertain": true,
+        "reason": "Explicit purchase term and a product-family cue; exact offer/fitment still require review.",
+        "family_ids": [
+          "boards"
+        ],
+        "primary_family_id": "boards",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "автомобильные запчасти",
+      "rows": 11,
+      "unique_queries": 1,
+      "impressions": 35,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "дром новосибирск запчасти",
+      "rows": 4,
+      "unique_queries": 1,
+      "impressions": 35,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 7,
+        "intent_label": "Другой товар/коробка/общая навигация",
+        "classification_method": "conservative_lexical_candidate",
+        "classification_uncertain": true,
+        "reason": "Marketplace/navigation context without confirmed DQ200 part intent; not proof of wasted spend.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "dq200 dsg",
+      "rows": 8,
+      "unique_queries": 1,
+      "impressions": 34,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 2,
+        "intent_label": "Подбор детали и применимости",
+        "classification_method": "conservative_lexical_candidate",
+        "classification_uncertain": true,
+        "reason": "Technical product/model wording suggests part selection but purchase is not established.",
+        "family_ids": [
+          "mechatronic_general"
+        ],
+        "primary_family_id": "mechatronic_general",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "potential_current_feed_family_fitment_unverified",
+        "proposed_active_group_id": "5828476541",
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    },
+    {
+      "query": "запчасти для автомобиля",
+      "rows": 11,
+      "unique_queries": 1,
+      "impressions": 34,
+      "clicks": 0,
+      "cost_rub": "0.00",
+      "group_ids": [
+        "5826171512",
+        "5826183946"
+      ],
+      "criterion_types": [
+        "AUTOTARGETING"
+      ],
+      "semantic_review": {
+        "intent_category": 8,
+        "intent_label": "Смешанный или неоднозначный запрос",
+        "classification_method": "uncertain_unresolved",
+        "classification_uncertain": true,
+        "reason": "Insufficient evidence to distinguish buyer, general navigation, service or information.",
+        "family_ids": [],
+        "primary_family_id": "unresolved",
+        "literal_catalog_sku_matches_normalized": [],
+        "campaign_relevance": "unconfirmed_product_scope",
+        "proposed_active_group_id": null,
+        "exact_sku_compatibility_confirmed": false,
+        "automatic_negative_recommendation": false,
+        "confirmed_paid_sale": null,
+        "verified_net_profit_rub": null,
+        "source_goal_conversions_are_not_paid_sales": true
+      }
+    }
+  ],
+  "feed_available_offers": 11,
+  "feed_total_offers": 12,
+  "guards": [
+    "0AM927769N is a gasket product, not a stocked board revision.",
+    "D/E/F/G/K boards and their subcomponents are not universally interchangeable.",
+    "A stocked product does not automatically have a current feed offer, active ad or valid landing route.",
+    "Hydraulic-plate and bushing groups remain suspended; do not enable.",
+    "Published site quantity is not physical warehouse certainty and is not marketplace FBS/FBO stock.",
+    "Parts for repairs and tools are distinct from an unconfirmed service offering.",
+    "Seven neutral feed names are protected by the owner decision dated 26 November."
+  ],
+  "limitations": [
+    "All raw rows preserved and assigned one of eight semantic categories; conservative rules only suggest review labels for previously unseen queries.",
+    "Exact query wording was individually reviewed only in the earlier paid-query corpus. Other rows are explicitly uncertain, including apparent strong lexical matches.",
+    "No semantic category or zero-click anomaly is an automatic negative recommendation or a predicted saving.",
+    "Full query export does not reveal every account click: 301 disclosed clicks /8993.38 RUB versus campaign 307 /9137.27 RUB in completed days.",
+    "Goal conversions are not confirmed payments. No paid-sale CPA or verified net profit is established.",
+    "Rows may predate configuration changes; daily timestamps cannot prove post-change serving.",
+    "Family totals overlap. Intent totals are disjoint. Potential route is a semantic suggestion, not actual serving or fitment guarantee.",
+    "The classifier does not simulate Yandex morphology, full-positive-key overlap exceptions, semantic matching or autotargeting."
+  ],
+  "historical_paid_snapshot_1003": "/workspace/scratch/339b8ef741a5/direct_semantics_20261127/commercial_query_classification_current.json",
+  "final_independent_review": "/workspace/scratch/339b8ef741a5/direct_semantics_20261127/final_independent_review.json",
+  "zero_click_themes_non_additive": {
+    "general_spare_parts_without_confirmed_transmission_context": {
+      "rows": 13460,
+      "unique_queries": 9150,
+      "impressions": 26597,
+      "clicks": 0,
+      "cost_rub": "0.00"
+    },
+    "generic_boards_without_confirmed_transmission_context": {
+      "rows": 229,
+      "unique_queries": 133,
+      "impressions": 1665,
+      "clicks": 0,
+      "cost_rub": "0.00"
+    },
+    "dq250_family_explicit": {
+      "rows": 167,
+      "unique_queries": 132,
+      "impressions": 201,
+      "clicks": 0,
+      "cost_rub": "0.00"
+    }
+  },
+  "zero_click_theme_interpretation": "Patterns flag review priorities, not blocks. A zero-click row can share its query with a paid row elsewhere. No direct spend or lost-revenue estimate is inferred from impressions; existing settings may have changed after these dates.",
+  "product_family_map": [
+    {
+      "family_id": "mechatronic_general",
+      "family": "Мехатроник: комплектация пока неизвестна",
+      "products": [
+        {
+          "sku": "0am325025H",
+          "uid": "908157881413",
+          "title": "Мехатроник DSG7 DQ200 0AM/0CW ПРОВЕРЕН НА АВТО",
+          "price": 33500.0,
+          "quantity_raw": "13",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/908157881413-mehatronik-dsg7-dq200-0am0cw-proveren-na",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025HX",
+          "uid": "517217914653",
+          "title": "Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769D",
+          "price": 64500.0,
+          "quantity_raw": "9",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/517217914653-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": 5828476541,
+      "advertising_route": "Активная общая группа; /mehatronik-dq200; подбор комплектации",
+      "buyer_examples": [
+        "мехатроник dq200",
+        "мехатроник на гольф 6",
+        "мехатроник dq200 цена"
+      ],
+      "limitations": "DSG7, модель автомобиля и VIN сами по себе не являются доказательством применимости. Общий спрос не вырезать взаимной минусовкой всех узких групп."
+    },
+    {
+      "family_id": "without_board",
+      "family": "Мехатроник без платы",
+      "products": [
+        {
+          "sku": "0am325025H",
+          "uid": "908157881413",
+          "title": "Мехатроник DSG7 DQ200 0AM/0CW ПРОВЕРЕН НА АВТО",
+          "price": 33500.0,
+          "quantity_raw": "13",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/908157881413-mehatronik-dsg7-dq200-0am0cw-proveren-na",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025x",
+          "uid": "353312992873",
+          "title": "Мехатроник DSG7 DQ200 0AM с новыми соленоидами Bosch",
+          "price": 38500.0,
+          "quantity_raw": "0",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/353312992873-mehatronik-dsg7-dq200-0am-s-novimi-solen",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": 5826171512,
+      "advertising_route": "Активны responsive и shopping category 1; /mehatronik-dq200#bez-platy или точная карточка H",
+      "buyer_examples": [
+        "купить мехатроник dq200 без платы"
+      ],
+      "limitations": "H: 33500/13 на сайте; X с новыми соленоидами Bosch: 38500/0, feed available=false. Весь восстановленный мехатроник нельзя назвать новым из-за новых соленоидов."
+    },
+    {
+      "family_id": "with_board",
+      "family": "Мехатроник в сборе с выбранной платой",
+      "products": [
+        {
+          "sku": "0am325025HX",
+          "uid": "517217914653",
+          "title": "Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769D",
+          "price": 64500.0,
+          "quantity_raw": "9",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/517217914653-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025HXF",
+          "uid": "915950884033",
+          "title": "Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769F",
+          "price": 68500.0,
+          "quantity_raw": "3",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/915950884033-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025HXE",
+          "uid": "937513129983",
+          "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769E",
+          "price": 68500.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025HXG",
+          "uid": "772831134323",
+          "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769G",
+          "price": 68500.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025HXK",
+          "uid": "684991663463",
+          "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769K",
+          "price": 68500.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": 5826183946,
+      "advertising_route": "Активны responsive и shopping category 2; /mehatronik-dq200#s-platoi либо точный SKU",
+      "buyer_examples": [
+        "мехатроник dq200 с платой цена",
+        "мехатроник dq200 с платой 0am927769e купить"
+      ],
+      "limitations": "Ревизии D/E/F/G/K не объявлять взаимозаменяемыми. HX с D и HXF/HXE/HXG/HXK — разные предложения."
+    },
+    {
+      "family_id": "boards",
+      "family": "Отдельные электронные платы",
+      "products": [
+        {
+          "sku": "0AM927769D",
+          "uid": "787466152673",
+          "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769D",
+          "price": 37500.0,
+          "quantity_raw": "7",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/787466152673-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0AM927769E",
+          "uid": "137877342943",
+          "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769E",
+          "price": 39500.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0AM927769F",
+          "uid": "801039414923",
+          "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769F",
+          "price": 39500.0,
+          "quantity_raw": "3",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/801039414923-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0AM927769G",
+          "uid": "933254300083",
+          "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769G",
+          "price": 39500.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0AM927769K",
+          "uid": "234667588903",
+          "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769K",
+          "price": 39500.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": 5826320196,
+      "advertising_route": "Активно shopping category 3; точная карточка при известном OEM, подбор платы при неизвестном",
+      "buyer_examples": [
+        "плата 0am927769d купить",
+        "купить плату мехатроник дсг 0am927769g в спб"
+      ],
+      "limitations": "Самостоятельные услуги клонирования/адаптации/прошивки не подтверждены. Не обещать готовую прошивку или перенос данных как включённую услугу."
+    },
+    {
+      "family_id": "repair_kits",
+      "family": "Ремкомплекты мехатроника",
+      "products": [
+        {
+          "sku": "0am325025",
+          "uid": "515162705633",
+          "title": "Ремкомплект мехатроника DSG7 DQ200 (гидроплита, сальники, прокладки) 0AM325025",
+          "price": 7850.0,
+          "quantity_raw": "13",
+          "url": "https://leoparts-akpp.ru/tproduct/515162705633-remkomplekt-mehatronika-dsg7-dq200-gidro",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0cw0am325025",
+          "uid": "657445352353",
+          "title": "Ремкомплект мехатроника DSG7 DQ200 + оригинальные пыльники и сальники VAG",
+          "price": 9850.0,
+          "quantity_raw": "0",
+          "url": "https://leoparts-akpp.ru/tproduct/657445352353-remkomplekt-mehatronika-dsg7-dq200-origi",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025m",
+          "uid": "950546401053",
+          "title": "Ремкомплект прокладок мехатроника DSG7 DQ200 0AM325025M",
+          "price": 4850.0,
+          "quantity_raw": "149",
+          "url": "https://leoparts-akpp.ru/tproduct/950546401053-remkomplekt-prokladok-mehatronika-dsg7-d",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "В магазине есть; в текущем feed нет; отдельный действующий рекламный маршрут не подтверждён",
+      "buyer_examples": [
+        "ремкомплект мехатроника dq200",
+        "запчасти для ремонта мехатроника dq200"
+      ],
+      "limitations": "Базовый 0am325025: гидроплита + сальники/прокладки, 7850/13; аккумулятор в комплект не подтверждён. Расширенный 0cw0am325025: 9850/0, временно отсутствует, не постоянный минус."
+    },
+    {
+      "family_id": "hydraulic_plate",
+      "family": "Гидроплита и комплект с гидроплитой",
+      "products": [
+        {
+          "sku": "0am325066ae",
+          "uid": "838583326453",
+          "title": "Усиленная гидроплита мехатроника DSG7 DQ200 0AM325066AE",
+          "price": 5350.0,
+          "quantity_raw": "13",
+          "url": "https://leoparts-akpp.ru/tproduct/838583326453-usilennaya-gidroplita-mehatronika-dsg7-d",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "plita-filtr-v2",
+          "uid": "564348799203",
+          "title": "Усиленная гидроплита + фильтр мехатроника DQ200 DSG7, комплект",
+          "price": 5850.0,
+          "quantity_raw": "44",
+          "url": "https://leoparts-akpp.ru/tproduct/564348799203-usilennaya-gidroplita-filtr-mehatronika",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "stalnaya-vstavka-plity",
+          "uid": "612973413733",
+          "title": "Стальная вставка гидроплиты мехатроника DSG7 DQ200 0AM / 0CW, 1 шт.",
+          "price": 1350.0,
+          "quantity_raw": "30",
+          "url": "https://leoparts-akpp.ru/tproduct/612973413733-stalnaya-vstavka-gidropliti-mehatronika",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": 5828501772,
+      "advertising_route": "Группа существует; единственное responsive объявление SUSPENDED; в feed нет. Не включать автоматически",
+      "buyer_examples": [
+        "гидроплита dq200 купить",
+        "0am325066ae цена"
+      ],
+      "limitations": "Гидроплита, гидроблок и весь мехатроник не равны по комплектации. Для общего «гидроблок dq200» нужен подбор, а не принудительный переход на одну плиту."
+    },
+    {
+      "family_id": "accumulator",
+      "family": "Гидроаккумулятор и уплотнение",
+      "products": [
+        {
+          "sku": "0AM325587E",
+          "uid": "920284757613",
+          "title": "Гидроаккумулятор мехатроника DSG7 DQ200 Оригинал VAG 0AM325587E",
+          "price": 4850.0,
+          "quantity_raw": "52",
+          "url": "https://leoparts-akpp.ru/tproduct/920284757613-gidroakkumulyator-mehatronika-dsg7-dq200",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025С",
+          "uid": "565017387573",
+          "title": "Кольцо гидроаккумулятора мехатроника DSG7 DQ200 0AM325025C",
+          "price": 440.0,
+          "quantity_raw": "107",
+          "url": "https://leoparts-akpp.ru/tproduct/565017387573-koltso-gidroakkumulyatora-mehatronika-ds",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "В магазине есть; текущий feed и активная специальная группа отсутствуют",
+      "buyer_examples": [
+        "гидроаккумулятор dq200 купить",
+        "кольцо гидроаккумулятора dq200"
+      ],
+      "limitations": "Оригинальный аккумулятор и его кольцо — разные товары. Диагностический код не доказывает неисправность аккумулятора."
+    },
+    {
+      "family_id": "rods_bushings",
+      "family": "Штоки 99/101 мм, втулки и наборы",
+      "products": [
+        {
+          "sku": "0am325025D",
+          "uid": "731536345633",
+          "title": "Втулка (гильза) штока мехатроника DSG7 DQ200 0AM325025D",
+          "price": 890.0,
+          "quantity_raw": "129",
+          "url": "https://leoparts-akpp.ru/tproduct/731536345633-vtulka-gilza-shtoka-mehatronika-dsg7-dq2",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325091f",
+          "uid": "848006809303",
+          "title": "Усиленный шток мехатроника DSG7 DQ200 99мм короткий 0AM325091F",
+          "price": 1240.0,
+          "quantity_raw": "171",
+          "url": "https://leoparts-akpp.ru/tproduct/848006809303-usilennii-shtok-mehatronika-dsg7-dq200-9",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325091e",
+          "uid": "695681674703",
+          "title": "Усиленный шток мехатроника DSG7 DQ200 101мм 0AM325091E",
+          "price": 1240.0,
+          "quantity_raw": "223",
+          "url": "https://leoparts-akpp.ru/tproduct/695681674703-usilennii-shtok-mehatronika-dsg7-dq200-1",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025z",
+          "uid": "326440620133",
+          "title": "Ремкомплект: Усиленный короткий шток 0AM325091F 99мм + втулка мехатроника DSG7 DQ200",
+          "price": 1880.0,
+          "quantity_raw": "129",
+          "url": "https://leoparts-akpp.ru/tproduct/326440620133-remkomplekt-usilennii-korotkii-shtok-0am",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025u",
+          "uid": "646625764263",
+          "title": "Ремкомплект: Усиленный длинный шток 0AM325091E 101мм + втулка мехатроника DSG7 DQ200",
+          "price": 1880.0,
+          "quantity_raw": "129",
+          "url": "https://leoparts-akpp.ru/tproduct/646625764263-remkomplekt-usilennii-dlinnii-shtok-0am3",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325091f-set",
+          "uid": "563938649593",
+          "title": "Комплект 2 усиленных штока 99мм 0AM325091F + 2 втулки DSG7 DQ200",
+          "price": 3250.0,
+          "quantity_raw": "64",
+          "url": "https://leoparts-akpp.ru/tproduct/563938649593-komplekt-2-usilennih-shtoka-99mm-0am3250",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325091e-set",
+          "uid": "652485070143",
+          "title": "Комплект 2 усиленных штока 101мм 0AM325091E + 2 втулки DSG7 DQ200",
+          "price": 3250.0,
+          "quantity_raw": "64",
+          "url": "https://leoparts-akpp.ru/tproduct/652485070143-komplekt-2-usilennih-shtoka-101mm-0am325",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": 5828501773,
+      "advertising_route": "Группа втулки существует; единственное responsive объявление SUSPENDED; в feed товары не входят",
+      "buyer_examples": [
+        "втулка штока dq200 купить",
+        "шток 0am325091f 99мм",
+        "шток 0am325091e 101мм"
+      ],
+      "limitations": "Не объединять длинный 101 мм с коротким 99 мм; одна втулка не равна комплекту штоков. Не включать остановленное объявление без отдельного основания."
+    },
+    {
+      "family_id": "gaskets",
+      "family": "Прокладки, сальники, пыльники",
+      "products": [
+        {
+          "sku": "0AM927769N",
+          "uid": "768054411623",
+          "title": "Прокладки электронной платы мехатроника DSG7 DQ200 0AM927769N",
+          "price": 1450.0,
+          "quantity_raw": "172",
+          "url": "https://leoparts-akpp.ru/tproduct/768054411623-prokladki-elektronnoi-plati-mehatronika",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0cw325025h",
+          "uid": "471809760473",
+          "title": "Прокладка электронной платы мехатроника DSG7 DQ200 0AM927769N",
+          "price": 690.0,
+          "quantity_raw": "148",
+          "url": "https://leoparts-akpp.ru/tproduct/471809760473-prokladka-elektronnoi-plati-mehatronika",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0AM325443D",
+          "uid": "596243744223",
+          "title": "Усиленная прокладка крышки мехатроника DSG7 DQ200 0AM325443D",
+          "price": 1350.0,
+          "quantity_raw": "36",
+          "url": "https://leoparts-akpp.ru/tproduct/596243744223-usilennaya-prokladka-krishki-mehatronika",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325066ad",
+          "uid": "374798492473",
+          "title": "Сальник-манжета штока сцепления мехатроника DSG7 DQ200 0AM325066AD",
+          "price": 390.0,
+          "quantity_raw": "259",
+          "url": "https://leoparts-akpp.ru/tproduct/374798492473-salnik-manzheta-shtoka-stsepleniya-mehat",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "В магазине есть; в feed нет; отдельный активный маршрут не подтверждён",
+      "buyer_examples": [
+        "прокладка электронной платы 0am927769n купить",
+        "манжета штока сцепления dq200 купить"
+      ],
+      "limitations": "Локальный SKU 0AM927769N — прокладки, не электронная плата. Голый запрос 0AM927769N без типа детали требует уточнения; SKU 0cw325025h также обозначен как прокладка N, другая комплектация/цена."
+    },
+    {
+      "family_id": "board_components",
+      "family": "Детали ремонта электронных плат",
+      "products": [
+        {
+          "sku": "chip-0am927769d",
+          "uid": "185495374423",
+          "title": "Чип электронной платы мехатроника DSG7 DQ200 0AM927769D",
+          "price": 11800.0,
+          "quantity_raw": "9",
+          "url": "https://leoparts-akpp.ru/tproduct/185495374423-chip-elektronnoi-plati-mehatronika-dsg7",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "datchik-peredach-dq200",
+          "uid": "420627998403",
+          "title": "Датчик положения передач DQ200 для плат 0AM927769D/G/K",
+          "price": 4450.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/tproduct/420627998403-datchik-polozheniya-peredach-dq200-dlya",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "datchik-scepleniya-dq200",
+          "uid": "227633786253",
+          "title": "Датчик сцепления DSG7 DQ200 для плат 0AM927769D/G/K",
+          "price": 4450.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/tproduct/227633786253-datchik-stsepleniya-dsg7-dq200-dlya-plat",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "shleif-platy-dq200",
+          "uid": "178309613463",
+          "title": "Шлейф платы мехатроника DSG7 DQ200 для 0AM927769E/N/P",
+          "price": 3850.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/tproduct/178309613463-shleif-plati-mehatronika-dsg7-dq200-dlya",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "fpc-shleif-dq200",
+          "uid": "439067403343",
+          "title": "FPC-шлейф электронной платы DQ200 для 0AM927769D/G/K",
+          "price": 1490.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/tproduct/439067403343-fpc-shleif-elektronnoi-plati-dq200-dlya",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "В магазине есть; в feed нет; активный специализированный маршрут не подтверждён",
+      "buyer_examples": [
+        "датчик сцепления dq200 купить",
+        "чип платы 0am927769d",
+        "шлейф платы dq200"
+      ],
+      "limitations": "Применимость компонентов различается: в названиях есть D/G/K и E/N/P. Не расширять её по похожему названию. Broad-минус сцепление потенциально режет датчик, но простое снятие откроет спрос на весь комплект сцепления."
+    },
+    {
+      "family_id": "solenoids",
+      "family": "Соленоиды и электрогидравлические компоненты",
+      "products": [
+        {
+          "sku": "0AM325025B",
+          "uid": "121878113563",
+          "title": "Соленоид регулятор давления DSG7 DQ200 0AM325025B",
+          "price": 2950.0,
+          "quantity_raw": "11",
+          "url": "https://leoparts-akpp.ru/tproduct/121878113563-solenoid-regulyator-davleniya-dsg7-dq200",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025n",
+          "uid": "363985952423",
+          "title": "Соленоид переключения (Shift) мехатроника DSG7 DQ200 0AM325025N",
+          "price": 2950.0,
+          "quantity_raw": "25",
+          "url": "https://leoparts-akpp.ru/tproduct/363985952423-solenoid-pereklyucheniya-shift-mehatroni",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0AM325473",
+          "uid": "181322242993",
+          "title": "Соленоиды мехатроника DSG7 DQ200 0AM325473 Hiltie",
+          "price": 7450.0,
+          "quantity_raw": "10",
+          "url": "https://leoparts-akpp.ru/tproduct/181322242993-solenoidi-mehatronika-dsg7-dq200-0am3254",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "solenoidy-dq200-8sht",
+          "uid": "686906464433",
+          "title": "Соленоиды мехатроника DSG7 DQ200 0AM/0CW, 8 шт.",
+          "price": 14800.0,
+          "quantity_raw": "0",
+          "url": "https://leoparts-akpp.ru/tproduct/686906464433-solenoidi-mehatronika-dsg7-dq200-0am0cw",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0cw0amdsgdq200",
+          "uid": "431429802703",
+          "title": "Уплотнение электромотора гидроблока мехатроника DSG7 DQ200",
+          "price": 450.0,
+          "quantity_raw": "45",
+          "url": "https://leoparts-akpp.ru/tproduct/431429802703-uplotnenie-elektromotora-gidrobloka-meha",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "Dq200dsg7",
+          "uid": "773427666343",
+          "title": "Уплотнение насоса гидроблока мехатроника DSG7 DQ200",
+          "price": 450.0,
+          "quantity_raw": "43",
+          "url": "https://leoparts-akpp.ru/tproduct/773427666343-uplotnenie-nasosa-gidrobloka-mehatronika",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "Есть карточки магазина; нет товаров в текущем feed и подтверждённой отдельной активной группы",
+      "buyer_examples": [
+        "соленоид давления dq200 купить",
+        "уплотнение насоса dq200"
+      ],
+      "limitations": "Комплект 8 соленоидов показывает 0. Уплотнение насоса/электромотора не является насосом/мотором в сборе."
+    },
+    {
+      "family_id": "tools",
+      "family": "Инструменты проверки давления и восстановления аккумулятора",
+      "products": [
+        {
+          "sku": "tool-dq200-acc-restore",
+          "uid": "853151429903",
+          "title": "Набор для восстановления гидроаккумулятора DSG7 DQ200",
+          "price": 24800.0,
+          "quantity_raw": "3",
+          "url": "https://leoparts-akpp.ru/tproduct/853151429903-nabor-dlya-vosstanovleniya-gidroakkumuly",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "tool-dsg-pressure-hp",
+          "uid": "513639943843",
+          "title": "Набор для проверки давления DSG, исполнение высокого давления",
+          "price": 18800.0,
+          "quantity_raw": "3",
+          "url": "https://leoparts-akpp.ru/tproduct/513639943843-nabor-dlya-proverki-davleniya-dsg-ispoln",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "В магазине есть, опубликованные quantity_raw по 3; в текущем feed и активных группах отсутствуют",
+      "buyer_examples": [
+        "набор для восстановления гидроаккумулятора dq200 купить",
+        "набор проверки давления dsg купить"
+      ],
+      "limitations": "Это товары, а не услуги. «Пульт для проверки мехатроника» не доказанно тот же инструмент. Складской факт не гарантирован опубликованным остатком; в master есть историческое предупреждение о неподтверждённом остатке/закупке."
+    },
+    {
+      "family_id": "dq250",
+      "family": "Детали DQ250 / DSG6",
+      "products": [
+        {
+          "sku": "02E927770AL",
+          "uid": "826057993723",
+          "title": "Мехатроник DSG6 DQ250 в сборе с электронной платой 02E927770AL",
+          "price": 68500.0,
+          "quantity_raw": "2",
+          "url": "https://leoparts-akpp.ru/tproduct/826057993723-mehatronik-dsg6-dq250-v-sbore-s-elektron",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "02E305051C",
+          "uid": "530072480073",
+          "title": "Фильтр мехатроника DSG6 DQ250 02E305051C",
+          "price": 495.0,
+          "quantity_raw": "75",
+          "url": "https://leoparts-akpp.ru/tproduct/530072480073-filtr-mehatronika-dsg6-dq250-02e305051c",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "02E 305 045",
+          "uid": "878265016983",
+          "title": "Корпус фильтра + фильтр мехатроника DSG6 DQ250 02E305045",
+          "price": 1480.0,
+          "quantity_raw": "21",
+          "url": "https://leoparts-akpp.ru/tproduct/878265016983-korpus-filtra-filtr-mehatronika-dsg6-dq2",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "02e305045",
+          "uid": "372031303103",
+          "title": "Корпус масляного фильтра мехатроника DSG6 DQ250 02E305045",
+          "price": 980.0,
+          "quantity_raw": "21",
+          "url": "https://leoparts-akpp.ru/tproduct/372031303103-korpus-maslyanogo-filtra-mehatronika-dsg",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "Подходят бизнесу при точной комплектации; не входят в DQ200-feed/группы. Нужна другая кампания/маршрут",
+      "buyer_examples": [
+        "02e мехатроник в сборе",
+        "фильтр dq250 купить"
+      ],
+      "limitations": "02E 305 045 — комплект корпус+фильтр; 02e305045 — только корпус. Не смешивать case-sensitive SKU. Другой семейный спрос не считать нерелевантностью всего бизнеса."
+    },
+    {
+      "family_id": "dq500",
+      "family": "Детали DQ500",
+      "products": [
+        {
+          "sku": "filtr-dsg7-dq500",
+          "uid": "792288981833",
+          "title": "Масляный фильтр мехатроника DSG7 DQ500 0BH325183B",
+          "price": 495.0,
+          "quantity_raw": "65",
+          "url": "https://leoparts-akpp.ru/tproduct/792288981833-maslyanii-filtr-mehatronika-dsg7-dq500-0",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "korpus-filtra-0bh325159",
+          "uid": "678325991893",
+          "title": "Корпус масляного фильтра мехатроника DSG7 DQ500 0BH325159 (без фильтра)",
+          "price": 1850.0,
+          "quantity_raw": "0",
+          "url": "https://leoparts-akpp.ru/tproduct/678325991893-korpus-maslyanogo-filtra-mehatronika-dsg",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0BH325",
+          "uid": "333082224463",
+          "title": "Корпус фильтра мехатроника DSG7 DQ500 0BH325183B",
+          "price": 2850.0,
+          "quantity_raw": "0",
+          "url": "https://leoparts-akpp.ru/tproduct/333082224463-korpus-filtra-mehatronika-dsg7-dq500-0bh",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "Другой ассортимент магазина, вне рассматриваемого feed/групп",
+      "buyer_examples": [
+        "фильтр dq500 купить"
+      ],
+      "limitations": "Некоторые корпуса показывают 0. Наличие фильтра/корпуса не доказывает продажу неисправного мехатроника DQ500 или всей коробки."
+    },
+    {
+      "family_id": "6t",
+      "family": "Семейство 6T30/40/45/50",
+      "products": [
+        {
+          "sku": "6t30",
+          "uid": "695009271403",
+          "title": "Комплект из 7 соленоидов АКПП 6T30, 6T40, 6T45, 6T50, первое поколение",
+          "price": 10850.0,
+          "quantity_raw": "19",
+          "url": "https://leoparts-akpp.ru/tproduct/695009271403-komplekt-iz-7-solenoidov-akpp-6t30-6t40",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "6t30-solenoids-gen2",
+          "uid": "607233388413",
+          "title": "Комплект соленоидов АКПП 6T30/6T40/6T45/6T50, второе поколение (Gen2)",
+          "price": 10850.0,
+          "quantity_raw": "20",
+          "url": "https://leoparts-akpp.ru/tproduct/607233388413-komplekt-solenoidov-akpp-6t306t406t456t5",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "6t30-tcm-gen1",
+          "uid": "200181618243",
+          "title": "Блок управления АКПП 6T30/6T40/6T45/6T50 с соленоидами, Gen1",
+          "price": 29500.0,
+          "quantity_raw": "3",
+          "url": "https://leoparts-akpp.ru/tproduct/200181618243-blok-upravleniya-akpp-6t306t406t456t50-s",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "6t30-tcm-gen2",
+          "uid": "432307044523",
+          "title": "Блок управления АКПП 6T30/6T40/6T45/6T50 с соленоидами, Gen2",
+          "price": 29500.0,
+          "quantity_raw": "3",
+          "url": "https://leoparts-akpp.ru/tproduct/432307044523-blok-upravleniya-akpp-6t306t406t456t50-s",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "Другой ассортимент магазина; не направлять в DQ200 кампанию",
+      "buyer_examples": [
+        "соленоиды 6t30 gen2 купить",
+        "блок 6t30 gen1"
+      ],
+      "limitations": "Поколение и комплектность обязательны. Не переносить описание/совместимость DQ200."
+    }
+  ],
+  "product_catalog_source_finished_utc": "2026-11-27T09:22:16.438892+00:00",
+  "selected_feed_cards_verified_utc": "2026-11-27T10:11:25.839232+00:00"
+}

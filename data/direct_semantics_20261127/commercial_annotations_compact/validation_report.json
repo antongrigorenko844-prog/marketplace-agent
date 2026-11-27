@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "external_mutations": 0,
+  "rows_restored": 18684,
+  "rows_compared": 18684,
+  "csv_chunks": 4,
+  "rows_per_chunk": [
+    4671,
+    4671,
+    4671,
+    4671
+  ],
+  "all_chunks_below_500000_bytes": true,
+  "source_index_sha256_verified": true,
+  "source_parts_sha256_verified": 19,
+  "all_record_fields_equal_to_original": true,
+  "restored_jsonl_byte_identical_to_original": true,
+  "jsonl_sha256": "840629bf3cbd88f4ce262aa767adaeb712ec2d7852e06be15c2880b973470da9",
+  "canonical_records_sha256": "f925f62efc9c7be06c0cba1b562cd7d16afdcd09f96b6078bf33d527f2a1784a",
+  "dictionary_counts": {
+    "intent_codes": 8,
+    "review_codes": 3,
+    "confidence_codes": 2,
+    "evidence_codes": 22,
+    "routing_codes": 47,
+    "decision_codes": 1
+  },
+  "source_commit": "89bdf9a92848b08bcad7ff908c48fc75c75736ff",
+  "source_directory": "data/direct_semantics_20261127/live_45979776426",
+  "original_and_restored_bytes": 22588682,
+  "publication_files": [
+    "annotations_01.csv",
+    "annotations_02.csv",
+    "annotations_03.csv",
+    "annotations_04.csv",
+    "annotation_codes.json",
+    "commercial_raw_schema.json",
+    "rebuild_manifest.json",
+    "rebuild_annotations.py",
+    "validation_report.json"
+  ],
+  "publication_rule": "Publish only these nine compact files; neither full JSONL is needed in GitHub."
+}

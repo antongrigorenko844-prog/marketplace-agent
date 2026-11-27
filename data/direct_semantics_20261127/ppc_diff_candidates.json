@@ -1,0 +1,379 @@
+{
+  "mode": "proposal_only_no_external_mutations",
+  "campaign_id": "716316525",
+  "source_finished_utc": "2026-11-27T10:05:13.532267+00:00",
+  "report_timezone": "Europe/Moscow",
+  "ready_for_review": [
+    {
+      "scope": "campaign",
+      "id": "716316525",
+      "operation": "append_exact_string",
+      "expression": "audi a7",
+      "word_count": 2,
+      "same_string_existing": false,
+      "full_existing_manual_keyword_overlap": [],
+      "raw_matched_rows": 1,
+      "raw_impressions": 1,
+      "raw_clicks": 1,
+      "raw_cost_rub": 35.22,
+      "raw_evidence": [
+        {
+          "Date": "2026-11-27",
+          "CampaignId": "716316525",
+          "AdGroupId": "5828476541",
+          "AdId": "1927488453443618167",
+          "Query": "мехатроник audi a7",
+          "CriterionType": "KEYWORD",
+          "CriterionId": "58582210243",
+          "Criterion": "мехатроник dsg 7 ауди",
+          "MatchedKeyword": "",
+          "TargetingCategory": "EXACT",
+          "MatchType": "SYNONYM",
+          "Impressions": "1",
+          "Clicks": "1",
+          "Cost": "35.22",
+          "Conversions": "0"
+        }
+      ],
+      "rationale": "Explicit Audi A7 model belongs outside this DQ200 campaign; no global Audi exclusion.",
+      "operators": "Unquoted two-word negative: both brand and model required, additional words allowed.",
+      "accepted_boundary": "Mixed queries containing both Audi A7 and a DQ200/A3 alternative will also be suppressed by this campaign rule.",
+      "status": "READY_for_root_authorized_scope_apply_not_applied_by_reviewer"
+    },
+    {
+      "scope": "campaign",
+      "id": "716316525",
+      "operation": "append_exact_string",
+      "expression": "ауди a7",
+      "word_count": 2,
+      "same_string_existing": false,
+      "full_existing_manual_keyword_overlap": [],
+      "raw_matched_rows": 0,
+      "raw_impressions": 0,
+      "raw_clicks": 0,
+      "raw_cost_rub": 0,
+      "raw_evidence": [],
+      "rationale": "Explicit Audi A7 model belongs outside this DQ200 campaign; no global Audi exclusion.",
+      "operators": "Unquoted two-word negative: both brand and model required, additional words allowed.",
+      "accepted_boundary": "Mixed queries containing both Audi A7 and a DQ200/A3 alternative will also be suppressed by this campaign rule.",
+      "status": "READY_for_root_authorized_scope_apply_not_applied_by_reviewer"
+    },
+    {
+      "scope": "campaign",
+      "id": "716316525",
+      "operation": "append_exact_string",
+      "expression": "audi а7",
+      "word_count": 2,
+      "same_string_existing": false,
+      "full_existing_manual_keyword_overlap": [],
+      "raw_matched_rows": 0,
+      "raw_impressions": 0,
+      "raw_clicks": 0,
+      "raw_cost_rub": 0,
+      "raw_evidence": [],
+      "rationale": "Explicit Audi A7 model belongs outside this DQ200 campaign; no global Audi exclusion.",
+      "operators": "Unquoted two-word negative: both brand and model required, additional words allowed.",
+      "accepted_boundary": "Mixed queries containing both Audi A7 and a DQ200/A3 alternative will also be suppressed by this campaign rule.",
+      "status": "READY_for_root_authorized_scope_apply_not_applied_by_reviewer"
+    },
+    {
+      "scope": "campaign",
+      "id": "716316525",
+      "operation": "append_exact_string",
+      "expression": "ауди а7",
+      "word_count": 2,
+      "same_string_existing": false,
+      "full_existing_manual_keyword_overlap": [],
+      "raw_matched_rows": 1,
+      "raw_impressions": 1,
+      "raw_clicks": 0,
+      "raw_cost_rub": 0.0,
+      "raw_evidence": [
+        {
+          "Date": "2026-11-22",
+          "CampaignId": "716316525",
+          "AdGroupId": "5826171512",
+          "AdId": "1927466195846975291",
+          "Query": "ауди а7 dsg dl501",
+          "CriterionType": "AUTOTARGETING",
+          "CriterionId": "205826171512",
+          "Criterion": "---autotargeting",
+          "MatchedKeyword": "",
+          "TargetingCategory": "ALTERNATIVE",
+          "MatchType": "NONE",
+          "Impressions": "1",
+          "Clicks": "0",
+          "Cost": "0.00",
+          "Conversions": "0"
+        }
+      ],
+      "rationale": "Explicit Audi A7 model belongs outside this DQ200 campaign; no global Audi exclusion.",
+      "operators": "Unquoted two-word negative: both brand and model required, additional words allowed.",
+      "accepted_boundary": "Mixed queries containing both Audi A7 and a DQ200/A3 alternative will also be suppressed by this campaign rule.",
+      "status": "READY_for_root_authorized_scope_apply_not_applied_by_reviewer"
+    },
+    {
+      "scope": "campaign",
+      "id": "716316525",
+      "operation": "append_exact_string",
+      "expression": "\"мехатроник пассат сс dq250\"",
+      "word_count": 4,
+      "same_string_existing": false,
+      "full_existing_manual_keyword_overlap": [],
+      "raw_matched_rows": 1,
+      "raw_impressions": 1,
+      "raw_clicks": 1,
+      "raw_cost_rub": 25.48,
+      "raw_evidence": [
+        {
+          "Date": "2026-11-27",
+          "CampaignId": "716316525",
+          "AdGroupId": "5828476541",
+          "AdId": "1927488453443618167",
+          "Query": "мехатроника пассат сс dq250",
+          "CriterionType": "KEYWORD",
+          "CriterionId": "58582210347",
+          "Criterion": "мехатроник пассат сс",
+          "MatchedKeyword": "",
+          "TargetingCategory": "ALTERNATIVE",
+          "MatchType": "SYNONYM",
+          "Impressions": "1",
+          "Clicks": "1",
+          "Cost": "25.48",
+          "Conversions": "0"
+        }
+      ],
+      "rationale": "Known Passat CC DQ250 query arrived through manual keyword SYNONYM; DQ250 exists in store but lacks current DQ200 campaign route.",
+      "operators": "Quoted word-count constraint; morphology and word order not fixed. Added meaningful words are not covered by this specific phrase.",
+      "accepted_boundary": "Mixed DQ200/DQ250 comparison with additional meaningful words is preserved by this exact phrase; no promise about other negatives or actual showing.",
+      "status": "READY_for_root_authorized_scope_apply_not_applied_by_reviewer"
+    },
+    {
+      "scope": "campaign",
+      "id": "716316525",
+      "operation": "append_exact_string",
+      "expression": "\"мехатроник пассат сс dq 250\"",
+      "word_count": 5,
+      "same_string_existing": false,
+      "full_existing_manual_keyword_overlap": [],
+      "raw_matched_rows": 0,
+      "raw_impressions": 0,
+      "raw_clicks": 0,
+      "raw_cost_rub": 0,
+      "raw_evidence": [],
+      "rationale": "Known Passat CC DQ250 query arrived through manual keyword SYNONYM; DQ250 exists in store but lacks current DQ200 campaign route.",
+      "operators": "Quoted word-count constraint; morphology and word order not fixed. Added meaningful words are not covered by this specific phrase.",
+      "accepted_boundary": "Mixed DQ200/DQ250 comparison with additional meaningful words is preserved by this exact phrase; no promise about other negatives or actual showing.",
+      "status": "READY_for_root_authorized_scope_apply_not_applied_by_reviewer"
+    }
+  ],
+  "held_drom_replacements": [
+    {
+      "level": "group",
+      "scope_id": "5826171512",
+      "field": "NegativeKeywords.Items",
+      "operation": "replace_exact_string",
+      "before": "drom запчасти",
+      "after": "\"drom запчасти\"",
+      "rollback": {
+        "remove_exact": "\"drom запчасти\"",
+        "restore_exact": "drom запчасти"
+      },
+      "preserve_order_of_unrelated_items": true,
+      "desired_protected_example": "drom запчасти мехатроник dq200 купить",
+      "still_excluded_example": "drom запчасти",
+      "reopened_bad_or_ambiguous_counterexamples": [
+        "drom запчасти купить",
+        "drom запчасти спб",
+        "drom запчасти личный кабинет"
+      ],
+      "evidence": "Historical paid query «дром запчасти»: 2026-11-20, 1 click, 33.89 RUB. No observed mixed Drom + DQ200 paid queries; benefit is configuration-level risk correction, not measured uplift.",
+      "status": "HOLD_after_full_raw_review_do_not_apply"
+    },
+    {
+      "level": "group",
+      "scope_id": "5826171512",
+      "field": "NegativeKeywords.Items",
+      "operation": "replace_exact_string",
+      "before": "дром запчасти",
+      "after": "\"дром запчасти\"",
+      "rollback": {
+        "remove_exact": "\"дром запчасти\"",
+        "restore_exact": "дром запчасти"
+      },
+      "preserve_order_of_unrelated_items": true,
+      "desired_protected_example": "дром запчасти мехатроник dq200 купить",
+      "still_excluded_example": "дром запчасти",
+      "reopened_bad_or_ambiguous_counterexamples": [
+        "дром запчасти купить",
+        "дром запчасти спб",
+        "дром запчасти личный кабинет"
+      ],
+      "evidence": "Historical paid query «дром запчасти»: 2026-11-20, 1 click, 33.89 RUB. No observed mixed Drom + DQ200 paid queries; benefit is configuration-level risk correction, not measured uplift.",
+      "status": "HOLD_after_full_raw_review_do_not_apply"
+    },
+    {
+      "level": "group",
+      "scope_id": "5826183946",
+      "field": "NegativeKeywords.Items",
+      "operation": "replace_exact_string",
+      "before": "drom запчасти",
+      "after": "\"drom запчасти\"",
+      "rollback": {
+        "remove_exact": "\"drom запчасти\"",
+        "restore_exact": "drom запчасти"
+      },
+      "preserve_order_of_unrelated_items": true,
+      "desired_protected_example": "drom запчасти мехатроник dq200 купить",
+      "still_excluded_example": "drom запчасти",
+      "reopened_bad_or_ambiguous_counterexamples": [
+        "drom запчасти купить",
+        "drom запчасти спб",
+        "drom запчасти личный кабинет"
+      ],
+      "evidence": "Historical paid query «дром запчасти»: 2026-11-20, 1 click, 33.89 RUB. No observed mixed Drom + DQ200 paid queries; benefit is configuration-level risk correction, not measured uplift.",
+      "status": "HOLD_after_full_raw_review_do_not_apply"
+    },
+    {
+      "level": "group",
+      "scope_id": "5826183946",
+      "field": "NegativeKeywords.Items",
+      "operation": "replace_exact_string",
+      "before": "дром запчасти",
+      "after": "\"дром запчасти\"",
+      "rollback": {
+        "remove_exact": "\"дром запчасти\"",
+        "restore_exact": "дром запчасти"
+      },
+      "preserve_order_of_unrelated_items": true,
+      "desired_protected_example": "дром запчасти мехатроник dq200 купить",
+      "still_excluded_example": "дром запчасти",
+      "reopened_bad_or_ambiguous_counterexamples": [
+        "дром запчасти купить",
+        "дром запчасти спб",
+        "дром запчасти личный кабинет"
+      ],
+      "evidence": "Historical paid query «дром запчасти»: 2026-11-20, 1 click, 33.89 RUB. No observed mixed Drom + DQ200 paid queries; benefit is configuration-level risk correction, not measured uplift.",
+      "status": "HOLD_after_full_raw_review_do_not_apply"
+    }
+  ],
+  "conditional_exact_wrong_route_candidates": [],
+  "held_false_block_candidates": [
+    {
+      "level": "campaign",
+      "scope_id": "716316525",
+      "operation": "replace_exact_string",
+      "before": "прошивка мехатроника",
+      "after": "\"прошивка мехатроника\"",
+      "status": "HOLD_do_not_apply",
+      "reason": "No disclosed paid query contains this exact intent family; service offer is unconfirmed. Narrowing would reopen pure service variants with extra words. Broad service-marker additions can also block mixed buyers.",
+      "newly_allowed_service_examples": [
+        "прошивка мехатроника dq200",
+        "прошивка мехатроника dsg 7 цена",
+        "прошивка мехатроника москва"
+      ],
+      "historical_paid_reopened_rows": [],
+      "do_not_claim": "No evidence of actual lost clicks or revenue; absence of paid queries is not proof of zero suppressed demand."
+    },
+    {
+      "level": "campaign",
+      "scope_id": "716316525",
+      "operation": "replace_exact_string",
+      "before": "прошить мехатроник",
+      "after": "\"прошить мехатроник\"",
+      "status": "HOLD_do_not_apply",
+      "reason": "No disclosed paid query contains this exact intent family; service offer is unconfirmed. Narrowing would reopen pure service variants with extra words. Broad service-marker additions can also block mixed buyers.",
+      "newly_allowed_service_examples": [
+        "прошить мехатроник dq200",
+        "прошить мехатроник dsg 7 цена",
+        "прошить мехатроник москва"
+      ],
+      "historical_paid_reopened_rows": [],
+      "do_not_claim": "No evidence of actual lost clicks or revenue; absence of paid queries is not proof of zero suppressed demand."
+    },
+    {
+      "level": "campaign",
+      "scope_id": "716316525",
+      "operation": "replace_exact_string",
+      "before": "снятие мехатроника",
+      "after": "\"снятие мехатроника\"",
+      "status": "HOLD_do_not_apply",
+      "reason": "No disclosed paid query contains this exact intent family; service offer is unconfirmed. Narrowing would reopen pure service variants with extra words. Broad service-marker additions can also block mixed buyers.",
+      "newly_allowed_service_examples": [
+        "снятие мехатроника dq200",
+        "снятие мехатроника dsg 7 цена",
+        "снятие мехатроника москва"
+      ],
+      "historical_paid_reopened_rows": [],
+      "do_not_claim": "No evidence of actual lost clicks or revenue; absence of paid queries is not proof of zero suppressed demand."
+    },
+    {
+      "level": "campaign",
+      "scope_id": "716316525",
+      "operation": "replace_exact_string",
+      "before": "установка мехатроника",
+      "after": "\"установка мехатроника\"",
+      "status": "HOLD_do_not_apply",
+      "reason": "No disclosed paid query contains this exact intent family; service offer is unconfirmed. Narrowing would reopen pure service variants with extra words. Broad service-marker additions can also block mixed buyers.",
+      "newly_allowed_service_examples": [
+        "установка мехатроника dq200",
+        "установка мехатроника dsg 7 цена",
+        "установка мехатроника москва"
+      ],
+      "historical_paid_reopened_rows": [],
+      "do_not_claim": "No evidence of actual lost clicks or revenue; absence of paid queries is not proof of zero suppressed demand."
+    }
+  ],
+  "rejected_unconditional_broad_family": {
+    "expressions": [
+      "мехатроник dq250",
+      "мехатроник dq 250"
+    ],
+    "reason": "Would also suppress protected mixed DQ200/DQ250 comparisons. Negative phrase syntax has no generic allow-if-DQ200 exception; adding unrelated positive whitelist is not a reliable override.",
+    "safe_next_step": "Either bounded exact query restriction or an explicitly reviewed separate DQ250 route. Do not reactivate ads, modify budgets or move product offers implicitly."
+  },
+  "preserve_owner_approved": {
+    "campaign": [
+      "\"авито запчасти +для авто\"",
+      "\"контрактные коробки дсг\"",
+      "\"разборка запчастей б у\"",
+      "\"мехатроник +на дсг 09g\"",
+      "\"клонирование платы мехатроника dsg 7\""
+    ],
+    "group": {
+      "5828476541": [
+        "+какое масло заливать +в мехатроник"
+      ]
+    }
+  },
+  "protected_fields": [
+    "campaign budgets",
+    "bids",
+    "strategies",
+    "states",
+    "regions",
+    "manual keywords",
+    "autotargeting flags",
+    "ad states",
+    "ads",
+    "feed prices",
+    "feed stock",
+    "feed URLs",
+    "feed images"
+  ],
+  "write_contract": "Fresh read, verify expected prior688 exactly or fail safely; append each new string once; update campaign NegativeKeywords only; record API request result; fresh readback must equal intended arrays and protected fields. On uncertain write do not blind retry.",
+  "independent_review": "Six campaign additions passed independent local scope/corpus review. Drom changes and service/procedure changes remain HOLD; no group writes.",
+  "official_matching_sources": {
+    "negative_phrases": "https://yandex.ru/support/direct/ru/keywords/negative-keywords",
+    "operators": "https://yandex.ru/support/direct/ru/keywords/symbols-and-operators",
+    "keyword_semantic_expansion": "https://yandex.ru/support/direct/ru/keywords/keywords",
+    "autotargeting": "https://yandex.ru/support/direct/ru/impression-criteria/autotargeting",
+    "campaign_update_api_limits": "https://yandex.ru/dev/direct/doc/ru/campaigns/update"
+  },
+  "final_review_candidate": "approved_candidate.json",
+  "ready_scope": "Only six campaign negative additions; no group changes.",
+  "preapply_campaign_negative_count": 688,
+  "proposed_after_campaign_negative_count": 694,
+  "drom_full_raw_review": "ppc_drom_full_raw_review.json",
+  "drom_final_status": "HOLD after full raw and independent review"
+}

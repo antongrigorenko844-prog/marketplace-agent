@@ -1,0 +1,103 @@
+{
+  "mode": "read_only_findings_not_extra_write_authorization",
+  "baseline_phase": "preapply688 campaign plus6 group negatives at2026-11-27T10:16:49Z",
+  "real_board_wording_vs_clutch_negative": {
+    "negative": "сцепление",
+    "scope": "campaign716316525",
+    "observed_rows": [
+      {
+        "Date": "2026-11-20",
+        "CampaignId": "716316525",
+        "AdGroupId": "5826320196",
+        "AdId": "1927190920657966611",
+        "Query": "плата блока управления коробкой dq200 с 2 сцепления",
+        "CriterionType": "KEYWORD",
+        "CriterionId": "58582030458",
+        "Criterion": "плата dq200",
+        "MatchedKeyword": "",
+        "TargetingCategory": "EXACT",
+        "MatchType": "KEYWORD",
+        "Impressions": "1",
+        "Clicks": "0",
+        "Cost": "0.00",
+        "Conversions": "0"
+      }
+    ],
+    "observed_full_keyword_overlap_exception": false,
+    "interpretation": "Actual historical buyer-shaped board query contains a morphological form of сцепление. Current broad negative structurally suppresses it; no click or revenue loss is established.",
+    "decision": "HOLD global removal. A separate exact commercial manual route may be considered using the documented full-overlap exception and an active relevant board ad; not a blanket whitelist override and not an autotargeting exception."
+  },
+  "old_four_service_procedure_negatives": {
+    "expressions": [
+      "прошивка мехатроника",
+      "прошить мехатроник",
+      "снятие мехатроника",
+      "установка мехатроника"
+    ],
+    "decision": "HOLD narrowing until mixed-offer policy and newly opened pure-service traffic are resolved.",
+    "mixed_examples": [
+      "купить плату мехатроника dq200 с прошивкой",
+      "купить мехатроник dq200 установка мехатроника"
+    ],
+    "offer_evidence": "Public products say installation/necessary settings are performed by a specialist, but seller-provided programming/cloning/installation service is not confirmed.",
+    "matched_raw_stats": {
+      "прошивка мехатроника": {
+        "rows": 0,
+        "unique_queries": 0,
+        "impressions": 0,
+        "clicks": 0,
+        "cost_rub": 0
+      },
+      "прошить мехатроник": {
+        "rows": 0,
+        "unique_queries": 0,
+        "impressions": 0,
+        "clicks": 0,
+        "cost_rub": 0
+      },
+      "снятие мехатроника": {
+        "rows": 0,
+        "unique_queries": 0,
+        "impressions": 0,
+        "clicks": 0,
+        "cost_rub": 0
+      },
+      "установка мехатроника": {
+        "rows": 0,
+        "unique_queries": 0,
+        "impressions": 0,
+        "clicks": 0,
+        "cost_rub": 0
+      }
+    }
+  },
+  "six_bounded_diagnostic_negatives": {
+    "expressions": [
+      "\"диагностика мехатроника dq 200\"",
+      "\"диагностика мехатроника dq200\"",
+      "\"диагностика мехатроника дк 200\"",
+      "\"диагностика мехатроника дк200\"",
+      "\"диагностика мехатроника дку 200\"",
+      "\"диагностика мехатроника дку200\""
+    ],
+    "decision": "Existing exact diagnostics require explicit business-intent review; do not convert to a broad diagnostic ban or silently remove history."
+  },
+  "protected_literal_words": {
+    "blanket_current_bans_found": [],
+    "checked": [
+      "китай",
+      "спб",
+      "москва",
+      "цена",
+      "купить",
+      "ремонт",
+      "бу",
+      "контрактный"
+    ],
+    "interpretation": "These words occur in specific combinations and keys. No single-word campaign ban on these literal terms was found; exact local-repair phrases do not ban city-based purchases."
+  },
+  "new_six_ready_only": "approved_candidate.json",
+  "full_raw_drom_hold": "ppc_drom_full_raw_review.json",
+  "feed_neutral_titles": "Prior owner decision26November preserves neutral titles; generic names are not treated as an accidental defect in this PPC package.",
+  "official_negative_overlap_source": "https://yandex.ru/support/direct/ru/keywords/negative-keywords"
+}

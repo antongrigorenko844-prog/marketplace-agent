@@ -1,0 +1,1519 @@
+{
+  "status": "commercial_review_paid_100339_with_full_raw_101649_companion",
+  "external_mutations": 0,
+  "sources": {
+    "catalog_path": "data/site_price_review_live_20261124.json",
+    "catalog_actual_read_at": "2026-11-27T09:22:16.438892+00:00",
+    "catalog_rows": 151,
+    "catalog_positive_quantity_rows": 134,
+    "direct_path": "data/direct_traffic_quality/2026-11-27-45861454649/live_30d.json",
+    "direct_finished_utc": "2026-11-27T10:03:39.123784+00:00",
+    "completed_period": [
+      "2026-10-28",
+      "2026-11-26"
+    ],
+    "today_separate": "2026-11-27",
+    "feed_path": "feeds/dq200_candidate.yml",
+    "feed_actual_offers": 12,
+    "feed_available_offers": 11,
+    "direct_commit": "2eb06bce15fa3695c8ad9e92574255a5d5656bae",
+    "local_current_direct_path": "/workspace/scratch/339b8ef741a5/direct_semantics_20261127/reference/live_30d_100339.json",
+    "current_campaign_counts": {
+      "negative_count": 688,
+      "groups_count": 6,
+      "manual_keywords": 266,
+      "autotargeting_count": 6,
+      "ads_count": 8
+    }
+  },
+  "site_quantity_meaning": "Published Tilda quantity, separate from Ozon FBS/FBO and not a physical warehouse guarantee.",
+  "families": [
+    {
+      "family_id": "mechatronic_general",
+      "family": "Мехатроник: комплектация пока неизвестна",
+      "products": [
+        {
+          "sku": "0am325025H",
+          "uid": "908157881413",
+          "title": "Мехатроник DSG7 DQ200 0AM/0CW ПРОВЕРЕН НА АВТО",
+          "price": 33500.0,
+          "quantity_raw": "13",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/908157881413-mehatronik-dsg7-dq200-0am0cw-proveren-na",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025HX",
+          "uid": "517217914653",
+          "title": "Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769D",
+          "price": 64500.0,
+          "quantity_raw": "9",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/517217914653-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": 5828476541,
+      "advertising_route": "Активная общая группа; /mehatronik-dq200; подбор комплектации",
+      "buyer_examples": [
+        "мехатроник dq200",
+        "мехатроник на гольф 6",
+        "мехатроник dq200 цена"
+      ],
+      "limitations": "DSG7, модель автомобиля и VIN сами по себе не являются доказательством применимости. Общий спрос не вырезать взаимной минусовкой всех узких групп."
+    },
+    {
+      "family_id": "without_board",
+      "family": "Мехатроник без платы",
+      "products": [
+        {
+          "sku": "0am325025H",
+          "uid": "908157881413",
+          "title": "Мехатроник DSG7 DQ200 0AM/0CW ПРОВЕРЕН НА АВТО",
+          "price": 33500.0,
+          "quantity_raw": "13",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/908157881413-mehatronik-dsg7-dq200-0am0cw-proveren-na",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025x",
+          "uid": "353312992873",
+          "title": "Мехатроник DSG7 DQ200 0AM с новыми соленоидами Bosch",
+          "price": 38500.0,
+          "quantity_raw": "0",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/353312992873-mehatronik-dsg7-dq200-0am-s-novimi-solen",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": 5826171512,
+      "advertising_route": "Активны responsive и shopping category 1; /mehatronik-dq200#bez-platy или точная карточка H",
+      "buyer_examples": [
+        "купить мехатроник dq200 без платы"
+      ],
+      "limitations": "H: 33500/13 на сайте; X с новыми соленоидами Bosch: 38500/0, feed available=false. Весь восстановленный мехатроник нельзя назвать новым из-за новых соленоидов."
+    },
+    {
+      "family_id": "with_board",
+      "family": "Мехатроник в сборе с выбранной платой",
+      "products": [
+        {
+          "sku": "0am325025HX",
+          "uid": "517217914653",
+          "title": "Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769D",
+          "price": 64500.0,
+          "quantity_raw": "9",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/517217914653-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025HXF",
+          "uid": "915950884033",
+          "title": "Мехатроник DSG7 DQ200 в сборе с электронной платой 0AM927769F",
+          "price": 68500.0,
+          "quantity_raw": "3",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/915950884033-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025HXE",
+          "uid": "937513129983",
+          "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769E",
+          "price": 68500.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025HXG",
+          "uid": "772831134323",
+          "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769G",
+          "price": 68500.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025HXK",
+          "uid": "684991663463",
+          "title": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769K",
+          "price": 68500.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": 5826183946,
+      "advertising_route": "Активны responsive и shopping category 2; /mehatronik-dq200#s-platoi либо точный SKU",
+      "buyer_examples": [
+        "мехатроник dq200 с платой цена",
+        "мехатроник dq200 с платой 0am927769e купить"
+      ],
+      "limitations": "Ревизии D/E/F/G/K не объявлять взаимозаменяемыми. HX с D и HXF/HXE/HXG/HXK — разные предложения."
+    },
+    {
+      "family_id": "boards",
+      "family": "Отдельные электронные платы",
+      "products": [
+        {
+          "sku": "0AM927769D",
+          "uid": "787466152673",
+          "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769D",
+          "price": 37500.0,
+          "quantity_raw": "7",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/787466152673-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0AM927769E",
+          "uid": "137877342943",
+          "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769E",
+          "price": 39500.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0AM927769F",
+          "uid": "801039414923",
+          "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769F",
+          "price": 39500.0,
+          "quantity_raw": "3",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/801039414923-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0AM927769G",
+          "uid": "933254300083",
+          "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769G",
+          "price": 39500.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0AM927769K",
+          "uid": "234667588903",
+          "title": "Электронная плата мехатроника DSG7 DQ200 0AM927769K",
+          "price": 39500.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20",
+          "in_feed_4061297": true,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": 5826320196,
+      "advertising_route": "Активно shopping category 3; точная карточка при известном OEM, подбор платы при неизвестном",
+      "buyer_examples": [
+        "плата 0am927769d купить",
+        "купить плату мехатроник дсг 0am927769g в спб"
+      ],
+      "limitations": "Самостоятельные услуги клонирования/адаптации/прошивки не подтверждены. Не обещать готовую прошивку или перенос данных как включённую услугу."
+    },
+    {
+      "family_id": "repair_kits",
+      "family": "Ремкомплекты мехатроника",
+      "products": [
+        {
+          "sku": "0am325025",
+          "uid": "515162705633",
+          "title": "Ремкомплект мехатроника DSG7 DQ200 (гидроплита, сальники, прокладки) 0AM325025",
+          "price": 7850.0,
+          "quantity_raw": "13",
+          "url": "https://leoparts-akpp.ru/tproduct/515162705633-remkomplekt-mehatronika-dsg7-dq200-gidro",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0cw0am325025",
+          "uid": "657445352353",
+          "title": "Ремкомплект мехатроника DSG7 DQ200 + оригинальные пыльники и сальники VAG",
+          "price": 9850.0,
+          "quantity_raw": "0",
+          "url": "https://leoparts-akpp.ru/tproduct/657445352353-remkomplekt-mehatronika-dsg7-dq200-origi",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025m",
+          "uid": "950546401053",
+          "title": "Ремкомплект прокладок мехатроника DSG7 DQ200 0AM325025M",
+          "price": 4850.0,
+          "quantity_raw": "149",
+          "url": "https://leoparts-akpp.ru/tproduct/950546401053-remkomplekt-prokladok-mehatronika-dsg7-d",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "В магазине есть; в текущем feed нет; отдельный действующий рекламный маршрут не подтверждён",
+      "buyer_examples": [
+        "ремкомплект мехатроника dq200",
+        "запчасти для ремонта мехатроника dq200"
+      ],
+      "limitations": "Базовый 0am325025: гидроплита + сальники/прокладки, 7850/13; аккумулятор в комплект не подтверждён. Расширенный 0cw0am325025: 9850/0, временно отсутствует, не постоянный минус."
+    },
+    {
+      "family_id": "hydraulic_plate",
+      "family": "Гидроплита и комплект с гидроплитой",
+      "products": [
+        {
+          "sku": "0am325066ae",
+          "uid": "838583326453",
+          "title": "Усиленная гидроплита мехатроника DSG7 DQ200 0AM325066AE",
+          "price": 5350.0,
+          "quantity_raw": "13",
+          "url": "https://leoparts-akpp.ru/tproduct/838583326453-usilennaya-gidroplita-mehatronika-dsg7-d",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "plita-filtr-v2",
+          "uid": "564348799203",
+          "title": "Усиленная гидроплита + фильтр мехатроника DQ200 DSG7, комплект",
+          "price": 5850.0,
+          "quantity_raw": "44",
+          "url": "https://leoparts-akpp.ru/tproduct/564348799203-usilennaya-gidroplita-filtr-mehatronika",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "stalnaya-vstavka-plity",
+          "uid": "612973413733",
+          "title": "Стальная вставка гидроплиты мехатроника DSG7 DQ200 0AM / 0CW, 1 шт.",
+          "price": 1350.0,
+          "quantity_raw": "30",
+          "url": "https://leoparts-akpp.ru/tproduct/612973413733-stalnaya-vstavka-gidropliti-mehatronika",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": 5828501772,
+      "advertising_route": "Группа существует; единственное responsive объявление SUSPENDED; в feed нет. Не включать автоматически",
+      "buyer_examples": [
+        "гидроплита dq200 купить",
+        "0am325066ae цена"
+      ],
+      "limitations": "Гидроплита, гидроблок и весь мехатроник не равны по комплектации. Для общего «гидроблок dq200» нужен подбор, а не принудительный переход на одну плиту."
+    },
+    {
+      "family_id": "accumulator",
+      "family": "Гидроаккумулятор и уплотнение",
+      "products": [
+        {
+          "sku": "0AM325587E",
+          "uid": "920284757613",
+          "title": "Гидроаккумулятор мехатроника DSG7 DQ200 Оригинал VAG 0AM325587E",
+          "price": 4850.0,
+          "quantity_raw": "52",
+          "url": "https://leoparts-akpp.ru/tproduct/920284757613-gidroakkumulyator-mehatronika-dsg7-dq200",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025С",
+          "uid": "565017387573",
+          "title": "Кольцо гидроаккумулятора мехатроника DSG7 DQ200 0AM325025C",
+          "price": 440.0,
+          "quantity_raw": "107",
+          "url": "https://leoparts-akpp.ru/tproduct/565017387573-koltso-gidroakkumulyatora-mehatronika-ds",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "В магазине есть; текущий feed и активная специальная группа отсутствуют",
+      "buyer_examples": [
+        "гидроаккумулятор dq200 купить",
+        "кольцо гидроаккумулятора dq200"
+      ],
+      "limitations": "Оригинальный аккумулятор и его кольцо — разные товары. Диагностический код не доказывает неисправность аккумулятора."
+    },
+    {
+      "family_id": "rods_bushings",
+      "family": "Штоки 99/101 мм, втулки и наборы",
+      "products": [
+        {
+          "sku": "0am325025D",
+          "uid": "731536345633",
+          "title": "Втулка (гильза) штока мехатроника DSG7 DQ200 0AM325025D",
+          "price": 890.0,
+          "quantity_raw": "129",
+          "url": "https://leoparts-akpp.ru/tproduct/731536345633-vtulka-gilza-shtoka-mehatronika-dsg7-dq2",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325091f",
+          "uid": "848006809303",
+          "title": "Усиленный шток мехатроника DSG7 DQ200 99мм короткий 0AM325091F",
+          "price": 1240.0,
+          "quantity_raw": "171",
+          "url": "https://leoparts-akpp.ru/tproduct/848006809303-usilennii-shtok-mehatronika-dsg7-dq200-9",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325091e",
+          "uid": "695681674703",
+          "title": "Усиленный шток мехатроника DSG7 DQ200 101мм 0AM325091E",
+          "price": 1240.0,
+          "quantity_raw": "223",
+          "url": "https://leoparts-akpp.ru/tproduct/695681674703-usilennii-shtok-mehatronika-dsg7-dq200-1",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025z",
+          "uid": "326440620133",
+          "title": "Ремкомплект: Усиленный короткий шток 0AM325091F 99мм + втулка мехатроника DSG7 DQ200",
+          "price": 1880.0,
+          "quantity_raw": "129",
+          "url": "https://leoparts-akpp.ru/tproduct/326440620133-remkomplekt-usilennii-korotkii-shtok-0am",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025u",
+          "uid": "646625764263",
+          "title": "Ремкомплект: Усиленный длинный шток 0AM325091E 101мм + втулка мехатроника DSG7 DQ200",
+          "price": 1880.0,
+          "quantity_raw": "129",
+          "url": "https://leoparts-akpp.ru/tproduct/646625764263-remkomplekt-usilennii-dlinnii-shtok-0am3",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325091f-set",
+          "uid": "563938649593",
+          "title": "Комплект 2 усиленных штока 99мм 0AM325091F + 2 втулки DSG7 DQ200",
+          "price": 3250.0,
+          "quantity_raw": "64",
+          "url": "https://leoparts-akpp.ru/tproduct/563938649593-komplekt-2-usilennih-shtoka-99mm-0am3250",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325091e-set",
+          "uid": "652485070143",
+          "title": "Комплект 2 усиленных штока 101мм 0AM325091E + 2 втулки DSG7 DQ200",
+          "price": 3250.0,
+          "quantity_raw": "64",
+          "url": "https://leoparts-akpp.ru/tproduct/652485070143-komplekt-2-usilennih-shtoka-101mm-0am325",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": 5828501773,
+      "advertising_route": "Группа втулки существует; единственное responsive объявление SUSPENDED; в feed товары не входят",
+      "buyer_examples": [
+        "втулка штока dq200 купить",
+        "шток 0am325091f 99мм",
+        "шток 0am325091e 101мм"
+      ],
+      "limitations": "Не объединять длинный 101 мм с коротким 99 мм; одна втулка не равна комплекту штоков. Не включать остановленное объявление без отдельного основания."
+    },
+    {
+      "family_id": "gaskets",
+      "family": "Прокладки, сальники, пыльники",
+      "products": [
+        {
+          "sku": "0AM927769N",
+          "uid": "768054411623",
+          "title": "Прокладки электронной платы мехатроника DSG7 DQ200 0AM927769N",
+          "price": 1450.0,
+          "quantity_raw": "172",
+          "url": "https://leoparts-akpp.ru/tproduct/768054411623-prokladki-elektronnoi-plati-mehatronika",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0cw325025h",
+          "uid": "471809760473",
+          "title": "Прокладка электронной платы мехатроника DSG7 DQ200 0AM927769N",
+          "price": 690.0,
+          "quantity_raw": "148",
+          "url": "https://leoparts-akpp.ru/tproduct/471809760473-prokladka-elektronnoi-plati-mehatronika",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0AM325443D",
+          "uid": "596243744223",
+          "title": "Усиленная прокладка крышки мехатроника DSG7 DQ200 0AM325443D",
+          "price": 1350.0,
+          "quantity_raw": "36",
+          "url": "https://leoparts-akpp.ru/tproduct/596243744223-usilennaya-prokladka-krishki-mehatronika",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325066ad",
+          "uid": "374798492473",
+          "title": "Сальник-манжета штока сцепления мехатроника DSG7 DQ200 0AM325066AD",
+          "price": 390.0,
+          "quantity_raw": "259",
+          "url": "https://leoparts-akpp.ru/tproduct/374798492473-salnik-manzheta-shtoka-stsepleniya-mehat",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "В магазине есть; в feed нет; отдельный активный маршрут не подтверждён",
+      "buyer_examples": [
+        "прокладка электронной платы 0am927769n купить",
+        "манжета штока сцепления dq200 купить"
+      ],
+      "limitations": "Локальный SKU 0AM927769N — прокладки, не электронная плата. Голый запрос 0AM927769N без типа детали требует уточнения; SKU 0cw325025h также обозначен как прокладка N, другая комплектация/цена."
+    },
+    {
+      "family_id": "board_components",
+      "family": "Детали ремонта электронных плат",
+      "products": [
+        {
+          "sku": "chip-0am927769d",
+          "uid": "185495374423",
+          "title": "Чип электронной платы мехатроника DSG7 DQ200 0AM927769D",
+          "price": 11800.0,
+          "quantity_raw": "9",
+          "url": "https://leoparts-akpp.ru/tproduct/185495374423-chip-elektronnoi-plati-mehatronika-dsg7",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "datchik-peredach-dq200",
+          "uid": "420627998403",
+          "title": "Датчик положения передач DQ200 для плат 0AM927769D/G/K",
+          "price": 4450.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/tproduct/420627998403-datchik-polozheniya-peredach-dq200-dlya",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "datchik-scepleniya-dq200",
+          "uid": "227633786253",
+          "title": "Датчик сцепления DSG7 DQ200 для плат 0AM927769D/G/K",
+          "price": 4450.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/tproduct/227633786253-datchik-stsepleniya-dsg7-dq200-dlya-plat",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "shleif-platy-dq200",
+          "uid": "178309613463",
+          "title": "Шлейф платы мехатроника DSG7 DQ200 для 0AM927769E/N/P",
+          "price": 3850.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/tproduct/178309613463-shleif-plati-mehatronika-dsg7-dq200-dlya",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "fpc-shleif-dq200",
+          "uid": "439067403343",
+          "title": "FPC-шлейф электронной платы DQ200 для 0AM927769D/G/K",
+          "price": 1490.0,
+          "quantity_raw": "5",
+          "url": "https://leoparts-akpp.ru/tproduct/439067403343-fpc-shleif-elektronnoi-plati-dq200-dlya",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "В магазине есть; в feed нет; активный специализированный маршрут не подтверждён",
+      "buyer_examples": [
+        "датчик сцепления dq200 купить",
+        "чип платы 0am927769d",
+        "шлейф платы dq200"
+      ],
+      "limitations": "Применимость компонентов различается: в названиях есть D/G/K и E/N/P. Не расширять её по похожему названию. Broad-минус сцепление потенциально режет датчик, но простое снятие откроет спрос на весь комплект сцепления."
+    },
+    {
+      "family_id": "solenoids",
+      "family": "Соленоиды и электрогидравлические компоненты",
+      "products": [
+        {
+          "sku": "0AM325025B",
+          "uid": "121878113563",
+          "title": "Соленоид регулятор давления DSG7 DQ200 0AM325025B",
+          "price": 2950.0,
+          "quantity_raw": "11",
+          "url": "https://leoparts-akpp.ru/tproduct/121878113563-solenoid-regulyator-davleniya-dsg7-dq200",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0am325025n",
+          "uid": "363985952423",
+          "title": "Соленоид переключения (Shift) мехатроника DSG7 DQ200 0AM325025N",
+          "price": 2950.0,
+          "quantity_raw": "25",
+          "url": "https://leoparts-akpp.ru/tproduct/363985952423-solenoid-pereklyucheniya-shift-mehatroni",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0AM325473",
+          "uid": "181322242993",
+          "title": "Соленоиды мехатроника DSG7 DQ200 0AM325473 Hiltie",
+          "price": 7450.0,
+          "quantity_raw": "10",
+          "url": "https://leoparts-akpp.ru/tproduct/181322242993-solenoidi-mehatronika-dsg7-dq200-0am3254",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "solenoidy-dq200-8sht",
+          "uid": "686906464433",
+          "title": "Соленоиды мехатроника DSG7 DQ200 0AM/0CW, 8 шт.",
+          "price": 14800.0,
+          "quantity_raw": "0",
+          "url": "https://leoparts-akpp.ru/tproduct/686906464433-solenoidi-mehatronika-dsg7-dq200-0am0cw",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0cw0amdsgdq200",
+          "uid": "431429802703",
+          "title": "Уплотнение электромотора гидроблока мехатроника DSG7 DQ200",
+          "price": 450.0,
+          "quantity_raw": "45",
+          "url": "https://leoparts-akpp.ru/tproduct/431429802703-uplotnenie-elektromotora-gidrobloka-meha",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "Dq200dsg7",
+          "uid": "773427666343",
+          "title": "Уплотнение насоса гидроблока мехатроника DSG7 DQ200",
+          "price": 450.0,
+          "quantity_raw": "43",
+          "url": "https://leoparts-akpp.ru/tproduct/773427666343-uplotnenie-nasosa-gidrobloka-mehatronika",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "Есть карточки магазина; нет товаров в текущем feed и подтверждённой отдельной активной группы",
+      "buyer_examples": [
+        "соленоид давления dq200 купить",
+        "уплотнение насоса dq200"
+      ],
+      "limitations": "Комплект 8 соленоидов показывает 0. Уплотнение насоса/электромотора не является насосом/мотором в сборе."
+    },
+    {
+      "family_id": "tools",
+      "family": "Инструменты проверки давления и восстановления аккумулятора",
+      "products": [
+        {
+          "sku": "tool-dq200-acc-restore",
+          "uid": "853151429903",
+          "title": "Набор для восстановления гидроаккумулятора DSG7 DQ200",
+          "price": 24800.0,
+          "quantity_raw": "3",
+          "url": "https://leoparts-akpp.ru/tproduct/853151429903-nabor-dlya-vosstanovleniya-gidroakkumuly",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "tool-dsg-pressure-hp",
+          "uid": "513639943843",
+          "title": "Набор для проверки давления DSG, исполнение высокого давления",
+          "price": 18800.0,
+          "quantity_raw": "3",
+          "url": "https://leoparts-akpp.ru/tproduct/513639943843-nabor-dlya-proverki-davleniya-dsg-ispoln",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "В магазине есть, опубликованные quantity_raw по 3; в текущем feed и активных группах отсутствуют",
+      "buyer_examples": [
+        "набор для восстановления гидроаккумулятора dq200 купить",
+        "набор проверки давления dsg купить"
+      ],
+      "limitations": "Это товары, а не услуги. «Пульт для проверки мехатроника» не доказанно тот же инструмент. Складской факт не гарантирован опубликованным остатком; в master есть историческое предупреждение о неподтверждённом остатке/закупке."
+    },
+    {
+      "family_id": "dq250",
+      "family": "Детали DQ250 / DSG6",
+      "products": [
+        {
+          "sku": "02E927770AL",
+          "uid": "826057993723",
+          "title": "Мехатроник DSG6 DQ250 в сборе с электронной платой 02E927770AL",
+          "price": 68500.0,
+          "quantity_raw": "2",
+          "url": "https://leoparts-akpp.ru/tproduct/826057993723-mehatronik-dsg6-dq250-v-sbore-s-elektron",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "02E305051C",
+          "uid": "530072480073",
+          "title": "Фильтр мехатроника DSG6 DQ250 02E305051C",
+          "price": 495.0,
+          "quantity_raw": "75",
+          "url": "https://leoparts-akpp.ru/tproduct/530072480073-filtr-mehatronika-dsg6-dq250-02e305051c",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "02E 305 045",
+          "uid": "878265016983",
+          "title": "Корпус фильтра + фильтр мехатроника DSG6 DQ250 02E305045",
+          "price": 1480.0,
+          "quantity_raw": "21",
+          "url": "https://leoparts-akpp.ru/tproduct/878265016983-korpus-filtra-filtr-mehatronika-dsg6-dq2",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "02e305045",
+          "uid": "372031303103",
+          "title": "Корпус масляного фильтра мехатроника DSG6 DQ250 02E305045",
+          "price": 980.0,
+          "quantity_raw": "21",
+          "url": "https://leoparts-akpp.ru/tproduct/372031303103-korpus-maslyanogo-filtra-mehatronika-dsg",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "Подходят бизнесу при точной комплектации; не входят в DQ200-feed/группы. Нужна другая кампания/маршрут",
+      "buyer_examples": [
+        "02e мехатроник в сборе",
+        "фильтр dq250 купить"
+      ],
+      "limitations": "02E 305 045 — комплект корпус+фильтр; 02e305045 — только корпус. Не смешивать case-sensitive SKU. Другой семейный спрос не считать нерелевантностью всего бизнеса."
+    },
+    {
+      "family_id": "dq500",
+      "family": "Детали DQ500",
+      "products": [
+        {
+          "sku": "filtr-dsg7-dq500",
+          "uid": "792288981833",
+          "title": "Масляный фильтр мехатроника DSG7 DQ500 0BH325183B",
+          "price": 495.0,
+          "quantity_raw": "65",
+          "url": "https://leoparts-akpp.ru/tproduct/792288981833-maslyanii-filtr-mehatronika-dsg7-dq500-0",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "korpus-filtra-0bh325159",
+          "uid": "678325991893",
+          "title": "Корпус масляного фильтра мехатроника DSG7 DQ500 0BH325159 (без фильтра)",
+          "price": 1850.0,
+          "quantity_raw": "0",
+          "url": "https://leoparts-akpp.ru/tproduct/678325991893-korpus-maslyanogo-filtra-mehatronika-dsg",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "0BH325",
+          "uid": "333082224463",
+          "title": "Корпус фильтра мехатроника DSG7 DQ500 0BH325183B",
+          "price": 2850.0,
+          "quantity_raw": "0",
+          "url": "https://leoparts-akpp.ru/tproduct/333082224463-korpus-filtra-mehatronika-dsg7-dq500-0bh",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "Другой ассортимент магазина, вне рассматриваемого feed/групп",
+      "buyer_examples": [
+        "фильтр dq500 купить"
+      ],
+      "limitations": "Некоторые корпуса показывают 0. Наличие фильтра/корпуса не доказывает продажу неисправного мехатроника DQ500 или всей коробки."
+    },
+    {
+      "family_id": "6t",
+      "family": "Семейство 6T30/40/45/50",
+      "products": [
+        {
+          "sku": "6t30",
+          "uid": "695009271403",
+          "title": "Комплект из 7 соленоидов АКПП 6T30, 6T40, 6T45, 6T50, первое поколение",
+          "price": 10850.0,
+          "quantity_raw": "19",
+          "url": "https://leoparts-akpp.ru/tproduct/695009271403-komplekt-iz-7-solenoidov-akpp-6t30-6t40",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "6t30-solenoids-gen2",
+          "uid": "607233388413",
+          "title": "Комплект соленоидов АКПП 6T30/6T40/6T45/6T50, второе поколение (Gen2)",
+          "price": 10850.0,
+          "quantity_raw": "20",
+          "url": "https://leoparts-akpp.ru/tproduct/607233388413-komplekt-solenoidov-akpp-6t306t406t456t5",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "6t30-tcm-gen1",
+          "uid": "200181618243",
+          "title": "Блок управления АКПП 6T30/6T40/6T45/6T50 с соленоидами, Gen1",
+          "price": 29500.0,
+          "quantity_raw": "3",
+          "url": "https://leoparts-akpp.ru/tproduct/200181618243-blok-upravleniya-akpp-6t306t406t456t50-s",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        },
+        {
+          "sku": "6t30-tcm-gen2",
+          "uid": "432307044523",
+          "title": "Блок управления АКПП 6T30/6T40/6T45/6T50 с соленоидами, Gen2",
+          "price": 29500.0,
+          "quantity_raw": "3",
+          "url": "https://leoparts-akpp.ru/tproduct/432307044523-blok-upravleniya-akpp-6t306t406t456t50-s",
+          "in_feed_4061297": false,
+          "physical_stock_guaranteed": false
+        }
+      ],
+      "existing_group_id": null,
+      "advertising_route": "Другой ассортимент магазина; не направлять в DQ200 кампанию",
+      "buyer_examples": [
+        "соленоиды 6t30 gen2 купить",
+        "блок 6t30 gen1"
+      ],
+      "limitations": "Поколение и комплектность обязательны. Не переносить описание/совместимость DQ200."
+    }
+  ],
+  "current_feed_offers": [
+    {
+      "offer_id": "0am325025h",
+      "sku_exact": "0am325025H",
+      "uid": "908157881413",
+      "category_id": "1",
+      "available": "true",
+      "count": "13",
+      "name": "Мехатроник DSG7 DQ200",
+      "description": "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ",
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/908157881413-mehatronik-dsg7-dq200-0am0cw-proveren-na",
+      "site_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/908157881413-mehatronik-dsg7-dq200-0am0cw-proveren-na",
+      "price": "33500.0"
+    },
+    {
+      "offer_id": "0am325025x",
+      "sku_exact": "0am325025x",
+      "uid": "353312992873",
+      "category_id": "1",
+      "available": "false",
+      "count": "0",
+      "name": "Мехатроник DSG7 DQ200",
+      "description": "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ",
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/353312992873-mehatronik-dsg7-dq200-0am-s-novimi-solen",
+      "site_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/353312992873-mehatronik-dsg7-dq200-0am-s-novimi-solen",
+      "price": "38500.0"
+    },
+    {
+      "offer_id": "0am325025hx",
+      "sku_exact": "0am325025HX",
+      "uid": "517217914653",
+      "category_id": "2",
+      "available": "true",
+      "count": "9",
+      "name": "Мехатроник DSG7 DQ200",
+      "description": "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ",
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/517217914653-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+      "site_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/517217914653-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+      "price": "64500.0"
+    },
+    {
+      "offer_id": "0am325025hxf",
+      "sku_exact": "0am325025HXF",
+      "uid": "915950884033",
+      "category_id": "2",
+      "available": "true",
+      "count": "3",
+      "name": "Мехатроник DSG7 DQ200",
+      "description": "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ",
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/915950884033-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+      "site_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/915950884033-mehatronik-dsg7-dq200-v-sbore-s-elektron",
+      "price": "68500.0"
+    },
+    {
+      "offer_id": "0am325025hxe",
+      "sku_exact": "0am325025HXE",
+      "uid": "937513129983",
+      "category_id": "2",
+      "available": "true",
+      "count": "5",
+      "name": "Мехатроник DSG7 DQ200",
+      "description": "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ",
+      "url": "https://leoparts-akpp.ru/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "site_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "price": "68500.0"
+    },
+    {
+      "offer_id": "0am325025hxg",
+      "sku_exact": "0am325025HXG",
+      "uid": "772831134323",
+      "category_id": "2",
+      "available": "true",
+      "count": "5",
+      "name": "Мехатроник DSG7 DQ200",
+      "description": "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ",
+      "url": "https://leoparts-akpp.ru/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "site_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/772831134323-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "price": "68500.0"
+    },
+    {
+      "offer_id": "0am325025hxk",
+      "sku_exact": "0am325025HXK",
+      "uid": "684991663463",
+      "category_id": "2",
+      "available": "true",
+      "count": "5",
+      "name": "Мехатроник DSG7 DQ200",
+      "description": "Восстановленные мехатроники. Проверены на авто. Гарантия. Доставка по РФ и СНГ",
+      "url": "https://leoparts-akpp.ru/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "site_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/684991663463-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
+      "price": "68500.0"
+    },
+    {
+      "offer_id": "0am927769d",
+      "sku_exact": "0AM927769D",
+      "uid": "787466152673",
+      "category_id": "3",
+      "available": "true",
+      "count": "7",
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769D",
+      "description": null,
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/787466152673-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "site_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/787466152673-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "price": "37500.00"
+    },
+    {
+      "offer_id": "0am927769f",
+      "sku_exact": "0AM927769F",
+      "uid": "801039414923",
+      "category_id": "3",
+      "available": "true",
+      "count": "3",
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769F",
+      "description": null,
+      "url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/801039414923-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "site_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/801039414923-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "price": "39500.0"
+    },
+    {
+      "offer_id": "0am927769e",
+      "sku_exact": "0AM927769E",
+      "uid": "137877342943",
+      "category_id": "3",
+      "available": "true",
+      "count": "5",
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769E",
+      "description": null,
+      "url": "https://leoparts-akpp.ru/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "site_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "price": "39500.00"
+    },
+    {
+      "offer_id": "0am927769g",
+      "sku_exact": "0AM927769G",
+      "uid": "933254300083",
+      "category_id": "3",
+      "available": "true",
+      "count": "5",
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769G",
+      "description": null,
+      "url": "https://leoparts-akpp.ru/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "site_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "price": "39500.00"
+    },
+    {
+      "offer_id": "0am927769k",
+      "sku_exact": "0AM927769K",
+      "uid": "234667588903",
+      "category_id": "3",
+      "available": "true",
+      "count": "5",
+      "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769K",
+      "description": null,
+      "url": "https://leoparts-akpp.ru/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "site_url": "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20",
+      "price": "39500.00"
+    }
+  ],
+  "feed_name_proposals": [
+    {
+      "offer_id": "0am325025h",
+      "old_name": "Мехатроник DSG7 DQ200",
+      "proposed_name": "Мехатроник DSG7 DQ200 0AM/0CW без платы",
+      "only_name_change_proposed": true,
+      "change_price_stock_pictures_url": false,
+      "reason": "Комплектация в name должна отличать без платы и с конкретной платой; Direct использует name как источник заголовка/текста.",
+      "status": "HOLD_PREVIOUS_OWNER_INSTRUCTION",
+      "owner_guard_source": "drafts/direct_conversion_20261126/feed_title_plan.json",
+      "owner_guard_mode": "cancelled_by_owner_preserve_neutral_titles"
+    },
+    {
+      "offer_id": "0am325025x",
+      "old_name": "Мехатроник DSG7 DQ200",
+      "proposed_name": "Мехатроник DSG7 DQ200 0AM, новые соленоиды Bosch",
+      "only_name_change_proposed": true,
+      "change_price_stock_pictures_url": false,
+      "reason": "Комплектация в name должна отличать без платы и с конкретной платой; Direct использует name как источник заголовка/текста.",
+      "status": "HOLD_PREVIOUS_OWNER_INSTRUCTION",
+      "owner_guard_source": "drafts/direct_conversion_20261126/feed_title_plan.json",
+      "owner_guard_mode": "cancelled_by_owner_preserve_neutral_titles"
+    },
+    {
+      "offer_id": "0am325025hx",
+      "old_name": "Мехатроник DSG7 DQ200",
+      "proposed_name": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769D",
+      "only_name_change_proposed": true,
+      "change_price_stock_pictures_url": false,
+      "reason": "Комплектация в name должна отличать без платы и с конкретной платой; Direct использует name как источник заголовка/текста.",
+      "status": "HOLD_PREVIOUS_OWNER_INSTRUCTION",
+      "owner_guard_source": "drafts/direct_conversion_20261126/feed_title_plan.json",
+      "owner_guard_mode": "cancelled_by_owner_preserve_neutral_titles"
+    },
+    {
+      "offer_id": "0am325025hxf",
+      "old_name": "Мехатроник DSG7 DQ200",
+      "proposed_name": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769F",
+      "only_name_change_proposed": true,
+      "change_price_stock_pictures_url": false,
+      "reason": "Комплектация в name должна отличать без платы и с конкретной платой; Direct использует name как источник заголовка/текста.",
+      "status": "HOLD_PREVIOUS_OWNER_INSTRUCTION",
+      "owner_guard_source": "drafts/direct_conversion_20261126/feed_title_plan.json",
+      "owner_guard_mode": "cancelled_by_owner_preserve_neutral_titles"
+    },
+    {
+      "offer_id": "0am325025hxe",
+      "old_name": "Мехатроник DSG7 DQ200",
+      "proposed_name": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769E",
+      "only_name_change_proposed": true,
+      "change_price_stock_pictures_url": false,
+      "reason": "Комплектация в name должна отличать без платы и с конкретной платой; Direct использует name как источник заголовка/текста.",
+      "status": "HOLD_PREVIOUS_OWNER_INSTRUCTION",
+      "owner_guard_source": "drafts/direct_conversion_20261126/feed_title_plan.json",
+      "owner_guard_mode": "cancelled_by_owner_preserve_neutral_titles"
+    },
+    {
+      "offer_id": "0am325025hxg",
+      "old_name": "Мехатроник DSG7 DQ200",
+      "proposed_name": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769G",
+      "only_name_change_proposed": true,
+      "change_price_stock_pictures_url": false,
+      "reason": "Комплектация в name должна отличать без платы и с конкретной платой; Direct использует name как источник заголовка/текста.",
+      "status": "HOLD_PREVIOUS_OWNER_INSTRUCTION",
+      "owner_guard_source": "drafts/direct_conversion_20261126/feed_title_plan.json",
+      "owner_guard_mode": "cancelled_by_owner_preserve_neutral_titles"
+    },
+    {
+      "offer_id": "0am325025hxk",
+      "old_name": "Мехатроник DSG7 DQ200",
+      "proposed_name": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769K",
+      "only_name_change_proposed": true,
+      "change_price_stock_pictures_url": false,
+      "reason": "Комплектация в name должна отличать без платы и с конкретной платой; Direct использует name как источник заголовка/текста.",
+      "status": "HOLD_PREVIOUS_OWNER_INSTRUCTION",
+      "owner_guard_source": "drafts/direct_conversion_20261126/feed_title_plan.json",
+      "owner_guard_mode": "cancelled_by_owner_preserve_neutral_titles"
+    }
+  ],
+  "approved_six_exclusions_preserve_exact_scope": [
+    {
+      "expression": "\"авито запчасти +для авто\"",
+      "level": "campaign",
+      "id": 716316525
+    },
+    {
+      "expression": "\"контрактные коробки дсг\"",
+      "level": "campaign",
+      "id": 716316525
+    },
+    {
+      "expression": "\"разборка запчастей б у\"",
+      "level": "campaign",
+      "id": 716316525
+    },
+    {
+      "expression": "\"мехатроник +на дсг 09g\"",
+      "level": "campaign",
+      "id": 716316525
+    },
+    {
+      "expression": "\"клонирование платы мехатроника dsg 7\"",
+      "level": "campaign",
+      "id": 716316525
+    },
+    {
+      "expression": "+какое масло заливать +в мехатроник",
+      "level": "group",
+      "id": 5828476541
+    }
+  ],
+  "query_review": {
+    "unique_paid_queries": 244,
+    "paid_rows": 285,
+    "completed_days": {
+      "1": {
+        "intent": "Покупка конкретной детали/семейства",
+        "rows": 25,
+        "clicks": 32,
+        "cost_rub": 986.26,
+        "aggregate_goal_conversions": 1.0
+      },
+      "2": {
+        "intent": "Подбор детали и применимости",
+        "rows": 90,
+        "clicks": 96,
+        "cost_rub": 2697.02,
+        "aggregate_goal_conversions": 2.0
+      },
+      "3": {
+        "intent": "Сравнение цены, состояния, производителя",
+        "rows": 28,
+        "clicks": 30,
+        "cost_rub": 720.41,
+        "aggregate_goal_conversions": 0.0
+      },
+      "4": {
+        "intent": "Диагностика с возможной покупкой",
+        "rows": 10,
+        "clicks": 10,
+        "cost_rub": 316.64,
+        "aggregate_goal_conversions": 0.0
+      },
+      "5": {
+        "intent": "Явный поиск услуги/исполнителя/стоимости работы",
+        "rows": 17,
+        "clicks": 20,
+        "cost_rub": 554.23,
+        "aggregate_goal_conversions": 2.0
+      },
+      "6": {
+        "intent": "Информация и самостоятельное обслуживание",
+        "rows": 12,
+        "clicks": 12,
+        "cost_rub": 309.66,
+        "aggregate_goal_conversions": 1.0
+      },
+      "7": {
+        "intent": "Другой товар/коробка/общая навигация",
+        "rows": 48,
+        "clicks": 49,
+        "cost_rub": 1883.09,
+        "aggregate_goal_conversions": 2.0
+      },
+      "8": {
+        "intent": "Смешанный или неоднозначный запрос",
+        "rows": 46,
+        "clicks": 52,
+        "cost_rub": 1526.07,
+        "aggregate_goal_conversions": 2.0
+      }
+    },
+    "today_partial": {
+      "1": {
+        "intent": "Покупка конкретной детали/семейства",
+        "rows": 2,
+        "clicks": 2,
+        "cost_rub": 53.04,
+        "aggregate_goal_conversions": 0.0
+      },
+      "2": {
+        "intent": "Подбор детали и применимости",
+        "rows": 3,
+        "clicks": 3,
+        "cost_rub": 76.74,
+        "aggregate_goal_conversions": 0.0
+      },
+      "6": {
+        "intent": "Информация и самостоятельное обслуживание",
+        "rows": 2,
+        "clicks": 2,
+        "cost_rub": 24.72,
+        "aggregate_goal_conversions": 0.0
+      },
+      "7": {
+        "intent": "Другой товар/коробка/общая навигация",
+        "rows": 2,
+        "clicks": 2,
+        "cost_rub": 60.7,
+        "aggregate_goal_conversions": 0.0
+      }
+    },
+    "all_impression_queries_reviewed": false,
+    "scope_limit": "Paid expert review remains the 10:03 snapshot. Full 10:16 raw is annotated in companion files; all queries have not been individually manually reviewed."
+  },
+  "unit_economics_reference": [
+    {
+      "sku": "0am325025H",
+      "site_price_rub": 33500.0,
+      "procurement_reference_rub": 13800,
+      "price_minus_procurement_rub": 19700.0,
+      "net_profit_verified": false,
+      "direct_paid_orders_verified": false,
+      "may_set_max_cpa_from_this_alone": false
+    },
+    {
+      "sku": "0am325025HX",
+      "site_price_rub": 64500.0,
+      "procurement_reference_rub": 31000,
+      "price_minus_procurement_rub": 33500.0,
+      "net_profit_verified": false,
+      "direct_paid_orders_verified": false,
+      "may_set_max_cpa_from_this_alone": false
+    },
+    {
+      "sku": "0am325025HXF",
+      "site_price_rub": 68500.0,
+      "procurement_reference_rub": 31000,
+      "price_minus_procurement_rub": 37500.0,
+      "net_profit_verified": false,
+      "direct_paid_orders_verified": false,
+      "may_set_max_cpa_from_this_alone": false
+    },
+    {
+      "sku": "0AM927769D",
+      "site_price_rub": 37500.0,
+      "procurement_reference_rub": 17500,
+      "price_minus_procurement_rub": 20000.0,
+      "net_profit_verified": false,
+      "direct_paid_orders_verified": false,
+      "may_set_max_cpa_from_this_alone": false
+    },
+    {
+      "sku": "0AM927769E",
+      "site_price_rub": 39500.0,
+      "procurement_reference_rub": null,
+      "price_minus_procurement_rub": null,
+      "net_profit_verified": false,
+      "direct_paid_orders_verified": false,
+      "may_set_max_cpa_from_this_alone": false
+    },
+    {
+      "sku": "0AM927769F",
+      "site_price_rub": 39500.0,
+      "procurement_reference_rub": 17500,
+      "price_minus_procurement_rub": 22000.0,
+      "net_profit_verified": false,
+      "direct_paid_orders_verified": false,
+      "may_set_max_cpa_from_this_alone": false
+    },
+    {
+      "sku": "0AM927769G",
+      "site_price_rub": 39500.0,
+      "procurement_reference_rub": null,
+      "price_minus_procurement_rub": null,
+      "net_profit_verified": false,
+      "direct_paid_orders_verified": false,
+      "may_set_max_cpa_from_this_alone": false
+    },
+    {
+      "sku": "0AM927769K",
+      "site_price_rub": 39500.0,
+      "procurement_reference_rub": null,
+      "price_minus_procurement_rub": null,
+      "net_profit_verified": false,
+      "direct_paid_orders_verified": false,
+      "may_set_max_cpa_from_this_alone": false
+    },
+    {
+      "sku": "0am325025",
+      "site_price_rub": 7850.0,
+      "procurement_reference_rub": 3000,
+      "price_minus_procurement_rub": 4850.0,
+      "net_profit_verified": false,
+      "direct_paid_orders_verified": false,
+      "may_set_max_cpa_from_this_alone": false
+    },
+    {
+      "sku": "0AM325587E",
+      "site_price_rub": 4850.0,
+      "procurement_reference_rub": 1800,
+      "price_minus_procurement_rub": 3050.0,
+      "net_profit_verified": false,
+      "direct_paid_orders_verified": false,
+      "may_set_max_cpa_from_this_alone": false
+    }
+  ],
+  "economics_limits": [
+    "Marketplaces are a separate channel. Ozon realised units and payout are not site orders or Direct attributable profit.",
+    "Current site price minus procurement is only gross spread; exclude no taxes, acquiring, delivery, advertising, warranty, return costs or overheads.",
+    "Costs of E/G/K boards are not confirmed in RUB. D/F procurement must not be copied to those revisions.",
+    "Direct aggregate Conversions cannot be treated as sales. Goal IDs 675487735=cart, 675272284=form, 675506966=VIN form, 675507028=order form, 685988392=payment start.",
+    "Fresh 10:03 UTC Metrika paid_utm report has 269 visits, 12 cart goal visits and zero purchase/order/payment-start/VIN-success goals; it includes the partial current day. This does not prove no offline sales.",
+    "One all-source ecommerce purchase goal was attributed to direct traffic, not this campaign; payment/CRM linkage was not verified. Webhook form events do not certify payment.",
+    "Historical spend on excluded queries is not guaranteed future savings; post-change effect needs comparable periods and qualified outcomes."
+  ],
+  "clutch_proposal": {
+    "current_campaign_negative": "сцепление",
+    "catalog_counterexamples": [
+      "datchik-scepleniya-dq200",
+      "0am325066ad"
+    ],
+    "current_feed_inclusion": false,
+    "active_matching_route_confirmed": false,
+    "immediate_action": "Do not remove campaign-wide clutch exclusion solely because components exist; do not enable paused/new routes.",
+    "future_option": "With explicit scope approval, use a dedicated component campaign without broad сцепление, exact component/OEM keywords, product-specific landing/creative and full-clutch phrases excluded there. Preserve broad сцепление in the current mechatronics campaign.",
+    "same_campaign_option": "Official Yandex rules say a negative is ignored when every word in it is contained in the positive keyword. Narrow manual component keys explicitly containing сцепление may therefore be evaluated without removing the campaign negative. This is not a universal whitelist, does not establish autotargeting behaviour, and does not bypass other negatives or the need for a truthful active component route. Alternatively, a controlled move to group level requires all current/future groups checked. No paused/new route is activated by this review.",
+    "reason": "Simple removal lets in full clutch-kit traffic for a product not confirmed in the catalog; current component route is absent.",
+    "official_full_overlap_exception": "https://yandex.ru/support/direct/ru/keywords/negative-keywords",
+    "correction_notice": "Earlier wording that a positive key can never take priority over a campaign negative was too categorical and has been corrected to the official full-overlap exception."
+  },
+  "conditions_origin_geography": {
+    "spb": {
+      "decision": "preserve product purchase intent; never blanket city minus",
+      "evidence": [
+        {
+          "query": "купить плату мехатроник дсг 0am927769g в спб",
+          "source": "observed",
+          "dates": [
+            "2026-11-20"
+          ],
+          "groups": [
+            "5826320196"
+          ],
+          "criterion_types": [
+            "AUTOTARGETING"
+          ],
+          "clicks": 5,
+          "cost_rub": 124.59,
+          "aggregate_conversions_not_sales": 1.0
+        },
+        {
+          "query": "плата мехатроника dsg7 dq200 купить в спб",
+          "source": "observed",
+          "dates": [
+            "2026-11-25"
+          ],
+          "groups": [
+            "5826320196"
+          ],
+          "criterion_types": [
+            "AUTOTARGETING"
+          ],
+          "clicks": 1,
+          "cost_rub": 64.89,
+          "aggregate_conversions_not_sales": 0.0
+        },
+        {
+          "query": "мехатроник купить спб",
+          "source": "observed",
+          "dates": [
+            "2026-11-17"
+          ],
+          "groups": [
+            "5826183946"
+          ],
+          "criterion_types": [
+            "AUTOTARGETING"
+          ],
+          "clicks": 1,
+          "cost_rub": 26.64,
+          "aggregate_conversions_not_sales": 0.0
+        }
+      ],
+      "risk": "Local service/address intent is different. Delivery promise must match supported destinations; no invented local stock/showroom."
+    },
+    "china": {
+      "decision": "preserve comparison/buyer intent subject to truthful manufacturer/origin fit",
+      "evidence": [
+        {
+          "query": "плата мехатроник дсг 7 dq200 купить китай",
+          "source": "observed",
+          "dates": [
+            "2026-11-25"
+          ],
+          "groups": [
+            "5826320196"
+          ],
+          "criterion_types": [
+            "AUTOTARGETING"
+          ],
+          "clicks": 1,
+          "cost_rub": 16.69,
+          "aggregate_conversions_not_sales": 0.0
+        },
+        {
+          "query": "китайский мехатроник dw200 новый цена",
+          "source": "observed",
+          "dates": [
+            "2026-11-20"
+          ],
+          "groups": [
+            "5826183946"
+          ],
+          "criterion_types": [
+            "AUTOTARGETING"
+          ],
+          "clicks": 1,
+          "cost_rub": 11.16,
+          "aggregate_conversions_not_sales": 0.0
+        }
+      ],
+      "risk": "Do not invent country/brand or call all products new; no paid-outcome proof justifies broad exclusion."
+    },
+    "used_contract": {
+      "decision": "separate full gearbox/general dismantling from an actual mechatronic buyer",
+      "evidence": [
+        {
+          "query": "купить бу мехатроник цена на ауди а3 спортбайк 2012 года 2 поколение",
+          "source": "observed",
+          "dates": [
+            "2026-11-21"
+          ],
+          "groups": [
+            "5828476541"
+          ],
+          "criterion_types": [
+            "KEYWORD"
+          ],
+          "clicks": 1,
+          "cost_rub": 27.8,
+          "aggregate_conversions_not_sales": 0.0
+        },
+        {
+          "query": "контрактный мехатроник цена саратов",
+          "source": "observed",
+          "dates": [
+            "2026-11-17"
+          ],
+          "groups": [
+            "5826183946"
+          ],
+          "criterion_types": [
+            "AUTOTARGETING"
+          ],
+          "clicks": 1,
+          "cost_rub": 11.66,
+          "aggregate_conversions_not_sales": 0.0
+        },
+        {
+          "query": "восстановленная плата мехатроника в дсг",
+          "source": "observed",
+          "dates": [
+            "2026-11-20"
+          ],
+          "groups": [
+            "5826320196"
+          ],
+          "criterion_types": [
+            "AUTOTARGETING"
+          ],
+          "clicks": 1,
+          "cost_rub": 14.72,
+          "aggregate_conversions_not_sales": 0.0
+        }
+      ],
+      "risk": "Restored mechatronics are explicitly advertised. Restored, untested used, contract-import and new are not synonyms; original provenance is not guaranteed."
+    }
+  },
+  "service_policy": "No standalone repair, installation, adaptation, flashing or cloning offer confirmed. The fresh website audit did verify a repair/diagnostics CTA on /remontdsg7dq200; conflicting site wording is a content defect, not independent authority to invent service operations. Parts and specialist-installation requirements are distinct from selling that service.",
+  "verification_limits": [
+    "The control corpus is an intent boundary test, not a full emulator of Yandex morphology/operator matching and not a technical whitelist.",
+    "Do not infer group activation from ACCEPTED alone: hydraulic-plate and bushing responsive ads are SUSPENDED in the fresh 10:03 UTC snapshot.",
+    "No cost/goal/budget/bid/stock/price write has been performed.",
+    "Yandex full-overlap exception is material: do not model negative handling as an unconditional union without checking the actual positive keyword and criterion type.",
+    "Detailed selected product text was subsequently verified in live_45979776426/landing_seo_readonly.json at10:11; all7 feed-name facts are supported but a prior explicit owner instruction prevents applying them."
+  ],
+  "disclosed_query_reconciliation": {
+    "completed_period": [
+      "2026-10-28",
+      "2026-11-26"
+    ],
+    "campaign_clicks": 307,
+    "disclosed_query_clicks": 301,
+    "campaign_cost_rub": 9137.27,
+    "disclosed_query_cost_rub": 8993.38,
+    "unexplained_or_undisclosed_cost_rub": 143.89,
+    "disclosed_cost_share_pct": 98.43,
+    "today_campaign_cost_rub": 215.19,
+    "today_query_cost_rub": 215.2,
+    "today_rounding_difference_rub": 0.01,
+    "limitations": "Same nominal date window; last cent differences can arise from aggregation rounding. Positive remaining full-window gap is not allocated to query intent."
+  },
+  "technical_primary_sources": [
+    {
+      "url": "https://static.nhtsa.gov/odi/tsbs/2021/MC-10194495-0001.pdf",
+      "type": "Audi manufacturer training document hosted by NHTSA",
+      "supports": "0CW is DQ200-7F; dry clutch, transverse engine use, torque capacity up to 250 Nm. It is used on relevant Audi A3 variants.",
+      "web_ref": "turn398785322search8"
+    },
+    {
+      "url": "https://uploads.audi-mediacenter.com/system/production/car_motorizations/363/file_en/2d9ee07814bc8d0d429027ef04726da1bd796eef/eTD-Audi-A7-Sportback-55-TFSI-quattro-S_tronic-250kW-MHEV_240911.pdf?1726134799=&disposition=attachment",
+      "type": "Audi A7 55 TFSI official data sheet",
+      "supports": "This A7 variant uses wet-clutch 7-speed S tronic with a 500 Nm engine; it is not the dry DQ200 described in the Audi 0CW document. Does not identify the exact gearbox of every A7 query.",
+      "web_ref": "turn398785322search5"
+    },
+    {
+      "url": "https://www.audi.com/en/the-audi-a7-sportback-until-2025-progressive-in-design-and-technology-9831/driving-experience-9839",
+      "type": "Audi official model description",
+      "supports": "A7 launch variants include 7-speed S tronic and 8-speed tiptronic; the model name is insufficient for choosing a mechatronic.",
+      "web_ref": "turn398785322search2"
+    }
+  ],
+  "new_queries_100339": [
+    {
+      "query": "плата мехатроника dq200 купить",
+      "rows": 1,
+      "clicks": 1,
+      "cost_rub": 18.16,
+      "aggregate_goal_conversions": 0.0,
+      "assessment": "Плата есть в текущем feed. Ревизию следует подобрать, а не подставить D как универсальную."
+    },
+    {
+      "query": "мехатроник audi a7",
+      "rows": 1,
+      "clicks": 1,
+      "cost_rub": 35.22,
+      "aggregate_goal_conversions": 0.0,
+      "assessment": "Точный тип коробки A7 не установлен; это не подтверждённый маршрут DQ200. Официальная спецификация A7 55 TFSI показывает мокрую S tronic, отличную от DQ200. Не минусовать Audi целиком."
+    },
+    {
+      "query": "мехатроник dq200 проверка в гараже",
+      "rows": 1,
+      "clicks": 1,
+      "cost_rub": 13.76,
+      "aggregate_goal_conversions": 0.0,
+      "assessment": "Самостоятельная проверка; возможна последующая покупка, но нет основания обещать диагностику сервисом. Один клик не обосновывает broad гараж/проверка."
+    },
+    {
+      "query": "мехатроника пассат сс dq250",
+      "rows": 1,
+      "clicks": 1,
+      "cost_rub": 25.48,
+      "aggregate_goal_conversions": 0.0,
+      "assessment": "В запросе явно DQ250. Товар DQ250 есть в магазине, но его нет в DQ200-feed. Подбор AL по одному Passat CC не гарантировать."
+    }
+  ],
+  "fresh_group_state_verified": true,
+  "historical_change_timing": "Queries before changes on 25/27 November cannot prove current exclusions failed. The intraday report lacks click timestamps, so the oil query today cannot be attributed to after-rule delivery from the date alone.",
+  "control_corpus_pairs": 51,
+  "role_of_intent_categories": "Categories describe primary observed wording. They are not an exact paid-sales attribution, not a recommendation to ban every query in a category, and not a prediction of savings.",
+  "landing_findings_cross_reference": "landing_change_plan_draft.json by SEO teammate; service claims and concrete URL accessibility require that separate source.",
+  "independent_final_review": "direct_semantics_20261127/final_independent_review.json",
+  "full_raw_annotation": {
+    "finished_utc": "2026-11-27T10:16:49.550210+00:00",
+    "rows": 18684,
+    "unique_queries": 12705,
+    "clicked_rows": 287,
+    "row_schema": "commercial_raw_schema.json",
+    "dataset": "commercial_raw_1016.jsonl",
+    "summary": "commercial_raw_1016_summary.json",
+    "annotation_scope": "Every raw row has one of 8 categories and preserved actual AdId/CriterionId; unseen queries are explicitly uncertain heuristic review candidates, not manually approved negatives."
+  }
+}

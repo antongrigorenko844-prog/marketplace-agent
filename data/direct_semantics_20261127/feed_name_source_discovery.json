@@ -1,0 +1,73 @@
+{
+  "status": "READ_ONLY_DISCOVERY_NO_SOURCE_EDITS",
+  "external_mutations": 0,
+  "owner_decision_conflict": {
+    "date": "2026-11-26",
+    "path": "drafts/direct_conversion_20261126/feed_title_plan.json",
+    "mode": "cancelled_by_owner_preserve_neutral_titles",
+    "apply_names": false
+  },
+  "sources": [
+    {
+      "path": "scripts/build_dq200_feed.py",
+      "sha": "e4d2a8d72fe443634ac3f5cef04162097d481f21",
+      "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/scripts/build_dq200_feed.py"
+    },
+    {
+      "path": "scripts/sync_dq200_live_feed.py",
+      "sha": "782900fcab9f4a44c40ca27c97c1c25b50cdb70f",
+      "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/scripts/sync_dq200_live_feed.py"
+    },
+    {
+      "path": ".github/workflows/dq200-ad-feed.yml",
+      "sha": "d8f8c68c2f52df27341ae9f5f5803d63021642d1",
+      "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/.github/workflows/dq200-ad-feed.yml"
+    },
+    {
+      "path": "drafts/direct_conversion_20261126/feed_title_plan.json",
+      "sha": "9ec8773df7ab5073ec8daa73eeda25ea67ad4e54",
+      "url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/main/drafts/direct_conversion_20261126/feed_title_plan.json"
+    }
+  ],
+  "generator": {
+    "path": "scripts/build_dq200_feed.py",
+    "source": "PRODUCTS contains distinct titles, but build() explicitly chooses MECH_AD_TITLE for categories1/2.",
+    "selector": "(\"name\", MECH_AD_TITLE if category in {\"1\", \"2\"} else title)",
+    "meaning": "Intentional neutral copy, not a price/stock sync defect."
+  },
+  "active_sync": {
+    "path": "scripts/sync_dq200_live_feed.py",
+    "workflow": ".github/workflows/dq200-ad-feed.yml",
+    "schedule": "17 */2 * * *",
+    "mutated_offer_fields": [
+      "price",
+      "count",
+      "available"
+    ],
+    "preserved_fields": [
+      "name",
+      "description",
+      "url",
+      "categoryId",
+      "pictures",
+      "other XML nodes"
+    ],
+    "guard": "protected_xml(raw) == protected_xml(new), after removing onlyprice/count/available",
+    "titles_overwritten_by_regular_sync": false
+  },
+  "minimal_future_implementation_if_owner_revises_preference": [
+    "Update seven existing PRODUCTS titles in scripts/build_dq200_feed.py to the approved exact configuration and choose title for each name instead of MECH_AD_TITLE. Preserve all photos/descriptions/IDs/categories.",
+    "Patch only seven <name> elements in active feeds/dq200_candidate.yml with a guard that every non-name byte/semantic field is unchanged. Do not rebuild the feed to publish a text-only change: build() also uses snapshot prices, stock and photo definitions.",
+    "Do not change sync_dq200_live_feed.py; it already preserves names. Verify its existing price/stock patch preserves the newly approved text exactly.",
+    "After publication verify public XML and refresh the existing feed4061297 source copy_rev through the existing checked process. Keep category mappings, ad states and budget unchanged.",
+    "Record new specific owner decision replacing26.11 preference; do not rewrite the historical decision as if it never occurred."
+  ],
+  "verification": [
+    "Exactly seven planned name differences, all12 offer IDs and category membership unchanged.",
+    "All12 current prices/count/available/URLs/photos remain identical.",
+    "Existing scheduled sync does not restore neutral titles.",
+    "Feed remainsDONE with12 items and expected shopping adsPROCESSED."
+  ],
+  "rollback": "Restore only our seven name values and generator selector/title changes after checking current values still match our version; preserve later stock/price changes.",
+  "names_candidate_path": "direct_semantics_20261127/landing_change_plan_draft.json"
+}
