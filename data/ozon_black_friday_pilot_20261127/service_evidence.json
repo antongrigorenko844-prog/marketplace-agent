@@ -1,0 +1,711 @@
+{
+  "schema_version": 1,
+  "evidence_by_sku": {
+    "0am325025G": {
+      "sku": "0am325025G",
+      "product_id": 1790610716,
+      "kind": "observed_sku_fees",
+      "verified": true,
+      "verification_scope": "Exact-SKU historical fee arithmetic; future conditions assumed unchanged, not full profit.",
+      "source_reference": "Ozon snapshot 45899124073 attempt 2; catalogue sha256 3b674f6e30a16289cff6283618f4f7f0393dcbcce0d173335018999ccdb6eee7; exact SKU economics.current.service_model",
+      "source_period": {
+        "from": "2026-10-28",
+        "to": "2026-11-26"
+      },
+      "percentage_rate_pct": 2.800083,
+      "fixed_per_sold_unit_rub": 0.0,
+      "observed_service_model": {
+        "available": true,
+        "percentage_services": [
+          {
+            "name": "Звёздные товары",
+            "period_charge_rub": 289.63,
+            "observed_rate_pct": 1.500052
+          },
+          {
+            "name": "Подписка Управление отзывами",
+            "period_charge_rub": 251.01,
+            "observed_rate_pct": 1.300031
+          }
+        ],
+        "fixed_services": [],
+        "historical_acquiring_rub": -120.83,
+        "excluded_credits": [],
+        "flags": [
+          "HISTORICAL_SERVICE_TERMS_ASSUMED_UNCHANGED"
+        ],
+        "assumptions": [
+          "Observed paid-program rates and fixed allocations remain unchanged at the candidate price.",
+          "Fixed per-unit allocations are historical proxies, not confirmed future tariffs."
+        ],
+        "percentage_rate_pct": 2.800083,
+        "fixed_per_sold_unit_rub": 0.0
+      },
+      "assumptions": [
+        "Observed paid-program rates and fixed allocations remain unchanged at the candidate price.",
+        "Fixed per-unit allocations are historical proxies, not confirmed future tariffs."
+      ],
+      "fully_landed_profit_verified": false
+    },
+    "porshni-usil-pylniki-kryshki-v2": {
+      "sku": "porshni-usil-pylniki-kryshki-v2",
+      "product_id": 6291485580,
+      "kind": "observed_sku_fees",
+      "verified": true,
+      "verification_scope": "Exact-SKU historical fee arithmetic; future conditions assumed unchanged, not full profit.",
+      "source_reference": "Ozon snapshot 45899124073 attempt 2; catalogue sha256 3b674f6e30a16289cff6283618f4f7f0393dcbcce0d173335018999ccdb6eee7; exact SKU economics.current.service_model",
+      "source_period": {
+        "from": "2026-10-28",
+        "to": "2026-11-26"
+      },
+      "percentage_rate_pct": 2.8,
+      "fixed_per_sold_unit_rub": 0.0,
+      "observed_service_model": {
+        "available": true,
+        "percentage_services": [
+          {
+            "name": "Звёздные товары",
+            "period_charge_rub": 231.0,
+            "observed_rate_pct": 1.5
+          },
+          {
+            "name": "Подписка Управление отзывами",
+            "period_charge_rub": 200.2,
+            "observed_rate_pct": 1.3
+          }
+        ],
+        "fixed_services": [],
+        "historical_acquiring_rub": -186.69,
+        "excluded_credits": [],
+        "flags": [
+          "HISTORICAL_SERVICE_TERMS_ASSUMED_UNCHANGED"
+        ],
+        "assumptions": [
+          "Observed paid-program rates and fixed allocations remain unchanged at the candidate price.",
+          "Fixed per-unit allocations are historical proxies, not confirmed future tariffs."
+        ],
+        "percentage_rate_pct": 2.8,
+        "fixed_per_sold_unit_rub": 0.0
+      },
+      "assumptions": [
+        "Observed paid-program rates and fixed allocations remain unchanged at the candidate price.",
+        "Fixed per-unit allocations are historical proxies, not confirmed future tariffs."
+      ],
+      "fully_landed_profit_verified": false
+    },
+    "0AM325025B": {
+      "sku": "0AM325025B",
+      "kind": "observed_sku_fees",
+      "verified": true,
+      "verification_scope": "Exact SKU historical source arithmetic and reconciled gross sale base; future conditions assumed unchanged, full profit not verified",
+      "source_reference": "data/ozon_finance.json blob59403a6684876c71b25c3f519af4d14628eefe56; data/crisis_audit_20261124/ozon_finance.json blob35bc8207c8971a839829d3cb578048b1a3a7752d",
+      "source_period": {
+        "from": "2026-10-24",
+        "to": "2026-11-23"
+      },
+      "percentage_rate_pct": 3.800021316848304,
+      "fixed_per_sold_unit_rub": 0,
+      "historical_sold": 4,
+      "historical_returned": 1,
+      "gross_sale_revenue_rub": 37529,
+      "historical_net_revenue_rub": 28050,
+      "programme_effective_rates_pct": {
+        "Звёздные товары": 1.50001332303019,
+        "Продвижение бренда": 1,
+        "Подписка Управление отзывами": 1.300007993818114
+      },
+      "actual_service_fees": {
+        "Звёздные товары": -562.94,
+        "Продвижение бренда": -375.29,
+        "Подписка Управление отзывами": -487.88,
+        "Эквайринг": -271.9
+      },
+      "finance_row": {
+        "sold": 4,
+        "returned": 1,
+        "revenue": 28050,
+        "commission": -12996.5,
+        "logistics": -1182.23,
+        "services": -1698.01,
+        "net": 12173.26
+      },
+      "reconciled_sku_daily": {
+        "2026-10-29": {
+          "payout": 4425.110000000001,
+          "revenue": 9479,
+          "sold": 1,
+          "returned": 0,
+          "known_cost_sold": 1350,
+          "known_cost_return": 0,
+          "unknown_cost_units": 0,
+          "fees": 0,
+          "unallocated": 0
+        },
+        "2026-10-30": {
+          "payout": -4933.32,
+          "revenue": -9479,
+          "sold": 0,
+          "returned": 1,
+          "known_cost_sold": 0,
+          "known_cost_return": 1350,
+          "unknown_cost_units": 0,
+          "fees": 0,
+          "unallocated": 0
+        },
+        "2026-11-03": {
+          "payout": -174.54,
+          "revenue": 0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0,
+          "known_cost_return": 0,
+          "unknown_cost_units": 0,
+          "fees": 0,
+          "unallocated": 0
+        },
+        "2026-11-06": {
+          "payout": -108,
+          "revenue": 0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0,
+          "known_cost_return": 0,
+          "unknown_cost_units": 0,
+          "fees": 0,
+          "unallocated": 0
+        },
+        "2026-11-08": {
+          "payout": 9038.400000000001,
+          "revenue": 18700,
+          "sold": 2,
+          "returned": 0,
+          "known_cost_sold": 2700,
+          "known_cost_return": 0,
+          "unknown_cost_units": 0,
+          "fees": 0,
+          "unallocated": 0
+        },
+        "2026-11-09": {
+          "payout": -171.12,
+          "revenue": 0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0,
+          "known_cost_return": 0,
+          "unknown_cost_units": 0,
+          "fees": 0,
+          "unallocated": 0
+        },
+        "2026-11-12": {
+          "payout": -136,
+          "revenue": 0,
+          "sold": 0,
+          "returned": 0,
+          "known_cost_sold": 0,
+          "known_cost_return": 0,
+          "unknown_cost_units": 0,
+          "fees": 0,
+          "unallocated": 0
+        },
+        "2026-11-18": {
+          "payout": 4232.7300000000005,
+          "revenue": 9350,
+          "sold": 1,
+          "returned": 0,
+          "known_cost_sold": 1350,
+          "known_cost_return": 0,
+          "unknown_cost_units": 0,
+          "fees": 0,
+          "unallocated": 0
+        }
+      },
+      "assumptions": [
+        "Observed exact-SKU effective programme rates remain unchanged.",
+        "Other service charges are historical per-sold-unit allocations.",
+        "Returns are separated only to obtain the sale revenue denominator; no inventory credit is assumed.",
+        "New promotion cost treatment must be checked separately."
+      ],
+      "fully_landed_profit_verified": false,
+      "product_id": 1504143993
+    },
+    "6t30": {
+      "sku": "6t30",
+      "product_id": 6287285958,
+      "marketplace_skus": [
+        "5753726628"
+      ],
+      "kind": "observed_sku_fees",
+      "verified": true,
+      "verification_scope": "Exact-SKU historical arithmetic, all 29 dates/pages, type classification and gross sale base reconciled to aggregate and earlier daily history. Future conditions remain assumptions; this is not execution approval.",
+      "source_reference": "data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/finance.json sha256:35352d229aa7b76f2419c1b6371659bf9faaa08b2c485c20f44147cd338aaf5f; data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/financial_fields_by_day.json sha256:d1dd9b3f03fc34d4485a693a7a64cc1661d61eae5ffa88fed32445a0851e0a98; data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/identity_evidence.json sha256:b0a48c949e36144d3cde574eedb7f962935bbbf161343204ee8fe78718ee44cb",
+      "source_period": {
+        "from": "2026-09-25",
+        "to": "2026-10-23"
+      },
+      "percentage_rate_pct": 2.8,
+      "fixed_per_sold_unit_rub": 0.0,
+      "historical_whole_window_percentage_rate_pct": 2.8,
+      "historical_sold": 4,
+      "historical_returned": 0,
+      "gross_sale_revenue_rub": 79200.0,
+      "gross_return_revenue_rub": 0.0,
+      "historical_net_revenue_rub": 79200.0,
+      "programme_effective_rates_pct": {
+        "Звёздные товары": 1.5,
+        "Подписка Управление отзывами": 1.3
+      },
+      "applied_programme_rates_pct": {
+        "Звёздные товары": 1.5,
+        "Подписка Управление отзывами": 1.3
+      },
+      "selected_rate_basis": {
+        "method": "all_observed_exact_sku_programme_charges_divided_by_gross_positive_sale_revenue",
+        "from": "2026-09-25",
+        "to": "2026-10-23",
+        "gross_sale_revenue_rub": 79200.0,
+        "sold": 4,
+        "programme_fees_rub": {
+          "Звёздные товары": -1188.0,
+          "Подписка Управление отзывами": -1029.6
+        }
+      },
+      "actual_service_fees": {
+        "Звёздные товары": -1188.0,
+        "Подписка Управление отзывами": -1029.6,
+        "Эквайринг": -812.27
+      },
+      "programme_fees_rub": -2217.6,
+      "historical_acquiring_rub": -812.27,
+      "other_observed_item_service_residual_rub": 0.0,
+      "finance_row": {
+        "sold": 4,
+        "returned": 0,
+        "revenue": 79200.0,
+        "commission": -36432.0,
+        "logistics": -566.29,
+        "services": -3029.87,
+        "net": 39171.84
+      },
+      "reconciled_sku_daily": {
+        "2026-09-28": {
+          "sold": 1,
+          "returned": 0,
+          "gross_sale_revenue_rub": 19800.0,
+          "gross_return_revenue_rub": 0.0,
+          "revenue": 19800.0,
+          "commission": -9306.0,
+          "logistics": -110.53,
+          "services": -758.9,
+          "net": 9624.57
+        },
+        "2026-09-29": {
+          "sold": 0,
+          "returned": 0,
+          "gross_sale_revenue_rub": 0.0,
+          "gross_return_revenue_rub": 0.0,
+          "revenue": 0.0,
+          "commission": 0.0,
+          "logistics": 0.0,
+          "services": -199.98,
+          "net": -199.98
+        },
+        "2026-10-06": {
+          "sold": 0,
+          "returned": 0,
+          "gross_sale_revenue_rub": 0.0,
+          "gross_return_revenue_rub": 0.0,
+          "revenue": 0.0,
+          "commission": 0.0,
+          "logistics": 0.0,
+          "services": -204.36,
+          "net": -204.36
+        },
+        "2026-10-07": {
+          "sold": 1,
+          "returned": 0,
+          "gross_sale_revenue_rub": 19800.0,
+          "gross_return_revenue_rub": 0.0,
+          "revenue": 19800.0,
+          "commission": -9306.0,
+          "logistics": -121.76,
+          "services": -554.4,
+          "net": 9817.84
+        },
+        "2026-10-10": {
+          "sold": 1,
+          "returned": 0,
+          "gross_sale_revenue_rub": 19800.0,
+          "gross_return_revenue_rub": 0.0,
+          "revenue": 19800.0,
+          "commission": -8910.0,
+          "logistics": -167.0,
+          "services": -554.4,
+          "net": 10168.6
+        },
+        "2026-10-19": {
+          "sold": 1,
+          "returned": 0,
+          "gross_sale_revenue_rub": 19800.0,
+          "gross_return_revenue_rub": 0.0,
+          "revenue": 19800.0,
+          "commission": -8910.0,
+          "logistics": -167.0,
+          "services": -757.83,
+          "net": 9965.17
+        }
+      },
+      "reconciliation": {
+        "status": "reconciled",
+        "all_29_dates_and_pages_collected": true,
+        "exact_offer_product_and_marketplace_sku_mapping": true,
+        "aggregate_differences_rub_or_units": {
+          "sold": 0.0,
+          "returned": 0.0,
+          "revenue": 0.0,
+          "commission": 0.0,
+          "logistics": 0.0,
+          "services": 0.0,
+          "net": 0.0
+        },
+        "fees_by_type_match": true,
+        "gross_minus_returns_equals_net_revenue": true,
+        "revenue_plus_commission_logistics_services_equals_payout": true,
+        "earlier_history_match_at_currency_precision": true,
+        "earlier_daily_differences_rub_or_units": {
+          "2026-09-28": {
+            "sold": 0.0,
+            "returned": 0.0,
+            "revenue": 0.0,
+            "net": 0.0
+          },
+          "2026-09-29": {
+            "sold": 0.0,
+            "returned": 0.0,
+            "revenue": 0.0,
+            "net": 0.0
+          },
+          "2026-10-06": {
+            "sold": 0.0,
+            "returned": 0.0,
+            "revenue": 0.0,
+            "net": 0.0
+          },
+          "2026-10-07": {
+            "sold": 0.0,
+            "returned": 0.0,
+            "revenue": 0.0,
+            "net": 0.0
+          },
+          "2026-10-10": {
+            "sold": 0.0,
+            "returned": 0.0,
+            "revenue": 0.0,
+            "net": 0.0
+          },
+          "2026-10-19": {
+            "sold": 0.0,
+            "returned": 0.0,
+            "revenue": 0.0,
+            "net": 0.0
+          }
+        },
+        "earlier_history_note": "Earlier sku_daily fees=0 was an unpopulated field, not evidence of free services; only sold, returned, revenue and payout are used for this cross-check.",
+        "source_record_checks": [
+          {
+            "source_json_pointer": "/days/3/accruals/44",
+            "total_rub": 10383.47,
+            "sum_financial_components_rub": 10383.47,
+            "difference_rub": 0.0
+          },
+          {
+            "source_json_pointer": "/days/3/accruals/45",
+            "total_rub": -297.0,
+            "sum_financial_components_rub": -297.0,
+            "difference_rub": 0.0
+          },
+          {
+            "source_json_pointer": "/days/3/accruals/46",
+            "total_rub": -257.4,
+            "sum_financial_components_rub": -257.4,
+            "difference_rub": 0.0
+          },
+          {
+            "source_json_pointer": "/days/3/accruals/50",
+            "total_rub": -204.5,
+            "sum_financial_components_rub": -204.5,
+            "difference_rub": 0.0
+          },
+          {
+            "source_json_pointer": "/days/4/accruals/73",
+            "total_rub": -199.98,
+            "sum_financial_components_rub": -199.98,
+            "difference_rub": 0.0
+          },
+          {
+            "source_json_pointer": "/days/11/accruals/80",
+            "total_rub": -204.36,
+            "sum_financial_components_rub": -204.36,
+            "difference_rub": 0.0
+          },
+          {
+            "source_json_pointer": "/days/12/accruals/31",
+            "total_rub": 10372.24,
+            "sum_financial_components_rub": 10372.24,
+            "difference_rub": 0.0
+          },
+          {
+            "source_json_pointer": "/days/12/accruals/32",
+            "total_rub": -257.4,
+            "sum_financial_components_rub": -257.4,
+            "difference_rub": 0.0
+          },
+          {
+            "source_json_pointer": "/days/12/accruals/33",
+            "total_rub": -297.0,
+            "sum_financial_components_rub": -297.0,
+            "difference_rub": 0.0
+          },
+          {
+            "source_json_pointer": "/days/15/accruals/13",
+            "total_rub": 10723.0,
+            "sum_financial_components_rub": 10723.0,
+            "difference_rub": 0.0
+          },
+          {
+            "source_json_pointer": "/days/15/accruals/15",
+            "total_rub": -257.4,
+            "sum_financial_components_rub": -257.4,
+            "difference_rub": 0.0
+          },
+          {
+            "source_json_pointer": "/days/15/accruals/16",
+            "total_rub": -297.0,
+            "sum_financial_components_rub": -297.0,
+            "difference_rub": 0.0
+          },
+          {
+            "source_json_pointer": "/days/24/accruals/11",
+            "total_rub": 10723.0,
+            "sum_financial_components_rub": 10723.0,
+            "difference_rub": 0.0
+          },
+          {
+            "source_json_pointer": "/days/24/accruals/13",
+            "total_rub": -257.4,
+            "sum_financial_components_rub": -257.4,
+            "difference_rub": 0.0
+          },
+          {
+            "source_json_pointer": "/days/24/accruals/14",
+            "total_rub": -297.0,
+            "sum_financial_components_rub": -297.0,
+            "difference_rub": 0.0
+          },
+          {
+            "source_json_pointer": "/days/24/accruals/15",
+            "total_rub": -203.43,
+            "sum_financial_components_rub": -203.43,
+            "difference_rub": 0.0
+          }
+        ]
+      },
+      "service_debits_by_type_rub": {
+        "Звёздные товары": -1188.0,
+        "Подписка Управление отзывами": -1029.6,
+        "Эквайринг": -812.27
+      },
+      "service_credits_by_type_rub": {},
+      "delivery_details_by_type_rub": {
+        "Логистика": -460.0,
+        "Обработка отправления Drop-off партнёрами": -40.0,
+        "Доставка до места выдачи": -16.29,
+        "Доставка до места выдачи силами Ozon": -50.0
+      },
+      "source_financial_lines": [
+        {
+          "date": "2026-09-28",
+          "category": "POSTING",
+          "source_json_pointer": "/days/3/accruals/44/posting/products/0",
+          "marketplace_sku": "5753726628",
+          "source_quantity": 1,
+          "signed_sale_revenue_rub": 19800.0,
+          "commission_rub": -9306.0,
+          "logistics_rub": -110.53,
+          "allocated_payout_rub": 10383.47,
+          "multi_product_allocation": false,
+          "logistics_only_no_sale_value": false
+        },
+        {
+          "date": "2026-09-28",
+          "category": "ITEM",
+          "source_json_pointer": "/days/3/accruals/45/item_fees/fees/0/fees/0",
+          "marketplace_sku": "5753726628",
+          "type_id": "74",
+          "type_name": "Звёздные товары",
+          "amount_rub": -297.0,
+          "classification": "percentage_programme_service"
+        },
+        {
+          "date": "2026-09-28",
+          "category": "ITEM",
+          "source_json_pointer": "/days/3/accruals/46/item_fees/fees/0/fees/0",
+          "marketplace_sku": "5753726628",
+          "type_id": "95",
+          "type_name": "Подписка Управление отзывами",
+          "amount_rub": -257.4,
+          "classification": "percentage_programme_service"
+        },
+        {
+          "date": "2026-09-28",
+          "category": "ITEM",
+          "source_json_pointer": "/days/3/accruals/50/item_fees/fees/0/fees/0",
+          "marketplace_sku": "5753726628",
+          "type_id": "1",
+          "type_name": "Эквайринг",
+          "amount_rub": -204.5,
+          "classification": "acquiring_excluded_from_additional_services"
+        },
+        {
+          "date": "2026-09-29",
+          "category": "ITEM",
+          "source_json_pointer": "/days/4/accruals/73/item_fees/fees/0/fees/0",
+          "marketplace_sku": "5753726628",
+          "type_id": "1",
+          "type_name": "Эквайринг",
+          "amount_rub": -199.98,
+          "classification": "acquiring_excluded_from_additional_services"
+        },
+        {
+          "date": "2026-10-06",
+          "category": "ITEM",
+          "source_json_pointer": "/days/11/accruals/80/item_fees/fees/0/fees/0",
+          "marketplace_sku": "5753726628",
+          "type_id": "1",
+          "type_name": "Эквайринг",
+          "amount_rub": -204.36,
+          "classification": "acquiring_excluded_from_additional_services"
+        },
+        {
+          "date": "2026-10-07",
+          "category": "POSTING",
+          "source_json_pointer": "/days/12/accruals/31/posting/products/0",
+          "marketplace_sku": "5753726628",
+          "source_quantity": 1,
+          "signed_sale_revenue_rub": 19800.0,
+          "commission_rub": -9306.0,
+          "logistics_rub": -121.76,
+          "allocated_payout_rub": 10372.24,
+          "multi_product_allocation": false,
+          "logistics_only_no_sale_value": false
+        },
+        {
+          "date": "2026-10-07",
+          "category": "ITEM",
+          "source_json_pointer": "/days/12/accruals/32/item_fees/fees/0/fees/0",
+          "marketplace_sku": "5753726628",
+          "type_id": "95",
+          "type_name": "Подписка Управление отзывами",
+          "amount_rub": -257.4,
+          "classification": "percentage_programme_service"
+        },
+        {
+          "date": "2026-10-07",
+          "category": "ITEM",
+          "source_json_pointer": "/days/12/accruals/33/item_fees/fees/0/fees/0",
+          "marketplace_sku": "5753726628",
+          "type_id": "74",
+          "type_name": "Звёздные товары",
+          "amount_rub": -297.0,
+          "classification": "percentage_programme_service"
+        },
+        {
+          "date": "2026-10-10",
+          "category": "POSTING",
+          "source_json_pointer": "/days/15/accruals/13/posting/products/0",
+          "marketplace_sku": "5753726628",
+          "source_quantity": 1,
+          "signed_sale_revenue_rub": 19800.0,
+          "commission_rub": -8910.0,
+          "logistics_rub": -167.0,
+          "allocated_payout_rub": 10723.0,
+          "multi_product_allocation": false,
+          "logistics_only_no_sale_value": false
+        },
+        {
+          "date": "2026-10-10",
+          "category": "ITEM",
+          "source_json_pointer": "/days/15/accruals/15/item_fees/fees/0/fees/0",
+          "marketplace_sku": "5753726628",
+          "type_id": "95",
+          "type_name": "Подписка Управление отзывами",
+          "amount_rub": -257.4,
+          "classification": "percentage_programme_service"
+        },
+        {
+          "date": "2026-10-10",
+          "category": "ITEM",
+          "source_json_pointer": "/days/15/accruals/16/item_fees/fees/0/fees/0",
+          "marketplace_sku": "5753726628",
+          "type_id": "74",
+          "type_name": "Звёздные товары",
+          "amount_rub": -297.0,
+          "classification": "percentage_programme_service"
+        },
+        {
+          "date": "2026-10-19",
+          "category": "POSTING",
+          "source_json_pointer": "/days/24/accruals/11/posting/products/0",
+          "marketplace_sku": "5753726628",
+          "source_quantity": 1,
+          "signed_sale_revenue_rub": 19800.0,
+          "commission_rub": -8910.0,
+          "logistics_rub": -167.0,
+          "allocated_payout_rub": 10723.0,
+          "multi_product_allocation": false,
+          "logistics_only_no_sale_value": false
+        },
+        {
+          "date": "2026-10-19",
+          "category": "ITEM",
+          "source_json_pointer": "/days/24/accruals/13/item_fees/fees/0/fees/0",
+          "marketplace_sku": "5753726628",
+          "type_id": "95",
+          "type_name": "Подписка Управление отзывами",
+          "amount_rub": -257.4,
+          "classification": "percentage_programme_service"
+        },
+        {
+          "date": "2026-10-19",
+          "category": "ITEM",
+          "source_json_pointer": "/days/24/accruals/14/item_fees/fees/0/fees/0",
+          "marketplace_sku": "5753726628",
+          "type_id": "74",
+          "type_name": "Звёздные товары",
+          "amount_rub": -297.0,
+          "classification": "percentage_programme_service"
+        },
+        {
+          "date": "2026-10-19",
+          "category": "ITEM",
+          "source_json_pointer": "/days/24/accruals/15/item_fees/fees/0/fees/0",
+          "marketplace_sku": "5753726628",
+          "type_id": "1",
+          "type_name": "Эквайринг",
+          "amount_rub": -203.43,
+          "classification": "acquiring_excluded_from_additional_services"
+        }
+      ],
+      "assumptions": [
+        "Selected observed exact-SKU programme rates are assumed to continue at the approved seller price; current programme settings and future terms are not verified by this history.",
+        "No other exact-SKU ITEM service type occurs in the complete historical window; zero fixed allocation is limited to this observed residual, not a claim that all present or future costs are zero.",
+        "Acquiring is excluded from the additional programme percentage because the fresh catalogue already deducts its own acquiring tariff.",
+        "Sales commission and all delivery/return-logistics lines stay in their separate components; no duplication in additional service rates.",
+        "No non-item fees, seller packaging, overheads, warranty or unverified landed procurement are allocated or assumed absent.",
+        "Promotion compatibility, extra discounts, freshness, available stock and all execution safeguards require their existing independent checks."
+      ],
+      "future_service_terms_verified": false,
+      "fully_landed_profit_verified": false
+    }
+  },
+  "interpretation": "Historical exact-SKU fee models only; future programme terms assumed unchanged. No acquiring duplication."
+}

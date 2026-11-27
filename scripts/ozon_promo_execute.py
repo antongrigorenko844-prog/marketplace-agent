@@ -753,6 +753,13 @@ class Executor:
         return observed, False
 
     def run_item(self, item, *, execute=False):
+        if self.plan.get("decision_id") == "ozon-promo-96-20261127":
+            from ozon_control_guard import superseding_decision
+            newer = superseding_decision(self.plan["decision_id"], item["sku"])
+            if newer is not None:
+                return {"sku": item["sku"], "product_id": item["product_id"],
+                        "status": "SUPERSEDED_BY_OWNER_DECISION", "superseded_by": newer,
+                        "full_profit_verified": False}
         sku = item["sku"]
         approved_observation = observation_from_snapshot(self.bundle, item)
         current = self.reader.observe(item) if execute else approved_observation

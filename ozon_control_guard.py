@@ -20,7 +20,12 @@ from pathlib import Path
 import re
 from typing import Any
 
-PLAN_PATH = Path(__file__).resolve().parent / "data/ozon_promo_execution_20261127/approved_plan.json"
+_DEFAULT_PLAN_PATH = Path(__file__).resolve().parent / "data/ozon_promo_execution_20261127/approved_plan.json"
+_DEFAULT_BF4_PATH = Path(__file__).resolve().parent / "data/ozon_black_friday_pilot_20261127/approved_plan.json"
+PLAN_PATH = _DEFAULT_PLAN_PATH
+BF4_PATH = _DEFAULT_BF4_PATH
+LEGACY_DECISION_ID = "ozon-promo-96-20261127"
+BF4_DECISION_ID = "ozon-bf4-20261127"
 EXPECTED_MANAGED_COUNT = 96
 logger = logging.getLogger("marketplace-agent.ozon.control")
 
@@ -123,8 +128,12 @@ def _kind(path: str) -> str | None:
 
 def _items(plan: dict) -> dict[str, dict]:
     rows = plan.get("items")
-    if not isinstance(rows, list) or len(rows) != EXPECTED_MANAGED_COUNT:
-        _fail("approved_scope_must_contain_96_items")
+    decision = plan.get("decision_id")
+    if decision not in {LEGACY_DECISION_ID, BF4_DECISION_ID}:
+        _fail("unregistered_approval_decision")
+    count = 4 if decision == BF4_DECISION_ID else EXPECTED_MANAGED_COUNT
+    if not isinstance(rows, list) or len(rows) != count:
+        _fail("approved_scope_must_contain_" + str(count) + "_items")
     result, pids = {}, set()
     for row in rows:
         if not isinstance(row, dict):
@@ -163,7 +172,10 @@ def _validate_active(plan: dict):
     # The owner-approved financial/selection manifest has its own canonical
     # validator; no second pricing policy is invented inside the transport.
     try:
-        from ozon_promo_batch import validate_approved_plan
+        if plan["decision_id"] == BF4_DECISION_ID:
+            from ozon_black_friday_pilot import validate_approved_plan
+        else:
+            from ozon_promo_batch import validate_approved_plan
         validate_approved_plan(plan)
     except ImportError:
         _fail("approval_validator_unavailable")
@@ -173,9 +185,22 @@ def _validate_active(plan: dict):
         _fail("approved_manifest_validation_failed")
 
 
-def _load_active_plan() -> dict | None:
+def _registered_path(decision_id: str) -> Path:
+    if decision_id == LEGACY_DECISION_ID:
+        return PLAN_PATH
+    if decision_id == BF4_DECISION_ID:
+        # An explicitly redirected control store must never accidentally read
+        # the production pilot. Tests and isolated tools may redirect BF4_PATH
+        # explicitly; otherwise the optional decision stays in that same store.
+        if PLAN_PATH != _DEFAULT_PLAN_PATH and BF4_PATH == _DEFAULT_BF4_PATH:
+            return PLAN_PATH.parent / "ozon_black_friday_pilot_20261127/approved_plan.json"
+        return BF4_PATH
+    _fail("unregistered_approval_decision")
+
+
+def _load_active_plan(decision_id: str = LEGACY_DECISION_ID) -> dict | None:
     try:
-        raw = PLAN_PATH.read_text(encoding="utf-8-sig")
+        raw = _registered_path(decision_id).read_text(encoding="utf-8-sig")
     except FileNotFoundError:
         return None
     except OSError:
@@ -194,8 +219,47 @@ def _load_active_plan() -> dict | None:
         return None
     if "enabled" not in plan and not plan.get("items"):
         return None
+    if plan.get("decision_id") != decision_id:
+        _fail("registered_plan_decision_mismatch")
     _validate_active(plan)
     return plan
+
+
+def superseding_decision(decision_id: str, sku: str) -> str | None:
+    """Return the enabled later owner decision, independent of campaign expiry.
+
+    The executor can skip these legacy items before creating journal entries.
+    The same check is repeated at permit creation and at the transport boundary.
+    """
+    if decision_id != LEGACY_DECISION_ID:
+        return None
+    from ozon_black_friday_pilot import FIXED_SCOPE
+    if sku not in FIXED_SCOPE:
+        return None
+    return BF4_DECISION_ID if _load_active_plan(BF4_DECISION_ID) is not None else None
+
+
+def _require_pilot_overlap(legacy: dict | None, pilot: dict):
+    if legacy is None:
+        _fail("pilot_requires_enabled_legacy_control")
+    old_items, new_items = _items(legacy), _items(pilot)
+    for sku, item in new_items.items():
+        if sku not in old_items or _pid(old_items[sku]["product_id"]) != _pid(item["product_id"]):
+            _fail("pilot_identity_not_in_frozen_legacy_scope")
+
+
+def _legacy_indices_with_runtime_overlay(legacy: dict, pilot: dict | None):
+    by_sku, by_pid = _indices(legacy)
+    if pilot is not None:
+        _require_pilot_overlap(legacy, pilot)
+        for sku, item in _items(pilot).items():
+            copied = deepcopy(by_sku[sku])
+            state = item.get("last_verified") or item.get("initial_verified")
+            copied["last_verified"] = deepcopy(state) if isinstance(state, dict) else {
+                "decision_id": BF4_DECISION_ID, "verified": False,
+            }
+            by_sku[sku] = copied
+    return by_sku, by_pid
 
 
 def _indices(plan: dict):
@@ -354,7 +418,7 @@ def _new_permit(decision_id: str, sku: str, *, plan: dict | None,
                 request_id: str | None = None) -> _Permit:
     if _CURRENT_PERMIT.get() is not None:
         _fail("nested_permit_not_allowed")
-    persisted = _load_active_plan()
+    persisted = _load_active_plan(decision_id)
     if persisted is None:
         _fail("approved_request_requires_enabled_persisted_plan")
     runtime = deepcopy(plan if plan is not None else persisted)
@@ -367,6 +431,10 @@ def _new_permit(decision_id: str, sku: str, *, plan: dict | None,
     sku = _sku(sku)
     if sku not in _items(runtime):
         _fail("permit_sku_outside_approved_scope")
+    if superseding_decision(decision_id, sku) is not None:
+        _fail("approved_item_superseded_by_later_owner_decision")
+    if decision_id == BF4_DECISION_ID:
+        _require_pilot_overlap(_load_active_plan(), persisted)
     aid = _pid(action_id) if action_id is not None else None
     records = _request_records(runtime, sku)
     if request_id is not None:
@@ -509,7 +577,12 @@ def prepare_request(path: str, payload: dict, *, read_prices=None) -> RequestDec
     if kind is None:
         return RequestDecision(payload)
     permit = _CURRENT_PERMIT.get()
-    plan = _load_active_plan()
+    plan = _load_active_plan(permit.decision_id if permit is not None else LEGACY_DECISION_ID)
+    pilot = None
+    if permit is None:
+        pilot = _load_active_plan(BF4_DECISION_ID)
+        if pilot is not None:
+            _require_pilot_overlap(plan, pilot)
     if plan is None:
         if permit is not None:
             _fail("persisted_approval_removed_during_permit")
@@ -521,10 +594,14 @@ def prepare_request(path: str, payload: dict, *, read_prices=None) -> RequestDec
             _fail("approved_request_permit_already_consumed")
         if plan["decision_id"] != permit.decision_id or _approval_digest(plan) != permit.approval_core_sha256:
             _fail("persisted_approval_changed_during_permit")
+        if superseding_decision(permit.decision_id, permit.sku) is not None:
+            _fail("approved_item_superseded_by_later_owner_decision")
+        if permit.decision_id == BF4_DECISION_ID:
+            _require_pilot_overlap(_load_active_plan(), plan)
         _validate_permitted_payload(permit, path, payload)
         permit.consumed = True
         return RequestDecision(deepcopy(payload), kind, permitted=True)
-    by_sku, by_pid = _indices(plan)
+    by_sku, by_pid = _legacy_indices_with_runtime_overlay(plan, pilot)
     key, rows, scalar = _list_payload(kind, payload)
     kept, skipped, seen, parsed = [], [], set(), []
     for value in rows:

@@ -52,6 +52,7 @@ jobs:
         run: |
           python -m py_compile main.py ozon_client.py ozon_control_guard.py ozon_promo_batch.py scripts/ozon_promo_execute.py
           python -m unittest discover -s tests -p 'test_ozon_control_guard.py' -v
+          python -m unittest discover -s tests -p 'test_ozon_black_friday_pilot.py' -v
           python -m unittest discover -s tests -p 'test_ozon_promo_*.py' -v
           python -m unittest discover -s tests -p 'test_ozon_sync_guard_reporting.py' -v
           python -m unittest discover -s tests -p 'test_ozon_profit_economics.py' -v
@@ -80,13 +81,16 @@ jobs:
       - run: pip install -q -r requirements.txt
       - name: Confirm latest checkout retains the tested code and approved scope
         run: |
-          git diff --exit-code "$GITHUB_SHA" HEAD -- main.py ozon_client.py ozon_control_guard.py ozon_promo_batch.py ozon_profit_economics.py ozon_profit_catalog.py scripts/ozon_promo_execute.py scripts/ozon_profit_snapshot.py data/ozon_promo_execution_20261127/official_contract.json data/ozon_promo_execution_20261127/service_evidence.json
+          git diff --exit-code "$GITHUB_SHA" HEAD -- main.py ozon_client.py ozon_control_guard.py ozon_promo_batch.py ozon_black_friday_pilot.py ozon_profit_economics.py ozon_profit_catalog.py scripts/ozon_promo_execute.py scripts/ozon_profit_snapshot.py data/ozon_promo_execution_20261127/official_contract.json data/ozon_promo_execution_20261127/service_evidence.json
           python - <<'PY'
           import json, os, subprocess
           from ozon_promo_batch import load_approved_plan
           tested = json.loads(subprocess.check_output(['git', 'show', os.environ['GITHUB_SHA'] + ':data/ozon_promo_execution_20261127/approved_plan.json']))
           current = load_approved_plan()
           assert current['scope_sha256'] == tested['scope_sha256'], 'Approval scope changed after tests'
+          from ozon_black_friday_pilot import load_approved_plan as load_pilot
+          pilot_tested = json.loads(subprocess.check_output(['git', 'show', os.environ['GITHUB_SHA'] + ':data/ozon_black_friday_pilot_20261127/approved_plan.json']))
+          assert load_pilot()['scope_sha256'] == pilot_tested['scope_sha256'], 'Later owner decision changed after tests'
           print('Tested code and exact approval retained; latest runtime journal available.')
           PY
       - name: Limit execution to this approved campaign window

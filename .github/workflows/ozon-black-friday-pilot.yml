@@ -1,0 +1,183 @@
+name: Ozon Black Friday — four explicitly approved products
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ozon_black_friday_pilot.py'
+      - 'scripts/ozon_black_friday_execute.py'
+      - 'tests/test_ozon_black_friday_pilot.py'
+      - 'data/ozon_black_friday_pilot_20261127/approved_plan.json'
+      - 'data/ozon_black_friday_pilot_20261127/service_evidence.json'
+      - '.github/workflows/ozon-black-friday-pilot.yml'
+  pull_request:
+    paths:
+      - 'ozon_black_friday_pilot.py'
+      - 'ozon_control_guard.py'
+      - 'scripts/ozon_black_friday_execute.py'
+      - 'scripts/ozon_promo_execute.py'
+      - 'tests/test_ozon_black_friday_pilot.py'
+      - 'data/ozon_black_friday_pilot_20261127/approved_plan.json'
+      - 'data/ozon_black_friday_pilot_20261127/service_evidence.json'
+      - '.github/workflows/ozon-black-friday-pilot.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Verify exact approvals, transport permits and reconciliation
+        run: |
+          python -m py_compile ozon_black_friday_pilot.py ozon_control_guard.py scripts/ozon_black_friday_execute.py scripts/ozon_promo_execute.py
+          python -m unittest discover -s tests -p 'test_ozon_black_friday_pilot.py' -v
+          python -m unittest discover -s tests -p 'test_ozon_control_guard.py' -v
+          python -m unittest discover -s tests -p 'test_ozon_promo_*.py' -v
+          python -m unittest discover -s tests -p 'test_ozon_sync_guard_reporting.py' -v
+      - name: Validate both persisted decisions
+        run: |
+          python - <<'PY'
+          from ozon_promo_batch import load_approved_plan as original
+          from ozon_black_friday_pilot import load_approved_plan as pilot
+          from scripts.ozon_black_friday_execute import verify_previous_scope
+          a, b = original(), pilot()
+          assert len(a['items']) == 96 and len(b['items']) == 4
+          verify_previous_scope(b)
+          print('Both exact owner decisions validated; old unresolved operations remain independent.')
+          PY
+  apply:
+    needs: tests
+    if: github.event_name != 'pull_request' && github.ref_name == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    concurrency:
+      group: marketplace-agent
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Confirm latest checkout retains the tested code and exact approval
+        run: |
+          git diff --exit-code "$GITHUB_SHA" HEAD -- ozon_black_friday_pilot.py ozon_control_guard.py ozon_promo_batch.py ozon_client.py ozon_profit_economics.py ozon_profit_catalog.py scripts/ozon_black_friday_execute.py scripts/ozon_promo_execute.py scripts/ozon_profit_snapshot.py data/ozon_promo_execution_20261127/official_contract.json data/ozon_black_friday_pilot_20261127/service_evidence.json
+          python - <<'PY'
+          import json, os, subprocess
+          from ozon_black_friday_pilot import load_approved_plan
+          tested = json.loads(subprocess.check_output(['git', 'show', os.environ['GITHUB_SHA'] + ':data/ozon_black_friday_pilot_20261127/approved_plan.json']))
+          current = load_approved_plan()
+          assert current['scope_sha256'] == tested['scope_sha256'], 'Approved four-product scope changed after tests'
+          assert current['enabled'] is True
+          print('Tested code and exact four-product approval retained.')
+          PY
+      - name: Restrict execution to the Black Friday campaign window
+        id: window
+        run: |
+          python - <<'PY'
+          import os
+          from datetime import datetime, timezone
+          now = datetime.now(timezone.utc)
+          active = datetime(2026, 11, 26, 23, tzinfo=timezone.utc) <= now <= datetime(2026, 12, 2, 20, 59, 59, tzinfo=timezone.utc)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              print('active=' + str(active).lower(), file=output)
+          print('Black Friday campaign window active:', active)
+          PY
+      - name: Prepare isolated evidence directory
+        if: steps.window.outputs.active == 'true'
+        run: |
+          pilot_run="$RUNNER_TEMP/ozon-black-friday-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          test ! -e "$pilot_run"
+          mkdir -p "$pilot_run"
+          echo "OZON_BF4_RUN=$pilot_run" >> "$GITHUB_ENV"
+      - name: Collect current prices, stock, action caps and financial inputs
+        if: steps.window.outputs.active == 'true'
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          status=0
+          python -u scripts/ozon_profit_snapshot.py --output "$OZON_BF4_RUN/live" || status=$?
+          case "$status" in
+            0|2) ;;
+            *) exit "$status" ;;
+          esac
+          python ozon_profit_catalog.py --baseline data/price_recovery_20261127 --live-source "$OZON_BF4_RUN/live" --finance-support data/ozon_profit_first_20261127/finance_support.json --output "$OZON_BF4_RUN/catalogue"
+      - name: Execute only the four approved Black Friday targets
+        if: steps.window.outputs.active == 'true'
+        env:
+          OZON_CLIENT_ID: ${{ secrets.OZON_CLIENT_ID }}
+          OZON_API_KEY: ${{ secrets.OZON_API_KEY }}
+        run: |
+          status=0
+          python -u scripts/ozon_black_friday_execute.py --snapshot "$OZON_BF4_RUN/live" --catalogue "$OZON_BF4_RUN/catalogue/catalogue.json" --execute || status=$?
+          case "$status" in
+            0|2) ;;
+            *) exit "$status" ;;
+          esac
+          cp data/ozon_black_friday_pilot_20261127/execution_report.json "$OZON_BF4_RUN/result.json"
+      - name: Freeze durable operation evidence before any repository merge
+        if: always() && steps.window.outputs.active == 'true'
+        run: |
+          if [ -n "${OZON_BF4_RUN:-}" ]; then
+            mkdir -p "$OZON_BF4_RUN/durable_state"
+            for file in approved_plan.json execution_journal.json execution_report.json; do
+              path="data/ozon_black_friday_pilot_20261127/$file"
+              if [ -f "$path" ]; then cp "$path" "$OZON_BF4_RUN/durable_state/$file"; fi
+            done
+          fi
+      - name: Persist independent pilot journal and actual readbacks
+        if: always() && steps.window.outputs.active == 'true'
+        run: |
+          mkdir -p data/ozon_black_friday_pilot_20261127/runs
+          saved_paths=(data/ozon_black_friday_pilot_20261127/approved_plan.json)
+          for file in execution_journal.json execution_report.json; do
+            path="data/ozon_black_friday_pilot_20261127/$file"
+            if [ -f "$path" ]; then saved_paths+=("$path"); fi
+          done
+          if [ -f data/ozon_black_friday_pilot_20261127/execution_report.json ]; then
+            result="data/ozon_black_friday_pilot_20261127/runs/${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.json"
+            cp data/ozon_black_friday_pilot_20261127/execution_report.json "$result"
+            saved_paths+=("$result")
+          fi
+          bash .github/scripts/save_data.sh "${saved_paths[@]}"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          frozen = Path(os.environ['OZON_BF4_RUN']) / 'durable_state' / 'execution_journal.json'
+          if frozen.is_file():
+              before = json.loads(frozen.read_text())
+              after = json.loads(Path('data/ozon_black_friday_pilot_20261127/execution_journal.json').read_text())
+              assert before['approved_core_sha256'] == after['approved_core_sha256'], 'Saved journal approval changed'
+              saved = {x['operation_id']: x for x in after['operations']}
+              for operation in before['operations']:
+                  assert saved.get(operation['operation_id']) == operation, 'Durable operation evidence was not retained; reconcile frozen artifact before any retry'
+              print('Every durable pilot operation retained after repository persistence.')
+          PY
+      - name: Preserve complete evidence
+        if: always() && steps.window.outputs.active == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ozon-black-friday-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/ozon-black-friday-${{ github.run_id }}-${{ github.run_attempt }}/
+            data/ozon_black_friday_pilot_20261127/approved_plan.json
+            data/ozon_black_friday_pilot_20261127/execution_journal.json
+            data/ozon_black_friday_pilot_20261127/execution_report.json
+          retention-days: 30

@@ -1,0 +1,565 @@
+{
+  "schema_version": 1,
+  "decision_id": "ozon-bf4-20261127",
+  "approved": true,
+  "enabled": true,
+  "approvalReference": "Owner explicitly accepted the four recommended Black Friday products on 2026-11-27: «0am325025G ... porshni-usil-pylniki-kryshki-v2 ... 0AM325025B ... 6t30 — согласен делаем». The immediately preceding recommendation specifies exact targets 3195, 3195, 7760 and 16475 RUB.",
+  "approval_scope": "Only these four exact SKU/product IDs, price=min_price at their listed absolute targets, and action 4532787. Preserve old_price/currency/auto flags and active minimum-price protection. Separate decision supersedes old targets only for these four; no new authority for other products, lower prices or additional actions.",
+  "source": {
+    "created_at": "2026-11-27T05:08:07.798781+00:00",
+    "superseded_96_scope_sha256": "69534872e209b814efe3de0d8c0008555f38d74ba86de286afd1b68743e0db80",
+    "base_commit": "05b381704088011ddd8d7586e7967708905b5703",
+    "seed_sha256": "d668c81f015354297b7aa7740ae0049190cdd50bcce3ff48189eba1b9e0257a7",
+    "catalogue_sha256": "3b674f6e30a16289cff6283618f4f7f0393dcbcce0d173335018999ccdb6eee7",
+    "last_known_snapshot_at": "2026-11-27T03:33:26.875421+00:00",
+    "fresh_preflight_required": true,
+    "action_id": 4532787,
+    "action_title": "Супербустинг Чёрная пятница"
+  },
+  "items": [
+    {
+      "decision_id": "ozon-bf4-20261127",
+      "sku": "0am325025G",
+      "product_id": 1790610716,
+      "title": "Ремкомплект 2 штоков мехатроника DSG7 DQ200: пыльники, сальники, крышки",
+      "strategy_code": "C",
+      "before_price": 3724,
+      "target_price": 3195,
+      "price_before_rub": 3724,
+      "target_price_rub": 3195,
+      "experiment_floor_rub": 3195,
+      "financial_break_even_claim": false,
+      "allowed_action_ids": [
+        4532787
+      ],
+      "approved_actions": [
+        {
+          "action_id": 4532787,
+          "title": "Супербустинг Чёрная пятница",
+          "group": "candidates",
+          "lifecycle": "active",
+          "date_start": "2026-11-26T23:00:00Z",
+          "date_end": "2026-12-02T20:59:59Z",
+          "cap_rub": 3195.0,
+          "observed_action_price": 0.0,
+          "current_boost": 0.0
+        }
+      ],
+      "existing_actions": [
+        {
+          "action_id": 4470585,
+          "title": "Лайт бустинг 11.11 и Чёрная пятница",
+          "action_type": "STOCK_DISCOUNT",
+          "lifecycle": "active",
+          "date_start": "2026-11-11T21:00:00Z",
+          "date_end": "2026-12-02T20:59:59Z",
+          "cap_rub": 3724.0,
+          "observed_action_price": 3724.0,
+          "current_boost": 0.0
+        }
+      ],
+      "supersedes": {
+        "decision_id": "ozon-promo-96-20261127",
+        "scope_sha256": "69534872e209b814efe3de0d8c0008555f38d74ba86de286afd1b68743e0db80",
+        "sku": "0am325025G",
+        "previous_target_price_rub": 3724
+      },
+      "initial_verified": {
+        "decision_id": "ozon-bf4-20261127",
+        "observed_at": "2026-11-27T03:33:26.875421+00:00",
+        "source": "Last-known reference only; fresh core snapshot and direct readback required before writing",
+        "product_id": 1790610716,
+        "fields": {
+          "price": 3724,
+          "min_price": 3724.0,
+          "old_price": 6000.0,
+          "currency_code": "RUB",
+          "auto_action_enabled": false,
+          "auto_add_to_ozon_actions_list_enabled": false,
+          "min_price_for_auto_actions_enabled": true
+        }
+      },
+      "last_verified": null,
+      "requests": [],
+      "constraints": {
+        "exact_price_and_min_only": true,
+        "new_lower_cap_requires_new_approval": true,
+        "new_action_id_requires_new_approval": true,
+        "individual_pilot_risk_approved": true,
+        "fresh_live_read_required": true,
+        "no_automatic_old_price_restoration": true,
+        "full_profit_verified": false
+      },
+      "baseline_7d_export": {
+        "source_key": "upload",
+        "source_row": 31,
+        "orders_including_returns_cancellations": null,
+        "orders_change_ratio": null,
+        "impressions": null,
+        "impressions_change_ratio": null,
+        "window": "Last7days as reported by downloaded workbook; exact export timestamp is not established",
+        "source_pointer": "Товары и цены!Q31:T31",
+        "not_net_buyouts": true
+      },
+      "baseline_30d_finance": {
+        "from": "2026-10-28",
+        "to": "2026-11-26",
+        "row_present": true,
+        "values": {
+          "sold": 5,
+          "returned": 0,
+          "revenue": 19308.0,
+          "commission": -9074.76,
+          "logistics": -655.98,
+          "services": -661.47,
+          "net": 8915.79
+        },
+        "fees_by_type": {
+          "Звёздные товары": -289.63,
+          "Подписка Управление отзывами": -251.01,
+          "Эквайринг": -120.83
+        },
+        "source_pointer": "/items/0am325025G",
+        "unknown_if_absent": true,
+        "interpretation": "Seller financial accruals, not an order count; keep sold and returns separate"
+      },
+      "source_reference": {
+        "catalogue": "/rows/29",
+        "prices": "/29",
+        "product_info": "/5",
+        "finance_item": "/items/0am325025G"
+      },
+      "approved_economics": {
+        "schema_version": 1,
+        "procurement_rub": 200.0,
+        "tax_rate_scenario": 0.06,
+        "percentage_services_rate_pct": 2.800083,
+        "fixed_services_rub": 0.0,
+        "service_basis": "observed_exact_sku_services",
+        "by_scheme": {
+          "fbs": {
+            "commission_rate_pct": 47.0,
+            "acquiring_rate_pct": 1.0,
+            "logistics_snapshot_max_rub": 237.0,
+            "baseline_partial_contribution_rub": 1171.76,
+            "target_partial_contribution_rub": 943.24
+          }
+        },
+        "baseline_partial_contribution_rub": 1171.76,
+        "target_partial_contribution_rub": 943.24,
+        "required_unit_growth_pct": 24.2271,
+        "metric_kind": "partial_contribution_not_net_profit",
+        "full_profit_verified": false
+      }
+    },
+    {
+      "decision_id": "ozon-bf4-20261127",
+      "sku": "porshni-usil-pylniki-kryshki-v2",
+      "product_id": 6291485580,
+      "title": "Ремкомплект штоков DQ200 DSG7: 2 усиленных поршня + 2 пыльника + 2 крышки",
+      "strategy_code": "C",
+      "before_price": 3715,
+      "target_price": 3195,
+      "price_before_rub": 3715,
+      "target_price_rub": 3195,
+      "experiment_floor_rub": 3195,
+      "financial_break_even_claim": false,
+      "allowed_action_ids": [
+        4532787
+      ],
+      "approved_actions": [
+        {
+          "action_id": 4532787,
+          "title": "Супербустинг Чёрная пятница",
+          "group": "candidates",
+          "lifecycle": "active",
+          "date_start": "2026-11-26T23:00:00Z",
+          "date_end": "2026-12-02T20:59:59Z",
+          "cap_rub": 3195.0,
+          "observed_action_price": 0.0,
+          "current_boost": 0.0
+        }
+      ],
+      "existing_actions": [
+        {
+          "action_id": 1977747,
+          "title": "Эластичный бустинг. Без ограничения срока действия",
+          "action_type": "ELASTIC_BOOSTING",
+          "lifecycle": "active",
+          "date_start": "2025-03-19T21:00:44Z",
+          "date_end": "2026-12-31T20:59:59Z",
+          "cap_rub": 3715.0,
+          "observed_action_price": 3715.0,
+          "current_boost": 15.0
+        }
+      ],
+      "supersedes": {
+        "decision_id": "ozon-promo-96-20261127",
+        "scope_sha256": "69534872e209b814efe3de0d8c0008555f38d74ba86de286afd1b68743e0db80",
+        "sku": "porshni-usil-pylniki-kryshki-v2",
+        "previous_target_price_rub": 3715
+      },
+      "initial_verified": {
+        "decision_id": "ozon-bf4-20261127",
+        "observed_at": "2026-11-27T03:33:26.875421+00:00",
+        "source": "Last-known reference only; fresh core snapshot and direct readback required before writing",
+        "product_id": 6291485580,
+        "fields": {
+          "price": 3715,
+          "min_price": 3715.0,
+          "old_price": 6500.0,
+          "currency_code": "RUB",
+          "auto_action_enabled": false,
+          "auto_add_to_ozon_actions_list_enabled": false,
+          "min_price_for_auto_actions_enabled": true
+        }
+      },
+      "last_verified": null,
+      "requests": [],
+      "constraints": {
+        "exact_price_and_min_only": true,
+        "new_lower_cap_requires_new_approval": true,
+        "new_action_id_requires_new_approval": true,
+        "individual_pilot_risk_approved": true,
+        "fresh_live_read_required": true,
+        "no_automatic_old_price_restoration": true,
+        "full_profit_verified": false
+      },
+      "baseline_7d_export": {
+        "source_key": "upload",
+        "source_row": 74,
+        "orders_including_returns_cancellations": 1.0,
+        "orders_change_ratio": -0.5,
+        "impressions": 493.0,
+        "impressions_change_ratio": -0.1471,
+        "window": "Last7days as reported by downloaded workbook; exact export timestamp is not established",
+        "source_pointer": "Товары и цены!Q74:T74",
+        "not_net_buyouts": true
+      },
+      "baseline_30d_finance": {
+        "from": "2026-10-28",
+        "to": "2026-11-26",
+        "row_present": true,
+        "values": {
+          "sold": 4,
+          "returned": 0,
+          "revenue": 15400.0,
+          "commission": -7161.0,
+          "logistics": -601.88,
+          "services": -617.89,
+          "net": 7019.23
+        },
+        "fees_by_type": {
+          "Эквайринг": -186.69,
+          "Звёздные товары": -231.0,
+          "Подписка Управление отзывами": -200.2
+        },
+        "source_pointer": "/items/porshni-usil-pylniki-kryshki-v2",
+        "unknown_if_absent": true,
+        "interpretation": "Seller financial accruals, not an order count; keep sold and returns separate"
+      },
+      "source_reference": {
+        "catalogue": "/rows/99",
+        "prices": "/99",
+        "product_info": "/80",
+        "finance_item": "/items/porshni-usil-pylniki-kryshki-v2"
+      },
+      "approved_economics": {
+        "schema_version": 1,
+        "procurement_rub": 400.0,
+        "tax_rate_scenario": 0.06,
+        "percentage_services_rate_pct": 2.8,
+        "fixed_services_rub": 0.0,
+        "service_basis": "observed_exact_sku_services",
+        "by_scheme": {
+          "fbs": {
+            "commission_rate_pct": 47.0,
+            "acquiring_rate_pct": 1.0,
+            "logistics_snapshot_max_rub": 237.0,
+            "baseline_partial_contribution_rub": 967.88,
+            "target_partial_contribution_rub": 743.24
+          },
+          "fbo": {
+            "commission_rate_pct": 47.0,
+            "acquiring_rate_pct": 1.0,
+            "logistics_snapshot_max_rub": 227.0,
+            "baseline_partial_contribution_rub": 977.88,
+            "target_partial_contribution_rub": 753.24
+          }
+        },
+        "baseline_partial_contribution_rub": 967.88,
+        "target_partial_contribution_rub": 743.24,
+        "required_unit_growth_pct": 30.2244,
+        "metric_kind": "partial_contribution_not_net_profit",
+        "full_profit_verified": false
+      }
+    },
+    {
+      "decision_id": "ozon-bf4-20261127",
+      "sku": "0AM325025B",
+      "product_id": 1504143993,
+      "title": "Соленоид регулятор давления DSG7 DQ200",
+      "strategy_code": "C",
+      "before_price": 9022,
+      "target_price": 7760,
+      "price_before_rub": 9022,
+      "target_price_rub": 7760,
+      "experiment_floor_rub": 7760,
+      "financial_break_even_claim": false,
+      "allowed_action_ids": [
+        4532787
+      ],
+      "approved_actions": [
+        {
+          "action_id": 4532787,
+          "title": "Супербустинг Чёрная пятница",
+          "group": "candidates",
+          "lifecycle": "active",
+          "date_start": "2026-11-26T23:00:00Z",
+          "date_end": "2026-12-02T20:59:59Z",
+          "cap_rub": 7760.0,
+          "observed_action_price": 0.0,
+          "current_boost": 0.0
+        }
+      ],
+      "existing_actions": [
+        {
+          "action_id": 1977747,
+          "title": "Эластичный бустинг. Без ограничения срока действия",
+          "action_type": "ELASTIC_BOOSTING",
+          "lifecycle": "active",
+          "date_start": "2025-03-19T21:00:44Z",
+          "date_end": "2026-12-31T20:59:59Z",
+          "cap_rub": 9022.0,
+          "observed_action_price": 9022.0,
+          "current_boost": 15.0
+        }
+      ],
+      "supersedes": {
+        "decision_id": "ozon-promo-96-20261127",
+        "scope_sha256": "69534872e209b814efe3de0d8c0008555f38d74ba86de286afd1b68743e0db80",
+        "sku": "0AM325025B",
+        "previous_target_price_rub": 9022
+      },
+      "initial_verified": {
+        "decision_id": "ozon-bf4-20261127",
+        "observed_at": "2026-11-27T03:33:26.875421+00:00",
+        "source": "Last-known reference only; fresh core snapshot and direct readback required before writing",
+        "product_id": 1504143993,
+        "fields": {
+          "price": 9022,
+          "min_price": 9022.0,
+          "old_price": 12000.0,
+          "currency_code": "RUB",
+          "auto_action_enabled": false,
+          "auto_add_to_ozon_actions_list_enabled": false,
+          "min_price_for_auto_actions_enabled": true
+        }
+      },
+      "last_verified": null,
+      "requests": [],
+      "constraints": {
+        "exact_price_and_min_only": true,
+        "new_lower_cap_requires_new_approval": true,
+        "new_action_id_requires_new_approval": true,
+        "individual_pilot_risk_approved": true,
+        "fresh_live_read_required": true,
+        "no_automatic_old_price_restoration": true,
+        "full_profit_verified": false
+      },
+      "baseline_7d_export": {
+        "source_key": "upload",
+        "source_row": 5,
+        "orders_including_returns_cancellations": 0.0,
+        "orders_change_ratio": 0.0,
+        "impressions": 490.0,
+        "impressions_change_ratio": -0.2462,
+        "window": "Last7days as reported by downloaded workbook; exact export timestamp is not established",
+        "source_pointer": "Товары и цены!Q5:T5",
+        "not_net_buyouts": true
+      },
+      "baseline_30d_finance": {
+        "from": "2026-10-28",
+        "to": "2026-11-26",
+        "row_present": true,
+        "values": {
+          "sold": 4,
+          "returned": 1,
+          "revenue": 28050.0,
+          "commission": -12996.5,
+          "logistics": -1182.23,
+          "services": -1698.01,
+          "net": 12173.26
+        },
+        "fees_by_type": {
+          "Звёздные товары": -562.94,
+          "Продвижение бренда": -375.29,
+          "Подписка Управление отзывами": -487.88,
+          "Эквайринг": -271.9
+        },
+        "source_pointer": "/items/0AM325025B",
+        "unknown_if_absent": true,
+        "interpretation": "Seller financial accruals, not an order count; keep sold and returns separate"
+      },
+      "source_reference": {
+        "catalogue": "/rows/1",
+        "prices": "/1",
+        "product_info": "/60",
+        "finance_item": "/items/0AM325025B"
+      },
+      "approved_economics": {
+        "schema_version": 1,
+        "procurement_rub": 1350.0,
+        "tax_rate_scenario": 0.06,
+        "percentage_services_rate_pct": 3.800021316848304,
+        "fixed_services_rub": 0.0,
+        "service_basis": "observed_sku_fees",
+        "by_scheme": {
+          "fbs": {
+            "commission_rate_pct": 47.0,
+            "acquiring_rate_pct": 1.0,
+            "logistics_snapshot_max_rub": 237.0,
+            "baseline_partial_contribution_rub": 2220.28,
+            "target_partial_contribution_rub": 1687.72
+          },
+          "fbo": {
+            "commission_rate_pct": 47.0,
+            "acquiring_rate_pct": 1.0,
+            "logistics_snapshot_max_rub": 227.0,
+            "baseline_partial_contribution_rub": 2230.28,
+            "target_partial_contribution_rub": 1697.72
+          }
+        },
+        "baseline_partial_contribution_rub": 2220.28,
+        "target_partial_contribution_rub": 1687.72,
+        "required_unit_growth_pct": 31.555,
+        "metric_kind": "partial_contribution_not_net_profit",
+        "full_profit_verified": false
+      }
+    },
+    {
+      "decision_id": "ozon-bf4-20261127",
+      "sku": "6t30",
+      "product_id": 6287285958,
+      "title": "Соленоиды АКПП 6T30/6T40/6T45/6T50",
+      "strategy_code": "C",
+      "before_price": 19155,
+      "target_price": 16475,
+      "price_before_rub": 19155,
+      "target_price_rub": 16475,
+      "experiment_floor_rub": 16475,
+      "financial_break_even_claim": false,
+      "allowed_action_ids": [
+        4532787
+      ],
+      "approved_actions": [
+        {
+          "action_id": 4532787,
+          "title": "Супербустинг Чёрная пятница",
+          "group": "candidates",
+          "lifecycle": "active",
+          "date_start": "2026-11-26T23:00:00Z",
+          "date_end": "2026-12-02T20:59:59Z",
+          "cap_rub": 16475.0,
+          "observed_action_price": 0.0,
+          "current_boost": 0.0
+        }
+      ],
+      "existing_actions": [
+        {
+          "action_id": 1977747,
+          "title": "Эластичный бустинг. Без ограничения срока действия",
+          "action_type": "ELASTIC_BOOSTING",
+          "lifecycle": "active",
+          "date_start": "2025-03-19T21:00:44Z",
+          "date_end": "2026-12-31T20:59:59Z",
+          "cap_rub": 19155.0,
+          "observed_action_price": 19155.0,
+          "current_boost": 15.0
+        }
+      ],
+      "supersedes": {
+        "decision_id": "ozon-promo-96-20261127",
+        "scope_sha256": "69534872e209b814efe3de0d8c0008555f38d74ba86de286afd1b68743e0db80",
+        "sku": "6t30",
+        "previous_target_price_rub": 19155
+      },
+      "initial_verified": {
+        "decision_id": "ozon-bf4-20261127",
+        "observed_at": "2026-11-27T03:33:26.875421+00:00",
+        "source": "Last-known reference only; fresh core snapshot and direct readback required before writing",
+        "product_id": 6287285958,
+        "fields": {
+          "price": 19155,
+          "min_price": 19155.0,
+          "old_price": 25000.0,
+          "currency_code": "RUB",
+          "auto_action_enabled": false,
+          "auto_add_to_ozon_actions_list_enabled": false,
+          "min_price_for_auto_actions_enabled": true
+        }
+      },
+      "last_verified": null,
+      "requests": [],
+      "constraints": {
+        "exact_price_and_min_only": true,
+        "new_lower_cap_requires_new_approval": true,
+        "new_action_id_requires_new_approval": true,
+        "individual_pilot_risk_approved": true,
+        "fresh_live_read_required": true,
+        "no_automatic_old_price_restoration": true,
+        "full_profit_verified": false
+      },
+      "baseline_7d_export": {
+        "source_key": "upload",
+        "source_row": 60,
+        "orders_including_returns_cancellations": 1.0,
+        "orders_change_ratio": 0.0,
+        "impressions": 419.0,
+        "impressions_change_ratio": 0.7679,
+        "window": "Last7days as reported by downloaded workbook; exact export timestamp is not established",
+        "source_pointer": "Товары и цены!Q60:T60",
+        "not_net_buyouts": true
+      },
+      "baseline_30d_finance": {
+        "from": "2026-10-28",
+        "to": "2026-11-26",
+        "row_present": false,
+        "values": null,
+        "fees_by_type": null,
+        "source_pointer": "/items/6t30",
+        "unknown_if_absent": true,
+        "interpretation": "Seller financial accruals, not an order count; keep sold and returns separate"
+      },
+      "source_reference": {
+        "catalogue": "/rows/74",
+        "prices": "/74",
+        "product_info": "/2",
+        "finance_item": "/items/6t30"
+      },
+      "approved_economics": {
+        "schema_version": 1,
+        "procurement_rub": 3500.0,
+        "tax_rate_scenario": 0.06,
+        "percentage_services_rate_pct": 2.8,
+        "fixed_services_rub": 0.0,
+        "service_basis": "observed_sku_fees",
+        "by_scheme": {
+          "fbs": {
+            "commission_rate_pct": 47.0,
+            "acquiring_rate_pct": 1.0,
+            "logistics_snapshot_max_rub": 317.0,
+            "baseline_partial_contribution_rub": 4457.96,
+            "target_partial_contribution_rub": 3300.2
+          }
+        },
+        "baseline_partial_contribution_rub": 4457.96,
+        "target_partial_contribution_rub": 3300.2,
+        "required_unit_growth_pct": 35.0815,
+        "metric_kind": "partial_contribution_not_net_profit",
+        "full_profit_verified": false
+      }
+    }
+  ],
+  "scope_sha256": "14875a9e5d84d6de8476f86c44d3ded6b45a9617d2dc1924ab193eaf233e26ea"
+}
