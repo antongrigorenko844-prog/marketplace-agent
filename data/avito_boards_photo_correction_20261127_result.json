@@ -1,4 +1,5 @@
 {
+  "accepted_xml_photo_count": null,
   "ad_count": 3,
   "autoload_content_verified": false,
   "backup_asset_name": "avito_tools_feed.before_photo_correction_20261127_799168520.xml",
@@ -7,6 +8,7 @@
     "avito_id": 8580863654,
     "feed_id": "leoparts-avito-electronic-boards-20261127-01"
   },
+  "binding_verified": true,
   "current_source_card_urls_verified": true,
   "current_source_primary_sha256": "9a643492ecc9102c2374ec60308594edf2d511daf974ba57a13d76c41b04d0a9",
   "description_sha256": "511465e1882c41a2dfff5a9eaba505f5855119013650ade44132de78c19e0124",
@@ -87,12 +89,62 @@
   "publication_intent": true,
   "published_asset_id": 799346934,
   "published_utc": "2026-11-27T06:56:13.938093+00:00",
+  "reports": [
+    {
+      "content_read_error_type": "ParseError",
+      "kind": "current",
+      "matches": [
+        {
+          "ad_id": "leoparts-avito-electronic-boards-20261127-01",
+          "avito_id": 8580863654,
+          "avito_status": "active",
+          "messages": [
+            {
+              "code": 2303,
+              "description": "",
+              "title": "Произведена автоподстановка номера телефона",
+              "type": "warning",
+              "updated_at": "2026-11-27T06:35:01Z"
+            },
+            {
+              "code": 3002,
+              "description": "Объявление активировалось",
+              "title": "",
+              "type": "info",
+              "updated_at": "2026-11-27T06:35:03Z"
+            }
+          ],
+          "section": {
+            "slug": "success_published",
+            "title": "Успешно"
+          },
+          "status": null,
+          "url": "https://www.avito.ru/items/8580863654"
+        }
+      ],
+      "received_corrected_xml": false,
+      "received_target_photo_count": 10,
+      "received_target_title": "Электронные платы DSG7 DQ200 0AM D E F G K",
+      "started_at": "2026-11-27T06:34:03Z",
+      "status": "processing",
+      "upload_id": 641837265
+    },
+    {
+      "content_read_error_type": "ParseError",
+      "kind": "last_successful",
+      "matches": [],
+      "received_corrected_xml": false,
+      "started_at": "2026-11-27T04:34:02Z",
+      "status": "success_warning",
+      "upload_id": 641786484
+    }
+  ],
   "request_sha256": "625e0977769593574f3f483629b01111e09fa9badab07ceb9c4a8a2263ede728",
   "seller_profile_writes": 0,
   "stage_asset_name": "avito_tools_feed.photo_correction_20261127_72260908a51cacf3.xml",
   "staged_asset_id": 799346934,
   "started_utc": "2026-11-27T06:55:23.656734+00:00",
-  "status": "corrected_feed_published_pending_processing",
+  "status": "active_pending_title_update",
   "target_avito_id": 8580863654,
   "target_listing": {
     "id": 8580863654,
@@ -102,6 +154,6 @@
     "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/elektronnye_platy_dsg7_dq200_0am_d_e_f_g_k_8580863654"
   },
   "target_sha256": "72260908a51cacf358f51e5f1e5ce3831c222132038350b832effa574845ab13",
-  "updated_utc": "2026-11-27T06:56:13.942953+00:00",
+  "updated_utc": "2026-11-27T06:56:57.987667+00:00",
   "version": 1
 }
