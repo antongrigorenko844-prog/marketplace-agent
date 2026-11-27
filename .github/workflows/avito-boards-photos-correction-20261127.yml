@@ -1,0 +1,80 @@
+name: LEOPARTS boards original photos and exact requested title
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/avito-boards-photos-correction-20261127.yml']
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Apply the approved correction or read its current status
+        type: choice
+        options: [readback, apply]
+        default: readback
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.event_name == 'push' || inputs.mode == 'apply'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt Pillow==13.0.0
+      - run: python -m py_compile scripts/correct_avito_boards_photos_20261127.py scripts/build_avito_boards_original_photos_20261127.py
+      - name: Copy the 18 existing card photos with only the requested watermark
+        run: python scripts/build_avito_boards_original_photos_20261127.py --repo-root . --source-map data/avito_boards_original_photos_20261127_sources.json --output data/avito_boards_original_photos_20261127
+      - name: Correct only title and images on the existing board assortment listing
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: python -u scripts/correct_avito_boards_photos_20261127.py --apply
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: avito-board-original-photos-${{ github.run_id }}
+          path: |
+            data/avito_boards_photo_correction_20261127*.json
+            data/avito_boards_photo_correction_20261127*.xml
+            data/avito_boards_original_photos_20261127/
+            data/avito_boards_listing_20261127_result.json
+            drafts/avito_electronic_boards_20261127.json
+          retention-days: 30
+  readback:
+    needs: publish
+    if: always() && (needs.publish.result == 'success' || needs.publish.result == 'skipped')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Verify existing listing without any publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: python -u scripts/correct_avito_boards_photos_20261127.py --readback
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: avito-board-photo-correction-readback-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            data/avito_boards_photo_correction_20261127*.json
+            data/avito_boards_listing_20261127_result.json
+            drafts/avito_electronic_boards_20261127.json
+          retention-days: 30
