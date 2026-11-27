@@ -53,6 +53,14 @@
   "draft_present": true,
   "draft_sha256": "da4677420cf4431b571e4181612af2479ee3a826717549f80e7f2ae879809d88",
   "draft_valid": true,
+  "exact_feed_binding": {
+    "matches": [
+      {
+        "ad_id": "leoparts-avito-electronic-boards-20261127-01",
+        "avito_id": null
+      }
+    ]
+  },
   "existing_ads_byte_identical": true,
   "existing_item_count": 157,
   "existing_tools_ids": [
@@ -1985,6 +1993,46 @@
     "autoload_enabled": true,
     "feeds_sha256": "aa400110da24e60f2562b1243536d00024fe626ba67ebcc16400945cb2e00489",
     "registered_feed_count": 3,
+    "schedule": [
+      {
+        "rate": -1,
+        "time_slots": [
+          14,
+          8,
+          2,
+          0,
+          7,
+          1,
+          12,
+          20,
+          22,
+          16,
+          10,
+          21,
+          15,
+          9,
+          3,
+          11,
+          5,
+          4,
+          17,
+          23,
+          19,
+          13,
+          18,
+          6
+        ],
+        "weekdays": [
+          1,
+          2,
+          4,
+          5,
+          6,
+          0,
+          3
+        ]
+      }
+    ],
     "schedule_sha256": "07360a8d254dbc3076c1f9ea1653ae73fb180e8f539cc32c4f5938aa340825b8",
     "target_tools_feed_registered": true
   },
@@ -2157,11 +2205,17 @@
   "reports": [
     {
       "kind": "current",
-      "read_error_type": "AvitoApiError"
+      "matches": [],
+      "started_at": "2026-11-27T05:34:04Z",
+      "status": "processing",
+      "upload_id": 641811289
     },
     {
       "kind": "last_successful",
-      "read_error_type": "AvitoApiError"
+      "matches": [],
+      "started_at": "2026-11-27T03:34:02Z",
+      "status": "success_warning",
+      "upload_id": 641762178
     }
   ],
   "seller_profile_writes": 0,
@@ -2181,5 +2235,5 @@
     "promotion": "Free"
   },
   "tools_before_sha256": "df8cd1319dba23313e8e304526708bf2a75b7f6999e8299029e9826d8711b2db",
-  "updated_utc": "2026-11-27T05:55:44.897056+00:00"
+  "updated_utc": "2026-11-27T05:59:49.400648+00:00"
 }
