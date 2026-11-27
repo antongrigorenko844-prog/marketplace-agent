@@ -62,11 +62,13 @@ def get_store():
                     if not isinstance(ed,dict):continue
                     editions.append({"sku":str(ed.get("sku") or "").strip(),
                         "price":price(ed.get("price")),
+                        "quantity_raw":ed.get("quantity"),
                         "externalid":str(ed.get("externalid") or ed.get("external_id") or ""),
                         "uid":str(ed.get("uid") or ed.get("id") or "")})
                 found.append({"sku":sku,"uid":uid,"title":title,"name":name,
                     "externalid":externalid,"url":url,"price":price(p.get("price")),
                     "priceold":price(p.get("priceold")),"editions":editions,
+                    "quantity_raw":p.get("quantity"),
                     "storepart":part})
             nxt=obj.get("nextslice")
             if not nxt or not allproducts:break
