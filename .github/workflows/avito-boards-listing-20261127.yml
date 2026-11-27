@@ -1,0 +1,40 @@
+name: LEOPARTS electronic boards separate Avito listing
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/avito-boards-listing-20261127.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  boards-listing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - run: python -m py_compile scripts/avito_boards_listing_20261127.py
+      - name: Read-only preflight of existing autoload and board sources
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: python -u scripts/avito_boards_listing_20261127.py --preflight
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: avito-electronic-boards-${{ github.run_id }}
+          path: |
+            data/avito_boards_listing_20261127_result.json
+            data/avito_electronic_boards_20261127.xlsx
+          if-no-files-found: warn
+          retention-days: 30
