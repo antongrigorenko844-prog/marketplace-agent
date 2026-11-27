@@ -53,8 +53,6 @@
   "draft_present": true,
   "draft_sha256": "da4677420cf4431b571e4181612af2479ee3a826717549f80e7f2ae879809d88",
   "draft_valid": true,
-  "error": "Reviewed font files differ",
-  "error_type": "ValueError",
   "existing_ads_byte_identical": true,
   "existing_item_count": 157,
   "existing_tools_ids": [
@@ -2156,12 +2154,26 @@
   "public_feed_verified": true,
   "publication_intent": true,
   "publication_route": "append_one_ad_to_existing_tools_xml_preserve_every_old_byte",
+  "reports": [
+    {
+      "kind": "current",
+      "matches": [],
+      "status": "processing",
+      "upload_id": 641811289
+    },
+    {
+      "kind": "last_successful",
+      "matches": [],
+      "status": "success_warning",
+      "upload_id": 641762178
+    }
+  ],
   "seller_profile_writes": 0,
   "seller_writes": 0,
   "stage_asset_name": "avito_tools_feed.boards_20261127_569f8fcc237ecc0c.xml",
   "staged_asset_id": 799168520,
   "started_utc": "2026-11-27T05:35:52.175912+00:00",
-  "status": "append_published_pending_scheduled_processing",
+  "status": "registered_pending_scheduled_processing",
   "template": {
     "delivery_action": "leave optional field blank; do not claim enabled or disabled",
     "delivery_allowed_values": [],
@@ -2173,5 +2185,5 @@
     "promotion": "Free"
   },
   "tools_before_sha256": "df8cd1319dba23313e8e304526708bf2a75b7f6999e8299029e9826d8711b2db",
-  "updated_utc": "2026-11-27T05:50:34.195962+00:00"
+  "updated_utc": "2026-11-27T05:50:44.776045+00:00"
 }
