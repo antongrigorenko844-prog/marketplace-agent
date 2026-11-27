@@ -1,4 +1,5 @@
 {
+  "autoload_content_verified": true,
   "avito_stock_probe_error_type": "AvitoApiError",
   "backup_asset_name": "avito_tools_feed.before_boards_20261127_783360843.xml",
   "board_listing_snapshot": {
@@ -57,7 +58,7 @@
     "matches": [
       {
         "ad_id": "leoparts-avito-electronic-boards-20261127-01",
-        "avito_id": null
+        "avito_id": 8580863654
       }
     ]
   },
@@ -84,6 +85,7 @@
     "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito-boards-20261127-09-0AM927769D-original-9b0a7b3643c3.png?v=9b0a7b3643",
     "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito-boards-20261127-10-0AM927769D-original-db7705f9ace6.png?v=db7705f9ac"
   ],
+  "live_gallery_verified": false,
   "media_quarantined": [
     {
       "file": "quarantine/0AM927769K_1-wm.png",
@@ -100,7 +102,14 @@
     "source_count": 21,
     "unique_source_count": 21
   },
-  "new_avito_id": null,
+  "new_avito_id": 8580863654,
+  "new_listing": {
+    "id": 8580863654,
+    "price": 36500,
+    "status": "active",
+    "title": "Электронные платы DSG7 DQ200 0AM D E F G K",
+    "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/elektronnye_platy_dsg7_dq200_0am_d_e_f_g_k_8580863654"
+  },
   "new_publication_utc": "2026-11-27T05:50:34.194988+00:00",
   "official_category_schema": {
     "fields": [
@@ -1997,39 +2006,39 @@
       {
         "rate": -1,
         "time_slots": [
-          14,
-          8,
-          2,
-          0,
-          7,
-          1,
-          12,
-          20,
-          22,
-          16,
-          10,
           21,
-          15,
-          9,
-          3,
-          11,
           5,
-          4,
+          11,
           17,
           23,
-          19,
+          4,
           13,
+          19,
+          0,
+          12,
           18,
-          6
+          6,
+          2,
+          8,
+          14,
+          20,
+          1,
+          7,
+          10,
+          16,
+          22,
+          3,
+          9,
+          15
         ],
         "weekdays": [
-          1,
-          2,
-          4,
-          5,
           6,
+          3,
+          4,
+          1,
           0,
-          3
+          5,
+          2
         ]
       }
     ],
@@ -2205,17 +2214,31 @@
   "reports": [
     {
       "kind": "current",
-      "matches": [],
-      "started_at": "2026-11-27T05:34:04Z",
+      "matches": [
+        {
+          "ad_id": "leoparts-avito-electronic-boards-20261127-01",
+          "avito_id": 8580863654,
+          "avito_status": "active",
+          "messages": [],
+          "section": {
+            "slug": "publish_later",
+            "title": "Ограничение в публикации по частям"
+          },
+          "status": null,
+          "url": "https://www.avito.ru/items/8580863654"
+        }
+      ],
+      "received_exact_new_feed": true,
+      "started_at": "2026-11-27T06:34:03Z",
       "status": "processing",
-      "upload_id": 641811289
+      "upload_id": 641837265
     },
     {
       "kind": "last_successful",
       "matches": [],
-      "started_at": "2026-11-27T03:34:02Z",
+      "started_at": "2026-11-27T04:34:02Z",
       "status": "success_warning",
-      "upload_id": 641762178
+      "upload_id": 641786484
     }
   ],
   "seller_profile_writes": 0,
@@ -2223,7 +2246,7 @@
   "stage_asset_name": "avito_tools_feed.boards_20261127_569f8fcc237ecc0c.xml",
   "staged_asset_id": 799168520,
   "started_utc": "2026-11-27T05:35:52.175912+00:00",
-  "status": "registered_pending_scheduled_processing",
+  "status": "active_price_title_verified",
   "template": {
     "delivery_action": "leave optional field blank; do not claim enabled or disabled",
     "delivery_allowed_values": [],
@@ -2235,5 +2258,5 @@
     "promotion": "Free"
   },
   "tools_before_sha256": "df8cd1319dba23313e8e304526708bf2a75b7f6999e8299029e9826d8711b2db",
-  "updated_utc": "2026-11-27T05:59:49.400648+00:00"
+  "updated_utc": "2026-11-27T06:35:11.396890+00:00"
 }
