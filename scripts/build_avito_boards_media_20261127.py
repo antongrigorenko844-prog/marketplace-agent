@@ -15,8 +15,9 @@ from pathlib import Path
 from PIL import Image, ImageChops, ImageDraw, ImageFont, ImageOps, __version__ as PILLOW_VERSION
 
 PHRASE = "LEOPARTS АКПП"
-FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf"
-REGULAR = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+FONT_DIR = Path(__file__).resolve().parents[1] / "assets/fonts/avito-boards-20261127"
+FONT = str(FONT_DIR / "DejaVuSansCondensed-Bold.ttf")
+REGULAR = str(FONT_DIR / "DejaVuSans.ttf")
 ORANGE = "#f9760b"
 DARK = "#202225"
 CREAM = "#faf8f4"
