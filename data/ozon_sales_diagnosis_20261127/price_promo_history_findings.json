@@ -1,0 +1,996 @@
+{
+  "scope": "Read-only evidence reconstruction, Ozon LEOPARTS",
+  "key_finding": "On 2026-10-21 API seller prices were raised for 49 products by sync-ozon-prices, then automatic addition flag was disabled for 111 products; this is confirmed in execution logs and same-day readback.",
+  "timeline": [
+    {
+      "at_utc": "2026-10-21T04:57:11Z",
+      "event": "Added sync-ozon-prices implementation",
+      "commit": "01f83bc7e1022327c80fd3628e49b19d08ca6d20"
+    },
+    {
+      "at_utc": "2026-10-21T05:11:15Z",
+      "event": "Raised seller prices for 49 products to master file prices",
+      "run_id": 39548110950,
+      "job_id": 119050806199,
+      "ack": "Отправлено: 49, с ошибкой: 0",
+      "same_day_snapshot_matching_target_count": 49
+    },
+    {
+      "at_utc": "2026-10-21T05:19:11Z",
+      "event": "Added automatic-add disable command",
+      "commit": "dbd7d1d3dbfc7b4858cebfccc92974e920ba7fce"
+    },
+    {
+      "at_utc": "2026-10-21T05:21:20Z",
+      "event": "Disabled automatic-add flag for 0am325025r",
+      "run_id": 39549052997,
+      "job_id": 119053800487,
+      "ack": "Выключено: 1, с ошибкой: 0"
+    },
+    {
+      "at_utc": "2026-10-21T05:27:34Z",
+      "event": "Disabled automatic-add flag for remaining 110 enabled products",
+      "run_id": 39549639799,
+      "job_id": 119055657450,
+      "ack": "Выключено: 110, с ошибкой: 0"
+    },
+    {
+      "at_utc": "2026-10-21T05:31:09Z",
+      "event": "Read-only verification found zero auto-add-enabled products",
+      "run_id": 39549984087,
+      "job_id": 119056721408,
+      "ack": "Товаров с включённым автодобавлением: 0"
+    },
+    {
+      "at_utc": "2026-10-21T05:45:34Z",
+      "event": "Added twice-daily scheduled price sync at05:00/17:00UTC",
+      "commit": "0c1b070cbe7b92e7f17380be1fcaa8b5fbc5f941"
+    },
+    {
+      "at_utc": "2026-10-21T05:48:17Z",
+      "event": "Scheduled workflow manual run: zero price differences among122products",
+      "run_id": 39551600365,
+      "job_id": 119061827719
+    },
+    {
+      "at_utc": "2026-10-27T07:23:08Z",
+      "event": "Replaced attempted action deactivation logic with current-price floor and auto-add disable",
+      "commit": "a96c695d2d974212cf4fbaf32965d9ad8733934a"
+    }
+  ],
+  "october21_price_changes": [
+    {
+      "sku": "01X301127C",
+      "before": 413,
+      "before_old": 1500,
+      "target": 879,
+      "target_old": 1500,
+      "pct_change": 112.8329297820823
+    },
+    {
+      "sku": "02E305051C",
+      "before": 1285,
+      "before_old": 3000,
+      "target": 1879,
+      "target_old": 3000,
+      "pct_change": 46.22568093385213
+    },
+    {
+      "sku": "02E927770AL",
+      "before": 100300,
+      "before_old": 145000,
+      "target": 118000,
+      "target_old": 145000,
+      "pct_change": 17.647058823529417
+    },
+    {
+      "sku": "02e305045",
+      "before": 1539,
+      "before_old": 5000,
+      "target": 3879,
+      "target_old": 5000,
+      "pct_change": 152.046783625731
+    },
+    {
+      "sku": "0AM325025B",
+      "before": 6978,
+      "before_old": 12000,
+      "target": 9479,
+      "target_old": 12000,
+      "pct_change": 35.84121524792203
+    },
+    {
+      "sku": "0AM325219C",
+      "before": 2602,
+      "before_old": 4500,
+      "target": 3479,
+      "target_old": 4500,
+      "pct_change": 33.70484242890084
+    },
+    {
+      "sku": "0AM325443D",
+      "before": 1521,
+      "before_old": 3000,
+      "target": 1990,
+      "target_old": 3000,
+      "pct_change": 30.834976988823136
+    },
+    {
+      "sku": "0AM325467J",
+      "before": 1691,
+      "before_old": 3500,
+      "target": 1990,
+      "target_old": 3500,
+      "pct_change": 17.681845062093426
+    },
+    {
+      "sku": "0AM927769D",
+      "before": 43915,
+      "before_old": 80000,
+      "target": 78800,
+      "target_old": 80000,
+      "pct_change": 79.43754981213709
+    },
+    {
+      "sku": "0AM927769N",
+      "before": 2460,
+      "before_old": 4500,
+      "target": 3479,
+      "target_old": 4500,
+      "pct_change": 41.42276422764228
+    },
+    {
+      "sku": "0BH325183",
+      "before": 5901,
+      "before_old": 10000,
+      "target": 7979,
+      "target_old": 10000,
+      "pct_change": 35.21437044568718
+    },
+    {
+      "sku": "0am325025D",
+      "before": 1973,
+      "before_old": 5000,
+      "target": 2890,
+      "target_old": 5000,
+      "pct_change": 46.477445514445016
+    },
+    {
+      "sku": "0am325025H",
+      "before": 52540,
+      "before_old": 90000,
+      "target": 68800,
+      "target_old": 90000,
+      "pct_change": 30.947849257708416
+    },
+    {
+      "sku": "0am325025HX",
+      "before": 87362,
+      "before_old": 150000,
+      "target": 128800,
+      "target_old": 150000,
+      "pct_change": 47.4325221492182
+    },
+    {
+      "sku": "0am325025P",
+      "before": 413,
+      "before_old": 2000,
+      "target": 979,
+      "target_old": 2000,
+      "pct_change": 137.04600484261502
+    },
+    {
+      "sku": "0am325025ae",
+      "before": 3838,
+      "before_old": 8000,
+      "target": 4879,
+      "target_old": 8000,
+      "pct_change": 27.123501823866604
+    },
+    {
+      "sku": "0am325025j",
+      "before": 1974,
+      "before_old": 5000,
+      "target": 2879,
+      "target_old": 5000,
+      "pct_change": 45.84599797365754
+    },
+    {
+      "sku": "0am325025l",
+      "before": 972,
+      "before_old": 2300,
+      "target": 1490,
+      "target_old": 2300,
+      "pct_change": 53.29218106995886
+    },
+    {
+      "sku": "0am325025q",
+      "before": 458,
+      "before_old": 1800,
+      "target": 979,
+      "target_old": 1800,
+      "pct_change": 113.75545851528383
+    },
+    {
+      "sku": "0am325025r",
+      "before": 475,
+      "before_old": 2500,
+      "target": 1479,
+      "target_old": 2500,
+      "pct_change": 211.36842105263156
+    },
+    {
+      "sku": "0am325025z",
+      "before": 3218,
+      "before_old": 6000,
+      "target": 4490,
+      "target_old": 6000,
+      "pct_change": 39.527656929770046
+    },
+    {
+      "sku": "0am325066AC",
+      "before": 553,
+      "before_old": 2500,
+      "target": 1479,
+      "target_old": 2500,
+      "pct_change": 167.4502712477396
+    },
+    {
+      "sku": "0am325091e",
+      "before": 2235,
+      "before_old": 5000,
+      "target": 2879,
+      "target_old": 5000,
+      "pct_change": 28.814317673378078
+    },
+    {
+      "sku": "0am325091f",
+      "before": 1964,
+      "before_old": 5000,
+      "target": 2879,
+      "target_old": 5000,
+      "pct_change": 46.588594704684326
+    },
+    {
+      "sku": "0am325091f-set",
+      "before": 7522,
+      "before_old": 12000,
+      "target": 8850,
+      "target_old": 12000,
+      "pct_change": 17.654879021536818
+    },
+    {
+      "sku": "0cw0amdsgdq200",
+      "before": 722,
+      "before_old": 1500,
+      "target": 850,
+      "target_old": 1500,
+      "pct_change": 17.728531855955687
+    },
+    {
+      "sku": "0cw325025h",
+      "before": 1013,
+      "before_old": 2000,
+      "target": 1290,
+      "target_old": 2000,
+      "pct_change": 27.34452122408686
+    },
+    {
+      "sku": "122390AKAF",
+      "before": 1308,
+      "before_old": 2500,
+      "target": 1490,
+      "target_old": 2500,
+      "pct_change": 13.914373088685018
+    },
+    {
+      "sku": "123014‑AF",
+      "before": 1257,
+      "before_old": 2500,
+      "target": 1479,
+      "target_old": 2500,
+      "pct_change": 17.66109785202863
+    },
+    {
+      "sku": "6t30",
+      "before": 16830,
+      "before_old": 25000,
+      "target": 19800,
+      "target_old": 25000,
+      "pct_change": 17.647058823529417
+    },
+    {
+      "sku": "Dq200dsg7",
+      "before": 886,
+      "before_old": 1500,
+      "target": 979,
+      "target_old": 1500,
+      "pct_change": 10.496613995485337
+    },
+    {
+      "sku": "Dq200dsg70am0cw",
+      "before": 7556,
+      "before_old": 12000,
+      "target": 8890,
+      "target_old": 12000,
+      "pct_change": 17.654843832715716
+    },
+    {
+      "sku": "EA888gen3",
+      "before": 6072,
+      "before_old": 10000,
+      "target": 6690,
+      "target_old": 10000,
+      "pct_change": 10.177865612648219
+    },
+    {
+      "sku": "WHT001922",
+      "before": 358,
+      "before_old": 1500,
+      "target": 979,
+      "target_old": 1500,
+      "pct_change": 173.46368715083798
+    },
+    {
+      "sku": "filtr-dsg7-dq200",
+      "before": 833,
+      "before_old": 0,
+      "target": 980,
+      "target_old": 0,
+      "pct_change": 17.647058823529417
+    },
+    {
+      "sku": "filtr-setka-0b5-orig",
+      "before": 1266,
+      "before_old": 2500,
+      "target": 2350,
+      "target_old": 2500,
+      "pct_change": 85.62401263823065
+    },
+    {
+      "sku": "kryshka-mehatronika-dq200",
+      "before": 1657,
+      "before_old": 0,
+      "target": 1950,
+      "target_old": 0,
+      "pct_change": 17.682558841279427
+    },
+    {
+      "sku": "planka-solenoid-2sht",
+      "before": 2456,
+      "before_old": 4000,
+      "target": 2890,
+      "target_old": 4000,
+      "pct_change": 17.671009771986967
+    },
+    {
+      "sku": "plastina-solenoid-dq200",
+      "before": 416,
+      "before_old": 0,
+      "target": 490,
+      "target_old": 0,
+      "pct_change": 17.78846153846154
+    },
+    {
+      "sku": "plita-filtr-salniki-orig",
+      "before": 7225,
+      "before_old": 12000,
+      "target": 8500,
+      "target_old": 12000,
+      "pct_change": 17.647058823529417
+    },
+    {
+      "sku": "podshipnik-vilki-6",
+      "before": 1054,
+      "before_old": 1500,
+      "target": 1240,
+      "target_old": 1500,
+      "pct_change": 17.647058823529417
+    },
+    {
+      "sku": "prokladka-vtulki-dq200",
+      "before": 714,
+      "before_old": 0,
+      "target": 840,
+      "target_old": 0,
+      "pct_change": 17.647058823529417
+    },
+    {
+      "sku": "pylniki-shtokov-orig-v2",
+      "before": 1572,
+      "before_old": 5000,
+      "target": 2980,
+      "target_old": 5000,
+      "pct_change": 89.56743002544529
+    },
+    {
+      "sku": "salnik-tolkatelya-alum",
+      "before": 2116,
+      "before_old": 4500,
+      "target": 2490,
+      "target_old": 4500,
+      "pct_change": 17.674858223062383
+    },
+    {
+      "sku": "salniki-shtokov-orig",
+      "before": 1606,
+      "before_old": 3000,
+      "target": 1890,
+      "target_old": 3000,
+      "pct_change": 17.683686176836865
+    },
+    {
+      "sku": "salniki-tolkatelya-4sht",
+      "before": 1657,
+      "before_old": 3000,
+      "target": 1950,
+      "target_old": 3000,
+      "pct_change": 17.682558841279427
+    },
+    {
+      "sku": "separatornaya-plastina-dq200",
+      "before": 416,
+      "before_old": 0,
+      "target": 490,
+      "target_old": 0,
+      "pct_change": 17.78846153846154
+    },
+    {
+      "sku": "tolkateli-salniki-alum-komplekt",
+      "before": 7565,
+      "before_old": 12000,
+      "target": 8900,
+      "target_old": 12000,
+      "pct_change": 17.647058823529417
+    },
+    {
+      "sku": "vtulki-shtokov-2sht",
+      "before": 4241,
+      "before_old": 7000,
+      "target": 4990,
+      "target_old": 7000,
+      "pct_change": 17.660929026173065
+    }
+  ],
+  "snapshot_identity": {
+    "sep24": {
+      "commit": "2c8bac6afcac84dcae1666be519c21135d80f479",
+      "blob": "914fb76a0cacdd1a100161b4fb5daca75110684d",
+      "total123": 123,
+      "auto_add_true": 111,
+      "auto_action_true": 0
+    },
+    "oct21": {
+      "commit": "b6b3f6f8fb5ab319ba5d816cd4ac714e95a46b48",
+      "blob": "08b02361f9347c9b29057f99e99cbdcad557c706",
+      "total": 122,
+      "auto_add_true": 0,
+      "auto_action_true": 0
+    }
+  },
+  "november_price_changes_observed": [
+    {
+      "observed_at": "2026-11-21T08:45:18Z",
+      "source_commit": "2e51c30887b2d9eadebffdded18647f71d3d17a9",
+      "sku": "0AM325219C",
+      "before": 4350,
+      "after": 2990,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-21T08:45:18Z",
+      "source_commit": "2e51c30887b2d9eadebffdded18647f71d3d17a9",
+      "sku": "122390AK-AF",
+      "before": 1350,
+      "after": 990,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-21T08:45:18Z",
+      "source_commit": "2e51c30887b2d9eadebffdded18647f71d3d17a9",
+      "sku": "0am325025ae",
+      "before": 4850,
+      "after": 4490,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-21T08:45:18Z",
+      "source_commit": "2e51c30887b2d9eadebffdded18647f71d3d17a9",
+      "sku": "WHT001922",
+      "before": 1350,
+      "after": 1250,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-21T08:45:18Z",
+      "source_commit": "2e51c30887b2d9eadebffdded18647f71d3d17a9",
+      "sku": "01X301127C",
+      "before": 1350,
+      "after": 1250,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-21T08:45:18Z",
+      "source_commit": "2e51c30887b2d9eadebffdded18647f71d3d17a9",
+      "sku": "0am325066ad",
+      "before": 1350,
+      "after": 1270,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-21T08:45:18Z",
+      "source_commit": "2e51c30887b2d9eadebffdded18647f71d3d17a9",
+      "sku": "0am325066AC",
+      "before": 1850,
+      "after": 1750,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-21T08:45:18Z",
+      "source_commit": "2e51c30887b2d9eadebffdded18647f71d3d17a9",
+      "sku": "0am325025P",
+      "before": 1350,
+      "after": 990,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-21T08:45:18Z",
+      "source_commit": "2e51c30887b2d9eadebffdded18647f71d3d17a9",
+      "sku": "02E 305 045",
+      "before": 3350,
+      "after": 2490,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-21T08:45:18Z",
+      "source_commit": "2e51c30887b2d9eadebffdded18647f71d3d17a9",
+      "sku": "0am325025z",
+      "before": 4350,
+      "after": 3490,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-21T08:45:18Z",
+      "source_commit": "2e51c30887b2d9eadebffdded18647f71d3d17a9",
+      "sku": "0am325025u",
+      "before": 5350,
+      "after": 3490,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-21T08:45:18Z",
+      "source_commit": "2e51c30887b2d9eadebffdded18647f71d3d17a9",
+      "sku": "filtr-setka-0b5-orig",
+      "before": 2350,
+      "after": 1990,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-21T08:45:18Z",
+      "source_commit": "2e51c30887b2d9eadebffdded18647f71d3d17a9",
+      "sku": "separatornaya-plastina-dq200",
+      "before": 1350,
+      "after": 1250,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-23T09:44:18Z",
+      "source_commit": "3fb24b0b2372e9d153ad27e7fc1fc794b01f7967",
+      "sku": "02E305051C",
+      "before": 1850,
+      "after": 1450,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-23T09:44:18Z",
+      "source_commit": "3fb24b0b2372e9d153ad27e7fc1fc794b01f7967",
+      "sku": "0am325091f",
+      "before": 3350,
+      "after": 1990,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-23T09:44:18Z",
+      "source_commit": "3fb24b0b2372e9d153ad27e7fc1fc794b01f7967",
+      "sku": "0am325025D",
+      "before": 3350,
+      "after": 1880,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-23T09:44:18Z",
+      "source_commit": "3fb24b0b2372e9d153ad27e7fc1fc794b01f7967",
+      "sku": "Dq500",
+      "before": 2350,
+      "after": 1980,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-23T09:44:18Z",
+      "source_commit": "3fb24b0b2372e9d153ad27e7fc1fc794b01f7967",
+      "sku": "02e305045",
+      "before": 2350,
+      "after": 1980,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-23T09:44:18Z",
+      "source_commit": "3fb24b0b2372e9d153ad27e7fc1fc794b01f7967",
+      "sku": "0am325091e",
+      "before": 3850,
+      "after": 1990,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-23T09:44:18Z",
+      "source_commit": "3fb24b0b2372e9d153ad27e7fc1fc794b01f7967",
+      "sku": "0am325025P",
+      "before": 990,
+      "after": 980,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-23T09:44:18Z",
+      "source_commit": "3fb24b0b2372e9d153ad27e7fc1fc794b01f7967",
+      "sku": "02E 305 045",
+      "before": 2490,
+      "after": 2880,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-23T09:44:18Z",
+      "source_commit": "3fb24b0b2372e9d153ad27e7fc1fc794b01f7967",
+      "sku": "0am325025z",
+      "before": 3490,
+      "after": 2690,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-23T09:44:18Z",
+      "source_commit": "3fb24b0b2372e9d153ad27e7fc1fc794b01f7967",
+      "sku": "0am325025u",
+      "before": 3490,
+      "after": 2690,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-23T09:44:18Z",
+      "source_commit": "3fb24b0b2372e9d153ad27e7fc1fc794b01f7967",
+      "sku": "DQ500",
+      "before": 3850,
+      "after": 2880,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-23T09:44:18Z",
+      "source_commit": "3fb24b0b2372e9d153ad27e7fc1fc794b01f7967",
+      "sku": "0am325091e-set",
+      "before": 8850,
+      "after": 4990,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-23T09:44:18Z",
+      "source_commit": "3fb24b0b2372e9d153ad27e7fc1fc794b01f7967",
+      "sku": "0am325091f-set",
+      "before": 8850,
+      "after": 4990,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-23T09:44:18Z",
+      "source_commit": "3fb24b0b2372e9d153ad27e7fc1fc794b01f7967",
+      "sku": "vtulki-shtokov-2sht",
+      "before": 4850,
+      "after": 2880,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-23T09:44:18Z",
+      "source_commit": "3fb24b0b2372e9d153ad27e7fc1fc794b01f7967",
+      "sku": "filtr-dsg7-dq500",
+      "before": 1850,
+      "after": 1450,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-24T11:35:49Z",
+      "source_commit": "1c2dcd5a988b2b5b536c1d2d5677b1e8ddb1f5e3",
+      "sku": "0am325025r",
+      "before": 1850,
+      "after": 1490,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-24T11:35:49Z",
+      "source_commit": "1c2dcd5a988b2b5b536c1d2d5677b1e8ddb1f5e3",
+      "sku": "122390AK-AF",
+      "before": 990,
+      "after": 950,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-24T11:35:49Z",
+      "source_commit": "1c2dcd5a988b2b5b536c1d2d5677b1e8ddb1f5e3",
+      "sku": "0AM325443D",
+      "before": 2350,
+      "after": 2190,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-24T11:35:49Z",
+      "source_commit": "1c2dcd5a988b2b5b536c1d2d5677b1e8ddb1f5e3",
+      "sku": "WHT001922",
+      "before": 1250,
+      "after": 950,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-24T11:35:49Z",
+      "source_commit": "1c2dcd5a988b2b5b536c1d2d5677b1e8ddb1f5e3",
+      "sku": "0am325066AC",
+      "before": 1750,
+      "after": 1490,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-24T11:35:49Z",
+      "source_commit": "1c2dcd5a988b2b5b536c1d2d5677b1e8ddb1f5e3",
+      "sku": "0am325025z",
+      "before": 2690,
+      "after": 2880,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    },
+    {
+      "observed_at": "2026-11-24T11:35:49Z",
+      "source_commit": "1c2dcd5a988b2b5b536c1d2d5677b1e8ddb1f5e3",
+      "sku": "0am325025u",
+      "before": 2690,
+      "after": 2880,
+      "note": "First observed change between daily snapshots; not operation timestamp"
+    }
+  ],
+  "black_friday_pilot": {
+    "source": "data/ozon_black_friday_pilot_20261127/execution_report.json",
+    "generated_at": "2026-11-27T05:23:11.394784+00:00",
+    "items": [
+      {
+        "sku": "0am325025G",
+        "before": 3724,
+        "after": "3195",
+        "status": "VERIFIED",
+        "verified_at": "2026-11-27T05:22:38.605755+00:00",
+        "bf_action_4532787_participant": true,
+        "target_partial_contribution_rub": 943.24,
+        "required_unit_growth_pct": 24.2271,
+        "full_profit_verified": false
+      },
+      {
+        "sku": "porshni-usil-pylniki-kryshki-v2",
+        "before": 3715,
+        "after": "3195",
+        "status": "VERIFIED",
+        "verified_at": "2026-11-27T05:22:49.788849+00:00",
+        "bf_action_4532787_participant": true,
+        "target_partial_contribution_rub": 743.24,
+        "required_unit_growth_pct": 30.2244,
+        "full_profit_verified": false
+      },
+      {
+        "sku": "0AM325025B",
+        "before": 9022,
+        "after": "7760",
+        "status": "VERIFIED",
+        "verified_at": "2026-11-27T05:23:00.458258+00:00",
+        "bf_action_4532787_participant": true,
+        "target_partial_contribution_rub": 1687.72,
+        "required_unit_growth_pct": 31.555,
+        "full_profit_verified": false
+      },
+      {
+        "sku": "6t30",
+        "before": 19155,
+        "after": "16475",
+        "status": "VERIFIED",
+        "verified_at": "2026-11-27T05:23:11.383198+00:00",
+        "bf_action_4532787_participant": true,
+        "target_partial_contribution_rub": 3300.2,
+        "required_unit_growth_pct": 35.0815,
+        "full_profit_verified": false
+      }
+    ]
+  },
+  "cautions": [
+    "Seller price field is not final buyer price including Ozon co-funding/payment method discounts.",
+    "Disabling auto-add does not prove removal from all existing promotions.",
+    "49-price update is evidenced by execution acknowledgement plus same-day snapshot: do not label it merely a code change.",
+    "No direct causal percentage is established. Compare affected and unaffected product cohorts and control stock, delivery, content and demand.",
+    "Changes on October21 cannot cause an earlier September/earlyOctober decline.",
+    "Latest Black Friday pilot on November27 cannot explain charts ending November26.",
+    "The report registry old SHA for sync-prices creation omitted characters; correct SHA is recorded above."
+  ],
+  "current_guard": {
+    "checked_from_main_tree": "fd442aa3bd6aa8d0404d1e7d9e4a4f8bfea7a070",
+    "schedule_enabled": true,
+    "cron_utc": "0 5,17 * * *",
+    "protected_scope_count": 96,
+    "enabled": true,
+    "approved": true,
+    "transport_guard": "ozon_client._post => ozon_control_guard.prepare_request",
+    "managed_behavior": "Unpermitted legacy commercial mutations skipped for96protectedSKUs; BF4plan overrides legacy4targets; unrelated unmanaged products retain legacy behavior.",
+    "runtime_verified": {
+      "run": 45919600967,
+      "job": 140246907051,
+      "at_utc": "2026-11-27T00:56:07Z",
+      "differences": 40,
+      "writes": 0,
+      "guard_skipped": 40
+    },
+    "important_current_verified": [
+      {
+        "sku": "122390AK-AF",
+        "fields": {
+          "price": "950",
+          "min_price": "950",
+          "old_price": "1500",
+          "currency_code": "RUB",
+          "auto_action_enabled": false,
+          "auto_add_to_ozon_actions_list_enabled": false,
+          "min_price_for_auto_actions_enabled": true,
+          "protection_active": true,
+          "expired_at": "2026-12-23T12:26:13.809217Z"
+        },
+        "at": "2026-11-27T05:15:23.381179+00:00"
+      },
+      {
+        "sku": "WHT001922",
+        "fields": {
+          "price": "950",
+          "min_price": "950",
+          "old_price": "1500",
+          "currency_code": "RUB",
+          "auto_action_enabled": false,
+          "auto_add_to_ozon_actions_list_enabled": false,
+          "min_price_for_auto_actions_enabled": true,
+          "protection_active": true,
+          "expired_at": "2026-12-23T12:26:13.809218Z"
+        },
+        "at": "2026-11-27T05:15:34.867165+00:00"
+      },
+      {
+        "sku": "0am325066AC",
+        "fields": {
+          "price": "1850",
+          "min_price": "1850",
+          "old_price": "2500",
+          "currency_code": "RUB",
+          "auto_action_enabled": false,
+          "auto_add_to_ozon_actions_list_enabled": false,
+          "min_price_for_auto_actions_enabled": true,
+          "protection_active": true,
+          "expired_at": "2026-12-26T20:37:06.548741Z"
+        },
+        "at": "2026-11-27T05:15:56.041625+00:00"
+      },
+      {
+        "sku": "0am325025H",
+        "fields": {
+          "price": "68850",
+          "min_price": "68850",
+          "old_price": "90000",
+          "currency_code": "RUB",
+          "auto_action_enabled": false,
+          "auto_add_to_ozon_actions_list_enabled": false,
+          "min_price_for_auto_actions_enabled": true,
+          "protection_active": true,
+          "expired_at": "2026-12-11T18:11:18.022724Z"
+        },
+        "at": "2026-11-27T05:16:48.663513+00:00"
+      },
+      {
+        "sku": "0am325025HX",
+        "fields": {
+          "price": "118850",
+          "min_price": "118850",
+          "old_price": "150000",
+          "currency_code": "RUB",
+          "auto_action_enabled": false,
+          "auto_add_to_ozon_actions_list_enabled": false,
+          "min_price_for_auto_actions_enabled": true,
+          "protection_active": true,
+          "expired_at": "2026-12-26T22:06:50.416331Z"
+        },
+        "at": "2026-11-27T05:17:45.516910+00:00"
+      },
+      {
+        "sku": "0AM927769D",
+        "fields": {
+          "price": "74101",
+          "min_price": "74101",
+          "old_price": "118850",
+          "currency_code": "RUB",
+          "auto_action_enabled": false,
+          "auto_add_to_ozon_actions_list_enabled": false,
+          "min_price_for_auto_actions_enabled": true,
+          "protection_active": true,
+          "expired_at": "2026-12-26T22:40:52.050932Z"
+        },
+        "at": "2026-11-27T05:17:52.116291+00:00"
+      }
+    ],
+    "global_freeze": false,
+    "legacy_floor_and_auto_functions_still_present": true,
+    "legacy_composite_current_scheduler_not_calling": "Current cmd_update_cards delegates to content_sync; old _cmd_update_cards_impl has no runnable caller in existing writer audit."
+  },
+  "current_approved_price_restorations": [
+    {
+      "sku": "0am325025D",
+      "baseline": 1880,
+      "target": 2490,
+      "last_verified": "2026-11-27T05:14:31.085746+00:00",
+      "actual": "2490"
+    },
+    {
+      "sku": "02e305045",
+      "baseline": 1980,
+      "target": 2350,
+      "last_verified": "2026-11-27T05:14:39.094785+00:00",
+      "actual": "2350"
+    },
+    {
+      "sku": "0am325066AC",
+      "baseline": 1490,
+      "target": 1850,
+      "last_verified": "2026-11-27T05:15:56.041625+00:00",
+      "actual": "1850"
+    },
+    {
+      "sku": "02E 305 045",
+      "baseline": 2880,
+      "target": 3350,
+      "last_verified": "2026-11-27T05:16:08.242963+00:00",
+      "actual": "3350"
+    },
+    {
+      "sku": "0am325025z",
+      "baseline": 2880,
+      "target": 3290,
+      "last_verified": "2026-11-27T05:16:27.485535+00:00",
+      "actual": "3290"
+    },
+    {
+      "sku": "0am325025u",
+      "baseline": 2880,
+      "target": 3290,
+      "last_verified": "2026-11-27T05:16:33.237538+00:00",
+      "actual": "3290"
+    },
+    {
+      "sku": "0am325091e-set",
+      "baseline": 4990,
+      "target": 6190,
+      "last_verified": "2026-11-27T05:18:08.852930+00:00",
+      "actual": "6190"
+    },
+    {
+      "sku": "0am325091f-set",
+      "baseline": 4990,
+      "target": 6190,
+      "last_verified": "2026-11-27T05:18:14.513316+00:00",
+      "actual": "6190"
+    },
+    {
+      "sku": "vtulki-shtokov-2sht",
+      "baseline": 2880,
+      "target": 3790,
+      "last_verified": "2026-11-27T05:19:11.544685+00:00",
+      "actual": "3790"
+    }
+  ],
+  "owner_economics_correction_20261127": {
+    "statement": "Снижение заказанных единиц не доказывает падение прибыли. Владелец указал на возможную убыточность старой цены болта 358 ₽.",
+    "finding": "Частичный исторический остаток после распределённых удержаний и справочной закупки: WHT001922 +93,04 ₽/шт., 01X301127C +201,77 ₽/шт., 0am325025r −60,72 ₽/шт.; полная прибыль и сделки именно по358 ₽ не подтверждены.",
+    "reference": "economic_caveat.json",
+    "decision": "Старые цены не являются рекомендацией для возврата. Финансовый эффект повышения цен нужно оценивать отдельно от количества продаж."
+  }
+}

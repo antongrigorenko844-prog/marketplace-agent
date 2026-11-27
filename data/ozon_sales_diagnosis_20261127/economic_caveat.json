@@ -1,0 +1,564 @@
+{
+  "scope": "Read-only clarification of unit economics; no price/promo changes; no collectors",
+  "conclusion": "Historical loss at exactly358 RUB for WHT001922 is not established from aggregate accruals. Historical aggregate partial contribution after supplied reference cost was positive, but excludes unknown expenses. Current tariff projections must not be backdated. Do not recommend reverting to358. Lower unit sales do not by themselves establish lower profit.",
+  "sources": [
+    "data/ozon_promo_execution_20261127/evidence/history_20260925_20261023/finance.json",
+    "data/ozon_profit_first_20261127/live/finance.json",
+    "data/ozon_profit_first_20261127/live/master.json",
+    "data/ozon_promo_execution_20261127/approved_plan.json",
+    "data/ozon_profit_first_20261127/finance_support.json"
+  ],
+  "historical_collection_complete": false,
+  "recent_collection_complete": false,
+  "parser_interpretation": "Aggregate accrual evidence only. Returns, allocation and net amounts retain the existing parser's assumptions; profitability is not independently verified.",
+  "limitations": [
+    "Aggregate accruals, not order-level reconciliation or bank payout statements.",
+    "Historical period includes both before and after21October;358-specific sold cohort not isolated.",
+    "Historical accruals mix fulfillment schemes; no FBS/FBO split per source item.",
+    "Supplied procurement reference is not verified fully-landed historical cost.",
+    "Current47%commission,1%acquiring and237RUB maxFBSlogistics snapshot are current projection inputs, not verified historical tariffs at358.",
+    "Tax6% and observed service-rate extrapolations are assumptions.",
+    "Current fee tiers and logistics can depend on price/scheme; algebraic thresholds are partial scenarios, not verified true financial floors.",
+    "No independently verified full net profit for these SKUs."
+  ],
+  "rows": [
+    {
+      "sku": "WHT001922",
+      "reference_procurement_rub": 40,
+      "fully_landed_procurement_verified": false,
+      "historical_procurement_applicability_verified": false,
+      "historical_25sep_23oct": {
+        "sold": 24,
+        "returned": 0,
+        "revenue": 11007,
+        "commission": -5025.49,
+        "logistics": -2469.52,
+        "services": -319.1,
+        "net": 3192.89
+      },
+      "historical_fee_types": {
+        "Эквайринг": -59.75,
+        "Подписка Управление отзывами": -94.21,
+        "Звёздные товары": -165.14
+      },
+      "historical_partial_after_reference_cost": {
+        "total": 2232.89,
+        "per_unit": 93.03708333333333,
+        "mean_revenue": 458.625,
+        "not_net_profit": true
+      },
+      "recent_28oct_26nov": {
+        "sold": 1,
+        "returned": 0,
+        "revenue": 979,
+        "commission": -460.13,
+        "logistics": -99.79,
+        "services": -27.42,
+        "net": 391.66
+      },
+      "current": {
+        "seller_price": 950,
+        "partial_contribution": 133.39,
+        "deductions_by_scheme": {
+          "fbs": {
+            "contribution_rub": 133.39,
+            "profit_on_cost_pct": 333.4806,
+            "margin_on_revenue_pct": 14.0413,
+            "is_complete_profit": false,
+            "deductions": {
+              "procurement_rub": 40,
+              "commission_rub": 446.5,
+              "acquiring_rub": 9.5,
+              "logistics_snapshot_max_rub": 237,
+              "tax_scenario_rub": 57,
+              "percentage_services_rub": 26.61,
+              "fixed_services_proxy_rub": 0
+            },
+            "commission_rate_pct": 47,
+            "acquiring_rate_pct": 1
+          }
+        },
+        "unknowns": [
+          "actual_tax_base",
+          "advertising_outside_item_fees",
+          "business_overheads",
+          "fully_landed_procurement_cost",
+          "future_paid_service_terms",
+          "future_returns_and_cancellations",
+          "promotion_combination_effects",
+          "seller_packaging",
+          "unallocated_marketplace_fees",
+          "warranty"
+        ],
+        "flags": [
+          "HISTORICAL_SERVICE_TERMS_ASSUMED_UNCHANGED",
+          "LOW_OBSERVATION_COUNT"
+        ],
+        "partial_break_even_excluding_tax_services": 532.6923076923076,
+        "partial_break_even_with_tax_and_available_service_assumptions": 641.215830401237,
+        "not_historical_break_even": true
+      }
+    },
+    {
+      "sku": "01X301127C",
+      "reference_procurement_rub": 50,
+      "fully_landed_procurement_verified": false,
+      "historical_procurement_applicability_verified": false,
+      "historical_25sep_23oct": {
+        "sold": 8,
+        "returned": 0,
+        "revenue": 5303,
+        "commission": -2403.93,
+        "logistics": -738.15,
+        "services": -146.75,
+        "net": 2014.17
+      },
+      "historical_fee_types": {
+        "Эквайринг": -32.53,
+        "Подписка Управление отзывами": -34.65,
+        "Звёздные товары": -79.57
+      },
+      "historical_partial_after_reference_cost": {
+        "total": 1614.17,
+        "per_unit": 201.77125,
+        "mean_revenue": 662.875,
+        "not_net_profit": true
+      },
+      "recent_28oct_26nov": null,
+      "current": {
+        "seller_price": 1250,
+        "partial_contribution": 288,
+        "deductions_by_scheme": {
+          "fbs": {
+            "contribution_rub": 288,
+            "profit_on_cost_pct": 576,
+            "margin_on_revenue_pct": 23.04,
+            "is_complete_profit": false,
+            "deductions": {
+              "procurement_rub": 50,
+              "commission_rub": 587.5,
+              "acquiring_rub": 12.5,
+              "logistics_snapshot_max_rub": 237,
+              "tax_scenario_rub": 75,
+              "percentage_services_rub": null,
+              "fixed_services_proxy_rub": null
+            },
+            "commission_rate_pct": 47,
+            "acquiring_rate_pct": 1
+          }
+        },
+        "unknowns": [
+          "actual_tax_base",
+          "advertising_outside_item_fees",
+          "business_overheads",
+          "current_marketplace_service_costs",
+          "fully_landed_procurement_cost",
+          "future_paid_service_terms",
+          "future_returns_and_cancellations",
+          "promotion_combination_effects",
+          "seller_packaging",
+          "unallocated_marketplace_fees",
+          "warranty"
+        ],
+        "flags": [
+          "SERVICE_COSTS_UNESTIMATED"
+        ],
+        "partial_break_even_excluding_tax_services": 551.9230769230769,
+        "partial_break_even_with_tax_and_available_service_assumptions": 623.9130434782609,
+        "not_historical_break_even": true
+      }
+    },
+    {
+      "sku": "122390AK-AF",
+      "reference_procurement_rub": 30,
+      "fully_landed_procurement_verified": false,
+      "historical_procurement_applicability_verified": false,
+      "historical_25sep_23oct": {
+        "sold": 34,
+        "returned": 0,
+        "revenue": 33286,
+        "commission": -15213.66,
+        "logistics": -3882.02,
+        "services": -1212.66,
+        "net": 12977.66
+      },
+      "historical_fee_types": {
+        "Подписка Управление отзывами": -432.82,
+        "Звёздные товары": -528.84,
+        "Эквайринг": -251
+      },
+      "historical_partial_after_reference_cost": {
+        "total": 11957.66,
+        "per_unit": 351.69588235294117,
+        "mean_revenue": 979,
+        "not_net_profit": true
+      },
+      "recent_28oct_26nov": {
+        "sold": 4,
+        "returned": 0,
+        "revenue": 4658,
+        "commission": -2135.26,
+        "logistics": -416.22,
+        "services": -184.98,
+        "net": 1921.54
+      },
+      "current": {
+        "seller_price": 950,
+        "partial_contribution": 143.4,
+        "deductions_by_scheme": {
+          "fbs": {
+            "contribution_rub": 143.4,
+            "profit_on_cost_pct": 477.9891,
+            "margin_on_revenue_pct": 15.0944,
+            "is_complete_profit": false,
+            "deductions": {
+              "procurement_rub": 30,
+              "commission_rub": 446.5,
+              "acquiring_rub": 9.5,
+              "logistics_snapshot_max_rub": 237,
+              "tax_scenario_rub": 57,
+              "percentage_services_rub": 26.6,
+              "fixed_services_proxy_rub": 0
+            },
+            "commission_rate_pct": 47,
+            "acquiring_rate_pct": 1
+          }
+        },
+        "unknowns": [
+          "actual_tax_base",
+          "advertising_outside_item_fees",
+          "business_overheads",
+          "fully_landed_procurement_cost",
+          "future_paid_service_terms",
+          "future_returns_and_cancellations",
+          "promotion_combination_effects",
+          "seller_packaging",
+          "unallocated_marketplace_fees",
+          "warranty"
+        ],
+        "flags": [
+          "HISTORICAL_SERVICE_TERMS_ASSUMED_UNCHANGED"
+        ],
+        "partial_break_even_excluding_tax_services": 513.4615384615385,
+        "partial_break_even_with_tax_and_available_service_assumptions": 618.0604628411749,
+        "not_historical_break_even": true
+      }
+    },
+    {
+      "sku": "0am325066AC",
+      "reference_procurement_rub": 150,
+      "fully_landed_procurement_verified": false,
+      "historical_procurement_applicability_verified": false,
+      "historical_25sep_23oct": {
+        "sold": 22,
+        "returned": 0,
+        "revenue": 20542,
+        "commission": -9476.24,
+        "logistics": -2978.59,
+        "services": -688.04,
+        "net": 7399.13
+      },
+      "historical_fee_types": {
+        "Звёздные товары": -316.55,
+        "Подписка Управление отзывами": -197.37,
+        "Эквайринг": -129.12,
+        "Обеспечение материалами для упаковки товара": -15,
+        "Упаковка товара партнёрами": -30
+      },
+      "historical_partial_after_reference_cost": {
+        "total": 4099.13,
+        "per_unit": 186.3240909090909,
+        "mean_revenue": 933.7272727272727,
+        "not_net_profit": true
+      },
+      "recent_28oct_26nov": {
+        "sold": 2,
+        "returned": 0,
+        "revenue": 2700,
+        "commission": -1269,
+        "logistics": -569.61,
+        "services": -102.96,
+        "net": 758.43
+      },
+      "current": {
+        "seller_price": 1850,
+        "partial_contribution": 412.19,
+        "deductions_by_scheme": {
+          "fbs": {
+            "contribution_rub": 412.19,
+            "profit_on_cost_pct": 274.7951,
+            "margin_on_revenue_pct": 22.2807,
+            "is_complete_profit": false,
+            "deductions": {
+              "procurement_rub": 150,
+              "commission_rub": 869.5,
+              "acquiring_rub": 18.5,
+              "logistics_snapshot_max_rub": 237,
+              "tax_scenario_rub": 111,
+              "percentage_services_rub": 51.81,
+              "fixed_services_proxy_rub": 0
+            },
+            "commission_rate_pct": 47,
+            "acquiring_rate_pct": 1
+          },
+          "fbo": {
+            "contribution_rub": 422.19,
+            "profit_on_cost_pct": 281.4618,
+            "margin_on_revenue_pct": 22.8212,
+            "is_complete_profit": false,
+            "deductions": {
+              "procurement_rub": 150,
+              "commission_rub": 869.5,
+              "acquiring_rub": 18.5,
+              "logistics_snapshot_max_rub": 227,
+              "tax_scenario_rub": 111,
+              "percentage_services_rub": 51.81,
+              "fixed_services_proxy_rub": 0
+            },
+            "commission_rate_pct": 47,
+            "acquiring_rate_pct": 1
+          }
+        },
+        "unknowns": [
+          "actual_tax_base",
+          "advertising_outside_item_fees",
+          "business_overheads",
+          "fully_landed_procurement_cost",
+          "future_paid_service_terms",
+          "future_returns_and_cancellations",
+          "promotion_combination_effects",
+          "seller_packaging",
+          "unallocated_marketplace_fees",
+          "warranty"
+        ],
+        "flags": [
+          "HISTORICAL_SERVICE_TERMS_ASSUMED_UNCHANGED"
+        ],
+        "partial_break_even_excluding_tax_services": 744.2307692307692,
+        "partial_break_even_with_tax_and_available_service_assumptions": 895.8415452141644,
+        "not_historical_break_even": true
+      }
+    },
+    {
+      "sku": "0am325025P",
+      "reference_procurement_rub": 40,
+      "fully_landed_procurement_verified": false,
+      "historical_procurement_applicability_verified": false,
+      "historical_25sep_23oct": {
+        "sold": 2,
+        "returned": 0,
+        "revenue": 1958,
+        "commission": -881.1,
+        "logistics": -187.92,
+        "services": -72.26,
+        "net": 816.72
+      },
+      "historical_fee_types": {
+        "Подписка Управление отзывами": -25.46,
+        "Звёздные товары": -29.38,
+        "Эквайринг": -17.42
+      },
+      "historical_partial_after_reference_cost": {
+        "total": 736.72,
+        "per_unit": 368.36,
+        "mean_revenue": 979,
+        "not_net_profit": true
+      },
+      "recent_28oct_26nov": null,
+      "current": null
+    },
+    {
+      "sku": "0am325025r",
+      "reference_procurement_rub": 70,
+      "fully_landed_procurement_verified": false,
+      "historical_procurement_applicability_verified": false,
+      "historical_25sep_23oct": {
+        "sold": 4,
+        "returned": 0,
+        "revenue": 2264,
+        "commission": -1064.08,
+        "logistics": -1016.67,
+        "services": -146.12,
+        "net": 37.13
+      },
+      "historical_fee_types": {
+        "Звёздные товары": -33.96,
+        "Подписка Управление отзывами": -29.44,
+        "Эквайринг": -22.72,
+        "Обеспечение материалами для упаковки товара": -20,
+        "Упаковка товара партнёрами": -40
+      },
+      "historical_partial_after_reference_cost": {
+        "total": -242.87,
+        "per_unit": -60.7175,
+        "mean_revenue": 566,
+        "not_net_profit": true
+      },
+      "recent_28oct_26nov": {
+        "sold": 0,
+        "returned": 0,
+        "revenue": 0,
+        "commission": 0,
+        "logistics": -266,
+        "services": 0,
+        "net": -266
+      },
+      "current": {
+        "seller_price": 1490,
+        "partial_contribution": 378.4,
+        "deductions_by_scheme": {
+          "fbs": {
+            "contribution_rub": 378.4,
+            "profit_on_cost_pct": 540.5714,
+            "margin_on_revenue_pct": 25.396,
+            "is_complete_profit": false,
+            "deductions": {
+              "procurement_rub": 70,
+              "commission_rub": 700.3,
+              "acquiring_rub": 14.9,
+              "logistics_snapshot_max_rub": 237,
+              "tax_scenario_rub": 89.4,
+              "percentage_services_rub": null,
+              "fixed_services_proxy_rub": null
+            },
+            "commission_rate_pct": 47,
+            "acquiring_rate_pct": 1
+          },
+          "fbo": {
+            "contribution_rub": 388.4,
+            "profit_on_cost_pct": 554.8571,
+            "margin_on_revenue_pct": 26.0671,
+            "is_complete_profit": false,
+            "deductions": {
+              "procurement_rub": 70,
+              "commission_rub": 700.3,
+              "acquiring_rub": 14.9,
+              "logistics_snapshot_max_rub": 227,
+              "tax_scenario_rub": 89.4,
+              "percentage_services_rub": null,
+              "fixed_services_proxy_rub": null
+            },
+            "commission_rate_pct": 47,
+            "acquiring_rate_pct": 1
+          }
+        },
+        "unknowns": [
+          "actual_tax_base",
+          "advertising_outside_item_fees",
+          "business_overheads",
+          "current_marketplace_service_costs",
+          "fully_landed_procurement_cost",
+          "future_paid_service_terms",
+          "future_returns_and_cancellations",
+          "promotion_combination_effects",
+          "seller_packaging",
+          "unallocated_marketplace_fees",
+          "warranty"
+        ],
+        "flags": [
+          "SERVICE_COSTS_UNESTIMATED"
+        ],
+        "partial_break_even_excluding_tax_services": 590.3846153846154,
+        "partial_break_even_with_tax_and_available_service_assumptions": 667.391304347826,
+        "not_historical_break_even": true
+      }
+    },
+    {
+      "sku": "02e305045",
+      "reference_procurement_rub": 280,
+      "fully_landed_procurement_verified": false,
+      "historical_procurement_applicability_verified": false,
+      "historical_25sep_23oct": {
+        "sold": 0,
+        "returned": 0,
+        "revenue": 0,
+        "commission": 0,
+        "logistics": 0,
+        "services": 0,
+        "net": 0
+      },
+      "historical_fee_types": {
+        "Эквайринг": 0
+      },
+      "historical_partial_after_reference_cost": null,
+      "recent_28oct_26nov": {
+        "sold": 3,
+        "returned": 0,
+        "revenue": 7050,
+        "commission": -3266.5,
+        "logistics": -322.9,
+        "services": -250.23,
+        "net": 3210.37
+      },
+      "current": {
+        "seller_price": 2350,
+        "partial_contribution": 455.2,
+        "deductions_by_scheme": {
+          "fbs": {
+            "contribution_rub": 455.2,
+            "profit_on_cost_pct": 162.5714,
+            "margin_on_revenue_pct": 19.3702,
+            "is_complete_profit": false,
+            "deductions": {
+              "procurement_rub": 280,
+              "commission_rub": 1104.5,
+              "acquiring_rub": 23.5,
+              "logistics_snapshot_max_rub": 280,
+              "tax_scenario_rub": 141,
+              "percentage_services_rub": 65.8,
+              "fixed_services_proxy_rub": 0
+            },
+            "commission_rate_pct": 47,
+            "acquiring_rate_pct": 1
+          },
+          "fbo": {
+            "contribution_rub": 465.2,
+            "profit_on_cost_pct": 166.1429,
+            "margin_on_revenue_pct": 19.7957,
+            "is_complete_profit": false,
+            "deductions": {
+              "procurement_rub": 280,
+              "commission_rub": 1104.5,
+              "acquiring_rub": 23.5,
+              "logistics_snapshot_max_rub": 270,
+              "tax_scenario_rub": 141,
+              "percentage_services_rub": 65.8,
+              "fixed_services_proxy_rub": 0
+            },
+            "commission_rate_pct": 47,
+            "acquiring_rate_pct": 1
+          }
+        },
+        "unknowns": [
+          "actual_tax_base",
+          "advertising_outside_item_fees",
+          "business_overheads",
+          "fully_landed_procurement_cost",
+          "future_paid_service_terms",
+          "future_returns_and_cancellations",
+          "promotion_combination_effects",
+          "seller_packaging",
+          "unallocated_marketplace_fees",
+          "warranty"
+        ],
+        "flags": [
+          "HISTORICAL_SERVICE_TERMS_ASSUMED_UNCHANGED"
+        ],
+        "partial_break_even_excluding_tax_services": 1076.923076923077,
+        "partial_break_even_with_tax_and_available_service_assumptions": 1296.296296296296,
+        "not_historical_break_even": true
+      }
+    },
+    {
+      "sku": "02E305051C",
+      "reference_procurement_rub": 120,
+      "fully_landed_procurement_verified": false,
+      "historical_procurement_applicability_verified": false,
+      "historical_25sep_23oct": null,
+      "historical_fee_types": null,
+      "historical_partial_after_reference_cost": null,
+      "recent_28oct_26nov": null,
+      "current": null
+    }
+  ]
+}

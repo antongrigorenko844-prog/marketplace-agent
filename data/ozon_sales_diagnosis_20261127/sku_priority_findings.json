@@ -1,0 +1,338 @@
+{
+  "scope": "Read-only arithmetic review of saved exact Ozon data; no seller mutations",
+  "source_cohorts": "sources/data__ozon_delivered_3m_20261123.json",
+  "cohort_snapshot_utc": "2026-11-23T11:01:55.879062+00:00",
+  "cohort_definition": "CREATION-month cohort with status at snapshot (not delivery-date calendar month)",
+  "source_current_stock": "focus_stock_27nov.json",
+  "source_daily_orders": "sources/data__ozon_recovery_20261122__live_diagnosis.json",
+  "daily_orders_snapshot_utc": "2026-11-22T12:21:21.694611+00:00",
+  "comparison": {
+    "before_period": [
+      "2026-10-01",
+      "2026-10-15"
+    ],
+    "after_period": [
+      "2026-11-01",
+      "2026-11-15"
+    ],
+    "before_ordered_units": 312,
+    "after_ordered_units": 187,
+    "delta_ordered_units": -125,
+    "delta_percent": -40.06,
+    "before_postings": 222,
+    "after_postings": 165,
+    "postings_delta_percent": -25.68,
+    "statuses_at_snapshot": {
+      "before": {
+        "delivered": 259,
+        "cancelled": 53
+      },
+      "after": {
+        "delivered": 128,
+        "cancelled": 34,
+        "in_transit_or_pending": 25
+      }
+    },
+    "note": "Compare ORDERED units, not current delivered statuses. Twenty-five November units remain pending at snapshot; delivered not mature."
+  },
+  "eight_concrete_high_loss_skus": [
+    {
+      "sku": "WHT001922",
+      "title": "Болт мехатроника длинный DSG7 DQ200 0AM 0CW WHT001922",
+      "ordered_2026_10_01_15": 23,
+      "ordered_2026_11_01_15": 0,
+      "lost_ordered_units": 23,
+      "arithmetic_share_of_net_decline_percent": 18.4,
+      "current_2026_11_27": {
+        "price_rub": 950,
+        "status": "Продаётся",
+        "archived": false,
+        "stocks": [
+          {
+            "type": "fbo",
+            "present": 0,
+            "reserved": 0
+          },
+          {
+            "type": "fbs",
+            "present": 121,
+            "reserved": 0
+          }
+        ],
+        "price_index": "SUPER",
+        "owner_notes": "27.10.2026: цена 950 → 1350 (мин. 400 ₽ чистыми на Ozon)"
+      }
+    },
+    {
+      "sku": "122390AK-AF",
+      "title": "Пыльник штока мехатроника DSG7 DQ200 122390AK-AF",
+      "ordered_2026_10_01_15": 22,
+      "ordered_2026_11_01_15": 0,
+      "lost_ordered_units": 22,
+      "arithmetic_share_of_net_decline_percent": 17.6,
+      "current_2026_11_27": {
+        "price_rub": 950,
+        "status": "Продаётся",
+        "archived": false,
+        "stocks": [
+          {
+            "type": "fbo",
+            "present": 0,
+            "reserved": 0
+          },
+          {
+            "type": "fbs",
+            "present": 115,
+            "reserved": 0
+          }
+        ],
+        "price_index": "SUPER",
+        "owner_notes": "27.10.2026: цена 950 → 1350 (мин. 400 ₽ чистыми на Ozon)"
+      }
+    },
+    {
+      "sku": "0am325066AC",
+      "title": "Усиленный поршень штока мехатроника DSG7 DQ200 0AM325066AC",
+      "ordered_2026_10_01_15": 16,
+      "ordered_2026_11_01_15": 2,
+      "lost_ordered_units": 14,
+      "arithmetic_share_of_net_decline_percent": 11.2,
+      "current_2026_11_27": {
+        "price_rub": 1850,
+        "status": "Продаётся",
+        "archived": false,
+        "stocks": [
+          {
+            "type": "fbo",
+            "present": 3,
+            "reserved": 0
+          },
+          {
+            "type": "fbs",
+            "present": 26,
+            "reserved": 0
+          }
+        ],
+        "price_index": "WITHOUT_INDEX",
+        "owner_notes": "27.10.2026: цена 1350 → 1850 (мин. 400 ₽ чистыми на Ozon)"
+      }
+    },
+    {
+      "sku": "0am325025",
+      "title": "Ремкомплект мехатроника DSG7 DQ200 (гидроплита, сальники, прокладки) 0AM325025",
+      "ordered_2026_10_01_15": 28,
+      "ordered_2026_11_01_15": 18,
+      "lost_ordered_units": 10,
+      "arithmetic_share_of_net_decline_percent": 8.0,
+      "current_2026_11_27": {
+        "price_rub": 13850,
+        "status": "Продаётся",
+        "archived": false,
+        "stocks": [
+          {
+            "type": "fbo",
+            "present": 2,
+            "reserved": 0
+          },
+          {
+            "type": "fbs",
+            "present": 8,
+            "reserved": 1
+          }
+        ],
+        "price_index": "RED",
+        "owner_notes": null
+      }
+    },
+    {
+      "sku": "0am325025z",
+      "title": "Ремкомплект: Усиленный короткий шток 0AM325091F 99мм + втулка мехатроника DSG7 DQ200",
+      "ordered_2026_10_01_15": 15,
+      "ordered_2026_11_01_15": 6,
+      "lost_ordered_units": 9,
+      "arithmetic_share_of_net_decline_percent": 7.2,
+      "current_2026_11_27": {
+        "price_rub": 3290,
+        "status": "Продаётся",
+        "archived": false,
+        "stocks": [
+          {
+            "type": "fbo",
+            "present": 1,
+            "reserved": 0
+          },
+          {
+            "type": "fbs",
+            "present": 125,
+            "reserved": 0
+          }
+        ],
+        "price_index": "WITHOUT_INDEX",
+        "owner_notes": null
+      }
+    },
+    {
+      "sku": "0am325025r",
+      "title": "Усиленное опорное кольцо толкателя мехатроника DSG7 DQ200",
+      "ordered_2026_10_01_15": 8,
+      "ordered_2026_11_01_15": 0,
+      "lost_ordered_units": 8,
+      "arithmetic_share_of_net_decline_percent": 6.4,
+      "current_2026_11_27": {
+        "price_rub": 1490,
+        "status": "Продаётся",
+        "archived": false,
+        "stocks": [
+          {
+            "type": "fbo",
+            "present": 16,
+            "reserved": 0
+          },
+          {
+            "type": "fbs",
+            "present": 129,
+            "reserved": 0
+          }
+        ],
+        "price_index": "WITHOUT_INDEX",
+        "owner_notes": "Цена поднята 22.10.2026 для выхода из эластичного бустинга Ozon"
+      }
+    },
+    {
+      "sku": "0am325025hfe",
+      "title": "Ремкомплект 2 штоков мехатроника DSG7 DQ200: 2 сальника, 2 пыльника, 2 крышки",
+      "ordered_2026_10_01_15": 12,
+      "ordered_2026_11_01_15": 4,
+      "lost_ordered_units": 8,
+      "arithmetic_share_of_net_decline_percent": 6.4,
+      "current_2026_11_27": {
+        "price_rub": 3809,
+        "status": "Продаётся",
+        "archived": false,
+        "stocks": [
+          {
+            "type": "fbo",
+            "present": 0,
+            "reserved": 0
+          },
+          {
+            "type": "fbs",
+            "present": 58,
+            "reserved": 0
+          }
+        ],
+        "price_index": "WITHOUT_INDEX",
+        "owner_notes": null
+      }
+    },
+    {
+      "sku": "122390AKAF",
+      "title": "Оригинальный пыльник штока мехатроника DSG7 DQ200 Volkswagen (Германия) 122390AKAF",
+      "ordered_2026_10_01_15": 7,
+      "ordered_2026_11_01_15": 0,
+      "lost_ordered_units": 7,
+      "arithmetic_share_of_net_decline_percent": 5.6,
+      "current_2026_11_27": {
+        "price_rub": 1850,
+        "status": "Продаётся",
+        "archived": false,
+        "stocks": [
+          {
+            "type": "fbo",
+            "present": 2,
+            "reserved": 0
+          },
+          {
+            "type": "fbs",
+            "present": 100,
+            "reserved": 0
+          }
+        ],
+        "price_index": "WITHOUT_INDEX",
+        "owner_notes": "Цена поднята 22.10.2026 для выхода из эластичного бустинга Ozon"
+      }
+    }
+  ],
+  "eight_skus_lost_units": 101,
+  "eight_skus_arithmetic_share_of_net_decline_percent": 80.8,
+  "six_inexpensive_skus": {
+    "skus": [
+      "WHT001922",
+      "122390AK-AF",
+      "0am325066AC",
+      "0am325025r",
+      "122390AKAF",
+      "01X301127C"
+    ],
+    "current_price_rub_by_sku": {
+      "WHT001922": 950,
+      "122390AK-AF": 950,
+      "0am325066AC": 1850,
+      "0am325025r": 1490,
+      "122390AKAF": 1850,
+      "01X301127C": 1250
+    },
+    "lost_units": 79,
+    "arithmetic_share_of_net_decline_percent": 63.2
+  },
+  "complete_seven_day_analytics_windows": [
+    {
+      "start": "2026-10-26",
+      "end": "2026-11-01",
+      "days_present": 7,
+      "ordered_units": 104,
+      "api_revenue_rub": 686281,
+      "api_revenue_per_ordered_unit_rub": 6598.86
+    },
+    {
+      "start": "2026-11-02",
+      "end": "2026-11-08",
+      "days_present": 7,
+      "ordered_units": 93,
+      "api_revenue_rub": 789851,
+      "api_revenue_per_ordered_unit_rub": 8493.02
+    },
+    {
+      "start": "2026-11-09",
+      "end": "2026-11-15",
+      "days_present": 7,
+      "ordered_units": 84,
+      "api_revenue_rub": 754471,
+      "api_revenue_per_ordered_unit_rub": 8981.8
+    },
+    {
+      "start": "2026-11-08",
+      "end": "2026-11-14",
+      "days_present": 7,
+      "ordered_units": 86,
+      "api_revenue_rub": 760345,
+      "api_revenue_per_ordered_unit_rub": 8841.22
+    },
+    {
+      "start": "2026-11-15",
+      "end": "2026-11-21",
+      "days_present": 7,
+      "ordered_units": 87,
+      "api_revenue_rub": 847162,
+      "api_revenue_per_ordered_unit_rub": 9737.49
+    }
+  ],
+  "limitations": [
+    "Сравниваются только 1–15 числа двух месяцев: ровно 15 дней, но с различающимся распределением дней недели.",
+    "Восемь SKU выбраны из сохранённого списка sku_deltas, изначально отсортированного по DELIVERED и ограниченного 30 declines + 20 growth. Это не доказательство глобального рейтинга ORDERED по всем SKU.",
+    "Сумма ORDERED-дельт в 50 сохранённых строках равна −122, общий итог равен −125. Остальные строки не представлены полно.",
+    "101/125 = 80,8% и 79/125 = 63,2% — арифметические вклады в чистый итог, не доли причины падения. Рост других товаров может компенсировать падения.",
+    "Текущий положительный FBS-остаток и статус «Продаётся» не доказывают непрерывное наличие в октябре и первой половине ноября и не являются физической инвентаризацией.",
+    "Наличие в FBS не говорит о точном сроке доставки или доступности во всех регионах. Нельзя считать нулевой FBO причиной ноябрьского спада без исторических остатков.",
+    "122390AK-AF и 122390AKAF сохранены как разные offer_id; не склеивать автоматически.",
+    "API revenue — метрика аналитики заказов; не чистая прибыль, не банковское начисление и не выручка завершённых доставок.",
+    "Средняя сумма метрики revenue на заказанную единицу вычислена на одинаковых строках; это не средний чек заказа и не подтверждённая маржинальность.",
+    "Окно 15–21 ноября — семь полных дней, но не календарная неделя 16–22 ноября. Данных 22 ноября в этом источнике нет."
+  ],
+  "owner_economics_correction_20261127": {
+    "statement": "Снижение заказанных единиц не доказывает падение прибыли. Владелец указал на возможную убыточность старой цены болта 358 ₽.",
+    "finding": "Частичный исторический остаток после распределённых удержаний и справочной закупки: WHT001922 +93,04 ₽/шт., 01X301127C +201,77 ₽/шт., 0am325025r −60,72 ₽/шт.; полная прибыль и сделки именно по358 ₽ не подтверждены.",
+    "reference": "economic_caveat.json",
+    "decision": "Старые цены не являются рекомендацией для возврата. Финансовый эффект повышения цен нужно оценивать отдельно от количества продаж."
+  }
+}
