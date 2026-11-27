@@ -1,0 +1,368 @@
+{
+  "status": "INDEPENDENT_REVIEW_READY_FOR_SIX_NARROW_CAMPAIGN_ADDITIONS_ONLY",
+  "reviewer": "merchandising_rank",
+  "external_mutations": 0,
+  "source_finished_utc": "2026-11-27T10:16:49.550210+00:00",
+  "source": "direct_semantics_20261127/raw_1016/query_index_716316525.json",
+  "campaign_id": "716316525",
+  "raw_rows": 18684,
+  "unique_queries": 12705,
+  "approved_additions": [
+    "audi a7",
+    "ауди a7",
+    "audi а7",
+    "ауди а7",
+    "\"мехатроник пассат сс dq250\"",
+    "\"мехатроник пассат сс dq 250\""
+  ],
+  "audi_a7": {
+    "decision": "READY_WITH_EXPLICIT_BOUNDARY",
+    "reason": "Current DQ200 feed offers only DQ200 hydraulic units/assemblies and boards. No Audi A7-compatible offer is established. Observed A7 demand is not a supported DQ200 product route. This is an account-routing judgment, not identification of an unknown car gearbox from the model alone.",
+    "observed": {
+      "rows": 2,
+      "unique_queries": 2,
+      "impressions": 2,
+      "clicks": 1,
+      "cost_rub": 35.22,
+      "queries": [
+        "ауди а7 dsg dl501",
+        "мехатроник audi a7"
+      ]
+    },
+    "preserve": [
+      "Audi A3 absent A7 combination",
+      "Skoda/Octavia A7 absent Audi A7 combination"
+    ],
+    "boundary": "The two-word combinations also exclude mixed comparisons containing Audi A7, including comparison with Audi A3 or DQ200. They do not cover every spelling (e.g. separated A 7). Existing/future positive-key full-overlap exception must be evaluated per actual criterion; this is not a global whitelist.",
+    "not_added": [
+      "audi",
+      "ауди",
+      "a7",
+      "а7"
+    ]
+  },
+  "dq250_passat_cc": {
+    "decision": "READY_NARROW_REPEAT_EXCLUSION",
+    "observed_query": "мехатроника пассат сс dq250",
+    "ad_group_id": "5828476541",
+    "criterion_id": "58582210347",
+    "matched_keyword": "мехатроник пассат сс",
+    "clicks": 1,
+    "cost_rub": 25.48,
+    "reason": "The query explicitly requests DQ250; the DQ200 campaign feed does not contain that family. Store SKU 02E927770AL exists at 68500 RUB with published quantity 2, but it is outside this feed and does not prove compatibility with every Passat CC.",
+    "rules": [
+      "\"мехатроник пассат сс dq250\"",
+      "\"мехатроник пассат сс dq 250\""
+    ],
+    "quotation_semantics": "Quotation fixes word count, not literal character string or inflection. Noun form мехатроника is expected to normalize to мехатроник. Rules have 4 and 5 words respectively.",
+    "protected_boundary": "Mixed DQ200/DQ250 queries with additional words are not excluded by these two added quoted rules. Other existing rules and actual serving conditions may still affect them.",
+    "not_added": [
+      "dq250",
+      "dq 250",
+      "пассат",
+      "passat",
+      "сс",
+      "cc"
+    ],
+    "route": "Separate verified DQ250 product route would need its own supported ad/landing; do not enable groups or change feed here."
+  },
+  "limited_corpus": [
+    {
+      "query": "мехатроник audi a7",
+      "expected_match_by_added_rules": true,
+      "limited_checker_matches": [
+        "audi a7"
+      ],
+      "pass": true,
+      "note": "observed paid"
+    },
+    {
+      "query": "мехатроник ауди a7",
+      "expected_match_by_added_rules": true,
+      "limited_checker_matches": [
+        "ауди a7"
+      ],
+      "pass": true,
+      "note": "synthetic spelling"
+    },
+    {
+      "query": "мехатроник audi а7",
+      "expected_match_by_added_rules": true,
+      "limited_checker_matches": [
+        "audi а7"
+      ],
+      "pass": true,
+      "note": "synthetic spelling"
+    },
+    {
+      "query": "ауди а7 dsg dl501",
+      "expected_match_by_added_rules": true,
+      "limited_checker_matches": [
+        "ауди а7"
+      ],
+      "pass": true,
+      "note": "observed zero click"
+    },
+    {
+      "query": "мехатроника пассат сс dq250",
+      "expected_match_by_added_rules": true,
+      "limited_checker_matches": [
+        "\"мехатроник пассат сс dq250\""
+      ],
+      "pass": true,
+      "note": "observed paid, noun inflection retained"
+    },
+    {
+      "query": "мехатроник пассат сс dq 250",
+      "expected_match_by_added_rules": true,
+      "limited_checker_matches": [
+        "\"мехатроник пассат сс dq 250\""
+      ],
+      "pass": true,
+      "note": "synthetic spaced family"
+    },
+    {
+      "query": "мехатроник audi a3 купить",
+      "expected_match_by_added_rules": false,
+      "limited_checker_matches": [],
+      "pass": true,
+      "note": "protected A3; exact car compatibility still checked"
+    },
+    {
+      "query": "мехатроник шкода октавия а7 1.4 купить",
+      "expected_match_by_added_rules": false,
+      "limited_checker_matches": [],
+      "pass": true,
+      "note": "observed buyer; bare a7 forbidden"
+    },
+    {
+      "query": "мехатроник skoda octavia a7 dq200",
+      "expected_match_by_added_rules": false,
+      "limited_checker_matches": [],
+      "pass": true,
+      "note": "protected Octavia A7"
+    },
+    {
+      "query": "мехатроник пассат сс dq200",
+      "expected_match_by_added_rules": false,
+      "limited_checker_matches": [],
+      "pass": true,
+      "note": "protected DQ200 family"
+    },
+    {
+      "query": "мехатроник пассат сс dq200 dq250 сравнение",
+      "expected_match_by_added_rules": false,
+      "limited_checker_matches": [],
+      "pass": true,
+      "note": "extra words protected by these two quoted additions"
+    },
+    {
+      "query": "мехатроник пассат сс dq 200 dq 250 сравнение",
+      "expected_match_by_added_rules": false,
+      "limited_checker_matches": [],
+      "pass": true,
+      "note": "extra words protected by these two quoted additions"
+    },
+    {
+      "query": "как определить какая коробка dq200 или dq250",
+      "expected_match_by_added_rules": false,
+      "limited_checker_matches": [],
+      "pass": true,
+      "note": "observed mixed comparison"
+    },
+    {
+      "query": "купить мехатроник dq250",
+      "expected_match_by_added_rules": false,
+      "limited_checker_matches": [],
+      "pass": true,
+      "note": "narrow rule is not complete DQ250-family ban"
+    },
+    {
+      "query": "сравнить мехатроник audi a7 и audi a3",
+      "expected_match_by_added_rules": true,
+      "limited_checker_matches": [
+        "audi a7"
+      ],
+      "pass": true,
+      "note": "explicit accepted limit: Audi A7 two-word combinations also block mixed comparisons"
+    },
+    {
+      "query": "мехатроник audi a 7",
+      "expected_match_by_added_rules": false,
+      "limited_checker_matches": [],
+      "pass": true,
+      "note": "spaced A 7 not covered by these four literal combinations; do not promise universal coverage"
+    }
+  ],
+  "limited_added_rule_effect_on_raw": {
+    "rows": 3,
+    "unique_queries": 3,
+    "impressions": 3,
+    "clicks": 2,
+    "cost_rub": 60.7,
+    "queries": [
+      "ауди а7 dsg dl501",
+      "мехатроник audi a7",
+      "мехатроника пассат сс dq250"
+    ]
+  },
+  "observed_matching_rows": [
+    {
+      "Date": "2026-11-22",
+      "CampaignId": "716316525",
+      "AdGroupId": "5826171512",
+      "AdId": "1927466195846975291",
+      "Query": "ауди а7 dsg dl501",
+      "CriterionType": "AUTOTARGETING",
+      "CriterionId": "205826171512",
+      "Criterion": "---autotargeting",
+      "MatchedKeyword": "",
+      "TargetingCategory": "ALTERNATIVE",
+      "MatchType": "NONE",
+      "Impressions": "1",
+      "Clicks": "0",
+      "Cost": "0.00",
+      "Conversions": "0"
+    },
+    {
+      "Date": "2026-11-27",
+      "CampaignId": "716316525",
+      "AdGroupId": "5828476541",
+      "AdId": "1927488453443618167",
+      "Query": "мехатроник audi a7",
+      "CriterionType": "KEYWORD",
+      "CriterionId": "58582210243",
+      "Criterion": "мехатроник dsg 7 ауди",
+      "MatchedKeyword": "",
+      "TargetingCategory": "EXACT",
+      "MatchType": "SYNONYM",
+      "Impressions": "1",
+      "Clicks": "1",
+      "Cost": "35.22",
+      "Conversions": "0"
+    },
+    {
+      "Date": "2026-11-27",
+      "CampaignId": "716316525",
+      "AdGroupId": "5828476541",
+      "AdId": "1927488453443618167",
+      "Query": "мехатроника пассат сс dq250",
+      "CriterionType": "KEYWORD",
+      "CriterionId": "58582210347",
+      "Criterion": "мехатроник пассат сс",
+      "MatchedKeyword": "",
+      "TargetingCategory": "ALTERNATIVE",
+      "MatchType": "SYNONYM",
+      "Impressions": "1",
+      "Clicks": "1",
+      "Cost": "25.48",
+      "Conversions": "0"
+    }
+  ],
+  "checker_limits": [
+    "Small reviewed token/inflection checker for the six candidate strings only, not a Yandex matching simulator.",
+    "Does not simulate all morphology, stop words, semantic matching, autotargeting, auction selection or existing-rule eligibility.",
+    "Observed historical impressions may precede existing negative changes; they are not proof that today's settings failed.",
+    "Observed cost is not a guaranteed future saving. No paid sales/profit identified."
+  ],
+  "drom": {
+    "decision": "HOLD_DO_NOT_APPLY_FOUR_REPLACEMENTS",
+    "reason": "Full raw contains large actual marketplace-navigation tail; no observed supported DQ200 product purchase query establishes benefit. Quoting the two-word phrase would reopen longer navigation.",
+    "real_counterexamples": [
+      "база дром запчасти",
+      "дром запчасти хабаровск",
+      "дром запчасти улан удэ"
+    ],
+    "historical_owner_intent": "No specific owner demand to globally ban Drom established; preserving existing rules is an evidence-based hold, not invented authorization.",
+    "quantification": "Use PPC current raw re-open analysis with its explicitly defined drom-family tokenizer; broad regex counts differ."
+  },
+  "seven_feed_names": {
+    "decision": "HOLD_PREVIOUS_OWNER_INSTRUCTION",
+    "facts_validated": true,
+    "fresh_card_finished_utc": "2026-11-27T10:11:25.839232+00:00",
+    "facts_source": "direct_semantics_20261127/live_45979776426/landing_seo_readonly.json",
+    "historical_guard_source": "drafts/direct_conversion_20261126/feed_title_plan.json on main",
+    "historical_mode": "cancelled_by_owner_preserve_neutral_titles",
+    "guard": "Owner requested neutral Мехатроник DSG7 DQ200 names for all seven. Do not override this explicit prior choice under the general audit.",
+    "reviewed_names": [
+      {
+        "offer_id": "0am325025h",
+        "proposed": "Мехатроник DSG7 DQ200 0AM/0CW без платы"
+      },
+      {
+        "offer_id": "0am325025x",
+        "proposed": "Мехатроник DSG7 DQ200 без платы, новые соленоиды Bosch"
+      },
+      {
+        "offer_id": "0am325025hx",
+        "proposed": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769D"
+      },
+      {
+        "offer_id": "0am325025hxf",
+        "proposed": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769F"
+      },
+      {
+        "offer_id": "0am325025hxe",
+        "proposed": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769E"
+      },
+      {
+        "offer_id": "0am325025hxg",
+        "proposed": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769G"
+      },
+      {
+        "offer_id": "0am325025hxk",
+        "proposed": "Мехатроник DSG7 DQ200 в сборе с платой 0AM927769K"
+      }
+    ],
+    "x_stock_guard": "0am325025x remains unavailable with quantity 0; no enabling or stock mutation."
+  },
+  "separate_product_copy_findings": [
+    {
+      "sku": "0am325025HXE",
+      "incorrect_footer": "Артикул: 0am325025HXF.",
+      "correct_footer": "Артикул: 0am325025HXE.",
+      "status": "separate_precise_text_fix_only_not_applied",
+      "evidence": "Fresh product title, actual sku and installed board revision agree; only copied footer differs."
+    },
+    {
+      "sku": "0am325025HXG",
+      "incorrect_footer": "Артикул: 0am325025HXF.",
+      "correct_footer": "Артикул: 0am325025HXG.",
+      "status": "separate_precise_text_fix_only_not_applied",
+      "evidence": "Fresh product title, actual sku and installed board revision agree; only copied footer differs."
+    },
+    {
+      "sku": "0am325025HXK",
+      "incorrect_footer": "Артикул: 0am325025HXF.",
+      "correct_footer": "Артикул: 0am325025HXK.",
+      "status": "separate_precise_text_fix_only_not_applied",
+      "evidence": "Fresh product title, actual sku and installed board revision agree; only copied footer differs."
+    }
+  ],
+  "preserve": [
+    "Existing 688 campaign negatives and six explicitly approved exclusions, all scopes/operators",
+    "All group negatives including Drom and oil rule",
+    "All manual keywords, ads, budgets, bids, targets, feed, prices, stock",
+    "Paused component groups remain paused"
+  ],
+  "operator_sources": [
+    {
+      "url": "https://yandex.ru/support/direct/ru/keywords/negative-keywords",
+      "supports": "Multiword negatives and documented full-overlap exception with actual positive key."
+    },
+    {
+      "url": "https://yandex.ru/support/direct/ru/keywords/symbols-and-operators",
+      "supports": "Quotation fixes word count; ! is needed to fix word form."
+    }
+  ],
+  "technical_sources": [
+    {
+      "url": "https://uploads.audi-mediacenter.com/system/production/car_motorizations/363/file_en/2d9ee07814bc8d0d429027ef04726da1bd796eef/eTD-Audi-A7-Sportback-55-TFSI-quattro-S_tronic-250kW-MHEV_240911.pdf?1726134799=&disposition=attachment",
+      "supports": "Example A7 55 TFSI has wet 7-speed S tronic and 500 Nm; do not generalize precise transmission code to every A7."
+    },
+    {
+      "url": "https://static.nhtsa.gov/odi/tsbs/2014/MC-10124723-9999.pdf",
+      "supports": "Audi US bulletin lists A6/A7 2012-2015 with 0BK 8-speed; A7 model name does not establish DQ200."
+    }
+  ]
+}

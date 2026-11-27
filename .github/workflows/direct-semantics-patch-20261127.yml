@@ -1,0 +1,50 @@
+name: LEOPARTS reviewed six campaign negatives
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/direct-semantics-patch-20261127.yml
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Guarded operation (check never writes Direct)
+        required: true
+        default: check
+        type: choice
+        options: [check, apply, readback, rollback-own]
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  reviewed-patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check syntax and reviewed plan presence
+        run: |
+          python -m py_compile .github/scripts/direct_semantics_patch_20261127.py
+          test -f data/direct_semantics_20261127/reviewed_campaign_patch.json
+          test -f data/direct_semantics_20261127/approved_candidate.json
+          test -f data/direct_semantics_20261127/final_independent_review.json
+          test -f data/direct_semantics_20261127/live_45979776426/inventory.json
+      - name: Run guarded reviewed operation
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          PATCH_MODE: ${{ github.event_name == 'push' && 'apply' || inputs.mode }}
+        run: python -u .github/scripts/direct_semantics_patch_20261127.py --mode "$PATCH_MODE"
+      - name: Preserve before, intent, and fresh readback
+        if: always()
+        run: |
+          if test -f data/direct_semantics_20261127/applied_patch.json; then
+            bash .github/scripts/save_data.sh data/direct_semantics_20261127/applied_patch.json
+          fi

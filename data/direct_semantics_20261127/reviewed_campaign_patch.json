@@ -1,0 +1,45 @@
+{
+  "status": "reviewed_for_apply",
+  "campaign_id": 716316525,
+  "additions": [
+    "audi a7",
+    "ауди a7",
+    "audi а7",
+    "ауди а7",
+    "\"мехатроник пассат сс dq250\"",
+    "\"мехатроник пассат сс dq 250\""
+  ],
+  "removals": [],
+  "source_snapshot": "data/direct_semantics_20261127/live_45979776426/inventory.json",
+  "source_snapshot_finished_utc": "2026-11-27T10:16:49.550210+00:00",
+  "source_commit": "89bdf9a92848b08bcad7ff908c48fc75c75736ff",
+  "source_campaign_negatives_sha256": "e30f892d0d523814acb3ef03966bf7e8f240dc3b0cf07c47285fe25f4e5130c5",
+  "reviewers": {
+    "ppc": "ready",
+    "product": "ready"
+  },
+  "review_files": [
+    "data/direct_semantics_20261127/approved_candidate.json",
+    "data/direct_semantics_20261127/final_independent_review.json"
+  ],
+  "checks": {
+    "protected_cases_passed": true,
+    "manual_key_full_overlap_count": 0,
+    "duplicates_count": 0,
+    "ppc_cases_passed": 30,
+    "product_cases_passed": 16,
+    "raw_rows_reviewed": 18684
+  },
+  "expected_before_count": 688,
+  "expected_after_count": 694,
+  "authorized_scope": "User instructed execution of the attached full semantic audit and precise configuration task; apply reviewed reversible semantic changes within scope. No budget/bid/strategy/goal/feed/marketplace changes.",
+  "explicit_boundary_decision": "Audi+A7 is excluded as a model family in this DQ200 campaign, including mixed comparisons mentioning A7. Audi alone, A7 alone, Audi A3 and Octavia A7 remain unaffected by the six additions.",
+  "rollback": "Remove only these six additions with write proof; preserve all unrelated later changes.",
+  "held_not_to_apply": [
+    "Drom group broad-to-quoted four replacements",
+    "Four service/procedure broad-to-quoted replacements",
+    "Broad DQ250 family pair",
+    "Neutral feed titles protected by prior owner decision"
+  ],
+  "preserve_prior_approved_six": true
+}

@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "test_count": 24,
+  "tests": [
+    "test_reviewed_real_fixture",
+    "test_check_is_read_only",
+    "test_exact_apply_persists_intent_then_rereads_then_writes_once",
+    "test_partial_source_blocked",
+    "test_changed_baseline_same_count_blocked",
+    "test_tampered_phrase_scope_blocked",
+    "test_review_failure_blocked_even_if_plan_flags_say_pass",
+    "test_group_negative_drift_blocked",
+    "test_bid_drift_blocked",
+    "test_auto_setting_drift_blocked",
+    "test_component_ad_cannot_be_resumed",
+    "test_concurrent_group_change_after_checkpoint_blocks_write",
+    "test_transport_error_accepted_is_verified_without_retry",
+    "test_transport_error_not_accepted_blocks_all_blind_retries",
+    "test_rerun_with_own_proof_is_idempotent",
+    "test_target_without_own_proof_is_not_claimed",
+    "test_target_after_check_but_without_attempt_is_blocked",
+    "test_rollback_preserves_all_later_unrelated_changes",
+    "test_rollback_uncertain_failure_never_retries",
+    "test_rollback_accepted_transport_error_and_rerun",
+    "test_journal_target_tampering_blocked",
+    "test_durable_checkpoint_failure_prevents_write",
+    "test_readback_after_lost_response_recovers_without_write",
+    "test_real_client_disallows_second_write_after_transport_failure"
+  ],
+  "external_mutations": 0,
+  "command": "python direct_semantics_20261127/implementation/test_direct_semantics_patch_20261127.py",
+  "script_syntax": "pass",
+  "source_fixture": {
+    "path": "implementation/reference/inventory_lossless.json",
+    "repository_commit": "89bdf9a92848b08bcad7ff908c48fc75c75736ff",
+    "finished_utc": "2026-11-27T10:16:49.550210+00:00",
+    "status": "complete",
+    "campaign_negative_count": 688,
+    "campaign_negative_sha256": "e30f892d0d523814acb3ef03966bf7e8f240dc3b0cf07c47285fe25f4e5130c5",
+    "lossless_integer_ad_ids": true
+  },
+  "sha256": {
+    "direct_semantics_patch_20261127.py": "c8689c5a55885579d73c80209abc35227fc946f734ce8f77a80eef83beb97e55",
+    "direct-semantics-patch-20261127.yml": "881e7a910bd947171ffd700775bb69d2efdb400bae64b98336151b3ec4e55736",
+    "test_direct_semantics_patch_20261127.py": "80811e1f6294c1b3172f80070424b9a7a4193b0186e22c99abe56dddae378d3d"
+  },
+  "repo_destinations": {
+    "direct_semantics_patch_20261127.py": ".github/scripts/direct_semantics_patch_20261127.py",
+    "direct-semantics-patch-20261127.yml": ".github/workflows/direct-semantics-patch-20261127.yml"
+  },
+  "legacy_allowlists_or_locks_modified": false,
+  "runtime_notes": [
+    "snapshot reads full keyword Bid/auto settings and full group negatives via existing read-only reader",
+    "protected strips only campaign NegativeKeywords and inherited volatile moderation/status fields",
+    "feed UpdatedAt is still protected; actual live drift blocks rather than being silently ignored",
+    "workflow push matches only new workflow path; push mode apply; workflow_dispatch mode defaults check",
+    "post-checkpoint reread guards concurrent change but Yandex update endpoint has no compare-and-swap; later concurrent changes after the final read are an API limitation",
+    "reference files are read-only local fixtures, not repository modifications"
+  ],
+  "local_download_note": "Earlier raw_1016 local inventory had rounded large AdIds through JS JSON parse. Repository source is correct. The QA fixture preserves original content as text and Python arbitrary-precision integers."
+}
