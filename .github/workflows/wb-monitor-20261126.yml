@@ -264,6 +264,6 @@ jobs:
           d["finished"]=now()
           save()
           print("FINAL",json.dumps({"summary":d["summary"],"coverage":d["coverage"],"api":d["api"],"errors":d["errors"],"funnel":{k:len(v.get("products",[])) for k,v in d.get("funnel",{}).items()},"finance":{k:v for k,v in d.get("finance",{}).items() if k!="rows"}},ensure_ascii=False),flush=True)
+          # Save exactly this run\'s report. Re-runs may also have an older dated file with the same run ID.
+          subprocess.run(["bash", ".github/scripts/save_data.sh", str(OUT)], check=True)
           PY
-          file=$(find data/wb_monitor -maxdepth 1 -type f -name "*-${GITHUB_RUN_ID}.json" 2>/dev/null | head -n 1 || true)
-          if [ -n "$file" ]; then bash .github/scripts/save_data.sh "$file"; fi
