@@ -1,0 +1,38 @@
+name: LEOPARTS approved six query exclusions
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/direct-six-query-negatives-20261127.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  apply-six:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check narrowly scoped update syntax
+        run: python -m py_compile .github/scripts/direct_six_query_negatives_20261127.py
+      - name: Apply six owner-approved query exclusions and verify readback
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python -u .github/scripts/direct_six_query_negatives_20261127.py --mode apply
+      - name: Preserve exact before, write intent, and verification
+        if: always()
+        run: |
+          if test -f data/direct_six_query_negatives_20261127_result.json; then
+            bash .github/scripts/save_data.sh data/direct_six_query_negatives_20261127_result.json
+          fi
+
