@@ -1,0 +1,36 @@
+name: Full Direct semantic inventory and landing checks
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-semantics-readonly-20261127.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: direct-semantics-readonly-20261127
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install public-page reader dependencies
+        run: python -m pip install requests beautifulsoup4
+      - name: Read campaign inventory and all disclosed queries
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+        run: python -u .github/scripts/direct_semantics_inventory_20261127.py
+      - name: Check public landing pages and feed destinations
+        if: always()
+        run: python -u scripts/landing_seo_readonly.py --snapshot data/direct_traffic_quality/2026-11-27-45861454649/live_30d.json --output data/direct_semantics_20261127/live_${GITHUB_RUN_ID}/landing_seo_readonly.json
+      - name: Preserve audit evidence
+        if: always()
+        run: bash .github/scripts/save_data.sh data/direct_semantics_20261127/live_${GITHUB_RUN_ID}
