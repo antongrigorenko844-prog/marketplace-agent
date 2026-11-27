@@ -44,18 +44,48 @@
     "0AM927769G": 5,
     "0AM927769K": 5
   },
-  "draft_issue": "Media visual review not complete",
   "draft_present": true,
-  "draft_valid": false,
+  "draft_sha256": "7ff669eb80e415152f3c6433197895d87253ee6830e7e06dd843952302cb090a",
+  "draft_valid": true,
   "error": "Reviewed font files differ",
   "error_type": "ValueError",
+  "existing_ads_byte_identical": true,
   "existing_item_count": 157,
   "existing_tools_ids": [
     "tool-dq200-acc-restore",
     "tool-dsg-pressure-hp"
   ],
   "feed_id": "leoparts-avito-electronic-boards-20261127-01",
+  "feed_sha256": "569f8fcc237ecc0cf47e1c56938682eb2e18b0c0d12ba59490e773aad7c102ba",
   "fourth_feed_limit_unconfirmed": true,
+  "gallery_urls": [
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito-boards-20261127-01-all-boards-cover-49833aa79f92.png?v=49833aa79f",
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito-boards-20261127-02-0AM927769D-b68a2d625f0f.png?v=b68a2d625f",
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito-boards-20261127-03-0AM927769E-e091d016b9d1.png?v=e091d016b9",
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito-boards-20261127-04-0AM927769F-44c322ae969a.png?v=44c322ae96",
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito-boards-20261127-05-0AM927769G-f261172bbb97.png?v=f261172bbb",
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito-boards-20261127-06-0AM927769K-464cc664b506.png?v=464cc664b5",
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito-boards-20261127-07-0AM927769D-overview-details-74a47042ccbc.png?v=74a47042cc",
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito-boards-20261127-08-0AM927769D-original-189fff82528e.png?v=189fff8252",
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito-boards-20261127-09-0AM927769D-original-9b0a7b3643c3.png?v=9b0a7b3643",
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito-boards-20261127-10-0AM927769D-original-db7705f9ace6.png?v=db7705f9ac"
+  ],
+  "media_quarantined": [
+    {
+      "file": "quarantine/0AM927769K_1-wm.png",
+      "reason": "Corrupted cropped collage also showing assembled mechatronics and E marking; not a usable K board photo.",
+      "source": "photos/0AM927769K/0AM927769K_1.png"
+    }
+  ],
+  "media_summary": {
+    "all_eligible_sources_in_gallery": true,
+    "all_individuals_watermarked": true,
+    "all_originals_retained": true,
+    "eligible_source_count": 20,
+    "gallery_count": 10,
+    "source_count": 21,
+    "unique_source_count": 21
+  },
   "new_avito_id": null,
   "official_category_schema": {
     "fields": [
@@ -1932,6 +1962,12 @@
     },
     "slug": "transmissiia_i_privod"
   },
+  "original_asset_id": 783360843,
+  "other_feed_sha256": {
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito_dq200_new_20261126.xlsx": "96f0cc4e0f9f99c03156e1d5a4eb2433eb43f846e64e2c382dd2c47b6dba4bdf",
+    "https://github.com/antongrigorenko844-prog/marketplace-agent/releases/download/product-photos/avito_feed.xlsx": "9a643492ecc9102c2374ec60308594edf2d511daf974ba57a13d76c41b04d0a9"
+  },
+  "photos_in_feed": 10,
   "price_basis_sku": "0AM927769D",
   "price_rub": 36500,
   "primary_feed_sha256": "9a643492ecc9102c2374ec60308594edf2d511daf974ba57a13d76c41b04d0a9",
@@ -1943,6 +1979,7 @@
     "schedule_sha256": "07360a8d254dbc3076c1f9ea1653ae73fb180e8f539cc32c4f5938aa340825b8",
     "target_tools_feed_registered": true
   },
+  "profile_fingerprint": "da36fa597a72da3b501d34e24e10f66fc955879f1082ae6277d86279e0e106e6",
   "protected_existing_ids": [
     3965207177,
     3965211558,
@@ -2106,7 +2143,7 @@
   "publication_route": "append_one_ad_to_existing_tools_xml_preserve_every_old_byte",
   "seller_writes": 0,
   "started_utc": "2026-11-27T05:35:52.175912+00:00",
-  "status": "blocked_or_unverified",
+  "status": "new_ad_xml_prepared",
   "template": {
     "delivery_action": "leave optional field blank; do not claim enabled or disabled",
     "delivery_allowed_values": [],
@@ -2117,5 +2154,6 @@
     "photo_max_file_mb": 25,
     "promotion": "Free"
   },
-  "updated_utc": "2026-11-27T05:43:58.171989+00:00"
+  "tools_before_sha256": "df8cd1319dba23313e8e304526708bf2a75b7f6999e8299029e9826d8711b2db",
+  "updated_utc": "2026-11-27T05:50:14.784975+00:00"
 }
