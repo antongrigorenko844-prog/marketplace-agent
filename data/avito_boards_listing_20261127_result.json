@@ -1,0 +1,2114 @@
+{
+  "avito_stock_probe_error_type": "AvitoApiError",
+  "board_listing_snapshot": {
+    "0AM927769D": {
+      "id": 8302770239,
+      "price": 36500,
+      "status": "active",
+      "title": "Плата мехатроника DSG7 DQ200 0AM927769D",
+      "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/plata_mehatronika_dsg7_dq200_0am927769d_8302770239"
+    },
+    "0AM927769E": {
+      "id": 8433757157,
+      "price": 39500,
+      "status": "active",
+      "title": "Плата мехатроника DSG7 DQ200 0AM927769E",
+      "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/plata_mehatronika_dsg7_dq200_0am927769e_8433757157"
+    },
+    "0AM927769F": {
+      "id": 8575177586,
+      "price": 39500,
+      "status": "active",
+      "title": "Плата мехатроника DSG7 DQ200 0AM927769F",
+      "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/plata_mehatronika_dsg7_dq200_0am927769f_8575177586"
+    },
+    "0AM927769G": {
+      "id": 8546015515,
+      "price": 39500,
+      "status": "active",
+      "title": "Плата мехатроника DSG7 DQ200 0AM927769G",
+      "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/plata_mehatronika_dsg7_dq200_0am927769g_8546015515"
+    },
+    "0AM927769K": {
+      "id": 8469152964,
+      "price": 39500,
+      "status": "active",
+      "title": "Плата мехатроника DSG7 DQ200 0AM927769K",
+      "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/plata_mehatronika_dsg7_dq200_0am927769k_8469152964"
+    }
+  },
+  "canonical_stock": {
+    "0AM927769D": 7,
+    "0AM927769E": 5,
+    "0AM927769F": 3,
+    "0AM927769G": 5,
+    "0AM927769K": 5
+  },
+  "draft_issue": "Media visual review not complete",
+  "draft_present": true,
+  "draft_valid": false,
+  "existing_item_count": 157,
+  "feed_id": "leoparts-avito-electronic-boards-20261127-01",
+  "fourth_feed_limit_unconfirmed": true,
+  "new_avito_id": null,
+  "official_category_schema": {
+    "fields": [
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Уникальный идентификатор объявления",
+        "tag": "Id"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Начало размещения",
+        "tag": "DateBegin"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Окончание размещения",
+        "tag": "DateEnd"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "default": {
+              "value": "Package"
+            },
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "description": "размещение объявления осуществляется только при наличии подходящего пакета размещения",
+                "value": "Package"
+              },
+              {
+                "description": "при наличии подходящего пакета оплата размещения объявления произойдет с него; если нет подходящего пакета, но достаточно денег на кошельке Авито, то произойдет разовое размещение на 30 дней",
+                "value": "PackageBBL"
+              },
+              {
+                "description": "только разовое размещение на 30 дней, произойдет при наличии достаточной суммы на кошельке Авито; если есть подходящий пакет размещения, он будет проигнорирован",
+                "value": "BBL"
+              }
+            ]
+          }
+        ],
+        "label": "Способ размещения",
+        "tag": "ListingFee"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "default": {
+              "value": "Free"
+            },
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "description": "обычное объявление, услуги не подключаются",
+                "value": "Free"
+              },
+              {
+                "description": "«Выделение цветом» (действует 7 дней)",
+                "value": "Highlight"
+              },
+              {
+                "description": "«XL-объявление» (действует 7 дней)",
+                "value": "XL"
+              },
+              {
+                "description": "«До 2 раз больше просмотров на 1 день»",
+                "value": "x2_1"
+              },
+              {
+                "description": "«До 2 раз больше просмотров на 7 дней»",
+                "value": "x2_7"
+              },
+              {
+                "description": "«До 5 раз больше просмотров на 1 день»",
+                "value": "x5_1"
+              },
+              {
+                "description": "«До 5 раз больше просмотров на 7 дней»",
+                "value": "x5_7"
+              },
+              {
+                "description": "«До 10 раз больше просмотров на 1 день»",
+                "value": "x10_1"
+              },
+              {
+                "description": "«До 10 раз больше просмотров на 7 дней».",
+                "value": "x10_7"
+              },
+              {
+                "description": "«До 15 раз больше просмотров на 1 день». Доступно в некоторых регионах и категориях.",
+                "value": "x15_1"
+              },
+              {
+                "description": "«До 15 раз больше просмотров на 7 дней». Доступно в некоторых регионах и категориях.",
+                "value": "x15_7"
+              },
+              {
+                "description": "«До 20 раз больше просмотров на 1 день». Доступно в некоторых регионах и категориях.",
+                "value": "x20_1"
+              },
+              {
+                "description": "«До 20 раз больше просмотров на 7 дней». Доступно в некоторых регионах и категориях.",
+                "value": "x20_7"
+              }
+            ]
+          }
+        ],
+        "label": "Услуга продвижения",
+        "tag": "AdStatus"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Номер объявления на Авито",
+        "tag": "AvitoId"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Контактное лицо",
+        "tag": "ManagerName"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Номер телефона",
+        "tag": "ContactPhone"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies_text": [
+              "Если не указаны Latitude и Longitude"
+            ],
+            "field_type": "input",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Адрес",
+        "tag": "Address"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies_text": [
+              "Если указан Address"
+            ],
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Широта",
+        "tag": "Latitude"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies_text": [
+              "Если указан Address"
+            ],
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Долгота",
+        "tag": "Longitude"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies_text": [
+              "Если указан Address"
+            ],
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "warnings": [
+              {
+                "content": "По новым правилам можно указывать только те адреса, которые вы добавили в профиль. Как это сделать: Профиль и настройки → Адреса → Адреса для объявлений.",
+                "title": "Внимание"
+              }
+            ]
+          }
+        ],
+        "label": "Идентификатор адреса",
+        "tag": "SellerAddressID"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "default": {
+              "value": "По телефону и в сообщениях"
+            },
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "description": "",
+                "value": "По телефону и в сообщениях"
+              },
+              {
+                "description": "",
+                "value": "По телефону"
+              },
+              {
+                "description": "",
+                "value": "В сообщениях"
+              }
+            ]
+          }
+        ],
+        "label": "Способ связи",
+        "tag": "ContactMethod"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "description": "",
+                "value": "Запчасти и аксессуары"
+              }
+            ]
+          }
+        ],
+        "label": "Категория",
+        "tag": "Category"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Описание объявления",
+        "tag": "Description"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Фото",
+        "tag": "Images"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Названия фото",
+        "tag": "ImageNames"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Ссылки на фото",
+        "tag": "ImageUrls"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "warnings": [
+              {
+                "content": "Используйте VK Видео или Rutube. Видео с YouTube не работает у части пользователей: из-за этого вы можете упустить контакты.",
+                "title": "Перенесите видео"
+              }
+            ]
+          }
+        ],
+        "label": "Ссылка на видео",
+        "tag": "VideoURL"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "description": "Настройка цены целевого действия, ручной режим",
+                "value": "Manual"
+              },
+              {
+                "description": "Настройка цены целевого действия, автоматический режим с бюджетом на 1 день",
+                "value": "Auto_1"
+              },
+              {
+                "description": "Настройка цены целевого действия, автоматический режим с бюджетом на 7 дней",
+                "value": "Auto_7"
+              },
+              {
+                "description": "Настройка цены целевого действия, автоматический режим с бюджетом на 30 дней",
+                "value": "Auto_30"
+              }
+            ]
+          }
+        ],
+        "label": "Настройка цены целевого действия",
+        "tag": "Promo"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies_text": [
+              "Становится обязательным, если в параметре «Настройка цены целевого действия» указаны Auto_1, Auto_7 или Auto_30"
+            ],
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Настройка цены целевого действия: автоматическая",
+        "tag": "PromoAutoOptions"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies_text": [
+              "Становится обязательным, если в параметре «Настройка цены целевого действия» указано Manual"
+            ],
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Настройка цены целевого действия: ручная",
+        "tag": "PromoManualOptions"
+      },
+      {
+        "content": [
+          {
+            "data_type": "float",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Аудитория из поиска",
+        "tag": "PromoBidcorrectionsPlacement"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false
+          },
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Название объявления",
+        "tag": "Title"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "value": "Да"
+              },
+              {
+                "value": "Нет"
+              }
+            ]
+          }
+        ],
+        "label": "Интернет звонки",
+        "tag": "InternetCalls"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Устройства для приёма звонков",
+        "tag": "CallsDevices"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "checkbox",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "value": "Выключена"
+              },
+              {
+                "value": "ПВЗ"
+              },
+              {
+                "value": "Курьер"
+              },
+              {
+                "value": "Постамат"
+              },
+              {
+                "value": "Свой курьер"
+              },
+              {
+                "value": "Свой партнер СДЭК"
+              },
+              {
+                "value": "Свой партнер Деловые Линии"
+              },
+              {
+                "value": "Свой партнер ПЭК"
+              },
+              {
+                "value": "Свой партнер Почта России"
+              },
+              {
+                "value": "Самовывоз с онлайн-оплатой"
+              }
+            ],
+            "warnings": [
+              {
+                "content": "Для некоторых новых товаров нужно заполнять блок с параметрами «Коды и документы». Правило действует для продавцов с проверенными реквизитами. Так требует [закон о платформенной экономике](https://www.avito.ru/general/business_rules/).",
+                "title": "Чтобы заработали доставка и самовывоз"
+              }
+            ]
+          }
+        ],
+        "label": "Способ доставки",
+        "tag": "Delivery"
+      },
+      {
+        "content": [
+          {
+            "data_type": "float",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Вес (Для Доставки)",
+        "tag": "WeightForDelivery"
+      },
+      {
+        "content": [
+          {
+            "data_type": "integer",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Длина (Для Доставки)",
+        "tag": "LengthForDelivery"
+      },
+      {
+        "content": [
+          {
+            "data_type": "integer",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Высота (Для Доставки)",
+        "tag": "HeightForDelivery"
+      },
+      {
+        "content": [
+          {
+            "data_type": "integer",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Ширина (Для Доставки)",
+        "tag": "WidthForDelivery"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies": [
+              {
+                "action": "hidden",
+                "clause": "or",
+                "pairs": [
+                  {
+                    "clause": "empty",
+                    "source_field_tag": "Delivery"
+                  }
+                ]
+              },
+              {
+                "action": "visible",
+                "clause": "or",
+                "pairs": [
+                  {
+                    "clause": "value",
+                    "source_field_tag": "Delivery",
+                    "values": [
+                      "ПВЗ"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "dependencies_text": [
+              "Не применимо, если поле Delivery не заполнено",
+              "Применимо, если в поле Delivery указано значение 'ПВЗ'"
+            ],
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "value": "По любой причине — 15 минут"
+              },
+              {
+                "value": "По любой причине — 3 дня"
+              },
+              {
+                "value": "По любой причине — 7 дней"
+              },
+              {
+                "value": "По любой причине — 14 дней"
+              },
+              {
+                "value": "По браку — 24 часа"
+              }
+            ]
+          }
+        ],
+        "label": "Возвраты",
+        "tag": "ReturnPolicy"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies": [
+              {
+                "action": "hidden",
+                "clause": "or",
+                "pairs": [
+                  {
+                    "clause": "empty",
+                    "source_field_tag": "Delivery"
+                  }
+                ]
+              },
+              {
+                "action": "visible",
+                "clause": "or",
+                "pairs": [
+                  {
+                    "clause": "value",
+                    "source_field_tag": "Delivery",
+                    "values": [
+                      "ПВЗ",
+                      "Постамат"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "dependencies_text": [
+              "Не применимо, если поле Delivery не заполнено",
+              "Применимо, если в поле Delivery указаны значения: ПВЗ или Постамат"
+            ],
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "warnings": [
+              {
+                "content": "Добавлен новый формат скидок на доставку. До 1 июля 2025 года доступны оба формата, после — только новый. Рекомендуется перейти заранее, чтобы избежать автоматической конвертации.",
+                "title": "С 1 июля будет действовать новый формат скидок на доставку"
+              }
+            ]
+          }
+        ],
+        "label": "Субсидирование доставки",
+        "tag": "DeliverySubsidy"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": true,
+            "required": false,
+            "required_by_dependency": false,
+            "values_link_xml": "https://www.avito.ru/web/1/catalogs/content/feed/edinyi_katalog_pe_kody_i_dokumenty.xml",
+            "warnings": [
+              {
+                "content": "Обязательно заполните коды ТН ВЭД и ОКПД 2. Также для некоторых категорий новых товаров понадобятся разрешительные документы или маркировка. Без них не включится Авито Доставка или самовывоз с онлайн-оплатой. Так требует [закон о платформенной экономике](https://www.avito.ru/general/business_rules/).\n\nЕсли не знаете, что из параметров нужно заполнить, попробуйте разместить объявление вручную, там мы покажем, какие документы или маркировки могут понадобиться. [Подробнее в Помощи](https://support.avito.ru/articles/4558)",
+                "title": "Новые правила для продавцов с проверенными реквизитами"
+              }
+            ]
+          }
+        ],
+        "label": "ТН ВЭД",
+        "tag": "TNVED"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": true,
+            "required": false,
+            "required_by_dependency": false,
+            "values_link_xml": "https://www.avito.ru/web/1/catalogs/content/feed/edinyi_katalog_pe_kody_i_dokumenty.xml"
+          }
+        ],
+        "label": "ОКПД 2",
+        "tag": "OKPD2"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "description": "для товара не нужны документы или маркировка, которые вы не указали.",
+                "value": "Подтверждаю"
+              },
+              {
+                "description": "для товара нужны документы или маркировка.",
+                "value": "Пропустить"
+              }
+            ]
+          }
+        ],
+        "label": "Документы не нужны",
+        "tag": "NoDocuments"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "description": "товар промаркирован, а данные о нём корректно переданы в государственную информационную систему мониторинга оборота товаров.",
+                "value": "Да"
+              },
+              {
+                "description": "товар не промаркирован.",
+                "value": "Нет"
+              }
+            ]
+          }
+        ],
+        "label": "Честный знак",
+        "tag": "SquareSymbol"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Коды GTIN",
+        "tag": "CodeGTIN"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Сертификат",
+        "tag": "Certificate"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Декларация",
+        "tag": "Declaration"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "СГР",
+        "tag": "SGR"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "СГР Дата",
+        "tag": "DateSGR"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "СГР Ссылка",
+        "tag": "UrlSGR"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Минсельхоз",
+        "tag": "Minselhoz"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Минсельхоз Дата",
+        "tag": "DateMinselhoz"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "РУ",
+        "tag": "NumberRU"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "РУ Дата",
+        "tag": "DateRU"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "value": "Да"
+              },
+              {
+                "value": "Нет"
+              }
+            ]
+          }
+        ],
+        "label": "ГИИС ДМДК",
+        "tag": "BarcodeAvailability"
+      },
+      {
+        "content": [
+          {
+            "data_type": "integer",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Цена",
+        "tag": "Price"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "URL видеофайла",
+        "tag": "VideoFileURL"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "value": "Запчасти"
+              }
+            ]
+          }
+        ],
+        "label": "Вид товара",
+        "tag": "GoodsType"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "value": "Товар приобретен на продажу"
+              },
+              {
+                "value": "Товар от производителя"
+              }
+            ]
+          }
+        ],
+        "label": "Вид объявления",
+        "tag": "AdType"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "value": "Для автомобилей"
+              }
+            ]
+          }
+        ],
+        "label": "Тип товара",
+        "tag": "ProductType"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "value": "Трансмиссия и привод"
+              }
+            ]
+          }
+        ],
+        "label": "Вид запчасти",
+        "tag": "SparePartType"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "value": "КПП в сборе"
+              },
+              {
+                "value": "Корпус КПП"
+              },
+              {
+                "value": "Дифференциал"
+              },
+              {
+                "value": "Валы, муфты, шестерни и подшипники КПП"
+              },
+              {
+                "value": "Фрикционы КПП"
+              },
+              {
+                "value": "Прокладки и уплотнения КПП"
+              },
+              {
+                "value": "Крепёж КПП"
+              },
+              {
+                "value": "Приводные валы, полуоси и ШРУСы"
+              },
+              {
+                "value": "Сцепление"
+              },
+              {
+                "value": "Электронное управление КПП"
+              },
+              {
+                "value": "Переключение передач"
+              },
+              {
+                "value": "Система смазки и охлаждения КПП"
+              },
+              {
+                "value": "Карданная передача"
+              },
+              {
+                "value": "Раздаточная коробка"
+              },
+              {
+                "value": "Муфта полного привода"
+              },
+              {
+                "value": "Мосты и редукторы"
+              }
+            ]
+          }
+        ],
+        "label": "Тип детали трансмиссии",
+        "tag": "TransmissionSparePartType"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies_text": [
+              "Значение 'Новое' неприменимо, если в поле SparePartType указано значение 'Автомобиль на запчасти'"
+            ],
+            "field_type": "select",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "value": "Новое"
+              },
+              {
+                "value": "Б/у"
+              }
+            ]
+          }
+        ],
+        "label": "Состояние",
+        "tag": "Condition"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies_text": [
+              "Неприменимо, если в поле Condition указано значение 'Б/у'"
+            ],
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "value": "Оригинал"
+              },
+              {
+                "value": "Аналог"
+              },
+              {
+                "value": "Не знаю"
+              }
+            ],
+            "warnings": [
+              {
+                "content": "Будем определять происхождение запчасти по указанному вами производителю",
+                "title": "Скоро поле будет заполняться автоматически"
+              }
+            ]
+          }
+        ],
+        "label": "Происхождение",
+        "tag": "Originality"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "value": "В наличии"
+              },
+              {
+                "value": "Под заказ"
+              }
+            ]
+          }
+        ],
+        "label": "Доступность",
+        "tag": "Availability"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies": [
+              {
+                "action": "required",
+                "clause": "and",
+                "pairs": [
+                  {
+                    "clause": "value",
+                    "source_field_tag": "Condition",
+                    "values": [
+                      "Новое"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "dependencies_text": [
+              "Обязательно, если в поле Condition указано значение 'Новое'"
+            ],
+            "field_type": "select",
+            "is_catalog": true,
+            "name_in_catalog": "proizvoditel",
+            "required": false,
+            "required_by_dependency": true,
+            "values_link_json": "https://api.avito.ru/autoload/v1/user-docs/node/transmissiia_i_privod/field/110548/values-json",
+            "values_link_xml": "https://api.avito.ru/autoload/v1/user-docs/node/transmissiia_i_privod/field/110548/values-xml"
+          }
+        ],
+        "label": "Производитель",
+        "tag": "Brand"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies": [
+              {
+                "action": "required",
+                "clause": "and",
+                "pairs": [
+                  {
+                    "clause": "value",
+                    "source_field_tag": "Condition",
+                    "values": [
+                      "Новое"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "dependencies_text": [
+              "Обязательно, если в поле Condition указано значение 'Новое'",
+              "Обязательно, если в поле Condition указано значение 'Б/У' и не указано 'Для чего подходит'"
+            ],
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": true,
+            "values_range": {
+              "max": 50,
+              "min": 0
+            },
+            "values_range_v2": {
+              "max": 50,
+              "min": 0
+            }
+          }
+        ],
+        "label": "Номер детали OEM",
+        "tag": "OEM"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies": [
+              {
+                "action": "visible",
+                "clause": "and",
+                "pairs": [
+                  {
+                    "clause": "value",
+                    "source_field_tag": "Originality",
+                    "values": [
+                      "Аналог"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "dependencies_text": [
+              "Применимо, если в поле Originality указано значение 'Аналог'"
+            ],
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values_link_json": "https://api.avito.ru/autoload/v1/user-docs/node/transmissiia_i_privod/field/114794/values-json",
+            "values_link_xml": "https://api.avito.ru/autoload/v1/user-docs/node/transmissiia_i_privod/field/114794/values-xml"
+          }
+        ],
+        "label": "Производитель оригинала",
+        "tag": "OriginalVendor"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies": [
+              {
+                "action": "visible",
+                "clause": "and",
+                "pairs": [
+                  {
+                    "clause": "value",
+                    "source_field_tag": "Originality",
+                    "values": [
+                      "Аналог"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "dependencies_text": [
+              "Применимо, если в поле Originality указано значение 'Аналог'"
+            ],
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values_range": {
+              "max": 50,
+              "min": 0
+            },
+            "values_range_v2": {
+              "max": 50,
+              "min": 0
+            }
+          }
+        ],
+        "label": "Номер оригинала",
+        "tag": "OriginalOEM"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": true,
+            "name_in_catalog": "strana_proishozhdeniya_tovara",
+            "required": false,
+            "required_by_dependency": false,
+            "values_link_xml": "https://avito.ru/web/1/catalogs/content/feed/strany_proishozhdeniya_tovara.xml",
+            "warnings": [
+              {
+                "content": "Если не внесёте изменения, автозагрузка перестанет работать",
+                "title": "Этот элемент станет обязательным с 01.12.2026"
+              }
+            ]
+          }
+        ],
+        "label": "Страна происхождения товара",
+        "tag": "CountryExpedition"
+      },
+      {
+        "content": [
+          {
+            "data_type": null,
+            "dependencies_text": [
+              "Обязательно, если в поле Condition указано значение 'Б/У' и не указаны 'Brand' и 'OEM'"
+            ],
+            "field_type": "input",
+            "is_catalog": false,
+            "required": true,
+            "required_by_dependency": false,
+            "values_range": {
+              "max": 20
+            },
+            "values_range_v2": {
+              "max": 20
+            }
+          }
+        ],
+        "label": "Авто для которых подходит запчасть",
+        "tag": "CompatibleCars"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "value": "Без НДС"
+              },
+              {
+                "value": "0"
+              },
+              {
+                "value": "5"
+              },
+              {
+                "value": "7"
+              },
+              {
+                "value": "10"
+              },
+              {
+                "value": "22"
+              }
+            ]
+          }
+        ],
+        "label": "Включая НДС",
+        "tag": "NDS"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "value": "Да"
+              },
+              {
+                "value": "Нет"
+              }
+            ]
+          }
+        ],
+        "label": "Оптовые продажи",
+        "tag": "WholesaleType"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies": [
+              {
+                "action": "required",
+                "clause": "or",
+                "pairs": [
+                  {
+                    "clause": "value",
+                    "source_field_tag": "WholesaleType",
+                    "values": [
+                      "Да"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "dependencies_text": [
+              "Обязательно, если в поле WholesaleType указано значение 'Да'"
+            ],
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": true,
+            "values": [
+              {
+                "value": "От количества"
+              },
+              {
+                "value": "От суммы"
+              }
+            ]
+          }
+        ],
+        "label": "Тип минимального заказа",
+        "tag": "WholesaleMinOrderType"
+      },
+      {
+        "content": [
+          {
+            "data_type": "integer",
+            "dependencies": [
+              {
+                "action": "required",
+                "clause": "or",
+                "pairs": [
+                  {
+                    "clause": "value",
+                    "source_field_tag": "WholesaleType",
+                    "values": [
+                      "Да"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "dependencies_text": [
+              "Обязательно, если в поле WholesaleType указано значение 'Да'"
+            ],
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": true,
+            "values_range": {
+              "max": 10000000,
+              "min": 1
+            },
+            "values_range_v2": {
+              "max": 10000000,
+              "min": 1
+            }
+          }
+        ],
+        "label": "Количество в минимальном заказе",
+        "tag": "WholesaleMinOrderCount"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies": [
+              {
+                "action": "required",
+                "clause": "or",
+                "pairs": [
+                  {
+                    "clause": "filled",
+                    "source_field_tag": "WholesalePackingCount"
+                  }
+                ]
+              }
+            ],
+            "dependencies_text": [
+              "Обязательно, если поле WholesalePackingCount заполнено"
+            ],
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": true,
+            "values": [
+              {
+                "value": "Поддон"
+              },
+              {
+                "value": "Рулон"
+              },
+              {
+                "value": "Комплект"
+              },
+              {
+                "value": "Пара"
+              },
+              {
+                "value": "Упаковка"
+              },
+              {
+                "value": "Мешок"
+              },
+              {
+                "value": "Пачка"
+              },
+              {
+                "value": "Биг-бэг"
+              },
+              {
+                "value": "Ведро"
+              }
+            ]
+          }
+        ],
+        "label": "Фасовка",
+        "tag": "WholesalePacking"
+      },
+      {
+        "content": [
+          {
+            "data_type": "integer",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values_range": {
+              "max": 100000,
+              "min": 1
+            },
+            "values_range_v2": {
+              "max": 100000,
+              "min": 1
+            }
+          }
+        ],
+        "label": "Количество в фасовке",
+        "tag": "WholesalePackingCount"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "values": [
+              {
+                "value": "Штука"
+              },
+              {
+                "value": "Грамм"
+              },
+              {
+                "value": "Килограмм"
+              },
+              {
+                "value": "Тонна"
+              },
+              {
+                "value": "Милилитр"
+              },
+              {
+                "value": "Литр"
+              },
+              {
+                "value": "Метр"
+              },
+              {
+                "value": "Метр квадратный"
+              },
+              {
+                "value": "Метр кубический"
+              },
+              {
+                "value": "Милиметр"
+              },
+              {
+                "value": "Сантиметр"
+              },
+              {
+                "value": "Погонный метр"
+              },
+              {
+                "value": "Лист"
+              }
+            ]
+          }
+        ],
+        "label": "В чём измеряются товары",
+        "tag": "WholesaleMeasureUnit"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "dependencies": [
+              {
+                "action": "required",
+                "clause": "or",
+                "pairs": [
+                  {
+                    "clause": "value",
+                    "source_field_tag": "WholesaleType",
+                    "values": [
+                      "Да"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "dependencies_text": [
+              "Обязательно, если в поле WholesaleType указано значение 'Да'"
+            ],
+            "field_type": "select",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": true,
+            "values": [
+              {
+                "value": "Зависит от суммы"
+              },
+              {
+                "value": "Зависит от количества"
+              },
+              {
+                "value": "Нет"
+              }
+            ]
+          }
+        ],
+        "label": "Скидка за опт",
+        "tag": "WholesaleDiscountLadderType"
+      },
+      {
+        "content": [
+          {
+            "data_type": null,
+            "dependencies": [
+              {
+                "action": "required",
+                "clause": "or",
+                "pairs": [
+                  {
+                    "clause": "value",
+                    "source_field_tag": "WholesaleDiscountLadderType",
+                    "values": [
+                      "Зависит от количества",
+                      "Зависит от суммы"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "dependencies_text": [
+              "Обязательно, если в поле WholesaleDiscountLadderType указано значение 'Зависит от количества' или 'Зависит от суммы'"
+            ],
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": true,
+            "values_range": {
+              "max": 5
+            },
+            "values_range_v2": {
+              "max": 5
+            }
+          }
+        ],
+        "label": "Размер скидки за опт",
+        "tag": "DiscountLadderList"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false,
+            "warnings": [
+              {
+                "content": "Не делайте дубли — добавьте все адреса ваших точек продаж в одно объявление. Можно указать до 10 адресов. Поиск учтёт все адреса и покажет объявление в результатах по ближайшему радиусу, району и метро, а также по всему городу.\n\nПока это доступно для городов из регионов: Башкортостан, Краснодарский край, Нижегородская область, Свердловская область, Тюменская область. В категориях «Запчасти», «Мебель», «Ремонт и строительство».",
+                "title": ""
+              }
+            ]
+          }
+        ],
+        "label": "Addresses",
+        "tag": "Addresses"
+      },
+      {
+        "content": [
+          {
+            "data_type": "string",
+            "field_type": "input",
+            "is_catalog": false,
+            "required": false,
+            "required_by_dependency": false
+          }
+        ],
+        "label": "Адреса отгрузки",
+        "tag": "DeliveryAddresses"
+      }
+    ],
+    "node": {
+      "name": "Трансмиссия и привод",
+      "slug": "transmissiia_i_privod"
+    },
+    "slug": "transmissiia_i_privod"
+  },
+  "price_basis_sku": "0AM927769D",
+  "price_rub": 36500,
+  "primary_feed_sha256": "9a643492ecc9102c2374ec60308594edf2d511daf974ba57a13d76c41b04d0a9",
+  "profile": {
+    "allow_pay_over_limit": false,
+    "autoload_enabled": true,
+    "feeds_sha256": "aa400110da24e60f2562b1243536d00024fe626ba67ebcc16400945cb2e00489",
+    "new_feed_registered": false,
+    "registered_feed_count": 3,
+    "schedule_sha256": "07360a8d254dbc3076c1f9ea1653ae73fb180e8f539cc32c4f5938aa340825b8"
+  },
+  "protected_existing_ids": [
+    3965207177,
+    3965211558,
+    3965336925,
+    3965344207,
+    3965565847,
+    4124730141,
+    4125069388,
+    4125079566,
+    4125224328,
+    4125283125,
+    4189437762,
+    4220729305,
+    4220734432,
+    4253030337,
+    4253114863,
+    4284610725,
+    4284733993,
+    4284950339,
+    4284955885,
+    4284973404,
+    4284998704,
+    4285108577,
+    4285296851,
+    4285324155,
+    4285328953,
+    4316875109,
+    4348814868,
+    4349172359,
+    4349334275,
+    4444524662,
+    4444617509,
+    4444712249,
+    4444968174,
+    4445119215,
+    4445230063,
+    4445242895,
+    4572853508,
+    4573102274,
+    7260747200,
+    8231885696,
+    8232271969,
+    8236193905,
+    8236475560,
+    8252362999,
+    8272982970,
+    8274232784,
+    8274324752,
+    8274692951,
+    8274852389,
+    8276249624,
+    8276437673,
+    8276593810,
+    8286536816,
+    8294158112,
+    8302042942,
+    8302178304,
+    8302770239,
+    8304174872,
+    8304712062,
+    8312205273,
+    8312281929,
+    8312384063,
+    8313988561,
+    8314723845,
+    8324282677,
+    8324395037,
+    8324416978,
+    8326542360,
+    8326892857,
+    8327244186,
+    8341043025,
+    8341061538,
+    8341096851,
+    8341832438,
+    8343961597,
+    8344800249,
+    8344886348,
+    8345137262,
+    8345234171,
+    8345773338,
+    8346375263,
+    8347440081,
+    8349114796,
+    8349295933,
+    8366848631,
+    8367628306,
+    8367630972,
+    8373848586,
+    8374885903,
+    8374903791,
+    8375503223,
+    8385844589,
+    8385926244,
+    8386056623,
+    8386090647,
+    8387244563,
+    8387549709,
+    8389630065,
+    8389798598,
+    8392608781,
+    8394456824,
+    8394615261,
+    8394697530,
+    8394718261,
+    8394895937,
+    8394946839,
+    8395076491,
+    8395189204,
+    8395219250,
+    8395227956,
+    8395404775,
+    8395614757,
+    8396041349,
+    8396258649,
+    8403438057,
+    8403439241,
+    8403680263,
+    8403881830,
+    8403945697,
+    8404614683,
+    8407260157,
+    8407361655,
+    8415982473,
+    8416146322,
+    8416684544,
+    8421710248,
+    8424998901,
+    8425207775,
+    8431909158,
+    8433757157,
+    8435153686,
+    8446880709,
+    8447149597,
+    8447447236,
+    8447476449,
+    8448885311,
+    8448911884,
+    8449008707,
+    8449035864,
+    8449731691,
+    8454505488,
+    8461145133,
+    8461500993,
+    8461614430,
+    8469152964,
+    8477970233,
+    8486296644,
+    8513008373,
+    8522165852,
+    8531139369,
+    8546015515,
+    8547332649,
+    8548835790,
+    8575177586,
+    8576744875,
+    8607337732,
+    8609616823
+  ],
+  "protected_existing_sha256": "25720887afbab9312d0465af8a22ca22e0a8faa81836d606df51cacb2e6d6f4f",
+  "seller_writes": 0,
+  "started_utc": "2026-11-27T05:35:52.175912+00:00",
+  "status": "read_only_preflight_complete",
+  "template": {
+    "delivery_action": "leave optional field blank; do not claim enabled or disabled",
+    "delivery_allowed_values": [],
+    "delivery_header": "Способ доставки",
+    "listing_fee": "Package",
+    "oem_action": "blank for truthful assortment; exact five OEMs in description",
+    "oem_required_label": "Может быть обязательным\r\nПодробнее",
+    "photo_max_file_mb": 25,
+    "promotion": "Free"
+  },
+  "updated_utc": "2026-11-27T05:35:54.464493+00:00"
+}
