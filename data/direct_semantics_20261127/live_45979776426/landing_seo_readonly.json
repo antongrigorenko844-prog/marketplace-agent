@@ -1,5 +1,5 @@
 {
-  "started_utc": "2026-11-27T10:11:12.807429+00:00",
+  "started_utc": "2026-11-27T10:16:49.736812+00:00",
   "mode": "READ_ONLY_ANONYMOUS_GET",
   "external_mutations": 0,
   "scope": "HTTP from existing runtime; no real Googlebot IP, no browser JS execution, no private GSC access",
@@ -1053,10 +1053,8 @@
       {
         "url": "https://leoparts-akpp.ru/sitemap.xml",
         "redirects": [],
-        "http": 200,
-        "final_url": "https://leoparts-akpp.ru/sitemap.xml",
-        "xml_type": "urlset",
-        "loc_count": 9
+        "http": 403,
+        "final_url": "https://leoparts-akpp.ru/sitemap.xml"
       },
       {
         "url": "https://leoparts-akpp.ru/sitemap-store.xml",
@@ -1083,13 +1081,8 @@
         "loc_count": 2
       }
     ],
-    "url_count": 162,
+    "url_count": 153,
     "urls": [
-      "https://leoparts-akpp.ru/",
-      "https://leoparts-akpp.ru/baza-znaniy",
-      "https://leoparts-akpp.ru/catalog",
-      "https://leoparts-akpp.ru/delivery",
-      "https://leoparts-akpp.ru/mehatronik-dq200",
       "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/137877342943-elektronnaya-plata-mehatronika-dsg7-dq20",
       "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/234667588903-elektronnaya-plata-mehatronika-dsg7-dq20",
       "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/353312992873-mehatronik-dsg7-dq200-0am-s-novimi-solen",
@@ -1102,9 +1095,6 @@
       "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/915950884033-mehatronik-dsg7-dq200-v-sbore-s-elektron",
       "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/933254300083-elektronnaya-plata-mehatronika-dsg7-dq20",
       "https://leoparts-akpp.ru/mehatronik-dq200/tproduct/937513129983-mehatronik-dsg7-dq200-v-sbore-s-platoi-0",
-      "https://leoparts-akpp.ru/page119567356.html",
-      "https://leoparts-akpp.ru/rekviziti",
-      "https://leoparts-akpp.ru/remontdsg7dq200",
       "https://leoparts-akpp.ru/tpost/mho63v4471-remont-mehatronika-dsg7-dq200-0am-0cw",
       "https://leoparts-akpp.ru/tpost/z8totg49e1-mehatronik-dsg7-dq200-ustroistvo-neispra",
       "https://leoparts-akpp.ru/tproduct/121878113563-solenoid-regulyator-davleniya-dsg7-dq200",
@@ -1245,8 +1235,7 @@
       "https://leoparts-akpp.ru/tproduct/976879951483-chip-elektronnoi-plati-mehatronika-02e92",
       "https://leoparts-akpp.ru/tproduct/976964899573-usilennie-alyuminievie-salniki-tolkately",
       "https://leoparts-akpp.ru/tproduct/998612992483-polnii-komplekt-salnikov-tolkatelei-vilo",
-      "https://leoparts-akpp.ru/tproduct/999558457243-usilennaya-gidroplita-filtr-2-pilnika-sh",
-      "https://leoparts-akpp.ru/vernutblok"
+      "https://leoparts-akpp.ru/tproduct/999558457243-usilennaya-gidroplita-filtr-2-pilnika-sh"
     ]
   },
   "checks": [
@@ -1258,8 +1247,8 @@
           "source": "core_commercial_or_known_repair_slug"
         }
       ],
-      "checked_utc": "2026-11-27T10:11:19.481703+00:00",
-      "in_sitemap": true,
+      "checked_utc": "2026-11-27T10:16:57.315500+00:00",
+      "in_sitemap": false,
       "robots_txt_allowed": {
         "Googlebot": true,
         "YandexBot": true,
@@ -1313,8 +1302,8 @@
           "source": "core_commercial_or_known_repair_slug"
         }
       ],
-      "checked_utc": "2026-11-27T10:11:19.492281+00:00",
-      "in_sitemap": true,
+      "checked_utc": "2026-11-27T10:16:57.325794+00:00",
+      "in_sitemap": false,
       "robots_txt_allowed": {
         "Googlebot": true,
         "YandexBot": true,
@@ -1357,7 +1346,7 @@
       "html_bytes": 116663,
       "html_sha256": "211838e0422b1a1aa6b525b2d79b6fbbddd8f41e88e9cda8fbbb2d9ff53ddd46",
       "canonical_in_sitemap": {
-        "https://leoparts-akpp.ru/catalog": true
+        "https://leoparts-akpp.ru/catalog": false
       }
     },
     {
@@ -1443,8 +1432,8 @@
           "title": "Электронные платы DQ200"
         }
       ],
-      "checked_utc": "2026-11-27T10:11:19.517978+00:00",
-      "in_sitemap": true,
+      "checked_utc": "2026-11-27T10:16:57.341168+00:00",
+      "in_sitemap": false,
       "robots_txt_allowed": {
         "Googlebot": true,
         "YandexBot": true,
@@ -1538,7 +1527,7 @@
       "html_bytes": 632942,
       "html_sha256": "96492fd70755b519a8405dd2cbc38010adb62aec7c159f14c4b981f8abb1336e",
       "canonical_in_sitemap": {
-        "https://leoparts-akpp.ru/mehatronik-dq200": true
+        "https://leoparts-akpp.ru/mehatronik-dq200": false
       }
     },
     {
@@ -1549,8 +1538,8 @@
           "source": "core_commercial_or_known_repair_slug"
         }
       ],
-      "checked_utc": "2026-11-27T10:11:19.524655+00:00",
-      "in_sitemap": true,
+      "checked_utc": "2026-11-27T10:16:57.367518+00:00",
+      "in_sitemap": false,
       "robots_txt_allowed": {
         "Googlebot": true,
         "YandexBot": true,
@@ -1625,7 +1614,7 @@
           "source": "historical_public_search_result_not_GSC"
         }
       ],
-      "checked_utc": "2026-11-27T10:11:19.737275+00:00",
+      "checked_utc": "2026-11-27T10:16:57.498897+00:00",
       "in_sitemap": false,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -1671,7 +1660,7 @@
           "source": "historical_public_search_result_not_GSC"
         }
       ],
-      "checked_utc": "2026-11-27T10:11:19.738521+00:00",
+      "checked_utc": "2026-11-27T10:16:57.499705+00:00",
       "in_sitemap": false,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -1731,7 +1720,7 @@
           "uid": 908157881413
         }
       ],
-      "checked_utc": "2026-11-27T10:11:20.318122+00:00",
+      "checked_utc": "2026-11-27T10:16:58.043568+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -1790,7 +1779,7 @@
           "uid": 353312992873
         }
       ],
-      "checked_utc": "2026-11-27T10:11:20.451772+00:00",
+      "checked_utc": "2026-11-27T10:16:58.186933+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -1861,7 +1850,7 @@
           "uid": 517217914653
         }
       ],
-      "checked_utc": "2026-11-27T10:11:20.615375+00:00",
+      "checked_utc": "2026-11-27T10:16:58.384477+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -1927,7 +1916,7 @@
           "uid": 915950884033
         }
       ],
-      "checked_utc": "2026-11-27T10:11:20.718528+00:00",
+      "checked_utc": "2026-11-27T10:16:58.538515+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -1982,7 +1971,7 @@
           "name": "Мехатроник DSG7 DQ200"
         }
       ],
-      "checked_utc": "2026-11-27T10:11:21.228432+00:00",
+      "checked_utc": "2026-11-27T10:16:58.743663+00:00",
       "in_sitemap": false,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -2043,7 +2032,7 @@
           "name": "Мехатроник DSG7 DQ200"
         }
       ],
-      "checked_utc": "2026-11-27T10:11:21.245520+00:00",
+      "checked_utc": "2026-11-27T10:16:59.163689+00:00",
       "in_sitemap": false,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -2110,7 +2099,7 @@
           "title": "Мехатроник с платой K"
         }
       ],
-      "checked_utc": "2026-11-27T10:11:21.262616+00:00",
+      "checked_utc": "2026-11-27T10:16:59.284695+00:00",
       "in_sitemap": false,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -2189,7 +2178,7 @@
           "uid": 787466152673
         }
       ],
-      "checked_utc": "2026-11-27T10:11:21.306379+00:00",
+      "checked_utc": "2026-11-27T10:16:59.486295+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -2263,7 +2252,7 @@
           "uid": 801039414923
         }
       ],
-      "checked_utc": "2026-11-27T10:11:22.323154+00:00",
+      "checked_utc": "2026-11-27T10:16:59.841277+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -2323,7 +2312,7 @@
           "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769E"
         }
       ],
-      "checked_utc": "2026-11-27T10:11:22.397405+00:00",
+      "checked_utc": "2026-11-27T10:17:00.390150+00:00",
       "in_sitemap": false,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -2389,7 +2378,7 @@
           "name": "Электронная плата мехатроника DSG7 DQ200 0AM927769G"
         }
       ],
-      "checked_utc": "2026-11-27T10:11:22.414270+00:00",
+      "checked_utc": "2026-11-27T10:17:00.416724+00:00",
       "in_sitemap": false,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -2461,7 +2450,7 @@
           "title": "Плата 0AM927769K"
         }
       ],
-      "checked_utc": "2026-11-27T10:11:22.547213+00:00",
+      "checked_utc": "2026-11-27T10:17:00.506483+00:00",
       "in_sitemap": false,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -2534,7 +2523,7 @@
           "uid": 838583326453
         }
       ],
-      "checked_utc": "2026-11-27T10:11:23.170717+00:00",
+      "checked_utc": "2026-11-27T10:17:00.650694+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -2583,7 +2572,7 @@
           "state": "SUSPENDED"
         }
       ],
-      "checked_utc": "2026-11-27T10:11:23.344667+00:00",
+      "checked_utc": "2026-11-27T10:17:01.358404+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -2643,7 +2632,7 @@
           "uid": 137877342943
         }
       ],
-      "checked_utc": "2026-11-27T10:11:23.467096+00:00",
+      "checked_utc": "2026-11-27T10:17:01.656564+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -2709,7 +2698,7 @@
           "uid": 937513129983
         }
       ],
-      "checked_utc": "2026-11-27T10:11:23.469224+00:00",
+      "checked_utc": "2026-11-27T10:17:01.752314+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -2770,7 +2759,7 @@
           "uid": 772831134323
         }
       ],
-      "checked_utc": "2026-11-27T10:11:23.774139+00:00",
+      "checked_utc": "2026-11-27T10:17:01.782031+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -2831,7 +2820,7 @@
           "uid": 933254300083
         }
       ],
-      "checked_utc": "2026-11-27T10:11:23.849063+00:00",
+      "checked_utc": "2026-11-27T10:17:02.172222+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -2891,7 +2880,7 @@
           "uid": 596243744223
         }
       ],
-      "checked_utc": "2026-11-27T10:11:23.967317+00:00",
+      "checked_utc": "2026-11-27T10:17:02.387416+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -2939,7 +2928,7 @@
           "uid": 920284757613
         }
       ],
-      "checked_utc": "2026-11-27T10:11:24.077032+00:00",
+      "checked_utc": "2026-11-27T10:17:02.406278+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -2987,7 +2976,7 @@
           "uid": 768054411623
         }
       ],
-      "checked_utc": "2026-11-27T10:11:24.351863+00:00",
+      "checked_utc": "2026-11-27T10:17:02.634880+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -3035,7 +3024,7 @@
           "uid": 515162705633
         }
       ],
-      "checked_utc": "2026-11-27T10:11:24.406456+00:00",
+      "checked_utc": "2026-11-27T10:17:02.908445+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -3083,7 +3072,7 @@
           "uid": 950546401053
         }
       ],
-      "checked_utc": "2026-11-27T10:11:24.458853+00:00",
+      "checked_utc": "2026-11-27T10:17:02.945636+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -3131,7 +3120,7 @@
           "uid": 326440620133
         }
       ],
-      "checked_utc": "2026-11-27T10:11:24.586033+00:00",
+      "checked_utc": "2026-11-27T10:17:02.956476+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -3179,7 +3168,7 @@
           "uid": 563938649593
         }
       ],
-      "checked_utc": "2026-11-27T10:11:24.870441+00:00",
+      "checked_utc": "2026-11-27T10:17:03.329644+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -3227,7 +3216,7 @@
           "uid": 234667588903
         }
       ],
-      "checked_utc": "2026-11-27T10:11:24.901849+00:00",
+      "checked_utc": "2026-11-27T10:17:03.493376+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -3287,7 +3276,7 @@
           "uid": 684991663463
         }
       ],
-      "checked_utc": "2026-11-27T10:11:24.918116+00:00",
+      "checked_utc": "2026-11-27T10:17:03.660851+00:00",
       "in_sitemap": true,
       "robots_txt_allowed": {
         "Googlebot": true,
@@ -3333,7 +3322,7 @@
       }
     }
   ],
-  "finished_utc": "2026-11-27T10:11:25.839232+00:00",
+  "finished_utc": "2026-11-27T10:17:04.541516+00:00",
   "summary": {
     "unique_urls_checked": 33,
     "http_status_counts": {

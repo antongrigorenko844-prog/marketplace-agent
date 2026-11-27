@@ -1,7 +1,7 @@
 {
   "mode": "strict_read_only",
   "external_mutations": 0,
-  "started_utc": "2026-11-27T10:10:24.948477+00:00",
+  "started_utc": "2026-11-27T10:15:50.850547+00:00",
   "report_timezone": "Europe/Moscow",
   "sections": {
     "campaigns": {
@@ -5169,8 +5169,8 @@
       ]
     },
     "negative_shared_sets": {
-      "status": "error",
-      "error": "Invalid negativekeywordsharedsets response"
+      "status": "ok",
+      "data": []
     },
     "ads": {
       "status": "ok",
@@ -5375,8 +5375,41 @@
       ]
     },
     "feeds": {
-      "status": "error",
-      "error": "feeds {'request_id': '2799720423044828774', 'error_code': 8000, 'error_detail': 'Omitted required parameter Ids', 'error_string': 'Invalid request'}"
+      "status": "ok",
+      "data": [
+        {
+          "Id": 4060883,
+          "Name": "Leoparts — DQ200 — 12 товаров",
+          "SourceType": "URL",
+          "UpdatedAt": "2026-11-19T11:03:21",
+          "NumberOfItems": 12,
+          "Status": "DONE",
+          "UrlFeed": {
+            "Url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml"
+          },
+          "TitleAndTextSources": {
+            "Items": [
+              "name"
+            ]
+          }
+        },
+        {
+          "Id": 4061297,
+          "Name": "Leoparts DQ200 — проверка.",
+          "SourceType": "URL",
+          "UpdatedAt": "2026-11-26T13:14:40",
+          "NumberOfItems": 12,
+          "Status": "DONE",
+          "UrlFeed": {
+            "Url": "https://raw.githubusercontent.com/antongrigorenko844-prog/marketplace-agent/main/feeds/dq200_candidate.yml?copy_rev=auto_f634b3302079c52d03f9801394ce300a046d0ea9"
+          },
+          "TitleAndTextSources": {
+            "Items": [
+              "name"
+            ]
+          }
+        }
+      ]
     },
     "sitelinks": {
       "status": "ok",
@@ -5522,7 +5555,7 @@
       "status": "ok",
       "data": {
         "file": "queries_716316525.json",
-        "rows": 18682,
+        "rows": 18684,
         "coverage_complete": true,
         "chunks": [
           {
@@ -5548,7 +5581,7 @@
           {
             "from": "2026-11-25",
             "to": "2026-11-27",
-            "rows": 6151
+            "rows": 6153
           }
         ]
       }
@@ -6672,10 +6705,7 @@
       ]
     }
   },
-  "errors": {
-    "negative_shared_sets": "Invalid negativekeywordsharedsets response",
-    "feeds": "feeds {'request_id': '2799720423044828774', 'error_code': 8000, 'error_detail': 'Omitted required parameter Ids', 'error_string': 'Invalid request'}"
-  },
+  "errors": {},
   "detailed_campaign_ids": [
     716316525
   ],
@@ -6683,7 +6713,8 @@
     715571070,
     715572923
   ],
+  "shared_sets_empty_response_and_no_attached_ids": true,
   "campaign_configuration_unchanged_during_read": true,
-  "finished_utc": "2026-11-27T10:11:12.524304+00:00",
-  "status": "partial"
+  "finished_utc": "2026-11-27T10:16:49.550210+00:00",
+  "status": "complete"
 }
