@@ -47,7 +47,13 @@
   "draft_issue": "Media visual review not complete",
   "draft_present": true,
   "draft_valid": false,
+  "error": "Reviewed font files differ",
+  "error_type": "ValueError",
   "existing_item_count": 157,
+  "existing_tools_ids": [
+    "tool-dq200-acc-restore",
+    "tool-dsg-pressure-hp"
+  ],
   "feed_id": "leoparts-avito-electronic-boards-20261127-01",
   "fourth_feed_limit_unconfirmed": true,
   "new_avito_id": null,
@@ -1933,9 +1939,9 @@
     "allow_pay_over_limit": false,
     "autoload_enabled": true,
     "feeds_sha256": "aa400110da24e60f2562b1243536d00024fe626ba67ebcc16400945cb2e00489",
-    "new_feed_registered": false,
     "registered_feed_count": 3,
-    "schedule_sha256": "07360a8d254dbc3076c1f9ea1653ae73fb180e8f539cc32c4f5938aa340825b8"
+    "schedule_sha256": "07360a8d254dbc3076c1f9ea1653ae73fb180e8f539cc32c4f5938aa340825b8",
+    "target_tools_feed_registered": true
   },
   "protected_existing_ids": [
     3965207177,
@@ -2097,18 +2103,19 @@
     8609616823
   ],
   "protected_existing_sha256": "25720887afbab9312d0465af8a22ca22e0a8faa81836d606df51cacb2e6d6f4f",
+  "publication_route": "append_one_ad_to_existing_tools_xml_preserve_every_old_byte",
   "seller_writes": 0,
   "started_utc": "2026-11-27T05:35:52.175912+00:00",
-  "status": "read_only_preflight_complete",
+  "status": "blocked_or_unverified",
   "template": {
     "delivery_action": "leave optional field blank; do not claim enabled or disabled",
     "delivery_allowed_values": [],
     "delivery_header": "Способ доставки",
     "listing_fee": "Package",
-    "oem_action": "blank for truthful assortment; exact five OEMs in description",
+    "oem_action": "actual primary offer D at 36500; other four executions listed separately",
     "oem_required_label": "Может быть обязательным\r\nПодробнее",
     "photo_max_file_mb": 25,
     "promotion": "Free"
   },
-  "updated_utc": "2026-11-27T05:35:54.464493+00:00"
+  "updated_utc": "2026-11-27T05:43:58.171989+00:00"
 }
