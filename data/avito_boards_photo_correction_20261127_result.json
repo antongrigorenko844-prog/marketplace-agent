@@ -1,7 +1,7 @@
 {
-  "accepted_xml_photo_count": null,
+  "accepted_xml_photo_count": 18,
   "ad_count": 3,
-  "autoload_content_verified": false,
+  "autoload_content_verified": true,
   "backup_asset_name": "avito_tools_feed.before_photo_correction_20261127_799168520.xml",
   "before_sha256": "569f8fcc237ecc0cf47e1c56938682eb2e18b0c0d12ba59490e773aad7c102ba",
   "binding_before": {
@@ -100,6 +100,52 @@
           "avito_status": "active",
           "messages": [
             {
+              "code": 1105,
+              "description": "Значение было задано в элементе <a href=\"https://www.avito.ru/autoload/documentation/templates?fileFormat=xml&language=eng&microcatId=5540#field-Images\">Images / Фотографии</a>.",
+              "title": "Слишком много фотографий для объявлений категории «Запчасти и аксессуары». Будут обработаны только 10 фотографий.",
+              "type": "alarm",
+              "updated_at": "2026-11-27T07:34:51Z"
+            },
+            {
+              "code": 2303,
+              "description": "",
+              "title": "Произведена автоподстановка номера телефона",
+              "type": "warning",
+              "updated_at": "2026-11-27T06:35:01Z"
+            },
+            {
+              "code": 3002,
+              "description": "Объявление активировалось",
+              "title": "",
+              "type": "info",
+              "updated_at": "2026-11-27T06:35:03Z"
+            }
+          ],
+          "section": {
+            "slug": "problem_images",
+            "title": "Проблемы изображений"
+          },
+          "status": null,
+          "url": "https://www.avito.ru/items/8580863654"
+        }
+      ],
+      "received_corrected_xml": true,
+      "received_target_photo_count": 18,
+      "received_target_title": "0AM927769D/E/F/G/K",
+      "started_at": "2026-11-27T07:34:03Z",
+      "status": "processing",
+      "upload_id": 641863577
+    },
+    {
+      "content_read_error_type": "ParseError",
+      "kind": "last_successful",
+      "matches": [
+        {
+          "ad_id": "leoparts-avito-electronic-boards-20261127-01",
+          "avito_id": 8580863654,
+          "avito_status": "active",
+          "messages": [
+            {
               "code": 2303,
               "description": "",
               "title": "Произведена автоподстановка номера телефона",
@@ -126,17 +172,8 @@
       "received_target_photo_count": 10,
       "received_target_title": "Электронные платы DSG7 DQ200 0AM D E F G K",
       "started_at": "2026-11-27T06:34:03Z",
-      "status": "processing",
-      "upload_id": 641837265
-    },
-    {
-      "content_read_error_type": "ParseError",
-      "kind": "last_successful",
-      "matches": [],
-      "received_corrected_xml": false,
-      "started_at": "2026-11-27T04:34:02Z",
       "status": "success_warning",
-      "upload_id": 641786484
+      "upload_id": 641837265
     }
   ],
   "request_sha256": "625e0977769593574f3f483629b01111e09fa9badab07ceb9c4a8a2263ede728",
@@ -154,6 +191,6 @@
     "url": "https://www.avito.ru/moskva/zapchasti_i_aksessuary/elektronnye_platy_dsg7_dq200_0am_d_e_f_g_k_8580863654"
   },
   "target_sha256": "72260908a51cacf358f51e5f1e5ce3831c222132038350b832effa574845ab13",
-  "updated_utc": "2026-11-27T06:56:57.987667+00:00",
+  "updated_utc": "2026-11-27T08:01:14.429016+00:00",
   "version": 1
 }
