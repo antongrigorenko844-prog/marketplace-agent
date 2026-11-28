@@ -1,0 +1,39 @@
+name: LEOPARTS Direct current owner-requested check 20261128
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/direct-current-check-20261128.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: direct-audit-20261126
+  cancel-in-progress: false
+jobs:
+  read-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Collect fresh Direct and Metrica commercial evidence
+        env:
+          YANDEX_DIRECT_TOKEN: ${{ secrets.YANDEX_DIRECT_TOKEN }}
+          YANDEX_DIRECT_LOGIN: ${{ secrets.YANDEX_DIRECT_LOGIN }}
+          YANDEX_METRIKA_TOKEN: ${{ secrets.YANDEX_METRIKA_TOKEN }}
+        run: |
+          python -u .github/scripts/direct_traffic_quality_20261126.py
+          python -u .github/scripts/direct_targeted_readonly_20261126.py
+      - name: Preserve this read-only run
+        if: always()
+        run: |
+          shopt -s nullglob
+          dirs=(data/direct_traffic_quality/*-${GITHUB_RUN_ID})
+          if [ "${#dirs[@]}" -eq 1 ]; then
+            bash .github/scripts/save_data.sh "${dirs[0]}"
+          fi
