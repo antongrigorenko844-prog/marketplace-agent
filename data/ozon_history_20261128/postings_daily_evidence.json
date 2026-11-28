@@ -1,0 +1,1413 @@
+{
+  "generated_at_utc": "2026-11-28T11:06:13.600690+00:00",
+  "mode": "read_only",
+  "marketplace_mutations": 0,
+  "date_from": "2026-10-19",
+  "date_to": "2026-11-27",
+  "time_zone": "Europe/Moscow",
+  "date_basis": "in_process_at, else created_at; units in all returned statuses",
+  "notes": [
+    "Postings are shipments, not unique orders.",
+    "Units include cancellations and uncompleted deliveries, item quantities are counted.",
+    "This is NOT a card visits report and does not replace analytics revenue.",
+    "No customer data or posting identifiers are retained in the report."
+  ],
+  "schemes": {
+    "FBS": {
+      "endpoint": "/v4/posting/fbs/list",
+      "complete": true,
+      "pages": 4,
+      "received_postings": 354,
+      "outside_date_window": 0,
+      "missing_dates": 0,
+      "duplicate_postings": 0,
+      "by_day": {
+        "2026-10-19": {
+          "postings": 13,
+          "units": 18,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivered": 12,
+            "cancelled": 1
+          }
+        },
+        "2026-10-20": {
+          "postings": 9,
+          "units": 14,
+          "cancelled_postings": 3,
+          "cancelled_units": 3,
+          "statuses": {
+            "cancelled": 3,
+            "delivered": 6
+          }
+        },
+        "2026-10-21": {
+          "postings": 13,
+          "units": 18,
+          "cancelled_postings": 5,
+          "cancelled_units": 5,
+          "statuses": {
+            "delivered": 8,
+            "cancelled": 5
+          }
+        },
+        "2026-10-22": {
+          "postings": 6,
+          "units": 10,
+          "cancelled_postings": 2,
+          "cancelled_units": 2,
+          "statuses": {
+            "cancelled": 2,
+            "delivered": 4
+          }
+        },
+        "2026-10-23": {
+          "postings": 8,
+          "units": 10,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 8
+          }
+        },
+        "2026-10-24": {
+          "postings": 5,
+          "units": 6,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivered": 4,
+            "cancelled": 1
+          }
+        },
+        "2026-10-25": {
+          "postings": 12,
+          "units": 13,
+          "cancelled_postings": 2,
+          "cancelled_units": 2,
+          "statuses": {
+            "delivered": 10,
+            "cancelled": 2
+          }
+        },
+        "2026-10-26": {
+          "postings": 7,
+          "units": 16,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 7
+          }
+        },
+        "2026-10-27": {
+          "postings": 22,
+          "units": 31,
+          "cancelled_postings": 6,
+          "cancelled_units": 7,
+          "statuses": {
+            "delivered": 16,
+            "cancelled": 6
+          }
+        },
+        "2026-10-28": {
+          "postings": 6,
+          "units": 6,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 6
+          }
+        },
+        "2026-10-29": {
+          "postings": 7,
+          "units": 12,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivered": 6,
+            "cancelled": 1
+          }
+        },
+        "2026-10-30": {
+          "postings": 7,
+          "units": 9,
+          "cancelled_postings": 2,
+          "cancelled_units": 2,
+          "statuses": {
+            "cancelled": 2,
+            "delivered": 5
+          }
+        },
+        "2026-10-31": {
+          "postings": 9,
+          "units": 13,
+          "cancelled_postings": 2,
+          "cancelled_units": 2,
+          "statuses": {
+            "delivered": 7,
+            "cancelled": 2
+          }
+        },
+        "2026-11-01": {
+          "postings": 6,
+          "units": 9,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 6
+          }
+        },
+        "2026-11-02": {
+          "postings": 4,
+          "units": 4,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivered": 3,
+            "cancelled": 1
+          }
+        },
+        "2026-11-03": {
+          "postings": 9,
+          "units": 10,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 9
+          }
+        },
+        "2026-11-04": {
+          "postings": 7,
+          "units": 7,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivered": 6,
+            "cancelled": 1
+          }
+        },
+        "2026-11-05": {
+          "postings": 18,
+          "units": 21,
+          "cancelled_postings": 3,
+          "cancelled_units": 3,
+          "statuses": {
+            "delivered": 15,
+            "cancelled": 3
+          }
+        },
+        "2026-11-06": {
+          "postings": 9,
+          "units": 9,
+          "cancelled_postings": 2,
+          "cancelled_units": 2,
+          "statuses": {
+            "cancelled": 2,
+            "delivered": 7
+          }
+        },
+        "2026-11-07": {
+          "postings": 8,
+          "units": 10,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivered": 7,
+            "cancelled": 1
+          }
+        },
+        "2026-11-08": {
+          "postings": 8,
+          "units": 11,
+          "cancelled_postings": 3,
+          "cancelled_units": 5,
+          "statuses": {
+            "delivered": 5,
+            "cancelled": 3
+          }
+        },
+        "2026-11-09": {
+          "postings": 4,
+          "units": 6,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 4
+          }
+        },
+        "2026-11-10": {
+          "postings": 11,
+          "units": 11,
+          "cancelled_postings": 6,
+          "cancelled_units": 6,
+          "statuses": {
+            "delivered": 4,
+            "cancelled": 6,
+            "delivering": 1
+          }
+        },
+        "2026-11-11": {
+          "postings": 11,
+          "units": 14,
+          "cancelled_postings": 4,
+          "cancelled_units": 4,
+          "statuses": {
+            "delivered": 6,
+            "cancelled": 4,
+            "delivering": 1
+          }
+        },
+        "2026-11-12": {
+          "postings": 9,
+          "units": 9,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivered": 8,
+            "cancelled": 1
+          }
+        },
+        "2026-11-13": {
+          "postings": 9,
+          "units": 12,
+          "cancelled_postings": 2,
+          "cancelled_units": 2,
+          "statuses": {
+            "delivered": 7,
+            "cancelled": 2
+          }
+        },
+        "2026-11-14": {
+          "postings": 6,
+          "units": 8,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "cancelled": 1,
+            "delivered": 4,
+            "delivering": 1
+          }
+        },
+        "2026-11-15": {
+          "postings": 9,
+          "units": 9,
+          "cancelled_postings": 2,
+          "cancelled_units": 2,
+          "statuses": {
+            "delivered": 5,
+            "cancelled": 2,
+            "delivering": 2
+          }
+        },
+        "2026-11-16": {
+          "postings": 13,
+          "units": 15,
+          "cancelled_postings": 3,
+          "cancelled_units": 3,
+          "statuses": {
+            "delivered": 9,
+            "cancelled": 3,
+            "delivering": 1
+          }
+        },
+        "2026-11-17": {
+          "postings": 8,
+          "units": 9,
+          "cancelled_postings": 2,
+          "cancelled_units": 2,
+          "statuses": {
+            "delivered": 5,
+            "cancelled": 2,
+            "delivering": 1
+          }
+        },
+        "2026-11-18": {
+          "postings": 5,
+          "units": 7,
+          "cancelled_postings": 2,
+          "cancelled_units": 4,
+          "statuses": {
+            "cancelled": 2,
+            "delivered": 3
+          }
+        },
+        "2026-11-19": {
+          "postings": 7,
+          "units": 8,
+          "cancelled_postings": 2,
+          "cancelled_units": 2,
+          "statuses": {
+            "delivered": 3,
+            "delivering": 2,
+            "cancelled": 2
+          }
+        },
+        "2026-11-20": {
+          "postings": 9,
+          "units": 11,
+          "cancelled_postings": 2,
+          "cancelled_units": 4,
+          "statuses": {
+            "cancelled": 2,
+            "delivered": 4,
+            "delivering": 3
+          }
+        },
+        "2026-11-21": {
+          "postings": 6,
+          "units": 11,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivered": 4,
+            "delivering": 1,
+            "cancelled": 1
+          }
+        },
+        "2026-11-22": {
+          "postings": 9,
+          "units": 10,
+          "cancelled_postings": 3,
+          "cancelled_units": 4,
+          "statuses": {
+            "delivered": 3,
+            "cancelled": 3,
+            "delivering": 3
+          }
+        },
+        "2026-11-23": {
+          "postings": 8,
+          "units": 12,
+          "cancelled_postings": 1,
+          "cancelled_units": 4,
+          "statuses": {
+            "cancelled": 1,
+            "delivered": 3,
+            "delivering": 4
+          }
+        },
+        "2026-11-24": {
+          "postings": 11,
+          "units": 12,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivering": 8,
+            "delivered": 2,
+            "cancelled": 1
+          }
+        },
+        "2026-11-25": {
+          "postings": 9,
+          "units": 13,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivering": 8,
+            "cancelled": 1
+          }
+        },
+        "2026-11-26": {
+          "postings": 8,
+          "units": 13,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivering": 7,
+            "cancelled": 1
+          }
+        },
+        "2026-11-27": {
+          "postings": 9,
+          "units": 11,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivering": 9
+          }
+        }
+      },
+      "sku_daily_units": {
+        "02E 305 045": {
+          "2026-11-02": 1,
+          "2026-11-15": 1
+        },
+        "02E927770AL": {
+          "2026-10-19": 1,
+          "2026-11-16": 1
+        },
+        "02e305045": {
+          "2026-10-28": 1,
+          "2026-11-04": 1,
+          "2026-11-24": 1,
+          "2026-11-26": 1
+        },
+        "0AM301212A": {
+          "2026-10-19": 1,
+          "2026-10-21": 1,
+          "2026-11-09": 1,
+          "2026-11-10": 1,
+          "2026-11-13": 1,
+          "2026-11-20": 1,
+          "2026-11-23": 1,
+          "2026-11-27": 1
+        },
+        "0AM325025B": {
+          "2026-10-21": 1,
+          "2026-10-22": 1,
+          "2026-11-03": 1,
+          "2026-11-05": 1
+        },
+        "0AM325219C": {
+          "2026-11-24": 1
+        },
+        "0AM325433E": {
+          "2026-11-20": 1,
+          "2026-11-24": 1
+        },
+        "0AM325443D": {
+          "2026-10-19": 1,
+          "2026-10-21": 2,
+          "2026-10-29": 3,
+          "2026-10-30": 1,
+          "2026-11-02": 1,
+          "2026-11-03": 1,
+          "2026-11-05": 1,
+          "2026-11-06": 1,
+          "2026-11-07": 1,
+          "2026-11-08": 1,
+          "2026-11-10": 4,
+          "2026-11-11": 4,
+          "2026-11-13": 1,
+          "2026-11-16": 2,
+          "2026-11-18": 1,
+          "2026-11-21": 1,
+          "2026-11-22": 1,
+          "2026-11-24": 2,
+          "2026-11-27": 1
+        },
+        "0AM325467J": {
+          "2026-11-01": 1
+        },
+        "0AM325587E": {
+          "2026-10-20": 2,
+          "2026-10-21": 1,
+          "2026-10-22": 2,
+          "2026-10-23": 1,
+          "2026-10-25": 2,
+          "2026-10-26": 1,
+          "2026-10-27": 3,
+          "2026-10-28": 2,
+          "2026-11-01": 1,
+          "2026-11-03": 1,
+          "2026-11-05": 6,
+          "2026-11-07": 1,
+          "2026-11-08": 1,
+          "2026-11-10": 1,
+          "2026-11-11": 2,
+          "2026-11-13": 1,
+          "2026-11-14": 1,
+          "2026-11-16": 1,
+          "2026-11-17": 3,
+          "2026-11-19": 1,
+          "2026-11-21": 3,
+          "2026-11-25": 2,
+          "2026-11-26": 1
+        },
+        "0AM927769N": {
+          "2026-10-25": 1,
+          "2026-10-26": 1,
+          "2026-10-27": 1,
+          "2026-10-29": 5,
+          "2026-11-11": 2,
+          "2026-11-12": 1,
+          "2026-11-15": 1,
+          "2026-11-16": 1,
+          "2026-11-20": 1,
+          "2026-11-21": 1,
+          "2026-11-22": 1
+        },
+        "0BH325183": {
+          "2026-11-06": 1,
+          "2026-11-12": 1
+        },
+        "0BH325183 B": {
+          "2026-11-12": 1
+        },
+        "0am325025": {
+          "2026-10-23": 3,
+          "2026-10-24": 1,
+          "2026-10-25": 1,
+          "2026-10-26": 1,
+          "2026-10-27": 5,
+          "2026-10-30": 2,
+          "2026-11-01": 2,
+          "2026-11-03": 1,
+          "2026-11-04": 1,
+          "2026-11-05": 1,
+          "2026-11-07": 1,
+          "2026-11-11": 3,
+          "2026-11-12": 1,
+          "2026-11-13": 3,
+          "2026-11-15": 1,
+          "2026-11-22": 1,
+          "2026-11-23": 2,
+          "2026-11-24": 1,
+          "2026-11-25": 2,
+          "2026-11-26": 1,
+          "2026-11-27": 2
+        },
+        "0am325025D": {
+          "2026-10-27": 1,
+          "2026-11-13": 2
+        },
+        "0am325025G": {
+          "2026-10-20": 1,
+          "2026-10-24": 1,
+          "2026-10-27": 1,
+          "2026-10-31": 1,
+          "2026-11-02": 1
+        },
+        "0am325025H": {
+          "2026-10-19": 1,
+          "2026-10-25": 1,
+          "2026-10-27": 1,
+          "2026-10-31": 1,
+          "2026-11-04": 3,
+          "2026-11-06": 1,
+          "2026-11-07": 1,
+          "2026-11-16": 1,
+          "2026-11-17": 2,
+          "2026-11-20": 1
+        },
+        "0am325025HX": {
+          "2026-11-10": 1
+        },
+        "0am325025ae": {
+          "2026-10-19": 1,
+          "2026-10-26": 1,
+          "2026-10-27": 1,
+          "2026-10-30": 1,
+          "2026-11-03": 1,
+          "2026-11-10": 1,
+          "2026-11-11": 1,
+          "2026-11-16": 1,
+          "2026-11-22": 1,
+          "2026-11-24": 1,
+          "2026-11-26": 1,
+          "2026-11-27": 1
+        },
+        "0am325025f": {
+          "2026-10-19": 2,
+          "2026-10-20": 1,
+          "2026-10-22": 1,
+          "2026-11-02": 1,
+          "2026-11-05": 1,
+          "2026-11-12": 1,
+          "2026-11-13": 1,
+          "2026-11-15": 1,
+          "2026-11-19": 1,
+          "2026-11-23": 1
+        },
+        "0am325025hfe": {
+          "2026-10-19": 1,
+          "2026-10-21": 2,
+          "2026-10-28": 1,
+          "2026-11-05": 2,
+          "2026-11-13": 1,
+          "2026-11-15": 1
+        },
+        "0am325025j": {
+          "2026-11-06": 1,
+          "2026-11-14": 1
+        },
+        "0am325025l": {
+          "2026-10-20": 4,
+          "2026-10-21": 4,
+          "2026-10-22": 4,
+          "2026-10-27": 4,
+          "2026-10-31": 4,
+          "2026-11-16": 1,
+          "2026-11-25": 4
+        },
+        "0am325025m": {
+          "2026-10-19": 1,
+          "2026-10-23": 1,
+          "2026-10-26": 1,
+          "2026-11-05": 2,
+          "2026-11-10": 1,
+          "2026-11-11": 1,
+          "2026-11-12": 1,
+          "2026-11-18": 1,
+          "2026-11-20": 1
+        },
+        "0am325025q": {
+          "2026-10-21": 1,
+          "2026-10-23": 2,
+          "2026-11-04": 1,
+          "2026-11-10": 1
+        },
+        "0am325025r": {
+          "2026-11-23": 4
+        },
+        "0am325025u": {
+          "2026-10-21": 1,
+          "2026-10-24": 2,
+          "2026-11-21": 2,
+          "2026-11-26": 2
+        },
+        "0am325025x": {
+          "2026-10-25": 1,
+          "2026-10-30": 1,
+          "2026-11-19": 1
+        },
+        "0am325025z": {
+          "2026-11-13": 2,
+          "2026-11-14": 2,
+          "2026-11-16": 2,
+          "2026-11-21": 4,
+          "2026-11-23": 2,
+          "2026-11-26": 4
+        },
+        "0am325025С": {
+          "2026-10-25": 2,
+          "2026-10-29": 1,
+          "2026-11-07": 1,
+          "2026-11-20": 1,
+          "2026-11-24": 1,
+          "2026-11-25": 1,
+          "2026-11-27": 1
+        },
+        "0am325066AC": {
+          "2026-10-19": 5,
+          "2026-10-27": 2,
+          "2026-11-08": 2
+        },
+        "0am325066ae": {
+          "2026-10-31": 1,
+          "2026-11-06": 1,
+          "2026-11-08": 1
+        },
+        "0am325091e-set": {
+          "2026-10-20": 1,
+          "2026-10-21": 2,
+          "2026-10-27": 2,
+          "2026-11-11": 1
+        },
+        "0am325091f": {
+          "2026-10-26": 2,
+          "2026-11-03": 2,
+          "2026-11-17": 2
+        },
+        "0am325091f-set": {
+          "2026-10-26": 1,
+          "2026-10-29": 1,
+          "2026-10-31": 2,
+          "2026-11-03": 1,
+          "2026-11-15": 1,
+          "2026-11-27": 1
+        },
+        "0cw0am": {
+          "2026-10-19": 1,
+          "2026-10-20": 1,
+          "2026-10-21": 1,
+          "2026-10-30": 2,
+          "2026-11-03": 1,
+          "2026-11-05": 1,
+          "2026-11-06": 1,
+          "2026-11-09": 1,
+          "2026-11-14": 2,
+          "2026-11-15": 1,
+          "2026-11-17": 1,
+          "2026-11-18": 1
+        },
+        "0cw0amdsgdq200": {
+          "2026-10-23": 1,
+          "2026-11-18": 1
+        },
+        "0cw325025h": {
+          "2026-10-21": 1,
+          "2026-10-27": 3,
+          "2026-11-09": 1,
+          "2026-11-15": 1,
+          "2026-11-24": 1
+        },
+        "0сц": {
+          "2026-10-27": 2
+        },
+        "122390AK-AF": {
+          "2026-10-25": 2,
+          "2026-10-30": 2,
+          "2026-11-22": 2,
+          "2026-11-24": 1
+        },
+        "123014‑AF": {
+          "2026-10-20": 2,
+          "2026-10-29": 1,
+          "2026-11-20": 1
+        },
+        "55565480": {
+          "2026-11-08": 1
+        },
+        "6t30": {
+          "2026-11-16": 1,
+          "2026-11-23": 1,
+          "2026-11-27": 1
+        },
+        "DQ500": {
+          "2026-10-22": 1,
+          "2026-10-24": 1,
+          "2026-10-27": 1,
+          "2026-10-28": 1
+        },
+        "Dq200dsg7": {
+          "2026-11-07": 1
+        },
+        "Dq500": {
+          "2026-10-25": 2,
+          "2026-10-29": 1,
+          "2026-10-31": 1,
+          "2026-11-01": 1,
+          "2026-11-04": 1,
+          "2026-11-05": 2,
+          "2026-11-07": 1,
+          "2026-11-08": 1,
+          "2026-11-09": 1,
+          "2026-11-15": 1,
+          "2026-11-16": 4,
+          "2026-11-19": 1,
+          "2026-11-22": 2,
+          "2026-11-23": 1,
+          "2026-11-27": 1
+        },
+        "EA888gen3-filter-kit": {
+          "2026-11-25": 1
+        },
+        "Ea888gen3": {
+          "2026-10-19": 1,
+          "2026-11-22": 1
+        },
+        "WHT001922": {
+          "2026-10-25": 1
+        },
+        "chip-0am927769d": {
+          "2026-11-25": 1
+        },
+        "filtr-dsg7-dq200": {
+          "2026-11-07": 3
+        },
+        "filtr-dsg7-dq500": {
+          "2026-10-22": 1
+        },
+        "gidroakkumulyator-orig": {
+          "2026-11-20": 1
+        },
+        "kryshka-mehatronika-dq200": {
+          "2026-10-23": 1,
+          "2026-10-24": 1,
+          "2026-11-01": 1,
+          "2026-11-19": 1
+        },
+        "kryshka-platy-dq200": {
+          "2026-11-19": 1
+        },
+        "planka-solenoid-2sht": {
+          "2026-11-06": 1
+        },
+        "plita-filtr-salniki-orig": {
+          "2026-11-25": 1
+        },
+        "plita-filtr-v2": {
+          "2026-10-28": 1
+        },
+        "podshipnik-vilki-6": {
+          "2026-10-20": 1,
+          "2026-10-26": 8,
+          "2026-10-31": 1,
+          "2026-11-01": 1,
+          "2026-11-05": 1
+        },
+        "porshni-usil-pylniki-kryshki-v2": {
+          "2026-11-06": 1,
+          "2026-11-08": 2,
+          "2026-11-14": 2,
+          "2026-11-26": 1
+        },
+        "prokladka-kryshki-dq200": {
+          "2026-11-09": 1,
+          "2026-11-26": 1
+        },
+        "prokladka-vtulki-dq200": {
+          "2026-10-27": 2,
+          "2026-11-12": 1,
+          "2026-11-20": 3
+        },
+        "prokladka-vtulki-verh-dq200": {
+          "2026-11-24": 1
+        },
+        "salnik-tolkatelya-alum": {
+          "2026-10-27": 1,
+          "2026-10-31": 1,
+          "2026-11-08": 1,
+          "2026-11-12": 1,
+          "2026-11-19": 1,
+          "2026-11-27": 1
+        },
+        "salniki-shtokov-2sht": {
+          "2026-11-01": 1
+        },
+        "salniki-shtokov-orig": {
+          "2026-10-27": 1,
+          "2026-11-27": 1
+        },
+        "salniki-tolkatelya-4sht": {
+          "2026-10-20": 1,
+          "2026-11-01": 1,
+          "2026-11-12": 1
+        },
+        "salnikprivod-l": {
+          "2026-11-05": 1
+        },
+        "salnikprivod-r": {
+          "2026-11-05": 1
+        },
+        "salnikvihod": {
+          "2026-11-05": 1
+        },
+        "separatornaya-plastina-dq200": {
+          "2026-11-10": 1,
+          "2026-11-18": 3
+        },
+        "tolkateli-4-salniki-4": {
+          "2026-10-23": 1,
+          "2026-11-03": 1,
+          "2026-11-06": 1,
+          "2026-11-09": 1,
+          "2026-11-17": 1,
+          "2026-11-19": 1,
+          "2026-11-25": 1
+        },
+        "tolkateli-salniki-alum-komplekt": {
+          "2026-10-19": 1,
+          "2026-10-21": 1,
+          "2026-11-22": 1
+        },
+        "vtulki-shtokov-2sht": {
+          "2026-10-19": 1,
+          "2026-10-31": 1,
+          "2026-11-08": 1,
+          "2026-11-24": 1,
+          "2026-11-26": 1
+        }
+      },
+      "checked_at_utc": "2026-11-28T11:06:17.928065+00:00"
+    },
+    "FBO": {
+      "endpoint": "/v3/posting/fbo/list",
+      "complete": true,
+      "pages": 1,
+      "received_postings": 99,
+      "outside_date_window": 0,
+      "missing_dates": 0,
+      "duplicate_postings": 0,
+      "by_day": {
+        "2026-10-19": {
+          "postings": 1,
+          "units": 1,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 1
+          }
+        },
+        "2026-10-20": {
+          "postings": 5,
+          "units": 5,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "cancelled": 1,
+            "delivered": 4
+          }
+        },
+        "2026-10-21": {
+          "postings": 4,
+          "units": 4,
+          "cancelled_postings": 3,
+          "cancelled_units": 3,
+          "statuses": {
+            "delivered": 1,
+            "cancelled": 3
+          }
+        },
+        "2026-10-22": {
+          "postings": 6,
+          "units": 6,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "cancelled": 1,
+            "delivered": 5
+          }
+        },
+        "2026-10-23": {
+          "postings": 4,
+          "units": 4,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 4
+          }
+        },
+        "2026-10-25": {
+          "postings": 2,
+          "units": 2,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 2
+          }
+        },
+        "2026-10-26": {
+          "postings": 4,
+          "units": 4,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "cancelled": 1,
+            "delivered": 3
+          }
+        },
+        "2026-10-27": {
+          "postings": 1,
+          "units": 1,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "cancelled": 1
+          }
+        },
+        "2026-10-31": {
+          "postings": 2,
+          "units": 2,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 2
+          }
+        },
+        "2026-11-01": {
+          "postings": 1,
+          "units": 1,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 1
+          }
+        },
+        "2026-11-02": {
+          "postings": 4,
+          "units": 4,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivered": 3,
+            "cancelled": 1
+          }
+        },
+        "2026-11-03": {
+          "postings": 4,
+          "units": 4,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivered": 3,
+            "cancelled": 1
+          }
+        },
+        "2026-11-04": {
+          "postings": 1,
+          "units": 1,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "cancelled": 1
+          }
+        },
+        "2026-11-05": {
+          "postings": 2,
+          "units": 2,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 2
+          }
+        },
+        "2026-11-06": {
+          "postings": 2,
+          "units": 2,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 2
+          }
+        },
+        "2026-11-07": {
+          "postings": 6,
+          "units": 6,
+          "cancelled_postings": 2,
+          "cancelled_units": 2,
+          "statuses": {
+            "delivered": 4,
+            "cancelled": 2
+          }
+        },
+        "2026-11-08": {
+          "postings": 2,
+          "units": 2,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 2
+          }
+        },
+        "2026-11-09": {
+          "postings": 2,
+          "units": 2,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivered": 1,
+            "cancelled": 1
+          }
+        },
+        "2026-11-10": {
+          "postings": 6,
+          "units": 6,
+          "cancelled_postings": 5,
+          "cancelled_units": 5,
+          "statuses": {
+            "cancelled": 5,
+            "delivered": 1
+          }
+        },
+        "2026-11-12": {
+          "postings": 2,
+          "units": 2,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 2
+          }
+        },
+        "2026-11-13": {
+          "postings": 2,
+          "units": 2,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivered": 1,
+            "cancelled": 1
+          }
+        },
+        "2026-11-14": {
+          "postings": 1,
+          "units": 1,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 1
+          }
+        },
+        "2026-11-15": {
+          "postings": 2,
+          "units": 2,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "cancelled": 1,
+            "delivered": 1
+          }
+        },
+        "2026-11-16": {
+          "postings": 3,
+          "units": 3,
+          "cancelled_postings": 2,
+          "cancelled_units": 2,
+          "statuses": {
+            "cancelled": 2,
+            "delivered": 1
+          }
+        },
+        "2026-11-17": {
+          "postings": 4,
+          "units": 4,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "cancelled": 1,
+            "delivered": 3
+          }
+        },
+        "2026-11-18": {
+          "postings": 2,
+          "units": 2,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivered": 1,
+            "cancelled": 1
+          }
+        },
+        "2026-11-19": {
+          "postings": 2,
+          "units": 2,
+          "cancelled_postings": 1,
+          "cancelled_units": 1,
+          "statuses": {
+            "delivered": 1,
+            "cancelled": 1
+          }
+        },
+        "2026-11-20": {
+          "postings": 1,
+          "units": 1,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 1
+          }
+        },
+        "2026-11-21": {
+          "postings": 3,
+          "units": 3,
+          "cancelled_postings": 2,
+          "cancelled_units": 2,
+          "statuses": {
+            "cancelled": 2,
+            "delivered": 1
+          }
+        },
+        "2026-11-22": {
+          "postings": 1,
+          "units": 1,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 1
+          }
+        },
+        "2026-11-23": {
+          "postings": 8,
+          "units": 8,
+          "cancelled_postings": 2,
+          "cancelled_units": 2,
+          "statuses": {
+            "cancelled": 2,
+            "delivered": 3,
+            "delivering": 3
+          }
+        },
+        "2026-11-24": {
+          "postings": 3,
+          "units": 3,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivering": 3
+          }
+        },
+        "2026-11-25": {
+          "postings": 4,
+          "units": 4,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivered": 2,
+            "delivering": 2
+          }
+        },
+        "2026-11-26": {
+          "postings": 1,
+          "units": 1,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivering": 1
+          }
+        },
+        "2026-11-27": {
+          "postings": 1,
+          "units": 1,
+          "cancelled_postings": 0,
+          "cancelled_units": 0,
+          "statuses": {
+            "delivering": 1
+          }
+        }
+      },
+      "sku_daily_units": {
+        "02e305045": {
+          "2026-11-06": 1
+        },
+        "0AM301212A": {
+          "2026-11-05": 1
+        },
+        "0AM325025B": {
+          "2026-11-03": 1,
+          "2026-11-04": 1,
+          "2026-11-12": 1
+        },
+        "0AM325219C": {
+          "2026-11-18": 1
+        },
+        "0AM325433E": {
+          "2026-10-22": 2
+        },
+        "0AM325443D": {
+          "2026-11-15": 2,
+          "2026-11-16": 1,
+          "2026-11-21": 1,
+          "2026-11-23": 1,
+          "2026-11-26": 1
+        },
+        "0AM325587E": {
+          "2026-10-21": 1,
+          "2026-10-25": 1,
+          "2026-10-27": 1,
+          "2026-11-01": 1,
+          "2026-11-02": 1,
+          "2026-11-17": 1,
+          "2026-11-25": 1
+        },
+        "0AM927769D": {
+          "2026-11-10": 2
+        },
+        "0AM927769N": {
+          "2026-11-09": 1,
+          "2026-11-10": 1,
+          "2026-11-24": 1
+        },
+        "0BH325183": {
+          "2026-11-16": 1
+        },
+        "0BH325183 B": {
+          "2026-11-19": 1
+        },
+        "0am325025": {
+          "2026-10-22": 1,
+          "2026-10-23": 1,
+          "2026-11-02": 1,
+          "2026-11-07": 1,
+          "2026-11-09": 1,
+          "2026-11-13": 1,
+          "2026-11-18": 1,
+          "2026-11-19": 1,
+          "2026-11-23": 2,
+          "2026-11-27": 1
+        },
+        "0am325025D": {
+          "2026-10-21": 2,
+          "2026-10-22": 2
+        },
+        "0am325025G": {
+          "2026-10-19": 1
+        },
+        "0am325025H": {
+          "2026-11-14": 1
+        },
+        "0am325025ae": {
+          "2026-10-26": 1,
+          "2026-11-05": 1,
+          "2026-11-06": 1,
+          "2026-11-10": 1,
+          "2026-11-13": 1
+        },
+        "0am325025f": {
+          "2026-11-17": 1
+        },
+        "0am325025hfe": {
+          "2026-10-26": 2,
+          "2026-11-17": 1
+        },
+        "0am325025j": {
+          "2026-11-02": 1
+        },
+        "0am325025l": {
+          "2026-11-24": 1,
+          "2026-11-25": 2
+        },
+        "0am325025q": {
+          "2026-10-20": 1,
+          "2026-11-03": 2,
+          "2026-11-07": 2
+        },
+        "0am325025r": {
+          "2026-10-20": 4
+        },
+        "0am325025u": {
+          "2026-11-07": 2
+        },
+        "0am325025z": {
+          "2026-10-31": 2,
+          "2026-11-08": 2
+        },
+        "0am325025С": {
+          "2026-11-07": 1
+        },
+        "0am325066AC": {
+          "2026-11-21": 1
+        },
+        "0am325066ad": {
+          "2026-11-10": 2,
+          "2026-11-23": 2
+        },
+        "0am325066ae": {
+          "2026-10-21": 1,
+          "2026-11-25": 1
+        },
+        "0am325091e": {
+          "2026-11-23": 2
+        },
+        "0am325091e-set": {
+          "2026-10-25": 1,
+          "2026-11-03": 1
+        },
+        "0am325091f": {
+          "2026-10-23": 2
+        },
+        "0am325091f-set": {
+          "2026-10-22": 1,
+          "2026-11-12": 1,
+          "2026-11-16": 1
+        },
+        "0сц": {
+          "2026-11-21": 1,
+          "2026-11-22": 1
+        },
+        "Dq500": {
+          "2026-11-24": 1
+        },
+        "plita-filtr-salniki-orig": {
+          "2026-10-23": 1
+        },
+        "plita-filtr-v2": {
+          "2026-11-17": 1
+        },
+        "prokladka-vtulki-dq200": {
+          "2026-11-02": 1,
+          "2026-11-20": 1
+        },
+        "salnik-tolkatelya-alum": {
+          "2026-10-26": 1
+        },
+        "tolkateli-4-salniki-4": {
+          "2026-11-23": 1
+        }
+      },
+      "checked_at_utc": "2026-11-28T11:06:18.550820+00:00"
+    }
+  },
+  "completed_at_utc": "2026-11-28T11:06:18.552475+00:00"
+}
