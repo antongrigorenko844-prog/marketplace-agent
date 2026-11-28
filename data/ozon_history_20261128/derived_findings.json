@@ -1,0 +1,1611 @@
+{
+  "generated_at_utc": "2026-11-28T11:09:00Z",
+  "archive": {
+    "source": {
+      "repo_path": "data/ozon_analytics_weekly.xlsx",
+      "sha256": "bb78fc4548cfeff21461ab19c56f93b3ef2d2245889388f8f5adca17ad66001c",
+      "sheet": "Товар×неделя",
+      "created_at_from_xlsx": "2026-10-27T04:47:39",
+      "data_rows": 1133,
+      "unique_skus": 109,
+      "columns": [
+        "Артикул",
+        "Кластер шток+болты",
+        "Неделя",
+        "revenue",
+        "ordered_units"
+      ],
+      "date_window_from_parent_provenance": [
+        "2026-08-04",
+        "2026-10-27"
+      ]
+    },
+    "definitions": {
+      "week": "Source stores only a string YYYY-WW (2026-32 through 2026-44). No explicit ISO/Monday convention or timezone in workbook. Calendar dates are the ISO-week interpretation matching requested Monday start dates; retained raw keys allow verification against extraction code.",
+      "ordered_units": "Ordered product units, not paid/delivered/redemption units and not card visits.",
+      "revenue": "Sum of ordered amounts, not profit. Currency is not specified in workbook header; Russian-ruble context comes from source account, not an explicit cell label.",
+      "missing_sku_rows": "Absent SKU-week rows remain null in before/after fields. For arithmetic decomposition of observed workbook totals only, absence contributes zero to that period sum; this does not prove actual zero sales for an omitted SKU.",
+      "full_weeks": "Six requested weeks lie fully within the supplied extraction window under ISO-week interpretation. First week2026-32 and final2026-44 not used."
+    },
+    "selected_full_weeks": [
+      {
+        "week_raw": "2026-33",
+        "date_from_iso_interpretation": "2026-08-10",
+        "date_to_iso_interpretation": "2026-08-16",
+        "source_sku_rows": 67,
+        "positive_ordered_skus": 26,
+        "ordered_units": 158,
+        "revenue": 421618
+      },
+      {
+        "week_raw": "2026-34",
+        "date_from_iso_interpretation": "2026-08-17",
+        "date_to_iso_interpretation": "2026-08-23",
+        "source_sku_rows": 65,
+        "positive_ordered_skus": 25,
+        "ordered_units": 131,
+        "revenue": 380523
+      },
+      {
+        "week_raw": "2026-35",
+        "date_from_iso_interpretation": "2026-08-24",
+        "date_to_iso_interpretation": "2026-08-30",
+        "source_sku_rows": 64,
+        "positive_ordered_skus": 31,
+        "ordered_units": 160,
+        "revenue": 479068
+      },
+      {
+        "week_raw": "2026-36",
+        "date_from_iso_interpretation": "2026-08-31",
+        "date_to_iso_interpretation": "2026-09-06",
+        "source_sku_rows": 64,
+        "positive_ordered_skus": 36,
+        "ordered_units": 152,
+        "revenue": 537224
+      },
+      {
+        "week_raw": "2026-37",
+        "date_from_iso_interpretation": "2026-09-07",
+        "date_to_iso_interpretation": "2026-09-13",
+        "source_sku_rows": 97,
+        "positive_ordered_skus": 28,
+        "ordered_units": 164,
+        "revenue": 648019
+      },
+      {
+        "week_raw": "2026-38",
+        "date_from_iso_interpretation": "2026-09-14",
+        "date_to_iso_interpretation": "2026-09-20",
+        "source_sku_rows": 96,
+        "positive_ordered_skus": 44,
+        "ordered_units": 131,
+        "revenue": 997887
+      }
+    ],
+    "comparisons": [
+      {
+        "before": {
+          "week_raw": "2026-35",
+          "date_from_iso_interpretation": "2026-08-24",
+          "date_to_iso_interpretation": "2026-08-30",
+          "source_sku_rows": 64,
+          "positive_ordered_skus": 31,
+          "ordered_units": 160,
+          "revenue": 479068
+        },
+        "after": {
+          "week_raw": "2026-36",
+          "date_from_iso_interpretation": "2026-08-31",
+          "date_to_iso_interpretation": "2026-09-06",
+          "source_sku_rows": 64,
+          "positive_ordered_skus": 36,
+          "ordered_units": 152,
+          "revenue": 537224
+        },
+        "ordered_units_change": -8,
+        "ordered_units_change_pct": -5,
+        "revenue_change": 58156,
+        "revenue_change_pct": 12.14,
+        "positive_revenue_contributions": 146365,
+        "negative_revenue_contributions": -88209,
+        "before_only_skus": 1,
+        "after_only_skus": 1,
+        "top_revenue_growth": [
+          {
+            "sku": "0am325025H",
+            "before_row": 325,
+            "after_row": 326,
+            "before_ordered_units": 0,
+            "after_ordered_units": 1,
+            "ordered_units_contribution": 1,
+            "before_revenue": 0,
+            "after_revenue": 68800,
+            "revenue_contribution": 68800,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325025",
+            "before_row": 286,
+            "after_row": 287,
+            "before_ordered_units": 7,
+            "after_ordered_units": 8,
+            "ordered_units_contribution": 1,
+            "before_revenue": 89774,
+            "after_revenue": 103120,
+            "revenue_contribution": 13346,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325025m",
+            "before_row": 429,
+            "after_row": 430,
+            "before_ordered_units": 1,
+            "after_ordered_units": 2,
+            "ordered_units_contribution": 1,
+            "before_revenue": 8879,
+            "after_revenue": 17758,
+            "revenue_contribution": 8879,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325066ad",
+            "before_row": 519,
+            "after_row": 520,
+            "before_ordered_units": 0,
+            "after_ordered_units": 22,
+            "ordered_units_contribution": 22,
+            "before_revenue": 0,
+            "after_revenue": 8852,
+            "revenue_contribution": 8852,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0AM325025B",
+            "before_row": 117,
+            "after_row": 118,
+            "before_ordered_units": 1,
+            "after_ordered_units": 2,
+            "ordered_units_contribution": 1,
+            "before_revenue": 6433,
+            "after_revenue": 12998,
+            "revenue_contribution": 6565,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325025hfe",
+            "before_row": 390,
+            "after_row": 391,
+            "before_ordered_units": 0,
+            "after_ordered_units": 3,
+            "ordered_units_contribution": 3,
+            "before_revenue": 0,
+            "after_revenue": 5970,
+            "revenue_contribution": 5970,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "EA888",
+            "before_row": 830,
+            "after_row": 831,
+            "before_ordered_units": 0,
+            "after_ordered_units": 1,
+            "ordered_units_contribution": 1,
+            "before_revenue": 0,
+            "after_revenue": 4741,
+            "revenue_contribution": 4741,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325025u",
+            "before_row": 5,
+            "after_row": 6,
+            "before_ordered_units": 3,
+            "after_ordered_units": 4,
+            "ordered_units_contribution": 1,
+            "before_revenue": 13470,
+            "after_revenue": 17960,
+            "revenue_contribution": 4490,
+            "both_rows_exist": true
+          }
+        ],
+        "top_revenue_decline": [
+          {
+            "sku": "0am325025z",
+            "before_row": 18,
+            "after_row": 19,
+            "before_ordered_units": 6,
+            "after_ordered_units": 2,
+            "ordered_units_contribution": -4,
+            "before_revenue": 19068,
+            "after_revenue": 6356,
+            "revenue_contribution": -12712,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "122390AK-AF",
+            "before_row": 659,
+            "after_row": 660,
+            "before_ordered_units": 19,
+            "after_ordered_units": 7,
+            "ordered_units_contribution": -12,
+            "before_revenue": 18601,
+            "after_revenue": 6853,
+            "revenue_contribution": -11748,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325025ae",
+            "before_row": 364,
+            "after_row": 365,
+            "before_ordered_units": 8,
+            "after_ordered_units": 5,
+            "ordered_units_contribution": -3,
+            "before_revenue": 29080,
+            "after_revenue": 18212,
+            "revenue_contribution": -10868,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325091f",
+            "before_row": 553,
+            "after_row": 554,
+            "before_ordered_units": 5,
+            "after_ordered_units": 0,
+            "ordered_units_contribution": -5,
+            "before_revenue": 9481,
+            "after_revenue": 0,
+            "revenue_contribution": -9481,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325066ae",
+            "before_row": 532,
+            "after_row": 533,
+            "before_ordered_units": 1,
+            "after_ordered_units": 0,
+            "ordered_units_contribution": -1,
+            "before_revenue": 8879,
+            "after_revenue": 0,
+            "revenue_contribution": -8879,
+            "both_rows_exist": true
+          }
+        ],
+        "top_units_growth": [
+          {
+            "sku": "0am325066ad",
+            "before_row": 519,
+            "after_row": 520,
+            "before_ordered_units": 0,
+            "after_ordered_units": 22,
+            "ordered_units_contribution": 22,
+            "before_revenue": 0,
+            "after_revenue": 8852,
+            "revenue_contribution": 8852,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325066AC",
+            "before_row": 506,
+            "after_row": 507,
+            "before_ordered_units": 10,
+            "after_ordered_units": 18,
+            "ordered_units_contribution": 8,
+            "before_revenue": 5062,
+            "after_revenue": 9223,
+            "revenue_contribution": 4161,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325025q",
+            "before_row": 455,
+            "after_row": 456,
+            "before_ordered_units": 2,
+            "after_ordered_units": 10,
+            "ordered_units_contribution": 8,
+            "before_revenue": 894,
+            "after_revenue": 4470,
+            "revenue_contribution": 3576,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0cw325025h",
+            "before_row": 633,
+            "after_row": 634,
+            "before_ordered_units": 1,
+            "after_ordered_units": 5,
+            "ordered_units_contribution": 4,
+            "before_revenue": 996,
+            "after_revenue": 4980,
+            "revenue_contribution": 3984,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325025hfe",
+            "before_row": 390,
+            "after_row": 391,
+            "before_ordered_units": 0,
+            "after_ordered_units": 3,
+            "ordered_units_contribution": 3,
+            "before_revenue": 0,
+            "after_revenue": 5970,
+            "revenue_contribution": 5970,
+            "both_rows_exist": true
+          }
+        ],
+        "reconciliation": "all SKU contributions sum exactly to weekly total change"
+      },
+      {
+        "before": {
+          "week_raw": "2026-37",
+          "date_from_iso_interpretation": "2026-09-07",
+          "date_to_iso_interpretation": "2026-09-13",
+          "source_sku_rows": 97,
+          "positive_ordered_skus": 28,
+          "ordered_units": 164,
+          "revenue": 648019
+        },
+        "after": {
+          "week_raw": "2026-38",
+          "date_from_iso_interpretation": "2026-09-14",
+          "date_to_iso_interpretation": "2026-09-20",
+          "source_sku_rows": 96,
+          "positive_ordered_skus": 44,
+          "ordered_units": 131,
+          "revenue": 997887
+        },
+        "ordered_units_change": -33,
+        "ordered_units_change_pct": -20.12,
+        "revenue_change": 349868,
+        "revenue_change_pct": 53.99,
+        "positive_revenue_contributions": 545286,
+        "negative_revenue_contributions": -195418,
+        "before_only_skus": 1,
+        "after_only_skus": 0,
+        "top_revenue_growth": [
+          {
+            "sku": "0am325025HX",
+            "before_row": 340,
+            "after_row": 341,
+            "before_ordered_units": 0,
+            "after_ordered_units": 2,
+            "ordered_units_contribution": 2,
+            "before_revenue": 0,
+            "after_revenue": 217045,
+            "revenue_contribution": 217045,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "02E927770AL",
+            "before_row": 80,
+            "after_row": 81,
+            "before_ordered_units": 0,
+            "after_ordered_units": 1,
+            "ordered_units_contribution": 1,
+            "before_revenue": 0,
+            "after_revenue": 118000,
+            "revenue_contribution": 118000,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0AM927769D",
+            "before_row": 236,
+            "after_row": 237,
+            "before_ordered_units": 0,
+            "after_ordered_units": 1,
+            "ordered_units_contribution": 1,
+            "before_revenue": 0,
+            "after_revenue": 52280,
+            "revenue_contribution": 52280,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "6t30",
+            "before_row": 772,
+            "after_row": 773,
+            "before_ordered_units": 0,
+            "after_ordered_units": 1,
+            "ordered_units_contribution": 1,
+            "before_revenue": 0,
+            "after_revenue": 19800,
+            "revenue_contribution": 19800,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325025u",
+            "before_row": 7,
+            "after_row": 8,
+            "before_ordered_units": 0,
+            "after_ordered_units": 3,
+            "ordered_units_contribution": 3,
+            "before_revenue": 0,
+            "after_revenue": 13470,
+            "revenue_contribution": 13470,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "EA888gen3",
+            "before_row": 845,
+            "after_row": 846,
+            "before_ordered_units": 1,
+            "after_ordered_units": 3,
+            "ordered_units_contribution": 2,
+            "before_revenue": 6690,
+            "after_revenue": 20070,
+            "revenue_contribution": 13380,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325025",
+            "before_row": 288,
+            "after_row": 289,
+            "before_ordered_units": 7,
+            "after_ordered_units": 8,
+            "ordered_units_contribution": 1,
+            "before_revenue": 89745,
+            "after_revenue": 102176,
+            "revenue_contribution": 12431,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0AM325025B",
+            "before_row": 119,
+            "after_row": 120,
+            "before_ordered_units": 4,
+            "after_ordered_units": 4,
+            "ordered_units_contribution": 0,
+            "before_revenue": 25996,
+            "after_revenue": 34943,
+            "revenue_contribution": 8947,
+            "both_rows_exist": true
+          }
+        ],
+        "top_revenue_decline": [
+          {
+            "sku": "0am325025H",
+            "before_row": 327,
+            "after_row": 328,
+            "before_ordered_units": 4,
+            "after_ordered_units": 3,
+            "ordered_units_contribution": -1,
+            "before_revenue": 274708,
+            "after_revenue": 190671,
+            "revenue_contribution": -84037,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0AM325587E",
+            "before_row": 223,
+            "after_row": 224,
+            "before_ordered_units": 10,
+            "after_ordered_units": 5,
+            "ordered_units_contribution": -5,
+            "before_revenue": 88457,
+            "after_revenue": 45403,
+            "revenue_contribution": -43054,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325025z",
+            "before_row": 20,
+            "after_row": 21,
+            "before_ordered_units": 12,
+            "after_ordered_units": 5,
+            "ordered_units_contribution": -7,
+            "before_revenue": 37820,
+            "after_revenue": 22450,
+            "revenue_contribution": -15370,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325025D",
+            "before_row": 301,
+            "after_row": 302,
+            "before_ordered_units": 8,
+            "after_ordered_units": 2,
+            "ordered_units_contribution": -6,
+            "before_revenue": 15376,
+            "after_revenue": 5780,
+            "revenue_contribution": -9596,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325066ae",
+            "before_row": 534,
+            "after_row": 535,
+            "before_ordered_units": 1,
+            "after_ordered_units": 0,
+            "ordered_units_contribution": -1,
+            "before_revenue": 8879,
+            "after_revenue": 0,
+            "revenue_contribution": -8879,
+            "both_rows_exist": true
+          }
+        ],
+        "top_units_growth": [
+          {
+            "sku": "0am325025u",
+            "before_row": 7,
+            "after_row": 8,
+            "before_ordered_units": 0,
+            "after_ordered_units": 3,
+            "ordered_units_contribution": 3,
+            "before_revenue": 0,
+            "after_revenue": 13470,
+            "revenue_contribution": 13470,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325091f",
+            "before_row": 555,
+            "after_row": 556,
+            "before_ordered_units": 0,
+            "after_ordered_units": 3,
+            "ordered_units_contribution": 3,
+            "before_revenue": 0,
+            "after_revenue": 7673,
+            "revenue_contribution": 7673,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325025hfe",
+            "before_row": 392,
+            "after_row": 393,
+            "before_ordered_units": 0,
+            "after_ordered_units": 3,
+            "ordered_units_contribution": 3,
+            "before_revenue": 0,
+            "after_revenue": 5970,
+            "revenue_contribution": 5970,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0cw325025h",
+            "before_row": 635,
+            "after_row": 636,
+            "before_ordered_units": 2,
+            "after_ordered_units": 5,
+            "ordered_units_contribution": 3,
+            "before_revenue": 1992,
+            "after_revenue": 5879,
+            "revenue_contribution": 3887,
+            "both_rows_exist": true
+          },
+          {
+            "sku": "0am325025HX",
+            "before_row": 340,
+            "after_row": 341,
+            "before_ordered_units": 0,
+            "after_ordered_units": 2,
+            "ordered_units_contribution": 2,
+            "before_revenue": 0,
+            "after_revenue": 217045,
+            "revenue_contribution": 217045,
+            "both_rows_exist": true
+          }
+        ],
+        "reconciliation": "all SKU contributions sum exactly to weekly total change"
+      }
+    ],
+    "checks": {
+      "duplicate_sku_week_rows": 0,
+      "all_selected_revenue_and_units_numeric": true,
+      "original_workbook_modified": false
+    }
+  },
+  "postings": {
+    "source": "data/ozon_history_20261128/postings_daily_evidence.json",
+    "source_generated": "2026-11-28T11:06:13.600690+00:00",
+    "time_zone": "Europe/Moscow",
+    "definition": "in_process_at, else created_at; units in all returned statuses",
+    "periods": [
+      {
+        "date_from": "2026-10-19",
+        "date_to": "2026-10-25",
+        "postings": 88,
+        "units": 111,
+        "cancelled_postings": 19,
+        "cancelled_units": 19,
+        "by_scheme": {
+          "FBS": {
+            "postings": 66,
+            "units": 89,
+            "cancelled_postings": 14,
+            "cancelled_units": 14
+          },
+          "FBO": {
+            "postings": 22,
+            "units": 22,
+            "cancelled_postings": 5,
+            "cancelled_units": 5
+          }
+        },
+        "units_excluding_current_cancellations": 92
+      },
+      {
+        "date_from": "2026-10-26",
+        "date_to": "2026-11-01",
+        "postings": 72,
+        "units": 104,
+        "cancelled_postings": 13,
+        "cancelled_units": 14,
+        "by_scheme": {
+          "FBS": {
+            "postings": 64,
+            "units": 96,
+            "cancelled_postings": 11,
+            "cancelled_units": 12
+          },
+          "FBO": {
+            "postings": 8,
+            "units": 8,
+            "cancelled_postings": 2,
+            "cancelled_units": 2
+          }
+        },
+        "units_excluding_current_cancellations": 90
+      },
+      {
+        "date_from": "2026-11-02",
+        "date_to": "2026-11-08",
+        "postings": 84,
+        "units": 93,
+        "cancelled_postings": 16,
+        "cancelled_units": 18,
+        "by_scheme": {
+          "FBS": {
+            "postings": 63,
+            "units": 72,
+            "cancelled_postings": 11,
+            "cancelled_units": 13
+          },
+          "FBO": {
+            "postings": 21,
+            "units": 21,
+            "cancelled_postings": 5,
+            "cancelled_units": 5
+          }
+        },
+        "units_excluding_current_cancellations": 75
+      },
+      {
+        "date_from": "2026-11-09",
+        "date_to": "2026-11-15",
+        "postings": 74,
+        "units": 84,
+        "cancelled_postings": 24,
+        "cancelled_units": 24,
+        "by_scheme": {
+          "FBS": {
+            "postings": 59,
+            "units": 69,
+            "cancelled_postings": 16,
+            "cancelled_units": 16
+          },
+          "FBO": {
+            "postings": 15,
+            "units": 15,
+            "cancelled_postings": 8,
+            "cancelled_units": 8
+          }
+        },
+        "units_excluding_current_cancellations": 60
+      },
+      {
+        "date_from": "2026-11-16",
+        "date_to": "2026-11-22",
+        "postings": 73,
+        "units": 87,
+        "cancelled_postings": 22,
+        "cancelled_units": 27,
+        "by_scheme": {
+          "FBS": {
+            "postings": 57,
+            "units": 71,
+            "cancelled_postings": 15,
+            "cancelled_units": 20
+          },
+          "FBO": {
+            "postings": 16,
+            "units": 16,
+            "cancelled_postings": 7,
+            "cancelled_units": 7
+          }
+        },
+        "units_excluding_current_cancellations": 60
+      },
+      {
+        "date_from": "2026-11-23",
+        "date_to": "2026-11-27",
+        "postings": 62,
+        "units": 78,
+        "cancelled_postings": 6,
+        "cancelled_units": 9,
+        "by_scheme": {
+          "FBS": {
+            "postings": 45,
+            "units": 61,
+            "cancelled_postings": 4,
+            "cancelled_units": 7
+          },
+          "FBO": {
+            "postings": 17,
+            "units": 17,
+            "cancelled_postings": 2,
+            "cancelled_units": 2
+          }
+        },
+        "units_excluding_current_cancellations": 69
+      },
+      {
+        "date_from": "2026-11-16",
+        "date_to": "2026-11-20",
+        "postings": 54,
+        "units": 62,
+        "cancelled_postings": 16,
+        "cancelled_units": 20,
+        "by_scheme": {
+          "FBS": {
+            "postings": 42,
+            "units": 50,
+            "cancelled_postings": 11,
+            "cancelled_units": 15
+          },
+          "FBO": {
+            "postings": 12,
+            "units": 12,
+            "cancelled_postings": 5,
+            "cancelled_units": 5
+          }
+        },
+        "units_excluding_current_cancellations": 42
+      },
+      {
+        "date_from": "2026-11-23",
+        "date_to": "2026-11-26",
+        "postings": 52,
+        "units": 66,
+        "cancelled_postings": 6,
+        "cancelled_units": 9,
+        "by_scheme": {
+          "FBS": {
+            "postings": 36,
+            "units": 50,
+            "cancelled_postings": 4,
+            "cancelled_units": 7
+          },
+          "FBO": {
+            "postings": 16,
+            "units": 16,
+            "cancelled_postings": 2,
+            "cancelled_units": 2
+          }
+        },
+        "units_excluding_current_cancellations": 57
+      },
+      {
+        "date_from": "2026-11-16",
+        "date_to": "2026-11-19",
+        "postings": 44,
+        "units": 50,
+        "cancelled_postings": 14,
+        "cancelled_units": 16,
+        "by_scheme": {
+          "FBS": {
+            "postings": 33,
+            "units": 39,
+            "cancelled_postings": 9,
+            "cancelled_units": 11
+          },
+          "FBO": {
+            "postings": 11,
+            "units": 11,
+            "cancelled_postings": 5,
+            "cancelled_units": 5
+          }
+        },
+        "units_excluding_current_cancellations": 34
+      }
+    ],
+    "matched_mon_fri_change": {
+      "units_before": 62,
+      "units_after": 78,
+      "change_pct": 25.806451612903224,
+      "postings_before": 54,
+      "postings_after": 62
+    },
+    "matched_mon_fri_sku_changes": [
+      {
+        "sku": "0am325025H",
+        "before_units": 4,
+        "after_units": 0,
+        "delta_units": -4
+      },
+      {
+        "sku": "prokladka-vtulki-dq200",
+        "before_units": 4,
+        "after_units": 0,
+        "delta_units": -4
+      },
+      {
+        "sku": "separatornaya-plastina-dq200",
+        "before_units": 3,
+        "after_units": 0,
+        "delta_units": -3
+      },
+      {
+        "sku": "0AM325587E",
+        "before_units": 6,
+        "after_units": 4,
+        "delta_units": -2
+      },
+      {
+        "sku": "0am325025m",
+        "before_units": 2,
+        "after_units": 0,
+        "delta_units": -2
+      },
+      {
+        "sku": "0am325091f",
+        "before_units": 2,
+        "after_units": 0,
+        "delta_units": -2
+      },
+      {
+        "sku": "0cw0am",
+        "before_units": 2,
+        "after_units": 0,
+        "delta_units": -2
+      },
+      {
+        "sku": "Dq500",
+        "before_units": 5,
+        "after_units": 3,
+        "delta_units": -2
+      },
+      {
+        "sku": "02E927770AL",
+        "before_units": 1,
+        "after_units": 0,
+        "delta_units": -1
+      },
+      {
+        "sku": "0AM927769N",
+        "before_units": 2,
+        "after_units": 1,
+        "delta_units": -1
+      },
+      {
+        "sku": "0BH325183",
+        "before_units": 1,
+        "after_units": 0,
+        "delta_units": -1
+      },
+      {
+        "sku": "0BH325183 B",
+        "before_units": 1,
+        "after_units": 0,
+        "delta_units": -1
+      },
+      {
+        "sku": "0am325025f",
+        "before_units": 2,
+        "after_units": 1,
+        "delta_units": -1
+      },
+      {
+        "sku": "0am325025hfe",
+        "before_units": 1,
+        "after_units": 0,
+        "delta_units": -1
+      },
+      {
+        "sku": "0am325025x",
+        "before_units": 1,
+        "after_units": 0,
+        "delta_units": -1
+      },
+      {
+        "sku": "0cw0amdsgdq200",
+        "before_units": 1,
+        "after_units": 0,
+        "delta_units": -1
+      },
+      {
+        "sku": "123014‑AF",
+        "before_units": 1,
+        "after_units": 0,
+        "delta_units": -1
+      },
+      {
+        "sku": "gidroakkumulyator-orig",
+        "before_units": 1,
+        "after_units": 0,
+        "delta_units": -1
+      },
+      {
+        "sku": "kryshka-mehatronika-dq200",
+        "before_units": 1,
+        "after_units": 0,
+        "delta_units": -1
+      },
+      {
+        "sku": "kryshka-platy-dq200",
+        "before_units": 1,
+        "after_units": 0,
+        "delta_units": -1
+      },
+      {
+        "sku": "plita-filtr-v2",
+        "before_units": 1,
+        "after_units": 0,
+        "delta_units": -1
+      },
+      {
+        "sku": "0AM325219C",
+        "before_units": 1,
+        "after_units": 1,
+        "delta_units": 0
+      },
+      {
+        "sku": "0AM325433E",
+        "before_units": 1,
+        "after_units": 1,
+        "delta_units": 0
+      },
+      {
+        "sku": "0am325091f-set",
+        "before_units": 1,
+        "after_units": 1,
+        "delta_units": 0
+      },
+      {
+        "sku": "salnik-tolkatelya-alum",
+        "before_units": 1,
+        "after_units": 1,
+        "delta_units": 0
+      },
+      {
+        "sku": "tolkateli-4-salniki-4",
+        "before_units": 2,
+        "after_units": 2,
+        "delta_units": 0
+      },
+      {
+        "sku": "0AM301212A",
+        "before_units": 1,
+        "after_units": 2,
+        "delta_units": 1
+      },
+      {
+        "sku": "0AM325443D",
+        "before_units": 4,
+        "after_units": 5,
+        "delta_units": 1
+      },
+      {
+        "sku": "0am325066ae",
+        "before_units": 0,
+        "after_units": 1,
+        "delta_units": 1
+      },
+      {
+        "sku": "0cw325025h",
+        "before_units": 0,
+        "after_units": 1,
+        "delta_units": 1
+      },
+      {
+        "sku": "122390AK-AF",
+        "before_units": 0,
+        "after_units": 1,
+        "delta_units": 1
+      },
+      {
+        "sku": "6t30",
+        "before_units": 1,
+        "after_units": 2,
+        "delta_units": 1
+      },
+      {
+        "sku": "EA888gen3-filter-kit",
+        "before_units": 0,
+        "after_units": 1,
+        "delta_units": 1
+      },
+      {
+        "sku": "chip-0am927769d",
+        "before_units": 0,
+        "after_units": 1,
+        "delta_units": 1
+      },
+      {
+        "sku": "plita-filtr-salniki-orig",
+        "before_units": 0,
+        "after_units": 1,
+        "delta_units": 1
+      },
+      {
+        "sku": "porshni-usil-pylniki-kryshki-v2",
+        "before_units": 0,
+        "after_units": 1,
+        "delta_units": 1
+      },
+      {
+        "sku": "prokladka-kryshki-dq200",
+        "before_units": 0,
+        "after_units": 1,
+        "delta_units": 1
+      },
+      {
+        "sku": "prokladka-vtulki-verh-dq200",
+        "before_units": 0,
+        "after_units": 1,
+        "delta_units": 1
+      },
+      {
+        "sku": "salniki-shtokov-orig",
+        "before_units": 0,
+        "after_units": 1,
+        "delta_units": 1
+      },
+      {
+        "sku": "02e305045",
+        "before_units": 0,
+        "after_units": 2,
+        "delta_units": 2
+      },
+      {
+        "sku": "0am325025ae",
+        "before_units": 1,
+        "after_units": 3,
+        "delta_units": 2
+      },
+      {
+        "sku": "0am325025u",
+        "before_units": 0,
+        "after_units": 2,
+        "delta_units": 2
+      },
+      {
+        "sku": "0am325025С",
+        "before_units": 1,
+        "after_units": 3,
+        "delta_units": 2
+      },
+      {
+        "sku": "vtulki-shtokov-2sht",
+        "before_units": 0,
+        "after_units": 2,
+        "delta_units": 2
+      },
+      {
+        "sku": "0am325066ad",
+        "before_units": 0,
+        "after_units": 2,
+        "delta_units": 2
+      },
+      {
+        "sku": "0am325091e",
+        "before_units": 0,
+        "after_units": 2,
+        "delta_units": 2
+      },
+      {
+        "sku": "0am325025r",
+        "before_units": 0,
+        "after_units": 4,
+        "delta_units": 4
+      },
+      {
+        "sku": "0am325025z",
+        "before_units": 2,
+        "after_units": 6,
+        "delta_units": 4
+      },
+      {
+        "sku": "0am325025l",
+        "before_units": 1,
+        "after_units": 7,
+        "delta_units": 6
+      },
+      {
+        "sku": "0am325025",
+        "before_units": 2,
+        "after_units": 11,
+        "delta_units": 9
+      }
+    ]
+  },
+  "early_history": {
+    "scope": {
+      "platform": "Ozon LEOPARTS",
+      "read_only": true,
+      "repository": "antongrigorenko844-prog/marketplace-agent",
+      "dates": "2026-08-20 to2026-09-14; repository begins2026-09-02",
+      "timezone": "UTC",
+      "actions_runs_reviewed_sep02_07": 70,
+      "actions_runs_reviewed_sep08_14": 121
+    },
+    "history_boundary": {
+      "repository_created_at": "2026-09-02T05:14:20Z",
+      "first_commit": "43a380e3671981121fd45b09a52ebd93d20e8044",
+      "first_commit_at": "2026-09-02T05:22:45Z",
+      "commits_before_sep02": 0,
+      "implication_ru": "Августовские действия владельца/других систем вне этого репозитория не установлены. Отсутствие журналов не означает отсутствие действий."
+    },
+    "snapshots": [
+      {
+        "file": "ozon_products_20260902.json",
+        "capture_commit": "2a4a3aae980f02b99946c9b96eb7bb9613ace4b5",
+        "captured_at": "2026-09-02T06:36:34Z",
+        "blob_sha": "b528f212fdffe4bffc51ab30e24f5cc61ef07256",
+        "repository_path": "data/ozon_products.json",
+        "capture_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/2a4a3aae980f02b99946c9b96eb7bb9613ace4b5/data/ozon_products.json",
+        "keys": [
+          "file",
+          "capture_commit",
+          "captured_at",
+          "blob_sha",
+          "repository_path",
+          "capture_url",
+          "retrieved_url",
+          "total",
+          "fbo_flag_true",
+          "fbs_flag_true",
+          "either_flag_true",
+          "auto_add_to_ozon_actions_list_enabled_true",
+          "auto_action_enabled_true",
+          "promos"
+        ]
+      },
+      {
+        "file": "ozon_products_20260905.json",
+        "capture_commit": "bca6dea2aa76f50edfa9e95adbf44c323f43fc02",
+        "captured_at": "2026-09-05T09:42:50Z",
+        "blob_sha": "5caf8db3e5458dcfb93781cc53fe4776647fa3e1",
+        "repository_path": "data/ozon_products.json",
+        "capture_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/bca6dea2aa76f50edfa9e95adbf44c323f43fc02/data/ozon_products.json",
+        "keys": [
+          "file",
+          "capture_commit",
+          "captured_at",
+          "blob_sha",
+          "repository_path",
+          "capture_url",
+          "retrieved_url",
+          "total",
+          "fbo_flag_true",
+          "fbs_flag_true",
+          "either_flag_true",
+          "auto_add_to_ozon_actions_list_enabled_true",
+          "auto_action_enabled_true",
+          "promos"
+        ]
+      },
+      {
+        "file": "ozon_products_20260909_morning.json",
+        "capture_commit": "2ae81ccfc9fb4c4df2372b276a04495622df9d0a",
+        "captured_at": "2026-09-09T06:28:17Z",
+        "blob_sha": "fa04aaadfdb28dfdfdb9a9276c3216be6a6c1867",
+        "repository_path": "data/ozon_products.json",
+        "capture_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/2ae81ccfc9fb4c4df2372b276a04495622df9d0a/data/ozon_products.json",
+        "keys": [
+          "file",
+          "capture_commit",
+          "captured_at",
+          "blob_sha",
+          "repository_path",
+          "capture_url",
+          "retrieved_url",
+          "total",
+          "fbo_flag_true",
+          "fbs_flag_true",
+          "either_flag_true",
+          "auto_add_to_ozon_actions_list_enabled_true",
+          "auto_action_enabled_true",
+          "promos"
+        ]
+      },
+      {
+        "file": "ozon_products_20260912.json",
+        "capture_commit": "352f7500ef7239fa877ea1c46dabf4a87b9cd7ab",
+        "captured_at": "2026-09-12T15:58:28Z",
+        "blob_sha": "70ffe7fc15e7d2179582c2aa57156f1c0a6cc157",
+        "repository_path": "data/ozon_products.json",
+        "capture_url": "https://github.com/antongrigorenko844-prog/marketplace-agent/blob/352f7500ef7239fa877ea1c46dabf4a87b9cd7ab/data/ozon_products.json",
+        "keys": [
+          "file",
+          "capture_commit",
+          "captured_at",
+          "blob_sha",
+          "repository_path",
+          "capture_url",
+          "retrieved_url",
+          "total",
+          "fbo_flag_true",
+          "fbs_flag_true",
+          "either_flag_true",
+          "auto_add_to_ozon_actions_list_enabled_true",
+          "auto_action_enabled_true",
+          "promos"
+        ]
+      }
+    ],
+    "observed_price_changes": {
+      "sep02_to_sep05": {
+        "shared_products": 65,
+        "base_price_changes": 0,
+        "old_price_changes": 0,
+        "min_price_changes": 0,
+        "net_price_changes": 0,
+        "marketing_seller_price_changes": 18,
+        "details": [
+          {
+            "sku": "0AM325025B",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 6433,
+                "after": 6499
+              }
+            }
+          },
+          {
+            "sku": "02e305045",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 2104,
+                "after": 2148
+              }
+            }
+          },
+          {
+            "sku": "0AM301212A",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 806,
+                "after": 814
+              }
+            }
+          },
+          {
+            "sku": "0am325025ae",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 3635,
+                "after": 3672
+              }
+            }
+          },
+          {
+            "sku": "0am325091e",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 2035,
+                "after": 2056
+              }
+            }
+          },
+          {
+            "sku": "0AM325443D",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 1402,
+                "after": 1416
+              }
+            }
+          },
+          {
+            "sku": "55565480",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 839,
+                "after": 849
+              }
+            }
+          },
+          {
+            "sku": "WHT001922",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 337,
+                "after": 340
+              }
+            }
+          },
+          {
+            "sku": "0AM325413A",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 839,
+                "after": 849
+              }
+            }
+          },
+          {
+            "sku": "0am325066ad",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 402,
+                "after": 406
+              }
+            }
+          },
+          {
+            "sku": "0am325066AC",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 511,
+                "after": 516
+              }
+            }
+          },
+          {
+            "sku": "0AM927769N",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 2339,
+                "after": 2363
+              }
+            }
+          },
+          {
+            "sku": "123014‑AF",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 1333,
+                "after": 1361
+              }
+            }
+          },
+          {
+            "sku": "Ea888gen3",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 1987,
+                "after": 2011
+              }
+            }
+          },
+          {
+            "sku": "0cw0amdsgdq200",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 822,
+                "after": 832
+              }
+            }
+          },
+          {
+            "sku": "122390AKAF",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 1251,
+                "after": 1266
+              }
+            }
+          },
+          {
+            "sku": "0сц",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 1251,
+                "after": 1266
+              }
+            }
+          },
+          {
+            "sku": "0am325477ae",
+            "changes": {
+              "marketing_seller_price": {
+                "before": 2040,
+                "after": 2061
+              }
+            }
+          }
+        ]
+      },
+      "sep02_to_sep09_morning": {
+        "shared_products": 65,
+        "base_price_changes": 0,
+        "old_price_changes": 0,
+        "min_price_changes": 0,
+        "card_field_changes": {
+          "name": 0,
+          "images": 0,
+          "primary_image": 0,
+          "attributes": 2
+        }
+      },
+      "sep02_to_sep12": {
+        "shared_products": 65,
+        "base_price_changes": [
+          {
+            "offer": "0cw0amdsgdq200",
+            "changes": {
+              "marketing_seller_price": [
+                822,
+                850
+              ],
+              "price": [
+                979,
+                850
+              ]
+            }
+          }
+        ],
+        "notes": "The only observed base-price change is0cw0amdsgdq200979→850. Snapshots cannot exclude temporary intervening price changes."
+      }
+    },
+    "observed_stock_flags_02_to_05": [
+      {
+        "offer_id": "0am325025",
+        "before": {
+          "FBO": false,
+          "FBS": true
+        },
+        "after": {
+          "FBO": true,
+          "FBS": true
+        }
+      },
+      {
+        "offer_id": "0am325025h",
+        "before": {
+          "FBO": false,
+          "FBS": true
+        },
+        "after": {
+          "FBO": true,
+          "FBS": true
+        }
+      },
+      {
+        "offer_id": "123014‑AF",
+        "before": {
+          "FBO": false,
+          "FBS": true
+        },
+        "after": {
+          "FBO": true,
+          "FBS": true
+        }
+      },
+      {
+        "offer_id": "0cw325025h",
+        "before": {
+          "FBO": true,
+          "FBS": true
+        },
+        "after": {
+          "FBO": false,
+          "FBS": true
+        }
+      },
+      {
+        "offer_id": "0am325025HX",
+        "before": {
+          "FBO": true,
+          "FBS": false
+        },
+        "after": {
+          "FBO": false,
+          "FBS": false
+        }
+      }
+    ],
+    "execution_timeline": [
+      {
+        "date": "2026-09-02",
+        "evidence": "confirmed_execution",
+        "action": "Ozon connection test and fetch only; existing 65 products",
+        "runs": [
+          33595876728,
+          33598140041,
+          33599591325
+        ]
+      },
+      {
+        "date": "2026-09-05",
+        "evidence": "confirmed_execution",
+        "action": "Build 65-product Excel catalog, new-product template and photo mapping; accepted import TEST001 twice; later skipped; this was one test product, not a mass commercial rewrite.",
+        "runs": [
+          33961518351,
+          33966193258,
+          33968083473,
+          33968491950
+        ],
+        "notes": "Earlier import request 5570518688 at10:53 had a readback404; later known accepted TEST001 imports. Imported is not proof of moderation or sale availability."
+      },
+      {
+        "date": "2026-09-07/08",
+        "evidence": "confirmed_execution",
+        "action": "Wordstat collection; no Ozon publishing on these days in reviewed Actions",
+        "runs": [
+          34111353713,
+          34164765862,
+          34196774628,
+          34238014428
+        ]
+      },
+      {
+        "date": "2026-09-09T07:46:04Z",
+        "evidence": "confirmed_execution_and_payload_comparison",
+        "action": "66 imported, 0errors; first bulk push re-sent the morning snapshot without changes in name, images, primary_image, attributes, complex_attributes, price, old_price.",
+        "runs": [
+          34325537271
+        ],
+        "dryrun_job": 102381012679,
+        "job": 102381815143
+      },
+      {
+        "date": "2026-09-09T08:28:14Z",
+        "evidence": "confirmed_execution",
+        "action": "Mapped photo URLs for49products, then actual push at08:36:31 accepted48imported+18skipped,0errors.",
+        "runs": [
+          34329281073,
+          34330045639
+        ],
+        "notes": "URL replacements do not prove new image content or traffic effect."
+      },
+      {
+        "date": "2026-09-10T09:41:03Z",
+        "evidence": "confirmed_execution",
+        "action": "31new-card imports reported imported. More draft imports and repairs followed. Snapshot counts68 morning,101at16:04,107at19:34.",
+        "runs": [
+          34461987355,
+          34499748183,
+          34520706943
+        ],
+        "notes": "Includes test/draft/duplicate items. Product presence/import success is not proof the card was saleable."
+      },
+      {
+        "date": "2026-09-10T17:31:36Z",
+        "evidence": "confirmed_execution_partial_success",
+        "action": "Last stock push in reviewed window:93successfulstockupdates,8errors.",
+        "runs": [
+          34508748031
+        ],
+        "job": 102977308823,
+        "notes": "Not evidence of a physical replenishment; some cards remained blocked/unmoderated."
+      },
+      {
+        "date": "2026-09-10",
+        "evidence": "commit_and_following_execution",
+        "action": "Photo folder cleanup, correction of case-insensitive SKU photo mixing, naming/description work and import validation; actual post-cleanup push106items:95imported+11skipped.",
+        "commits": [
+          "0246479f1c36ed3ce95a806fcef21c6634ed0c41",
+          "9f6b47210a98d571ddf16c8c19f8a4612f379711"
+        ],
+        "runs": [
+          34530047595
+        ]
+      },
+      {
+        "date": "2026-09-12T21:32:10Z",
+        "evidence": "confirmed_execution",
+        "action": "Final bulk card push in reviewed window:107imported,0errors; previous hashtag validation failure corrected.",
+        "runs": [
+          34720230095
+        ],
+        "job": 103624635676,
+        "notes": "Do not sum repeated imports into number of new cards."
+      }
+    ],
+    "not_proven_ru": [
+      "Даты date_from/date_to акций — периоды, возвращённые API. Они не устанавливают момент присоединения конкретного SKU и кто его добавил.",
+      "Нельзя доказать запуск рекламной кампании или увеличение рекламного бюджета на Ozon в августе по этому репозиторию; журналов Ozon Performance за этот период здесь не найдено.",
+      "Отсутствие price changes в двух снимках не исключает изменений между ними или условий цены на стороне покупателя.",
+      "Snapshot counts include test/draft/duplicate items; not all107 were confirmed selling.",
+      "Imported/skipped повторных выгрузок нельзя суммировать как новые карточки или успешную модерацию.",
+      "Массовые действия по карточкам/наличию 9–12сентября не могут объяснить более ранний рост24–31августа.",
+      "60товаров вpush-wb-cards05.09 — Wildberries, не Ozon. Авито/Директ не смешивались с выводами."
+    ]
+  },
+  "limitations": [
+    "Historical card visits are not available through current API: 400 deprecated metrics used.",
+    "Fresh analytics orders request received HTTP429; posting aggregates are a separate source.",
+    "Screenshot date header is cropped, and end weeks may contain fewer days.",
+    "Historical price/action changes are confirmed events, not identified causal effects."
+  ]
+}
