@@ -1,0 +1,73 @@
+name: LEOPARTS verify exact board title after autoload
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/avito-board-title-verify-20261128.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: marketplace-agent
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q -r requirements.txt
+      - name: Read exact title and target autoload report
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
+          AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
+        run: |
+          python -u - <<'PY'
+          import json, time
+          from scripts import rename_avito_boards_title_20261128 as r
+          r.J = json.loads(r.OUT.read_text())
+          r.require(r.J.get('public_feed_verified') is True, 'Published title feed required')
+          r.require(r.J.get('title') == r.TITLE, 'Exact owner request differs')
+          for i in range(17):
+              found = r.live_target(enforce_expected=False)
+              r.J['target_listing'] = found
+              r.J['observed_live_title'] = found.get('title')
+              r.J['live_title_verified'] = found.get('title') == r.TITLE
+              r.J['verification_attempt'] = i + 1
+              if found.get('status') == 'active' and found.get('title') == r.TITLE:
+                  r.J['status'] = 'active_title_verified'
+              elif found.get('title') != r.OLD_TITLE:
+                  r.J['status'] = 'title_mismatch_observed'
+              else:
+                  r.J['status'] = 'title_published_pending_processing'
+              if i in (0, 16) or r.J['status'] != 'title_published_pending_processing':
+                  try:
+                      report = r.base.autoload_read('/autoload/v4/uploads/current')
+                      evidence = {k: report.get(k) for k in ('upload_id', 'status', 'started_at', 'finished_at')}
+                      _, rows = r.base.report_items('current', first=report)
+                      evidence['matches'] = [{k: row.get(k) for k in ('ad_id', 'avito_id', 'avito_status', 'status', 'messages')} for row in rows if str(row.get('ad_id')) == r.FEED_ID]
+                      r.J['current_autoload_report'] = evidence
+                  except Exception as exc:
+                      r.J['current_autoload_report'] = r.base.read_error_details(exc)
+                  r.save()
+              print(json.dumps({'attempt':i+1,'status':r.J['status'],'observed_title':found.get('title')}, ensure_ascii=False), flush=True)
+              if r.J['status'] != 'title_published_pending_processing':
+                  break
+              if i < 16:
+                  time.sleep(30)
+          release = r.gh('GET', '/releases/tags/product-photos').json()
+          raw = r.base.exact_asset_bytes(r.base.release_asset(release, r.base.ASSET))
+          r.readback(raw)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: avito-board-title-verification-${{ github.run_id }}
+          path: data/avito_boards_title_20261128_result.json
+          retention-days: 30
