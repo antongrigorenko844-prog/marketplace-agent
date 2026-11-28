@@ -34,3 +34,5 @@ jobs:
       - name: Preserve audit evidence
         if: always()
         run: bash .github/scripts/save_data.sh data/direct_semantics_20261127/live_${GITHUB_RUN_ID}
+
+# Owner-requested read-only refresh: 2026-11-28 10:42:21 UTC
