@@ -1,4 +1,4 @@
-name: LEOPARTS existing board listing title only
+name: LEOPARTS existing board listing full title only
 on:
   push:
     branches: [main]
@@ -34,14 +34,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
           AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
-        run: python -u scripts/rename_avito_boards_title_20261127.py --apply
+        run: python -u scripts/rename_avito_boards_title_20261128.py --apply
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: avito-board-title-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            data/avito_boards_title_20261127*.json
-            data/avito_boards_title_20261127*.xml
+            data/avito_boards_title_20261128*.json
+            data/avito_boards_title_20261128*.xml
           retention-days: 30
   readback:
     needs: publish
@@ -62,10 +62,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           AVITO_CLIENT_ID: ${{ secrets.AVITO_CLIENT_ID }}
           AVITO_CLIENT_SECRET: ${{ secrets.AVITO_CLIENT_SECRET }}
-        run: python -u scripts/rename_avito_boards_title_20261127.py --readback
+        run: python -u scripts/rename_avito_boards_title_20261128.py --readback
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: avito-board-title-readback-${{ github.run_id }}-${{ github.run_attempt }}
-          path: data/avito_boards_title_20261127_result.json
+          path: data/avito_boards_title_20261128_result.json
           retention-days: 30
