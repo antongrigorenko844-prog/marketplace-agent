@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
   "mode": "READ_ONLY",
-  "generated_at": "2026-11-27T13:53:28.359301+00:00",
+  "generated_at": "2026-11-28T00:03:56.577407+00:00",
   "source_mode": "LIVE_READ_ONLY",
-  "snapshot_at": "2026-11-27T13:53:05.794767+00:00",
+  "snapshot_at": "2026-11-28T00:03:33.825141+00:00",
   "count": 147,
   "groups": {
     "A": 0,
-    "B": 37,
-    "C": 77,
+    "B": 41,
+    "C": 73,
     "D": 2,
     "E": 0,
     "F": 7,
@@ -38,8 +38,8 @@
   },
   "opportunities": {
     "preservation_raise": 0,
-    "same_price_new_action_skus": 37,
-    "active_same_price_new_action_skus": 7,
+    "same_price_new_action_skus": 41,
+    "active_same_price_new_action_skus": 11,
     "future_same_price_new_action_skus": 36,
     "closest_discount_positive_partial": 110,
     "max_boost_nonpositive_partial": 2
@@ -49,13 +49,13 @@
     "COMPETITOR_INDEX_IS_NOT_INDEPENDENT_MARKET_REVIEW": 147,
     "CONSERVATIVE_REFERENCE_ABOVE_MASTER": 22,
     "CURRENT_REGISTRY_COST_NOT_HISTORICAL_LANDED_COST": 67,
-    "ELASTIC_STRENGTH_DOES_NOT_SUPPORT_PRICE_RAISE": 37,
+    "ELASTIC_STRENGTH_DOES_NOT_SUPPORT_PRICE_RAISE": 38,
     "FULL_PROFIT_NOT_VERIFIED": 147,
     "HISTORICAL_ACQUIRING_CREDIT_NOT_PROJECTED": 1,
     "HISTORICAL_COST_USES_CONSERVATIVE_REFERENCE": 22,
     "HISTORICAL_SERVICE_TERMS_ASSUMED_UNCHANGED": 54,
     "LIVE_COLLECTION_PARTIAL_OR_CATALOG_CHANGED": 147,
-    "LOW_OBSERVATION_COUNT": 27,
+    "LOW_OBSERVATION_COUNT": 28,
     "MISSING_OR_INCOMPLETE_FINANCE": 79,
     "MISSING_PROCUREMENT_COST": 26,
     "NON_POSITIVE_REVENUE": 5,
@@ -68,7 +68,7 @@
     "OWNER_SALES_HOLD_NOTE_REQUIRES_REVIEW": 1,
     "PARTIAL_FINANCE_PERIOD": 147,
     "PROCUREMENT_REFERENCE_DIFFERS_FROM_MASTER": 22,
-    "PROTECTION_ACTIVE_STATE_NOT_CONFIRMED": 58,
+    "PROTECTION_ACTIVE_STATE_NOT_CONFIRMED": 59,
     "RETURNS_REQUIRE_POSTING_AND_INVENTORY_RECONCILIATION": 8,
     "SERVICE_COSTS_UNESTIMATED": 52,
     "SERVICE_COSTS_UNESTIMATED_RETURN_OR_NO_SALE_HISTORY": 10,
@@ -95,13 +95,13 @@
   ],
   "finance_period": {
     "collection_complete": false,
-    "from": "2026-10-28",
-    "to": "2026-11-26",
+    "from": "2026-10-29",
+    "to": "2026-11-27",
     "window": {
       "timezone": "UTC",
       "complete_calendar_dates": 30,
-      "from": "2026-10-28",
-      "to": "2026-11-26",
+      "from": "2026-10-29",
+      "to": "2026-11-27",
       "includes_partial_current_day": false
     },
     "coverage": {
@@ -125,13 +125,6 @@
       }
     },
     "daily_coverage": [
-      {
-        "date": "2026-10-28",
-        "status": "ok",
-        "count": 30,
-        "pages": 1,
-        "errors": []
-      },
       {
         "date": "2026-10-29",
         "status": "ok",
@@ -334,18 +327,25 @@
         "count": 31,
         "pages": 1,
         "errors": []
+      },
+      {
+        "date": "2026-11-27",
+        "status": "ok",
+        "count": 32,
+        "pages": 1,
+        "errors": []
       }
     ],
     "source_status": "partial",
     "interpretation": "Observed accruals only; unavailable dates are not zero-sales dates."
   },
   "unassigned_marketplace_fees": {
-    "Дополнительная упаковка на складе Ozon": -45.0,
-    "Гибкий график выплат": -39746.93,
-    "Размещение товаров на складах Ozon": -84.7,
     "Превышение индекса ошибок": -16592.08,
+    "Гибкий график выплат": -39839.31,
+    "Размещение товаров на складах Ozon": -84.12,
     "Ускоренный сбор отзывов": -2440.0,
     "Отгрузка в нерекомендованный слот": -181.58,
+    "Дополнительная упаковка на складе Ozon": -45.0,
     "Обеспечение материалами для упаковки товара": -5.0,
     "Упаковка товара партнёрами": -10.0
   },
