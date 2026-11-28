@@ -1,0 +1,62 @@
+{
+  "created_at_utc": "2026-11-28T11:02:03.379023+00:00",
+  "marketplace_mutations": 0,
+  "endpoint": "/v1/analytics/data",
+  "notes": [
+    "ordered_units counts ordered goods, not paid or delivered orders.",
+    "revenue is the analytics metric, not net profit or cash received.",
+    "All date bounds are recorded as sent to Ozon. Current date Nov 28 is excluded.",
+    "Traffic is never inferred from order counts. API errors are retained."
+  ],
+  "requests": [
+    {
+      "label": "daily_orders_20261019_20261127",
+      "date_from": "2026-10-19",
+      "date_to": "2026-11-27",
+      "metrics": [
+        "ordered_units",
+        "revenue"
+      ],
+      "dimensions": [
+        "day"
+      ],
+      "pages": [],
+      "ok": false,
+      "error": "Ozon /v1/analytics/data: не удалось получить ответ после 1 попыток: None",
+      "checked_at_utc": "2026-11-28T11:02:10.028500+00:00"
+    },
+    {
+      "label": "weekly_sku_orders_20261019_20261127",
+      "date_from": "2026-10-19",
+      "date_to": "2026-11-27",
+      "metrics": [
+        "ordered_units",
+        "revenue"
+      ],
+      "dimensions": [
+        "sku",
+        "week"
+      ],
+      "pages": [],
+      "ok": false,
+      "error": "Ozon /v1/analytics/data: не удалось получить ответ после 1 попыток: None",
+      "checked_at_utc": "2026-11-28T11:03:12.760634+00:00"
+    },
+    {
+      "label": "daily_card_visits_20261019_20261127",
+      "date_from": "2026-10-19",
+      "date_to": "2026-11-27",
+      "metrics": [
+        "hits_view_pdp"
+      ],
+      "dimensions": [
+        "day"
+      ],
+      "pages": [],
+      "ok": false,
+      "error": "Ozon /v1/analytics/data вернул 400: {\"code\":3,\"message\":\"deprecated metrics used\"}",
+      "checked_at_utc": "2026-11-28T11:04:09.774491+00:00"
+    }
+  ],
+  "completed_at_utc": "2026-11-28T11:04:09.774785+00:00"
+}
